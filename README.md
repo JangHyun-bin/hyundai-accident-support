@@ -52,13 +52,14 @@ Undo/redo는 최대 25개 변경을 보관하며 page를 새로 열면 사라진
 
 ## Git과 확인
 
-이 directory를 local Git repository로 관리한다. Remote는 설정하지 않는다. 저장하기한 뒤 변경을 확인하고 의미 있는 단위로 commit한다.
+이 directory는 [GitHub private repository](https://github.com/JangHyun-bin/hyundai-accident-support)의 `main`과 연결되어 있다. Editor에서 저장한 뒤 변경을 확인하고 의미 있는 단위로 commit·push한다. Editor의 저장은 local `project.json`에 반영되며 GitHub에 자동 전송되지는 않는다.
 
 ```sh
 git diff --stat
 git diff -- project.json
 git add project.json
 git commit -m "docs: refine accident support flow"
+git push
 ```
 
 ```sh
