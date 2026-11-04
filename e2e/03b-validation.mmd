@@ -1,0 +1,40 @@
+flowchart TB
+subgraph VALID["03B · 구현 전 검증 — 제안 기능과 확정 기능의 경계"]
+direction TB
+subgraph V1["V1 · 차량 정보"]
+direction LR
+A1["사고 신호·위치<br/>차량 상태·주변 인지"] --> B1["제공 범위·정확도·권한<br/>통신 단절 시 동작 확인"] --> C1["미지원은 입력·미확인 처리<br/>차량 안전·주행 가능 여부<br/>별도 기준으로 확인"]
+end
+subgraph V2["V2 · 긴급 지원"]
+direction LR
+A2["119·기존 긴급 채널<br/>현장 도움 요청"] --> B2["실제 연결·접수 방식<br/>기관별 안내 문구 검토"] --> C2["확인된 연계 범위만 안내<br/>긴급 상황의 정보 전송<br/>조건도 별도 검증"]
+end
+subgraph V3["V3 · 보험·견인·정비"]
+direction LR
+A3["접수·배정·진행·인계<br/>상태 연계"] --> B3["기관별 채널·회신 확인<br/>재시도·중복 요청 기준 검증"] --> C3["연계 전 전화·수동 확인<br/>요청과 실제 접수·배차 구분"]
+end
+subgraph V4["V4 · 사고 경위 초안"]
+direction LR
+A4["음성 인식·생성 요약<br/>사고 사실 정리"] --> B4["누락·왜곡·출처 표시 확인<br/>사용자 확인 가능성 검증"] --> C4["원본·진술·생성 내용 분리<br/>사용자 확인 전까지<br/>미확인 상태 유지"]
+end
+subgraph V5["V5 · 정보 처리"]
+direction LR
+A5["기록 보존·기관 전송<br/>제조사 분석 활용"] --> B5["필요 항목·보유 기간·철회<br/>2차 활용 조건 검토"] --> C5["수신처·목적·항목별 승인<br/>제조사 분석 활용은<br/>기본 전송과 분리"]
+end
+subgraph V6["V6 · 대체 채널·이어하기"]
+direction LR
+A6["IVI·휴대전화 간<br/>지원 연속성"] --> B6["인증·권한·기기 파손 확인<br/>통신 단절·재개 방식 검증"] --> C6["현재 가능한 연락 경로 표시<br/>채널 전환은 검증 후 제공"]
+end
+subgraph V7["V7 · 안전 판단과 안내"]
+direction LR
+A7["사람·현장 상태<br/>차량 이동 조건 확인"] --> B7["전문기관·제조사와 검토<br/>판단 책임·문구·복귀 조건"] --> C7["판단 책임·안내 범위 명시<br/>의료·과실·차량 안전은<br/>전문기관·제조사 검토"]
+end
+subgraph REF["REF · 자료 범위와 참고"]
+direction LR
+A8["자료 성격<br/>E2E 제안 설계 v1.0<br/>구현·연계 검증 전"] --> B8["안전 우선 원칙 참고<br/>금융감독원 · 2026.02.09<br/>자동차보험 안내 자료 p.8"] --> C8["활용 범위<br/>기존 아이디어의 구조 보완<br/>실제 대응 지침은 별도 검증"]
+end
+end
+classDef review fill:#fff1cc,stroke:#a27a23,color:#4c3b15
+classDef behavior fill:#d6f3f0,stroke:#347b78,color:#143d3c
+class B1,B2,B3,B4,B5,B6,B7 review
+class C1,C2,C3,C4,C5,C6,C7,C8 behavior

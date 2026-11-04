@@ -1,0 +1,57 @@
+flowchart LR
+subgraph SAFETY["02A · 초기 안전·구호 — A1부터 A4까지 순서대로 확인"]
+direction LR
+subgraph A1["A1 · 병행 확인과 우선순위"]
+direction TB
+U["운전자·탑승자<br/>음성·버튼으로 지원 시작"]
+V["차량 system · V1 검증<br/>가능한 사고·위치·차량 정보<br/>없으면 미확인으로 유지"]
+B["지원 service<br/>응답·부상·현장 위험 확인<br/>조작 가능 여부 함께 확인"]
+G{"위험 또는<br/>도움 필요?<br/>미확인 포함"}
+H["안전·구호 우선<br/>일반 절차 중단 · E1~E4<br/>A2에서 도움 요청 지원"]
+N["현장 안전 상태 확인<br/>A3에서 후속 진행 여부 확인"]
+U --> B --> G
+V -. 병행 확인 .-> B
+G -- 예 --> H
+G -- 아니오 --> N
+end
+subgraph A2["A2 · 도움 요청과 인계"]
+direction TB
+D["지원 service · V2 검증<br/>가능한 채널로 도움 요청<br/>기존 긴급 연락 경로 포함"]
+X["긴급·현장 지원 기관<br/>요청·접수·출동·인계<br/>확인 가능한 상태 회신"]
+W["지원 service<br/>실제 확인된 결과 표시<br/>미확인은 대기·대체 연락"]
+R["A3에서 재평가<br/>연결만으로 안전·접수<br/>완료로 간주하지 않음"]
+D --> X --> W --> R
+end
+subgraph A3["A3 · 후속 절차 진행 여부"]
+direction TB
+J{"후속 절차를<br/>안전하게 진행 가능?"}
+T["지원 service<br/>구호·대기·인계 유지<br/>후속 절차 보류"]
+M{"차량 이동<br/>검토 필요?"}
+K["A4에서 이동 조건 확인<br/>사람·차량·현장을 함께 판단"]
+F["02B · 기록·접수로<br/>안전한 상태에서만 진행"]
+J -- 불가·미확인 --> T
+J -- 가능 확인 --> M
+M -- 예 --> K
+M -- 아니오 --> F
+end
+subgraph A4["A4 · 차량 이동 전 확인"]
+direction TB
+C0["운전자·지원 service<br/>조작·차량·경로 함께 확인<br/>판단 책임·기준 V7 검증"]
+C{"이동 조건<br/>모두 확인?"}
+Y["운전자·지원 service<br/>검증된 기준에 따른 안내<br/>결과·안전 상태 재확인"]
+Z["지원 service · E4<br/>이동 지시 보류·도움 요청<br/>차량 지원 상태 추적"]
+E["02B · 기록·접수로<br/>차량 지원은 안전할 때 병행<br/>새 위험 발생 시 A1 재평가"]
+C0 --> C
+C -- 예 --> Y --> E
+C -- 불가·미확인 --> Z --> E
+end
+A1 ~~~ A2 ~~~ A3 ~~~ A4
+end
+classDef person fill:#edf2fb,stroke:#627da9,color:#263b5c
+classDef support fill:#d6f3f0,stroke:#347b78,color:#143d3c
+classDef external fill:#eee9f8,stroke:#827099,color:#40344f
+classDef decision fill:#fff1cc,stroke:#a27a23,color:#4c3b15
+class U,V person
+class B,H,N,D,W,R,K,F,C0,Y,Z,E support
+class X external
+class G,J,M,C,T decision

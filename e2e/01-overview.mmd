@@ -1,0 +1,33 @@
+flowchart TB
+subgraph TITLE["01 · Service overview — 사고 후 대응 지원"]
+direction TB
+subgraph VALUE["제안 설계 v1.0 · 구현·연계 검증 전"]
+direction LR
+P["사고 직후의 부담<br/>안전 판단·기관별 절차<br/>운전자가 동시에 감당"]
+Q["필요한 행동부터 안내<br/>안전·구호에서 후속 처리까지<br/>절차 누락·판단 부담 감소"]
+P --> Q
+end
+subgraph JOURNEY["전체 여정 · 사고를 당한 경우와 낸 경우의 초기 대응 공통"]
+direction LR
+A["1 · 지원 시작<br/>음성·버튼 입력<br/>차량 신호는 V1 검증 후"]
+B["2 · 사람·현장·차량 확인<br/>위험·미확인 상태 구분<br/>확보 가능한 정보 병행 확인"]
+C["3 · 안전·구호 우선<br/>도움 요청·인계 상태 확인<br/>차량 이동은 조건 확인 후"]
+D["4 · 사고 기록 정리<br/>확보한 사실과 진술 구분<br/>사용자가 초안 확인"]
+E["5 · 신고·보험·차량 처리<br/>수신처·항목 확인 후 전송<br/>실제 접수와 진행 상태 확인"]
+F["6 · 지원 종료·이어하기<br/>안전·인계·차량 상태 확인<br/>남은 일과 재개 경로 제시"]
+A --> B --> C --> D --> E --> F
+end
+subgraph RULES["전 과정의 공통 원칙"]
+direction LR
+R1["안전·구호 우선<br/>위험 확인 즉시 대응<br/>추가 정보는 기다리지 않음"]
+R2["미확인을 별도 상태로<br/>무응답 ≠ 의식 없음<br/>연결 ≠ 접수·인계 완료"]
+R3["전송 전 사용자 승인<br/>수신처·항목·목적 확인<br/>보류·거절·중단 허용"]
+R4["판단 책임의 경계<br/>의학적 상태·과실·차량 안전<br/>service 단독 확정 없음"]
+R1 ~~~ R2 ~~~ R3 ~~~ R4
+end
+VALUE ~~~ JOURNEY ~~~ RULES
+end
+classDef focus fill:#d6f3f0,stroke:#347b78,color:#143d3c
+classDef caution fill:#fff1cc,stroke:#a27a23,color:#4c3b15
+class C,F,Q focus
+class R1,R2 caution

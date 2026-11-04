@@ -1,0 +1,34 @@
+{
+  "nodes_checked": 48,
+  "nodes_missing": [],
+  "connections": 70,
+  "labels_checked": 42,
+  "labels_missing": {},
+  "extra_text": {},
+  "role_lanes": 4,
+  "common_event_lane": 1,
+  "stages": 7,
+  "dashed_connections": 12,
+  "reloaded": true,
+  "checks": [
+    "모든 node가 지원 시작 또는 차량 정보 확인에서 도달 가능",
+    "사용자 승인 경로를 제외하면 미전송 상태에서 전송 처리에 도달 불가",
+    "이동 안내 진입은 이동 조건 확인 이후",
+    "지원 종료 진입은 종료 조건 확인 이후",
+    "새 위험 발생 시 안전·구호로 복귀",
+    "사용자 중단 후 재개 경로 존재"
+  ],
+  "not_verified": [
+    "실제 차량·긴급 기관·보험사 연계",
+    "현장 대응 문구·이동 기준·개인정보 처리 조건"
+  ],
+  "reloaded_after_final_edits": true,
+  "text_length": 2528,
+  "visual_review": [
+    "안전·이동·동의·접수·종료 확대 검수",
+    "node 본문을 가로지르는 연결선 조정",
+    "E6·S8B 줄바꿈 정리",
+    "범례 text box 폭 조정"
+  ],
+  "final_qa": "passed"
+}

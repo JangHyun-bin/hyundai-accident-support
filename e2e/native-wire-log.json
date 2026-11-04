@@ -1,0 +1,1823 @@
+{
+  "points": {
+    "U0": [
+      59,
+      154
+    ],
+    "U1": [
+      138,
+      154
+    ],
+    "U2": [
+      368,
+      154
+    ],
+    "U3": [
+      598,
+      154
+    ],
+    "U4": [
+      677,
+      154
+    ],
+    "U5": [
+      828,
+      154
+    ],
+    "U6": [
+      903,
+      154
+    ],
+    "U7": [
+      989,
+      154
+    ],
+    "U8": [
+      1287,
+      154
+    ],
+    "I0": [
+      61,
+      314
+    ],
+    "I1": [
+      138,
+      314
+    ],
+    "I2": [
+      291,
+      314
+    ],
+    "I3": [
+      368,
+      314
+    ],
+    "I4": [
+      520,
+      315
+    ],
+    "I4Y": [
+      677,
+      290
+    ],
+    "I4N": [
+      677,
+      350
+    ],
+    "I5": [
+      828,
+      314
+    ],
+    "I5B": [
+      903,
+      314
+    ],
+    "I6": [
+      980,
+      314
+    ],
+    "I7": [
+      1139,
+      315
+    ],
+    "I8": [
+      1287,
+      314
+    ],
+    "I9": [
+      1446,
+      314
+    ],
+    "E1": [
+      214,
+      368
+    ],
+    "E5": [
+      988,
+      368
+    ],
+    "E6": [
+      1139,
+      368
+    ],
+    "E2": [
+      903,
+      786
+    ],
+    "E7": [
+      1208,
+      786
+    ],
+    "S0": [
+      59,
+      474
+    ],
+    "S1": [
+      138,
+      474
+    ],
+    "G1": [
+      215,
+      474
+    ],
+    "S2": [
+      368,
+      474
+    ],
+    "G2": [
+      446,
+      474
+    ],
+    "G3": [
+      520,
+      474
+    ],
+    "G4": [
+      600,
+      474
+    ],
+    "S4": [
+      749,
+      535
+    ],
+    "S5": [
+      828,
+      474
+    ],
+    "S6": [
+      1055,
+      474
+    ],
+    "G6": [
+      1137,
+      474
+    ],
+    "S8": [
+      1208,
+      474
+    ],
+    "S8B": [
+      1287,
+      474
+    ],
+    "G8": [
+      1369,
+      474
+    ],
+    "S9": [
+      1446,
+      474
+    ],
+    "P": [
+      171,
+      535
+    ],
+    "R": [
+      599,
+      786
+    ],
+    "X1": [
+      291,
+      635
+    ],
+    "X2": [
+      677,
+      635
+    ],
+    "X3": [
+      1055,
+      635
+    ],
+    "X4": [
+      1208,
+      635
+    ]
+  },
+  "wires": [
+    {
+      "from": "U0",
+      "to": "I0",
+      "done": true
+    },
+    {
+      "from": "G1",
+      "to": "I2",
+      "done": true
+    },
+    {
+      "from": "G1",
+      "to": "G2",
+      "done": true
+    },
+    {
+      "from": "I0",
+      "to": "I1",
+      "label": "",
+      "kind": "sequence",
+      "sides": [
+        "R",
+        "L"
+      ],
+      "start": [
+        77,
+        314
+      ],
+      "end": [
+        122,
+        314
+      ],
+      "select": [
+        81,
+        314
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1695&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "I1",
+      "to": "U1",
+      "label": "",
+      "kind": "sequence",
+      "sides": [
+        "T",
+        "B"
+      ],
+      "start": [
+        138,
+        304
+      ],
+      "end": [
+        138,
+        164
+      ],
+      "select": [
+        138,
+        300
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1699&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "U1",
+      "to": "S1",
+      "label": "",
+      "kind": "sequence",
+      "sides": [
+        "R",
+        "R"
+      ],
+      "start": [
+        154,
+        154
+      ],
+      "end": [
+        154,
+        474
+      ],
+      "select": [
+        158,
+        154
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1703&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "S1",
+      "to": "G1",
+      "label": "",
+      "kind": "sequence",
+      "sides": [
+        "R",
+        "L"
+      ],
+      "start": [
+        154,
+        474
+      ],
+      "end": [
+        199,
+        474
+      ],
+      "select": [
+        158,
+        474
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1707&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "I2",
+      "to": "X1",
+      "label": "",
+      "kind": "sequence",
+      "sides": [
+        "B",
+        "T"
+      ],
+      "start": [
+        291,
+        324
+      ],
+      "end": [
+        291,
+        625
+      ],
+      "select": [
+        291,
+        328
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1711&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "X1",
+      "to": "S2",
+      "label": "",
+      "kind": "sequence",
+      "sides": [
+        "T",
+        "B"
+      ],
+      "start": [
+        291,
+        625
+      ],
+      "end": [
+        368,
+        484
+      ],
+      "select": [
+        291,
+        621
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1715&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "S2",
+      "to": "I3",
+      "label": "",
+      "kind": "sequence",
+      "sides": [
+        "T",
+        "B"
+      ],
+      "start": [
+        368,
+        464
+      ],
+      "end": [
+        368,
+        324
+      ],
+      "select": [
+        368,
+        460
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1719&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "I3",
+      "to": "U2",
+      "label": "",
+      "kind": "sequence",
+      "sides": [
+        "T",
+        "B"
+      ],
+      "start": [
+        368,
+        304
+      ],
+      "end": [
+        368,
+        164
+      ],
+      "select": [
+        368,
+        300
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1723&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "U2",
+      "to": "G2",
+      "label": "",
+      "kind": "sequence",
+      "sides": [
+        "R",
+        "T"
+      ],
+      "start": [
+        384,
+        154
+      ],
+      "end": [
+        446,
+        458
+      ],
+      "select": [
+        388,
+        154
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1727&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "G1",
+      "to": "E1",
+      "label": "미확인",
+      "kind": "sequence",
+      "sides": [
+        "T",
+        "B"
+      ],
+      "start": [
+        215,
+        458
+      ],
+      "end": [
+        214,
+        378
+      ],
+      "select": [
+        215,
+        454
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1731&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "E1",
+      "to": "U1",
+      "label": "응답 확인",
+      "kind": "sequence",
+      "sides": [
+        "T",
+        "B"
+      ],
+      "start": [
+        214,
+        358
+      ],
+      "end": [
+        138,
+        164
+      ],
+      "select": [
+        214,
+        354
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1735&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "E1",
+      "to": "I2",
+      "label": "확인 불가·도움 필요",
+      "kind": "sequence",
+      "sides": [
+        "R",
+        "L"
+      ],
+      "start": [
+        230,
+        368
+      ],
+      "end": [
+        275,
+        314
+      ],
+      "select": [
+        234,
+        368
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1739&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "G2",
+      "to": "I2",
+      "label": "불가·미확인",
+      "kind": "sequence",
+      "sides": [
+        "T",
+        "B"
+      ],
+      "start": [
+        446,
+        458
+      ],
+      "end": [
+        291,
+        324
+      ],
+      "select": [
+        446,
+        454
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1743&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "G2",
+      "to": "I4",
+      "label": "가능 확인",
+      "kind": "sequence",
+      "sides": [
+        "T",
+        "B"
+      ],
+      "start": [
+        446,
+        458
+      ],
+      "end": [
+        520,
+        325
+      ],
+      "select": [
+        446,
+        454
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1747&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "I4",
+      "to": "G3",
+      "label": "",
+      "kind": "sequence",
+      "sides": [
+        "B",
+        "T"
+      ],
+      "start": [
+        520,
+        325
+      ],
+      "end": [
+        520,
+        458
+      ],
+      "select": [
+        520,
+        329
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1751&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "G3",
+      "to": "U3",
+      "label": "예",
+      "kind": "sequence",
+      "sides": [
+        "T",
+        "B"
+      ],
+      "start": [
+        520,
+        458
+      ],
+      "end": [
+        598,
+        164
+      ],
+      "select": [
+        520,
+        454
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1755&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "U3",
+      "to": "G4",
+      "label": "",
+      "kind": "sequence",
+      "sides": [
+        "B",
+        "T"
+      ],
+      "start": [
+        598,
+        164
+      ],
+      "end": [
+        600,
+        458
+      ],
+      "select": [
+        598,
+        168
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1759&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "G3",
+      "to": "I5",
+      "label": "아니오",
+      "kind": "sequence",
+      "sides": [
+        "B",
+        "L"
+      ],
+      "start": [
+        520,
+        490
+      ],
+      "end": [
+        812,
+        314
+      ],
+      "select": [
+        520,
+        494
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1763&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "G4",
+      "to": "I4Y",
+      "label": "예",
+      "kind": "sequence",
+      "sides": [
+        "T",
+        "B"
+      ],
+      "start": [
+        600,
+        458
+      ],
+      "end": [
+        677,
+        300
+      ],
+      "select": [
+        600,
+        454
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1767&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "I4Y",
+      "to": "U4",
+      "label": "",
+      "kind": "sequence",
+      "sides": [
+        "T",
+        "B"
+      ],
+      "start": [
+        677,
+        280
+      ],
+      "end": [
+        677,
+        164
+      ],
+      "select": [
+        677,
+        276
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1771&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "U4",
+      "to": "G2",
+      "label": "",
+      "kind": "sequence",
+      "sides": [
+        "R",
+        "T"
+      ],
+      "start": [
+        693,
+        154
+      ],
+      "end": [
+        446,
+        458
+      ],
+      "select": [
+        697,
+        154
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1775&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "G4",
+      "to": "I4N",
+      "label": "불가·미확인",
+      "kind": "sequence",
+      "sides": [
+        "T",
+        "B"
+      ],
+      "start": [
+        600,
+        458
+      ],
+      "end": [
+        677,
+        360
+      ],
+      "select": [
+        600,
+        454
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1779&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "I4N",
+      "to": "X2",
+      "label": "",
+      "kind": "sequence",
+      "sides": [
+        "B",
+        "T"
+      ],
+      "start": [
+        677,
+        360
+      ],
+      "end": [
+        677,
+        625
+      ],
+      "select": [
+        677,
+        364
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1783&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "X2",
+      "to": "S4",
+      "label": "",
+      "kind": "sequence",
+      "sides": [
+        "T",
+        "B"
+      ],
+      "start": [
+        677,
+        625
+      ],
+      "end": [
+        749,
+        545
+      ],
+      "select": [
+        677,
+        621
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1787&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "I4N",
+      "to": "G2",
+      "label": "이동 보류·현장 안전 확인",
+      "kind": "sequence",
+      "sides": [
+        "B",
+        "T"
+      ],
+      "start": [
+        677,
+        360
+      ],
+      "end": [
+        446,
+        458
+      ],
+      "select": [
+        677,
+        364
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1791&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "I5",
+      "to": "U5",
+      "label": "",
+      "kind": "sequence",
+      "sides": [
+        "T",
+        "B"
+      ],
+      "start": [
+        828,
+        304
+      ],
+      "end": [
+        828,
+        164
+      ],
+      "select": [
+        828,
+        300
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1795&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "U5",
+      "to": "S5",
+      "label": "",
+      "kind": "sequence",
+      "sides": [
+        "R",
+        "R"
+      ],
+      "start": [
+        844,
+        154
+      ],
+      "end": [
+        844,
+        474
+      ],
+      "select": [
+        848,
+        154
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1799&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "S5",
+      "to": "I5B",
+      "label": "",
+      "kind": "sequence",
+      "sides": [
+        "T",
+        "B"
+      ],
+      "start": [
+        828,
+        464
+      ],
+      "end": [
+        903,
+        324
+      ],
+      "select": [
+        828,
+        460
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1803&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "I5B",
+      "to": "U6",
+      "label": "",
+      "kind": "sequence",
+      "sides": [
+        "T",
+        "B"
+      ],
+      "start": [
+        903,
+        304
+      ],
+      "end": [
+        903,
+        170
+      ],
+      "select": [
+        903,
+        300
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1807&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "U6",
+      "to": "I6",
+      "label": "확인·수정",
+      "kind": "sequence",
+      "sides": [
+        "B",
+        "T"
+      ],
+      "start": [
+        903,
+        170
+      ],
+      "end": [
+        980,
+        304
+      ],
+      "select": [
+        903,
+        174
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1811&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "I6",
+      "to": "U7",
+      "label": "",
+      "kind": "sequence",
+      "sides": [
+        "T",
+        "B"
+      ],
+      "start": [
+        980,
+        304
+      ],
+      "end": [
+        989,
+        170
+      ],
+      "select": [
+        980,
+        300
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1815&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "U6",
+      "to": "E5",
+      "label": "불가·보류",
+      "kind": "sequence",
+      "sides": [
+        "R",
+        "L"
+      ],
+      "start": [
+        919,
+        154
+      ],
+      "end": [
+        972,
+        368
+      ],
+      "select": [
+        923,
+        154
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1819&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "U7",
+      "to": "S6",
+      "label": "승인",
+      "kind": "sequence",
+      "sides": [
+        "R",
+        "T"
+      ],
+      "start": [
+        1005,
+        154
+      ],
+      "end": [
+        1055,
+        464
+      ],
+      "select": [
+        1009,
+        154
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1823&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "S6",
+      "to": "X3",
+      "label": "",
+      "kind": "sequence",
+      "sides": [
+        "B",
+        "T"
+      ],
+      "start": [
+        1055,
+        484
+      ],
+      "end": [
+        1055,
+        625
+      ],
+      "select": [
+        1055,
+        488
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1827&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "X3",
+      "to": "G6",
+      "label": "",
+      "kind": "sequence",
+      "sides": [
+        "T",
+        "B"
+      ],
+      "start": [
+        1055,
+        625
+      ],
+      "end": [
+        1137,
+        490
+      ],
+      "select": [
+        1055,
+        621
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1831&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "U7",
+      "to": "E5",
+      "label": "거절·보류",
+      "kind": "sequence",
+      "sides": [
+        "B",
+        "R"
+      ],
+      "start": [
+        989,
+        170
+      ],
+      "end": [
+        1004,
+        368
+      ],
+      "select": [
+        989,
+        174
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1835&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "E5",
+      "to": "I5B",
+      "label": "수정·확인 후 재개",
+      "kind": "sequence",
+      "sides": [
+        "L",
+        "R"
+      ],
+      "start": [
+        972,
+        368
+      ],
+      "end": [
+        919,
+        314
+      ],
+      "select": [
+        968,
+        368
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1839&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "E5",
+      "to": "S8",
+      "label": "현재 상태 유지",
+      "kind": "sequence",
+      "sides": [
+        "B",
+        "T"
+      ],
+      "start": [
+        1013,
+        430
+      ],
+      "end": [
+        1210,
+        507
+      ],
+      "select": [
+        1008,
+        368
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=56-310&t=g9IfN8VJt9dioQWU-0",
+      "routeUpdated": true
+    },
+    {
+      "from": "G6",
+      "to": "I7",
+      "label": "예",
+      "kind": "sequence",
+      "sides": [
+        "R",
+        "R"
+      ],
+      "start": [
+        1153,
+        474
+      ],
+      "end": [
+        1155,
+        315
+      ],
+      "select": [
+        1157,
+        474
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1847&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "I7",
+      "to": "S8",
+      "label": "",
+      "kind": "sequence",
+      "sides": [
+        "R",
+        "T"
+      ],
+      "start": [
+        1155,
+        315
+      ],
+      "end": [
+        1208,
+        464
+      ],
+      "select": [
+        1159,
+        315
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1851&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "G6",
+      "to": "E6",
+      "label": "실패·미확인",
+      "kind": "sequence",
+      "sides": [
+        "T",
+        "B"
+      ],
+      "start": [
+        1137,
+        458
+      ],
+      "end": [
+        1139,
+        378
+      ],
+      "select": [
+        1137,
+        454
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1855&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "E6",
+      "to": "S6",
+      "label": "결과 확인·동일 범위 재시도",
+      "kind": "sequence",
+      "sides": [
+        "L",
+        "T"
+      ],
+      "start": [
+        1123,
+        368
+      ],
+      "end": [
+        1055,
+        464
+      ],
+      "select": [
+        1119,
+        368
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1859&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "E6",
+      "to": "S8",
+      "label": "대체 연락·대기 상태",
+      "kind": "sequence",
+      "sides": [
+        "R",
+        "T"
+      ],
+      "start": [
+        1155,
+        368
+      ],
+      "end": [
+        1208,
+        464
+      ],
+      "select": [
+        1159,
+        368
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1863&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "S8",
+      "to": "I8",
+      "label": "",
+      "kind": "sequence",
+      "sides": [
+        "T",
+        "B"
+      ],
+      "start": [
+        1208,
+        464
+      ],
+      "end": [
+        1287,
+        324
+      ],
+      "select": [
+        1208,
+        460
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1867&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "I8",
+      "to": "U8",
+      "label": "",
+      "kind": "sequence",
+      "sides": [
+        "T",
+        "B"
+      ],
+      "start": [
+        1287,
+        304
+      ],
+      "end": [
+        1287,
+        164
+      ],
+      "select": [
+        1287,
+        300
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1871&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "U8",
+      "to": "S8B",
+      "label": "",
+      "kind": "sequence",
+      "sides": [
+        "R",
+        "R"
+      ],
+      "start": [
+        1303,
+        154
+      ],
+      "end": [
+        1303,
+        474
+      ],
+      "select": [
+        1307,
+        154
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1875&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "S8B",
+      "to": "G8",
+      "label": "",
+      "kind": "sequence",
+      "sides": [
+        "R",
+        "L"
+      ],
+      "start": [
+        1303,
+        474
+      ],
+      "end": [
+        1353,
+        474
+      ],
+      "select": [
+        1307,
+        474
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1879&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "G8",
+      "to": "I9",
+      "label": "예",
+      "kind": "sequence",
+      "sides": [
+        "T",
+        "B"
+      ],
+      "start": [
+        1369,
+        458
+      ],
+      "end": [
+        1446,
+        324
+      ],
+      "select": [
+        1369,
+        454
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1883&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "G8",
+      "to": "S9",
+      "label": "아니오·미확인",
+      "kind": "sequence",
+      "sides": [
+        "R",
+        "L"
+      ],
+      "start": [
+        1385,
+        474
+      ],
+      "end": [
+        1430,
+        474
+      ],
+      "select": [
+        1389,
+        474
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1887&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "S9",
+      "to": "S8",
+      "label": "상태 재확인",
+      "kind": "sequence",
+      "sides": [
+        "B",
+        "B"
+      ],
+      "start": [
+        1446,
+        484
+      ],
+      "end": [
+        1208,
+        484
+      ],
+      "select": [
+        1446,
+        488
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1891&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "R",
+      "to": "I2",
+      "label": "새 위험·부상",
+      "kind": "sequence",
+      "sides": [
+        "L",
+        "L"
+      ],
+      "start": [
+        583,
+        786
+      ],
+      "end": [
+        275,
+        314
+      ],
+      "select": [
+        579,
+        786
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1895&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "R",
+      "to": "E2",
+      "label": "채널 사용 불가",
+      "kind": "sequence",
+      "sides": [
+        "R",
+        "L"
+      ],
+      "start": [
+        615,
+        786
+      ],
+      "end": [
+        887,
+        786
+      ],
+      "select": [
+        619,
+        786
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1899&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "R",
+      "to": "E7",
+      "label": "사용자 중단 요청",
+      "kind": "sequence",
+      "sides": [
+        "B",
+        "B"
+      ],
+      "start": [
+        599,
+        796
+      ],
+      "end": [
+        1208,
+        796
+      ],
+      "select": [
+        599,
+        800
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1903&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "E2",
+      "to": "I0",
+      "label": "가능한 채널로 재개",
+      "kind": "sequence",
+      "sides": [
+        "B",
+        "L"
+      ],
+      "start": [
+        903,
+        796
+      ],
+      "end": [
+        45,
+        314
+      ],
+      "select": [
+        903,
+        800
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1907&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "E7",
+      "to": "I0",
+      "label": "사용자 재개 요청",
+      "kind": "sequence",
+      "sides": [
+        "B",
+        "L"
+      ],
+      "start": [
+        1208,
+        796
+      ],
+      "end": [
+        45,
+        314
+      ],
+      "select": [
+        1208,
+        800
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1911&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "S0",
+      "to": "S1",
+      "label": "가능한 정보 병행",
+      "kind": "data",
+      "sides": [
+        "R",
+        "L"
+      ],
+      "start": [
+        75,
+        474
+      ],
+      "end": [
+        122,
+        474
+      ],
+      "select": [
+        79,
+        474
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1915&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "S0",
+      "to": "P",
+      "label": "허용 범위",
+      "kind": "data",
+      "sides": [
+        "R",
+        "L"
+      ],
+      "start": [
+        75,
+        474
+      ],
+      "end": [
+        155,
+        535
+      ],
+      "select": [
+        79,
+        474
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1919&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "U1",
+      "to": "P",
+      "label": "가능한 기록",
+      "kind": "data",
+      "sides": [
+        "R",
+        "R"
+      ],
+      "start": [
+        154,
+        154
+      ],
+      "end": [
+        187,
+        535
+      ],
+      "select": [
+        158,
+        154
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1923&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "P",
+      "to": "S5",
+      "label": "기록 활용",
+      "kind": "data",
+      "sides": [
+        "T",
+        "B"
+      ],
+      "start": [
+        171,
+        525
+      ],
+      "end": [
+        828,
+        484
+      ],
+      "select": [
+        171,
+        521
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1927&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "S6",
+      "to": "X4",
+      "label": "승인된 차량 지원 필요 시",
+      "kind": "data",
+      "sides": [
+        "B",
+        "T"
+      ],
+      "start": [
+        1055,
+        484
+      ],
+      "end": [
+        1208,
+        625
+      ],
+      "select": [
+        1055,
+        488
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1931&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "S4",
+      "to": "X4",
+      "label": "차량 지원 진행",
+      "kind": "data",
+      "sides": [
+        "B",
+        "T"
+      ],
+      "start": [
+        749,
+        545
+      ],
+      "end": [
+        1208,
+        625
+      ],
+      "select": [
+        749,
+        549
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1935&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "X4",
+      "to": "S8",
+      "label": "실제 결과",
+      "kind": "data",
+      "sides": [
+        "T",
+        "B"
+      ],
+      "start": [
+        1208,
+        625
+      ],
+      "end": [
+        1208,
+        484
+      ],
+      "select": [
+        1208,
+        621
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1939&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "S2",
+      "to": "S8",
+      "label": "구호 상태",
+      "kind": "data",
+      "sides": [
+        "B",
+        "B"
+      ],
+      "start": [
+        368,
+        484
+      ],
+      "end": [
+        1208,
+        484
+      ],
+      "select": [
+        368,
+        488
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1943&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "I0",
+      "to": "R",
+      "label": "진행 중 event",
+      "kind": "data",
+      "sides": [
+        "L",
+        "B"
+      ],
+      "start": [
+        45,
+        314
+      ],
+      "end": [
+        599,
+        796
+      ],
+      "select": [
+        41,
+        314
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1947&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "I5",
+      "to": "R",
+      "label": "진행 중 event",
+      "kind": "data",
+      "sides": [
+        "R",
+        "B"
+      ],
+      "start": [
+        844,
+        314
+      ],
+      "end": [
+        599,
+        796
+      ],
+      "select": [
+        848,
+        314
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1951&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "I7",
+      "to": "R",
+      "label": "진행 중 event",
+      "kind": "data",
+      "sides": [
+        "R",
+        "B"
+      ],
+      "start": [
+        1155,
+        315
+      ],
+      "end": [
+        599,
+        796
+      ],
+      "select": [
+        1159,
+        315
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1955&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "from": "I8",
+      "to": "R",
+      "label": "진행 중 event",
+      "kind": "data",
+      "sides": [
+        "R",
+        "B"
+      ],
+      "start": [
+        1303,
+        314
+      ],
+      "end": [
+        599,
+        796
+      ],
+      "select": [
+        1307,
+        314
+      ],
+      "labelAdded": true,
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1959&t=yWtWEJHH0l7p98FN-0"
+    }
+  ],
+  "notes": "Screen coordinates are specific to the recorded viewport. Final native routes include manual adjustments."
+}

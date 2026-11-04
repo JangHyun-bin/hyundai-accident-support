@@ -1,0 +1,27 @@
+{
+  "native_characters": 3396,
+  "sources": [
+    {
+      "source": "01-overview.mmd",
+      "node_texts": 12
+    },
+    {
+      "source": "02a-safety.mmd",
+      "node_texts": 20
+    },
+    {
+      "source": "02b-followup.mmd",
+      "node_texts": 21
+    },
+    {
+      "source": "03a-exceptions.mmd",
+      "node_texts": 28
+    },
+    {
+      "source": "03b-validation.mmd",
+      "node_texts": 24
+    }
+  ],
+  "checked_node_texts": 105,
+  "missing": []
+}

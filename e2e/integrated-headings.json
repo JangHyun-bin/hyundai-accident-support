@@ -1,0 +1,134 @@
+{
+  "headings": [
+    {
+      "point": [
+        170,
+        320
+      ],
+      "text": "01 · 지원 시작·상황 확인",
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1965&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "point": [
+        380,
+        320
+      ],
+      "text": "02 · 안전·구호",
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1967&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "point": [
+        610,
+        320
+      ],
+      "text": "03 · 차량 이동",
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1969&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "point": [
+        920,
+        320
+      ],
+      "text": "04 · 사고 기록",
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-927&p=f&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "point": [
+        1080,
+        320
+      ],
+      "text": "05 · 동의·접수",
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-927&p=f&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "point": [
+        1300,
+        320
+      ],
+      "text": "06 · 후속 처리",
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1975&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "point": [
+        1390,
+        320
+      ],
+      "text": "07 · 종료·재개",
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-927&p=f&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "point": [
+        50,
+        350
+      ],
+      "text": "운전자·탑승자",
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1979&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "point": [
+        50,
+        510
+      ],
+      "text": "app·IVI\n화면·음성",
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1981&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "point": [
+        50,
+        670
+      ],
+      "text": "차량·지원 system\n기능·상태",
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1983&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "point": [
+        50,
+        830
+      ],
+      "text": "외부 기관\n접수·진행·인계",
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1985&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "point": [
+        57,
+        790
+      ],
+      "text": "공통 interruption\n중단·대체 채널·재개",
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-927&p=f&t=yWtWEJHH0l7p98FN-0"
+    }
+  ],
+  "notes": [
+    {
+      "point": [
+        170,
+        270
+      ],
+      "text": "제안 설계 · 안전·구호에서 기록·접수·차량 처리·지원 종료까지 · 구현·연계 검증 전",
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1987&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "point": [
+        170,
+        288
+      ],
+      "text": "실선: 진행·요청  |  점선: 병행 기록·상태 회신·공통 event  |  마름모: 조건 판단  |  미확인은 별도 상태",
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1989&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "point": [
+        170,
+        302
+      ],
+      "text": "부상·도로·차량 상태를 함께 유지  /  위험 확인 시 일반 절차 중단  /  전송은 사용자 승인 범위",
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1991&t=yWtWEJHH0l7p98FN-0"
+    },
+    {
+      "point": [
+        166,
+        188
+      ],
+      "text": "세부 조건·검증 항목 V1–V7: 기존 E2E 상세도 참조",
+      "url": "https://www.figma.com/board/mv4ogTxm8nDd6K1usQqDxk/%ED%98%84%EC%B0%A8%EA%B3%B5%EB%AA%A8%EC%A0%84-%EC%95%84%EC%9D%B4%EB%94%94%EC%97%90%EC%9D%B4%EC%85%98?node-id=53-1995&t=yWtWEJHH0l7p98FN-0"
+    }
+  ]
+}

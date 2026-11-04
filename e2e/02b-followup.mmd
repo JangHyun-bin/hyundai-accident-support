@@ -1,0 +1,59 @@
+flowchart LR
+subgraph FOLLOW["02B · 기록·접수·후속 처리 — B1부터 B4까지 순서대로 확인"]
+direction LR
+subgraph B1["B1 · 기록 보존과 초안 확인"]
+direction TB
+A["운전자·탑승자<br/>가능한 경위·사진 제공<br/>어려운 입력은 보류"]
+V["차량 system · V1·V5 검증<br/>가능하고 허용된 기록 보존<br/>원본·출처·시각·누락 표시"]
+B["지원 service · V4 검증<br/>사실·진술·생성 요약 구분<br/>사고 경위 초안 제시"]
+C{"초안의 사실<br/>확인 가능?"}
+D["사용자가 사실 수정·확인<br/>B2에서 전송 범위 확인"]
+P1["미확인·보류 상태 유지<br/>직접 연락·이어하기 제공<br/>B3·B4에서 후속 상태 확인"]
+A --> B --> C
+V -. 가능한 기록 병행 .-> B
+C -- 예 --> D
+C -- 불가·미확인 --> P1
+end
+subgraph B2["B2 · 사용자 승인과 요청"]
+direction TB
+F["운전자·지원 service<br/>수신처·목적·항목 확인<br/>미확인 사실은 그대로 표시"]
+G{"전송 범위<br/>사용자 승인?"}
+H["외부 기관 · V3 검증<br/>신고·보험·차량 지원 요청<br/>승인한 범위만 전송"]
+P2["지원 service · E5<br/>미전송·보류·거절 명시<br/>직접 연락·이어하기 제공"]
+I0["보낸 요청은 B3에서 확인<br/>미전송은 B4에서 상태 확인<br/>차량 지원 필요 시 별도 요청"]
+F --> G
+G -- 승인 --> H --> I0
+G -- 보류·거절 --> P2 --> I0
+end
+subgraph B3["B3 · 실제 접수와 차량 지원"]
+direction TB
+I{"보낸 요청<br/>접수 확인?"}
+J["지원 service<br/>접수 번호·담당·진행 표시<br/>요청과 접수·배차 구분"]
+R["지원 service · E6<br/>실패·접수 미확인 표시<br/>재시도·대체 연락 지원"]
+K["외부 기관·지원 service<br/>이동·견인·정비 진행 확인<br/>실제 인계·대기 상태 구분"]
+L["B4에서 종료 조건 확인<br/>미전송·보류·거절 건도<br/>현재 상태를 함께 표시"]
+I -- 예 --> J --> K
+I -- 실패·미확인 --> R --> K
+K --> L
+end
+subgraph B4["B4 · 종료 판단과 사용자 인계"]
+direction TB
+Q1["종료 기준 1·2<br/>사람 안전·필요한 구호 인계<br/>차량 후속 처리 상태 확인"]
+Q2["종료 기준 3·4<br/>접수 또는 명시적 보류·거절<br/>남은 일·재개 방법 확인"]
+M{"종료 기준<br/>모두 확인?"}
+O["지원 종료·재개 경로 제공<br/>보류·거절·남은 일 표시<br/>보험·법적 종결과 구분"]
+T["지원 service<br/>미완료·대기 상태 유지<br/>필요한 도움·후속 상태 추적"]
+Q1 --> Q2 --> M
+M -- 예 --> O
+M -- 아니오·미확인 --> T
+end
+B1 ~~~ B2 ~~~ B3 ~~~ B4
+end
+classDef person fill:#edf2fb,stroke:#627da9,color:#263b5c
+classDef support fill:#d6f3f0,stroke:#347b78,color:#143d3c
+classDef external fill:#eee9f8,stroke:#827099,color:#40344f
+classDef decision fill:#fff1cc,stroke:#a27a23,color:#4c3b15
+class A,V person
+class B,D,F,I0,J,K,L,Q1,Q2,O support
+class H external
+class C,G,I,M,P1,P2,R,T decision

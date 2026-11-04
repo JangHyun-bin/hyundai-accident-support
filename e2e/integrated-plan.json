@@ -1,0 +1,28 @@
+{
+  "design": "기존 내용을 보존하고 4개 역할과 7단계의 실제 연결을 포함하는 편집 가능한 통합 flow를 새 page에 작성한다.",
+  "source": "00-integrated.mmd",
+  "page": "53:927",
+  "tasks": [
+    {
+      "task": "native graph import and role layout",
+      "state": "complete"
+    },
+    {
+      "task": "headings legend and visual review",
+      "state": "complete"
+    },
+    {
+      "task": "reload native text completeness and path checks",
+      "state": "complete"
+    }
+  ],
+  "decisions": [
+    "기존 원본과 상세도 page 보존",
+    "사용자·app/IVI·system·외부 기관의 4개 lane",
+    "조건 분기·상태 회신·병행 기록·공통 interruption을 실제 선으로 연결",
+    "구현·연계 검증 전 제안 상태 유지"
+  ],
+  "node_count": 48,
+  "section": "53:1963",
+  "orientation": "가로 진행 단계, 세로 역할 lane"
+}

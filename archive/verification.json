@@ -1,0 +1,36 @@
+{
+  "sourceVersion": "2417950762045299434",
+  "pages": 2,
+  "objects": 826,
+  "connectors": 234,
+  "imageAssets": 18,
+  "rawPropertyAndTextComparison": "PASS",
+  "assetHashes": "PASS",
+  "credentialScan": "PASS",
+  "ui": [
+    "two-page navigation",
+    "search",
+    "text editing",
+    "dragging",
+    "connector creation",
+    "undo/redo",
+    "delete removes incident connector",
+    "save to project.json",
+    "reload saved content",
+    "desktop screenshot",
+    "390px viewport without horizontal overflow",
+    "mobile inspector toggle"
+  ],
+  "limitations": [
+    "110 duplicate objects use fallback rendering; original SVG archived separately",
+    "Figma version history unavailable: missing file_versions:read",
+    "Native .jam download unverified",
+    "Browser file chooser and download automation did not complete; import validation and full native SVG were checked"
+  ],
+  "consoleErrorsOnFinalReload": 0,
+  "tests": [
+    "node check.mjs",
+    "node test-model.mjs",
+    "python3 test-server.py"
+  ]
+}
