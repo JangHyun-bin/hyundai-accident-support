@@ -64,6 +64,8 @@ Editor의 **검수 표시**로 분류를 표시하고 node를 선택하면 근�
 
 사용자가 선택한 후속 방향은 **실제 Cult UI source로 React design을 검증한 후 Kotlin + Compose로 구현**하는 것이다. [실행 계획](docs/superpowers/plans/2026-11-05-cult-design-poc.md)에 따라 [첫 화면 두 안](prototype/web/README.md)을 구현하였다. 사용자는 A · 행동 중심을 선택하였으며, 후속 상태 확장 전에 anti-slop 도구를 조사한다. [비교 기록](docs/reviews/cult-design-poc.md)에 범위·선택·검증 근거를 기록하였다.
 
+[Anti-UI-slop 조사](docs/research/anti-slop-stack.md)에는 design critique·art direction·reference 추출·component·browser 검증·Compose token 공유의 후보와 적용 범위를 정리하였다. [보완 source 조사](docs/research/anti-slop-tools-scout.md)는 추출·검증 도구의 실제 구현과 license를 확인한 기록이다.
+
 ## Git과 확인
 
 이 directory는 [GitHub private repository](https://github.com/JangHyun-bin/hyundai-accident-support)의 `main`과 연결되어 있다. Editor에서 저장한 뒤 변경을 확인하고 의미 있는 단위로 commit·push한다. Editor의 저장은 local `project.json`에 반영되며 GitHub에 자동 전송되지는 않는다.
