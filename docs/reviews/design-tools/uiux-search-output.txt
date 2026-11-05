@@ -232,7 +232,7 @@ Disposition: Verified dark-mode-oled match; high contrast and quiet surface guid
 - **Style Category:** Dark Mode (OLED)
 - **Aliases:** Dark Mode
 - **Status:** active
-- **Parent Style ID:** 
+- **Parent Style ID:**
 - **Preferred Mode:** auto
 - **Type:** General
 - **Keywords:** Dark theme, low light, high contrast, deep black, midnight blue, eye-friendly, OLED, night mode, power efficient
@@ -297,8 +297,7 @@ Disposition: Verified semantic HTML match; existing shared Guidance retained
 - **Code Good:** components/User/UserCard.tsx
 - **Code Bad:** components/UserCard.tsx + hooks/useUser.ts
 - **Severity:** Low
-- **Docs URL:** 
+- **Docs URL:**
 - **Applies To:** react 19.2.x
 - **Status:** active
 - **Verified At:** 2026-08-13
-

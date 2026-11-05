@@ -7,7 +7,7 @@
 - Skill: `/Users/janghyunbin/.agents/skills/ui-ux-pro-max/SKILL.md`
 - SHA256: `8b827fe03b349aeea99a7d6cf4ccd892e6065b672859fdb11e13a1919453eddc`
 - Search script: `/Users/janghyunbin/.agents/skills/ui-ux-pro-max/scripts/search.py`
-- 실제 command와 stdout: [uiux-search-output.txt](./uiux-search-output.txt)
+- 실제 command와 stdout (행 끝 공백과 마지막 빈 줄만 정리): [uiux-search-output.txt](./uiux-search-output.txt)
 - 구현: [UiUxView.tsx](../../../prototype/web/src/variants/UiUxView.tsx), [uiux.css](../../../prototype/web/src/variants/uiux.css)
 
 ## 실제 search와 판단
