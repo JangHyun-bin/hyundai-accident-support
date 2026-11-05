@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101113">
+<link rel="icon" href="data:,">
+<title>Optical materials · Three studies</title>
+<style>
+  :root{color-scheme:dark;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#101113;color:#eeefeb;font-synthesis:none}
+  *{box-sizing:border-box}body{margin:0;padding:22px 40px 48px}button,a,input{touch-action:manipulation}button{font:inherit;color:inherit;cursor:pointer}a{color:inherit;text-underline-offset:4px}button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid #bacce1;outline-offset:5px}[hidden]{display:none!important}
+  main{max-width:1512px;margin:auto}.masthead{position:sticky;top:0;z-index:10;background:#101113;display:flex;justify-content:space-between;align-items:center;gap:24px;border-bottom:1px solid #303239;padding-block:12px 20px}.kicker,.mono{font:11px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.04em}.kicker{color:#a6a9ad}.masthead a{order:2;font-size:12px;color:#a6a9ad}.intro{display:flex;justify-content:space-between;align-items:end;gap:28px;margin:32px 0 30px}h1{font-size:clamp(26px,3vw,40px);line-height:1.2;letter-spacing:-.045em;font-weight:450;margin:0 0 12px}.intro p{font-size:14px;color:#a6a9ad;margin:0;line-height:1.7;word-break:keep-all}.view-controls{display:flex;gap:4px;background:#191b1e;border:1px solid #34373c;border-radius:6px;padding:3px;flex-shrink:0}.view-controls button{border:0;background:transparent;color:#a6a9ad;padding:9px 16px;border-radius:3px;font-size:12px;min-height:36px}.view-controls button[aria-pressed=true]{background:#36393e;color:#f4f4f0}
+  .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}.material{min-width:0}.card-heading{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}.card-heading h2{font-size:13px;font-weight:500;letter-spacing:-.015em;margin:0}.letter{font:11px ui-monospace,SFMono-Regular,Menlo,monospace;color:#9da8b7;margin-right:10px}.card-heading button{padding:6px 0;border:0;background:transparent;color:#9da1a8;font-size:11px;min-height:32px}.card-heading button:hover{color:#fff}.surface{position:relative;aspect-ratio:576/586;isolation:isolate;overflow:hidden;background:linear-gradient(#000 5%,#131d55 30%,#526c8c 65%,#e0ded9);container-type:inline-size}.surface canvas{display:block;width:100%;height:100%}.surface .sample-copy{position:absolute;top:12.95%;left:14.24%;margin:0;font:600 3.2cqw/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:-.06cqw;color:#dce0eb;pointer-events:none}.sample-copy span{display:block;font-weight:400;color:#aeb9d1}.surface[data-content=false] .sample-copy{display:none}.card-note{margin:17px 0 0;line-height:1.65;font-size:13px;color:#a6a9ad;word-break:keep-all}.card-note strong{color:#dcddd9;font-weight:450}.card-tags{font:10px/1.8 ui-monospace,SFMono-Regular,Menlo,monospace;color:#777e88;letter-spacing:.035em;margin-top:9px}
+  .focus-layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:48px;align-items:start;max-width:1100px;margin:auto}.focus-art{max-width:720px;width:100%;margin:auto}.focus-heading{display:flex;align-items:center;justify-content:space-between;margin:0 0 14px;gap:20px}.focus-heading h2{font-size:17px;font-weight:450;margin:0}.focus-heading span{color:#7e858f;font:11px ui-monospace,SFMono-Regular,Menlo,monospace}.focus-side{padding-top:35px}.focus-side h3{font-size:22px;line-height:1.35;font-weight:450;letter-spacing:-.03em;margin:0 0 16px}.focus-side p{font-size:13px;color:#a6a9ad;line-height:1.8;word-break:keep-all;margin:0 0 24px}.detail-title{display:flex;justify-content:space-between;font:10px ui-monospace,SFMono-Regular,Menlo,monospace;color:#9299a3;letter-spacing:.04em;margin:28px 0 10px}.detail-wrap{position:relative}.detail-wrap canvas{width:100%;aspect-ratio:1;display:block;background:#151923}.detail-wrap::after{content:"";position:absolute;inset:0;border:1px solid #ffffff16;pointer-events:none}.detail-hint{font-size:11px!important;margin-top:12px!important;color:#7e858f!important}
+  .controls{margin-top:32px;padding:24px 0;border-top:1px solid #303239;border-bottom:1px solid #303239;display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) auto;gap:28px;align-items:center}.control label{display:flex;justify-content:space-between;align-items:center;font-size:12px;margin-bottom:14px;gap:16px}.control output{font:11px ui-monospace,SFMono-Regular,Menlo,monospace;color:#a6a9ad}.control input{display:block;width:100%;margin:0;accent-color:#c5cbd3;cursor:pointer}.actions{display:flex;gap:8px;align-items:center}.actions button{padding:10px 12px;border:1px solid #3b3e44;border-radius:4px;background:transparent;font-size:12px;min-height:40px}.actions button:hover{background:#272a2e}.actions button[aria-pressed=true]{border-color:#aeb9c7;background:#262a30}.state{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin:13px 0 28px;color:#7e858f;font:10px/1.7 ui-monospace,SFMono-Regular,Menlo,monospace}.state p{margin:0}.method{display:grid;grid-template-columns:1fr 1fr;gap:48px;color:#92979f;font-size:12px;line-height:1.8}.method p{margin:0;word-break:keep-all}.method strong{font-weight:500;color:#c6cacd}.error{padding:16px;background:#352c21;color:#f3dfb8;font-size:13px;line-height:1.7;margin:16px 0;border:1px solid #715b3a}
+  .switcher{position:relative;order:1;display:flex;align-items:center;gap:4px;padding:6px;background:#1d2024;border:1px solid #444950;border-radius:9px}.switcher button{border:0;background:transparent;color:#9198a3;border-radius:5px;font:12px ui-monospace,SFMono-Regular,Menlo,monospace;padding:11px 15px;min-height:38px}.switcher button:hover{color:#fff}.switcher button[aria-pressed=true]{background:#d5dadf;color:#17191c}.switcher .arrow{padding-inline:12px;font-size:16px}.switcher .separator{width:1px;height:20px;background:#42464d;margin-inline:3px}.switcher .switch-label{font-size:10px;color:#838c97;padding-inline:10px;white-space:nowrap}
+  @media(min-width:1700px){body{padding-top:42px}.cards{gap:32px}}
+  @media(max-width:1000px){body{padding:18px 24px 40px}.cards{gap:16px}.controls{grid-template-columns:repeat(3,minmax(0,1fr))}.actions{grid-column:1/-1;justify-content:flex-end}.focus-layout{grid-template-columns:minmax(0,1fr) 220px;gap:28px}.focus-side h3{font-size:20px}.card-tags{font-size:9px}}
+  @media(max-width:700px){body{padding:12px 16px 36px}.masthead{gap:10px;padding-bottom:14px;flex-wrap:wrap}.masthead>.kicker{flex:1}.masthead a{font-size:11px}.intro{display:block;margin:25px 0}.intro p{font-size:13px}.view-controls{display:inline-flex;margin-top:20px}.cards{grid-template-columns:1fr;gap:30px}.card-heading{margin-bottom:8px}.card-note{margin-top:13px}.focus-layout{grid-template-columns:1fr;gap:24px}.focus-side{padding:0;display:grid;grid-template-columns:1fr 1fr;gap:16px}.focus-side .description{grid-column:1/-1}.focus-side p{margin-bottom:0}.detail-title{margin-top:0}.detail-hint{margin-top:8px!important}.controls{grid-template-columns:1fr;gap:24px}.actions{grid-column:auto;justify-content:flex-start;flex-wrap:wrap}.method{grid-template-columns:1fr;gap:18px}.masthead .switcher{order:3;margin:6px auto 0;padding:5px;gap:2px}.switcher button{padding-inline:14px}.switcher .switch-label,.switcher .separator{display:none}.state{gap:8px}.focus-heading span{font-size:10px}}
+</style>
+</head>
+<body>
+<main>
+  <header class="masthead"><span class="kicker">MATERIAL STUDIES / 02</span><a href="subtle-gradient.html">원래 reference와 비교 ↗</a><nav class="switcher" aria-label="Material 선택"><button class="arrow" id="previous" aria-label="이전 material">←</button><button data-variant="A" aria-pressed="true">A</button><button data-variant="B" aria-pressed="false">B</button><button data-variant="C" aria-pressed="false">C</button><span class="separator"></span><span class="switch-label" id="switch-label">Photographic</span><button class="arrow" id="next" aria-label="다음 material">→</button></nav></header>
+  <section class="intro"><div><h1>같은 빛, 다른 표면.</h1><p>Photographic diffusion, etched glass, satin metal.<br>같은 gradient 위에서 질감과 빛의 반응을 비교해 보세요.</p></div><div class="view-controls" aria-label="보기 방식"><button id="compare-view" aria-pressed="true">나란히 비교</button><button id="focus-view" aria-pressed="false">크게 보기</button></div></section>
+  <p id="error" class="error" role="status" hidden></p>
+  <section class="cards" id="comparison" aria-label="세 가지 material 비교"></section>
+  <section class="focus-layout" id="focus" aria-label="선택한 material 크게 보기" hidden>
+    <div class="focus-art"><div class="focus-heading"><h2 id="focus-title"></h2><span>576 × 586 / SAME COMPOSITION</span></div><div class="surface" id="focus-surface"><canvas id="focus-canvas" role="img" aria-label="선택한 material"></canvas><p class="sample-copy">Checking malicious prompts<span>Score: 108.0% · Action: Block</span></p></div></div>
+    <aside class="focus-side"><div class="description"><h3 id="focus-subtitle"></h3><p id="focus-description"></p></div><div><div class="detail-title"><span>DETAIL / 3×</span><span>실제 화면 확대</span></div><div class="detail-wrap"><canvas id="detail" width="560" height="560" role="img" aria-label="선택한 표면의 3배 확대"></canvas></div></div><p class="detail-hint">큰 화면 위에서 pointer를 움직이면 해당 위치의 질감을 살펴볼 수 있어요. Touch는 눌러서 선택하세요.</p></aside>
+  </section>
+  <form id="controls" class="controls" aria-label="공통 비교 조건">
+    <div class="control"><label for="texture">질감 강도 <output for="texture" id="texture-value">70%</output></label><input type="range" id="texture" name="texture" min="0" max="100" value="70"></div>
+    <div class="control"><label for="optics">광학 효과 <output for="optics" id="optics-value">65%</output></label><input type="range" id="optics" name="optics" min="0" max="100" value="65"></div>
+    <div class="control"><label for="light">조명 방향 <output for="light" id="light-value">35°</output></label><input type="range" id="light" name="light" min="-90" max="90" value="35"></div>
+    <div class="actions"><button type="button" id="content" aria-pressed="false">배경만 보기</button><button type="button" id="baseline" aria-pressed="false">효과 전 비교</button><button type="reset">초기화</button></div>
+  </form>
+  <div class="state"><p id="readout">준비 중…</p><p>STATIC · FIXED SEED · NO APP INTEGRATION</p></div>
+  <section class="method"><p><strong>불규칙함에도 구조가 있어요.</strong> A는 입자 분포, B는 표면의 요철, C는 방향성 있는 결을 각각 계산합니다. 작은 image tile을 반복하지 않습니다. 각 후보의 강도는 시각 비교용이며 동일한 물리 단위는 아닙니다.</p><p><strong>빛은 표면에, 글자는 또렷하게.</strong> Bloom·refraction·reflection은 배경과 border에 적용합니다. 문구는 동일한 별도 layer로 유지합니다. 실제 재료를 완전히 재현하는 물리 simulation이 아닌 visual PoC입니다.</p></section>
+</main>
+
+
+<script id="vertex" type="x-shader/x-vertex">#version 300 es
+in vec2 aPosition;
+out vec2 vUV;
+void main(){vUV=aPosition*.5+.5;gl_Position=vec4(aPosition,0.,1.);}
+</script>
+<script id="scene-shader" type="x-shader/x-fragment">#version 300 es
+precision highp float;
+in vec2 vUV;
+out vec4 color;
+uniform vec2 uSize;
+uniform int uVariant;
+uniform float uTexture,uOptics,uLight,uContent;
+const float PI=3.14159265359;
+float hash(vec2 p){return fract(sin(dot(p,vec2(127.17,311.73))+19.89)*43758.5453);}
+vec2 hash2(vec2 p){return vec2(hash(p),hash(p+vec2(43.71,17.31)));}
+float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),mix(hash(i+vec2(0,1)),hash(i+1.),f.x),f.y);}
+float fbm(vec2 p){float a=.55,s=0.;mat2 r=mat2(.8,-.6,.6,.8);for(int i=0;i<4;i++){s+=a*noise(p);p=r*p*2.07+vec2(13.9,7.1);a*=.48;}return s;}
+float ramp(float a,float b,float x){return clamp((x-a)/(b-a),0.,1.);}
+vec3 gradient(vec2 p){float t=clamp(p.y+(p.x-.5)*.037,0.,1.);vec3 c=vec3(0.);
+ c=mix(c,vec3(.008,.016,.086),ramp(.045,.125,t));
+ c=mix(c,vec3(.052,.079,.31),ramp(.125,.255,t));
+ c=mix(c,vec3(.11,.16,.40),ramp(.255,.35,t));
+ c=mix(c,vec3(.24,.35,.525),ramp(.35,.51,t));
+ c=mix(c,vec3(.34,.445,.585),ramp(.51,.60,t));
+ c=mix(c,vec3(.47,.545,.645),ramp(.60,.69,t));
+ c=mix(c,vec3(.59,.635,.70),ramp(.69,.77,t));
+ c=mix(c,vec3(.71,.735,.77),ramp(.77,.86,t));
+ c=mix(c,vec3(.88,.875,.86),ramp(.86,1.,t));return c;}
+float rectSDF(vec2 p,vec2 b,float r){vec2 q=abs(p)-b+r;return min(max(q.x,q.y),0.)+length(max(q,0.))-r;}
+float segment(vec2 p,vec2 a,vec2 b){vec2 pa=p-a,ba=b-a;return length(pa-ba*clamp(dot(pa,ba)/dot(ba,ba),0.,1.));}
+float logo(vec2 p){vec2 q=p*vec2(576,586);float d=segment(q,vec2(85,458),vec2(85,482));d=min(d,segment(q,vec2(85,482),vec2(132,482)));d=min(d,segment(q,vec2(99,458),vec2(137,458)));d=min(d,segment(q,vec2(137,458),vec2(137,485)));d=min(d,segment(q,vec2(99,471),vec2(129,471)));return 1.-smoothstep(2.3,3.5,d);}
+float frame(vec2 p){float d=abs(rectSDF(p-vec2(.5,.4829),vec2(.4167,.4146),.017));float aa=max(fwidth(d),.00065);return 1.-smoothstep(.0006,.0006+aa,d);}
+// Variable-size sparse kernels: fine particles and clusters have different spatial scales.
+float particles(vec2 p){vec2 cell=floor(p);float value=0.;for(int y=-1;y<=1;y++)for(int x=-1;x<=1;x++){vec2 id=cell+vec2(x,y);vec2 h=hash2(id);vec2 d=p-id-h;float radius=.12+.49*pow(hash(id+8.7),2.);float v=exp(-dot(d,d)/(radius*radius));value+=v*(hash(id+35.7)*2.-1.);}return value;}
+float cellDistance(vec2 p){vec2 cell=floor(p),f=fract(p);float result=8.;for(int y=-1;y<=1;y++)for(int x=-1;x<=1;x++){vec2 o=vec2(x,y);vec2 d=o+hash2(cell+o)-f;result=min(result,dot(d,d));}return sqrt(result);}
+float etchedHeight(vec2 p){vec2 warp=vec2(fbm(p*3.3),fbm(p*3.3+17.))*1.9;float a=cellDistance(p*77.+warp);float b=cellDistance(p*143.+warp.yx*1.4+43.);float c=fbm(p*23.);return .53*a+.27*b+.20*c;}
+// Sparse Gabor convolution in an elongated domain; phase and local direction vary by kernel.
+float gabor(vec2 p){vec2 cell=floor(p);float sum=0.;for(int y=-1;y<=1;y++)for(int x=-1;x<=1;x++){vec2 id=cell+vec2(x,y);vec2 h=hash2(id);vec2 d=p-id-h;float angle=(hash(id+14.6)-.5)*.38;vec2 direction=vec2(sin(angle),cos(angle));sum+=exp(-3.2*dot(d,d))*cos(2.*PI*((.65+1.1*hash(id+4.5))*dot(d,direction)+h.y));}return sum;}
+void main(){vec2 p=vec2(vUV.x,1.-vUV.y);vec2 px=p*vec2(576,586);float angle=uLight*PI/180.;vec2 lamp=vec2(.56+.19*sin(angle),.69+.09*cos(angle));vec3 c=gradient(p);float line=frame(p);float mark=logo(p);float optical=uOptics;
+ if(uVariant==0){
+   float density=.48+.7*fbm(p*5.2+8.);
+   vec2 warped=px/2.4+vec2(fbm(p*12.),fbm(p*12.+11.))*2.1;
+   float g=particles(warped)*.78+particles(px/1.1+27.8)*.32;
+   float lum=dot(c,vec3(.2126,.7152,.0722));
+   float envelope=.25+.75*sin(clamp(lum,0.,1.)*PI);
+   c+=g*density*envelope*.105*uTexture;
+   float fog=exp(-dot((p-lamp)*vec2(1.7,1.45),(p-lamp)*vec2(1.7,1.45))*2.1);
+   c+=vec3(.065,.069,.082)*fog*optical;
+   c=mix(c,vec3(.86,.88,.92),line*.24*uContent);
+ }else if(uVariant==1){
+   float h=etchedHeight(p);
+   vec2 slope=vec2(dFdx(h)*uSize.x,-dFdy(h)*uSize.y)*.0026*uTexture;
+   vec3 n=normalize(vec3(-slope,1.));
+   vec2 refracted=p+n.xy*.057*optical;
+   c=gradient(refracted);
+   float coarse=fbm(p*5.3+3.);
+   c+=(h-.42)*.032*uTexture*(.25+p.y);
+   vec2 env=(p-lamp)+n.xy*.21;
+   float reflection=exp(-pow((env.x+.38*env.y)*6.5,2.))*exp(-pow(env.y*1.5,2.));
+   float veil=exp(-dot(env*vec2(2.,1.2),env*vec2(2.,1.2))*2.);
+   float fresnel=.04+.96*pow(1.-max(n.z,0.),5.);
+   c+=vec3(.13,.17,.21)*(reflection*.65+veil*.22)*(1.+fresnel)*optical*(.7+.5*coarse);
+   float edgeLight=.18+.3*pow(max(0.,cos(angle)+(p.x-.5)*.7),2.);
+   c=mix(c,vec3(.88,.92,.97),line*(.2+edgeLight*optical)*uContent);
+ }else{
+   float local=fbm(p*4.7);
+   vec2 q=vec2(px.x*.11+(fbm(p*12.)-.5)*.6,px.y*.40+(local-.5)*1.2);
+   float fine=gabor(q),wide=gabor(q*vec2(.31,.46)+41.);
+   float grain=fine*.7+wide*.3;
+   c+=grain*.025*uTexture*(.3+.7*sqrt(max(0.,dot(c,vec3(.2126,.7152,.0722)))));
+   vec2 d=p-lamp;float theta=angle*.55-.15;mat2 rotation=mat2(cos(theta),-sin(theta),sin(theta),cos(theta));vec2 r=rotation*d;
+   float roughness=.075+.025*local+.015*grain*uTexture;
+   float sheen=exp(-pow(r.x/roughness,2.)-pow(r.y/.67,2.));
+   float shoulder=exp(-pow((r.x-.07)/.25,2.)-pow(r.y/.82,2.));
+   float cut=exp(-pow((r.x+.12)/.11,2.)-pow(r.y/.9,2.));
+   c+=vec3(.20,.22,.25)*(sheen*.78+shoulder*.25)*optical;
+   c-=vec3(.04,.045,.05)*cut*optical;
+   c=mix(c,vec3(.83,.87,.93),line*(.22+sheen*.5*optical)*uContent);
+ }
+ if(uTexture==0. && uOptics==0.)c=mix(gradient(p),vec3(.86,.88,.92),line*.24*uContent);
+ c=mix(c,vec3(.93,.94,.94),mark*.94*uContent);
+ color=vec4(clamp(c,0.,1.),1.);
+}
+</script>
+<script id="blur-shader" type="x-shader/x-fragment">#version 300 es
+precision highp float;
+in vec2 vUV;out vec4 color;
+uniform sampler2D uImage;uniform vec2 uDirection;uniform float uExtract;
+vec3 sampleLight(vec2 p){vec3 c=texture(uImage,p).rgb;if(uExtract>.5){float l=dot(c,vec3(.2126,.7152,.0722));c*=smoothstep(.62,.95,l);}return c;}
+void main(){vec3 c=sampleLight(vUV)*.227027;c+=sampleLight(vUV+uDirection*1.384615)*.316216;c+=sampleLight(vUV-uDirection*1.384615)*.316216;c+=sampleLight(vUV+uDirection*3.230769)*.070270;c+=sampleLight(vUV-uDirection*3.230769)*.070270;color=vec4(c,1.);}
+</script>
+<script id="composite-shader" type="x-shader/x-fragment">#version 300 es
+precision highp float;
+in vec2 vUV;out vec4 color;
+uniform sampler2D uScene,uBloom;uniform float uAmount;
+void main(){vec3 c=texture(uScene,vUV).rgb;vec3 bloom=texture(uBloom,vUV).rgb;c+=bloom*(1.-c)*uAmount;color=vec4(clamp(c,0.,1.),1.);}
+</script>
+<script>
+// Throwaway material study. All shaders are local approximations; no production app dependencies.
+const materials=[
+ {id:'A',name:'Photographic diffusion',short:'Photographic',subtitle:'빛은 퍼지고,<br>입자는 흩어지고.',description:'크기와 밀도가 다른 입자가 느슨하게 모여 있어요. 밝은 부분에서 나온 빛이 주변으로 번져, 촬영한 image 같은 부드러운 표면을 만듭니다.',note:'<strong>부드럽게 번지는 빛.</strong> 입자마다 다른 크기와 불규칙한 밀도, 밝은 부분 주위의 diffusion.',tags:'STOCHASTIC GRAIN / HIGHLIGHT BLOOM'},
+ {id:'B',name:'Etched glass',short:'Etched glass',subtitle:'작은 요철이<br>빛을 바꾸는 유리.',description:'뒤틀린 cellular noise를 미세한 표면 요철로 사용해요. 이 요철이 배경을 조금 굴절시키고, 넓은 조명의 반사를 잘게 흐트러뜨립니다.',note:'<strong>표면 안에 머무는 빛.</strong> 미세한 요철이 만드는 불규칙한 굴절과 반사.',tags:'WARPED CELLULAR / REFRACTION'},
+ {id:'C',name:'Satin metal',short:'Satin metal',subtitle:'가는 결을 따라<br>길게 흐르는 빛.',description:'Sparse Gabor kernel로 가늘고 긴 결을 만들어요. 방향과 간격이 조금씩 다르고, 길게 퍼지는 highlight가 satin 표면의 방향성을 드러냅니다.',note:'<strong>방향을 가진 빛.</strong> 불규칙한 가는 결 위로 길게 퍼지는 satin highlight.',tags:'SPARSE GABOR / ANISOTROPIC SHEEN'}
+];
+const $=s=>document.querySelector(s);
+const params=new URLSearchParams(location.search);
+let selected=materials.findIndex(m=>m.id===params.get('variant'));if(selected<0)selected=0;
+let mode=params.get('view')==='focus'?'focus':'compare';
+let content=true,baseline=false,pending=0,ready=false;
+let inspection={x:.55,y:.64};
+const renderers=[];
+$('#comparison').innerHTML=materials.map(m=>`<article class="material"><div class="card-heading"><h2><span class="letter">${m.id}</span>${m.name}</h2><button data-inspect="${m.id}" aria-label="${m.name} 크게 보기">크게 보기 ↗</button></div><div class="surface"><canvas id="canvas-${m.id}" role="img" aria-label="${m.name} material preview"></canvas><p class="sample-copy">Checking malicious prompts<span>Score: 108.0% · Action: Block</span></p></div><p class="card-note">${m.note}</p><p class="card-tags">${m.tags}</p></article>`).join('');
+
+function makeRenderer(canvas){
+ const gl=canvas.getContext('webgl2',{alpha:false,antialias:false,preserveDrawingBuffer:true});
+ if(!gl)throw new Error('WebGL 2를 사용할 수 없어 material을 그리지 못했어요. Chrome의 graphics acceleration 설정을 확인해 주세요.');
+ function shader(type,source){const s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw new Error(gl.getShaderInfoLog(s));return s;}
+ function program(fragment){const p=gl.createProgram();const v=shader(gl.VERTEX_SHADER,$('#vertex').textContent),f=shader(gl.FRAGMENT_SHADER,$(fragment).textContent);gl.attachShader(p,v);gl.attachShader(p,f);gl.linkProgram(p);gl.deleteShader(v);gl.deleteShader(f);if(!gl.getProgramParameter(p,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(p));const uniforms={};for(let i=0;i<gl.getProgramParameter(p,gl.ACTIVE_UNIFORMS);i++){const u=gl.getActiveUniform(p,i);uniforms[u.name]=gl.getUniformLocation(p,u.name);}return {p,uniforms};}
+ const scene=program('#scene-shader'),blur=program('#blur-shader'),composite=program('#composite-shader');
+ const buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
+ const targets=[];
+ function target(){const texture=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,texture);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);const framebuffer=gl.createFramebuffer();gl.bindFramebuffer(gl.FRAMEBUFFER,framebuffer);gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,texture,0);return {texture,framebuffer};}
+ for(let i=0;i<3;i++)targets.push(target());
+ function use(pr,target){gl.useProgram(pr.p);gl.bindFramebuffer(gl.FRAMEBUFFER,target?.framebuffer||null);gl.bindBuffer(gl.ARRAY_BUFFER,buffer);const a=gl.getAttribLocation(pr.p,'aPosition');gl.enableVertexAttribArray(a);gl.vertexAttribPointer(a,2,gl.FLOAT,false,0,0);}
+ function texture(pr,name,value,unit){gl.activeTexture(gl.TEXTURE0+unit);gl.bindTexture(gl.TEXTURE_2D,value);gl.uniform1i(pr.uniforms[name],unit);}
+ function draw(variant,settings){
+  const rect=canvas.getBoundingClientRect();if(rect.width<1)return;
+  const scale=Math.min(devicePixelRatio||1,2);const w=Math.min(1440,Math.round(rect.width*scale)),h=Math.round(w*586/576);
+  if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;for(const t of targets){gl.bindTexture(gl.TEXTURE_2D,t.texture);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,w,h,0,gl.RGBA,gl.UNSIGNED_BYTE,null);gl.bindFramebuffer(gl.FRAMEBUFFER,t.framebuffer);if(gl.checkFramebufferStatus(gl.FRAMEBUFFER)!==gl.FRAMEBUFFER_COMPLETE)throw new Error('Material framebuffer를 만들지 못했어요.');}}
+  gl.viewport(0,0,w,h);use(scene,targets[0]);gl.uniform2f(scene.uniforms.uSize,w,h);gl.uniform1i(scene.uniforms.uVariant,variant);gl.uniform1f(scene.uniforms.uTexture,settings.texture);gl.uniform1f(scene.uniforms.uOptics,settings.optics);gl.uniform1f(scene.uniforms.uLight,settings.light);gl.uniform1f(scene.uniforms.uContent,content?1:0);gl.drawArrays(gl.TRIANGLES,0,6);
+  use(blur,targets[1]);texture(blur,'uImage',targets[0].texture,0);gl.uniform2f(blur.uniforms.uDirection,4.5/576,0);gl.uniform1f(blur.uniforms.uExtract,1);gl.drawArrays(gl.TRIANGLES,0,6);
+  use(blur,targets[2]);texture(blur,'uImage',targets[1].texture,0);gl.uniform2f(blur.uniforms.uDirection,0,4.5/586);gl.uniform1f(blur.uniforms.uExtract,0);gl.drawArrays(gl.TRIANGLES,0,6);
+  use(composite,null);texture(composite,'uScene',targets[0].texture,0);texture(composite,'uBloom',targets[2].texture,1);gl.uniform1f(composite.uniforms.uAmount,settings.optics*[.30,.045,.025][variant]);gl.drawArrays(gl.TRIANGLES,0,6);
+  const error=gl.getError();if(error!==gl.NO_ERROR)throw new Error(`Material rendering error: ${error}`);
+  canvas.dataset.rendered='true';
+ }
+ canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();showError('Graphics context가 중단됐어요. 페이지를 새로 열어 주세요.');});
+ return {canvas,draw};
+}
+function showError(message){$('#error').hidden=false;$('#error').textContent=message;document.body.dataset.ready='error';}
+function settings(){return {texture:baseline?0:Number($('#texture').value)/100,optics:baseline?0:Number($('#optics').value)/100,light:Number($('#light').value)};}
+function loupe(){if(mode!=='focus'||!ready)return;const source=$('#focus-canvas'),dest=$('#detail');const ctx=dest.getContext('2d');const ratio=source.width/source.getBoundingClientRect().width;const sw=dest.getBoundingClientRect().width*ratio/3,sh=sw;const sx=Math.max(0,Math.min(source.width-sw,inspection.x*source.width-sw/2));const sy=Math.max(0,Math.min(source.height-sh,inspection.y*source.height-sh/2));ctx.imageSmoothingEnabled=true;ctx.drawImage(source,sx,sy,sw,sh,0,0,dest.width,dest.height);}
+function render(){pending=0;if(!ready)return;try{const values=settings();const start=performance.now();if(mode==='compare'){for(let i=0;i<3;i++)renderers[i].draw(i,values);}else{renderers[3].draw(selected,values);loupe();}$('#readout').textContent=`${baseline?'BASE GRADIENT':materials[selected].id+' / '+materials[selected].short} · texture ${Math.round(values.texture*100)} · optics ${Math.round(values.optics*100)} · light ${values.light}° · ${content?'content on':'background only'}`;document.body.dataset.ready='true';document.body.dataset.renderMs=(performance.now()-start).toFixed(1);}catch(e){showError(e.message);}}
+function schedule(){if(!pending)pending=requestAnimationFrame(render);}
+function syncURL(){const url=new URL(location.href);url.searchParams.set('variant',materials[selected].id);url.searchParams.set('view',mode);try{history.replaceState(null,'',url);}catch{ /* file:// may restrict History; the study still works offline. */ }}
+function updateView(){
+ $('#comparison').hidden=mode!=='compare';$('#focus').hidden=mode!=='focus';$('#compare-view').setAttribute('aria-pressed',String(mode==='compare'));$('#focus-view').setAttribute('aria-pressed',String(mode==='focus'));
+ const m=materials[selected];$('#focus-title').textContent=`${m.id} / ${m.name}`;$('#focus-subtitle').innerHTML=m.subtitle;$('#focus-description').textContent=m.description;$('#focus-canvas').setAttribute('aria-label',m.name+' material preview');$('#switch-label').textContent=m.short;
+ document.querySelectorAll('[data-variant]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.variant===m.id)));syncURL();schedule();
+}
+function select(index){selected=(index+3)%3;mode='focus';updateView();}
+document.querySelectorAll('[data-variant]').forEach(b=>b.addEventListener('click',()=>select(materials.findIndex(m=>m.id===b.dataset.variant))));
+document.querySelectorAll('[data-inspect]').forEach(b=>b.addEventListener('click',()=>{select(materials.findIndex(m=>m.id===b.dataset.inspect));$('#focus-view').focus();window.scrollTo({top:0,behavior:'instant'});}));
+$('#previous').addEventListener('click',()=>select(selected-1));$('#next').addEventListener('click',()=>select(selected+1));
+$('#compare-view').addEventListener('click',()=>{mode='compare';updateView();});$('#focus-view').addEventListener('click',()=>{mode='focus';updateView();});
+document.addEventListener('keydown',e=>{if(e.target.closest('input,textarea,select,[contenteditable]'))return;if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();select(selected+(e.key==='ArrowRight'?1:-1));}});
+$('#controls').addEventListener('input',()=>{for(const name of ['texture','optics','light'])$('#'+name+'-value').value=$('#'+name).value+(name==='light'?'°':'%');schedule();});
+$('#content').addEventListener('click',()=>{content=!content;$('#content').setAttribute('aria-pressed',String(!content));$('#content').textContent=content?'배경만 보기':'내용 함께 보기';document.querySelectorAll('.surface').forEach(s=>s.dataset.content=String(content));schedule();});
+$('#baseline').addEventListener('click',()=>{baseline=!baseline;$('#baseline').setAttribute('aria-pressed',String(baseline));$('#baseline').textContent=baseline?'효과 다시 보기':'효과 전 비교';schedule();});
+$('#controls').addEventListener('reset',()=>{content=true;baseline=false;$('#content').setAttribute('aria-pressed','false');$('#content').textContent='배경만 보기';$('#baseline').setAttribute('aria-pressed','false');$('#baseline').textContent='효과 전 비교';document.querySelectorAll('.surface').forEach(s=>s.dataset.content='true');requestAnimationFrame(()=>{$('#texture-value').value='70%';$('#optics-value').value='65%';$('#light-value').value='35°';schedule();});});
+$('#focus-surface').addEventListener('pointermove',e=>{const r=e.currentTarget.getBoundingClientRect();inspection={x:(e.clientX-r.left)/r.width,y:(e.clientY-r.top)/r.height};loupe();});
+$('#focus-surface').addEventListener('pointerdown',e=>{const r=e.currentTarget.getBoundingClientRect();inspection={x:(e.clientX-r.left)/r.width,y:(e.clientY-r.top)/r.height};loupe();});
+new ResizeObserver(schedule).observe(document.querySelector('main'));
+try{for(const m of materials)renderers.push(makeRenderer($('#canvas-'+m.id)));renderers.push(makeRenderer($('#focus-canvas')));ready=true;updateView();}catch(e){showError(e.message);}
+</script>
+</body>
+</html>

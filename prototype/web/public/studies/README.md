@@ -1,4 +1,45 @@
-# Subtle gradient study
+# Material studies
+
+## Optical materials — A / B / C
+
+사용자가 승인한 세 가지 방향을 같은 구성에서 비교하는 별도 visual PoC다. 최종 app 적용이나 특정 material 선택은 아직 하지 않았다.
+
+- [세 후보 비교](http://127.0.0.1:5173/studies/optical-materials.html?view=compare)
+- [A · Photographic diffusion](http://127.0.0.1:5173/studies/optical-materials.html?variant=A&view=focus)
+- [B · Etched glass](http://127.0.0.1:5173/studies/optical-materials.html?variant=B&view=focus)
+- [C · Satin metal](http://127.0.0.1:5173/studies/optical-materials.html?variant=C&view=focus)
+
+`optical-materials.html` 하나에 HTML·CSS·JavaScript·GLSL을 포함했다. 외부 library나 image texture 없이 WebGL 2로 그린다. 기존 `npm run dev` 또는 HTML 직접 열기로 실행한다. 상단의 reference link는 이전 study로 이동하는 선택적 navigation이다.
+
+### 비교 방법
+
+- `나란히 비교`는 A/B/C를 동시에 보여준다. `크게 보기`와 상단 A/B/C는 선택한 후보를 크게 보여준다.
+- `질감 강도`, `광학 효과`, `조명 방향`은 세 후보의 공통 조절값이다. 값의 범위는 시각 비교용이며 물리 단위나 동일한 효과 크기를 뜻하지 않는다.
+- `효과 전 비교`는 texture와 optics를 모두 0으로 만들어 세 후보를 동일한 gradient·border·mark로 되돌린다. 다시 누르면 원래 설정으로 돌아간다.
+- `배경만 보기`는 문구·border·mark를 숨긴다. `초기화`는 질감 70%, 광학 효과 65%, 조명 35°, 내용 표시로 되돌린다.
+- 크게 보기에서 pointer 이동 또는 touch로 inspection 위치를 고른다. Detail은 canvas의 실제 render를 표시 크기 기준 3배 확대한다.
+- 좌우 방향키로 후보를 바꾼다. Input에 focus가 있으면 방향키는 input을 조절한다.
+- URL에는 후보와 보기 방식만 남는다. Slider 값은 저장하지 않는다. 자동 animation은 없고 seed도 고정이다.
+
+### 실제 구현한 차이
+
+| 후보 | 표면 계산 | 광학 효과 |
+|---|---|---|
+| A · Photographic diffusion | Jittered cell의 sparse kernel에 서로 다른 radius·weight를 부여한다. 두 공간 scale의 입자와 저주파 밀도 변화를 합성하고 밝기에 따라 강도를 조절한다. | 넓은 diffusion field와 밝은 영역을 추출하는 threshold, 분리된 가로·세로 blur pass, bloom 합성. |
+| B · Etched glass | Domain-warped Worley distance를 두 scale로 합성해 height field를 만든다. 화면 공간 derivative로 local normal을 근사한다. | Normal로 gradient 좌표를 이동시키는 refraction 근사, 넓은 조명의 reflection, 약한 Fresnel 항과 border 반사. |
+| C · Satin metal | 길쭉한 domain에서 Gaussian window와 cosine carrier를 합성하는 sparse Gabor kernel. Kernel별 방향·주파수·phase를 달리하고 두 scale를 합성한다. | Roughness에 따라 폭이 달라지는 길쭉한 highlight와 넓은 shoulder. 조명 방향에 따라 회전·이동하는 anisotropic sheen 근사. |
+
+세 후보는 동일한 gradient·문구·mark·배치를 사용한다. Text는 shader 밖의 동일한 HTML layer로 유지한다. 작은 noise bitmap을 반복하지 않는다. 3배 확대 확인 중 C의 과도한 고주파·규칙적인 stripe를 줄였고, gradient 구간마다 생기던 밝기 정체도 제거했다.
+
+기술 원리 참고: [Realistic Film Grain Rendering](https://www.ipol.im/pub/art/2017/192/), [Sparse Gabor Convolution](https://graphics.cs.kuleuven.be/publications/LLDD09PNSGC/), [Microfacet Theory](https://www.pbr-book.org/4ed/Reflection_Models/Roughness_Using_Microfacet_Theory). 논문의 code나 물리 simulation 전체를 이식한 구현은 아니다. 이 study의 shader는 직접 작성한 LDR visual approximation이다.
+
+### 검증과 범위
+
+`npm run test:ui -- tests/optical-materials.spec.ts`로 확인한다. 서로 다른 실제 canvas 출력, 효과 제거 시 공통 baseline, 정지 render의 재현성, 조명 변경, detail inspection, 초기화, keyboard·URL 전환, 375px overflow, offline 실행, WebGL 불가 안내를 검사한다. Capture는 `prototype/web/evidence/optical-materials/`에 있다.
+
+WebGL 2가 필요하다. 사용할 수 없으면 오류를 표시하며 CSS fallback을 완성된 material로 제시하지 않는다. On-demand render이고 자동 frame loop는 없다. 차량 GPU·AAOS·Compose 이식, 실제 재료의 광학 정확도, display calibration과 사용자 가독성은 검증하지 않았다. 기존 app과 spec은 변경하지 않았다.
+
+## Subtle gradient study — original
 
 질문: 사용자가 제공한 image의 넓은 색 변화와 미세한 질감을, 독립 HTML에서 비슷하게 재현할 수 있는가?
 

@@ -1,0 +1,20 @@
+{
+  "checked_at": "2026-11-05T16:08:18.785Z",
+  "browser": "Installed Google Chrome via Playwright",
+  "desktop": {
+    "width": 1600,
+    "height": 1180,
+    "device_scale_factor": 1.5
+  },
+  "mobile_css_width": 375,
+  "automatic_animation": false,
+  "page_errors": [],
+  "failed_requests": [],
+  "checks": [
+    "A/B/C visual capture",
+    "3x detail capture",
+    "C changed light direction",
+    "mobile comparison and focus capture",
+    "no horizontal overflow"
+  ]
+}

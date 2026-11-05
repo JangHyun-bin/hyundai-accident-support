@@ -2,6 +2,8 @@
 
 현재 검토 대상은 [긴급 상황 storyboard](http://127.0.0.1:5173/?study=emergency)다. [상황 spec](../../specs/emergency-experience/principles.md)을 직접 읽어 부상·응답 없음·접수 미확인의 3개 scenario, 9개 장면을 보여준다. Source graph와 미결정 사항을 `현재 장면 spec`에서 확인할 수 있다.
 
+표면 질감은 별도 [Optical materials PoC](http://127.0.0.1:5173/studies/optical-materials.html?view=compare)에서 비교한다. Photographic diffusion·etched glass·satin metal의 세 후보이며, app에는 적용하지 않았다. [실행 방법과 구현 범위](public/studies/README.md)를 참고한다.
+
 선행 비교안도 보존한다. `focus`는 행동 중심, `context`는 상황 중심이며 사용자가 A를 선택했다. 이후 [네 design 도구 적용안](http://127.0.0.1:5173/?study=tools)을 만들었다. 사용자가 긴급 상황의 읽기 부담을 지적하여 시각 indicator 중심 storyboard로 범위를 발전시켰다.
 
 Node.js 22.12 이상이 필요하다. 이 작업 환경에서는 Node.js 24.4.1로 확인하였다.
