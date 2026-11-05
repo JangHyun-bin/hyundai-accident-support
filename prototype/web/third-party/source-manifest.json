@@ -1,0 +1,67 @@
+[
+  {
+    "name": "halo-card",
+    "url": "https://www.cult-ui.com/r/halo-card.json",
+    "sha256": "76c522d818199aab7ca0ef999852f5c2d4edf71b0dad0203e5b98972a3d7e2b8",
+    "source_sha256": "a237b203bbcd5868cff3ee4bd44f955fd314adba3bb58ec5b0eef84ef8906059",
+    "target": "src/components/ui/halo-card.tsx",
+    "dependencies": [
+      "@base-ui/react",
+      "motion"
+    ]
+  },
+  {
+    "name": "halo-badge",
+    "url": "https://www.cult-ui.com/r/halo-badge.json",
+    "sha256": "4d2d8b659bdf620d13dd2ada16f4a8dae25cbff2b80bf6ce1e186cba1354849b",
+    "source_sha256": "6c2151105df1f2eeddf0132159e5a17bff2c4c805590ecdd4acba4573a4adbb0",
+    "target": "src/components/ui/halo-badge.tsx",
+    "dependencies": [
+      "class-variance-authority",
+      "motion"
+    ]
+  },
+  {
+    "name": "transition-panel",
+    "url": "https://raw.githubusercontent.com/ibelick/motion-primitives/main/components/core/transition-panel.tsx",
+    "sha256": "1b3c67058a09a560a034b7fe52ad1c205b589a63ed80055900e8a66830db0be2",
+    "source_sha256": "1b3c67058a09a560a034b7fe52ad1c205b589a63ed80055900e8a66830db0be2",
+    "target": "src/components/ui/transition-panel.tsx",
+    "dependencies": []
+  },
+  {
+    "name": "cult-license",
+    "url": "https://raw.githubusercontent.com/nolly-studio/cult-ui/main/LICENSE.md",
+    "sha256": "78045e58dfd5f039ad350ad293da2ad9a2c0362b82dadb069b1c10be382ddac7",
+    "source_sha256": "78045e58dfd5f039ad350ad293da2ad9a2c0362b82dadb069b1c10be382ddac7",
+    "target": "third-party/cult-ui-LICENSE.md",
+    "dependencies": []
+  },
+  {
+    "name": "motion-license",
+    "url": "https://raw.githubusercontent.com/ibelick/motion-primitives/main/LICENCE.md",
+    "sha256": "f668f5ef3635eb906f10b1eea9a32e449eb6e1a183ab6879ef6d56c0980dd2f3",
+    "source_sha256": "f668f5ef3635eb906f10b1eea9a32e449eb6e1a183ab6879ef6d56c0980dd2f3",
+    "target": "third-party/motion-primitives-LICENCE.md",
+    "dependencies": []
+  },
+  {
+    "name": "badge",
+    "url": "https://ui.shadcn.com/r/styles/new-york-v4/badge.json",
+    "sha256": "0f988b37cf1c56e7ecc83b1dcf24c9af4e73ce4341da5caf2c9d9b07a551319b",
+    "source_sha256": "13a9380dfff853ee730c14a52df49f22aecd31f40f2998d7c1e7ec458b6e1650",
+    "target": "src/components/ui/badge.tsx",
+    "dependencies": [
+      "cn",
+      "radix-ui"
+    ]
+  },
+  {
+    "name": "shadcn-license",
+    "url": "https://raw.githubusercontent.com/shadcn-ui/ui/main/LICENSE.md",
+    "sha256": "1564074e13439397221ffd522e2e504d56561994a23d371aa5e3ad43e4f5423f",
+    "source_sha256": "1564074e13439397221ffd522e2e504d56561994a23d371aa5e3ad43e4f5423f",
+    "target": "third-party/shadcn-ui-LICENSE.md",
+    "dependencies": []
+  }
+]
