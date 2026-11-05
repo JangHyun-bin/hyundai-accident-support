@@ -1,0 +1,14 @@
+# 사고 대응 Compose PoC
+
+시각과 상호작용을 검토하는 임시 prototype이다. 실제 전화·전송·차량 신호·기관 연계는 없다. Google Android 35 emulator에서만 실행하며 Pleos 차량·UX restriction 적합성을 검증하지 않았다. Color는 Pleos 공개 basic palette를 참고한 project 시안이며, typography·간격·모서리는 임시 값이다. Cult UI와 TransitionPanel은 시각과 motion의 참고 자료이며 source를 포함하지 않는다.
+
+Android Studio에서 이 directory를 열고 `app`을 실행한다. 별도 AVD를 사용할 수 있다. 상태는 app을 닫으면 초기화된다.
+
+Command line build:
+
+```sh
+cd prototype/android
+./gradlew assembleDebug
+```
+
+`preview.png`와 `preview-status.png`는 Android emulator에서 캡처한 화면이다. 현재 글꼴은 emulator의 기본 글꼴이며 Asta Sans는 포함하지 않았다.
