@@ -62,6 +62,8 @@ Editor의 **검수 표시**로 분류를 표시하고 node를 선택하면 근�
 
 [Pleos foundation](docs/research/pleos-foundation.md), [AAOS 기준](docs/research/aaos-foundation.md), [component 후보](docs/research/component-shortlist.md)를 조사하였다. [Design 방향](docs/research/design-direction.md)은 사고 직후 안내와 기관별 진행 상태를 확인할 HTML prototype의 범위를 제안한다. 검토 시점은 2026-11-05이며 실제 차량·기관 연계 검증은 포함하지 않는다.
 
+사용자가 선택한 후속 방향은 **실제 Cult UI source로 React design을 검증한 후 Kotlin + Compose로 구현**하는 것이다. [구체적인 실행 계획](docs/superpowers/plans/2026-11-05-cult-design-poc.md)에 두 가지 첫 화면 비교, 선택된 안의 상태·interaction 확장, native 한 화면의 재현 순서를 기록하였다. 현재 이 계획의 web prototype은 아직 구현하지 않았다.
+
 ## Git과 확인
 
 이 directory는 [GitHub private repository](https://github.com/JangHyun-bin/hyundai-accident-support)의 `main`과 연결되어 있다. Editor에서 저장한 뒤 변경을 확인하고 의미 있는 단위로 commit·push한다. Editor의 저장은 local `project.json`에 반영되며 GitHub에 자동 전송되지는 않는다.
