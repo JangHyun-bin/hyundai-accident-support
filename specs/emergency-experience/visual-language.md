@@ -42,3 +42,15 @@ Asta, 기존 dark semantic palette, 1440 × 810 CSS px canvas를 사용한다. �
 ## 시연 경계
 
 화면 바깥에 `가상 scenario · 실제 전화·전송 없음`을 항상 표시한다. 전체 spec에는 `simulation_only: true`와 각 값의 fixture 출처를 기록한다. 새로고침은 URL의 장면 fixture를 다시 불러오며 실제 요청 상태 저장을 의미하지 않는다.
+
+## C · Satin surface preview
+
+2026-11-06에 사용자가 C · Satin metal을 선택했고, 실제 긴급 상황 storyboard 위에서 보는 preview 진행을 요청했다.
+
+- `?study=emergency&material=satin`에서 연다. 기존 `?study=emergency`는 flat으로 시작한다.
+- Material은 장식 배경이다. 상황 spec, indicator, 상태 색, 문구, action, transition을 바꾸지 않는다. 상태가 바뀌어도 배경의 색이나 highlight로 성공·안전을 나타내지 않는다.
+- C의 sparse Gabor 결과 anisotropic sheen을 유지하되 긴급 화면에 맞게 어둡게 조정한다. 왼쪽 indicator 주변에 빛을 두고, 오른쪽 행동 영역과 하단 지원 현황에서는 밝기를 낮춘다.
+- Surface는 pointer와 accessibility tree에 참여하지 않는다. Text·indicator·button은 원래 HTML/SVG layer에 남는다.
+- 재질 전환과 표면 강도 변경은 장면·기관 상태·시연 일시 중단 여부를 변경하지 않는다. 기본 강도는 70%이며 확정된 차량 design token이 아닌 비교 시작값이다.
+- 자동 animation과 반복 render는 없다. 장면이 바뀌어도 같은 배경을 유지한다. WebGL 2 실패·context loss 시 기본 배경을 사용하며 안내·행동을 막지 않는다.
+- 최대 강도의 실제 shader pixel을 대상으로 한 보수적 배경 contrast 계산에서 보조 글자색 `#a9b0b2`와의 최소 비율은 약 4.73:1이었다. 이는 전체 UI의 accessibility 인증이나 실제 차량 시인성 검증이 아니다. 측정은 `prototype/web/evidence/emergency-satin/contrast-check.json`에 기록했다.

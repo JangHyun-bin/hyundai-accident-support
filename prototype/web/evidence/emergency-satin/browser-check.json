@@ -1,0 +1,23 @@
+{
+  "checked_at": "2026-11-05T16:39:56.059Z",
+  "scenes": [
+    "SC01/initial",
+    "SC01/contact_unknown",
+    "SC01/connected",
+    "SC03/initial",
+    "SC03/unanswered",
+    "SC03/responded",
+    "SC05/initial",
+    "SC05/checking",
+    "SC05/received"
+  ],
+  "errors": [],
+  "checks": [
+    "all nine scenes captured at 1440x810 CSS px",
+    "no canvas content clipping",
+    "flat comparison",
+    "100% material strength",
+    "375px reviewer controls without horizontal overflow"
+  ],
+  "scope": "Chrome web preview; no vehicle hardware or actual calls"
+}

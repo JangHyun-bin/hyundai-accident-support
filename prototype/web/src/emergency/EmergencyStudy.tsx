@@ -2,8 +2,10 @@ import { useEffect, useRef, useState } from 'react'
 import { ArrowRight, CarFront, Check, CheckCircle2, Circle, CircleHelp, Code2, Handshake, HeartPulse, Maximize2, Minimize2, Pause, Phone, Play, Route, TriangleAlert, UserRound, Volume2, VolumeX } from 'lucide-react'
 import { useIsPresent, useReducedMotion } from 'motion/react'
 import { TransitionPanel } from '../components/ui/transition-panel'
+import { SatinSurface, type SurfaceStatus } from './SatinSurface'
 import manifest from '../../../../specs/emergency-experience/scenarios.json'
 import './emergency.css'
+import './satin.css'
 
 const symbols = { person: UserRound, phone: Phone, vehicle: CarFront }
 const factSymbols = { driver: UserRound, route: Route, injury: HeartPulse, consciousness: UserRound, arrival: CarFront, handoff: Handshake }
@@ -35,6 +37,9 @@ function FactsPanel({ facts }: { facts: { id: string; label: string; value: stri
 
 export function EmergencyStudy() {
   const [selection, setSelection] = useState(readSelection)
+  const [satin, setSatin] = useState(() => new URLSearchParams(location.search).get('material') === 'satin')
+  const [surfaceIntensity, setSurfaceIntensity] = useState(70)
+  const [surfaceStatus, setSurfaceStatus] = useState<SurfaceStatus>('loading')
   const [paused, setPaused] = useState(false)
   const [showSpec, setShowSpec] = useState(false)
   const [actualSize, setActualSize] = useState(false)
@@ -59,7 +64,7 @@ export function EmergencyStudy() {
   }
 
   useEffect(() => {
-    const onBack = () => { setSelection(readSelection()); setPaused(false) }
+    const onBack = () => { setSelection(readSelection()); setPaused(false); setSatin(new URLSearchParams(location.search).get('material') === 'satin') }
     window.addEventListener('popstate', onBack)
     window.addEventListener('pagehide', cancelSpeech)
     return () => { window.removeEventListener('popstate', onBack); window.removeEventListener('pagehide', cancelSpeech) }
@@ -79,8 +84,15 @@ export function EmergencyStudy() {
   }, [selection, paused])
 
   useEffect(() => {
+    const url = new URL(location.href)
+    if (satin) url.searchParams.set('material', 'satin')
+    else url.searchParams.delete('material')
+    history.replaceState(null, '', url)
+  }, [satin])
+
+  useEffect(() => {
     const element = viewport.current!
-    const resize = () => setScale(Math.min(1, element.clientWidth / 1440, Math.max(280, innerHeight - 410) / 810))
+    const resize = () => setScale(Math.min(1, element.clientWidth / 1440, Math.max(280, innerHeight - element.getBoundingClientRect().top - scrollY - 126) / 810))
     const observer = new ResizeObserver(resize)
     observer.observe(element)
     window.addEventListener('resize', resize)
@@ -113,11 +125,13 @@ export function EmergencyStudy() {
   return <main className="emergency-study">
     <header className="emergency-review-header"><a href="/?study=emergency" className="emergency-review-brand">AFTER / CARE <span>Emergency storyboard</span></a><div><span className="emergency-demo-label">가상 scenario · 실제 전화·전송 없음</span><a href="/?study=tools">이전 design 비교 <ArrowRight size={14} aria-hidden="true" /></a></div></header>
     <div className="emergency-review-intro"><div><h1>상황을 보고, 다음 행동으로.</h1><p>장면을 바꿔 핵심 상황·행동·미확인이 어떻게 전달되는지 확인해 보세요.</p></div><button className="emergency-review-button" aria-expanded={showSpec} aria-controls="emergency-spec" onClick={() => setShowSpec(!showSpec)}><Code2 size={17} aria-hidden="true" />현재 장면 spec</button></div>
+    <section className="emergency-material-review" aria-label="Surface preview"><div><strong>C / SATIN METAL</strong><p>{satin && surfaceStatus === 'unavailable' ? 'C render 불가 · 기본 background로 표시' : 'Surface preview · 장면과 요청 상태는 그대로 유지'}</p></div><div className="emergency-material-controls"><div className="emergency-material-switch" role="group" aria-label="화면 재질"><button aria-pressed={!satin} onClick={() => setSatin(false)}>기존 flat</button><button aria-pressed={satin} onClick={() => setSatin(true)}>C · Satin</button></div><label className="emergency-material-intensity" htmlFor="surface-intensity"><span>표면 강도</span><span>{surfaceIntensity}%</span><input id="surface-intensity" aria-label="표면 강도" type="range" min="0" max="100" value={surfaceIntensity} disabled={!satin} onChange={event => setSurfaceIntensity(Number(event.target.value))} /></label></div></section>
     <nav className="emergency-scenarios" aria-label="상황 선택">{manifest.scenarios.map((item, index) => <button key={item.id} aria-pressed={scenario.id === item.id} aria-label={item.title} onClick={() => { setPaused(false); setSelection({ scenarioId: item.id, sceneId: item.initial }) }}><span>{item.id}</span><strong>{item.title}</strong>{index === 0 ? <TriangleAlert size={20} aria-hidden="true" /> : <CircleHelp size={20} aria-hidden="true" />}</button>)}</nav>
     <div className="emergency-canvas-toolbar"><p>시작 상황: {scenario.summary}</p><div><button className="emergency-review-button" onClick={() => setPaused(!paused)}>{paused ? <Play size={15} aria-hidden="true" /> : <Pause size={15} aria-hidden="true" />}{paused ? '시연 재개' : '시연 일시 중단'}</button><button className="emergency-review-button" aria-pressed={actualSize} onClick={() => setActualSize(!actualSize)}>{actualSize ? <Minimize2 size={15} aria-hidden="true" /> : <Maximize2 size={15} aria-hidden="true" />}{actualSize ? '전체 보기' : '원래 크기'}</button></div></div>
     <div className={`emergency-viewport ${paused ? 'is-paused' : ''}`} ref={viewport}>
       <div className="canvas-space" style={{ width: 1440 * displayScale, height: 810 * displayScale }}>
-        <section className="emergency-screen" aria-label="시각 중심 사고 대응" inert={paused} style={{ transform: `scale(${displayScale})` }}>
+        <section className={`emergency-screen${satin ? ' is-satin' : ''}`} data-surface-status={satin ? surfaceStatus : 'flat'} aria-label="시각 중심 사고 대응" inert={paused} style={{ transform: `scale(${displayScale})` }}>
+          {satin && <SatinSurface intensity={surfaceIntensity} onStatus={setSurfaceStatus} />}
           <header className="emergency-app-header"><span className="emergency-app-name"><span aria-hidden="true" />사고 대응</span><span className="emergency-context-label">{scenario.presentation.context_label}</span><button onClick={playVoice} className="emergency-voice-button">{voiceState === 'speaking' ? <VolumeX size={24} aria-hidden="true" /> : <Volume2 size={24} aria-hidden="true" />}{voiceState === 'speaking' ? '음성 안내 중지' : '음성 안내 듣기'}</button></header>
           <div className="emergency-main">
             <section className={`emergency-cue tone-${scene.cue.status}`} aria-label="핵심 상황">

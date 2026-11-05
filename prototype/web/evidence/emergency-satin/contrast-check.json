@@ -1,0 +1,12 @@
+{
+  "intensity": 100,
+  "shader_max_luminance": 0.050823826956069046,
+  "brightest_rgb": [
+    60,
+    64,
+    71
+  ],
+  "muted_text_min_contrast": 4.731028203247621,
+  "foreground_min_contrast": 9.42132633302267,
+  "note": "Shader background only; foreground components, antialiasing and actual vehicle visibility are not covered."
+}

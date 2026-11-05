@@ -1,0 +1,24 @@
+.emergency-material-review { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 14px 0; margin: 4px 0 16px; border-bottom: 1px solid var(--line); }
+.emergency-material-review > div:first-child { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 16px; }
+.emergency-material-review strong { font-size: 12px; font-weight: 600; letter-spacing: .045em; }
+.emergency-material-review p { font-size: 11px; color: var(--muted-foreground); margin: 0; }
+.emergency-material-controls { display: flex; align-items: center; gap: 24px; }
+.emergency-material-switch { display: flex; border: 1px solid var(--border); border-radius: 7px; padding: 3px; gap: 3px; }
+.emergency-material-switch button { background: transparent; color: var(--muted-foreground); border: 0; border-radius: 4px; padding: 8px 14px; font-size: 12px; min-height: 36px; white-space: nowrap; }
+.emergency-material-switch button[aria-pressed="true"] { background: var(--muted); color: var(--foreground); }
+.emergency-material-intensity { display: grid; grid-template-columns: auto auto; gap: 7px 16px; min-width: 138px; font-size: 11px; color: var(--muted-foreground); }
+.emergency-material-intensity > span:last-of-type { text-align: right; font-variant-numeric: tabular-nums; }
+.emergency-material-intensity input { grid-column: 1 / -1; width: 138px; margin: 0; accent-color: #becbdc; }
+.emergency-material-intensity input:disabled { opacity: .35; }
+.emergency-screen.is-satin { isolation: isolate; }
+.emergency-satin-surface { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
+.emergency-screen.is-satin[data-surface-status="unavailable"] .emergency-satin-surface { display: none; }
+@media (max-width: 950px) {
+  .emergency-material-review { flex-wrap: wrap; gap: 12px; }
+  .emergency-material-controls { width: 100%; justify-content: space-between; gap: 12px; }
+}
+@media (max-width: 700px) {
+  .emergency-material-switch button { padding: 8px 9px; min-height: 40px; font-size: 11px; }
+  .emergency-material-intensity { min-width: 105px; }
+  .emergency-material-intensity input { width: 105px; }
+}
