@@ -1,0 +1,14 @@
+{
+  "checked_at": "2026-11-05T15:36:24.986Z",
+  "checks": [
+    "desktop visual capture",
+    "controls and CSS variables",
+    "background-only toggle",
+    "reset",
+    "375px no horizontal overflow",
+    "file URL opens with embedded reference",
+    "file URL has no external HTTP dependencies",
+    "no browser errors"
+  ],
+  "errors": []
+}
