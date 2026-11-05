@@ -58,6 +58,10 @@ Editor의 **검수 표시**로 분류를 표시하고 node를 선택하면 근�
 
 `assets/flow-review-v1.2.json`은 검토 data다. `python3 build-review.py`로 검수본을 재생성한다. 검토 기준 이후의 내용을 개정할 때에는 기존 검수본을 보존하고 새 기준에 대한 검토를 진행한다. 검토 기준과 경로의 대조는 `node test-review.mjs`로 확인한다.
 
+## 차량 UI 조사와 다음 단계
+
+[Pleos foundation](docs/research/pleos-foundation.md), [AAOS 기준](docs/research/aaos-foundation.md), [component 후보](docs/research/component-shortlist.md)를 조사하였다. [Design 방향](docs/research/design-direction.md)은 사고 직후 안내와 기관별 진행 상태를 확인할 HTML prototype의 범위를 제안한다. 검토 시점은 2026-11-05이며 실제 차량·기관 연계 검증은 포함하지 않는다.
+
 ## Git과 확인
 
 이 directory는 [GitHub private repository](https://github.com/JangHyun-bin/hyundai-accident-support)의 `main`과 연결되어 있다. Editor에서 저장한 뒤 변경을 확인하고 의미 있는 단위로 commit·push한다. Editor의 저장은 local `project.json`에 반영되며 GitHub에 자동 전송되지는 않는다.
