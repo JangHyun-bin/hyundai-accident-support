@@ -11,7 +11,7 @@ cd prototype/android
 ./gradlew assembleDebug
 ```
 
-`preview.png`와 `preview-status.png`는 Android emulator에서 캡처한 화면이다. 현재 글꼴은 emulator의 기본 글꼴이며 Asta Sans는 포함하지 않았다.
+`preview.png`와 `preview-status.png`는 Android emulator에서 캡처한 화면이다. Pleos 공개 typography에서 안내하는 Asta Sans를 사용한다. Font의 출처와 license는 [42dot/Asta-Sans](https://github.com/42dot/Asta-Sans) 및 `third-party/asta-sans/OFL.txt`를 참조한다.
 
 Local browser에서 현재 emulator를 보려면 `accident-support-poc` AVD를 `emulator-5554`로 실행하고 PoC app을 연 뒤 아래 명령을 실행한다. Browser에서 <http://127.0.0.1:8766/>을 열면 화면을 클릭할 수 있다. Emulator와 app을 종료하면 화면 연결도 중단된다.
 

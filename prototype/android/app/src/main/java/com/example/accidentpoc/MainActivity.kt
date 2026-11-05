@@ -1,9 +1,11 @@
 package com.example.accidentpoc
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -23,135 +25,192 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-private val bg = Color(0xFF131417)
-private val panel = Color(0xFF1D1E21)
-private val line = Color(0xFF3C4148)
-private val text = Color(0xFFF7F8FA)
-private val muted = Color(0xFFA4A8AE)
-private val mint = Color(0xFF6FE3C1)
-private val blue = Color(0xFF96BDFF)
+// PoC palette: Pleos basic colours with project-defined surfaces, type sizes and spacing.
+private object Ui {
+    val canvas = Color(0xFFF7F8FA)
+    val surface = Color.White
+    val soft = Color(0xFFF0F3F6)
+    val ink = Color(0xFF131D2A)
+    val secondary = Color(0xFF596675)
+    val faint = Color(0xFF8994A1)
+    val line = Color(0xFFE2E7EC)
+    val accent = Color(0xFF0064FF)
+    val accentSoft = Color(0xFFEDF4FF)
+    val guide = Color(0xFF15293D)
+    val guideMuted = Color(0xFFAFBDCC)
+    val guideLine = Color(0xFF31475B)
+    val font = FontFamily(
+        Font(R.font.asta_regular, FontWeight.Normal),
+        Font(R.font.asta_semibold, FontWeight.SemiBold),
+        Font(R.font.asta_bold, FontWeight.Bold)
+    )
+}
 
 class MainActivity : ComponentActivity() {
+    @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent { MaterialTheme { AccidentPoC() } }
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+        setContent { MaterialTheme { SupportScreen() } }
     }
 }
 
 @Composable
-private fun AccidentPoC() {
-    var scene by remember { mutableIntStateOf(0) }
-    var sample by remember { mutableIntStateOf(0) }
-    val heading = if (scene == 0) "먼저, 몸 상태를 확인할게요" else "요청 상태를 확인하세요"
-    val message = if (scene == 0) "답하기 어려우면 도움 요청을 선택할 수 있어요." else "각 요청은 확인된 상태를 따로 보여줘요."
-    Surface(color = bg, modifier = Modifier.fillMaxSize()) {
-        Column(Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.safeDrawing).padding(horizontal = 28.dp, vertical = 15.dp)) {
-            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Box(Modifier.size(30.dp).clip(RoundedCornerShape(9.dp)).background(mint), contentAlignment = Alignment.Center) {
-                    Text("+", color = bg, fontSize = 22.sp, fontWeight = FontWeight.Bold)
+private fun Copy(value: String, size: Int, color: Color = Ui.ink, weight: FontWeight = FontWeight.Normal, modifier: Modifier = Modifier) {
+    Text(value, modifier = modifier, fontFamily = Ui.font, fontSize = size.sp, color = color, fontWeight = weight, lineHeight = (size * 1.35f).sp, maxLines = 2, overflow = TextOverflow.Ellipsis)
+}
+
+@Composable
+private fun SupportScreen() {
+    var page by remember { mutableIntStateOf(0) }
+    var answer by remember { mutableIntStateOf(-1) }
+    val labels = listOf("도움이 필요해요", "잘 모르겠어요", "다친 사람은 없어요")
+    Surface(color = Ui.canvas, modifier = Modifier.fillMaxSize()) {
+        Column(Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.safeDrawing).padding(horizontal = 27.dp)) {
+            Row(Modifier.fillMaxWidth().height(49.dp), verticalAlignment = Alignment.CenterVertically) {
+                Box(Modifier.size(26.dp).clip(RoundedCornerShape(8.dp)).background(Ui.ink), contentAlignment = Alignment.Center) {
+                    Copy("+", 20, Color.White, FontWeight.SemiBold)
                 }
-                Spacer(Modifier.width(10.dp))
-                Text("사고 대응 지원", color = text, fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
+                Spacer(Modifier.width(9.dp))
+                Copy("사고 대응 지원", 14, weight = FontWeight.Bold)
                 Spacer(Modifier.weight(1f))
-                Text("CONCEPT  /  INTERACTIVE POC", color = muted, fontSize = 10.sp, letterSpacing = 1.3.sp)
+                Box(Modifier.clip(RoundedCornerShape(20.dp)).background(Ui.soft).padding(horizontal = 10.dp, vertical = 5.dp)) {
+                    Copy("시나리오 예시", 10, Ui.secondary, FontWeight.SemiBold)
+                }
             }
+            Box(Modifier.fillMaxWidth().height(1.dp).background(Ui.line))
             Spacer(Modifier.height(15.dp))
-            Row(Modifier.fillMaxSize(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                Column(Modifier.weight(1.08f).fillMaxHeight(), verticalArrangement = Arrangement.SpaceBetween) {
-                    Column {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Box(Modifier.size(7.dp).clip(CircleShape).background(mint))
-                            Spacer(Modifier.width(8.dp))
-                            Text(if (scene == 0) "01  상황 확인" else "02  진행 확인", color = mint, fontSize = 12.sp, fontWeight = FontWeight.SemiBold, letterSpacing = .5.sp)
+            Row(Modifier.fillMaxSize().padding(bottom = 15.dp), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                Column(Modifier.weight(1.65f).fillMaxHeight()) {
+                    AnimatedContent(targetState = page, transitionSpec = { fadeIn() togetherWith fadeOut() }, label = "support") { current ->
+                        when (current) {
+                            0 -> QuestionPanel(answer) { answer = it }
+                            1 -> ConfirmationPanel(labels.getOrElse(answer) { "선택하지 않음" })
+                            else -> StatusPanel()
                         }
-                        Spacer(Modifier.height(14.dp))
-                        AnimatedContent(targetState = heading, transitionSpec = { fadeIn() togetherWith fadeOut() }, label = "heading") { h ->
-                            Text(h, color = text, fontSize = 25.sp, lineHeight = 31.sp, fontWeight = FontWeight.Bold)
-                        }
-                        Spacer(Modifier.height(8.dp))
-                        Text(message, color = muted, fontSize = 13.sp, lineHeight = 19.sp)
                     }
-                    Column {
-                        Text("이 화면은 가상 상황을 보여주는 PoC입니다.", color = Color(0xFF8D959D), fontSize = 11.sp)
-                        Spacer(Modifier.height(9.dp))
-                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            Pill(if (scene == 0) "다음 화면 보기  →" else "처음으로  ↗", true, Modifier.weight(1f)) { scene = 1 - scene }
-                            Pill("상황 바꾸기", false, Modifier.weight(.8f)) { sample = 1 - sample; scene = 1 }
+                    Spacer(Modifier.weight(1f))
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                        if (page > 0) {
+                            Control("이전", false, Modifier.width(95.dp)) { page-- }
+                        }
+                        Spacer(Modifier.weight(1f))
+                        Control(if (page == 0) "다음" else if (page == 1) "요청 현황 보기" else "처음으로", true, Modifier.width(if (page == 1) 147.dp else 112.dp), enabled = page != 0 || answer >= 0) {
+                            page = if (page == 2) { answer = -1; 0 } else page + 1
                         }
                     }
                 }
-                Column(Modifier.weight(1f).fillMaxHeight().clip(RoundedCornerShape(22.dp)).background(panel).border(1.dp, line, RoundedCornerShape(22.dp)).padding(17.dp).verticalScroll(rememberScrollState())) {
-                    AnimatedContent(targetState = scene, transitionSpec = { fadeIn() togetherWith fadeOut() }, label = "scene") { active ->
-                        if (active == 0) {
-                            Column {
-                                Text("지금 확인할 내용", color = muted, fontSize = 11.sp)
-                                Spacer(Modifier.height(10.dp))
-                                Text("도움이 필요한 사람이 있나요?", color = text, fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
-                                Spacer(Modifier.height(6.dp))
-                                Text("운전자와 동승자를 함께 확인해요.", color = muted, fontSize = 12.sp)
-                                Spacer(Modifier.height(14.dp))
-                                ActionRow("도움이 필요해요", "연락 방법 확인", mint) { scene = 1 }
-                                Spacer(Modifier.height(7.dp))
-                                ActionRow("아직 잘 모르겠어요", "확인 가능한 방법 보기", blue) { sample = 1; scene = 1 }
-                                Spacer(Modifier.height(10.dp))
-                                Text("답변은 예시이며 실제 연락은 이뤄지지 않아요.", color = muted, fontSize = 10.sp)
-                            }
-                        } else {
-                            Column {
-                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Column(Modifier.weight(1f)) {
-                                        Text("기관별 진행 상태", color = text, fontSize = 17.sp, fontWeight = FontWeight.SemiBold)
-                                        Spacer(Modifier.height(3.dp))
-                                        Text("아래 내용은 예시입니다", color = muted, fontSize = 11.sp)
-                                    }
-                                    Text("상황 0${sample + 1}", color = mint, fontSize = 11.sp)
-                                }
-                                Spacer(Modifier.height(12.dp))
-                                StatusRow("01", "구호 요청", if (sample == 0) "접수 확인" else "접수 미확인", if (sample == 0) mint else Color(0xFFFFC777))
-                                Spacer(Modifier.height(7.dp))
-                                StatusRow("02", "차량 지원", if (sample == 0) "확인 대기" else "요청 전", blue)
-                                Spacer(Modifier.height(7.dp))
-                                StatusRow("03", "보험 처리", "요청 전", muted)
-                            }
-                        }
-                    }
-                }
+                GuidePanel(page, Modifier.weight(1f).fillMaxHeight())
             }
         }
     }
 }
 
 @Composable
-private fun Pill(label: String, primary: Boolean, modifier: Modifier = Modifier, action: () -> Unit) {
-    val shape = RoundedCornerShape(14.dp)
-    Box(modifier.height(48.dp).clip(shape).background(if (primary) mint else Color(0xFF292D32)).clickable(onClick = action), contentAlignment = Alignment.Center) {
-        Text(label, color = if (primary) bg else text, fontSize = 12.sp, fontWeight = FontWeight.SemiBold, textAlign = TextAlign.Center)
-    }
-}
-
-@Composable
-private fun ActionRow(title: String, subtitle: String, accent: Color, action: () -> Unit) {
-    Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(13.dp)).background(Color(0xFF292D32)).clickable(onClick = action).padding(horizontal = 13.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
-        Box(Modifier.size(30.dp).clip(CircleShape).background(accent.copy(alpha = .13f)), contentAlignment = Alignment.Center) { Text("+", color = accent, fontSize = 18.sp) }
-        Spacer(Modifier.width(10.dp))
-        Column(Modifier.weight(1f)) { Text(title, color = text, fontSize = 13.sp, fontWeight = FontWeight.SemiBold); Text(subtitle, color = muted, fontSize = 10.sp) }
-        Text("↗", color = muted, fontSize = 16.sp)
-    }
-}
-
-@Composable
-private fun StatusRow(index: String, title: String, status: String, accent: Color) {
-    Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp)).background(Color(0xFF292D32)).padding(horizontal = 12.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
-        Text(index, color = muted, fontSize = 10.sp)
-        Spacer(Modifier.width(11.dp))
-        Text(title, color = text, fontSize = 13.sp, fontWeight = FontWeight.Medium, modifier = Modifier.weight(1f))
-        Box(Modifier.clip(RoundedCornerShape(8.dp)).background(accent.copy(alpha = .12f)).padding(horizontal = 8.dp, vertical = 5.dp)) {
-            Text(status, color = accent, fontSize = 10.sp, fontWeight = FontWeight.SemiBold)
+private fun QuestionPanel(answer: Int, choose: (Int) -> Unit) {
+    Column(Modifier.fillMaxWidth().verticalScroll(rememberScrollState())) {
+        Copy("상태 확인", 11, Ui.accent, FontWeight.Bold)
+        Spacer(Modifier.height(5.dp))
+        Copy("도움이 필요한 사람이 있나요?", 24, weight = FontWeight.Bold)
+        Spacer(Modifier.height(2.dp))
+        Copy("운전자와 동승자의 상태를 확인해 주세요.", 12, Ui.secondary)
+        Spacer(Modifier.height(12.dp))
+        listOf("도움이 필요해요", "잘 모르겠어요", "다친 사람은 없어요").forEachIndexed { i, label ->
+            Choice(label, selected = answer == i) { choose(i) }
+            if (i < 2) Spacer(Modifier.height(6.dp))
         }
+    }
+}
+
+@Composable
+private fun Choice(label: String, selected: Boolean, choose: () -> Unit) {
+    val shape = RoundedCornerShape(11.dp)
+    val fill by animateColorAsState(if (selected) Ui.accentSoft else Ui.surface, label = "choice")
+    val outline by animateColorAsState(if (selected) Ui.accent else Ui.line, label = "outline")
+    Row(Modifier.fillMaxWidth().height(40.dp).clip(shape).background(fill).border(1.dp, outline, shape).clickable(onClick = choose).padding(horizontal = 13.dp), verticalAlignment = Alignment.CenterVertically) {
+        Box(Modifier.size(16.dp).border(if (selected) 5.dp else 1.dp, if (selected) Ui.accent else Ui.faint, CircleShape))
+        Spacer(Modifier.width(11.dp))
+        Copy(label, 13, if (selected) Ui.accent else Ui.ink, FontWeight.SemiBold)
+    }
+}
+
+@Composable
+private fun ConfirmationPanel(answer: String) {
+    Column(Modifier.fillMaxWidth()) {
+        Copy("선택 확인", 11, Ui.accent, FontWeight.Bold)
+        Spacer(Modifier.height(5.dp))
+        Copy("선택한 내용을 확인해 주세요", 24, weight = FontWeight.Bold)
+        Spacer(Modifier.height(4.dp))
+        Copy("입력 내용은 이후 안내에 참고할 수 있어요.", 12, Ui.secondary)
+        Spacer(Modifier.height(17.dp))
+        Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(13.dp)).background(Ui.surface).border(1.dp, Ui.line, RoundedCornerShape(13.dp)).padding(15.dp)) {
+            Copy("몸 상태", 11, Ui.secondary)
+            Spacer(Modifier.height(5.dp))
+            Copy(answer, 16, weight = FontWeight.SemiBold)
+        }
+        Spacer(Modifier.height(10.dp))
+        Copy("이 예시에서는 실제 연락이나 정보 전송이 이뤄지지 않아요.", 11, Ui.secondary)
+    }
+}
+
+@Composable
+private fun StatusPanel() {
+    Column(Modifier.fillMaxWidth()) {
+        Copy("지원 현황", 11, Ui.accent, FontWeight.Bold)
+        Spacer(Modifier.height(5.dp))
+        Copy("요청 현황을 확인하세요", 24, weight = FontWeight.Bold)
+        Spacer(Modifier.height(3.dp))
+        Copy("각 요청의 진행 상황을 따로 보여줘요.", 12, Ui.secondary)
+        Spacer(Modifier.height(12.dp))
+        listOf("구호 요청", "차량 지원", "보험 처리").forEach { label ->
+            Row(Modifier.fillMaxWidth().height(39.dp), verticalAlignment = Alignment.CenterVertically) {
+                Copy(label, 13, weight = FontWeight.SemiBold)
+                Spacer(Modifier.weight(1f))
+                Copy("요청 전", 11, Ui.secondary)
+            }
+            Box(Modifier.fillMaxWidth().height(1.dp).background(Ui.line))
+        }
+    }
+}
+
+@Composable
+private fun GuidePanel(page: Int, modifier: Modifier = Modifier) {
+    val shape = RoundedCornerShape(14.dp)
+    Column(modifier.clip(shape).background(Ui.guide).padding(16.dp), verticalArrangement = Arrangement.SpaceBetween) {
+        Column {
+            Copy("안내 순서", 11, Ui.guideMuted, FontWeight.SemiBold)
+            Spacer(Modifier.height(8.dp))
+            Copy("필요한 도움을\n차근차근 확인해요", 17, Color.White, FontWeight.Bold)
+            Spacer(Modifier.height(8.dp))
+            listOf("상태 확인", "선택 확인", "지원 현황").forEachIndexed { index, label ->
+                Row(Modifier.fillMaxWidth().height(37.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Box(Modifier.size(24.dp).clip(CircleShape).background(if (index == page) Color.White else Ui.guideLine), contentAlignment = Alignment.Center) {
+                        Copy("${index + 1}", 10, if (index == page) Ui.guide else Ui.guideMuted, FontWeight.Bold)
+                    }
+                    Spacer(Modifier.width(10.dp))
+                    Copy(label, 12, if (index == page) Color.White else Ui.guideMuted, if (index == page) FontWeight.Bold else FontWeight.Normal)
+                }
+            }
+        }
+        Column {
+            Box(Modifier.fillMaxWidth().height(1.dp).background(Ui.guideLine))
+            Spacer(Modifier.height(9.dp))
+            Copy("한 단계씩 살펴볼게요.", 11, Ui.guideMuted)
+        }
+    }
+}
+
+@Composable
+private fun Control(label: String, primary: Boolean, modifier: Modifier = Modifier, enabled: Boolean = true, action: () -> Unit) {
+    val shape = RoundedCornerShape(11.dp)
+    Box(modifier.height(43.dp).clip(shape).background(if (!enabled) Ui.line else if (primary) Ui.ink else Ui.surface).then(if (primary) Modifier else Modifier.border(1.dp, Ui.line, shape)).clickable(enabled = enabled, onClick = action), contentAlignment = Alignment.Center) {
+        Copy(label, 12, if (!enabled) Ui.faint else if (primary) Color.White else Ui.ink, FontWeight.SemiBold)
     }
 }
