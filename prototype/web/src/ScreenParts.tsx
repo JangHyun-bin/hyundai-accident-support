@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useId, useRef } from 'react'
 import { ArrowDown, ArrowRight, ArrowUpRight, CarFront, HeartPulse, LocateFixed, Phone, ShieldPlus } from 'lucide-react'
 import { useReducedMotion } from 'motion/react'
 import { HaloBadge } from './components/ui/halo-badge'
@@ -69,25 +69,28 @@ export function RequestStrip({ caseData }: { caseData: DesignCase }) {
 
 export function Guidance({ caseData, expanded, setExpanded }: ViewProps) {
   const reduceMotion = useReducedMotion()
+  const helpId = useId()
   const trigger = useRef<HTMLButtonElement>(null)
   const heading = useRef<HTMLHeadingElement>(null)
-  const wasExpanded = useRef(expanded)
+  const initiatedHere = useRef(false)
   useEffect(() => {
-    if (!wasExpanded.current && expanded) heading.current?.focus()
-    if (wasExpanded.current && !expanded) trigger.current?.focus()
-    wasExpanded.current = expanded
+    if (!initiatedHere.current) return
+    if (expanded) heading.current?.focus()
+    else trigger.current?.focus()
+    initiatedHere.current = false
   }, [expanded])
+  const toggle = (next: boolean) => { initiatedHere.current = true; setExpanded(next) }
   return <div className="guidance">
     <TransitionPanel activeIndex={expanded ? 1 : 0} transition={{ duration: reduceMotion ? 0 : .2, ease: [.2, 0, 0, 1] }} variants={{ enter: { opacity: 0, y: reduceMotion ? 0 : 8 }, center: { opacity: 1, y: 0 }, exit: { opacity: 0, y: reduceMotion ? 0 : -8 } }}>
       <div key="summary" className="guidance-summary" inert={expanded}>
         <p>{caseData.guidance}</p>
-        <button ref={trigger} className="primary-action" onClick={() => setExpanded(true)} aria-expanded={expanded} aria-controls="help-guidance">{caseData.primaryActionLabel}<ArrowUpRight aria-hidden="true" size={25} /></button>
+        <button ref={trigger} className="primary-action" onClick={() => toggle(true)} aria-expanded={expanded} aria-controls={helpId}>{caseData.primaryActionLabel}<ArrowUpRight aria-hidden="true" size={25} /></button>
         <span className="action-note">요청 상태는 기관별로 따로 확인해요.</span>
       </div>
-      <div key="details" className="help-guidance" id="help-guidance" inert={!expanded}>
+      <div key="details" className="help-guidance" id={helpId} inert={!expanded}>
         <div className="help-title"><span className="phone-icon"><Phone aria-hidden="true" size={25} /></span><div><h2 ref={heading} tabIndex={-1}>긴급 도움 요청</h2><p>현재 위치와 부상 상황을 함께 확인해요.</p></div><span className="help-number">119</span></div>
         <p className="help-note">전화 연결과 기관 접수는 각각 확인이 필요해요.</p>
-        <button className="text-action" onClick={() => setExpanded(false)}>안내 접기<ArrowRight aria-hidden="true" size={19} /></button>
+        <button className="text-action" onClick={() => toggle(false)}>안내 접기<ArrowRight aria-hidden="true" size={19} /></button>
       </div>
     </TransitionPanel>
   </div>

@@ -1,0 +1,117 @@
+.uiux-view {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) 96px;
+  gap: 24px;
+  height: 717px;
+  padding: 32px 44px 28px;
+}
+
+.uiux-view .uiux-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr);
+  gap: 48px;
+  min-height: 0;
+}
+
+.uiux-view .uiux-primary { min-width: 0; }
+.uiux-view .priority-label { gap: 12px; font-size: 18px; }
+.uiux-view .priority-label .status-dot { width: 8px; height: 8px; }
+
+.uiux-view .uiux-primary h1 {
+  max-width: 680px;
+  margin: 24px 0 28px;
+  font-size: 64px;
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: -.055em;
+  text-wrap: balance;
+}
+
+.uiux-view .uiux-action-surface {
+  padding: 24px 28px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--guidance-surface);
+}
+
+.uiux-view .guidance-summary > p {
+  max-width: 680px;
+  margin: 0 0 24px;
+  font-size: 24px;
+  line-height: 1.5;
+  color: var(--foreground);
+}
+
+.uiux-view .primary-action {
+  width: 100%;
+  min-height: 76px;
+  padding: 20px 24px;
+  border-radius: 12px;
+  font-size: 24px;
+  box-shadow: none;
+  transition: background .18s;
+}
+
+.uiux-view .primary-action:hover { transform: none; }
+.uiux-view .primary-action:active { background: color-mix(in srgb, var(--primary) 85%, var(--primary-foreground)); }
+.uiux-view .action-note { margin-top: 16px; font-size: 16px; line-height: 1.5; }
+.uiux-view button:focus-visible { outline: 3px solid var(--primary); outline-offset: 5px; }
+
+.uiux-view .help-guidance { min-height: 203px; padding-top: 0; }
+.uiux-view .help-title { gap: 16px; }
+.uiux-view .phone-icon { width: 56px; height: 56px; border-radius: 12px; }
+.uiux-view .help-title h2 { margin: 0 0 8px; font-size: 28px; line-height: 1.2; }
+.uiux-view .help-title h2:focus { outline: 3px solid var(--primary); outline-offset: 5px; border-radius: 2px; }
+.uiux-view .help-title p { font-size: 18px; line-height: 1.5; }
+.uiux-view .help-number { font-size: 56px; line-height: 1; }
+.uiux-view .help-note { margin: 24px 0 0; padding: 16px 0 8px; font-size: 18px; line-height: 1.5; }
+.uiux-view .text-action { min-height: 48px; padding: 8px 0; font-size: 18px; }
+
+.uiux-view .uiux-context {
+  min-width: 0;
+  padding-left: 32px;
+  border-left: 1px solid var(--line);
+}
+
+.uiux-view .section-heading { display: block; margin: 0 0 16px; }
+.uiux-view .section-heading h2 { font-size: 22px; line-height: 1.3; margin: 0 0 12px; }
+.uiux-view .section-heading > span { display: block; font-size: 16px; line-height: 1.5; }
+.uiux-view .context-facts { display: flex; flex-direction: column; gap: 0; }
+
+.uiux-view .fact {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 20px;
+  min-height: 84px;
+  padding: 16px 0;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.uiux-view .fact:first-child { padding: 16px 0; border-bottom: 1px solid var(--line); }
+.uiux-view .fact > svg { width: 26px; height: 26px; }
+.uiux-view .fact > div { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+.uiux-view .fact dt { margin: 0; font-size: 16px; line-height: 1.5; white-space: nowrap; }
+.uiux-view .fact dd { font-size: 27px; line-height: 1.3; text-align: right; }
+.uiux-view .fact-3 > div { display: block; }
+.uiux-view .fact-3 dt { margin-bottom: 8px; }
+.uiux-view .fact-3 dd { font-size: 25px; text-align: left; }
+.uiux-view .movement-note { align-items: flex-start; gap: 12px; margin-top: 24px; font-size: 16px; line-height: 1.5; }
+.uiux-view .movement-note > svg { margin-top: 3px; }
+
+.uiux-view .requests {
+  margin: 0;
+  padding: 20px 28px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+}
+
+.uiux-view .requests-label { min-width: 184px; color: var(--foreground); font-size: 18px; }
+.uiux-view .request { justify-content: space-between; gap: 16px; padding: 8px 28px; border-left: 1px solid var(--border); font-size: 20px; }
+.uiux-view .request:last-child { padding-right: 0; }
+.uiux-view .request-badge > span:last-child > span:last-child { height: 34px; padding: 5px 12px; font-size: 16px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .uiux-view .primary-action { transition: none; }
+}

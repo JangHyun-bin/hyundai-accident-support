@@ -1,0 +1,12 @@
+{
+  "date": "2026-11-05",
+  "browser": "installed Google Chrome via Playwright",
+  "canvas": "1440x810 CSS px",
+  "emergencyScenes": 9,
+  "toolStates": 8,
+  "errors": [],
+  "mobileOverflow": false,
+  "userComprehension": "not tested",
+  "nativeHardware": "not tested",
+  "audioOutput": "not heard; lifecycle and failure tested separately"
+}

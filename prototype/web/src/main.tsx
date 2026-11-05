@@ -1,5 +1,8 @@
 import { createRoot } from 'react-dom/client'
 import App from './App'
+import { ToolsStudy } from './ToolsStudy'
+import { EmergencyStudy } from './emergency/EmergencyStudy'
 import './styles.css'
 
-createRoot(document.getElementById('root')!).render(<App />)
+const study = new URLSearchParams(location.search).get('study')
+createRoot(document.getElementById('root')!).render(study === 'emergency' ? <EmergencyStudy /> : study === 'tools' ? <ToolsStudy /> : <App />)

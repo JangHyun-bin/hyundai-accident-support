@@ -45,7 +45,7 @@ export default function App() {
       <div className={`viewport ${actualSize ? 'actual-size' : ''}`} ref={viewport}><div className="canvas-space" style={{ width: 1440 * displayScale, height: 810 * displayScale }}><section className="app-screen" aria-label="사고 대응 화면" style={{ transform: `scale(${displayScale})` }}><ScreenHeader />{variant === 'focus' ? <FocusView {...props} /> : <ContextView {...props} />}</section></div></div>
       <div className="review-caption"><span>SC01 · 고속도로 / 부상 / 차량 이동 가능</span><span>1440 × 810 · {Math.round(displayScale * 100)}%</span></div>
       <nav className="variant-bar" aria-label="화면 구조 비교"><button className="cycle-button" aria-label="이전 안" onClick={() => selectVariant(variant === 'focus' ? 'context' : 'focus')}><ArrowLeft size={18} /></button><div className="variant-options"><button aria-label="행동 중심" aria-pressed={variant === 'focus'} onClick={() => selectVariant('focus')}><span>A</span>행동 중심</button><button aria-label="상황 중심" aria-pressed={variant === 'context'} onClick={() => selectVariant('context')}><span>B</span>상황 중심</button></div><button className="cycle-button" aria-label="다음 안" onClick={() => selectVariant(variant === 'focus' ? 'context' : 'focus')}><ArrowRight size={18} /></button></nav>
-      <p className="review-hint">화면 안의 ‘도움 요청 안내 보기’를 눌러 전환을 비교해 보세요.</p>
+      <p className="review-hint"><a href="/?study=tools">네 가지 design 도구 적용안 비교하기 →</a></p>
     </>}
   </main>
 }

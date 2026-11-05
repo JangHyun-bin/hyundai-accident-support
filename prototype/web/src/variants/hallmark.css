@@ -1,0 +1,125 @@
+/* Hallmark · macrostructure: Split Studio (action-first diptych) · tone: utilitarian
+ * genre: modern-minimal · theme: existing Asta / dark · anchor hue: mint
+ * design-system: DESIGN.md · enrichment: none · critique: qualitative, see hallmark.md
+ */
+.hallmark-view {
+  --hallmark-font: var(--font-sans);
+  --hallmark-space-xs: 8px;
+  --hallmark-space-sm: 16px;
+  --hallmark-space-md: 24px;
+  --hallmark-space-lg: 32px;
+  --hallmark-space-xl: 40px;
+  --hallmark-space-edge: 44px;
+  --hallmark-space-gutter: 80px;
+  --hallmark-radius: 8px;
+  --hallmark-clear: transparent;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) 92px;
+  height: 717px;
+  padding: var(--hallmark-space-xl) var(--hallmark-space-edge) var(--hallmark-space-md);
+  color: var(--foreground);
+  font-family: var(--hallmark-font);
+}
+
+.hallmark-view .hallmark-diptych {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+  gap: var(--hallmark-space-gutter);
+  min-height: 0;
+}
+
+.hallmark-view .hallmark-action { min-width: 0; }
+.hallmark-view .priority-label { font-size: 18px; }
+.hallmark-view h1 {
+  min-width: 0;
+  max-width: 740px;
+  margin: var(--hallmark-space-md) 0 var(--hallmark-space-xl);
+  font-size: 62px;
+  font-weight: 700;
+  font-style: normal;
+  line-height: 1.16;
+  letter-spacing: -.045em;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+.hallmark-view .guidance-summary > p {
+  max-width: 640px;
+  margin: 0 0 var(--hallmark-space-lg);
+  font-size: 24px;
+  line-height: 1.5;
+  color: var(--foreground);
+}
+
+.hallmark-view .primary-action {
+  min-width: 376px;
+  min-height: 76px;
+  padding: var(--hallmark-space-md);
+  border-radius: var(--hallmark-radius);
+  box-shadow: none;
+  font-size: 24px;
+  line-height: 1;
+  white-space: nowrap;
+  transition: none;
+}
+
+.hallmark-view .primary-action:hover { background: var(--primary); transform: none; text-decoration: underline; text-underline-offset: 5px; }
+.hallmark-view .primary-action:active { background: var(--foreground); }
+.hallmark-view .primary-action:disabled,
+.hallmark-view .text-action:disabled { opacity: .55; cursor: not-allowed; text-decoration: none; }
+.hallmark-view button:focus-visible { outline: 3px solid var(--ring); outline-offset: 5px; }
+.hallmark-view .action-note { margin-top: var(--hallmark-space-sm); font-size: 18px; line-height: 1.5; }
+
+.hallmark-view .hallmark-context { min-width: 0; }
+.hallmark-view .section-heading { display: block; margin: 0 0 var(--hallmark-space-md); }
+.hallmark-view .section-heading h2 { font-size: 24px; font-weight: 700; line-height: 1; }
+.hallmark-view .section-heading > span { display: block; margin-top: var(--hallmark-space-sm); font-size: 18px; line-height: 1.5; }
+.hallmark-view .context-facts { display: block; }
+.hallmark-view .fact {
+  gap: var(--hallmark-space-md);
+  min-height: 88px;
+  padding: var(--hallmark-space-sm) 0;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+}
+.hallmark-view .fact:first-child { border-bottom: 1px solid var(--line); }
+.hallmark-view .fact > svg { width: 24px; height: 24px; }
+.hallmark-view .fact dt { margin-bottom: var(--hallmark-space-xs); font-size: 18px; line-height: 1; }
+.hallmark-view .fact dd { font-size: 24px; line-height: 1.2; letter-spacing: -.025em; }
+.hallmark-view .movement-note { align-items: flex-start; gap: var(--hallmark-space-sm); margin-top: var(--hallmark-space-md); font-size: 18px; line-height: 1.5; }
+.hallmark-view .movement-note > svg { margin-top: 4px; }
+
+.hallmark-view .requests {
+  display: grid;
+  grid-template-columns: minmax(0, .6fr) repeat(3, minmax(0, 1fr));
+  align-items: center;
+  gap: var(--hallmark-space-lg);
+  margin: 0;
+  padding: var(--hallmark-space-md) 0 0;
+  border-top: 1px solid var(--border);
+}
+.hallmark-view .requests-label { min-width: 0; font-size: 18px; }
+.hallmark-view .request { justify-content: space-between; gap: var(--hallmark-space-sm); font-size: 24px; padding-right: var(--hallmark-space-lg); }
+.hallmark-view .request:last-child { padding-right: 0; }
+.hallmark-view .request-badge > span > div { display: none; }
+.hallmark-view .request-badge > span:last-child > span:last-child {
+  height: 36px;
+  padding: var(--hallmark-space-xs) var(--hallmark-space-sm);
+  border-radius: var(--hallmark-radius);
+  border-color: var(--border);
+  background: var(--hallmark-clear);
+  color: var(--muted-foreground);
+  font-size: 18px;
+  line-height: 1;
+  box-shadow: none;
+}
+
+.hallmark-view .help-guidance { max-width: 680px; padding: 0; }
+.hallmark-view .help-title { gap: var(--hallmark-space-sm); }
+.hallmark-view .phone-icon { width: 56px; height: 56px; border-radius: var(--hallmark-radius); }
+.hallmark-view .help-title h2 { margin-bottom: var(--hallmark-space-xs); font-size: 24px; font-weight: 700; }
+.hallmark-view .help-title p { font-size: 18px; }
+.hallmark-view .help-number { font-size: 62px; line-height: 1; font-weight: 700; font-variant-numeric: tabular-nums; }
+.hallmark-view .help-note { margin: var(--hallmark-space-md) 0 var(--hallmark-space-xs); padding: var(--hallmark-space-sm) 0 0; font-size: 18px; }
+.hallmark-view .text-action { min-height: 48px; padding: var(--hallmark-space-xs) 0; font-size: 18px; line-height: 1; white-space: nowrap; }
+.hallmark-view .text-action:active { color: var(--foreground); }

@@ -1,0 +1,224 @@
+.antislop-view {
+  padding: 32px 44px 30px;
+  container-type: inline-size;
+}
+
+.antislop-view .antislop-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr);
+  gap: 44px;
+  min-height: 530px;
+}
+
+.antislop-view .antislop-action {
+  padding: 30px 36px;
+  border-radius: 20px;
+  background: var(--guidance-surface);
+}
+
+.antislop-view .priority-label {
+  font-size: 18px;
+  letter-spacing: 0;
+}
+
+.antislop-view .priority-label .status-dot {
+  display: none;
+}
+
+.antislop-view h1 {
+  max-width: 630px;
+  margin: 18px 0 20px;
+  font-size: 60px;
+  font-weight: 600;
+  line-height: 1.23;
+  letter-spacing: -.045em;
+}
+
+.antislop-view .guidance-summary > p {
+  max-width: 580px;
+  margin-bottom: 24px;
+  font-size: 24px;
+  line-height: 1.45;
+}
+
+.antislop-view .primary-action {
+  width: 100%;
+  min-height: 72px;
+  border-radius: 12px;
+  padding: 18px 25px;
+  justify-content: center;
+  font-size: 24px;
+  box-shadow: none;
+}
+
+.antislop-view .primary-action > svg,
+.antislop-view .text-action > svg {
+  display: none;
+}
+
+.antislop-view .primary-action:active {
+  box-shadow: 0 0 0 2px var(--primary-foreground) inset;
+}
+
+.antislop-view .action-note {
+  margin-top: 13px;
+  font-size: 17px;
+}
+
+.antislop-view .antislop-context {
+  padding-top: 10px;
+}
+
+.antislop-view .section-heading {
+  display: block;
+  margin-bottom: 25px;
+}
+
+.antislop-view .section-heading h2 {
+  margin-bottom: 10px;
+  font-size: 23px;
+}
+
+.antislop-view .section-heading > span {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.antislop-view .context-facts {
+  display: block;
+}
+
+.antislop-view .fact {
+  border: 0;
+  border-top: 1px solid var(--line);
+  padding: 22px 0;
+}
+
+.antislop-view .fact > svg {
+  display: none;
+}
+
+.antislop-view .fact > div {
+  display: grid;
+  grid-template-columns: 118px minmax(0, 1fr);
+  align-items: baseline;
+  width: 100%;
+  gap: 12px;
+}
+
+.antislop-view .fact dt {
+  margin: 0;
+  font-size: 18px;
+}
+
+.antislop-view .fact dd {
+  font-size: 26px;
+  line-height: 1.25;
+  letter-spacing: -.03em;
+}
+
+.antislop-view .fact-3 dd {
+  font-size: 24px;
+}
+
+.antislop-view .movement-note {
+  margin-top: 5px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.antislop-view .movement-note > svg {
+  display: none;
+}
+
+.antislop-view .requests {
+  margin-top: 26px;
+  padding-top: 22px;
+}
+
+.antislop-view .requests-label {
+  min-width: 174px;
+  font-size: 18px;
+}
+
+.antislop-view .request {
+  gap: 28px;
+  font-size: 21px;
+}
+
+.antislop-view .request-badge > span:last-child > div {
+  display: none;
+}
+
+.antislop-view .request-badge > span:last-child > span:last-child {
+  height: 36px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+  font-size: 16px;
+  background: var(--surface) !important;
+  box-shadow: none;
+}
+
+.antislop-view .help-guidance {
+  padding-top: 6px;
+}
+
+.antislop-view .help-title {
+  gap: 14px;
+}
+
+.antislop-view .phone-icon {
+  background: transparent;
+  border: 0;
+  width: 32px;
+}
+
+.antislop-view .help-title h2 {
+  font-size: 27px;
+}
+
+.antislop-view .help-title p {
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.antislop-view .help-number {
+  margin-left: auto;
+  font-size: 42px;
+}
+
+.antislop-view .help-note {
+  margin: 24px 0 9px;
+  padding: 18px 0 0;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.antislop-view .text-action {
+  min-height: 48px;
+  padding: 8px 12px;
+  margin-left: -12px;
+  border-radius: 8px;
+  font-size: 19px;
+}
+
+.antislop-view .text-action:active {
+  background: var(--accent);
+}
+
+.antislop-view .help-title h2:focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 5px;
+}
+
+@container (max-width: 950px) {
+  .antislop-view .antislop-main { grid-template-columns: 1fr; gap: 28px; }
+  .antislop-view .antislop-action { padding: 28px; }
+  .antislop-view h1 { font-size: 40px; }
+  .antislop-view .requests { flex-wrap: wrap; gap: 20px; }
+  .antislop-view .requests-label { flex-basis: 100%; }
+  .antislop-view .request { flex-basis: 100%; justify-content: space-between; }
+}

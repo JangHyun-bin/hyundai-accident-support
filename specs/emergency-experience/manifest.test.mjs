@@ -11,11 +11,18 @@ const readManifest = () => {
 test('all storyboard transitions and source references resolve', () => {
   const manifest = readManifest()
   const graph = JSON.parse(readFileSync(new URL('../../e2e/integrated-graph.json', import.meta.url)))
+  const review = JSON.parse(readFileSync(new URL('../../assets/flow-review-v1.2.json', import.meta.url)))
+  const decisions = new Set(review.decisions.map(decision => decision.id))
   assert.equal(manifest.simulation_only, true)
   assert.equal(new Set(manifest.scenarios.map(s => s.id)).size, manifest.scenarios.length)
   for (const scenario of manifest.scenarios) {
     for (const node of scenario.source_nodes) assert.ok(graph.nodes[node], `Unknown source node ${node}`)
-    for (const decision of scenario.open_decisions) assert.match(decision, /^D0[1-5]$/)
+    for (const decision of scenario.open_decisions) assert.ok(decisions.has(decision), `Unknown decision ${decision}`)
+    const factIds = new Set(scenario.facts.map(fact => fact.id))
+    const requestIds = new Set(scenario.requests.map(request => request.id))
+    for (const id of scenario.presentation.visible_facts) assert.ok(factIds.has(id), `Unknown visible fact ${id}`)
+    for (const id of scenario.presentation.visible_requests) assert.ok(requestIds.has(id), `Unknown visible request ${id}`)
+    for (const request of scenario.requests) assert.ok(manifest.request_statuses[request.status])
     const states = new Set(scenario.states.map(s => s.id))
     assert.equal(states.size, scenario.states.length)
     assert.ok(states.has(scenario.initial))
@@ -25,6 +32,8 @@ test('all storyboard transitions and source references resolve', () => {
       assert.ok(['attention', 'unknown', 'confirmed'].includes(state.cue.status))
       assert.ok(state.actions.length <= 1)
       for (const edge of [...state.actions, ...state.events]) assert.ok(states.has(edge.to), `${scenario.id}.${state.id} -> ${edge.to}`)
+      for (const id of Object.keys(state.request_overrides)) assert.ok(requestIds.has(id))
+      for (const id of Object.keys(state.fact_overrides)) assert.ok(factIds.has(id))
       for (const status of Object.values(state.request_overrides)) assert.ok(['not_sent', 'connection_unknown', 'connected', 'checking', 'unknown', 'received'].includes(status))
     }
   }

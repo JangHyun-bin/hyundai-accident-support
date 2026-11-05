@@ -1,0 +1,43 @@
+.impeccable-view {
+  --type-title: 64px;
+  --type-body: 26px;
+  --type-action: 24px;
+  --type-detail: 18px;
+  --control-radius: 12px;
+  --impeccable-section-gap: 32px;
+  padding: 0 52px;
+}
+.impeccable-view .impeccable-action { display: grid; grid-template-columns: 1.05fr 1fr; gap: 64px; min-height: 332px; align-items: center; padding: 40px 0; }
+.impeccable-view h1 { margin: 0; max-width: 600px; font-size: var(--type-title); line-height: 1.2; letter-spacing: -.035em; font-weight: 600; text-wrap: balance; }
+.impeccable-view .guidance-summary > p { font-size: var(--type-body); color: var(--foreground); line-height: 1.55; text-wrap: pretty; margin-bottom: 24px; max-width: 560px; }
+.impeccable-view .primary-action { width: 100%; min-height: 80px; box-shadow: none; padding: 20px 28px; }
+.impeccable-view .primary-action:hover { transform: none; }
+.impeccable-view .action-note { font-size: var(--type-detail); margin-top: 16px; }
+.impeccable-view .impeccable-situation { padding: 28px 0 0; border-top: 1px solid var(--border); }
+.impeccable-view .impeccable-section-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 26px; }
+.impeccable-view .impeccable-section-title h2 { margin: 0; font-size: 20px; font-weight: 600; }
+.impeccable-view .priority-label { font-size: var(--type-detail); }
+.impeccable-view .context-facts { grid-template-columns: 1fr 1fr 1fr 1.25fr; }
+.impeccable-view .fact { padding: 0 28px; gap: 14px; }
+.impeccable-view .fact:first-child { padding-left: 0; }
+.impeccable-view .fact > svg { display: none; }
+.impeccable-view .fact dt { font-size: var(--type-detail); margin-bottom: 10px; }
+.impeccable-view .fact dd { font-size: 30px; line-height: 1.2; letter-spacing: -.02em; }
+.impeccable-view .fact-3 dd { font-size: 28px; }
+.impeccable-view .impeccable-caution { margin-top: 28px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.impeccable-view .movement-note { margin: 0; font-size: var(--type-detail); }
+.impeccable-view .movement-note > svg { display: none; }
+.impeccable-view .impeccable-caution > span { font-size: 16px; color: var(--muted-foreground); }
+.impeccable-view .requests { margin-top: var(--impeccable-section-gap); padding-top: 24px; gap: 40px; }
+.impeccable-view .requests-label { font-size: var(--type-detail); min-width: 120px; }
+.impeccable-view .request { justify-content: space-between; font-size: 20px; }
+.impeccable-view .request-badge { border-radius: 8px; }
+.impeccable-view .request-badge > span:last-child { background: none; box-shadow: none; padding: 0; }
+.impeccable-view .request-badge > span:last-child > span:first-child { display: none; }
+.impeccable-view .request-badge > span:last-child > span:last-child { font-size: 18px; height: 36px; border-radius: 8px; background: var(--muted); color: var(--secondary-foreground); }
+.impeccable-view .help-guidance { min-height: 224px; }
+.impeccable-view .help-title h2 { font-size: 28px; }
+.impeccable-view .help-title p, .impeccable-view .help-note { font-size: var(--type-detail); }
+.impeccable-view .help-number { font-size: 48px; font-variant-numeric: tabular-nums; }
+.impeccable-view .text-action { min-height: 56px; font-size: 20px; }
+.impeccable-view ::selection { color: var(--primary-foreground); background: var(--primary); }

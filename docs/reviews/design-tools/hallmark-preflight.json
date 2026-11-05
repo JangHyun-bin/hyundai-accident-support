@@ -1,0 +1,16 @@
+{
+  "date": "2026-11-05",
+  "skillVersion": "1.1.0",
+  "skillSha256": "5437b73a1a829210681ca21fa09b7276a5978875f960d3998846e0dc333e9343",
+  "designSystem": "prototype/web/DESIGN.md",
+  "framework": "React 19.3.1 / Vite 8.3.6 / TypeScript",
+  "font": "Asta 400 / 600 / 700; existing local assets",
+  "palette": "Existing src/styles.css semantic tokens",
+  "motion": "motion 14.9.1; shared Guidance / TransitionPanel",
+  "spacing": "Scoped 4 px multiples; existing canvas inset 44 px",
+  "priorHallmarkRecord": false,
+  "scope": "One independent action-first vehicle prototype view",
+  "preserve": ["copy", "facts", "request states", "primary action", "Asta", "palette", "shared interactions"],
+  "introduce": ["Split Studio action/facts diptych", "62/24/18 px hierarchy", "flat fact rows", "scoped spacing tokens"],
+  "storageException": "Variant-local docs replace global .hallmark metadata to respect file ownership."
+}

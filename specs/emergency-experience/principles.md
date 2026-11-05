@@ -44,3 +44,5 @@
 ## 산출물
 
 `scenarios.json`은 실행 data, `visual-language.md`는 표현 규칙, `acceptance.md`는 검사와 사용자 평가 절차다. Storyboard의 spec 보기에서 현재 장면의 source node·미결정 사항·숨긴 정보·가상 상태를 확인한다. 화면은 spec의 문구와 상태를 직접 사용한다.
+
+Scenario의 `presentation`은 화면에 보일 사실·기관을 명시한다. SC01에서는 운전자·경로 미확인과 구호 상태를, SC03에서는 부상·의식 미확인과 구호 상태를, SC05에서는 세 기관 상태와 도착·인계 미확인을 우선한다. 다른 사실·요청 상태도 manifest와 spec 보기에 보존한다.

@@ -62,9 +62,11 @@ Editor의 **검수 표시**로 분류를 표시하고 node를 선택하면 근�
 
 [Pleos foundation](docs/research/pleos-foundation.md), [AAOS 기준](docs/research/aaos-foundation.md), [component 후보](docs/research/component-shortlist.md)를 조사하였다. [Design 방향](docs/research/design-direction.md)은 사고 직후 안내와 기관별 진행 상태를 확인할 HTML prototype의 범위를 제안한다. 검토 시점은 2026-11-05이며 실제 차량·기관 연계 검증은 포함하지 않는다.
 
-사용자가 선택한 후속 방향은 **실제 Cult UI source로 React design을 검증한 후 Kotlin + Compose로 구현**하는 것이다. [실행 계획](docs/superpowers/plans/2026-11-05-cult-design-poc.md)에 따라 [첫 화면 두 안](prototype/web/README.md)을 구현하였다. 사용자는 A · 행동 중심을 선택하였으며, 후속 상태 확장 전에 anti-slop 도구를 조사한다. [비교 기록](docs/reviews/cult-design-poc.md)에 범위·선택·검증 근거를 기록하였다.
+사용자가 선택한 후속 방향은 **실제 Cult UI source로 React design을 검증한 후 Kotlin + Compose로 구현**하는 것이다. [실행 계획](docs/superpowers/plans/2026-11-05-cult-design-poc.md)에 따라 [첫 화면 두 안](prototype/web/README.md)을 구현하였다. 사용자는 A · 행동 중심을 선택하였으며, 이후 anti-slop 도구를 조사하고 네 독립 적용안을 비교하였다. [비교 기록](docs/reviews/cult-design-poc.md)에 범위·선택·검증 근거를 기록하였다.
 
 [Anti-UI-slop 조사](docs/research/anti-slop-stack.md)에는 design critique·art direction·reference 추출·component·browser 검증·Compose token 공유의 후보와 적용 범위를 정리하였다. [보완 source 조사](docs/research/anti-slop-tools-scout.md)는 추출·검증 도구의 실제 구현과 license를 확인한 기록이다.
+
+현재 검토 대상은 **[상황 spec + 시각 중심 storyboard](specs/emergency-experience/principles.md)**다. 부상·응답 없음·접수 미확인의 3개 scenario, 9개 장면을 하나의 JSON manifest에서 읽는다. 실행 방법은 [web prototype README](prototype/web/README.md), 선행 네 도구 적용안은 [적용 기록](docs/reviews/design-tools/README.md)을 따른다. 긴급 상황에서의 이해도와 차량 실기 검증은 아직 수행하지 않았다.
 
 ## Git과 확인
 

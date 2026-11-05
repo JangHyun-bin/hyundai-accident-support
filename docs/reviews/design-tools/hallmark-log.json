@@ -1,0 +1,14 @@
+[
+  {
+    "date": "2026-11-05",
+    "scope": "independent-variant",
+    "macrostructure": "Split Studio (action-first diptych)",
+    "theme": "Existing Asta / dark palette from DESIGN.md",
+    "enrichment": "none",
+    "nav": "shared ScreenHeader, unchanged",
+    "footer": "existing RequestStrip content, scoped layout",
+    "brief": "같은 사고 상황에서 다음 행동을 먼저 읽는 화면",
+    "verification": "TypeScript; Chrome 1440x810 collapsed/expanded; focus; request-state retention; initial reduced motion; 320/375/414/768 review widths",
+    "critique": "Qualitative observations in hallmark.md; no numerical beauty score or blanket gate pass."
+  }
+]

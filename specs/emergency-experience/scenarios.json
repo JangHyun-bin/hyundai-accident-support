@@ -174,7 +174,19 @@
             "사고 경위 기록"
           ]
         }
-      ]
+      ],
+      "presentation": {
+        "context_label": "고속도로",
+        "support_title": "차량 이동 판단 전",
+        "support_note": "운전자와 경로 확인이 필요해요.",
+        "visible_facts": [
+          "driver",
+          "route"
+        ],
+        "visible_requests": [
+          "rescue"
+        ]
+      }
     },
     {
       "id": "SC03",
@@ -327,7 +339,19 @@
             "사고 경위 기록"
           ]
         }
-      ]
+      ],
+      "presentation": {
+        "context_label": "현장 상태 미확인",
+        "support_title": "아직 모르는 상태",
+        "support_note": "응답 여부와 따로 확인해요.",
+        "visible_facts": [
+          "injury",
+          "consciousness"
+        ],
+        "visible_requests": [
+          "rescue"
+        ]
+      }
     },
     {
       "id": "SC05",
@@ -468,7 +492,21 @@
             "사고 경위 기록"
           ]
         }
-      ]
+      ],
+      "presentation": {
+        "context_label": "지원 진행 확인",
+        "support_title": "접수 이후에도 확인할 것",
+        "support_note": "접수만으로 안전이 확보되지는 않아요.",
+        "visible_facts": [
+          "arrival",
+          "handoff"
+        ],
+        "visible_requests": [
+          "rescue",
+          "vehicle",
+          "insurance"
+        ]
+      }
     }
   ]
 }
