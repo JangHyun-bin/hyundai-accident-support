@@ -2,7 +2,9 @@
 
 ## Optical materials — A / B / C
 
-사용자가 승인한 세 가지 방향을 같은 구성에서 비교하는 별도 visual PoC다. 최종 app 적용이나 특정 material 선택은 아직 하지 않았다.
+사용자가 승인한 세 가지 방향을 같은 구성에서 비교하는 별도 visual PoC다.
+
+**2026-11-06 선택: C · Satin metal.** 사용자가 세 PoC를 본 뒤 C를 선택했다. 이후 surface design은 C의 불규칙한 가는 결과 길게 퍼지는 highlight를 기준으로 검토한다. A/B는 비교 기록으로 보존한다. 현재 slider 기본값은 PoC의 출발점이며, 최종 app의 강도·색·적용 위치가 확정된 것은 아니다. App에는 아직 적용하지 않았다.
 
 - [세 후보 비교](http://127.0.0.1:5173/studies/optical-materials.html?view=compare)
 - [A · Photographic diffusion](http://127.0.0.1:5173/studies/optical-materials.html?variant=A&view=focus)
