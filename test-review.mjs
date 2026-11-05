@@ -1,0 +1,30 @@
+import assert from 'node:assert/strict';
+import { readFileSync, existsSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+const read = name => JSON.parse(readFileSync(new URL(name, import.meta.url)));
+assert.ok(existsSync(new URL('./assets/flow-review-v1.2.json',import.meta.url)), 'Review data must exist');
+const data=read('./assets/flow-review-v1.2.json'), project=read('./project.json'), graph=read('./e2e/integrated-graph.json');
+const {validateReview,reviewSnapshot,reviewMatches}=await import('./editor/review.mjs');
+validateReview(data);
+assert.equal(createHash('sha256').update(readFileSync(new URL('./project.json',import.meta.url))).digest('hex'),data.baseline.projectSha256,'Original project must remain unchanged');
+assert.deepEqual(Object.keys(data.nodes).sort(),Object.keys(graph.nodes).sort(),'Every semantic node needs review');
+assert.equal(data.scenarios.length,5);
+assert.equal(data.findings.length,8);
+assert.equal(data.decisions.length,5);
+const page=project.pages.find(p=>p.id===data.pageId);
+const nativeIds=new Map(Object.entries(data.nodes).map(([id,n])=>[n.nodeId,id]));
+const actual=page.objects.filter(n=>n.type==='CONNECTOR').map(n=>[nativeIds.get(n.start?.endpointNodeId),nativeIds.get(n.end?.endpointNodeId),n.text,n.dashed?'data':'sequence'].join('|')).sort();
+assert.deepEqual(actual,graph.edges.map(e=>[e.from,e.to,e.label,e.kind].join('|')).sort(),'Review must describe actual native connectors');
+assert.deepEqual(reviewSnapshot(page),data.baseline.snapshot);
+assert.ok(reviewMatches(project,data));
+for(const [id,n] of Object.entries(data.nodes)) assert.equal(page.objects.find(o=>o.id===n.nodeId).text,n.originalText,id);
+for(const scenario of data.scenarios)for(const trace of scenario.traces)for(let i=1;i<trace.nodes.length;i++)assert.ok(graph.edges.some(e=>e.from===trace.nodes[i-1]&&e.to===trace.nodes[i]),`${scenario.id}: ${trace.nodes[i-1]} -> ${trace.nodes[i]} must exist`);
+for(const finding of data.findings){
+  for(const [from,to] of finding.evidenceEdges)assert.ok(graph.edges.some(e=>e.from===from&&e.to===to),finding.id);
+  for(const [from,to] of finding.missingEdges||[])assert.ok(!graph.edges.some(e=>e.from===from&&e.to===to),`${finding.id}: claimed missing edge exists`);
+}
+const edited=structuredClone(project);edited.pages[1].objects.find(n=>n.id===data.nodes.U1.nodeId).text+=' 변경';assert.ok(!reviewMatches(edited,data),'Edited wording invalidates review');
+const moved=structuredClone(project);moved.pages[1].objects.find(n=>n.id===data.nodes.U1.nodeId).x+=50;assert.ok(reviewMatches(moved,data),'Moving a shape does not change content review');
+const rewired=structuredClone(project);rewired.pages[1].objects.find(n=>n.type==='CONNECTOR').end={endpointNodeId:data.nodes.I9.nodeId,magnet:'LEFT'};assert.ok(!reviewMatches(rewired,data),'Rewired connector invalidates review');
+const broken=structuredClone(data);broken.nodes.U0.findingIds=['F99'];assert.throws(()=>validateReview(broken));
+console.log('PASS · 48 nodes · 70 native connectors · 5 existing-path walkthroughs · source unchanged · stale review detection');

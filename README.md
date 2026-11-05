@@ -50,6 +50,14 @@ Undo/redo는 최대 25개 변경을 보관하며 page를 새로 열면 사라진
 
 `build-project.py`는 archive에서 최초 project를 만든다. 기존 `project.json`이 있으면 덮어쓰지 않는다. `--refresh-derived`는 SVG 조각과 coverage만 다시 만든다. Archive에 대응하는 source에서만 실행한다.
 
+## 통합 flow 검수본 v1.2
+
+[검수본](docs/reviews/flow-review-v1.2.md)에 48개 node의 분류, 8개 보완 항목, 5개 미결정 사항과 5개 scenario의 정적 검토를 기록하였다. 분류는 유지 8개·보완 필요 27개·결정 필요 13개다. 원래 문구·ID·위치·연결은 유지하였다. 개정안과 미확정 권고안은 현재 diagram에 적용하지 않았다.
+
+Editor의 **검수 표시**로 분류를 표시하고 node를 선택하면 근거를 확인할 수 있다. 검색은 `G2`, `E6` 등의 semantic ID도 지원한다. 검수본의 node link는 해당 위치를 확대한다. 문구·연결이 검토 기준과 달라지면 이전 분류의 표시를 중단하고 재검토 필요를 표시한다. 위치 변경은 문구·연결 검토에 영향을 주지 않는다.
+
+`assets/flow-review-v1.2.json`은 검토 data다. `python3 build-review.py`로 검수본을 재생성한다. 검토 기준 이후의 내용을 개정할 때에는 기존 검수본을 보존하고 새 기준에 대한 검토를 진행한다. 검토 기준과 경로의 대조는 `node test-review.mjs`로 확인한다.
+
 ## Git과 확인
 
 이 directory는 [GitHub private repository](https://github.com/JangHyun-bin/hyundai-accident-support)의 `main`과 연결되어 있다. Editor에서 저장한 뒤 변경을 확인하고 의미 있는 단위로 commit·push한다. Editor의 저장은 local `project.json`에 반영되며 GitHub에 자동 전송되지는 않는다.
@@ -65,6 +73,7 @@ git push
 ```sh
 node check.mjs
 node test-model.mjs
+node test-review.mjs
 python3 test-server.py
 ```
 

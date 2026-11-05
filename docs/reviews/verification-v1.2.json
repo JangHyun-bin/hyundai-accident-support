@@ -1,0 +1,39 @@
+{
+  "reviewVersion": "1.2",
+  "baselineCommit": "f43d89032f40cdfd6607e15eb9ad39771e230bda",
+  "projectSha256": "7b274dc99f64989a857bfbe7e1877fb1b34f1752f1f6f46fd92e3c37cefbc00c",
+  "sourceUnchanged": true,
+  "semanticNodes": 48,
+  "nativeConnectors": 70,
+  "classification": {
+    "유지": 8,
+    "보완 필요": 27,
+    "결정 필요": 13
+  },
+  "findings": 8,
+  "decisions": 5,
+  "scenarios": 5,
+  "method": "Static review of existing graph paths; no actual service execution or safety validation.",
+  "checks": {
+    "nativeGraphAndText": "PASS",
+    "reviewReferencesAndScenarioPaths": "PASS",
+    "changedTextAndConnectorDetection": "PASS",
+    "layoutOnlyChangeKeepsReview": "PASS",
+    "documentStyle": "PASS",
+    "documentReferences": "PASS",
+    "desktopReviewMarks": 48,
+    "reviewToggleOffMarks": 0,
+    "reviewMarksAfterWordingChange": 0,
+    "reviewMarksAfterUndo": 48,
+    "deepLinkToG2": "PASS",
+    "semanticIdSearch": "PASS",
+    "mobileWidth": 390,
+    "mobileHorizontalOverflow": false,
+    "portableSvgReviewStyles": "PASS",
+    "consoleErrorsDuringFinalUiReview": 0
+  },
+  "artifactSha256": {
+    "assets/flow-review-v1.2.json": "de1dfda5b3b4299a1088c21b9aa30111e268502d9356b5e86bb9b0d467e907f0",
+    "docs/reviews/flow-review-v1.2.md": "5a9c1f58abb6349e74705541899e5e0bdbe6b3fbe758be99f3cebf5bd4d8ad1a"
+  }
+}

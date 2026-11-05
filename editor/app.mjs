@@ -1,17 +1,20 @@
 import { clone, validateProject, moveObject, deleteObject, connectorGeometry, isConnector } from './model.mjs';
+import { validateReview, reviewMatches, reviewClasses } from './review.mjs';
 
 const $ = id => document.getElementById(id);
 const ns = 'http://www.w3.org/2000/svg';
 const canvas = $('board'), viewport = $('viewport');
 let project, revision, pageId, selected, dirty=false, connecting=false, sourceId=null;
 let undoStack=[], redoStack=[], drag=null, view={x:0,y:0,w:1000,h:700};
+let reviewData=null,reviewVisible=false;
+const reviewByNode=new Map();
 const partCache=new Map();
 const status = message => $('status').textContent=message;
 const page = () => project.pages.find(p=>p.id===pageId);
 const node = id => page().objects.find(n=>n.id===id);
 const svg = (tag,attrs={},text) => {const el=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs))el.setAttribute(k,v);if(text!==undefined)el.textContent=text;return el;};
 const element = (tag,text) => {const el=document.createElement(tag);if(text!==undefined)el.textContent=text;return el;};
-const message = () => { $('save-state').textContent=dirty?'저장 전 변경 있음':'Local 정본';$('save-state').classList.toggle('dirty',dirty);$('undo').disabled=!undoStack.length;$('redo').disabled=!redoStack.length;$('connect').setAttribute('aria-pressed',String(connecting)); };
+const message = () => { $('save-state').textContent=dirty?'저장 전 변경 있음':'Local 정본';$('save-state').classList.toggle('dirty',dirty);$('undo').disabled=!undoStack.length;$('redo').disabled=!redoStack.length;$('connect').setAttribute('aria-pressed',String(connecting));$('review-toggle').disabled=!reviewData||pageId!==reviewData.pageId;$('review-toggle').setAttribute('aria-pressed',String(reviewVisible&&pageId===reviewData?.pageId)); };
 function markDirty(){dirty=true;message();}
 function remember(){undoStack.push(clone(project));if(undoStack.length>25)undoStack.shift();redoStack=[];}
 function change(action){remember();action();markDirty();render();}
@@ -43,6 +46,36 @@ async function loadParts(p){
   const fragments=new Map([...root.children].filter(n=>n.hasAttribute('data-node-id')).map(n=>[n.getAttribute('data-node-id'),n]));
   const defs=[...root.children].filter(n=>n.localName==='defs');
   partCache.set(p.parts,{fragments,defs});
+}
+async function loadReview(){
+  try{
+    const response=await fetch('/assets/flow-review-v1.2.json');
+    if(!response.ok)return;
+    reviewData=validateReview(await response.json());
+    for(const [id,record] of Object.entries(reviewData.nodes))reviewByNode.set(record.nodeId,{id,...record});
+    reviewVisible=new URLSearchParams(location.search).get('review')!=='0';
+  }catch(error){status('검수 data를 표시하지 못했습니다. '+error.message);}
+}
+function reviewInfo(panel,n){
+  if(!reviewData)return;
+  const record=n?reviewByNode.get(n.id):null;
+  if(n&&!record)return;
+  const box=element('section');box.className='review-info';
+  box.append(element('h2',n?`검수 v1.2 · ${record.id}`:'통합 flow 검수 v1.2'));
+  if(!reviewMatches(project,reviewData)){
+    const stale=element('p','기준 이후 문구·연결이 변경되었습니다. 이전 분류를 적용하지 않으며 재검토가 필요합니다.');stale.className='note';box.append(stale);
+  }else if(record){
+    const badge=element('span',record.status);badge.className='badge review-badge '+reviewClasses[record.status];box.append(badge,element('p',record.reason));
+    for(const id of [...record.findingIds,...record.decisionIds]){
+      const finding=[...reviewData.findings,...reviewData.decisions].find(f=>f.id===id);
+      const link=element('a',id+' · '+finding.title);link.href=$('review-report').href+'#'+id;link.target='_blank';link.rel='noopener';box.append(link);
+    }
+  }else{
+    const values=Object.values(reviewData.nodes);
+    for(const status of Object.keys(reviewClasses)){const badge=element('span',`${status} ${values.filter(n=>n.status===status).length}`);badge.className='badge review-badge '+reviewClasses[status];box.append(badge);}
+    box.append(element('p',`${reviewData.findings.length}개 보완 항목 · ${reviewData.decisions.length}개 미결정 사항 · 5개 scenario의 정적 검토`));
+  }
+  const note=element('p','유지는 현장 안전성·기관 연계 검증 통과를 의미하지 않습니다.');note.className='note';box.append(note);panel.append(box);
 }
 function baseBox(n){return n.raw?.absoluteBoundingBox||{x:n.x,y:n.y,width:n.width,height:n.height};}
 function moved(n){const b=baseBox(n);return n.x!==b.x||n.y!==b.y||n.width!==b.width||n.height!==b.height;}
@@ -100,6 +133,15 @@ function draw(){
     g.append(svg('title',{},n.text||n.name||n.id));
     canvas.append(g);
   }
+  if(reviewData&&reviewVisible&&pageId===reviewData.pageId&&reviewMatches(project,reviewData)){
+    const tokens=getComputedStyle(document.documentElement),colors={keep:'--accent',improve:'--danger',decide:'--pending'};
+    for(const n of page().objects){
+      const record=reviewByNode.get(n.id);if(!record)continue;
+      const kind=reviewClasses[record.status];
+      const ring=svg('rect',{x:n.x-10,y:n.y-10,width:n.width+20,height:n.height+20,rx:10,class:'review-ring '+kind,'data-review-node':record.id,fill:'none',stroke:tokens.getPropertyValue(colors[kind]).trim(),'stroke-width':2,'stroke-dasharray':kind==='decide'?'5 3':'','vector-effect':'non-scaling-stroke'});
+      ring.append(svg('title',{},`${record.id} · ${record.status}`));canvas.append(ring);
+    }
+  }
   const n=node(selected);
   if(n)canvas.append(svg('rect',{x:n.x-5,y:n.y-5,width:Math.max(8,n.width+10),height:Math.max(8,n.height+10),class:'selection-box'}));
   applyView();
@@ -121,10 +163,10 @@ function outline(){
   $('page-count').textContent=`${page().objects.length} objects · ${page().objects.filter(isConnector).length} connectors`;
   const fallbackCount=page().objects.filter(n=>n.raw?.id&&!partCache.get(page().parts).fragments.has(n.id)).length;
   $('visual-note').hidden=!fallbackCount;$('visual-note').textContent=`복제본 ${fallbackCount}개는 모양이 원본과 다를 수 있습니다. 아래 ‘원본 보존’에서 원형을 확인하세요.`;
-  const entries=query?project.pages.flatMap(p=>p.objects.filter(n=>(n.text+' '+n.name+' '+n.id).toLowerCase().includes(query)).map(n=>({p,n}))):page().objects.filter(n=>n.type==='SECTION'&&n.name).map(n=>({p:page(),n}));
+  const entries=query?project.pages.flatMap(p=>p.objects.filter(n=>(n.text+' '+n.name+' '+n.id+' '+(reviewByNode.get(n.id)?.id||'')).toLowerCase().includes(query)).map(n=>({p,n}))):page().objects.filter(n=>n.type==='SECTION'&&n.name).map(n=>({p:page(),n}));
   for(const {p,n} of entries.slice(0,100)){
     const button=element('button',(n.text||n.name||n.id).slice(0,74));button.className='outline-item';
-    button.append(element('small',`${n.type} · ${n.id}${query?' · '+p.name:''}`));
+    button.append(element('small',`${reviewByNode.get(n.id)?.id?reviewByNode.get(n.id).id+' · ':''}${n.type} · ${n.id}${query?' · '+p.name:''}`));
     button.onclick=async()=>{try{if(pageId!==p.id)await switchPage(p.id,false);selected=n.id;render();focusObject(node(n.id));}catch(e){status(e.message);}};list.append(button);
   }
   if(!entries.length)list.append(element('p',query?'검색 결과가 없습니다.':'새 도형을 추가하거나 canvas에서 선택하세요.'));
@@ -142,11 +184,13 @@ function selectField(parent,label,id,values,value){
 function inspector(){
   const panel=$('inspector');panel.replaceChildren();const n=node(selected);
   if(!n){
+    reviewInfo(panel,null);
     panel.append(element('h2','전체 내용을 이곳에서 관리'),element('p','원본과 통합 flow를 선택해 검토하고, 도형을 눌러 문구와 배치를 바꾸세요.'));
     const help=element('div');help.className='legend';
     for(const [title,body] of [['원본까지 보존','초기 아이디어, 낙서, 이전 시안과 통합본을 두 page에 담았습니다.'],['변경은 명시적으로 저장','저장하기하면 project.json에 반영됩니다. 이전 file은 local backup에 남습니다.'],['연결도 함께 편집','연결하기를 누른 뒤 출발·도착 도형을 선택하세요. 이동한 도형의 선은 다시 연결됩니다.'],['정확한 원형 확인','왼쪽 원본 page SVG에서 이관 당시의 모습을 볼 수 있습니다.']]){const row=element('div');row.append(element('strong',title),element('p',body));help.append(row);}panel.append(help);return;
   }
   panel.append(element('h2',isConnector(n)?'연결선 편집':'Object 편집'));const id=element('p',`${n.type} · ${n.id}`);id.className='id';panel.append(id);
+  reviewInfo(panel,n);
   const name=field(panel,'이름','edit-name',n.name);
   const text=field(panel,isConnector(n)?'연결 문구':'문구','edit-text',n.text,'textarea');
   const grid=element('div');grid.className='field-grid';panel.append(grid);
@@ -213,6 +257,7 @@ $('add').onclick=()=>change(()=>{const id='local:'+crypto.randomUUID();page().ob
 $('connect').onclick=()=>{connecting=!connecting;sourceId=null;message();status(connecting?'출발 도형을 선택하세요. Esc로 취소합니다.':'연결 추가를 취소했습니다.');};
 $('undo').onclick=undo;$('redo').onclick=redo;$('fit').onclick=fit;$('zoom-in').onclick=()=>zoom(1.35);$('zoom-out').onclick=()=>zoom(1/1.35);
 $('inspector-toggle').onclick=()=>{const open=$('inspector').classList.toggle('open');$('inspector-toggle').setAttribute('aria-expanded',String(open));$('inspector-toggle').textContent=open?'편집 닫기':'편집 열기';};
+$('review-toggle').onclick=()=>{reviewVisible=!reviewVisible;draw();message();status(reviewData&&!reviewMatches(project,reviewData)?'기준 이후 변경이 있어 재검토가 필요합니다.':reviewVisible?'검수 분류를 표시했습니다. 원래 문구·연결은 유지합니다.':'검수 분류 표시를 껐습니다.');};
 $('page-select').onchange=async e=>{try{await switchPage(e.target.value);}catch(error){status(error.message);}};$('search').oninput=outline;
 function download(content,type,name){const url=URL.createObjectURL(new Blob([content],{type})),link=element('a');link.href=url;link.download=name;link.click();setTimeout(()=>URL.revokeObjectURL(url),2000);}
 $('download').onclick=()=>download(JSON.stringify(project,null,2)+'\n','application/json','project.json');
@@ -252,4 +297,4 @@ window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.return
 new ResizeObserver(()=>{if(project){const ratio=viewport.clientWidth/viewport.clientHeight;view.h=view.w/ratio;applyView();}}).observe(viewport);
 const startupControls=['add','connect','save','page-select','search','fit','zoom-in','zoom-out','download','svg-export','import'];
 for(const id of startupControls)$(id).disabled=true;
-try{const response=await fetch('/api/project');if(!response.ok)throw Error('Local server 연결을 확인하세요.');const data=await response.json();project=validateProject(data.project);revision=data.revision;pageId=project.pages.at(-1).id;populatePages();await switchPage(pageId);for(const id of startupControls)$(id).disabled=false;status(`${project.pages.length} pages · ${project.pages.flatMap(p=>p.objects).length} objects · 원본 전체를 열었습니다.`);}catch(error){status(error.message);}
+try{const response=await fetch('/api/project');if(!response.ok)throw Error('Local server 연결을 확인하세요.');const data=await response.json();project=validateProject(data.project);revision=data.revision;const query=new URLSearchParams(location.search);pageId=project.pages.some(p=>p.id===query.get('page'))?query.get('page'):project.pages.at(-1).id;populatePages();await loadReview();await switchPage(pageId);if(node(query.get('node'))){selected=query.get('node');render();focusObject(node(selected));}for(const id of startupControls)$(id).disabled=false;status(`${project.pages.length} pages · ${project.pages.flatMap(p=>p.objects).length} objects · 원본 전체를 열었습니다.`);}catch(error){status(error.message);}
