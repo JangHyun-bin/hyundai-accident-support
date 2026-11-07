@@ -34,7 +34,7 @@ class Sc05Test {
     private fun fact(id: String, value: String) = rule.onNodeWithTag("fact-$id").assert(hasText(value))
 
     @Test fun initialSceneShowsEachAgencySeparately() {
-        rule.onNodeWithText("차량 지원 접수를 확인하세요").assertIsDisplayed()
+        rule.onNodeWithText("차량 지원 접수 미확인").assertIsDisplayed()
         request("rescue", "접수 확인")
         request("vehicle", "접수 미확인")
         request("insurance", "요청 전")
@@ -58,7 +58,7 @@ class Sc05Test {
 
     @Test fun checkingIsNotAResendAndKeepsOtherAgencies() {
         rule.onNodeWithText("요청 상태 확인").performClick()
-        rule.onNodeWithText("접수 결과를 확인하고 있어요").assertIsDisplayed()
+        rule.onNodeWithText("차량 지원 접수 확인 중").assertIsDisplayed()
         request("vehicle", "접수 확인 중")
         request("rescue", "접수 확인")
         request("insurance", "요청 전")
@@ -67,7 +67,7 @@ class Sc05Test {
 
     @Test fun actionMovesFocusToNewTitle() {
         rule.onNodeWithText("요청 상태 확인").performClick()
-        rule.onNodeWithText("접수 결과를 확인하고 있어요").assertIsFocused()
+        rule.onNodeWithText("차량 지원 접수 확인 중").assertIsFocused()
     }
 
     // Keyboard·rotary 사용자를 재현한다. Touch mode 에서는 Android button 이 focus 를 받지 않는다.
@@ -86,13 +86,13 @@ class Sc05Test {
     @Test fun unknownResultReturnsToUnconfirmedScene() {
         rule.onNodeWithText("요청 상태 확인").performClick()
         rule.onNodeWithTag("event-receipt_unknown").performClick()
-        rule.onNodeWithText("차량 지원 접수를 확인하세요").assertIsDisplayed()
+        rule.onNodeWithText("차량 지원 접수 미확인").assertIsDisplayed()
         request("vehicle", "접수 미확인")
     }
 
     @Test fun receiptDoesNotConfirmArrivalOrHandoff() {
         rule.onNodeWithTag("event-receipt_received").performClick()
-        rule.onNodeWithText("차량 지원이 접수됐어요").assertIsDisplayed()
+        rule.onNodeWithText("차량 지원 접수 확인").assertIsDisplayed()
         request("vehicle", "접수 확인")
         request("rescue", "접수 확인")
         request("insurance", "요청 전")
@@ -105,7 +105,7 @@ class Sc05Test {
         rule.onNodeWithText("요청 상태 확인").performClick()
         rule.onNodeWithTag("surface-flat").performClick()
         rule.activityRule.scenario.recreate()
-        rule.onNodeWithText("접수 결과를 확인하고 있어요").assertIsDisplayed()
+        rule.onNodeWithText("차량 지원 접수 확인 중").assertIsDisplayed()
         request("vehicle", "접수 확인 중")
         rule.onNodeWithTag("surface-status").assert(hasText("기존 flat"))
     }
@@ -132,7 +132,7 @@ class Sc05Test {
     @Test fun surfaceToggleKeepsSceneAndRequests() {
         rule.onNodeWithText("요청 상태 확인").performClick()
         rule.onNodeWithTag("surface-flat").performClick()
-        rule.onNodeWithText("접수 결과를 확인하고 있어요").assertIsDisplayed()
+        rule.onNodeWithText("차량 지원 접수 확인 중").assertIsDisplayed()
         request("vehicle", "접수 확인 중")
         rule.onNodeWithTag("surface-satin").performClick()
         rule.onNodeWithTag("surface-status").assert(hasText("Satin 적용 · 강도 70%"))
@@ -166,11 +166,11 @@ class Sc05LaunchTest {
     )
 
     @Test fun validSceneExtraOpensThatScene() {
-        launch("received").use { rule.onNodeWithText("차량 지원이 접수됐어요").assertIsDisplayed() }
+        launch("received").use { rule.onNodeWithText("차량 지원 접수 확인").assertIsDisplayed() }
     }
 
     @Test fun invalidSceneExtraFallsBackToInitial() {
-        launch("bogus").use { rule.onNodeWithText("차량 지원 접수를 확인하세요").assertIsDisplayed() }
+        launch("bogus").use { rule.onNodeWithText("차량 지원 접수 미확인").assertIsDisplayed() }
     }
 }
 

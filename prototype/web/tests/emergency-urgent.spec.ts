@@ -155,3 +155,36 @@ test.describe('rescue countdown', () => {
     await expect(page.getByRole('status')).toContainText('음성 원고')
   })
 })
+
+test('three_second_view_hides_review_ui_and_covers_after_3s', async ({ page }) => {
+  await page.clock.install()
+  await page.goto('/?study=emergency&scenario=SC03&scene=initial')
+  const screen = page.getByRole('region', { name: '시각 중심 사고 대응' })
+  await page.clock.runFor(4_000)
+  await page.getByRole('button', { name: '3초 보기' }).click()
+  await expect(page.getByRole('navigation', { name: '장면 선택' })).toBeHidden()
+  await expect(page.getByRole('navigation', { name: '상황 선택' })).toBeHidden()
+  await expect(page.getByText('시작 상황:')).toBeHidden()
+  await expect(screen.locator('[data-countdown]')).toHaveText('10')
+  await expect(page.locator('[data-cover]')).toHaveCount(0)
+  await page.clock.runFor(3_000)
+  await expect(page.locator('[data-cover]')).toBeVisible()
+  await expect(page.getByRole('button', { name: '다시 3초' })).toBeVisible()
+  await page.clock.runFor(20_000)
+  await page.getByRole('button', { name: '닫기' }).click()
+  await expect(page.getByRole('navigation', { name: '장면 선택' })).toBeVisible()
+  await expect(screen.locator('[data-slot="detected"]')).toContainText('응답 미확인')
+  await expect(screen.locator('[data-countdown]')).toHaveText('7')
+})
+
+test('review_header_marks_safety_copy_as_draft', async ({ page }) => {
+  await page.goto('/?study=emergency&scenario=SC05')
+  await expect(page.getByText('안전 안내 시안 · 승인 전')).toBeVisible()
+  await page.getByRole('button', { name: '현재 장면 spec' }).click()
+  await expect(page.getByRole('region', { name: '현재 장면 spec' })).toContainText('비트박스')
+})
+
+test('footer_counts_scenes_from_data', async ({ page }) => {
+  await page.goto('/?study=emergency&scenario=SC05')
+  await expect(page.getByText('3 scenarios / 12 scenes')).toBeVisible()
+})

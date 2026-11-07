@@ -97,3 +97,47 @@ WCAG 1.4.11 비텍스트 대비를 rendered pixel로 측정하였다. 같은 영
 ### 남은 한계
 
 대비는 Chrome과 emulator의 render 결과만 측정하였다. 실제 차량 display의 시야각·밝기·반사와 주행 중 시인성은 검증하지 않았다. 각인 깊이는 가독성을 위해 시안보다 얕다.
+
+## 긴급 화면 세 칸 구조 (2026-11-08)
+
+사용자는 지금 화면이 실제 사고 상황에 비해 너무 차분하다고 판단했다. 운전자는 읽고 생각할 시간이 없으므로 화면이 바로 지시해야 한다. 설계는 [design 문서](../superpowers/specs/2026-11-08-urgent-three-slot-design.md)에 있다.
+
+### 사용자 결정
+
+- 모든 장면은 세 칸이다: ① 차가 감지한 것 / ② 차가 할 일 / ③ 운전자가 지금 할 일.
+- ③에 안전 안내를 넣는다. 근거는 한국도로공사 「비트박스」 행동요령이고, 승인 전 시안이다.
+- 차의 행동은 승인해야 진행한다. 응답이 없으면 **구호만** 10초 countdown 뒤 자동으로 연결한다. 차량 지원과 보험은 자동으로 진행하지 않는다.
+- 시각은 B · 어둠 속 한 점이다. 빨강은 구호 결정 묶음 하나에만 쓴다. 진행 중은 호박, 그 외는 neutral이다. 초록 "완료" 화면은 없다.
+- 성공 기준: 처음 보는 사람이 3초 보고 "지금 할 일"을 말한다.
+
+### 사용자 대신 내린 결정
+
+- 연결이 시작된 뒤에는 차량 화면에서 멈출 수 없다. 자동 연결 뒤 운전자가 응답해도 연결은 계속된다. 혼란한 운전자가 구호를 끊는 위험을 더 크게 보았다. 실제로 괜찮은 운전자가 통화를 피할 수 없다는 비용이 있다.
+- 자동 연결 장면의 ③은 `응답할 수 있어요` button 하나다.
+- `3초 보기`는 검토 UI를 모두 숨기는 발표 mode다. Countdown을 처음부터 시작하고, 가린 동안 멈춘다.
+- ③ 문구는 조건(작게) / 지금 할 행동(3 어절 이하) / 다음 행동으로 나눈다.
+
+### Evidence
+
+- 12개 장면: [SC01 연결 대기](../../prototype/web/evidence/emergency-urgent/SC01-initial.png) · [SC01 자동 연결](../../prototype/web/evidence/emergency-urgent/SC01-auto_contact.png) · [SC03 응답 대기](../../prototype/web/evidence/emergency-urgent/SC03-initial.png) · [SC05 접수 미확인](../../prototype/web/evidence/emergency-urgent/SC05-initial.png). 나머지도 같은 folder에 있다.
+- [흑백 countdown 화면](../../prototype/web/evidence/emergency-urgent/SC03-initial-grayscale.png): 빨강이 없어도 숫자·ring·문구로 결정 장면이 구별된다.
+- 시안: [B · 어둠 속 한 점](../superpowers/specs/2026-11-08-urgent-three-slot/urgency-directions.png).
+
+### 검증
+
+- Manifest 검사 9개를 통과했다. 새 검사는 다음을 확인한다.
+  - Countdown은 구호 `요청 전`에서만 있고, 만료·취소가 구호만 바꾼다.
+  - 연결이 시작된 구호는 `요청 전`으로 돌아가지 않는다.
+  - ③은 3 어절 이하이고, `의식 없음` 문구가 없다.
+- Web: `npm run check`와 Playwright 47개를 통과했다. 새 검사는 다음을 확인한다.
+  - 모든 장면의 세 칸과 세 기관, 빨강이 결정 묶음 밖에 없음, 375 px 축소.
+  - Countdown 만료·즉시 연결·취소, 다른 곳을 눌러도 취소되지 않음, 일시 중단·재진입, 오래된 timer, 늦은 응답.
+  - 음성 한 번 재생과 차단 시 원고 표시, 3초 보기.
+- Compose: SC05 test의 기대 제목만 새 문구로 바꾸었다. `connectedDebugAndroidTest` 21/21을 통과했다. Compose 화면은 아직 이전 배치다.
+
+### 남은 한계
+
+- 3초 이해도 평가는 하지 않았다. 도구만 준비했다.
+- 안전 안내 문구는 승인 전이다. 출처가 뉴스 기사이므로 한국도로공사 공식 자료로 다시 확인해야 한다.
+- 첫 page load에서는 browser가 음성을 막는다. 그래서 원고만 표시된다. 경고음도 사용자 조작 전에는 나지 않는다.
+- Compose 세 칸 배치, 실제 차량 소리·비상등 연동, D02 운영 정책은 다루지 않았다.
