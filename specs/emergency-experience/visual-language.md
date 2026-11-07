@@ -24,16 +24,29 @@ Asta, 기존 dark semantic palette, 1440 × 810 CSS px canvas를 사용한다. �
 
 ## 화면 역할
 
-1. 핵심 indicator: 현재 가장 먼저 알아야 할 상태. 큰 symbol, 짧은 label, 필요한 경우 제한 문구 한 줄.
-2. 행동 영역: 행동을 직접 나타내는 짧은 제목과 주 button. 설명은 해당 행동에 필요한 한 문장으로 제한한다.
-3. 조건 영역: 이동 판단에 필요한 확인/미확인 또는 기관별 접수 상태. 주 행동보다 낮은 비중으로 표현한다.
-4. 검토 UI: scenario·장면·외부 event·전체 spec. 차량 화면 밖에 배치하며 실제 제품 기능과 구별한다.
+2026-11-08 사용자 결정으로 세 칸 구조를 쓴다. 근거는 [설계 문서](../../docs/superpowers/specs/2026-11-08-urgent-three-slot-design.md)에 있다.
+
+1. ① 감지: 차가 파악한 것과 아직 모르는 것. 금속 cue glyph, `감지 · cue label`, 미확인 사실 chip.
+2. ② 차량: 차가 다음에 할 일 한 문장과 필요한 승인 button. 그 아래에 세 기관의 상태를 한 줄로 둔다.
+3. ③ 나: 운전자가 지금 할 행동 하나(3 어절 이하). 조건은 앞에 작게, 다음 행동은 `→` 뒤에 작게 둔다. 자동 연결 장면에서는 `응답할 수 있어요` button이다.
+4. 검토 UI: scenario·장면·외부 event·전체 spec·3초 보기. 차량 화면 밖에 배치하며 실제 제품 기능과 구별한다.
+
+### 긴박도 색
+
+| 단계 | 쓰는 곳 | 색 |
+| --- | --- | --- |
+| 결정 필요 (`phase: decide`) | 구호 countdown ring·숫자·`지금 연결` button. `[data-urgent]` 하나로 묶는다 | 빨강 `#FF453A` |
+| 진행 중 (`phase: progress`) | 연결 중·확인 중인 ②의 표시 | 호박 `#FFB340` |
+| 대기·확인됨 (`phase: settled`) | 그 외. 확인 표식만 mint | neutral |
+
+- 빨강은 생명과 관련된 결정에만 쓴다. 차량 지원·보험의 승인 button은 neutral 주 button이다.
+- 화면 전체를 경보색으로 칠하지 않는다. 초록 "완료" 화면을 두지 않는다.
 
 ## Motion·음성·입력
 
-- 핵심 상태와 안내는 즉시 교체한다. 장식 entrance, 반복 점멸, countdown, 단계별 텍스트 지연을 사용하지 않는다.
-- 보조 영역만 실제 Motion Primitives TransitionPanel로 160 ms opacity 전환한다. `prefers-reduced-motion`에서는 0 ms다.
-- 음성 원고는 각 장면의 `voice`에 저장한다. Browser TTS는 사용자가 `음성 안내 듣기`를 선택할 때만 실행한다. 상태 변경·중단·page 종료 시 기존 음성을 취소한다. 지원하지 않거나 재생에 실패하면 원고를 화면에 보여준다.
+- 핵심 상태와 안내는 즉시 교체한다. 사실 chip도 즉시 교체한다. 장식 entrance, 반복 점멸, 단계별 텍스트 지연을 사용하지 않는다.
+- Countdown은 구호 자동 연결에만 쓴다. 10초(`auto_contact.seconds`)이며 ring과 숫자만 움직인다. `prefers-reduced-motion`에서는 ring이 1초 단위로 끊어 갱신된다. `취소` button 외의 click은 취소가 아니다(2026-11-08 사용자 결정).
+- 음성 원고는 각 장면의 `voice`에 저장한다. Browser TTS는 사용자가 `음성 안내 듣기`를 선택할 때와 countdown이 시작될 때 실행한다. Countdown 시작에는 짧은 경고음도 낸다. 상태 변경·중단·page 종료 시 기존 음성을 취소한다. 지원하지 않거나 재생에 실패하면 원고를 화면에 보여준다.
 - 음성만으로 진행하거나 확인 응답을 추정하지 않는다. 실제 차량 audio focus·소음·음성 인식은 이번 범위 밖이다.
 - 주 행동 이후 해당 장면 제목으로 focus를 옮긴다. 검토자가 장면을 선택하면 focus는 검토 control에 유지한다.
 - 외부 시연 event로 기존 button이 사라지면 현재 장면 선택 button으로 focus를 옮긴다.

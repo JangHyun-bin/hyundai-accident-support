@@ -125,7 +125,8 @@
     "handoff": "handoff"
   },
   "actions": {
-    "request_help": "phone",
+    "connect": "phone",
+    "reconnect": "phone",
     "respond": "check",
     "default": "route"
   },
