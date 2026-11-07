@@ -1,0 +1,197 @@
+<style>
+  .pg { --fg:#F2F4F2; --muted:#A9B0B2; --mint:#C4ECDA; --mintInk:#172A24; font-family:"Apple SD Gothic Neo","Pretendard",system-ui,sans-serif; }
+  .pg .lede { margin:.25rem 0 1.25rem; }
+  .pg .now { display:flex; align-items:center; gap:18px; padding:14px 18px; border-radius:14px; background:#131417; color:var(--muted); font-size:13px; margin-bottom:1.25rem; }
+  .pg .now .tile { width:76px; height:76px; border-radius:18px; background:#24282B; border:1px solid #3B4243; display:grid; place-items:center; position:relative; }
+  .pg .now .tile .b { position:absolute; right:-8px; bottom:-6px; width:30px; height:30px; border-radius:50%; background:#131417; display:grid; place-items:center; }
+  .pg .cards { grid-template-columns:repeat(auto-fit,minmax(330px,1fr)); }
+  .pg .stage { aspect-ratio:auto; height:360px; flex-direction:column; gap:30px; position:relative; overflow:hidden;
+    background:
+      radial-gradient(90% 70% at 18% -5%, rgba(255,255,255,.075), transparent 60%),
+      radial-gradient(70% 60% at 100% 110%, rgba(196,236,218,.025), transparent 60%),
+      repeating-linear-gradient(97deg, rgba(255,255,255,.016) 0 1px, rgba(0,0,0,.03) 1px 3px),
+      linear-gradient(160deg,#1F2225,#131417 72%); }
+  .pg .cue { width:168px; height:168px; position:relative; display:grid; place-items:center; }
+  .pg .cue > svg.g { width:112px; height:112px; overflow:visible; }
+  .pg .badge { position:absolute; right:-14px; bottom:-10px; width:58px; height:58px; border-radius:50%; display:grid; place-items:center; }
+  .pg .badge svg { width:34px; height:34px; overflow:visible; }
+  .pg .facts { display:flex; gap:18px; }
+  .pg .fact { display:flex; flex-direction:column; align-items:center; gap:7px; width:84px; text-align:center; }
+  .pg .ic { width:46px; height:46px; display:grid; place-items:center; position:relative; }
+  .pg .ic svg.g { width:30px; height:30px; overflow:visible; }
+  .pg .ic .m { position:absolute; right:-6px; bottom:-5px; width:19px; height:19px; overflow:visible; }
+  .pg .fact b { font-weight:600; font-size:11.5px; color:var(--fg); letter-spacing:-.01em; }
+  .pg .fact i { font-style:normal; font-size:10.5px; color:var(--muted); margin-top:-4px; }
+
+  /* A · 정밀 symbol */
+  .pg .a .cue { border-radius:40px; background:linear-gradient(180deg,#272B2E,#212528); box-shadow:inset 0 0 0 1px rgba(255,255,255,.07); }
+  .pg .a .badge { background:#131417; }
+
+  /* B · Glass */
+  .pg .b .cue, .pg .b .badge, .pg .b .ic { background:linear-gradient(155deg,rgba(255,255,255,.17),rgba(255,255,255,.05) 40%,rgba(255,255,255,.015) 62%,rgba(0,0,0,.16));
+    backdrop-filter:blur(18px) saturate(150%); -webkit-backdrop-filter:blur(18px) saturate(150%);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.42), inset 0 0 0 1px rgba(255,255,255,.09), inset 0 -14px 26px rgba(0,0,0,.22), 0 26px 50px -14px rgba(0,0,0,.65); }
+  .pg .b .cue { border-radius:42px; }
+  .pg .b .cue::before { content:""; position:absolute; inset:0; border-radius:inherit; background:radial-gradient(70% 45% at 28% 6%, rgba(255,255,255,.22), transparent 70%); pointer-events:none; }
+  .pg .b .ic { border-radius:50%; box-shadow:inset 0 1px 0 rgba(255,255,255,.4), inset 0 0 0 1px rgba(255,255,255,.08), 0 10px 20px -8px rgba(0,0,0,.6); }
+  .pg .b .glow { position:absolute; width:260px; height:260px; left:50%; top:40px; transform:translateX(-62%); border-radius:50%; background:radial-gradient(circle, rgba(255,255,255,.08), transparent 65%); }
+
+  /* C · 조형 object */
+  .pg .c .cue { border-radius:42px; background:radial-gradient(120% 90% at 50% 0%, #3A3F43, #1A1D20 70%); box-shadow:inset 0 1px 0 rgba(255,255,255,.16), inset 0 -1px 0 rgba(0,0,0,.5), 0 24px 46px -16px rgba(0,0,0,.7); }
+  .pg .c .badge { background:radial-gradient(100% 100% at 50% 0%, #2E3336, #15181A); box-shadow:inset 0 1px 0 rgba(255,255,255,.14), 0 8px 16px -6px rgba(0,0,0,.7); }
+
+  /* D · 금속 각인 */
+  .pg .d .cue, .pg .d .ic { background:
+      repeating-linear-gradient(92deg, rgba(255,255,255,.035) 0 1px, rgba(0,0,0,.04) 1px 2px),
+      linear-gradient(165deg,#4C5255 0%,#363B3E 36%,#2B3033 60%,#3D4346 100%);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.24), inset 0 -1px 0 rgba(0,0,0,.55), 0 22px 44px -16px rgba(0,0,0,.75); }
+  .pg .d .cue { border-radius:40px; }
+  .pg .d .ic { border-radius:13px; }
+  .pg .d .badge { background:linear-gradient(165deg,#4C5255,#2B3033); box-shadow:inset 0 1px 0 rgba(255,255,255,.22), inset 0 -1px 0 rgba(0,0,0,.55), 0 8px 16px -6px rgba(0,0,0,.7); }
+  .pg .tag { position:absolute; left:14px; top:12px; font-size:11px; color:rgba(242,244,242,.42); letter-spacing:.04em; }
+  .pg .card-body p + p { margin-top:.35rem; }
+</style>
+
+<div class="pg">
+<!-- 공용 정의: 형태는 하나, 재질만 바꾼다 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- 차량 정면: 외곽 하나 + 유리·등·grille 구멍 (evenodd) -->
+    <symbol id="car" viewBox="0 0 100 100"><path fill-rule="evenodd" d="M36 20H64C67.8 20 71 22.3 72.3 25.8L77.4 40H87C89.8 40 92 42.2 92 45C92 47.2 90.3 49 88 49H86V66C86 70.4 82.4 74 78 74H22C17.6 74 14 70.4 14 66V49H12C9.7 49 8 47.2 8 45C8 42.2 10.2 40 13 40H22.6L27.7 25.8C29 22.3 32.2 20 36 20Z M38.4 25H61.6C63.6 25 65.4 26.2 66.1 28.1L70.2 38H29.8L33.9 28.1C34.6 26.2 36.4 25 38.4 25Z M23.5 50H32.5C34.4 50 36 51.6 36 53.5S34.4 57 32.5 57H23.5C21.6 57 20 55.4 20 53.5S21.6 50 23.5 50Z M67.5 50H76.5C78.4 50 80 51.6 80 53.5S78.4 57 76.5 57H67.5C65.6 57 64 55.4 64 53.5S65.6 50 67.5 50Z M43 61H57C58.1 61 59 61.9 59 63S58.1 65 57 65H43C41.9 65 41 64.1 41 63S41.9 61 43 61Z M19 77H33V82C33 84.2 31.2 86 29 86H23C20.8 86 19 84.2 19 82Z M67 77H81V82C81 84.2 79.2 86 77 86H71C68.8 86 67 84.2 67 82Z"/></symbol>
+    <symbol id="car-glass" viewBox="0 0 100 100"><path d="M38.4 25H61.6C63.6 25 65.4 26.2 66.1 28.1L70.2 38H29.8L33.9 28.1C34.6 26.2 36.4 25 38.4 25Z"/></symbol>
+    <symbol id="car-lamps" viewBox="0 0 100 100"><path d="M23.5 50H32.5C34.4 50 36 51.6 36 53.5S34.4 57 32.5 57H23.5C21.6 57 20 55.4 20 53.5S21.6 50 23.5 50Z M67.5 50H76.5C78.4 50 80 51.6 80 53.5S78.4 57 76.5 57H67.5C65.6 57 64 55.4 64 53.5S65.6 50 67.5 50Z M43 61H57C58.1 61 59 61.9 59 63S58.1 65 57 65H43C41.9 65 41 64.1 41 63S41.9 61 43 61Z"/></symbol>
+    <symbol id="person" viewBox="0 0 100 100"><circle cx="50" cy="31" r="15"/><path d="M24 86C21.8 86 20 84.2 20 82C20 66.5 33.4 56 50 56S80 66.5 80 82C80 84.2 78.2 86 76 86Z"/></symbol>
+    <symbol id="phone" viewBox="0 0 100 100"><path d="M33.5 16.5C31 15.4 28 15.9 26 17.9L20.8 23C17.2 26.6 16.3 32 18.6 36.6C27.6 54.4 45.6 72.4 63.4 81.4C68 83.7 73.4 82.8 77 79.2L82.1 74C84.1 72 84.6 69 83.5 66.5L79.4 58.4C78 55.6 74.6 54.5 71.8 55.7L63.8 59.2C61.6 60.2 59 59.6 57.4 57.8C51.4 51.6 48.4 48.6 42.2 42.6C40.4 41 39.8 38.4 40.8 36.2L44.3 28.2C45.5 25.4 44.4 22 41.6 20.6Z"/></symbol>
+    <!-- 상태 표식 glyph (currentColor) -->
+    <symbol id="k-check" viewBox="0 0 24 24"><path d="M7.3 12.5 10.6 15.7 16.8 9.2" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="k-q" viewBox="0 0 24 24"><path d="M9.3 9.5C9.5 7.8 10.8 6.7 12.3 6.7 14 6.7 15.2 7.8 15.2 9.3 15.2 11.6 12.2 11.8 12.2 14.1" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/><circle cx="12.2" cy="17.4" r="1.4" fill="currentColor"/></symbol>
+    <symbol id="k-dots" viewBox="0 0 24 24"><g fill="currentColor"><circle cx="7.4" cy="12" r="1.55"/><circle cx="12" cy="12" r="1.55"/><circle cx="16.6" cy="12" r="1.55"/></g></symbol>
+
+    <linearGradient id="gGlass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".55" stop-color="#E6EAEB"/><stop offset="1" stop-color="#BFC6C9"/></linearGradient>
+    <linearGradient id="gBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F8F9F9"/><stop offset=".42" stop-color="#DCE0E1"/><stop offset=".78" stop-color="#A6ADB0"/><stop offset="1" stop-color="#7E8689"/></linearGradient>
+    <linearGradient id="gSide" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity=".32"/><stop offset=".2" stop-color="#000" stop-opacity="0"/><stop offset=".8" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".32"/></linearGradient>
+    <linearGradient id="gShield" x1="0" y1="0" x2=".4" y2="1"><stop offset="0" stop-color="#525B60"/><stop offset=".55" stop-color="#1B2023"/><stop offset="1" stop-color="#0E1113"/></linearGradient>
+    <radialGradient id="gLamp" cx=".5" cy=".35" r=".7"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".6" stop-color="#D9DFE0"/><stop offset="1" stop-color="#9DA6A9"/></radialGradient>
+    <linearGradient id="gMintDisc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#DDF7EA"/><stop offset="1" stop-color="#A6D9C2"/></linearGradient>
+    <linearGradient id="gGreyDisc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6A7275"/><stop offset="1" stop-color="#3E4548"/></linearGradient>
+    <linearGradient id="gCut" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8F979A"/><stop offset=".6" stop-color="#C9CFD1"/><stop offset="1" stop-color="#E9ECEC"/></linearGradient>
+
+    <filter id="fLift" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#000" flood-opacity=".38"/></filter>
+    <filter id="fObj" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="7" stdDeviation="6" flood-color="#000" flood-opacity=".55"/></filter>
+    <filter id="fBlur"><feGaussianBlur stdDeviation="2.4"/></filter>
+    <!-- 각인: 안쪽 위 그림자 + 아래 반사 + 바깥 아래 lip -->
+    <filter id="fCut" x="-10%" y="-10%" width="120%" height="125%">
+      <feComponentTransfer in="SourceAlpha" result="inv"><feFuncA type="table" tableValues="1 0"/></feComponentTransfer>
+      <feOffset in="inv" dy="3" result="o1"/><feGaussianBlur in="o1" stdDeviation="1.6" result="b1"/>
+      <feFlood flood-color="#000" flood-opacity=".9"/><feComposite in2="b1" operator="in"/><feComposite in2="SourceAlpha" operator="in" result="inSh"/>
+      <feOffset in="SourceAlpha" dy="1.2" result="o2"/><feComposite in="o2" in2="SourceAlpha" operator="out" result="lip"/>
+      <feFlood flood-color="#fff" flood-opacity=".32"/><feComposite in2="lip" operator="in" result="lipHi"/>
+      <feOffset in="SourceAlpha" dy="-1" result="o3"/><feComposite in="o3" in2="SourceAlpha" operator="out" result="top"/>
+      <feFlood flood-color="#000" flood-opacity=".6"/><feComposite in2="top" operator="in" result="topSh"/>
+      <feMerge><feMergeNode in="lipHi"/><feMergeNode in="topSh"/><feMergeNode in="SourceGraphic"/><feMergeNode in="inSh"/></feMerge>
+    </filter>
+    <filter id="fCutSm" x="-10%" y="-10%" width="120%" height="130%">
+      <feComponentTransfer in="SourceAlpha" result="inv"><feFuncA type="table" tableValues="1 0"/></feComponentTransfer>
+      <feOffset in="inv" dy="6" result="o1"/><feGaussianBlur in="o1" stdDeviation="3" result="b1"/>
+      <feFlood flood-color="#000" flood-opacity=".9"/><feComposite in2="b1" operator="in"/><feComposite in2="SourceAlpha" operator="in" result="inSh"/>
+      <feOffset in="SourceAlpha" dy="3" result="o2"/><feComposite in="o2" in2="SourceAlpha" operator="out" result="lip"/>
+      <feFlood flood-color="#fff" flood-opacity=".3"/><feComposite in2="lip" operator="in" result="lipHi"/>
+      <feMerge><feMergeNode in="lipHi"/><feMergeNode in="SourceGraphic"/><feMergeNode in="inSh"/></feMerge>
+    </filter>
+  </defs>
+</svg>
+
+<h2>어떤 "Apple스러움"이 맞아?</h2>
+<p class="subtitle lede">네 안 모두 형태는 같고 재질과 빛만 다름. 큰 tile은 차량 = 미확인, 아래 작은 icon은 구호 인계 미확인 · 통화 확인 중 · 차량 지원 접수 확인. Mint는 접수 확인 표식에만 씀. 끌리는 쪽을 click하고 이유는 terminal로 알려 줘. 섞어도 됨(예: B tile + D 작은 icon).</p>
+
+<div class="now">
+  <div class="tile">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#F2F4F2" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="m21 8-2 2-1.5-3.7A2 2 0 0 0 15.646 5H8.4a2 2 0 0 0-1.903 1.257L5 10 3 8"/><path d="M7 14h.01M17 14h.01"/><path d="M5 10h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2z"/><path d="M5 18v2M19 18v2"/></svg>
+    <span class="b"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F2F4F2" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/></svg></span>
+  </div>
+  <div><b style="color:#F2F4F2">지금</b> · Lucide 기본 선 icon 그대로. 2 px 선 하나라서 Satin 위에서 혼자 평평함.</div>
+</div>
+
+<div class="cards">
+
+  <!-- A -->
+  <div class="card a" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image stage">
+      <span class="tag">A</span>
+      <div class="cue">
+        <svg class="g" viewBox="0 0 100 100"><use href="#car-glass" fill="#F2F4F2" fill-opacity=".26"/><use href="#car-lamps" fill="#F2F4F2" fill-opacity=".38"/><use href="#car" fill="#F2F4F2"/></svg>
+        <span class="badge"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#F2F4F2"/><use href="#k-q" color="#131417"/></svg></span>
+      </div>
+      <div class="facts">
+        <div class="fact"><div class="ic"><svg class="g" viewBox="0 0 100 100"><use href="#person" fill="#F2F4F2"/></svg><svg class="m" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11.5" fill="#131417"/><circle cx="12" cy="12" r="9.5" fill="#F2F4F2"/><use href="#k-q" color="#131417"/></svg></div><b>구호 인계</b><i>미확인</i></div>
+        <div class="fact"><div class="ic"><svg class="g" viewBox="0 0 100 100"><use href="#phone" fill="#F2F4F2"/></svg><svg class="m" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11.5" fill="#131417"/><circle cx="12" cy="12" r="9.5" fill="#5B6366"/><use href="#k-dots" color="#F2F4F2"/></svg></div><b>통화</b><i>확인 중</i></div>
+        <div class="fact"><div class="ic"><svg class="g" viewBox="0 0 100 100"><use href="#car-glass" fill="#F2F4F2" fill-opacity=".26"/><use href="#car-lamps" fill="#F2F4F2" fill-opacity=".38"/><use href="#car" fill="#F2F4F2"/></svg><svg class="m" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11.5" fill="#131417"/><circle cx="12" cy="12" r="9.5" fill="#C4ECDA"/><use href="#k-check" color="#172A24"/></svg></div><b>차량 지원</b><i>접수 확인</i></div>
+      </div>
+    </div>
+    <div class="card-body"><h3>A · 정밀 symbol</h3><p>SF Symbols 방식. 선 대신 꽉 찬 면, 유리·등은 반투명 2단계(hierarchical). 재질은 없고 형태의 비례와 마감으로 승부.</p><p>가장 차분하고 작게 줄여도 잘 읽힘. 대신 "화려함"은 제일 약함.</p></div>
+  </div>
+
+  <!-- B -->
+  <div class="card b" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image stage">
+      <span class="tag">B</span><div class="glow"></div>
+      <div class="cue">
+        <svg class="g" viewBox="0 0 100 100" filter="url(#fLift)"><use href="#car-glass" fill="#FFFFFF" fill-opacity=".22"/><use href="#car-lamps" fill="#FFFFFF" fill-opacity=".34"/><use href="#car" fill="url(#gGlass)"/></svg>
+        <span class="badge"><svg viewBox="0 0 24 24" filter="url(#fLift)"><use href="#k-q" color="#FFFFFF"/></svg></span>
+      </div>
+      <div class="facts">
+        <div class="fact"><div class="ic"><svg class="g" viewBox="0 0 100 100"><use href="#person" fill="url(#gGlass)"/></svg><svg class="m" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#2A2F32"/><circle cx="12" cy="12" r="10.3" fill="none" stroke="#fff" stroke-opacity=".3"/><use href="#k-q" color="#FFFFFF"/></svg></div><b>구호 인계</b><i>미확인</i></div>
+        <div class="fact"><div class="ic"><svg class="g" viewBox="0 0 100 100"><use href="#phone" fill="url(#gGlass)"/></svg><svg class="m" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#2A2F32"/><circle cx="12" cy="12" r="10.3" fill="none" stroke="#fff" stroke-opacity=".3"/><use href="#k-dots" color="#FFFFFF"/></svg></div><b>통화</b><i>확인 중</i></div>
+        <div class="fact"><div class="ic"><svg class="g" viewBox="0 0 100 100"><use href="#car-glass" fill="#FFFFFF" fill-opacity=".22"/><use href="#car-lamps" fill="#FFFFFF" fill-opacity=".34"/><use href="#car" fill="url(#gGlass)"/></svg><svg class="m" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#C4ECDA"/><circle cx="12" cy="12" r="10.3" fill="none" stroke="#fff" stroke-opacity=".55"/><use href="#k-check" color="#172A24"/></svg></div><b>차량 지원</b><i>접수 확인</i></div>
+      </div>
+    </div>
+    <div class="card-body"><h3>B · Glass</h3><p>iOS 26 · visionOS의 Liquid Glass 방식. Symbol이 반투명 유리판 위에 떠 있고, 가장자리에 빛이 맺힘.</p><p>Satin 위에서 가장 "요즘 Apple" 같음. 유리판 뒤 배경에 따라 대비가 흔들릴 수 있음.</p></div>
+  </div>
+
+  <!-- C -->
+  <div class="card c" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image stage">
+      <span class="tag">C</span>
+      <div class="cue">
+        <svg class="g" viewBox="0 0 100 100">
+          <ellipse cx="50" cy="88" rx="36" ry="4" fill="#000" opacity=".55" filter="url(#fBlur)"/>
+          <g filter="url(#fObj)">
+            <use href="#car" fill="url(#gBody)"/>
+            <use href="#car" fill="url(#gSide)"/>
+            <use href="#car-glass" fill="url(#gShield)"/>
+            <path d="M47 25.2H55L44 37.8H36Z" fill="#fff" opacity=".13"/>
+            <use href="#car-lamps" fill="url(#gLamp)"/>
+            <path d="M36.5 21.2H63.5" stroke="#fff" stroke-width="1.6" stroke-linecap="round" opacity=".75"/>
+            <path d="M16 41.5H84" stroke="#fff" stroke-width="1" stroke-linecap="round" opacity=".45"/>
+          </g>
+        </svg>
+        <span class="badge"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="url(#gGreyDisc)"/><circle cx="12" cy="12" r="10.4" fill="none" stroke="#fff" stroke-opacity=".18"/><use href="#k-q" color="#F2F4F2"/></svg></span>
+      </div>
+      <div class="facts">
+        <div class="fact"><div class="ic"><svg class="g" viewBox="0 0 100 100" filter="url(#fObj)"><use href="#person" fill="url(#gBody)"/></svg><svg class="m" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="url(#gGreyDisc)"/><use href="#k-q" color="#F2F4F2"/></svg></div><b>구호 인계</b><i>미확인</i></div>
+        <div class="fact"><div class="ic"><svg class="g" viewBox="0 0 100 100" filter="url(#fObj)"><use href="#phone" fill="url(#gBody)"/></svg><svg class="m" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="url(#gGreyDisc)"/><use href="#k-dots" color="#F2F4F2"/></svg></div><b>통화</b><i>확인 중</i></div>
+        <div class="fact"><div class="ic"><svg class="g" viewBox="0 0 100 100" filter="url(#fObj)"><use href="#car" fill="url(#gBody)"/><use href="#car-glass" fill="url(#gShield)"/><use href="#car-lamps" fill="url(#gLamp)"/></svg><svg class="m" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="url(#gMintDisc)"/><use href="#k-check" color="#172A24"/></svg></div><b>차량 지원</b><i>접수 확인</i></div>
+      </div>
+    </div>
+    <div class="card-body"><h3>C · 조형 object</h3><p>macOS app icon 방식. Symbol을 빛 받는 작은 물체로 조각. 위는 밝고 아래로 어두워지며, 유리에 반사, 바닥에 그림자.</p><p>가장 화려함. 실제 차처럼 보일수록 spec의 "도식" 원칙과 부딪힐 위험이 있음.</p></div>
+  </div>
+
+  <!-- D -->
+  <div class="card d" data-choice="d" onclick="toggleSelect(this)">
+    <div class="card-image stage">
+      <span class="tag">D</span>
+      <div class="cue">
+        <svg class="g" viewBox="0 0 100 100" filter="url(#fCut)"><use href="#car" fill="url(#gCut)"/></svg>
+        <span class="badge"><svg viewBox="0 0 24 24"><use href="#k-q" color="#E6EAEB"/></svg></span>
+      </div>
+      <div class="facts">
+        <div class="fact"><div class="ic"><svg class="g" viewBox="0 0 100 100" filter="url(#fCutSm)"><use href="#person" fill="url(#gCut)"/></svg><svg class="m" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#2B3033" stroke="#5D6467" stroke-width="1"/><use href="#k-q" color="#E6EAEB"/></svg></div><b>구호 인계</b><i>미확인</i></div>
+        <div class="fact"><div class="ic"><svg class="g" viewBox="0 0 100 100" filter="url(#fCutSm)"><use href="#phone" fill="url(#gCut)"/></svg><svg class="m" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#2B3033" stroke="#5D6467" stroke-width="1"/><use href="#k-dots" color="#E6EAEB"/></svg></div><b>통화</b><i>확인 중</i></div>
+        <div class="fact"><div class="ic"><svg class="g" viewBox="0 0 100 100" filter="url(#fCutSm)"><use href="#car" fill="url(#gCut)"/></svg><svg class="m" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="url(#gMintDisc)" stroke="#2B3033" stroke-width="1"/><use href="#k-check" color="#172A24"/></svg></div><b>차량 지원</b><i>접수 확인</i></div>
+      </div>
+    </div>
+    <div class="card-body"><h3>D · 금속 각인</h3><p>Apple 기기 각인 · Watch 방식. Satin과 같은 금속판에 symbol을 깎아 넣고, 깎인 면이 빛을 받음. 확인 표식은 mint 법랑처럼 박힘.</p><p>배경 Satin과 한 몸처럼 보임. 대비가 낮아 운전 중 가독성은 따로 확인해야 함.</p></div>
+  </div>
+
+</div>
+</div>

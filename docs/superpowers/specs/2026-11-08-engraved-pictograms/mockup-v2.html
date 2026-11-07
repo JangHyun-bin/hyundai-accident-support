@@ -1,0 +1,119 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Engraved pictograms · mockup v2</title><style>body{margin:0;padding:28px;background:#1d1d1f;color:#F2F4F2;font-family:"Apple SD Gothic Neo",system-ui,sans-serif}h2{margin:0 0 6px}.subtitle{color:#A9B0B2;margin:0 0 20px}</style></head><body>
+<style>
+  .pd { --fg:#F2F4F2; --muted:#A9B0B2; font-family:"Apple SD Gothic Neo","Pretendard",system-ui,sans-serif; }
+  .pd .board { border-radius:18px; padding:28px 30px 30px; color:var(--fg);
+    background:
+      radial-gradient(80% 60% at 15% -10%, rgba(255,255,255,.07), transparent 60%),
+      repeating-linear-gradient(97deg, rgba(255,255,255,.016) 0 1px, rgba(0,0,0,.03) 1px 3px),
+      linear-gradient(160deg,#1F2225,#131417 72%); }
+  .pd h4 { font-size:12px; font-weight:600; letter-spacing:.06em; color:rgba(242,244,242,.5); margin:0 0 16px; }
+  .pd .row { display:flex; flex-wrap:wrap; gap:34px; align-items:flex-start; }
+  .pd .sec + .sec { margin-top:34px; padding-top:26px; border-top:1px solid rgba(255,255,255,.06); }
+  .pd .plate { background:
+      repeating-linear-gradient(92deg, rgba(255,255,255,.035) 0 1px, rgba(0,0,0,.04) 1px 2px),
+      linear-gradient(165deg,#4C5255 0%,#363B3E 36%,#2B3033 60%,#3D4346 100%);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.24), inset 0 -1px 0 rgba(0,0,0,.55), 0 22px 44px -16px rgba(0,0,0,.75); display:grid; place-items:center; position:relative; }
+  .pd .cue { width:150px; height:150px; border-radius:36px; }
+  .pd .cue > svg.g { width:100px; height:100px; overflow:visible; }
+  .pd .badge { position:absolute; right:-12px; bottom:-9px; width:52px; height:52px; border-radius:50%; display:grid; place-items:center;
+    background:linear-gradient(165deg,#4C5255,#2B3033); box-shadow:inset 0 1px 0 rgba(255,255,255,.22), inset 0 -1px 0 rgba(0,0,0,.55), 0 8px 16px -6px rgba(0,0,0,.7); }
+  .pd .badge svg { width:30px; height:30px; overflow:visible; }
+  .pd .item { display:flex; flex-direction:column; align-items:center; gap:10px; }
+  .pd .item b { font-size:12.5px; font-weight:600; }
+  .pd .item i { font-style:normal; font-size:11px; color:var(--muted); margin-top:-6px; }
+  .pd .sm { width:52px; height:52px; border-radius:15px; }
+  .pd .sm svg.g { width:38px; height:38px; overflow:visible; }
+  .pd .mk svg { width:30px; height:30px; overflow:visible; }
+  .pd .btn { display:inline-flex; align-items:center; gap:14px; padding:16px 22px 16px 20px; border-radius:16px; background:#C4ECDA; color:#172A24; font-size:18px; font-weight:700; letter-spacing:-.01em; box-shadow:inset 0 1px 0 rgba(255,255,255,.6), 0 12px 26px -12px rgba(0,0,0,.7); }
+  .pd .btn svg { width:28px; height:28px; }
+  .pd .note { font-size:12px; color:var(--muted); margin-top:12px; line-height:1.55; max-width:640px; }
+</style>
+
+<div class="pd">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="car" viewBox="0 0 100 100"><path fill-rule="evenodd" d="M36 20H64C67.8 20 71 22.3 72.3 25.8L77.4 40H87C89.8 40 92 42.2 92 45C92 47.2 90.3 49 88 49H86V66C86 70.4 82.4 74 78 74H22C17.6 74 14 70.4 14 66V49H12C9.7 49 8 47.2 8 45C8 42.2 10.2 40 13 40H22.6L27.7 25.8C29 22.3 32.2 20 36 20Z M38.4 25H61.6C63.6 25 65.4 26.2 66.1 28.1L70.2 38H29.8L33.9 28.1C34.6 26.2 36.4 25 38.4 25Z M23.5 50H32.5C34.4 50 36 51.6 36 53.5S34.4 57 32.5 57H23.5C21.6 57 20 55.4 20 53.5S21.6 50 23.5 50Z M67.5 50H76.5C78.4 50 80 51.6 80 53.5S78.4 57 76.5 57H67.5C65.6 57 64 55.4 64 53.5S65.6 50 67.5 50Z M43 61H57C58.1 61 59 61.9 59 63S58.1 65 57 65H43C41.9 65 41 64.1 41 63S41.9 61 43 61Z M19 77H33V82C33 84.2 31.2 86 29 86H23C20.8 86 19 84.2 19 82Z M67 77H81V82C81 84.2 79.2 86 77 86H71C68.8 86 67 84.2 67 82Z"/></symbol>
+    <symbol id="person" viewBox="0 0 100 100"><circle cx="50" cy="31" r="15"/><path d="M24 86C21.8 86 20 84.2 20 82C20 66.5 33.4 56 50 56S80 66.5 80 82C80 84.2 78.2 86 76 86Z"/></symbol>
+    <symbol id="phone" viewBox="0 0 100 100"><path d="M33.5 16.5C31 15.4 28 15.9 26 17.9L20.8 23C17.2 26.6 16.3 32 18.6 36.6C27.6 54.4 45.6 72.4 63.4 81.4C68 83.7 73.4 82.8 77 79.2L82.1 74C84.1 72 84.6 69 83.5 66.5L79.4 58.4C78 55.6 74.6 54.5 71.8 55.7L63.8 59.2C61.6 60.2 59 59.6 57.4 57.8C51.4 51.6 48.4 48.6 42.2 42.6C40.4 41 39.8 38.4 40.8 36.2L44.3 28.2C45.5 25.4 44.4 22 41.6 20.6Z"/></symbol>
+    <symbol id="route" viewBox="0 0 100 100"><path fill-rule="evenodd" stroke="none" d="M24 64A10 10 0 1 1 24 84A10 10 0 1 1 24 64ZM24 70A4 4 0 1 0 24 78A4 4 0 1 0 24 70Z"/><path fill-rule="evenodd" stroke="none" d="M72 54C65.5 45.5 58 38.5 58 30A14 14 0 1 1 86 30C86 38.5 78.5 45.5 72 54ZM72 24.5A5.5 5.5 0 1 0 72 35.5A5.5 5.5 0 1 0 72 24.5Z"/><path d="M34 74H58A14 14 0 0 0 72 60V57" fill="none" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <mask id="mHeart" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100"><rect width="100" height="100" fill="#fff"/><path d="M8 52H34L41 40L50 64L58 46L62 52H92" fill="none" stroke="#000" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/></mask>
+    <symbol id="heart" viewBox="0 0 100 100"><path mask="url(#mHeart)" d="M50 84 20.5 54.5C11.5 45.5 11.8 30.6 21.6 23 30.6 16 43 18.2 50 27.2 57 18.2 69.4 16 78.4 23 88.2 30.6 88.5 45.5 79.5 54.5Z"/></symbol>
+    <mask id="mBack" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100"><rect width="100" height="100" fill="#fff"/><g fill="#000" stroke="#000" stroke-width="10" stroke-linejoin="round"><circle cx="38" cy="38" r="13"/><path d="M15 86C13 86 11.5 84.5 11.5 82.5 11.5 69 23.5 60 38 60S64.5 69 64.5 82.5C64.5 84.5 63 86 61 86Z"/></g></mask><symbol id="handoff" viewBox="0 0 100 100"><g mask="url(#mBack)"><circle cx="66" cy="30" r="12"/><path d="M48 76C46 76 44.5 74.5 44.5 72.5 44.5 60 55 52 66 52S87.5 60 87.5 72.5C87.5 74.5 86 76 84 76Z"/></g><circle cx="38" cy="38" r="13"/><path d="M15 86C13 86 11.5 84.5 11.5 82.5 11.5 69 23.5 60 38 60S64.5 69 64.5 82.5C64.5 84.5 63 86 61 86Z"/></symbol>
+
+    <symbol id="k-check" viewBox="0 0 24 24"><path d="M7.3 12.5 10.6 15.7 16.8 9.2" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="k-q" viewBox="0 0 24 24"><path d="M9.3 9.5C9.5 7.8 10.8 6.7 12.3 6.7 14 6.7 15.2 7.8 15.2 9.3 15.2 11.6 12.2 11.8 12.2 14.1" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/><circle cx="12.2" cy="17.4" r="1.4" fill="currentColor"/></symbol>
+    <symbol id="k-dots" viewBox="0 0 24 24"><g fill="currentColor"><circle cx="7.4" cy="12" r="1.55"/><circle cx="12" cy="12" r="1.55"/><circle cx="16.6" cy="12" r="1.55"/></g></symbol>
+    <symbol id="k-warn" viewBox="0 0 24 24"><path d="M12 2.6C12.9 2.6 13.6 3.1 14.1 3.9L22.2 18.2C23.1 19.8 22 21.8 20.1 21.8H3.9C2 21.8.9 19.8 1.8 18.2L9.9 3.9C10.4 3.1 11.1 2.6 12 2.6Z" fill="url(#gWarn)" stroke="#2B3033" stroke-width=".8"/><path d="M12 9V14" stroke="#3A2218" stroke-width="2.4" stroke-linecap="round"/><circle cx="12" cy="17.6" r="1.35" fill="#3A2218"/></symbol>
+
+    <linearGradient id="gCut" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8F979A"/><stop offset=".6" stop-color="#C9CFD1"/><stop offset="1" stop-color="#E9ECEC"/></linearGradient>
+    <linearGradient id="gCutSm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B9C0C3"/><stop offset=".55" stop-color="#E2E6E7"/><stop offset="1" stop-color="#F6F7F7"/></linearGradient>
+    <linearGradient id="gMintDisc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#DDF7EA"/><stop offset="1" stop-color="#A6D9C2"/></linearGradient>
+    <linearGradient id="gWarn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F8D4C2"/><stop offset="1" stop-color="#E3A388"/></linearGradient>
+
+    <filter id="fCut" x="-10%" y="-10%" width="120%" height="125%">
+      <feComponentTransfer in="SourceAlpha" result="inv"><feFuncA type="table" tableValues="1 0"/></feComponentTransfer>
+      <feOffset in="inv" dy="3" result="o1"/><feGaussianBlur in="o1" stdDeviation="1.6" result="b1"/>
+      <feFlood flood-color="#000" flood-opacity=".9"/><feComposite in2="b1" operator="in"/><feComposite in2="SourceAlpha" operator="in" result="inSh"/>
+      <feOffset in="SourceAlpha" dy="1.2" result="o2"/><feComposite in="o2" in2="SourceAlpha" operator="out" result="lip"/>
+      <feFlood flood-color="#fff" flood-opacity=".32"/><feComposite in2="lip" operator="in" result="lipHi"/>
+      <feOffset in="SourceAlpha" dy="-1" result="o3"/><feComposite in="o3" in2="SourceAlpha" operator="out" result="top"/>
+      <feFlood flood-color="#000" flood-opacity=".6"/><feComposite in2="top" operator="in" result="topSh"/>
+      <feMerge><feMergeNode in="lipHi"/><feMergeNode in="topSh"/><feMergeNode in="SourceGraphic"/><feMergeNode in="inSh"/></feMerge>
+    </filter>
+    <filter id="fCutSm" x="-10%" y="-10%" width="120%" height="130%">
+      <feComponentTransfer in="SourceAlpha" result="inv"><feFuncA type="table" tableValues="1 0"/></feComponentTransfer>
+      <feOffset in="inv" dy="3.2" result="o1"/><feGaussianBlur in="o1" stdDeviation="1.6" result="b1"/>
+      <feFlood flood-color="#000" flood-opacity=".55"/><feComposite in2="b1" operator="in"/><feComposite in2="SourceAlpha" operator="in" result="inSh"/>
+      <feOffset in="SourceAlpha" dy="3" result="o2"/><feComposite in="o2" in2="SourceAlpha" operator="out" result="lip"/>
+      <feFlood flood-color="#fff" flood-opacity=".38"/><feComposite in2="lip" operator="in" result="lipHi"/>
+      <feMerge><feMergeNode in="lipHi"/><feMergeNode in="SourceGraphic"/><feMergeNode in="inSh"/></feMerge>
+    </filter>
+  </defs>
+</svg>
+
+<h2>D · 전체 glyph 초안</h2>
+<p class="subtitle">v2 · 경로는 도착 pin으로, 구호 인계는 두 사람으로 다시 그리고, 작은 icon은 얕게 깎고 면을 밝혀 대비를 올림. 차량 화면 안에서 쓰는 icon을 모두 D 방식으로 다시 그림. 어색하거나 여전히 흔해 보이는 것을 짚어 줘.</p>
+
+<div class="board">
+  <div class="sec">
+    <h4>큰 CUE · 상태 3종</h4>
+    <div class="row">
+      <div class="item"><div class="plate cue"><svg class="g" viewBox="0 0 100 100" filter="url(#fCut)"><use href="#person" fill="url(#gCut)"/></svg><span class="badge"><svg viewBox="0 0 24 24"><use href="#k-warn"/></svg></span></div><b>사람</b><i>주의 · 부상 있음</i></div>
+      <div class="item"><div class="plate cue"><svg class="g" viewBox="0 0 100 100" filter="url(#fCut)"><use href="#phone" fill="url(#gCut)"/></svg><span class="badge"><svg viewBox="0 0 24 24"><use href="#k-q" color="#E6EAEB"/></svg></span></div><b>전화</b><i>미확인</i></div>
+      <div class="item"><div class="plate cue"><svg class="g" viewBox="0 0 100 100" filter="url(#fCut)"><use href="#car" fill="url(#gCut)"/></svg><span class="badge"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.6" fill="url(#gMintDisc)" stroke="#2B3033" stroke-width=".8"/><use href="#k-check" color="#172A24"/></svg></span></div><b>차량</b><i>접수 확인</i></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h4>사실 줄 ICON · 6종</h4>
+    <div class="row">
+      <div class="item"><div class="plate sm"><svg class="g" viewBox="0 0 100 100" filter="url(#fCutSm)"><use href="#person" fill="url(#gCutSm)"/></svg></div><b>운전자</b><i>person</i></div>
+      <div class="item"><div class="plate sm"><svg class="g" viewBox="0 0 100 100" filter="url(#fCutSm)"><use href="#route" fill="url(#gCutSm)" stroke="url(#gCutSm)"/></svg></div><b>경로</b><i>route</i></div>
+      <div class="item"><div class="plate sm"><svg class="g" viewBox="0 0 100 100" filter="url(#fCutSm)"><use href="#heart" fill="url(#gCutSm)"/></svg></div><b>부상</b><i>heart-pulse</i></div>
+      <div class="item"><div class="plate sm"><svg class="g" viewBox="0 0 100 100" filter="url(#fCutSm)"><use href="#person" fill="url(#gCutSm)"/></svg></div><b>의식</b><i>person</i></div>
+      <div class="item"><div class="plate sm"><svg class="g" viewBox="0 0 100 100" filter="url(#fCutSm)"><use href="#car" fill="url(#gCutSm)"/></svg></div><b>현장 도착</b><i>vehicle</i></div>
+      <div class="item"><div class="plate sm"><svg class="g" viewBox="0 0 100 100" filter="url(#fCutSm)"><use href="#handoff" fill="url(#gCutSm)"/></svg></div><b>구호 인계</b><i>handoff</i></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h4>상태 표식 · 4종</h4>
+    <div class="row">
+      <div class="item mk"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="url(#gMintDisc)" stroke="#2B3033" stroke-width="1"/><use href="#k-check" color="#172A24"/></svg><b>접수 확인</b><i>mint 법랑</i></div>
+      <div class="item mk"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#2B3033" stroke="#5D6467" stroke-width="1"/><use href="#k-q" color="#E6EAEB"/></svg><b>미확인</b><i>금속 · ?</i></div>
+      <div class="item mk"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#2B3033" stroke="#5D6467" stroke-width="1"/><use href="#k-dots" color="#E6EAEB"/></svg><b>확인 중</b><i>금속 · …</i></div>
+      <div class="item mk"><svg viewBox="0 0 24 24"><use href="#k-warn"/></svg><b>주의</b><i>warning 법랑</i></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h4>주 행동 BUTTON · 깎지 않고 형태만 교체</h4>
+    <div class="row">
+      <span class="btn"><svg viewBox="0 0 100 100"><use href="#phone" fill="#172A24"/></svg>도움 요청<svg viewBox="0 0 100 100" fill="none" stroke="#172A24" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 50H80M56 26 80 50 56 74"/></svg></span>
+      <span class="btn"><svg viewBox="0 0 100 100"><use href="#route" fill="#172A24" stroke="#172A24"/></svg>결과 조회<svg viewBox="0 0 100 100" fill="none" stroke="#172A24" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 50H80M56 26 80 50 56 74"/></svg></span>
+    </div>
+    <p class="note">주의 표식만 기존 warning 색, 접수 확인만 mint. 나머지는 전부 같은 금속이며 색 없이 모양(?, …, ✓, !)으로 구별됨.</p>
+  </div>
+</div>
+</div>
+</body></html>
