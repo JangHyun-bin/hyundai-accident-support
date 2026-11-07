@@ -54,3 +54,4 @@ Asta, 기존 dark semantic palette, 1440 × 810 CSS px canvas를 사용한다. �
 - 재질 전환과 표면 강도 변경은 장면·기관 상태·시연 일시 중단 여부를 변경하지 않는다. 기본 강도는 70%이며 확정된 차량 design token이 아닌 비교 시작값이다.
 - 자동 animation과 반복 render는 없다. 장면이 바뀌어도 같은 배경을 유지한다. WebGL 2 실패·context loss 시 기본 배경을 사용하며 안내·행동을 막지 않는다.
 - 최대 강도의 실제 shader pixel을 대상으로 한 보수적 배경 contrast 계산에서 보조 글자색 `#a9b0b2`와의 최소 비율은 약 4.73:1이었다. 이는 전체 UI의 accessibility 인증이나 실제 차량 시인성 검증이 아니다. 측정은 `prototype/web/evidence/emergency-satin/contrast-check.json`에 기록했다.
+- 금속 각인 pictogram은 면과 주변 plate의 대비를 그림자 띠까지 포함한 rendered pixel로 측정했다. 최소 비율은 cue 차량 glyph의 약 3.26:1이고, 상태 표식은 6.99:1 이상이었다. 시안보다 깊이를 줄이고 가독성을 우선했다(2026-11-08 사용자 결정). 측정은 `prototype/web/evidence/emergency-glyphs/contrast-check.json`에 기록했다.
