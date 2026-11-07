@@ -1,0 +1,99 @@
+<style>
+  .u-wrap{display:grid;gap:28px}
+  .u-pair{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .u-frame{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:10px;background:#000;container-type:inline-size}
+  .u-scr{position:absolute;inset:0;width:1440px;height:810px;transform-origin:top left;transform:scale(calc(100cqw / 1440px));font-family:"Pretendard","Apple SD Gothic Neo",system-ui,sans-serif;color:#fff;letter-spacing:-.01em}
+  @supports not (transform:scale(calc(100cqw / 1440px))){.u-scr{transform:scale(.42)}}
+  .u-tag{font-size:22px;font-weight:600;letter-spacing:.08em;color:#8A9194;text-transform:uppercase}
+  .u-note{font-size:13px;color:#888;margin-top:8px;line-height:1.5}
+  .u-h{font-size:18px;font-weight:700;margin:0 0 4px}
+  /* B — dark, one hot element */
+  .b{background:#0A0C0D;display:grid;grid-template-rows:150px 1fr 170px;padding:0 96px}
+  .b .k{display:flex;align-items:center;gap:28px;border-bottom:1px solid #22272A}
+  .b .plate{width:84px;height:84px;border-radius:22px;background:linear-gradient(165deg,#4C5255,#2B3033);display:grid;place-items:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
+  .b .k b{font-size:46px;font-weight:700}
+  .b .k .q{font-size:34px;color:#C9CFD1;margin-left:18px}
+  .b .k .q i{display:inline-grid;place-items:center;width:40px;height:40px;border-radius:50%;background:#2B3033;border:1px solid #5D6467;font-style:normal;font-weight:800;font-size:26px;margin-right:10px;vertical-align:4px}
+  .b .hero{display:flex;align-items:center;gap:64px}
+  .b .ring{position:relative;width:230px;height:230px;flex:none}
+  .b .ring span{position:absolute;inset:0;display:grid;place-items:center;font-size:120px;font-weight:800;font-variant-numeric:tabular-nums;color:#FF453A}
+  .b h1{font-size:100px;font-weight:800;margin:0;line-height:1.05}
+  .b .sub{font-size:36px;color:#C9CFD1;margin:18px 0 34px}
+  .b .btns{display:flex;gap:20px}
+  .b .go{height:110px;padding:0 64px;border-radius:24px;background:#FF453A;color:#fff;font-size:44px;font-weight:800;display:flex;align-items:center}
+  .b .no{height:110px;padding:0 48px;border-radius:24px;border:2px solid #5D6467;color:#E6EAEB;font-size:40px;font-weight:700;display:flex;align-items:center}
+  .b .me{display:flex;align-items:center;gap:28px;border-top:1px solid #22272A}
+  .b .me b{font-size:50px;font-weight:800}
+  .b .me .arr{font-size:44px;color:#5D6467}
+  /* A — full alert field */
+  .a{background:radial-gradient(120% 90% at 30% 20%,#B3131B 0%,#7A0A10 55%,#3D0508 100%);display:grid;grid-template-rows:150px 1fr 170px;padding:0 96px}
+  .a .k{display:flex;align-items:center;gap:22px;font-size:40px;font-weight:700;color:#FFD9D6;border-bottom:1px solid rgba(255,255,255,.18)}
+  .a .hero{display:grid;place-items:center;text-align:center}
+  .a .num{font-size:230px;font-weight:800;line-height:.9;font-variant-numeric:tabular-nums}
+  .a h1{font-size:92px;font-weight:800;margin:6px 0 30px}
+  .a .btns{display:flex;gap:20px;justify-content:center}
+  .a .go{height:110px;padding:0 70px;border-radius:55px;background:#fff;color:#9A0E15;font-size:44px;font-weight:800;display:flex;align-items:center}
+  .a .no{height:110px;padding:0 50px;border-radius:55px;border:2px solid rgba(255,255,255,.6);font-size:40px;font-weight:700;display:flex;align-items:center}
+  .a .me{display:flex;align-items:center;gap:24px;font-size:48px;font-weight:800;border-top:1px solid rgba(255,255,255,.18)}
+  /* decay strip */
+  .u-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .b.s2 .ring span{color:#FFB340;font-size:64px}
+  .b.s3 .ring span{color:#DDF7EA;font-size:64px}
+</style>
+
+<div class="u-wrap">
+  <div>
+    <h2>긴박함을 어떻게 보여줄까</h2>
+    <p class="subtitle">같은 장면(SC03 · 응답 없음, 자동 연결 8초 전)을 두 방식으로. 위 = ① 감지, 가운데 = ② 차량이 할 일, 아래 = ③ 내가 할 일.</p>
+  </div>
+
+  <div class="cards u-pair">
+    <div class="card" data-choice="B" onclick="toggleSelect(this)">
+      <div class="u-frame"><div class="u-scr b">
+        <div class="k"><span class="u-tag">감지</span>
+          <div class="plate"><svg width="52" height="52" viewBox="0 0 48 48"><circle cx="24" cy="15" r="8" fill="#D6DBDD"/><path d="M9 41a15 15 0 0 1 30 0z" fill="#D6DBDD"/></svg></div>
+          <b>충돌 감지</b><span class="q"><i>?</i>운전자 응답 없음</span></div>
+        <div class="hero">
+          <div class="ring"><svg width="230" height="230" viewBox="0 0 230 230"><circle cx="115" cy="115" r="100" fill="none" stroke="#2B1311" stroke-width="16"/><circle cx="115" cy="115" r="100" fill="none" stroke="#FF453A" stroke-width="16" stroke-linecap="round" stroke-dasharray="502.6 628.3" transform="rotate(-90 115 115)"/></svg><span>8</span></div>
+          <div><span class="u-tag">차량</span><h1>119에 연결합니다</h1><p class="sub">응답이 없으면 8초 후 자동 연결</p>
+            <div class="btns"><span class="go">지금 연결</span><span class="no">취소</span></div></div>
+        </div>
+        <div class="me"><span class="u-tag">나</span><b>비상등 켜기</b><span class="arr">→</span><b>가드레일 밖으로</b></div>
+      </div></div>
+      <div class="card-body"><p class="u-h">B · 어둠 속 한 점 (추천)</p><p class="u-note">화면은 어둡게 두고, 지금 결정할 것 하나만 빨갛게. 눈이 갈 곳이 하나라 읽지 않아도 된다. 금속 pictogram은 ① 감지에 남는다.</p></div>
+    </div>
+
+    <div class="card" data-choice="A" onclick="toggleSelect(this)">
+      <div class="u-frame"><div class="u-scr a">
+        <div class="k">충돌 감지 · 운전자 응답 없음</div>
+        <div class="hero"><div><div class="num">8</div><h1>119에 연결합니다</h1>
+          <div class="btns"><span class="go">지금 연결</span><span class="no">취소</span></div></div></div>
+        <div class="me">비상등 켜기 → 가드레일 밖으로</div>
+      </div></div>
+      <div class="card-body"><p class="u-h">A · 전면 경보</p><p class="u-note">화면 전체가 빨간 경보. iPhone 충돌 감지에 가까움. 가장 강하지만, 놀란 사람을 더 얼어붙게 할 수 있고 금속 재질과는 안 맞는다.</p></div>
+    </div>
+  </div>
+
+  <div>
+    <p class="u-h">B의 핵심: 긴박도가 상태를 따라 내려간다</p>
+    <p class="u-note" style="margin:0 0 10px">결정이 필요할 때만 빨강. 차가 일을 진행하면 호박색, 접수가 확인되면 차분해진다 — 단, 초록 "완료" 화면은 없다.</p>
+    <div class="u-strip">
+      <div class="u-frame"><div class="u-scr b">
+        <div class="k"><span class="u-tag">감지</span><b>충돌 감지</b></div>
+        <div class="hero"><div class="ring"><svg width="230" height="230" viewBox="0 0 230 230"><circle cx="115" cy="115" r="100" fill="none" stroke="#2B1311" stroke-width="16"/><circle cx="115" cy="115" r="100" fill="none" stroke="#FF453A" stroke-width="16" stroke-linecap="round" stroke-dasharray="502.6 628.3" transform="rotate(-90 115 115)"/></svg><span>8</span></div><div><h1>119에 연결합니다</h1><div class="btns" style="margin-top:30px"><span class="go">지금 연결</span><span class="no">취소</span></div></div></div>
+        <div class="me"><span class="u-tag">나</span><b>비상등 켜기</b></div>
+      </div></div>
+      <div class="u-frame"><div class="u-scr b s2">
+        <div class="k"><span class="u-tag">감지</span><b>충돌 감지</b></div>
+        <div class="hero"><div class="ring"><svg width="230" height="230" viewBox="0 0 230 230"><circle cx="115" cy="115" r="100" fill="none" stroke="#3A2A12" stroke-width="16"/><circle cx="115" cy="115" r="100" fill="none" stroke="#FFB340" stroke-width="16" stroke-linecap="round" stroke-dasharray="160 628.3" transform="rotate(-90 115 115)"/></svg><span>···</span></div><div><h1>119 연결 중</h1><p class="sub">응답이 없어 자동으로 연결했어요</p></div></div>
+        <div class="me"><span class="u-tag">나</span><b>가드레일 밖으로</b></div>
+      </div></div>
+      <div class="u-frame"><div class="u-scr b s3">
+        <div class="k"><span class="u-tag">감지</span><b>충돌 감지</b></div>
+        <div class="hero"><div class="ring"><svg width="230" height="230" viewBox="0 0 230 230"><circle cx="115" cy="115" r="100" fill="none" stroke="#2B3033" stroke-width="16"/></svg><span>✓</span></div><div><h1>구호 접수 확인</h1><p class="sub">도착은 아직 미확인 · 다음: 차량 지원 요청</p></div></div>
+        <div class="me"><span class="u-tag">나</span><b>안전한 곳에서 대기</b></div>
+      </div></div>
+    </div>
+    <p class="u-note">① 결정 필요 (빨강) → ② 차가 진행 중 (호박) → ③ 접수 확인 (neutral, 확인 표식만 mint)</p>
+  </div>
+</div>
