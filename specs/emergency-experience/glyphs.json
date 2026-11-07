@@ -229,7 +229,7 @@
       "inner": {
         "dy": 1.44,
         "blur": 0.77,
-        "opacity": 0.3
+        "opacity": 0.12
       },
       "lip": {
         "dy": 0.58,
@@ -244,7 +244,7 @@
       "inner": {
         "dy": 1.54,
         "blur": 0.77,
-        "opacity": 0.4
+        "opacity": 0.2
       },
       "lip": {
         "dy": 1.44,

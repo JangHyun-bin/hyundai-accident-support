@@ -4,13 +4,13 @@
     "cue person": {
       "query": "scenario=SC01&scene=initial",
       "target": ".emergency-symbol",
-      "ratio": 3.259474225067772,
-      "face_pixels": 25665,
+      "ratio": 3.460274530449087,
+      "face_pixels": 25666,
       "plate_pixels": 18458,
       "face_worst_rgb": [
-        155,
-        161,
-        163
+        160,
+        166,
+        168
       ],
       "plate_worst_rgb": [
         73,
@@ -21,13 +21,13 @@
     "cue phone": {
       "query": "scenario=SC01&scene=contact_unknown",
       "target": ".emergency-symbol",
-      "ratio": 3.259474225067772,
+      "ratio": 3.460274530449087,
       "face_pixels": 20397,
       "plate_pixels": 16486,
       "face_worst_rgb": [
-        155,
-        161,
-        163
+        160,
+        166,
+        168
       ],
       "plate_worst_rgb": [
         73,
@@ -38,13 +38,13 @@
     "cue vehicle": {
       "query": "scenario=SC05&scene=initial",
       "target": ".emergency-symbol",
-      "ratio": 3.070305210361398,
+      "ratio": 3.259451735623948,
       "face_pixels": 34023,
       "plate_pixels": 26467,
       "face_worst_rgb": [
-        155,
-        161,
-        163
+        160,
+        166,
+        168
       ],
       "plate_worst_rgb": [
         76,
@@ -55,13 +55,13 @@
     "fact driver": {
       "query": "scenario=SC01",
       "target": "[data-fact=\"driver\"] .emergency-fact-plate",
-      "ratio": 3.806136115779292,
+      "ratio": 3.7346945882554246,
       "face_pixels": 772,
       "plate_pixels": 3969,
       "face_worst_rgb": [
-        179,
-        185,
-        187
+        178,
+        183,
+        186
       ],
       "plate_worst_rgb": [
         80,
@@ -72,13 +72,13 @@
     "fact route": {
       "query": "scenario=SC01",
       "target": "[data-fact=\"route\"] .emergency-fact-plate",
-      "ratio": 4.310355156620968,
+      "ratio": 4.250133240255105,
       "face_pixels": 240,
       "plate_pixels": 4262,
       "face_worst_rgb": [
-        180,
-        185,
-        188
+        178,
+        184,
+        186
       ],
       "plate_worst_rgb": [
         73,
@@ -89,13 +89,13 @@
     "fact injury": {
       "query": "scenario=SC03",
       "target": "[data-fact=\"injury\"] .emergency-fact-plate",
-      "ratio": 4.034709014325282,
+      "ratio": 3.9870006607180404,
       "face_pixels": 832,
       "plate_pixels": 3956,
       "face_worst_rgb": [
-        178,
-        183,
-        186
+        177,
+        182,
+        184
       ],
       "plate_worst_rgb": [
         75,
@@ -106,13 +106,13 @@
     "fact consciousness": {
       "query": "scenario=SC03",
       "target": "[data-fact=\"consciousness\"] .emergency-fact-plate",
-      "ratio": 3.7346945882554246,
+      "ratio": 3.6905337505348053,
       "face_pixels": 773,
       "plate_pixels": 3977,
       "face_worst_rgb": [
-        178,
-        183,
-        186
+        177,
+        182,
+        184
       ],
       "plate_worst_rgb": [
         80,
@@ -123,16 +123,16 @@
     "fact arrival": {
       "query": "scenario=SC05",
       "target": "[data-fact=\"arrival\"] .emergency-fact-plate",
-      "ratio": 3.6370742160633345,
+      "ratio": 3.6370344296140686,
       "face_pixels": 847,
       "plate_pixels": 4569,
       "face_worst_rgb": [
-        174,
+        173,
         178,
-        181
+        180
       ],
       "plate_worst_rgb": [
-        79,
+        78,
         83,
         86
       ]
@@ -140,12 +140,12 @@
     "fact handoff": {
       "query": "scenario=SC05",
       "target": "[data-fact=\"handoff\"] .emergency-fact-plate",
-      "ratio": 4.11448387121998,
+      "ratio": 4.072334300069317,
       "face_pixels": 848,
       "plate_pixels": 4361,
       "face_worst_rgb": [
-        177,
-        182,
+        176,
+        181,
         184
       ],
       "plate_worst_rgb": [

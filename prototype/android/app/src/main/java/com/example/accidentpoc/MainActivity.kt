@@ -16,7 +16,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -28,13 +27,10 @@ import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ShaderBrush
-import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.StrokeJoin
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.graphics.vector.addPathNodes
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.LiveRegionMode
@@ -156,13 +152,15 @@ private fun Storyboard(story: Scenario, start: String) {
     val sceneFocus = remember { story.scenes.associate { it.id to FocusRequester() } }
     var focusAfter by remember { mutableStateOf<FocusRequester?>(null) }
     LaunchedEffect(sceneId, focusAfter) { focusAfter?.requestFocus(); focusAfter = null }
-    Column(Modifier.fillMaxSize().background(Ui.review)) {
+    val context = LocalContext.current
+    val glyphs = remember { loadGlyphs(context) }
+    CompositionLocalProvider(LocalGlyphs provides glyphs) { Column(Modifier.fillMaxSize().background(Ui.review)) {
         ProductScreen(story, scene, satin && satinAvailable, titleFocus, Modifier.fillMaxWidth().weight(1f)) { sceneId = it; focusAfter = titleFocus }
         // 시연 control 은 차량 화면 밖의 검토 도구라 font scale 을 따르지 않는다. 커지면 차량 화면을 밀어낸다.
         CompositionLocalProvider(LocalDensity provides Density(LocalDensity.current.density, 1f)) {
             ReviewStrip(story, scene, satin, satinAvailable, sceneFocus, { to, event -> sceneId = to; if (event) focusAfter = sceneFocus.getValue(to) }, { satin = it })
         }
-    }
+    } }
 }
 
 @Composable
@@ -173,10 +171,6 @@ private fun Copy(value: String, size: Int, color: Color = Ui.foreground, weight:
 // 한국어를 어절 단위로 나누고 줄 길이를 고르게 한다 (web 의 text-wrap: balance 에 대응). Phrase 는 Android 13 이상이며 ko locale 이 필요하다.
 private val korean = LocaleList("ko-KR")
 private val koreanLineBreak = LineBreak(LineBreak.Strategy.Balanced, LineBreak.Strictness.Default, LineBreak.WordBreak.Phrase)
-
-private fun mix(color: Color, base: Color, amount: Float) = Color(
-    base.red + (color.red - base.red) * amount, base.green + (color.green - base.green) * amount, base.blue + (color.blue - base.blue) * amount
-)
 
 @Composable
 private fun Divider(color: Color) = Box(Modifier.fillMaxWidth().height(1.dp).background(color))
@@ -210,15 +204,15 @@ private fun ProductScreen(story: Scenario, scene: Scene, satin: Boolean, titleFo
 
 @Composable
 private fun Cue(scene: Scene, modifier: Modifier) {
+    // Glyph 본체는 모든 tone 에서 금속이다. Tone 색은 label 과 표식에만 남는다.
     val color = if (scene.cueStatus == "attention") Ui.warning else Ui.foreground
-    val shape = RoundedCornerShape(56.dp)
-    Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(modifier.testTag("cue"), horizontalAlignment = Alignment.CenterHorizontally) {
         Box(Modifier.size(268.dp)) {
-            Box(Modifier.matchParentSize().clip(shape).background(mix(color, Ui.background, .06f)).border(1.dp, mix(color, Ui.background, .24f), shape), contentAlignment = Alignment.Center) {
-                LucideIcon(symbols[scene.cueSymbol] ?: "circle-question-mark", 1.3f, color, 174.dp)
+            Box(Modifier.matchParentSize().metalPlate(RoundedCornerShape(56.dp)), contentAlignment = Alignment.Center) {
+                EngravedGlyph(LocalGlyphs.current.cue(scene.cueSymbol), Depth.Deep, 174.dp)
             }
-            Box(Modifier.align(Alignment.BottomEnd).offset(18.dp, 12.dp).size(100.dp).clip(CircleShape).background(Ui.background), contentAlignment = Alignment.Center) {
-                StatusMark(scene.cueStatus, 68.dp, if (scene.cueStatus == "confirmed") Ui.primary else color)
+            Box(Modifier.align(Alignment.BottomEnd).offset(18.dp, 12.dp).size(100.dp).clip(CircleShape).background(Brush.linearGradient(listOf(Color(0xFF4C5255), Color(0xFF2B3033)))), contentAlignment = Alignment.Center) {
+                StatusMark(scene.cueStatus, 68.dp)
             }
         }
         Spacer(Modifier.height(30.dp))
@@ -241,10 +235,10 @@ private fun ActionArea(story: Scenario, scene: Scene, titleFocus: FocusRequester
         Box(Modifier.fillMaxWidth().heightIn(min = 116.dp).padding(top = 28.dp)) {
             scene.actions.forEach { action ->
                 Row(Modifier.fillMaxWidth().heightIn(min = 82.dp).clip(RoundedCornerShape(14.dp)).background(Ui.primary).clickable(role = Role.Button) { go(action.to) }.padding(horizontal = 28.dp, vertical = 22.dp), verticalAlignment = Alignment.CenterVertically) {
-                    LucideIcon("route", 2f, Ui.primaryForeground, 30.dp)
+                    SolidGlyph(LocalGlyphs.current.action(action.id), Ui.primaryForeground, 30.dp)
                     Spacer(Modifier.width(18.dp))
                     Copy(action.label, 28, Ui.primaryForeground, FontWeight.SemiBold, modifier = Modifier.weight(1f))
-                    LucideIcon("arrow-right", 2f, Ui.primaryForeground, 28.dp)
+                    SolidGlyph("arrow-right", Ui.primaryForeground, 28.dp)
                 }
             }
         }
@@ -260,13 +254,15 @@ private fun ActionArea(story: Scenario, scene: Scene, titleFocus: FocusRequester
         Row(horizontalArrangement = Arrangement.spacedBy(24.dp)) {
             story.facts.forEach { fact ->
                 Row(Modifier.weight(1f).testTag("fact-${fact.id}").semantics(mergeDescendants = true) {}, verticalAlignment = Alignment.CenterVertically) {
-                    LucideIcon(factSymbols[fact.id] ?: "circle-question-mark", 1.5f, Ui.muted, 32.dp)
+                    Box(Modifier.size(48.dp).metalPlate(RoundedCornerShape(14.dp)), contentAlignment = Alignment.Center) {
+                        EngravedGlyph(LocalGlyphs.current.fact(fact.id), Depth.Shallow, 34.dp)
+                    }
                     Spacer(Modifier.width(12.dp))
                     Column {
                         Copy(fact.label, 18, Ui.muted)
                         Spacer(Modifier.height(8.dp))
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            StatusMark(fact.status, 23.dp, if (fact.status == "confirmed") Ui.primary else Ui.muted)
+                            StatusMark(fact.status, 23.dp)
                             Spacer(Modifier.width(9.dp))
                             Copy(fact.value, 26, weight = FontWeight.SemiBold, lineHeight = 1.2f)
                         }
@@ -281,7 +277,7 @@ private fun ActionArea(story: Scenario, scene: Scene, titleFocus: FocusRequester
 private fun RequestStatus(request: Request, status: String, statuses: Map<String, Pair<String, String>>) {
     val (label, tone) = statuses.getValue(status)
     Row(Modifier.widthIn(min = 240.dp).testTag("request-${request.id}").semantics(mergeDescendants = true) {}, verticalAlignment = Alignment.CenterVertically) {
-        StatusMark(tone, 30.dp, if (tone == "confirmed") Ui.primary else Ui.muted)
+        StatusMark(tone, 30.dp)
         Spacer(Modifier.width(12.dp))
         Column {
             Copy(request.label, 17, Ui.muted)
@@ -377,33 +373,3 @@ private fun satinBrush(width: Float, height: Float) = RuntimeShader(SATIN).run {
 private fun Modifier.surface(satin: Boolean) =
     if (satin && Build.VERSION.SDK_INT >= 33) drawWithCache { val brush = satinBrush(size.width, size.height); onDrawBehind { drawRect(brush) } } else background(Ui.background)
 
-private val symbols = mapOf("vehicle" to "car-front")
-private val factSymbols = mapOf("arrival" to "car-front", "handoff" to "handshake")
-
-@Composable
-private fun StatusMark(status: String, size: Dp, tint: Color) =
-    // ponytail: SC05 tones only; add triangle-alert when an "attention" scenario is ported.
-    LucideIcon(when (status) { "confirmed" -> "circle-check"; "unknown" -> "circle-question-mark"; else -> "circle" }, 1.8f, tint, size)
-
-// Lucide 1.69.0 (ISC, third-party/lucide/LICENSE). circle·rect 는 같은 모양의 path 로 바꿨다.
-private val lucide = mapOf(
-    "car-front" to listOf("m21 8-2 2-1.5-3.7A2 2 0 0 0 15.646 5H8.4a2 2 0 0 0-1.903 1.257L5 10 3 8", "M7 14h.01", "M17 14h.01", "M5 10h14a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-4a2 2 0 0 1 2 -2z", "M5 18v2", "M19 18v2"),
-    "circle-question-mark" to listOf("M2 12a10 10 0 1 0 20 0a10 10 0 1 0 -20 0", "M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3", "M12 17h.01"),
-    "circle-check" to listOf("M2 12a10 10 0 1 0 20 0a10 10 0 1 0 -20 0", "m16 9-5.5 5.5L8 12"),
-    "circle" to listOf("M2 12a10 10 0 1 0 20 0a10 10 0 1 0 -20 0"),
-    "handshake" to listOf("m11 17 2 2a1 1 0 1 0 3-3", "m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4", "m21 3 1 11h-2", "M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3", "M3 4h8"),
-    "route" to listOf("M3 19a3 3 0 1 0 6 0a3 3 0 1 0 -6 0", "M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15", "M15 5a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"),
-    "arrow-right" to listOf("M5 12h14", "m12 5 7 7-7 7"),
-)
-
-@Composable
-private fun LucideIcon(name: String, stroke: Float, tint: Color, size: Dp) {
-    val vector = remember(name, stroke) {
-        ImageVector.Builder(name, 24.dp, 24.dp, 24f, 24f).apply {
-            lucide.getValue(name).forEach { d ->
-                addPath(addPathNodes(d), fill = null, stroke = SolidColor(Color.White), strokeLineWidth = stroke, strokeLineCap = StrokeCap.Round, strokeLineJoin = StrokeJoin.Round)
-            }
-        }.build()
-    }
-    Icon(vector, contentDescription = null, tint = tint, modifier = Modifier.size(size))
-}

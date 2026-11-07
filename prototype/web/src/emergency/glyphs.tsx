@@ -59,7 +59,8 @@ export function StatusMark({ tone, size }: { tone: string; size: number }) {
 
 function Engrave({ id, depth }: { id: string; depth: Depth }) {
   const { inner, lip, top } = depth
-  return <filter id={id} x="-15%" y="-15%" width="130%" height="135%">
+  // Compose(Skia) 와 같은 결과가 나오도록 sRGB 에서 섞는다. SVG 기본값 linearRGB 는 그림자를 더 옅게 만든다.
+  return <filter id={id} x="-15%" y="-15%" width="130%" height="135%" colorInterpolationFilters="sRGB">
     <feComponentTransfer in="SourceAlpha" result="inverse"><feFuncA type="table" tableValues="1 0" /></feComponentTransfer>
     <feOffset in="inverse" dy={inner.dy} result="innerOffset" />
     <feGaussianBlur in="innerOffset" stdDeviation={inner.blur} result="innerBlur" />
