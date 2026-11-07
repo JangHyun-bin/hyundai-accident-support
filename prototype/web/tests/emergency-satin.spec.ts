@@ -13,7 +13,7 @@ test('all nine scenes retain their content, semantic colors and geometry across 
     await page.evaluate(() => document.fonts.ready)
     const snapshot = () => screen.evaluate(element => ({
       text: (element as HTMLElement).innerText,
-      parts: [...element.querySelectorAll('h1, h2, p, button, [data-fact], [data-request]')].map(node => ({
+      parts: [...element.querySelectorAll('h1, h2, p, button, [data-fact], [data-request], [data-glyph], [data-mark]')].map(node => ({
         text: node.textContent,
         color: getComputedStyle(node).color,
         size: [node.getBoundingClientRect().width, node.getBoundingClientRect().height],
