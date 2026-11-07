@@ -4,6 +4,8 @@ import manifest from '../../../specs/emergency-experience/scenarios.json' with {
 test('all scenes retain their content, semantic colors and geometry across surface changes', async ({ page }) => {
   const errors: string[] = []
   page.on('pageerror', error => errors.push(error.message))
+  // Countdown 숫자가 snapshot 사이에 바뀌지 않도록 Date.now 만 고정한다. Timer 는 그대로 돈다.
+  await page.clock.setFixedTime(new Date('2026-11-08T00:00:00Z'))
   for (const scenario of manifest.scenarios) for (const scene of scenario.states) {
     await page.goto(`/?study=emergency&material=satin&scenario=${scenario.id}&scene=${scene.id}`)
     const screen = page.getByRole('region', { name: '시각 중심 사고 대응' })

@@ -33,6 +33,24 @@ type Scene = Omit<(typeof manifest.scenarios)[number]['states'][number], 'action
 
 const RING = 2 * Math.PI * 88
 
+// Countdown 시작 경고음. Browser 가 자동 재생을 막으면(context 가 running 이 아니면) 조용히 넘어간다. 차단 표시는 음성 오류 경로가 맡는다.
+function beep() {
+  try {
+    const context = new AudioContext()
+    if (context.state !== 'running') { void context.close(); return }
+    for (const at of [0, .25, .5]) {
+      const tone = context.createOscillator()
+      const gain = context.createGain()
+      tone.frequency.value = 880
+      gain.gain.value = .15
+      tone.connect(gain).connect(context.destination)
+      tone.start(context.currentTime + at)
+      tone.stop(context.currentTime + at + .15)
+    }
+    setTimeout(() => void context.close(), 1200)
+  } catch { /* 소리 없이 화면 문구로 진행한다. */ }
+}
+
 // ② 의 상태 ring. decide 는 남은 비율, progress 는 고정 호.
 function PhaseRing({ phase, fraction, children }: { phase: string; fraction: number; children: ReactNode }) {
   return <div className={`emergency-ring is-${phase}`} aria-hidden="true">
@@ -56,6 +74,8 @@ export function EmergencyStudy() {
   const focusAfterChange = useRef<'action' | 'event' | null>(null)
   const activeSceneButton = useRef<HTMLButtonElement>(null)
   const utterance = useRef<SpeechSynthesisUtterance | null>(null)
+  const remainingMs = useRef(0)
+  const [secondsLeft, setSecondsLeft] = useState(0)
   const scenario = manifest.scenarios.find(item => item.id === selection.scenarioId)!
   const sceneIndex = scenario.states.findIndex(item => item.id === selection.sceneId)
   const scene = scenario.states[sceneIndex] as Scene
@@ -94,6 +114,28 @@ export function EmergencyStudy() {
     history.replaceState(null, '', url)
   }, [satin])
 
+  // 장면에 들어올 때마다 countdown 을 처음부터 시작하고 경고음·음성을 한 번 낸다.
+  useEffect(() => {
+    if (!scene.auto_contact) return
+    remainingMs.current = scene.auto_contact.seconds * 1000
+    setSecondsLeft(scene.auto_contact.seconds)
+    beep()
+    speak()
+  }, [selection])
+
+  // 남은 시간은 마감 시각으로 계산한다. 멈추면 남은 ms 를 저장하고, 장면이 바뀌면 timer 를 버린다.
+  useEffect(() => {
+    const auto = scene.auto_contact
+    if (!auto || paused) return
+    const end = Date.now() + remainingMs.current
+    const timer = setInterval(() => {
+      remainingMs.current = Math.max(0, end - Date.now())
+      setSecondsLeft(Math.ceil(remainingMs.current / 1000))
+      if (remainingMs.current === 0) { clearInterval(timer); goToScene(auto.expire) }
+    }, 250)
+    return () => { clearInterval(timer); remainingMs.current = Math.max(0, end - Date.now()) }
+  }, [selection, paused])
+
   useEffect(() => {
     const element = viewport.current!
     const resize = () => setScale(Math.min(1, element.clientWidth / 1440, Math.max(280, innerHeight - element.getBoundingClientRect().top - scrollY - 126) / 810))
@@ -111,6 +153,10 @@ export function EmergencyStudy() {
 
   function playVoice() {
     if (voiceState === 'speaking') { cancelSpeech(); setVoiceState('idle'); return }
+    speak()
+  }
+
+  function speak() {
     try {
       if (!window.speechSynthesis || !window.SpeechSynthesisUtterance) throw new Error('Speech unavailable')
       cancelSpeech()
@@ -150,7 +196,7 @@ export function EmergencyStudy() {
               const carActions = scene.actions.filter(action => action.slot !== 'self').map(action => <button className="emergency-primary-action" key={action.id} onClick={() => goToScene(action.to, 'action')}><Glyph name={glyphFor.action(action.id)} depth="solid" size={30} /><span>{action.label}</span></button>)
               const copy = <div className="emergency-car-copy" aria-live="polite"><h1 ref={heading} tabIndex={-1}>{scene.title}</h1>{scene.auto_contact ? <p>응답이 없으면 {scene.auto_contact.seconds}초 후 자동 연결</p> : scene.instruction && <p>{scene.instruction}</p>}</div>
               if (scene.auto_contact) return <div className="emergency-car-main" data-urgent>
-                <PhaseRing phase="decide" fraction={1}><b data-countdown>{scene.auto_contact.seconds}</b></PhaseRing>
+                <PhaseRing phase="decide" fraction={(secondsLeft || scene.auto_contact.seconds) / scene.auto_contact.seconds}><b data-countdown>{secondsLeft || scene.auto_contact.seconds}</b></PhaseRing>
                 <div>{copy}<div className="emergency-car-actions">{carActions}<button className="emergency-cancel" onClick={() => goToScene(scene.auto_contact!.cancel, 'action')}>취소</button></div></div>
               </div>
               return <div className="emergency-car-main">

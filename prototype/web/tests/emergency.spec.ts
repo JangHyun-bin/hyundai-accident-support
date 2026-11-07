@@ -73,13 +73,13 @@ test('voice_failure_keeps_script_visible_and_scene_change_cancels_old_speech', a
       speak: () => { throw new Error('Audio unavailable') },
     } })
   })
-  await page.goto('/?study=emergency')
+  await page.goto('/?study=emergency&scenario=SC05')
   await page.getByRole('button', { name: '음성 안내 듣기' }).click()
   await expect(page.getByRole('status')).toContainText('음성 원고')
   const before = await page.evaluate(() => (window as typeof window & { speechCancelled: number }).speechCancelled)
-  await page.getByRole('button', { name: '응답 미확인', exact: true }).click()
+  await page.getByRole('navigation', { name: '장면 선택' }).getByRole('button', { name: /결과 조회/ }).click()
   expect(await page.evaluate(() => (window as typeof window & { speechCancelled: number }).speechCancelled)).toBeGreaterThan(before)
-  await expect(page.getByRole('status')).not.toContainText('부상이 보고됐어요')
+  await expect(page.getByRole('status')).not.toContainText('차량 지원의 접수가 미확인이에요')
 })
 
 test('playing_voice_stops_on_pause_and_old_callbacks_cannot_change_new_voice', async ({ page }) => {
@@ -92,7 +92,7 @@ test('playing_voice_stops_on_pause_and_old_callbacks_cannot_change_new_voice', a
       cancel: () => { runtime.cancellations++ },
     } })
   })
-  await page.goto('/?study=emergency')
+  await page.goto('/?study=emergency&scenario=SC05')
   await page.getByRole('button', { name: '음성 안내 듣기' }).click()
   await expect(page.getByRole('button', { name: '음성 안내 중지' })).toBeVisible()
   const before = await page.evaluate(() => (window as typeof window & { cancellations: number }).cancellations)
@@ -100,7 +100,7 @@ test('playing_voice_stops_on_pause_and_old_callbacks_cannot_change_new_voice', a
   expect(await page.evaluate(() => (window as typeof window & { cancellations: number }).cancellations)).toBeGreaterThan(before)
   await page.getByRole('button', { name: '시연 재개' }).click()
   await expect(page.getByRole('button', { name: '음성 안내 듣기' })).toBeVisible()
-  await page.getByRole('button', { name: '응답 미확인', exact: true }).click()
+  await page.getByRole('navigation', { name: '장면 선택' }).getByRole('button', { name: /결과 조회/ }).click()
   await page.getByRole('button', { name: '음성 안내 듣기' }).click()
   await page.evaluate(() => {
     const runtime = window as typeof window & { spoken: SpeechSynthesisUtterance[] }
