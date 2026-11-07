@@ -129,3 +129,18 @@ test('every_scenario_shows_three_agencies_and_detected_label', () => {
     assert.ok(scenario.presentation.detected, scenario.id)
   }
 })
+
+// 자동 연결 뒤에는 운전자가 실제로 응답할 때까지 `응답할 수 있어요`가 ③에 남아야 한다.
+// 외부 event 로 응답 없이 다른 장면에 가면 응답한 것처럼 보인다.
+test('auto_connected_scene_keeps_respond_button_until_driver_responds', () => {
+  for (const { scenario, state } of allStates()) {
+    if (!state.auto_contact) continue
+    const expired = scenario.states.find(s => s.id === state.auto_contact.expire)
+    const where = `${scenario.id}.${expired.id}`
+    assert.ok(expired.actions.some(action => action.slot === 'self'), `${where} needs a respond button`)
+    for (const event of expired.events) {
+      const next = scenario.states.find(s => s.id === event.to)
+      assert.ok(next.id === state.id || next.actions.some(action => action.slot === 'self'), `${where} --${event.id}--> ${next.id} drops the respond button`)
+    }
+  }
+})

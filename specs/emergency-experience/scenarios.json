@@ -196,13 +196,7 @@
               "to": "contact_unknown"
             }
           ],
-          "events": [
-            {
-              "id": "call_connected",
-              "label": "통화 연결 확인",
-              "to": "connected"
-            }
-          ],
+          "events": [],
           "deferred": [
             "보험 상세",
             "사고 경위 기록"

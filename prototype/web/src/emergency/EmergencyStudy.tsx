@@ -78,12 +78,18 @@ export function EmergencyStudy() {
   const activeSceneButton = useRef<HTMLButtonElement>(null)
   const utterance = useRef<SpeechSynthesisUtterance | null>(null)
   const remainingMs = useRef(0)
-  const [secondsLeft, setSecondsLeft] = useState(0)
+  // 남은 초에는 어느 장면 진입에서 센 값인지 꼬리표를 단다. 클릭 직전 tick 의 갱신이 React 큐에 남아
+  // 재진입 뒤에 적용돼도, 꼬리표가 다르면 버리고 처음 초를 보여 준다.
+  const [countdown, setCountdown] = useState<{ for: object | null; seconds: number }>({ for: null, seconds: 0 })
   const scenario = manifest.scenarios.find(item => item.id === selection.scenarioId)!
   const sceneIndex = scenario.states.findIndex(item => item.id === selection.sceneId)
   const scene = scenario.states[sceneIndex] as Scene
   const facts = scenario.facts.map(fact => ({ ...fact, ...Object.entries(scene.fact_overrides).find(([id]) => id === fact.id)?.[1] }))
   const requests = scenario.requests.map(request => ({ ...request, status: Object.entries(scene.request_overrides).find(([id]) => id === request.id)?.[1] ?? request.status }))
+  const secondsLeft = countdown.for === selection ? countdown.seconds : scene.auto_contact?.seconds ?? 0
+  // 장면에 (다시) 들어오면 run 을 올려 ring 을 새로 그린다. 같은 ring 을 쓰면 이전 값에서 다시 차오른다.
+  const [entry, setEntry] = useState({ selection, run: 0 })
+  if (entry.selection !== selection) setEntry({ selection, run: entry.run + 1 })
 
   function cancelSpeech() {
     utterance.current = null
@@ -108,7 +114,7 @@ export function EmergencyStudy() {
     if (focusAfterChange.current === 'event') activeSceneButton.current?.focus()
     focusAfterChange.current = null
     return cancelSpeech
-  }, [selection, paused])
+  }, [selection, paused, present === 'covered'])
 
   useEffect(() => {
     const url = new URL(location.href)
@@ -121,7 +127,6 @@ export function EmergencyStudy() {
   useEffect(() => {
     if (!scene.auto_contact) return
     remainingMs.current = scene.auto_contact.seconds * 1000
-    setSecondsLeft(scene.auto_contact.seconds)
     beep()
     speak()
   }, [selection])
@@ -133,8 +138,12 @@ export function EmergencyStudy() {
     const end = Date.now() + remainingMs.current
     const timer = setInterval(() => {
       remainingMs.current = Math.max(0, end - Date.now())
-      setSecondsLeft(Math.ceil(remainingMs.current / 1000))
-      if (remainingMs.current === 0) { clearInterval(timer); goToScene(auto.expire) }
+      setCountdown({ for: selection, seconds: Math.ceil(remainingMs.current / 1000) })
+      if (remainingMs.current === 0) {
+        clearInterval(timer)
+        // 사라지는 button 에 focus 가 있었으면 새 장면 제목으로 옮긴다. 검토 control 의 focus 는 건드리지 않는다.
+        goToScene(auto.expire, document.activeElement?.closest('[data-urgent]') ? 'action' : null)
+      }
     }, 250)
     return () => { clearInterval(timer); remainingMs.current = Math.max(0, end - Date.now()) }
   }, [selection, paused, present === 'covered'])
@@ -187,7 +196,7 @@ export function EmergencyStudy() {
     } catch { utterance.current = null; setVoiceState('error') }
   }
 
-  const displayScale = actualSize ? 1 : scale
+  const displayScale = actualSize && present === 'off' ? 1 : scale
   return <main className={`emergency-study${present !== 'off' ? ' is-presenting' : ''}`}>
     <header className="emergency-review-header"><a href="/?study=emergency" className="emergency-review-brand">AFTER / CARE <span>Emergency storyboard</span></a><div><span className="emergency-demo-label">가상 scenario · 실제 전화·전송 없음</span><span className="emergency-demo-label">안전 안내 {manifest.safety_guidance.status}</span><a href="/?study=tools">이전 design 비교 <ArrowRight size={14} aria-hidden="true" /></a></div></header>
     <div className="emergency-review-intro"><div><h1>상황을 보고, 다음 행동으로.</h1><p>장면을 바꿔 핵심 상황·행동·미확인이 어떻게 전달되는지 확인해 보세요.</p></div><button className="emergency-review-button" aria-expanded={showSpec} aria-controls="emergency-spec" onClick={() => setShowSpec(!showSpec)}><Code2 size={17} aria-hidden="true" />현재 장면 spec</button></div>
@@ -210,9 +219,9 @@ export function EmergencyStudy() {
             <span className="emergency-slot-tag">차량</span>
             {(() => {
               const carActions = scene.actions.filter(action => action.slot !== 'self').map(action => <button className="emergency-primary-action" key={action.id} onClick={() => goToScene(action.to, 'action')}><Glyph name={glyphFor.action(action.id)} depth="solid" size={30} /><span>{action.label}</span></button>)
-              const copy = <div className="emergency-car-copy" aria-live="polite"><h1 ref={heading} tabIndex={-1}>{scene.title}</h1>{scene.auto_contact ? <p>응답이 없으면 {scene.auto_contact.seconds}초 후 자동 연결</p> : scene.instruction && <p>{scene.instruction}</p>}</div>
+              const copy = <div className="emergency-car-copy" aria-live="polite"><h1 ref={heading} tabIndex={-1}>{scene.title}</h1>{scene.auto_contact ? <p>응답이 없으면 자동 연결</p> : scene.instruction && <p>{scene.instruction}</p>}</div>
               if (scene.auto_contact) return <div className="emergency-car-main" data-urgent>
-                <PhaseRing phase="decide" fraction={(secondsLeft || scene.auto_contact.seconds) / scene.auto_contact.seconds}><b data-countdown>{secondsLeft || scene.auto_contact.seconds}</b></PhaseRing>
+                <PhaseRing key={entry.run} phase="decide" fraction={secondsLeft / scene.auto_contact.seconds}><b data-countdown>{secondsLeft}</b></PhaseRing>
                 <div>{copy}<div className="emergency-car-actions">{carActions}<button className="emergency-cancel" onClick={() => goToScene(scene.auto_contact!.cancel, 'action')}>취소</button></div></div>
               </div>
               return <div className="emergency-car-main">

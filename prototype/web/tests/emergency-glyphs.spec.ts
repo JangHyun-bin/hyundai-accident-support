@@ -31,10 +31,9 @@ test('vehicle_screen_draws_mapped_glyphs_and_marks', async ({ page }) => {
   }
 })
 
-test('attention_cue_keeps_warning_label_with_metal_glyph', async ({ page }) => {
+test('attention_cue_keeps_attention_mark_with_metal_glyph', async ({ page }) => {
   await page.goto('/?study=emergency&scenario=SC01&scene=initial')
   const cue = page.getByRole('region', { name: '핵심 상황' })
-  await expect(cue.locator('h2')).toHaveCSS('color', 'rgb(240, 181, 156)')
   await expect(cue.locator('[data-mark="attention"]')).toBeVisible()
   const fills = await cue.locator('.emergency-symbol > [data-glyph] path').evaluateAll(paths => paths.map(path => path.getAttribute('fill')))
   expect(fills.length).toBeGreaterThan(0)

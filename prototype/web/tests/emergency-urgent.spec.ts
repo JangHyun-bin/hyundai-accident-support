@@ -32,6 +32,13 @@ test('red_appears_only_inside_the_rescue_decision', async ({ page }) => {
   }
 })
 
+test('detected_heading_has_no_accent_colour', async ({ page }) => {
+  for (const { scenario, scene } of scenes) {
+    await page.goto(`/?study=emergency&scenario=${scenario.id}&scene=${scene.id}`)
+    await expect(page.locator('[data-slot="detected"] h2'), `${scenario.id}/${scene.id}`).toHaveCSS('color', 'rgb(242, 244, 242)')
+  }
+})
+
 test('screen_never_says_unconscious', async ({ page }) => {
   for (const { scenario, scene } of scenes) {
     await page.goto(`/?study=emergency&scenario=${scenario.id}&scene=${scene.id}`)
@@ -134,6 +141,51 @@ test.describe('rescue countdown', () => {
     await expect(screen.getByRole('button', { name: /취소|끊기/ })).toHaveCount(0)
   })
 
+  // 설치한 clock 은 실제 시간으로도 흐른다. 숫자는 고정값 대신 같은 순간에 읽은 값과 비교한다.
+  const readCountdown = (page: import('@playwright/test').Page) => page.evaluate(() => {
+    const urgent = document.querySelector('[data-urgent]')!
+    return { number: Number(urgent.querySelector('[data-countdown]')!.textContent), sentence: urgent.querySelector('p')!.textContent!, offset: parseFloat(getComputedStyle(urgent.querySelector('.emergency-ring-value')!).strokeDashoffset) }
+  })
+
+  test('restart_shows_full_countdown_from_first_frame', async ({ page }) => {
+    const screen = await open(page)
+    await page.clock.runFor(4_000)
+    await expect(screen.locator('[data-countdown]')).not.toHaveText('10')
+    const before = (await readCountdown(page)).number
+    await page.evaluate(() => {
+      const runtime = window as typeof window & { shown: number[] }
+      runtime.shown = []
+      // 차량 화면 안의 변화와 3초 보기 class 변화만 본다. Playwright 가 page 에 남기는 변화는 섞지 않는다.
+      const observer = new MutationObserver(() => runtime.shown.push(Number(document.querySelector('[data-countdown]')?.textContent)))
+      observer.observe(document.querySelector('.emergency-screen')!, { subtree: true, childList: true, characterData: true, attributes: true })
+      observer.observe(document.querySelector('.emergency-study')!, { attributes: true })
+    })
+    await page.getByRole('button', { name: '3초 보기' }).click()
+    await expect(screen.locator('[data-countdown]')).toHaveText(/^(10|9)$/)
+    const shown = await page.evaluate(() => (window as typeof window & { shown: number[] }).shown)
+    expect(shown.filter(number => number <= before), `stale numbers after restart: ${shown}`).toEqual([])
+    // ring 이 이전 값에서 다시 차오르면 안 된다. CSS transition 은 실제 시간으로 흐른다.
+    await page.waitForTimeout(300)
+    const { number, offset } = await readCountdown(page)
+    expect(offset).toBeLessThanOrEqual(2 * Math.PI * 88 * (1 - number / 10) + 1)
+  })
+
+  test('countdown_sentence_agrees_with_number', async ({ page }) => {
+    await open(page)
+    await page.clock.runFor(4_000)
+    const { number, sentence } = await readCountdown(page)
+    expect(number).toBeLessThan(10)
+    const said = sentence.match(/(\d+)초/)?.[1]
+    expect(said ?? String(number)).toBe(String(number))
+  })
+
+  test('expiry_moves_focus_from_vanished_button_to_heading', async ({ page }) => {
+    const screen = await open(page)
+    await screen.getByRole('button', { name: '취소', exact: true }).focus()
+    await page.clock.runFor(10_000)
+    await expect(screen.getByRole('heading', { name: '119 연결 중' })).toBeFocused()
+  })
+
   test('countdown_start_speaks_once', async ({ page }) => {
     await page.addInitScript(() => {
       const runtime = window as typeof window & { spoken: string[] }
@@ -175,6 +227,35 @@ test('three_second_view_hides_review_ui_and_covers_after_3s', async ({ page }) =
   await expect(page.getByRole('navigation', { name: '장면 선택' })).toBeVisible()
   await expect(screen.locator('[data-slot="detected"]')).toContainText('응답 미확인')
   await expect(screen.locator('[data-countdown]')).toHaveText('7')
+})
+
+test('three_second_view_silences_speech_when_covered', async ({ page }) => {
+  await page.addInitScript(() => {
+    const runtime = window as typeof window & { cancels: number }
+    runtime.cancels = 0
+    Object.defineProperty(window, 'speechSynthesis', { value: { speak: () => {}, cancel: () => { runtime.cancels++ } } })
+  })
+  await page.clock.install()
+  await page.goto('/?study=emergency&scenario=SC03&scene=initial')
+  await page.getByRole('button', { name: '3초 보기' }).click()
+  await expect(page.locator('.emergency-voice-button')).toHaveText('음성 안내 중지')
+  const cancels = () => page.evaluate(() => (window as typeof window & { cancels: number }).cancels)
+  const before = await cancels()
+  await page.clock.runFor(3_000)
+  await expect(page.locator('[data-cover]')).toBeVisible()
+  await expect.poll(cancels).toBeGreaterThan(before)
+  await expect(page.locator('.emergency-voice-button')).toHaveText('음성 안내 듣기')
+})
+
+test('three_second_view_fits_screen_even_at_actual_size', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 720 })
+  await page.goto('/?study=emergency&scenario=SC03&scene=initial')
+  await page.getByRole('button', { name: '원래 크기' }).click()
+  await page.getByRole('button', { name: '3초 보기' }).click()
+  await expect.poll(async () => (await page.locator('.emergency-screen').boundingBox())?.width ?? Infinity, { timeout: 2_000 }).toBeLessThanOrEqual(1280)
+  const self = (await page.locator('[data-slot="self"]').boundingBox())!
+  expect(self.x + self.width).toBeLessThanOrEqual(1280)
+  expect(self.y + self.height).toBeLessThanOrEqual(720)
 })
 
 test('review_header_marks_safety_copy_as_draft', async ({ page }) => {
