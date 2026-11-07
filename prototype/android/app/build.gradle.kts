@@ -11,11 +11,14 @@ android {
     buildFeatures { compose = true }
 }
 dependencies {
+    // BOM 으로 app 과 test 의 Compose version 을 맞춘다 (ui·foundation 1.9.4, material3 1.4.0).
+    val compose = platform("androidx.compose:compose-bom:2025.10.01")
+    implementation(compose)
     implementation("androidx.activity:activity-compose:1.9.3")
-    implementation("androidx.compose.material3:material3-android:1.4.0")
-    implementation("androidx.compose.animation:animation-android:1.9.4")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4-android:1.10.5")
+    implementation("androidx.compose.material3:material3")
+    androidTestImplementation(compose)
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test:runner:1.6.2")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:1.10.5")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
 }

@@ -10,6 +10,7 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -25,6 +26,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.SolidColor
@@ -32,6 +35,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.addPathNodes
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.Role
@@ -45,6 +49,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.intl.LocaleList
 import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
@@ -77,15 +82,15 @@ private object Ui {
 
 private const val SATIN_INTENSITY = .7f
 
-private class Fact(val id: String, val label: String, val value: String, val status: String)
-private class Request(val id: String, val label: String, val status: String)
-private class Transition(val id: String, val label: String, val to: String)
-private class Scene(
+internal class Fact(val id: String, val label: String, val value: String, val status: String)
+internal class Request(val id: String, val label: String, val status: String)
+internal class Transition(val id: String, val label: String, val to: String)
+internal class Scene(
     val id: String, val label: String, val title: String, val instruction: String,
     val cueSymbol: String, val cueStatus: String, val cueLabel: String, val cueDetail: String,
     val requestOverrides: Map<String, String>, val actions: List<Transition>, val events: List<Transition>
 )
-private class Scenario(
+internal class Scenario(
     val initial: String, val contextLabel: String, val supportTitle: String, val supportNote: String,
     val facts: List<Fact>, val requests: List<Request>, val statuses: Map<String, Pair<String, String>>, val scenes: List<Scene>
 )
@@ -96,14 +101,13 @@ private fun JSONObject.stringMap() = keys().asSequence().associateWith { getStri
 private fun JSONObject.transitions(key: String) = getJSONArray(key).objects().map { Transition(it.getString("id"), it.getString("label"), it.getString("to")) }
 
 // 정본은 specs/emergency-experience/scenarios.json 이며 build 가 assets 로 그대로 넣는다.
-private fun loadScenario(context: Context, id: String): Scenario {
+internal fun loadScenario(context: Context, id: String): Scenario {
     val root = JSONObject(context.assets.open("scenarios.json").bufferedReader().use { it.readText() })
     val statuses = root.getJSONObject("request_statuses").let { all -> all.keys().asSequence().associateWith { all.getJSONObject(it).let { s -> s.getString("label") to s.getString("tone") } } }
     val scenario = root.getJSONArray("scenarios").objects().first { it.getString("id") == id }
     val presentation = scenario.getJSONObject("presentation")
     val visibleFacts = presentation.getJSONArray("visible_facts").strings()
     val visibleRequests = presentation.getJSONArray("visible_requests").strings()
-    // ponytail: SC05 has no fact_overrides; apply them when another scenario is ported.
     return Scenario(
         initial = scenario.getString("initial"),
         contextLabel = presentation.getString("context_label"),
@@ -113,6 +117,8 @@ private fun loadScenario(context: Context, id: String): Scenario {
         requests = scenario.getJSONArray("requests").objects().map { Request(it.getString("id"), it.getString("label"), it.getString("status")) }.filter { it.id in visibleRequests },
         statuses = statuses,
         scenes = scenario.getJSONArray("states").objects().map { state ->
+            // ponytail: fact_overrides 는 아직 적용하지 않는다. 있는 scenario 를 잘못 보여주지 않도록 멈춘다.
+            require(state.getJSONObject("fact_overrides").length() == 0) { "$id/${state.getString("id")}: fact_overrides are not supported yet" }
             val cue = state.getJSONObject("cue")
             Scene(
                 state.getString("id"), state.getString("label"), state.getString("title"), state.getString("instruction"),
@@ -140,13 +146,22 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun Storyboard(story: Scenario, start: String) {
-    // 회전·font scale 변경으로 activity 가 다시 만들어져도 장면을 유지한다. 외부 요청을 취소·재전송하지 않는다.
+    // Font scale 변경 등으로 activity 가 다시 만들어져도 장면을 유지한다. 외부 요청을 취소·재전송하지 않는다.
     var sceneId by rememberSaveable { mutableStateOf(start) }
     var satin by rememberSaveable { mutableStateOf(true) }
+    val satinAvailable = remember { satinCompiles(SATIN) }
     val scene = story.scenes.first { it.id == sceneId }
+    // Web 과 같이 주 행동 뒤에는 새 제목으로, 외부 event 로 button 이 사라지면 현재 장면 button 으로 focus 를 옮긴다.
+    val titleFocus = remember { FocusRequester() }
+    val sceneFocus = remember { story.scenes.associate { it.id to FocusRequester() } }
+    var focusAfter by remember { mutableStateOf<FocusRequester?>(null) }
+    LaunchedEffect(sceneId, focusAfter) { focusAfter?.requestFocus(); focusAfter = null }
     Column(Modifier.fillMaxSize().background(Ui.review)) {
-        ProductScreen(story, scene, satin, Modifier.fillMaxWidth().weight(1f)) { sceneId = it }
-        ReviewStrip(story, scene, satin, { sceneId = it }, { satin = it })
+        ProductScreen(story, scene, satin && satinAvailable, titleFocus, Modifier.fillMaxWidth().weight(1f)) { sceneId = it; focusAfter = titleFocus }
+        // 시연 control 은 차량 화면 밖의 검토 도구라 font scale 을 따르지 않는다. 커지면 차량 화면을 밀어낸다.
+        CompositionLocalProvider(LocalDensity provides Density(LocalDensity.current.density, 1f)) {
+            ReviewStrip(story, scene, satin, satinAvailable, sceneFocus, { to, event -> sceneId = to; if (event) focusAfter = sceneFocus.getValue(to) }, { satin = it })
+        }
     }
 }
 
@@ -167,7 +182,7 @@ private fun mix(color: Color, base: Color, amount: Float) = Color(
 private fun Divider(color: Color) = Box(Modifier.fillMaxWidth().height(1.dp).background(color))
 
 @Composable
-private fun ProductScreen(story: Scenario, scene: Scene, satin: Boolean, modifier: Modifier, go: (String) -> Unit) {
+private fun ProductScreen(story: Scenario, scene: Scene, satin: Boolean, titleFocus: FocusRequester, modifier: Modifier, go: (String) -> Unit) {
     Box(modifier.surface(satin).padding(horizontal = 48.dp)) {
         Column(Modifier.fillMaxSize()) {
             Row(Modifier.fillMaxWidth().height(88.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -180,7 +195,7 @@ private fun ProductScreen(story: Scenario, scene: Scene, satin: Boolean, modifie
             Divider(Ui.line)
             Row(Modifier.fillMaxWidth().weight(1f).padding(start = 16.dp, end = 16.dp, top = 24.dp, bottom = 18.dp), horizontalArrangement = Arrangement.spacedBy(72.dp), verticalAlignment = Alignment.CenterVertically) {
                 Cue(scene, Modifier.weight(.85f))
-                ActionArea(story, scene, Modifier.weight(1.15f), go)
+                ActionArea(story, scene, titleFocus, Modifier.weight(1.15f), go)
             }
             Divider(Ui.border)
             Row(Modifier.fillMaxWidth().heightIn(min = 108.dp), horizontalArrangement = Arrangement.spacedBy(28.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -214,10 +229,10 @@ private fun Cue(scene: Scene, modifier: Modifier) {
 }
 
 @Composable
-private fun ActionArea(story: Scenario, scene: Scene, modifier: Modifier, go: (String) -> Unit) {
+private fun ActionArea(story: Scenario, scene: Scene, titleFocus: FocusRequester, modifier: Modifier, go: (String) -> Unit) {
     // 큰 font scale 에서 잘리지 않도록 scroll 로 남긴다. 1.0 에서는 scroll 없이 들어간다.
     Column(modifier.verticalScroll(rememberScrollState()).padding(top = 8.dp)) {
-        Copy(scene.title, 44, weight = FontWeight.SemiBold, lineHeight = 1.25f, tracking = -.035f, modifier = Modifier.semantics { heading(); liveRegion = LiveRegionMode.Polite })
+        Copy(scene.title, 44, weight = FontWeight.SemiBold, lineHeight = 1.25f, tracking = -.035f, modifier = Modifier.semantics { heading(); liveRegion = LiveRegionMode.Polite }.focusRequester(titleFocus).focusable())
         Spacer(Modifier.height(18.dp))
         Copy(scene.instruction, 24, Ui.muted, lineHeight = 1.45f)
         Box(Modifier.fillMaxWidth().heightIn(min = 116.dp).padding(top = 28.dp)) {
@@ -273,36 +288,40 @@ private fun RequestStatus(request: Request, status: String, statuses: Map<String
 
 // 시연 event 와 재질 비교는 web 과 같이 차량 화면 밖에서 공급한다.
 @Composable
-private fun ReviewStrip(story: Scenario, scene: Scene, satin: Boolean, go: (String) -> Unit, setSatin: (Boolean) -> Unit) {
+private fun ReviewStrip(story: Scenario, scene: Scene, satin: Boolean, satinAvailable: Boolean, sceneFocus: Map<String, FocusRequester>, go: (String, Boolean) -> Unit, setSatin: (Boolean) -> Unit) {
     Row(Modifier.fillMaxWidth().height(90.dp).padding(horizontal = 24.dp), horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
-        Copy("시연 control · 차량 화면 밖", 13, Ui.muted)
-        story.scenes.forEach { ReviewButton(it.label, it.id == scene.id, "scene-${it.id}") { go(it.id) } }
+        Column {
+            Copy("시연 control · 차량 화면 밖", 13, Ui.muted)
+            Copy("가상 scenario · 실제 전화·전송 없음", 13, Ui.warning)
+        }
+        story.scenes.forEach { ReviewButton(it.label, it.id == scene.id, "scene-${it.id}", Modifier.focusRequester(sceneFocus.getValue(it.id))) { go(it.id, false) } }
         Spacer(Modifier.weight(1f))
         Copy("외부 결과 시연", 13, Ui.muted)
-        scene.events.forEach { ReviewButton(it.label, false, "event-${it.id}") { go(it.to) } }
+        if (scene.events.isEmpty()) Copy("다른 장면을 선택해 비교할 수 있어요.", 13, Ui.muted)
+        scene.events.forEach { ReviewButton(it.label, false, "event-${it.id}") { go(it.to, true) } }
         Spacer(Modifier.width(14.dp))
         ReviewButton("기존 flat", !satin, "surface-flat") { setSatin(false) }
         ReviewButton("C · Satin", satin, "surface-satin") { setSatin(true) }
         val status = when {
             !satin -> "기존 flat"
-            Build.VERSION.SDK_INT >= 33 -> "Satin 적용 · 강도 70%"
-            else -> "C render 불가 · Android 13 미만"
+            satinAvailable -> "Satin 적용 · 강도 70%"
+            else -> "C render 불가 · 기본 background"
         }
         Copy(status, 12, Ui.muted, modifier = Modifier.widthIn(max = 130.dp).testTag("surface-status"))
     }
 }
 
 @Composable
-private fun ReviewButton(label: String, selected: Boolean, tag: String, onClick: () -> Unit) {
+private fun ReviewButton(label: String, selected: Boolean, tag: String, modifier: Modifier = Modifier, onClick: () -> Unit) {
     val shape = RoundedCornerShape(10.dp)
-    Box(Modifier.testTag(tag).heightIn(min = 48.dp).clip(shape).background(if (selected) Ui.card else Ui.surface).border(1.dp, if (selected) Ui.primary else Ui.line, shape).clickable(role = Role.Button, onClick = onClick).semantics { this.selected = selected }.padding(horizontal = 14.dp), contentAlignment = Alignment.Center) {
+    Box(modifier.testTag(tag).heightIn(min = 48.dp).clip(shape).background(if (selected) Ui.card else Ui.surface).border(1.dp, if (selected) Ui.primary else Ui.line, shape).clickable(role = Role.Button, onClick = onClick).semantics { this.selected = selected }.padding(horizontal = 14.dp), contentAlignment = Alignment.Center) {
         Copy(label, 14, if (selected) Ui.foreground else Ui.muted)
     }
 }
 
 // C · Satin: prototype/web/src/emergency/SatinSurface.tsx 의 GLSL 을 AGSL 로 옮겼다.
 // GLSL pow(x, 2.) 는 음수 x 에서 정의되지 않으므로 x*x 로 쓴다.
-private const val SATIN = """
+internal const val SATIN = """
 uniform float2 size;
 uniform float intensity;
 const float PI=3.14159265359;
@@ -336,6 +355,12 @@ half4 main(float2 coord){
  material=min(material,float3(.235,.25,.28));
  return half4(half3(mix(base,material,intensity)),1.);
 }"""
+
+// AGSL compile 실패는 crash 대신 기본 background 로 처리한다.
+internal fun satinCompiles(source: String) = Build.VERSION.SDK_INT >= 33 && compiles(source)
+
+@RequiresApi(33)
+private fun compiles(source: String) = runCatching { RuntimeShader(source) }.isSuccess
 
 @RequiresApi(33)
 private fun satinBrush(width: Float, height: Float) = RuntimeShader(SATIN).run {

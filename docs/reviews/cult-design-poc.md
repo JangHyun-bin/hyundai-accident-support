@@ -36,25 +36,28 @@ Task 2는 긴급 storyboard로 대체되어 Side Panel을 만들지 않았다. �
 
 | 항목 | Web preview | Compose |
 | --- | --- | --- |
-| 장면·문구·상태 | `scenarios.json` | 같은 file을 assets로 읽음 |
+| 장면·문구·상태 | `scenarios.json` | 같은 file을 assets로 읽음. 고정 label 3개는 양쪽 모두 code |
 | 배치·크기 | 1440 × 810 CSS px canvas | 1440 dp 폭 emulator에서 같은 수치의 dp |
-| 재질 | WebGL 2 GLSL, 강도 slider(기본 70%) | AGSL `RuntimeShader`, 70% 고정. Android 13 미만은 flat |
+| 재질 | WebGL 2 GLSL, 강도 slider(기본 70%), render 불가 시 기본 background | AGSL `RuntimeShader`, 70% 고정, Android 13 미만·compile 실패 시 기본 background |
 | Icon·font | Lucide, Asta Sans | 같은 Lucide path, Asta Sans |
-| 시연 control | 화면 아래 page control, 일시 중단 | 화면 아래 90 dp strip. 일시 중단 없음 |
-| 음성 안내 | Browser TTS | 미구현 |
+| 시연 control | 화면 밖 page control, 가상 시연 표시, 일시 중단 | 화면 아래 90 dp strip, 가상 시연 표시. 일시 중단 없음 |
+| Focus | 주 행동 뒤 제목, event 뒤 현재 장면 button | 같음(keyboard·rotary 기준). 제목은 live region |
+| 음성 안내 | Browser TTS, 실패 시 원고 표시 | 미구현 |
 | Motion | 사실 영역 160 ms opacity | 없음. SC05의 사실 값은 변하지 않음 |
 | 긴 문구 | Browser 줄바꿈 | 어절 단위, 줄 길이 균형 |
 
-화면 비교: Web [접수 미확인](../../prototype/web/evidence/emergency-satin/SC05-initial.png) · [결과 조회](../../prototype/web/evidence/emergency-satin/SC05-checking.png) · [접수 확인](../../prototype/web/evidence/emergency-satin/SC05-received.png), Compose [접수 미확인](../../prototype/android/evidence/sc05/initial.png) · [결과 조회](../../prototype/android/evidence/sc05/checking.png) · [접수 확인](../../prototype/android/evidence/sc05/received.png), [font scale 1.3](../../prototype/android/evidence/sc05/initial-font130.png).
+화면 비교: Web [접수 미확인](../../prototype/web/evidence/emergency-satin/SC05-initial.png) · [결과 조회](../../prototype/web/evidence/emergency-satin/SC05-checking.png) · [접수 확인](../../prototype/web/evidence/emergency-satin/SC05-received.png), Compose [접수 미확인](../../prototype/android/evidence/sc05/initial.jpg) · [결과 조회](../../prototype/android/evidence/sc05/checking.jpg) · [접수 확인](../../prototype/android/evidence/sc05/received.jpg), font scale [1.3](../../prototype/android/evidence/sc05/initial-font130.jpg) · [2.0](../../prototype/android/evidence/sc05/initial-font200.jpg).
 
 ### 검증
 
-- `./gradlew assembleDebug` 통과.
-- `accident-support-poc` emulator에서 `connectedDebugAndroidTest` 9/9 통과. Font scale 1.3과 animation 꺼짐 상태에서도 9/9 통과.
+- `./gradlew assembleDebug` 통과. App과 test가 같은 Compose 1.9.4를 사용한다(BOM 2025.10.01).
+- `accident-support-poc` emulator에서 `connectedDebugAndroidTest` 15/15 통과. Font scale 1.3·2.0과 animation 꺼짐 상태에서도 15/15 통과.
 - 처음 구현에서 하단 안내가 "확/인"처럼 낱말 중간에서 줄바꿈되었다. 검사의 실패를 확인한 후 Korean locale의 phrase line break로 fix했다.
-- 직접 확인: 세 장면의 clipping 없음, font scale 1.3에서 주요 행동·상태 표시 유지. Android Back은 app을 떠나며 다시 열면 초기 장면으로 시작한다.
+- 독립 review에서 가상 시연 표시 누락, 상태 문구의 부분 일치 비교, focus 이동 누락을 발견했다. 각 검사의 실패를 확인한 후 fix했다. 상태 비교와 focus 검사는 해당 code를 일부러 망가뜨렸을 때 실패하는 것도 확인했다.
+- Font scale 2.0에서 시연 control이 커지며 차량 화면을 밀어내는 문제를 화면으로 확인하고, 시연 control이 font scale을 따르지 않도록 fix했다.
+- 직접 확인: 세 장면의 clipping 없음, font scale 2.0까지 주요 행동·상태 표시 유지. Android Back은 activity를 종료하며 다시 열면 초기 장면으로 시작한다.
 - 두 화면 모두 SC05에서 눈에 띄는 motion이 없어 동영상 대신 같은 장면의 정지 화면으로 비교했다.
 
 ### 남은 차이와 미검증
 
-Web과의 차이는 위 표의 음성 안내·일시 중단·강도 조절이다. 진행 상태 보존(D04), 실제 Pleos display·AAOS UX restriction·차량 audio focus, 사용자 이해도는 확인하지 않았다. 전체 Compose E2E의 범위는 별도로 정한다.
+Web과의 차이는 위 표의 음성 안내(원고 fallback 포함)·일시 중단·강도 조절·motion이다. 진행 상태 보존(D04), `fact_overrides`를 쓰는 SC01·SC03의 이식, 실제 Pleos display·AAOS UX restriction·차량 audio focus, 사용자 이해도는 확인하지 않았다. 전체 Compose E2E의 범위는 별도로 정한다.
