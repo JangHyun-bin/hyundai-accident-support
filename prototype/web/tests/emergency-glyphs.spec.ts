@@ -44,6 +44,8 @@ test('attention_cue_keeps_warning_label_with_metal_glyph', async ({ page }) => {
 test('scaled_canvas_keeps_glyph_inside_plate', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 900 })
   await page.goto('/?study=emergency&scenario=SC05')
+  // 축소 배율은 ResizeObserver 뒤에 정해진다. 배율이 정해지기 전에 재면 box 가 서로 어긋난다.
+  await expect.poll(async () => (await page.locator('.emergency-screen').boundingBox())?.width ?? Infinity).toBeLessThanOrEqual(375)
   const plate = await page.locator('.emergency-symbol').boundingBox()
   const glyph = await page.locator('.emergency-symbol > [data-glyph]').boundingBox()
   expect(plate && glyph).toBeTruthy()
