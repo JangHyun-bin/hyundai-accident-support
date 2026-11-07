@@ -53,7 +53,7 @@ export function StatusMark({ tone, size }: { tone: string; size: number }) {
   const face = `url(#mark-face-${tone})`
   return <svg data-mark={tone} viewBox="0 0 48 48" width={size} height={size} overflow="visible" aria-hidden="true">
     {mark.shape === 'disc' ? <circle cx="24" cy="24" r="22" fill={face} stroke={mark.edge} strokeWidth="1" /> : glyphs[mark.shape].map((item, index) => part(item, index, face, mark.edge))}
-    {glyphs[mark.symbol].map((item, index) => part(item, `symbol-${index}`, mark.ink))}
+    <g data-ink>{glyphs[mark.symbol].map((item, index) => part(item, index, mark.ink))}</g>
   </svg>
 }
 

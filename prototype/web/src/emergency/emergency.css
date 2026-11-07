@@ -110,3 +110,14 @@
   .emergency-spec { grid-template-columns: minmax(0, 1fr); padding: 18px; gap: 16px; }
   .emergency-review-footer { flex-wrap: wrap; gap: 6px; }
 }
+/* 대비 측정 mode (tests/emergency-glyphs.spec.ts): 각인 면·표식 기호는 흰색, plate·원판은 검은색, 나머지는 회색. */
+.emergency-screen[data-measure] { background: #808080; }
+.emergency-screen[data-measure] canvas { visibility: hidden; }
+.emergency-screen[data-measure] .metal-plate { background: #000; box-shadow: none; }
+.emergency-screen[data-measure] .emergency-symbol-state { background: #808080; box-shadow: none; }
+.emergency-screen[data-measure] [data-glyph] > g { filter: none; }
+.emergency-screen[data-measure] [data-glyph] > g path:not([fill="none"]) { fill: #fff; }
+.emergency-screen[data-measure] [data-glyph] > g path[stroke] { stroke: #fff; }
+.emergency-screen[data-measure] [data-mark] > :not(g) { fill: #000; stroke: #808080; }
+.emergency-screen[data-measure] [data-mark] > g path:not([fill="none"]) { fill: #fff; }
+.emergency-screen[data-measure] [data-mark] > g path[stroke] { stroke: #fff; }

@@ -1,0 +1,227 @@
+{
+  "definition": "WCAG 1.4.11 non-text contrast on rendered pixels at deviceScaleFactor 3. Face = glyph face or mark symbol, plate = surrounding plate or mark disc within 6 CSS px of the face. 1 px anti-aliasing excluded by an 8-neighbour test; inner shadow band and lip highlight included. Ratio pairs the worst face pixel with the worst plate pixel.",
+  "results": {
+    "cue person": {
+      "query": "scenario=SC01&scene=initial",
+      "target": ".emergency-symbol",
+      "ratio": 3.259474225067772,
+      "face_pixels": 25665,
+      "plate_pixels": 18458,
+      "face_worst_rgb": [
+        155,
+        161,
+        163
+      ],
+      "plate_worst_rgb": [
+        73,
+        77,
+        80
+      ]
+    },
+    "cue phone": {
+      "query": "scenario=SC01&scene=contact_unknown",
+      "target": ".emergency-symbol",
+      "ratio": 3.259474225067772,
+      "face_pixels": 20397,
+      "plate_pixels": 16486,
+      "face_worst_rgb": [
+        155,
+        161,
+        163
+      ],
+      "plate_worst_rgb": [
+        73,
+        77,
+        80
+      ]
+    },
+    "cue vehicle": {
+      "query": "scenario=SC05&scene=initial",
+      "target": ".emergency-symbol",
+      "ratio": 3.070305210361398,
+      "face_pixels": 34023,
+      "plate_pixels": 26467,
+      "face_worst_rgb": [
+        155,
+        161,
+        163
+      ],
+      "plate_worst_rgb": [
+        76,
+        81,
+        84
+      ]
+    },
+    "fact driver": {
+      "query": "scenario=SC01",
+      "target": "[data-fact=\"driver\"] .emergency-fact-plate",
+      "ratio": 3.806136115779292,
+      "face_pixels": 772,
+      "plate_pixels": 3969,
+      "face_worst_rgb": [
+        179,
+        185,
+        187
+      ],
+      "plate_worst_rgb": [
+        80,
+        85,
+        87
+      ]
+    },
+    "fact route": {
+      "query": "scenario=SC01",
+      "target": "[data-fact=\"route\"] .emergency-fact-plate",
+      "ratio": 4.310355156620968,
+      "face_pixels": 240,
+      "plate_pixels": 4262,
+      "face_worst_rgb": [
+        180,
+        185,
+        188
+      ],
+      "plate_worst_rgb": [
+        73,
+        77,
+        80
+      ]
+    },
+    "fact injury": {
+      "query": "scenario=SC03",
+      "target": "[data-fact=\"injury\"] .emergency-fact-plate",
+      "ratio": 4.034709014325282,
+      "face_pixels": 832,
+      "plate_pixels": 3956,
+      "face_worst_rgb": [
+        178,
+        183,
+        186
+      ],
+      "plate_worst_rgb": [
+        75,
+        80,
+        83
+      ]
+    },
+    "fact consciousness": {
+      "query": "scenario=SC03",
+      "target": "[data-fact=\"consciousness\"] .emergency-fact-plate",
+      "ratio": 3.7346945882554246,
+      "face_pixels": 773,
+      "plate_pixels": 3977,
+      "face_worst_rgb": [
+        178,
+        183,
+        186
+      ],
+      "plate_worst_rgb": [
+        80,
+        85,
+        87
+      ]
+    },
+    "fact arrival": {
+      "query": "scenario=SC05",
+      "target": "[data-fact=\"arrival\"] .emergency-fact-plate",
+      "ratio": 3.6370742160633345,
+      "face_pixels": 847,
+      "plate_pixels": 4569,
+      "face_worst_rgb": [
+        174,
+        178,
+        181
+      ],
+      "plate_worst_rgb": [
+        79,
+        83,
+        86
+      ]
+    },
+    "fact handoff": {
+      "query": "scenario=SC05",
+      "target": "[data-fact=\"handoff\"] .emergency-fact-plate",
+      "ratio": 4.11448387121998,
+      "face_pixels": 848,
+      "plate_pixels": 4361,
+      "face_worst_rgb": [
+        177,
+        182,
+        184
+      ],
+      "plate_worst_rgb": [
+        73,
+        78,
+        81
+      ]
+    },
+    "mark unknown": {
+      "query": "scenario=SC05&scene=initial",
+      "target": ".emergency-symbol-state [data-mark]",
+      "ratio": 11.01718075223034,
+      "face_pixels": 1025,
+      "plate_pixels": 5274,
+      "face_worst_rgb": [
+        230,
+        234,
+        235
+      ],
+      "plate_worst_rgb": [
+        43,
+        48,
+        51
+      ]
+    },
+    "mark attention": {
+      "query": "scenario=SC01&scene=initial",
+      "target": ".emergency-symbol-state [data-mark]",
+      "ratio": 6.988909463268978,
+      "face_pixels": 480,
+      "plate_pixels": 3230,
+      "face_worst_rgb": [
+        58,
+        34,
+        24
+      ],
+      "plate_worst_rgb": [
+        227,
+        164,
+        137
+      ]
+    },
+    "mark confirmed": {
+      "query": "scenario=SC05&scene=initial",
+      "target": "[data-request] [data-mark=\"confirmed\"]",
+      "ratio": 9.683946362694142,
+      "face_pixels": 112,
+      "plate_pixels": 1625,
+      "face_worst_rgb": [
+        23,
+        42,
+        36
+      ],
+      "plate_worst_rgb": [
+        168,
+        218,
+        196
+      ]
+    },
+    "mark neutral": {
+      "query": "scenario=SC05&scene=initial",
+      "target": "[data-request] [data-mark=\"neutral\"]",
+      "ratio": 11.01718075223034,
+      "face_pixels": 29,
+      "plate_pixels": 1604,
+      "face_worst_rgb": [
+        230,
+        234,
+        235
+      ],
+      "plate_worst_rgb": [
+        43,
+        48,
+        51
+      ]
+    }
+  },
+  "note": "Chrome render of the web prototype only. Actual vehicle display, viewing angle and glare are not covered."
+}
