@@ -108,3 +108,12 @@ test('playing_voice_stops_on_pause_and_old_callbacks_cannot_change_new_voice', a
   await expect(page.getByRole('button', { name: '음성 안내 중지' })).toBeVisible()
   await expect(page.getByRole('status')).not.toContainText('음성 원고')
 })
+
+test('sc05_initial_omits_removed_copy_without_empty_text', async ({ page }) => {
+  await page.goto('/?study=emergency&scenario=SC05&scene=initial')
+  const screen = page.getByRole('region', { name: '시각 중심 사고 대응' })
+  await expect(screen.getByRole('heading', { name: '차량 지원 접수를 확인하세요' })).toBeVisible()
+  await expect(screen.getByText('기존 요청의 결과부터 확인해요.')).toHaveCount(0)
+  await expect(screen.getByText('접수만으로 안전이 확보되지는 않아요.')).toHaveCount(0)
+  await expect(screen.locator('.emergency-action-heading p, .emergency-support-heading span')).toHaveCount(0)
+})

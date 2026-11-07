@@ -139,9 +139,9 @@ export function EmergencyStudy() {
               <h2>{scene.cue.label}</h2><p>{scene.cue.detail}</p>
             </section>
             <div className="emergency-action-area">
-              <div className="emergency-action-heading"><h1 ref={heading} tabIndex={-1}>{scene.title}</h1><p>{scene.instruction}</p></div>
+              <div className="emergency-action-heading"><h1 ref={heading} tabIndex={-1}>{scene.title}</h1>{scene.instruction && <p>{scene.instruction}</p>}</div>
               <div className="emergency-action-slot">{scene.actions.map(action => <button className="emergency-primary-action" key={action.id} onClick={() => goToScene(action.to, 'action')}>{action.id === 'request_help' ? <Phone size={30} aria-hidden="true" /> : action.id === 'respond' ? <Check size={30} aria-hidden="true" /> : <Route size={30} aria-hidden="true" />}<span>{action.label}</span><ArrowRight size={28} aria-hidden="true" /></button>)}</div>
-              <section className="emergency-support" aria-label="추가 확인 항목"><div className="emergency-support-heading"><h2>{scenario.presentation.support_title}</h2><span>{scenario.presentation.support_note}</span></div>
+              <section className="emergency-support" aria-label="추가 확인 항목"><div className="emergency-support-heading"><h2>{scenario.presentation.support_title}</h2>{scenario.presentation.support_note && <span>{scenario.presentation.support_note}</span>}</div>
                 <TransitionPanel activeIndex={sceneIndex} transition={{ duration: reducedMotion ? 0 : .16 }} variants={{ enter: { opacity: .8 }, center: { opacity: 1 }, exit: { opacity: 0 } }}>
                   {scenario.states.map(state => <FactsPanel key={state.id} facts={facts.filter(fact => scenario.presentation.visible_facts.includes(fact.id))} />)}
                 </TransitionPanel>

@@ -112,7 +112,7 @@ internal fun loadScenario(context: Context, id: String): Scenario {
         initial = scenario.getString("initial"),
         contextLabel = presentation.getString("context_label"),
         supportTitle = presentation.getString("support_title"),
-        supportNote = presentation.getString("support_note"),
+        supportNote = presentation.optString("support_note"),
         facts = scenario.getJSONArray("facts").objects().map { Fact(it.getString("id"), it.getString("label"), it.getString("value"), it.getString("status")) }.filter { it.id in visibleFacts },
         requests = scenario.getJSONArray("requests").objects().map { Request(it.getString("id"), it.getString("label"), it.getString("status")) }.filter { it.id in visibleRequests },
         statuses = statuses,
@@ -121,7 +121,7 @@ internal fun loadScenario(context: Context, id: String): Scenario {
             require(state.getJSONObject("fact_overrides").length() == 0) { "$id/${state.getString("id")}: fact_overrides are not supported yet" }
             val cue = state.getJSONObject("cue")
             Scene(
-                state.getString("id"), state.getString("label"), state.getString("title"), state.getString("instruction"),
+                state.getString("id"), state.getString("label"), state.getString("title"), state.optString("instruction"),
                 cue.getString("symbol"), cue.getString("status"), cue.getString("label"), cue.getString("detail"),
                 state.getJSONObject("request_overrides").stringMap(), state.transitions("actions"), state.transitions("events")
             )
@@ -233,8 +233,11 @@ private fun ActionArea(story: Scenario, scene: Scene, titleFocus: FocusRequester
     // 큰 font scale 에서 잘리지 않도록 scroll 로 남긴다. 1.0 에서는 scroll 없이 들어간다.
     Column(modifier.verticalScroll(rememberScrollState()).padding(top = 8.dp)) {
         Copy(scene.title, 44, weight = FontWeight.SemiBold, lineHeight = 1.25f, tracking = -.035f, modifier = Modifier.semantics { heading(); liveRegion = LiveRegionMode.Polite }.focusRequester(titleFocus).focusable())
-        Spacer(Modifier.height(18.dp))
-        Copy(scene.instruction, 24, Ui.muted, lineHeight = 1.45f)
+        // 문구가 없는 장면은 빈 줄을 남기지 않는다.
+        if (scene.instruction.isNotEmpty()) {
+            Spacer(Modifier.height(18.dp))
+            Copy(scene.instruction, 24, Ui.muted, lineHeight = 1.45f)
+        }
         Box(Modifier.fillMaxWidth().heightIn(min = 116.dp).padding(top = 28.dp)) {
             scene.actions.forEach { action ->
                 Row(Modifier.fillMaxWidth().heightIn(min = 82.dp).clip(RoundedCornerShape(14.dp)).background(Ui.primary).clickable(role = Role.Button) { go(action.to) }.padding(horizontal = 28.dp, vertical = 22.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -249,8 +252,10 @@ private fun ActionArea(story: Scenario, scene: Scene, titleFocus: FocusRequester
         Divider(Ui.border)
         Spacer(Modifier.height(24.dp))
         Copy(story.supportTitle, 21, weight = FontWeight.SemiBold)
-        Spacer(Modifier.height(6.dp))
-        Copy(story.supportNote, 18, Ui.muted)
+        if (story.supportNote.isNotEmpty()) {
+            Spacer(Modifier.height(6.dp))
+            Copy(story.supportNote, 18, Ui.muted)
+        }
         Spacer(Modifier.height(20.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(24.dp)) {
             story.facts.forEach { fact ->

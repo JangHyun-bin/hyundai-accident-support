@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsFocused
 import androidx.compose.ui.test.hasText
@@ -37,6 +38,13 @@ class Sc05Test {
         request("insurance", "요청 전")
         fact("arrival", "미확인")
         fact("handoff", "미확인")
+    }
+
+    // 사용자가 뺀 문구는 빈 Text 로도 남지 않아야 한다.
+    @Test fun removedCopyLeavesNoEmptyText() {
+        rule.onNodeWithText("기존 요청의 결과부터 확인해요.").assertDoesNotExist()
+        rule.onNodeWithText("접수만으로 안전이 확보되지는 않아요.").assertDoesNotExist()
+        rule.onAllNodes(hasText(""), useUnmergedTree = true).assertCountEquals(0)
     }
 
     @Test fun simulationNoticeIsAlwaysShown() {
