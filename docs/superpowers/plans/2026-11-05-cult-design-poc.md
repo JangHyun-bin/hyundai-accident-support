@@ -118,3 +118,9 @@ Motion 값은 조정 가능한 project 제안이다. 긴급 안내 문구는 장
 GitHub에는 source·문서·license·lockfile·대표 비교 기록을 저장한다. `node_modules/`, build output, browser trace 같은 임시 산출물은 제외한다. Push 전에 대상 repository의 read-only API와 remote branch를 확인하며, `main` merge는 별도 작업이다.
 
 실제 Pleos 환경의 가용 영역·UX restriction·차량 SDK 및 사고 대응 정책의 적합성은 후속 검증이다. Kotlin + Compose는 사용자가 선택한 project 제약이며, 공모전 규정 원문에서 의무 여부를 확인한 결과로 표현하지 않는다.
+
+## 실행 기록 (2026-11-07)
+
+- Task 1: 완료. [비교 기록](../../reviews/cult-design-poc.md).
+- Task 2: [긴급 storyboard](2026-11-05-emergency-storyboard.md)로 대체. Side Panel은 만들지 않았다.
+- Task 3: 사용자 승인에 따라 대상을 SC05 세 장면 + C · Satin으로 다시 정했다. 상세 열기·닫기 대신 Android Back과 activity 재생성 후 상태 유지를 확인했다. 결과는 [비교 기록의 Task 3](../../reviews/cult-design-poc.md#task-3--compose-재현-2026-11-07)에 있다.

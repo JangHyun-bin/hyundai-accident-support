@@ -29,3 +29,32 @@
 후속 작업은 anti-slop 조사에 따른 A의 critique, 선정한 시각 기준의 정리, 세 상태 확장, Compose 한 화면 재현이다. 원본 flow·과거 native PoC·미결정 정책은 변경하지 않았다.
 
 독립 code review에서 현재 Task 1 범위의 Critical·Important·Minor 문제는 발견되지 않았다. Reviewer는 keyboard focus·여러 browser 크기·원래 크기·reduced motion을 직접 확인하였다. 후속 상태·전체 접근성·native 적합성은 해당 판정에 포함하지 않는다.
+
+## Task 3 · Compose 재현 (2026-11-07)
+
+Task 2는 긴급 storyboard로 대체되어 Side Panel을 만들지 않았다. 사용자 승인에 따라 Task 3의 대상을 **SC05 · 접수 미확인의 세 장면 + C · Satin**으로 다시 정했다. 기관별 상태 유지와 상태 전환을 함께 확인할 수 있는 scenario이기 때문이다. 구현과 실행 방법은 [Android PoC](../../prototype/android/README.md)에 있다.
+
+| 항목 | Web preview | Compose |
+| --- | --- | --- |
+| 장면·문구·상태 | `scenarios.json` | 같은 file을 assets로 읽음 |
+| 배치·크기 | 1440 × 810 CSS px canvas | 1440 dp 폭 emulator에서 같은 수치의 dp |
+| 재질 | WebGL 2 GLSL, 강도 slider(기본 70%) | AGSL `RuntimeShader`, 70% 고정. Android 13 미만은 flat |
+| Icon·font | Lucide, Asta Sans | 같은 Lucide path, Asta Sans |
+| 시연 control | 화면 아래 page control, 일시 중단 | 화면 아래 90 dp strip. 일시 중단 없음 |
+| 음성 안내 | Browser TTS | 미구현 |
+| Motion | 사실 영역 160 ms opacity | 없음. SC05의 사실 값은 변하지 않음 |
+| 긴 문구 | Browser 줄바꿈 | 어절 단위, 줄 길이 균형 |
+
+화면 비교: Web [접수 미확인](../../prototype/web/evidence/emergency-satin/SC05-initial.png) · [결과 조회](../../prototype/web/evidence/emergency-satin/SC05-checking.png) · [접수 확인](../../prototype/web/evidence/emergency-satin/SC05-received.png), Compose [접수 미확인](../../prototype/android/evidence/sc05/initial.png) · [결과 조회](../../prototype/android/evidence/sc05/checking.png) · [접수 확인](../../prototype/android/evidence/sc05/received.png), [font scale 1.3](../../prototype/android/evidence/sc05/initial-font130.png).
+
+### 검증
+
+- `./gradlew assembleDebug` 통과.
+- `accident-support-poc` emulator에서 `connectedDebugAndroidTest` 9/9 통과. Font scale 1.3과 animation 꺼짐 상태에서도 9/9 통과.
+- 처음 구현에서 하단 안내가 "확/인"처럼 낱말 중간에서 줄바꿈되었다. 검사의 실패를 확인한 후 Korean locale의 phrase line break로 fix했다.
+- 직접 확인: 세 장면의 clipping 없음, font scale 1.3에서 주요 행동·상태 표시 유지. Android Back은 app을 떠나며 다시 열면 초기 장면으로 시작한다.
+- 두 화면 모두 SC05에서 눈에 띄는 motion이 없어 동영상 대신 같은 장면의 정지 화면으로 비교했다.
+
+### 남은 차이와 미검증
+
+Web과의 차이는 위 표의 음성 안내·일시 중단·강도 조절이다. 진행 상태 보존(D04), 실제 Pleos display·AAOS UX restriction·차량 audio focus, 사용자 이해도는 확인하지 않았다. 전체 Compose E2E의 범위는 별도로 정한다.
