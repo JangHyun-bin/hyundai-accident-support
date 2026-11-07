@@ -9,6 +9,8 @@ test('all nine scenes retain their content, semantic colors and geometry across 
     const screen = page.getByRole('region', { name: '시각 중심 사고 대응' })
     await expect(screen).toHaveAttribute('data-surface-status', 'ready')
     await expect(screen.getByRole('heading', { name: scene.title, exact: true })).toBeVisible()
+    // Asta web font load 전에 snapshot 을 찍으면 글자 폭이 1–2 px 달라진다.
+    await page.evaluate(() => document.fonts.ready)
     const snapshot = () => screen.evaluate(element => ({
       text: (element as HTMLElement).innerText,
       parts: [...element.querySelectorAll('h1, h2, p, button, [data-fact], [data-request]')].map(node => ({
