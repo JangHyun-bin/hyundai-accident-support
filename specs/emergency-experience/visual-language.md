@@ -2,7 +2,17 @@
 
 ## 공통 기반
 
-Asta, 기존 dark semantic palette, 1440 × 810 CSS px canvas를 사용한다. 이 크기는 차량 dp와 실제 시인성을 검증한 값이 아니다. Browser의 검토 UI는 좁은 폭에서도 조작할 수 있어야 한다. 차량 canvas는 비율을 유지해 축소하며 원래 크기 보기를 제공한다.
+Asta와 Pleos dark basic scale을 사용한다. Browser의 검토 UI는 좁은 폭에서도 조작할 수 있어야 한다. 차량 canvas는 비율을 유지해 축소하며 원래 크기 보기를 제공한다.
+
+### Pleos 1:1 분할 (2026-11-08 사용자 결정)
+
+사고 대응 app은 차량 화면 전체가 아니라 Pleos의 app 창 하나에서 돈다. 디자이너 피드백("화면이 꽉 차야 하나", "차 상태 칸을 유지하면 실제로 어떻게 보이는지 알려줄 수 있다")과 [Pleos 조사](../../docs/research/pleos-foundation.md)를 따랐다.
+
+- 공식 문서가 밝힌 것: system UI(status bar·driving view·GNB)와 app 창의 구분, 창 비율 1:1(app 2개)·2:0(app 1개), 닫을 수 없는 기본 app인 내비. 3rd-party app이 긴급 상황에 전체 화면이나 system popup을 쓸 수 있다는 근거는 없다.
+- 가정한 것: Connect-S 17을 2560 × 1440 px로 두고 status bar 72, 창 788(driving view)·840·840 × 1184, 간격 23, GNB 140으로 그린다. 공개 문서 본문에 없는 수치다.
+- 배치: driving view │ 사고 대응 app │ 내비. App을 운전자 쪽 창에 둔 것은 project 결정이다. Driving view·내비·status bar·GNB는 맥락을 보여 주는 그림이며 app이 제어하지 않는다.
+- 글자: app 안의 글자는 Pleos type scale(Headline 60·56·48, Title 40·36·32, Body 30·28·26, Label 24·20)만 쓴다. Countdown 숫자(88)만 예외다.
+- 강조: 빛 번짐은 구호 ring에만 둔다. Button은 그림자·gradient 없는 단색이다. 디자이너 피드백("button gradient나 그림자가 너무 셈")과 Pleos shadow(최대 검정 24%)를 따랐다.
 
 ## Indicator 의미
 
@@ -35,11 +45,12 @@ Asta, 기존 dark semantic palette, 1440 × 810 CSS px canvas를 사용한다. �
 
 | 단계 | 쓰는 곳 | 색 |
 | --- | --- | --- |
-| 결정 필요 (`phase: decide`) | 구호 countdown ring·숫자·`지금 연결` button. `[data-urgent]` 하나로 묶는다 | 빨강 `#FF453A` |
+| 결정 필요 (`phase: decide`) | 구호 countdown ring·숫자·`지금 연결` button. `[data-urgent]` 하나로 묶는다 | 빨강 `#FF4C28` (Pleos `informative_negative`) |
 | 진행 중 (`phase: progress`) | 연결 중·확인 중인 ②의 표시 | 호박 `#FFB340` |
 | 대기·확인됨 (`phase: settled`) | 그 외. 확인 표식만 mint | neutral |
 
 - 빨강은 생명과 관련된 결정에만 쓴다. 차량 지원·보험의 승인 button은 neutral 주 button이다.
+- `지금 연결`의 글자는 어두운 색(`#131417`)이다. 흰 글자는 빨강 위에서 4.5:1에 못 미친다.
 - 화면 전체를 경보색으로 칠하지 않는다. 초록 "완료" 화면을 두지 않는다.
 
 ## Motion·음성·입력
@@ -62,6 +73,7 @@ Asta, 기존 dark semantic palette, 1440 × 810 CSS px canvas를 사용한다. �
 
 - `?study=emergency&material=satin`에서 연다. 기존 `?study=emergency`는 flat으로 시작한다.
 - Material은 장식 배경이다. 상황 spec, indicator, 상태 색, 문구, action, transition을 바꾸지 않는다. 상태가 바뀌어도 배경의 색이나 highlight로 성공·안전을 나타내지 않는다.
+- Pleos 1:1 분할 이후 재질은 사고 대응 app 창(840 × 1184) 안에만 깐다.
 - C의 sparse Gabor 결과 anisotropic sheen을 유지하되 긴급 화면에 맞게 어둡게 조정한다. 왼쪽 indicator 주변에 빛을 두고, 오른쪽 행동 영역과 하단 지원 현황에서는 밝기를 낮춘다.
 - Surface는 pointer와 accessibility tree에 참여하지 않는다. Text·indicator·button은 원래 HTML/SVG layer에 남는다.
 - 재질 전환과 표면 강도 변경은 장면·기관 상태·시연 일시 중단 여부를 변경하지 않는다. 기본 강도는 70%이며 확정된 차량 design token이 아닌 비교 시작값이다.

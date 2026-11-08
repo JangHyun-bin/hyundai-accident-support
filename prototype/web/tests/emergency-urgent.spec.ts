@@ -3,7 +3,16 @@ import manifest from '../../../specs/emergency-experience/scenarios.json' with {
 
 type Scene = (typeof manifest.scenarios)[number]['states'][number] & { phase: string; self_action?: { condition?: string; now: string; next?: string } }
 const scenes = manifest.scenarios.flatMap(scenario => (scenario.states as Scene[]).map(scene => ({ scenario, scene })))
-const RED = 'rgb(255, 69, 58)'
+// Pleos informative_negative (dark). 구호 결정에만 쓴다.
+const RED = 'rgb(255, 76, 40)'
+// Pleos Headline·Title·Body·Label 크기 (2560 × 1440 기준 px).
+const PLEOS_TYPE = [60, 56, 48, 40, 36, 32, 30, 28, 26, 24, 20]
+const contrast = (a: number[], b: number[]) => {
+  const luminance = (rgb: number[]) => rgb.map(value => { value /= 255; return value <= .04045 ? value / 12.92 : ((value + .055) / 1.055) ** 2.4 }).reduce((sum, value, index) => sum + value * [.2126, .7152, .0722][index], 0)
+  const [high, low] = [luminance(a), luminance(b)].sort((x, y) => y - x)
+  return (high + .05) / (low + .05)
+}
+const channels = (css: string) => css.match(/\d+/g)!.slice(0, 3).map(Number)
 
 test('every_scene_has_three_slots_and_three_agencies', async ({ page }) => {
   for (const { scenario, scene } of scenes) {
@@ -37,6 +46,49 @@ test('detected_heading_has_no_accent_colour', async ({ page }) => {
     await page.goto(`/?study=emergency&scenario=${scenario.id}&scene=${scene.id}`)
     await expect(page.locator('[data-slot="detected"] h2'), `${scenario.id}/${scene.id}`).toHaveCSS('color', 'rgb(242, 244, 242)')
   }
+})
+
+test('app_runs_in_a_one_to_one_split_beside_navigation', async ({ page }) => {
+  await page.goto('/?study=emergency&scenario=SC01&scene=initial')
+  await expect(page.locator('[data-pleos="gnb"]')).toBeVisible()
+  const box = async (selector: string) => (await page.locator(selector).boundingBox())!
+  const display = await box('.pleos-display'), status = await box('[data-pleos="status-bar"]'), driving = await box('[data-pleos="driving-view"]')
+  const navigation = await box('[data-pleos="navigation"]'), app = await box('.emergency-screen'), gnb = await box('[data-pleos="gnb"]')
+  expect(display.width / display.height).toBeCloseTo(16 / 9, 2)
+  expect(Math.abs(app.width - navigation.width)).toBeLessThan(1)
+  expect(Math.abs(app.height - navigation.height)).toBeLessThan(1)
+  expect(app.x).toBeGreaterThanOrEqual(driving.x + driving.width)
+  expect(app.y).toBeGreaterThanOrEqual(status.y + status.height)
+  expect(app.y + app.height).toBeLessThanOrEqual(gnb.y)
+  expect(app.width).toBeLessThan(display.width / 2)
+})
+
+test('app_text_follows_pleos_type_scale', async ({ page }) => {
+  for (const { scenario, scene } of scenes) {
+    await page.goto(`/?study=emergency&scenario=${scenario.id}&scene=${scene.id}`)
+    await expect(page.locator('[data-slot="car"]')).toBeVisible()
+    // Countdown 숫자는 표시용 numeral 이라 type scale 밖에 둔다.
+    const off = await page.locator('.emergency-screen').evaluate((root, sizes) => [...root.querySelectorAll('*')]
+      .filter(node => !node.closest('.emergency-ring') && [...node.childNodes].some(child => child.nodeType === 3 && child.textContent!.trim()))
+      .map(node => `${parseFloat(getComputedStyle(node).fontSize)} ${node.textContent!.trim().slice(0, 12)}`)
+      .filter(entry => !sizes.includes(parseFloat(entry))), PLEOS_TYPE)
+    expect(off, `${scenario.id}/${scene.id}`).toEqual([])
+  }
+})
+
+test('rescue_button_is_pleos_red_with_4_5_to_1_text', async ({ page }) => {
+  await page.goto('/?study=emergency&scenario=SC01&scene=initial')
+  const button = page.locator('[data-urgent] .emergency-primary-action')
+  await expect(button).toHaveCSS('background-color', RED)
+  const [color, background] = await button.evaluate(node => [getComputedStyle(node).color, getComputedStyle(node).backgroundColor])
+  expect(contrast(channels(color), channels(background))).toBeGreaterThanOrEqual(4.5)
+})
+
+test('only_the_rescue_ring_glows', async ({ page }) => {
+  await page.goto('/?study=emergency&scenario=SC01&scene=initial')
+  await expect(page.locator('[data-urgent] .emergency-ring-value')).toHaveCSS('filter', /drop-shadow/)
+  const glowing = await page.locator('.emergency-screen').evaluate(root => [...root.querySelectorAll('button')].filter(node => getComputedStyle(node).boxShadow !== 'none' || getComputedStyle(node).backgroundImage !== 'none').map(node => node.textContent))
+  expect(glowing).toEqual([])
 })
 
 test('screen_never_says_unconscious', async ({ page }) => {

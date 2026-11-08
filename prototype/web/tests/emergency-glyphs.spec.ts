@@ -128,6 +128,8 @@ test.describe('contrast', () => {
       const screen = page.locator('.emergency-screen')
       await expect(screen).toHaveAttribute('data-surface-status', 'ready')
       await page.evaluate(() => document.fonts.ready)
+      // Pleos 화면(2560 px)을 창에 맞추면 표식이 너무 작아져 면 pixel 이 남지 않는다. 실제 크기에서 잰다.
+      await page.getByRole('button', { name: '원래 크기' }).click()
       const result = await contrast(page, screen.locator(target).first(), hide)
       results[name] = { query, target, ...result }
       expect(result.face_pixels, `${name} face`).toBeGreaterThan(20)

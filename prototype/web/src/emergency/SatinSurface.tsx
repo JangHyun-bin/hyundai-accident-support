@@ -20,7 +20,7 @@ float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(ha
 float fbm(vec2 p){float a=.55,s=0.;mat2 r=mat2(.8,-.6,.6,.8);for(int i=0;i<4;i++){s+=a*noise(p);p=r*p*2.07+vec2(13.9,7.1);a*=.48;}return s;}
 float gabor(vec2 p){vec2 cell=floor(p);float sum=0.;for(int y=-1;y<=1;y++)for(int x=-1;x<=1;x++){vec2 id=cell+vec2(x,y);vec2 h=hash2(id);vec2 d=p-id-h;float angle=(hash(id+14.6)-.5)*.38;vec2 direction=vec2(sin(angle),cos(angle));sum+=exp(-3.2*dot(d,d))*cos(2.*PI*((.65+1.1*hash(id+4.5))*dot(d,direction)+h.y));}return sum;}
 void main(){
- vec2 p=vec2(uv.x,1.-uv.y),px=p*vec2(1440.,810.);
+ vec2 p=vec2(uv.x,1.-uv.y),px=p*vec2(840.,1184.);
  float local=fbm(p*4.7);
  vec2 q=vec2(px.x*.11+(fbm(p*12.)-.5)*.6,px.y*.40+(local-.5)*1.2);
  float grain=gabor(q)*.7+gabor(q*vec2(.31,.46)+41.)*.3;
@@ -104,5 +104,5 @@ export function SatinSurface({ intensity, onStatus }: { intensity: number; onSta
 
   useEffect(() => { draw.current?.(intensity) }, [intensity])
 
-  return <canvas ref={canvas} className="emergency-satin-surface" width={1440} height={810} aria-hidden="true" />
+  return <canvas ref={canvas} className="emergency-satin-surface" width={840} height={1184} aria-hidden="true" />
 }
