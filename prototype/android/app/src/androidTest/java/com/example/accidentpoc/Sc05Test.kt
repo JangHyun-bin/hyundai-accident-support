@@ -4,8 +4,11 @@ import android.content.Intent
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsFocused
+import androidx.compose.ui.test.hasAnyAncestor
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
@@ -37,6 +40,13 @@ class Sc05Test {
         request("insurance", "요청 전")
         fact("arrival", "미확인")
         fact("handoff", "미확인")
+    }
+
+    // 사용자가 뺀 문구는 빈 Text 로도 남지 않아야 한다.
+    @Test fun removedCopyLeavesNoEmptyText() {
+        rule.onNodeWithText("기존 요청의 결과부터 확인해요.").assertDoesNotExist()
+        rule.onNodeWithText("접수만으로 안전이 확보되지는 않아요.").assertDoesNotExist()
+        rule.onAllNodes(hasText(""), useUnmergedTree = true).assertCountEquals(0)
     }
 
     @Test fun simulationNoticeIsAlwaysShown() {
@@ -127,6 +137,23 @@ class Sc05Test {
         rule.onNodeWithTag("surface-satin").performClick()
         rule.onNodeWithTag("surface-status").assert(hasText("Satin 적용 · 강도 70%"))
         request("rescue", "접수 확인")
+    }
+
+    // 각 장면의 cue·사실·요청이 glyphs.json 의 mapping 과 tone 대로 그려진다.
+    @Test fun sc05DrawsMappedGlyphsAndMarks() {
+        val tones = mapOf("접수 확인" to "confirmed", "접수 미확인" to "unknown", "접수 확인 중" to "unknown", "요청 전" to "neutral")
+        fun inside(parent: String, tag: String) = rule.onNode(hasTestTag(tag) and hasAnyAncestor(hasTestTag(parent)), useUnmergedTree = true).assertExists()
+        mapOf("initial" to "unknown", "checking" to "unknown", "received" to "confirmed").forEach { (scene, cueTone) ->
+            rule.onNodeWithTag("scene-$scene").performClick()
+            inside("cue", "glyph-vehicle")
+            inside("cue", "mark-$cueTone")
+            inside("fact-arrival", "glyph-vehicle")
+            inside("fact-handoff", "glyph-handoff")
+            listOf("rescue", "vehicle", "insurance").forEach { id ->
+                val status = tones.keys.sortedByDescending { it.length }.first { label -> rule.onNodeWithTag("request-$id").fetchSemanticsNode().config.toString().contains(label) }
+                inside("request-$id", "mark-${tones.getValue(status)}")
+            }
+        }
     }
 }
 

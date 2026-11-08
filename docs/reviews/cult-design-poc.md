@@ -61,3 +61,39 @@ Task 2는 긴급 storyboard로 대체되어 Side Panel을 만들지 않았다. �
 ### 남은 차이와 미검증
 
 Web과의 차이는 위 표의 음성 안내(원고 fallback 포함)·일시 중단·강도 조절·motion이다. 진행 상태 보존(D04), `fact_overrides`를 쓰는 SC01·SC03의 이식, 실제 Pleos display·AAOS UX restriction·차량 audio focus, 사용자 이해도는 확인하지 않았다. 전체 Compose E2E의 범위는 별도로 정한다.
+
+## 금속 각인 pictogram (2026-11-08)
+
+사용자가 기존 Lucide icon이 단순하고 Satin 재질과 어울리지 않는다고 판단하여, 네 방향 중 **D · 금속 각인**을 선택하였다. 설계는 [design 문서](../superpowers/specs/2026-11-08-engraved-pictograms-design.md)에 있다.
+
+### 범위
+
+- 차량 화면의 cue glyph, 사실 항목 glyph, 주 행동 button glyph, 상태 표식(확인·미확인·요청 전·주의)을 교체하였다. 정의는 web과 Compose가 함께 읽는 [`glyphs.json`](../../specs/emergency-experience/glyphs.json) 하나에 있다.
+- Web은 inline SVG와 SVG filter로, Compose는 `Path.op`와 Canvas 효과로 같은 값을 그린다. Web filter는 Skia와 결과를 맞추기 위해 sRGB에서 섞는다.
+- 주의 상태의 `부상 있음` 문구는 경고색을 유지하고 glyph만 금속으로 바꾸었다. 검토 UI(장면 목록·event button)와 음성 안내 button은 Lucide를 유지한다.
+
+### 대비 측정
+
+WCAG 1.4.11 비텍스트 대비를 rendered pixel로 측정하였다. 같은 영역을 평소 render와 측정용 render(면·기호는 흰색, plate·원판은 검은색)로 두 번 찍고, 1 px anti-aliasing은 8 이웃 검사로 제외하였다. 안쪽 그림자 띠와 lip은 포함한다. 면의 가장 어두운 pixel과 6 CSS px 안 plate의 가장 밝은 pixel을 짝지어 비율을 계산한다. Web은 Chrome deviceScaleFactor 3에서 측정한다.
+
+| 대상 | 최소 비율 |
+| --- | --- |
+| Cue glyph (차량·사람·전화) | 3.26 · 3.46 · 3.46 |
+| 사실 glyph (6종) | 3.64 ~ 4.25 |
+| 상태 표식 (주의·확인·미확인·요청 전) | 6.99 · 9.68 · 11.02 · 11.02 |
+
+전체 값은 [`contrast-check.json`](../../prototype/web/evidence/emergency-glyphs/contrast-check.json)에 있다. 처음 시안 값으로는 cue가 0.40:1이었고, 사용자가 가독성을 우선하기로 결정하여 그림자를 약하게, 면을 밝게 조정하였다. Compose는 cue 차량 glyph에 같은 정의의 3:1 검사를 둔다.
+
+### Evidence
+
+- Web(C · Satin): [SC01 초기](../../prototype/web/evidence/emergency-glyphs/SC01-initial.png) · [SC01 흑백](../../prototype/web/evidence/emergency-glyphs/SC01-initial-grayscale.png) · [SC03 응답 확인](../../prototype/web/evidence/emergency-glyphs/SC03-responded.png) · [SC05 접수 미확인](../../prototype/web/evidence/emergency-glyphs/SC05-initial.png) 외 9개 장면 전체가 같은 folder에 있다. 흑백 image에서 주의 삼각형과 원판 표식이 모양으로 구별된다.
+- Compose: [접수 미확인](../../prototype/android/evidence/sc05/initial.jpg) · [결과 조회](../../prototype/android/evidence/sc05/checking.jpg) · [접수 확인](../../prototype/android/evidence/sc05/received.jpg), font scale [1.3](../../prototype/android/evidence/sc05/initial-font130.jpg) · [2.0](../../prototype/android/evidence/sc05/initial-font200.jpg).
+
+### 검증
+
+- Web: `npm run check`, Playwright 전체 통과. Glyph data 검사(모든 fact·cue·action·tone의 glyph 존재, 숨긴 fact의 glyph 없음, 색 없이 구별되는 표식, path 형식), 9개 장면의 mapping 검사, 좁은 화면에서 plate 안에 glyph 유지, 대비 3:1 검사를 추가하였다.
+- Compose: `connectedDebugAndroidTest` 21/21 통과, font scale 2.0에서도 21/21 통과. Font scale 2.0 화면에서 사실 값 문구가 잘리지 않는다.
+
+### 남은 한계
+
+대비는 Chrome과 emulator의 render 결과만 측정하였다. 실제 차량 display의 시야각·밝기·반사와 주행 중 시인성은 검증하지 않았다. 각인 깊이는 가독성을 위해 시안보다 얕다.

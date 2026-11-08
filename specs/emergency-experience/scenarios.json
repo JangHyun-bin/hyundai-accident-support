@@ -406,7 +406,6 @@
           "id": "initial",
           "label": "접수 미확인",
           "title": "차량 지원 접수를 확인하세요",
-          "instruction": "기존 요청의 결과부터 확인해요.",
           "voice": "차량 지원의 접수가 미확인이에요. 구호는 접수됐고 보험은 요청 전이에요. 기존 요청 결과부터 확인하세요.",
           "cue": {
             "symbol": "vehicle",
@@ -496,7 +495,6 @@
       "presentation": {
         "context_label": "지원 진행 확인",
         "support_title": "접수 이후에도 확인할 것",
-        "support_note": "접수만으로 안전이 확보되지는 않아요.",
         "visible_facts": [
           "arrival",
           "handoff"
