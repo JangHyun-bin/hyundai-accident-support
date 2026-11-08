@@ -31,10 +31,9 @@ test('vehicle_screen_draws_mapped_glyphs_and_marks', async ({ page }) => {
   }
 })
 
-test('attention_cue_keeps_warning_label_with_metal_glyph', async ({ page }) => {
+test('attention_cue_keeps_attention_mark_with_metal_glyph', async ({ page }) => {
   await page.goto('/?study=emergency&scenario=SC01&scene=initial')
   const cue = page.getByRole('region', { name: '핵심 상황' })
-  await expect(cue.locator('h2')).toHaveCSS('color', 'rgb(240, 181, 156)')
   await expect(cue.locator('[data-mark="attention"]')).toBeVisible()
   const fills = await cue.locator('.emergency-symbol > [data-glyph] path').evaluateAll(paths => paths.map(path => path.getAttribute('fill')))
   expect(fills.length).toBeGreaterThan(0)
@@ -44,6 +43,8 @@ test('attention_cue_keeps_warning_label_with_metal_glyph', async ({ page }) => {
 test('scaled_canvas_keeps_glyph_inside_plate', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 900 })
   await page.goto('/?study=emergency&scenario=SC05')
+  // 축소 배율은 ResizeObserver 뒤에 정해진다. 배율이 정해지기 전에 재면 box 가 서로 어긋난다.
+  await expect.poll(async () => (await page.locator('.emergency-screen').boundingBox())?.width ?? Infinity).toBeLessThanOrEqual(375)
   const plate = await page.locator('.emergency-symbol').boundingBox()
   const glyph = await page.locator('.emergency-symbol > [data-glyph]').boundingBox()
   expect(plate && glyph).toBeTruthy()

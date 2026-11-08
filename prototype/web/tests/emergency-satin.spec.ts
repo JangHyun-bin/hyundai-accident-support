@@ -1,9 +1,11 @@
 import { expect, test } from '@playwright/test'
 import manifest from '../../../specs/emergency-experience/scenarios.json' with { type: 'json' }
 
-test('all nine scenes retain their content, semantic colors and geometry across surface changes', async ({ page }) => {
+test('all scenes retain their content, semantic colors and geometry across surface changes', async ({ page }) => {
   const errors: string[] = []
   page.on('pageerror', error => errors.push(error.message))
+  // Countdown 숫자가 snapshot 사이에 바뀌지 않도록 Date.now 만 고정한다. Timer 는 그대로 돈다.
+  await page.clock.setFixedTime(new Date('2026-11-08T00:00:00Z'))
   for (const scenario of manifest.scenarios) for (const scene of scenario.states) {
     await page.goto(`/?study=emergency&material=satin&scenario=${scenario.id}&scene=${scene.id}`)
     const screen = page.getByRole('region', { name: '시각 중심 사고 대응' })
@@ -34,8 +36,8 @@ test('all nine scenes retain their content, semantic colors and geometry across 
 test('material controls preserve unknowns, agency states and pause while actions stay usable', async ({ page }) => {
   await page.goto('/?study=emergency&material=satin&scenario=SC01')
   const screen = page.getByRole('region', { name: '시각 중심 사고 대응' })
-  await screen.getByRole('button', { name: '도움 요청', exact: true }).click()
-  await expect(screen.getByRole('heading', { name: '연결 여부를 확인하세요' })).toBeFocused()
+  await screen.getByRole('button', { name: '지금 연결', exact: true }).click()
+  await expect(screen.getByRole('heading', { name: '119 연결 중' })).toBeFocused()
   await page.getByRole('button', { name: '시연 일시 중단' }).click()
   await page.getByRole('button', { name: '기존 flat', exact: true }).click()
   await page.getByRole('button', { name: 'C · Satin', exact: true }).click()
@@ -48,7 +50,7 @@ test('material controls preserve unknowns, agency states and pause while actions
   await expect(screen.locator('[data-request="rescue"]')).toContainText('접수 미확인')
   await page.reload()
   await expect(screen).toHaveAttribute('data-surface-status', 'ready')
-  await expect(screen.getByText('통화 연결됨', { exact: true })).toBeVisible()
+  await expect(screen.getByRole('heading', { name: '119 통화 연결됨' })).toBeVisible()
   await expect(screen.locator('[data-request="rescue"]')).toContainText('접수 미확인')
 })
 
@@ -68,8 +70,8 @@ for (const failure of ['unavailable', 'lost']) test(`graphics ${failure} falls b
   await expect(screen).toHaveAttribute('data-surface-status', 'unavailable')
   await expect(page.getByText('C render 불가 · 기본 background로 표시')).toBeVisible()
   await expect(screen.locator('canvas')).toBeHidden()
-  await screen.getByRole('button', { name: '도움 요청', exact: true }).click()
-  await expect(screen.getByRole('heading', { name: '연결 여부를 확인하세요' })).toBeVisible()
+  await screen.getByRole('button', { name: '지금 연결', exact: true }).click()
+  await expect(screen.getByRole('heading', { name: '119 연결 중' })).toBeVisible()
 })
 
 test('surface review controls and spec fit at 375px', async ({ page }) => {
