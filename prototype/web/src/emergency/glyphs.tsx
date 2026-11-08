@@ -14,6 +14,7 @@ export const glyphFor = {
   cue: (symbol: string) => (book.cue as Record<string, string>)[symbol],
   fact: (id: string) => (book.facts as Record<string, string>)[id],
   action: (id: string) => (book.actions as Record<string, string>)[id] ?? book.actions.default,
+  self: (id: string) => (book.self as Record<string, string>)[id],
 }
 
 const { plate } = book.material

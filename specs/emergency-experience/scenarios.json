@@ -131,7 +131,8 @@
             }
           ],
           "self_action": {
-            "now": "비상등 켜기",
+            "id": "hazard",
+            "now": "비상등을 켜세요",
             "next": "트렁크 열기"
           },
           "deferred": [
@@ -163,7 +164,8 @@
           ],
           "events": [],
           "self_action": {
-            "now": "비상등 켜기",
+            "id": "hazard",
+            "now": "비상등을 켜세요",
             "next": "트렁크 열기"
           },
           "deferred": [
@@ -228,7 +230,8 @@
           ],
           "self_action": {
             "condition": "움직일 수 있으면",
-            "now": "가드레일 밖으로 대피"
+            "id": "evacuate",
+            "now": "가드레일 밖으로 대피하세요"
           },
           "deferred": [
             "보험 상세",
@@ -262,7 +265,8 @@
           ],
           "self_action": {
             "condition": "움직일 수 있으면",
-            "now": "가드레일 밖으로 대피"
+            "id": "evacuate",
+            "now": "가드레일 밖으로 대피하세요"
           },
           "deferred": [
             "보험 상세",
@@ -374,7 +378,8 @@
             }
           ],
           "self_action": {
-            "now": "비상등 켜기",
+            "id": "hazard",
+            "now": "비상등을 켜세요",
             "next": "트렁크 열기"
           },
           "deferred": [
@@ -442,7 +447,8 @@
           "actions": [],
           "events": [],
           "self_action": {
-            "now": "비상등 켜기",
+            "id": "hazard",
+            "now": "비상등을 켜세요",
             "next": "트렁크 열기"
           },
           "deferred": [
@@ -479,7 +485,8 @@
           ],
           "events": [],
           "self_action": {
-            "now": "비상등 켜기",
+            "id": "hazard",
+            "now": "비상등을 켜세요",
             "next": "트렁크 열기"
           },
           "deferred": [
@@ -582,7 +589,8 @@
             }
           ],
           "self_action": {
-            "now": "안전한 곳에서 대기"
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
           },
           "deferred": [
             "보험 상세",
@@ -620,7 +628,8 @@
             }
           ],
           "self_action": {
-            "now": "안전한 곳에서 대기"
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
           },
           "deferred": [
             "보험 상세",
@@ -647,7 +656,8 @@
           "actions": [],
           "events": [],
           "self_action": {
-            "now": "안전한 곳에서 대기"
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
           },
           "deferred": [
             "보험 상세",

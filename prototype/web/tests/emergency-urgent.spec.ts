@@ -1,7 +1,8 @@
 import { expect, test } from '@playwright/test'
 import manifest from '../../../specs/emergency-experience/scenarios.json' with { type: 'json' }
+import book from '../../../specs/emergency-experience/glyphs.json' with { type: 'json' }
 
-type Scene = (typeof manifest.scenarios)[number]['states'][number] & { phase: string; self_action?: { condition?: string; now: string; next?: string } }
+type Scene = (typeof manifest.scenarios)[number]['states'][number] & { phase: string; self_action?: { id: string; condition?: string; now: string; next?: string } }
 const scenes = manifest.scenarios.flatMap(scenario => (scenario.states as Scene[]).map(scene => ({ scenario, scene })))
 // Pleos informative_negative (dark). 구호 결정에만 쓴다.
 const RED = 'rgb(255, 76, 40)'
@@ -89,6 +90,27 @@ test('only_the_rescue_ring_glows', async ({ page }) => {
   await expect(page.locator('[data-urgent] .emergency-ring-value')).toHaveCSS('filter', /drop-shadow/)
   const glowing = await page.locator('.emergency-screen').evaluate(root => [...root.querySelectorAll('button')].filter(node => getComputedStyle(node).boxShadow !== 'none' || getComputedStyle(node).backgroundImage !== 'none').map(node => node.textContent))
   expect(glowing).toEqual([])
+})
+
+test('slots_carry_no_name_tags', async ({ page }) => {
+  for (const { scenario, scene } of scenes) {
+    await page.goto(`/?study=emergency&scenario=${scenario.id}&scene=${scene.id}`)
+    await expect(page.locator('[data-slot="car"]')).toBeVisible()
+    const tags = await page.locator('.emergency-screen').evaluate(root => [...root.querySelectorAll('*')].map(node => node.childNodes.length === 1 ? node.textContent!.trim() : '').filter(text => ['감지', '차량', '나'].includes(text)))
+    expect(tags, `${scenario.id}/${scene.id}`).toEqual([])
+  }
+})
+
+test('self_card_says_now_with_the_action_glyph', async ({ page }) => {
+  for (const { scenario, scene } of scenes) {
+    if (!scene.self_action) continue
+    await page.goto(`/?study=emergency&scenario=${scenario.id}&scene=${scene.id}`)
+    const card = page.locator('[data-slot="self"]')
+    const where = `${scenario.id}/${scene.id}`
+    await expect(card, where).toContainText('지금 할 일')
+    await expect(card, where).toContainText(scene.self_action.now)
+    await expect(card.locator(`[data-glyph="${(book.self as Record<string, string>)[scene.self_action.id]}"]`), where).toHaveCount(1)
+  }
 })
 
 test('screen_never_says_unconscious', async ({ page }) => {

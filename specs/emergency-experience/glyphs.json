@@ -64,6 +64,18 @@
         "width": 4.3
       }
     ],
+    "hazard": [
+      {
+        "d": "M 24 7.2 L 42.24 38.4 H 5.76 Z",
+        "paint": "stroke",
+        "width": 4.3
+      },
+      {
+        "d": "M 24 19.2 L 32.64 33.6 H 15.36 Z",
+        "paint": "stroke",
+        "width": 4
+      }
+    ],
     "arrow-right": [
       {
         "d": "M 8.64 24 H 38.4 M 26.88 12.48 L 38.4 24 L 26.88 35.52",
@@ -129,6 +141,11 @@
     "reconnect": "phone",
     "respond": "check",
     "default": "route"
+  },
+  "self": {
+    "hazard": "hazard",
+    "evacuate": "route",
+    "wait": "person"
   },
   "marks": {
     "confirmed": {

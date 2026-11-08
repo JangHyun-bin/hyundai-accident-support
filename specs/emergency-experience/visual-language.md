@@ -36,10 +36,12 @@ Asta와 Pleos dark basic scale을 사용한다. Browser의 검토 UI는 좁은 �
 
 2026-11-08 사용자 결정으로 세 칸 구조를 쓴다. 근거는 [설계 문서](../../docs/superpowers/specs/2026-11-08-urgent-three-slot-design.md)에 있다.
 
-1. ① 감지: 차가 파악한 것과 아직 모르는 것. 금속 cue glyph, `감지 · cue label`, 미확인 사실 chip.
-2. ② 차량: 차가 다음에 할 일 한 문장과 필요한 승인 button. 그 아래에 세 기관의 상태를 한 줄로 둔다.
-3. ③ 나: 운전자가 지금 할 행동 하나(3 어절 이하). 조건은 앞에 작게, 다음 행동은 `→` 뒤에 작게 둔다. 자동 연결 장면에서는 `응답할 수 있어요` button이다.
+1. ① 감지: 맨 위의 작은 상황 줄. 금속 cue glyph, `감지 · cue label`(Title 32), 미확인 사실 chip.
+2. ② 차량: 가운데 큰 영역. 차가 다음에 할 일 한 문장과 필요한 승인 button. 그 아래에 세 기관의 상태를 둔다.
+3. ③ 나: 아래에 따로 띄운 "지금 할 일" card. 행동 glyph(`self_action.id` → `glyphs.json`의 `self`), 작은 말머리 `지금 할 일`(조건이 있으면 `지금 할 일 · 조건`), 존댓말 명령 한 문장(3 어절 이하, `~세요`), 다음 행동은 `→` 뒤에 작게 둔다. 자동 연결 장면에서는 `응답할 수 있어요` button이다.
 4. 검토 UI: scenario·장면·외부 event·전체 spec·3초 보기. 차량 화면 밖에 배치하며 실제 제품 기능과 구별한다.
+
+세 칸은 정보 순서를 정하는 틀이다. 화면에 `감지`·`차량`·`나` 같은 칸 이름표를 달지 않는다(2026-11-08 사용자 결정). 누가 하는지는 위치·모양·문장이 보여 준다.
 
 ### 긴박도 색
 
@@ -79,4 +81,4 @@ Asta와 Pleos dark basic scale을 사용한다. Browser의 검토 UI는 좁은 �
 - 재질 전환과 표면 강도 변경은 장면·기관 상태·시연 일시 중단 여부를 변경하지 않는다. 기본 강도는 70%이며 확정된 차량 design token이 아닌 비교 시작값이다.
 - 자동 animation과 반복 render는 없다. 장면이 바뀌어도 같은 배경을 유지한다. WebGL 2 실패·context loss 시 기본 배경을 사용하며 안내·행동을 막지 않는다.
 - 최대 강도의 실제 shader pixel을 대상으로 한 보수적 배경 contrast 계산에서 보조 글자색 `#a9b0b2`와의 최소 비율은 약 4.73:1이었다. 이는 전체 UI의 accessibility 인증이나 실제 차량 시인성 검증이 아니다. 측정은 `prototype/web/evidence/emergency-satin/contrast-check.json`에 기록했다.
-- 금속 각인 pictogram은 면과 주변 plate의 대비를 그림자 띠까지 포함한 rendered pixel로 측정했다. 최소 비율은 cue 차량 glyph의 약 3.26:1이고, 상태 표식은 6.99:1 이상이었다. 시안보다 깊이를 줄이고 가독성을 우선했다(2026-11-08 사용자 결정). 측정은 `prototype/web/evidence/emergency-glyphs/contrast-check.json`에 기록했다.
+- 금속 각인 pictogram은 면과 주변 plate의 대비를 그림자 띠까지 포함한 rendered pixel로 측정했다. 최소 비율은 cue 차량 glyph의 약 3.26:1이고, 상태 표식은 6.99:1 이상이었다. Pleos 1:1 분할 뒤 실제 크기에서 다시 잰 최소값은 사실 chip `현장 도착` glyph의 약 3.12:1, "지금 할 일" glyph는 3.47:1 이상, 상태 표식은 7.07:1 이상이다. 시안보다 깊이를 줄이고 가독성을 우선했다(2026-11-08 사용자 결정). 측정은 `prototype/web/evidence/emergency-glyphs/contrast-check.json`에 기록했다.

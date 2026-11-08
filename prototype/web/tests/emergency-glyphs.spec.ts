@@ -145,6 +145,7 @@ test.describe('contrast', () => {
     for (const scenario of manifest.scenarios) for (const id of scenario.presentation.visible_facts) {
       await check(`fact ${id}`, `scenario=${scenario.id}`, `[data-fact="${id}"] .emergency-fact-plate`)
     }
+    for (const [id, scene] of [['hazard', 'scenario=SC01&scene=initial'], ['evacuate', 'scenario=SC01&scene=contact_unknown'], ['wait', 'scenario=SC05&scene=initial']]) await check(`self ${id}`, scene, '.emergency-self-plate')
     await check('mark unknown', 'scenario=SC05&scene=initial', '.emergency-symbol-state [data-mark]')
     await check('mark attention', 'scenario=SC01&scene=initial', '.emergency-symbol-state [data-mark]')
     await check('mark confirmed', 'scenario=SC05&scene=initial', '[data-request] [data-mark="confirmed"]')

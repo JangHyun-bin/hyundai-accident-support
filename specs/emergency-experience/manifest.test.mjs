@@ -114,6 +114,14 @@ test('self_action_now_is_three_words_or_fewer', () => {
   }
 })
 
+test('self_action_asks_politely_and_names_its_kind', () => {
+  for (const { scenario, state } of allStates()) {
+    if (!state.self_action) continue
+    assert.match(state.self_action.now, /세요$/, `${scenario.id}.${state.id}: ${state.self_action.now}`)
+    assert.ok(['hazard', 'evacuate', 'wait'].includes(state.self_action.id), `${scenario.id}.${state.id}: ${state.self_action.id}`)
+  }
+})
+
 test('scene_copy_never_says_unconscious', () => {
   for (const { scenario, state } of allStates()) {
     const copy = [state.title, state.instruction, state.cue.label, ...Object.values(state.self_action ?? {}), ...state.actions.map(a => a.label)]
