@@ -42,28 +42,30 @@
 .pleos-app-mark { width: 14px; height: 30px; border: 3px solid var(--primary); border-radius: 8px; transform: rotate(30deg); }
 
 /* 사고 대응 app 창. 글자는 Pleos type scale(Headline 60·48, Title 40·36·32, Body 30·28·26, Label 24·20)만 쓴다. */
-.emergency-screen { --urgent: #FF4C28; --progress: #FFB340; --pleos-line: #313236; --pleos-subtle: #A4A8AE; position: absolute; left: 834px; top: 94px; width: 840px; height: 1184px; display: flex; flex-direction: column; padding: 0 40px 24px; background: #1D1E21; color: var(--foreground); border-radius: 32px; overflow: hidden; }
-.emergency-voice-button { grid-column: 3; display: flex; align-items: center; gap: 12px; color: var(--foreground); background: var(--pleos-line); border: 0; border-radius: 20px; min-height: 72px; padding: 0 24px; font-size: 26px; }
+.emergency-screen { --urgent: #FF4C28; --progress: #FFB340; --pleos-line: #313236; --pleos-subtle: #A4A8AE; position: absolute; left: 834px; top: 94px; width: 840px; height: 1184px; display: flex; flex-direction: column; padding: 32px 40px; background: #1D1E21; color: var(--foreground); border-radius: 32px; overflow: hidden; }
+.emergency-voice-button { display: flex; align-items: center; justify-content: center; gap: 12px; color: var(--foreground); background: var(--pleos-line); border: 0; border-radius: 20px; min-height: 72px; padding: 0 16px; font-size: 24px; }
 .emergency-voice-button:hover { background: #44464E; }
-.emergency-slot { display: flex; flex-direction: column; gap: 20px; padding: 28px 0; }
+.emergency-slot { display: flex; flex-direction: column; }
 /* 화면을 설명하는 글(칸 이름표·말머리·app 이름)은 두지 않는다. ① 은 작은 상황 줄, ② 는 가운데 큰 영역, ③ 은 따로 띄운 card 다. */
-.emergency-car { border-top: 1px solid var(--pleos-line); }
-.emergency-detected { display: grid; grid-template-columns: 72px minmax(0, 1fr) auto; align-items: center; gap: 16px 20px; padding: 24px 0; }
-.emergency-facts { grid-column: 1 / -1; }
+/* 창 안의 모든 가로 배치는 같은 3단 grid(간격 16)에 맞춘다. ① 은 위, 기관 상태와 ③ 은 아래에 붙이고 ② 가 가운데를 채운다. */
+.emergency-detected, .emergency-facts, .emergency-requests, .emergency-car-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 16px; }
+.emergency-detected { row-gap: 20px; align-items: center; padding-bottom: 24px; border-bottom: 1px solid var(--pleos-line); }
+.emergency-cue { grid-column: 1 / 3; display: flex; align-items: center; gap: 20px; min-width: 0; }
 .emergency-detected h2 { margin: 0; font-size: 32px; font-weight: 700; line-height: 1.25; letter-spacing: -.01em; }
 .metal-plate { background: var(--metal-plate); box-shadow: inset 0 1px 0 rgba(255,255,255,.24), inset 0 -1px 0 rgba(0,0,0,.55), 0 14px 28px -12px rgba(0,0,0,.75); }
 .emergency-symbol { position: relative; flex: none; display: grid; place-items: center; width: 72px; height: 72px; border-radius: 20px; }
 .emergency-symbol-state { position: absolute; bottom: -8px; right: -10px; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(165deg, #4C5255, #2B3033); box-shadow: inset 0 1px 0 rgba(255,255,255,.22), inset 0 -1px 0 rgba(0,0,0,.55), 0 6px 12px -4px rgba(0,0,0,.7); }
-.emergency-facts { display: flex; flex-wrap: wrap; gap: 16px 40px; }
+.emergency-facts { grid-column: 1 / -1; row-gap: 16px; }
 .emergency-fact { display: grid; grid-template-columns: 48px auto; column-gap: 12px; align-items: center; }
 .emergency-fact-plate { grid-row: span 2; display: grid; place-items: center; width: 48px; height: 48px; border-radius: 14px; }
 .emergency-fact > span:not(.emergency-fact-plate) { font-size: 20px; color: var(--pleos-subtle); }
 .emergency-fact > strong { display: flex; align-items: center; gap: 8px; font-size: 26px; line-height: 1.2; font-weight: 600; }
-.emergency-car { flex: 1; justify-content: center; gap: 28px; }
-.emergency-car-main { display: flex; align-items: center; gap: 32px; }
+.emergency-car { flex: 1; min-height: 0; }
+.emergency-car-main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 32px; text-align: center; }
+.emergency-car-main > :last-child { align-self: stretch; }
 /* B · 빛: 빛 번짐은 ring 에만 둔다. Button 은 그림자·gradient 없는 단색이다. */
-.emergency-ring { position: relative; flex: none; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle, #17181B 0 58%, #121315 59%); }
-.emergency-ring svg { display: block; overflow: visible; }
+.emergency-ring { position: relative; flex: none; width: 280px; height: 280px; border-radius: 50%; background: radial-gradient(circle, #17181B 0 58%, #121315 59%); }
+.emergency-ring svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .emergency-ring circle { fill: none; stroke-linecap: round; }
 .emergency-ring .emergency-ring-track { stroke: rgba(255,255,255,.12); stroke-width: 16; stroke-dasharray: 2.4 6.815; stroke-linecap: butt; }
 .emergency-ring.is-decide .emergency-ring-track { stroke: rgba(255,76,40,.26); }
@@ -75,15 +77,18 @@
 .emergency-car-copy h1 { margin: 0; font-size: 60px; line-height: 1.2; font-weight: 800; letter-spacing: -.02em; }
 .emergency-car-copy h1:focus-visible { outline: 3px solid var(--primary); outline-offset: 8px; border-radius: 4px; }
 .emergency-car-copy p { margin: 12px 0 0; font-size: 28px; color: var(--pleos-subtle); }
-.emergency-car-actions { display: flex; gap: 16px; margin-top: 28px; }
+.emergency-car-actions { row-gap: 16px; margin-top: 40px; }
+.emergency-car-actions > .emergency-primary-action { grid-column: span 2; }
+.emergency-car-actions > .emergency-primary-action:only-child { grid-column: 1 / -1; }
 .emergency-primary-action { display: inline-flex; align-items: center; justify-content: center; gap: 14px; min-height: 104px; padding: 0 36px; border: 0; border-radius: 24px; color: #131417; background: #EDEEF2; font-size: 36px; font-weight: 700; }
 .emergency-primary-action:hover { background: #fff; }
 [data-urgent] .emergency-primary-action { color: #131417; background: var(--urgent); }
 [data-urgent] .emergency-primary-action:hover { background: color-mix(in srgb, var(--urgent) 88%, #fff); }
 .emergency-cancel { min-height: 104px; padding: 0 36px; border: 0; border-radius: 24px; background: var(--pleos-line); color: var(--foreground); font-size: 36px; font-weight: 700; }
 .emergency-cancel:hover { background: #44464E; }
-.emergency-requests { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; padding-top: 24px; border-top: 1px solid var(--pleos-line); }
-.emergency-request { display: flex; align-items: center; gap: 10px; }
+.emergency-requests { padding: 24px 0; border-top: 1px solid var(--pleos-line); }
+.emergency-request { display: grid; grid-template-columns: 30px minmax(0, 1fr); align-items: center; gap: 6px 12px; }
+.emergency-request strong { grid-column: 2; }
 .emergency-request-name { font-size: 24px; color: var(--pleos-subtle); }
 .emergency-request strong { font-size: 26px; font-weight: 600; }
 .emergency-self { flex: none; flex-direction: row; align-items: center; gap: 24px; padding: 28px; border-radius: 28px; background: #2A2C30; }

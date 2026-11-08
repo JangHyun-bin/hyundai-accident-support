@@ -211,8 +211,8 @@ export function EmergencyStudy() {
           <GlyphDefs />
           {satin && <SatinSurface intensity={surfaceIntensity} onStatus={setSurfaceStatus} />}
           <section className="emergency-slot emergency-detected" data-slot="detected" aria-label="핵심 상황">
-            <div className="emergency-symbol metal-plate" aria-hidden="true"><Glyph name={glyphFor.cue(scene.cue.symbol)} depth="deep" size={48} /><span className="emergency-symbol-state"><StatusMark tone={scene.cue.status} size={28} /></span></div>
-            <h2 className={`tone-${scene.cue.status}`}>{scenario.presentation.detected} · {scene.cue.label}</h2>
+            <div className="emergency-cue"><div className="emergency-symbol metal-plate" aria-hidden="true"><Glyph name={glyphFor.cue(scene.cue.symbol)} depth="deep" size={48} /><span className="emergency-symbol-state"><StatusMark tone={scene.cue.status} size={28} /></span></div>
+            <h2 className={`tone-${scene.cue.status}`}>{scenario.presentation.detected} · {scene.cue.label}</h2></div>
             <button onClick={playVoice} className="emergency-voice-button">{voiceState === 'speaking' ? <VolumeX size={24} aria-hidden="true" /> : <Volume2 size={24} aria-hidden="true" />}{voiceState === 'speaking' ? '음성 안내 중지' : '음성 안내 듣기'}</button>
             <div className="emergency-facts">{facts.filter(fact => scenario.presentation.visible_facts.includes(fact.id)).map(fact => <div key={fact.id} className={`emergency-fact tone-${fact.status}`} data-fact={fact.id}><span className="emergency-fact-plate metal-plate"><Glyph name={glyphFor.fact(fact.id)} depth="shallow" size={32} /></span><span>{fact.label}</span><strong><StatusMark tone={fact.status} size={24} />{fact.value}</strong></div>)}</div>
           </section>

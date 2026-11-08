@@ -45,6 +45,14 @@ Asta와 Pleos dark basic scale을 사용한다. Browser의 검토 UI는 좁은 �
 
 같은 이유로 화면을 설명하는 글은 두지 않는다(2026-11-08 사용자 결정). App 이름(`사고 대응`)과 장소 꼬리표(`고속도로`), 문장 앞 말머리(`지금 할 일`), 설계 규칙을 옮긴 주석(`연결 · 접수 · 도착은 별도 확인`), 주변 창 설명(`Driving view · system UI`)이 여기에 해당한다. 확인 범위는 기관별 상태 label(`연결 미확인`·`접수 확인`)이 이미 보여 준다. `presentation.context_label`은 Android preview가 읽으므로 data에는 남긴다.
 
+### 창 배치 (2026-11-08 사용자 결정)
+
+Header를 뺀 뒤 화면이 비어 보인다는 피드백("sparse하다, 구조화된 정렬로 맞춰야 한다")을 따랐다.
+
+- 바깥 여백은 좌우 40, 위아래 32다. 가로 배치는 모두 같은 3단 grid(간격 16)에 맞춘다. ①의 cue 줄은 1–2단, `음성 안내 듣기`는 3단이다. 사실 chip은 한 단에 하나, 승인 button은 1–2단·`취소`는 3단, button이 하나면 1–3단이다. 기관 상태는 세 단에 하나씩 둔다.
+- ①은 창 위에, 기관 상태와 ③은 창 아래에 붙인다. ②가 그 사이를 채우고 ring(280)·제목·button을 가운데 세로로 쌓는다.
+- Ring이 없는 settled 장면(구호 연결 안 함·차량 지원 접수 미확인·접수 확인)은 ②가 제목과 button만 가져 여백이 크다. 채울 그림은 아직 정하지 않았다.
+
 ### 긴박도 색
 
 | 단계 | 쓰는 곳 | 색 |
@@ -83,4 +91,4 @@ Asta와 Pleos dark basic scale을 사용한다. Browser의 검토 UI는 좁은 �
 - 재질 전환과 표면 강도 변경은 장면·기관 상태·시연 일시 중단 여부를 변경하지 않는다. 기본 강도는 70%이며 확정된 차량 design token이 아닌 비교 시작값이다.
 - 자동 animation과 반복 render는 없다. 장면이 바뀌어도 같은 배경을 유지한다. WebGL 2 실패·context loss 시 기본 배경을 사용하며 안내·행동을 막지 않는다.
 - 최대 강도의 실제 shader pixel을 대상으로 한 보수적 배경 contrast 계산에서 보조 글자색 `#a9b0b2`와의 최소 비율은 약 4.73:1이었다. 이는 전체 UI의 accessibility 인증이나 실제 차량 시인성 검증이 아니다. 측정은 `prototype/web/evidence/emergency-satin/contrast-check.json`에 기록했다.
-- 금속 각인 pictogram은 면과 주변 plate의 대비를 그림자 띠까지 포함한 rendered pixel로 측정했다. 최소 비율은 cue 차량 glyph의 약 3.26:1이고, 상태 표식은 6.99:1 이상이었다. Pleos 1:1 분할 뒤 실제 크기에서 다시 잰 최소값은 사실 chip `현장 도착` glyph의 약 3.12:1, ③ card glyph는 3.52:1 이상, 상태 표식은 7.07:1 이상이다. 시안보다 깊이를 줄이고 가독성을 우선했다(2026-11-08 사용자 결정). 측정은 `prototype/web/evidence/emergency-glyphs/contrast-check.json`에 기록했다.
+- 금속 각인 pictogram은 면과 주변 plate의 대비를 그림자 띠까지 포함한 rendered pixel로 측정했다. 최소 비율은 cue 차량 glyph의 약 3.26:1이고, 상태 표식은 6.99:1 이상이었다. Pleos 1:1 분할 뒤 실제 크기에서 다시 잰 최소값은 사실 chip `현장 도착` glyph의 약 3.15:1, ③ card glyph는 3.47:1 이상, 상태 표식은 7.04:1 이상이다. 시안보다 깊이를 줄이고 가독성을 우선했다(2026-11-08 사용자 결정). 측정은 `prototype/web/evidence/emergency-glyphs/contrast-check.json`에 기록했다.

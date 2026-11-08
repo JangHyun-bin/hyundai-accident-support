@@ -106,6 +106,57 @@ test('screen_has_no_meta_labels', async ({ page }) => {
   }
 })
 
+// 창 배치: 바깥 여백 좌우 40·위아래 32, 3단 grid(간격 16). 값은 원래 크기(840 × 1184) px 이다.
+const WINDOW = { width: 840, height: 1184, side: 40, edge: 32, gap: 16 }
+const column = (index: number) => {
+  const width = (WINDOW.width - 2 * WINDOW.side - 2 * WINDOW.gap) / 3
+  const x = WINDOW.side + index * (width + WINDOW.gap)
+  return { x, right: x + width }
+}
+type Rect = { x: number; right: number; y: number; bottom: number }
+const rects = (page: import('@playwright/test').Page, selectors: Record<string, string>) => page.locator('.emergency-screen').evaluate((screen, selectors) => {
+  const box = screen.getBoundingClientRect()
+  const scale = box.width / 840
+  return Object.fromEntries(Object.entries(selectors).map(([name, selector]) => [name, [...screen.querySelectorAll(selector)].map(node => {
+    const rect = node.getBoundingClientRect()
+    return { x: (rect.left - box.left) / scale, right: (rect.right - box.left) / scale, y: (rect.top - box.top) / scale, bottom: (rect.bottom - box.top) / scale }
+  })]))
+}, selectors) as Promise<Record<string, Rect[]>>
+const spans = (rect: Rect, from: number, to: number, name: string) => {
+  expect(Math.abs(rect.x - column(from).x), `${name} left`).toBeLessThan(1)
+  expect(Math.abs(rect.right - column(to).right), `${name} right`).toBeLessThan(1)
+}
+
+test('window_content_snaps_to_three_columns', async ({ page }) => {
+  await page.goto('/?study=emergency&scenario=SC01&scene=initial')
+  await expect(page.locator('[data-countdown]')).toBeVisible()
+  const box = await rects(page, { voice: '.emergency-voice-button', facts: '.emergency-fact', primary: '.emergency-car .emergency-primary-action', cancel: '.emergency-cancel', requests: '[data-request]' })
+  spans(box.voice[0], 2, 2, 'voice')
+  box.facts.forEach((fact, index) => spans(fact, index, index, `fact ${index}`))
+  spans(box.primary[0], 0, 1, '지금 연결')
+  spans(box.cancel[0], 2, 2, '취소')
+  expect(box.requests).toHaveLength(3)
+  box.requests.forEach((request, index) => spans(request, index, index, `request ${index}`))
+  await page.goto('/?study=emergency&scenario=SC05&scene=initial')
+  await expect(page.locator('[data-slot="car"]')).toBeVisible()
+  spans((await rects(page, { primary: '.emergency-car .emergency-primary-action' })).primary[0], 0, 2, 'single action')
+})
+
+test('bands_dock_to_window_edges_and_stage_fills_the_middle', async ({ page }) => {
+  await page.goto('/?study=emergency&scenario=SC01&scene=initial')
+  await expect(page.locator('[data-countdown]')).toBeVisible()
+  const box = await rects(page, { detected: '[data-slot="detected"]', ring: '.emergency-ring', actions: '.emergency-car-actions', requests: '.emergency-requests', self: '[data-slot="self"]' })
+  const [detected, ring, actions, requests, self] = [box.detected[0], box.ring[0], box.actions[0], box.requests[0], box.self[0]]
+  expect(Math.abs(detected.y - WINDOW.edge), '① top').toBeLessThan(1)
+  expect(Math.abs(self.bottom - (WINDOW.height - WINDOW.edge)), '③ bottom').toBeLessThan(1)
+  expect(self.y - requests.bottom, 'agency row sits on ③').toBeLessThanOrEqual(24)
+  expect(Math.abs((ring.x + ring.right) / 2 - WINDOW.width / 2), 'ring centred').toBeLessThan(1)
+  const above = ring.y - detected.bottom
+  const below = requests.y - actions.bottom
+  expect(Math.abs(above - below), 'stage centred').toBeLessThan(2)
+  expect(Math.max(above, below), 'no void').toBeLessThanOrEqual(80)
+})
+
 test('self_card_says_now_with_the_action_glyph', async ({ page }) => {
   for (const { scenario, scene } of scenes) {
     if (!scene.self_action) continue

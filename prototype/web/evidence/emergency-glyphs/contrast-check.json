@@ -72,11 +72,11 @@
     "fact injury": {
       "query": "scenario=SC03",
       "target": "[data-fact=\"injury\"] .emergency-fact-plate",
-      "ratio": 3.31928999036955,
+      "ratio": 3.3271880648905805,
       "face_pixels": 1818,
       "plate_pixels": 5286,
       "face_worst_rgb": [
-        168,
+        169,
         173,
         175
       ],
@@ -106,13 +106,13 @@
     "fact arrival": {
       "query": "scenario=SC05",
       "target": "[data-fact=\"arrival\"] .emergency-fact-plate",
-      "ratio": 3.1185850407603724,
+      "ratio": 3.154587557849722,
       "face_pixels": 1951,
       "plate_pixels": 6249,
       "face_worst_rgb": [
-        168,
-        173,
-        175
+        169,
+        174,
+        176
       ],
       "plate_worst_rgb": [
         85,
@@ -140,7 +140,7 @@
     "self hazard": {
       "query": "scenario=SC01&scene=initial",
       "target": ".emergency-self-plate",
-      "ratio": 3.518305111610134,
+      "ratio": 3.4742582159877835,
       "face_pixels": 6365,
       "plate_pixels": 10494,
       "face_worst_rgb": [
@@ -150,8 +150,8 @@
       ],
       "plate_worst_rgb": [
         72,
-        76,
-        79
+        77,
+        80
       ]
     },
     "self evacuate": {
@@ -208,7 +208,7 @@
     "mark attention": {
       "query": "scenario=SC01&scene=initial",
       "target": ".emergency-symbol-state [data-mark]",
-      "ratio": 7.066448958342722,
+      "ratio": 7.043509795884252,
       "face_pixels": 150,
       "plate_pixels": 1612,
       "face_worst_rgb": [
@@ -217,7 +217,7 @@
         24
       ],
       "plate_worst_rgb": [
-        228,
+        227,
         165,
         138
       ]
@@ -225,7 +225,7 @@
     "mark confirmed": {
       "query": "scenario=SC05&scene=initial",
       "target": "[data-request] [data-mark=\"confirmed\"]",
-      "ratio": 9.813014583536996,
+      "ratio": 9.796952575644328,
       "face_pixels": 343,
       "plate_pixels": 3239,
       "face_worst_rgb": [
@@ -234,7 +234,7 @@
         36
       ],
       "plate_worst_rgb": [
-        171,
+        170,
         219,
         197
       ]
