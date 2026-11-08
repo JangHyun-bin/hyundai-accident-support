@@ -33,10 +33,8 @@
 .pleos-gear { font-size: 40px; font-weight: 700; color: #EDEEF2; }
 .pleos-speed { margin-top: 48px; display: flex; flex-direction: column; font-size: 30px; }
 .pleos-speed strong { font-size: 200px; line-height: 1; font-weight: 600; color: #EDEEF2; }
-.pleos-caption { margin: auto 0 0; font-size: 20px; color: #686A72; }
 .pleos-navigation { left: 1697px; width: 840px; background: #16181B; }
 .pleos-navigation svg { display: block; }
-.pleos-navigation .pleos-caption { position: absolute; left: 40px; bottom: 32px; }
 .pleos-gnb { position: absolute; inset: auto 0 0; height: 140px; display: flex; align-items: center; justify-content: space-between; padding: 0 64px; font-size: 30px; }
 .pleos-gnb > span { display: flex; align-items: center; gap: 12px; }
 .pleos-gnb nav { display: flex; align-items: center; gap: 64px; }
@@ -45,16 +43,12 @@
 
 /* 사고 대응 app 창. 글자는 Pleos type scale(Headline 60·48, Title 40·36·32, Body 30·28·26, Label 24·20)만 쓴다. */
 .emergency-screen { --urgent: #FF4C28; --progress: #FFB340; --pleos-line: #313236; --pleos-subtle: #A4A8AE; position: absolute; left: 834px; top: 94px; width: 840px; height: 1184px; display: flex; flex-direction: column; padding: 0 40px 24px; background: #1D1E21; color: var(--foreground); border-radius: 32px; overflow: hidden; }
-.emergency-app-header { flex: none; height: 112px; display: flex; align-items: center; gap: 20px; border-bottom: 1px solid var(--pleos-line); }
-.emergency-app-name { font-size: 32px; font-weight: 700; display: flex; align-items: center; gap: 14px; }
-.emergency-app-name > span { width: 14px; height: 28px; border: 3px solid var(--primary); border-radius: 8px; transform: rotate(30deg); }
-.emergency-context-label { font-size: 26px; color: var(--pleos-subtle); }
-.emergency-voice-button { margin-left: auto; display: flex; align-items: center; gap: 12px; color: var(--foreground); background: var(--pleos-line); border: 0; border-radius: 20px; min-height: 72px; padding: 0 24px; font-size: 26px; }
+.emergency-voice-button { grid-column: 3; display: flex; align-items: center; gap: 12px; color: var(--foreground); background: var(--pleos-line); border: 0; border-radius: 20px; min-height: 72px; padding: 0 24px; font-size: 26px; }
 .emergency-voice-button:hover { background: #44464E; }
 .emergency-slot { display: flex; flex-direction: column; gap: 20px; padding: 28px 0; }
-/* 칸에는 이름표를 달지 않는다. ① 은 작은 상황 줄, ② 는 가운데 큰 영역, ③ 은 따로 띄운 "지금 할 일" card 다. */
+/* 화면을 설명하는 글(칸 이름표·말머리·app 이름)은 두지 않는다. ① 은 작은 상황 줄, ② 는 가운데 큰 영역, ③ 은 따로 띄운 card 다. */
 .emergency-car { border-top: 1px solid var(--pleos-line); }
-.emergency-detected { display: grid; grid-template-columns: 72px minmax(0, 1fr); align-items: center; gap: 16px 20px; padding: 24px 0; }
+.emergency-detected { display: grid; grid-template-columns: 72px minmax(0, 1fr) auto; align-items: center; gap: 16px 20px; padding: 24px 0; }
 .emergency-facts { grid-column: 1 / -1; }
 .emergency-detected h2 { margin: 0; font-size: 32px; font-weight: 700; line-height: 1.25; letter-spacing: -.01em; }
 .metal-plate { background: var(--metal-plate); box-shadow: inset 0 1px 0 rgba(255,255,255,.24), inset 0 -1px 0 rgba(0,0,0,.55), 0 14px 28px -12px rgba(0,0,0,.75); }
@@ -92,11 +86,10 @@
 .emergency-request { display: flex; align-items: center; gap: 10px; }
 .emergency-request-name { font-size: 24px; color: var(--pleos-subtle); }
 .emergency-request strong { font-size: 26px; font-weight: 600; }
-.emergency-status-boundary { flex-basis: 100%; font-size: 20px; color: var(--pleos-subtle); }
 .emergency-self { flex: none; flex-direction: row; align-items: center; gap: 24px; padding: 28px; border-radius: 28px; background: #2A2C30; }
 .emergency-self-plate { flex: none; display: grid; place-items: center; width: 88px; height: 88px; border-radius: 24px; }
 .emergency-self-copy { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; min-width: 0; }
-.emergency-self-lead { margin: 0; font-size: 24px; font-weight: 600; color: var(--pleos-subtle); }
+.emergency-self-condition { margin: 0; font-size: 26px; color: var(--pleos-subtle); }
 .emergency-self-action { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 16px; margin: 0; }
 .emergency-self-action > strong { font-size: 48px; font-weight: 800; line-height: 1.2; letter-spacing: -.02em; }
 .emergency-self-action > span { font-size: 30px; color: var(--pleos-subtle); }

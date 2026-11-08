@@ -92,12 +92,17 @@ test('only_the_rescue_ring_glows', async ({ page }) => {
   expect(glowing).toEqual([])
 })
 
-test('slots_carry_no_name_tags', async ({ page }) => {
+// 화면을 설명하는 글(칸 이름표·말머리·설계 주석·app 이름·창 설명)은 운전자에게 주는 정보가 아니다.
+const TAGS = ['감지', '차량', '나']
+const META = ['지금 할 일', '사고 대응', '별도 확인', 'system UI', '다른 app']
+test('screen_has_no_meta_labels', async ({ page }) => {
   for (const { scenario, scene } of scenes) {
     await page.goto(`/?study=emergency&scenario=${scenario.id}&scene=${scene.id}`)
     await expect(page.locator('[data-slot="car"]')).toBeVisible()
-    const tags = await page.locator('.emergency-screen').evaluate(root => [...root.querySelectorAll('*')].map(node => node.childNodes.length === 1 ? node.textContent!.trim() : '').filter(text => ['감지', '차량', '나'].includes(text)))
-    expect(tags, `${scenario.id}/${scene.id}`).toEqual([])
+    const found = await page.locator('.pleos-display').evaluate((root, { tags, meta }) => [...root.querySelectorAll('*')]
+      .map(node => [...node.childNodes].filter(child => child.nodeType === Node.TEXT_NODE).map(child => child.textContent!.trim()).join(' ').trim())
+      .filter(text => tags.includes(text) || meta.some(word => text.includes(word))), { tags: TAGS, meta: META })
+    expect(found, `${scenario.id}/${scene.id}`).toEqual([])
   }
 })
 
@@ -107,8 +112,8 @@ test('self_card_says_now_with_the_action_glyph', async ({ page }) => {
     await page.goto(`/?study=emergency&scenario=${scenario.id}&scene=${scene.id}`)
     const card = page.locator('[data-slot="self"]')
     const where = `${scenario.id}/${scene.id}`
-    await expect(card, where).toContainText('지금 할 일')
     await expect(card, where).toContainText(scene.self_action.now)
+    if (scene.self_action.condition) await expect(card, where).toContainText(scene.self_action.condition)
     await expect(card.locator(`[data-glyph="${(book.self as Record<string, string>)[scene.self_action.id]}"]`), where).toHaveCount(1)
   }
 })
@@ -196,7 +201,11 @@ test.describe('rescue countdown', () => {
   })
 
   test('stale_timer_does_not_fire_after_scene_change', async ({ page }) => {
-    const screen = await open(page)
+    // 설치한 clock 은 실제 시간으로도 흐른다. 0.5초 여유는 부하가 걸리면 click 전에 사라지므로 page 를 열기 전에 clock 을 멈춘다.
+    await page.clock.install({ time: 0 })
+    await page.clock.pauseAt(1_000)
+    await page.goto('/?study=emergency&scenario=SC03&scene=initial')
+    const screen = page.getByRole('region', { name: '시각 중심 사고 대응' })
     await page.clock.runFor(9_500)
     await screen.getByRole('button', { name: '지금 연결', exact: true }).click()
     await page.clock.runFor(2_000)

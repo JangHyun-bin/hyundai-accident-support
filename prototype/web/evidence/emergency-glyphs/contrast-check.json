@@ -140,7 +140,7 @@
     "self hazard": {
       "query": "scenario=SC01&scene=initial",
       "target": ".emergency-self-plate",
-      "ratio": 3.4742582159877835,
+      "ratio": 3.518305111610134,
       "face_pixels": 6365,
       "plate_pixels": 10494,
       "face_worst_rgb": [
@@ -150,8 +150,8 @@
       ],
       "plate_worst_rgb": [
         72,
-        77,
-        80
+        76,
+        79
       ]
     },
     "self evacuate": {
@@ -208,7 +208,7 @@
     "mark attention": {
       "query": "scenario=SC01&scene=initial",
       "target": ".emergency-symbol-state [data-mark]",
-      "ratio": 7.070542340351656,
+      "ratio": 7.066448958342722,
       "face_pixels": 150,
       "plate_pixels": 1612,
       "face_worst_rgb": [
@@ -219,7 +219,7 @@
       "plate_worst_rgb": [
         228,
         165,
-        139
+        138
       ]
     },
     "mark confirmed": {

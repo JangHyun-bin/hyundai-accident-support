@@ -45,13 +45,12 @@ test('scaled_canvas_keeps_glyph_inside_plate', async ({ page }) => {
   await page.goto('/?study=emergency&scenario=SC05')
   // 축소 배율은 ResizeObserver 뒤에 정해진다. 배율이 정해지기 전에 재면 box 가 서로 어긋난다.
   await expect.poll(async () => (await page.locator('.emergency-screen').boundingBox())?.width ?? Infinity).toBeLessThanOrEqual(375)
-  const plate = await page.locator('.emergency-symbol').boundingBox()
-  const glyph = await page.locator('.emergency-symbol > [data-glyph]').boundingBox()
-  expect(plate && glyph).toBeTruthy()
-  expect(glyph!.x).toBeGreaterThanOrEqual(plate!.x)
-  expect(glyph!.y).toBeGreaterThanOrEqual(plate!.y)
-  expect(glyph!.x + glyph!.width).toBeLessThanOrEqual(plate!.x + plate!.width)
-  expect(glyph!.y + glyph!.height).toBeLessThanOrEqual(plate!.y + plate!.height)
+  // 두 box 를 따로 재면 그 사이에 배율이 바뀔 수 있다. 같은 frame 에서 잰다.
+  const [plate, glyph] = await page.locator('.emergency-symbol').evaluate(node => [node, node.querySelector(':scope > [data-glyph]')!].map(item => item.getBoundingClientRect().toJSON()))
+  expect(glyph.x).toBeGreaterThanOrEqual(plate.x)
+  expect(glyph.y).toBeGreaterThanOrEqual(plate.y)
+  expect(glyph.x + glyph.width).toBeLessThanOrEqual(plate.x + plate.width)
+  expect(glyph.y + glyph.height).toBeLessThanOrEqual(plate.y + plate.height)
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
 })
 

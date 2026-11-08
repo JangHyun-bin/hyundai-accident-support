@@ -210,10 +210,10 @@ export function EmergencyStudy() {
         <section className={`emergency-screen${satin ? ' is-satin' : ''}`} data-surface-status={satin ? surfaceStatus : 'flat'} aria-label="시각 중심 사고 대응" inert={paused} style={{ '--metal-plate': metalPlate } as CSSProperties}>
           <GlyphDefs />
           {satin && <SatinSurface intensity={surfaceIntensity} onStatus={setSurfaceStatus} />}
-          <header className="emergency-app-header"><span className="emergency-app-name"><span aria-hidden="true" />사고 대응</span><span className="emergency-context-label">{scenario.presentation.context_label}</span><button onClick={playVoice} className="emergency-voice-button">{voiceState === 'speaking' ? <VolumeX size={24} aria-hidden="true" /> : <Volume2 size={24} aria-hidden="true" />}{voiceState === 'speaking' ? '음성 안내 중지' : '음성 안내 듣기'}</button></header>
           <section className="emergency-slot emergency-detected" data-slot="detected" aria-label="핵심 상황">
             <div className="emergency-symbol metal-plate" aria-hidden="true"><Glyph name={glyphFor.cue(scene.cue.symbol)} depth="deep" size={48} /><span className="emergency-symbol-state"><StatusMark tone={scene.cue.status} size={28} /></span></div>
             <h2 className={`tone-${scene.cue.status}`}>{scenario.presentation.detected} · {scene.cue.label}</h2>
+            <button onClick={playVoice} className="emergency-voice-button">{voiceState === 'speaking' ? <VolumeX size={24} aria-hidden="true" /> : <Volume2 size={24} aria-hidden="true" />}{voiceState === 'speaking' ? '음성 안내 중지' : '음성 안내 듣기'}</button>
             <div className="emergency-facts">{facts.filter(fact => scenario.presentation.visible_facts.includes(fact.id)).map(fact => <div key={fact.id} className={`emergency-fact tone-${fact.status}`} data-fact={fact.id}><span className="emergency-fact-plate metal-plate"><Glyph name={glyphFor.fact(fact.id)} depth="shallow" size={32} /></span><span>{fact.label}</span><strong><StatusMark tone={fact.status} size={24} />{fact.value}</strong></div>)}</div>
           </section>
           <section className="emergency-slot emergency-car" data-slot="car" aria-label="차량이 할 일">
@@ -232,12 +232,12 @@ export function EmergencyStudy() {
             <div className="emergency-requests" aria-label="기관별 요청 상태">{requests.map(request => {
               const status = requestStatuses[request.status]
               return <div key={request.id} className={`emergency-request tone-${status.tone}`} data-request={request.id}><StatusMark tone={status.tone} size={30} /><span className="emergency-request-name">{request.label}</span><strong>{status.label}</strong></div>
-            })}<span className="emergency-status-boundary">연결 · 접수 · 도착은 별도 확인</span></div>
+            })}</div>
           </section>
           <section className="emergency-slot emergency-self" data-slot="self" aria-label="지금 할 일">
             {scene.self_action && <span className="emergency-self-plate metal-plate" aria-hidden="true"><Glyph name={glyphFor.self(scene.self_action.id)} depth="deep" size={56} /></span>}
             <div className="emergency-self-copy">
-              <p className="emergency-self-lead">지금 할 일{scene.self_action?.condition && ` · ${scene.self_action.condition}`}</p>
+              {scene.self_action?.condition && <p className="emergency-self-condition">{scene.self_action.condition}</p>}
               {scene.actions.filter(action => action.slot === 'self').map(action => <button className="emergency-primary-action is-self" key={action.id} onClick={() => goToScene(action.to, 'action')}><Glyph name={glyphFor.action(action.id)} depth="solid" size={36} /><span>{action.label}</span></button>)}
               {scene.self_action && <p className="emergency-self-action"><strong>{scene.self_action.now}</strong>{scene.self_action.next && <span>→ {scene.self_action.next}</span>}</p>}
             </div>

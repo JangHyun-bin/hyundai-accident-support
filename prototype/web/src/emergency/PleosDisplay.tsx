@@ -11,7 +11,6 @@ export function PleosDisplay({ scale, children }: { scale: number; children: Rea
     <section className="pleos-window pleos-driving" data-pleos="driving-view" aria-hidden="true">
       <span className="pleos-gear">P</span>
       <div className="pleos-speed"><strong>0</strong><span>km/h</span></div>
-      <p className="pleos-caption">Driving view · system UI</p>
     </section>
     {children}
     <section className="pleos-window pleos-navigation" data-pleos="navigation" aria-hidden="true">
@@ -23,7 +22,6 @@ export function PleosDisplay({ scale, children }: { scale: number; children: Rea
         <circle cx="414" cy="900" r="52" fill="rgba(0,130,255,.18)" />
         <circle cx="414" cy="900" r="20" fill="#0082FF" stroke="#fff" strokeWidth="5" />
       </svg>
-      <p className="pleos-caption">내비게이션 · 다른 app</p>
     </section>
     <div className="pleos-gnb" data-pleos="gnb" aria-hidden="true">
       <span><Fan size={36} />22.5°</span>
