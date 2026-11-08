@@ -1,9 +1,11 @@
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
+import { ViewTransition, startTransition, useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
+import NumberFlow from '@number-flow/react'
 import { ArrowRight, CheckCircle2, Circle, CircleHelp, Code2, Eye, Maximize2, Minimize2, Pause, Play, TriangleAlert, Volume2, VolumeX } from 'lucide-react'
 import { SatinSurface, type SurfaceStatus } from './SatinSurface'
 import { DISPLAY, PleosDisplay } from './PleosDisplay'
 import { Glyph, GlyphDefs, StatusMark, glyphFor, metalPlate } from './glyphs'
 import manifest from '../../../../specs/emergency-experience/scenarios.json'
+import './motion'
 import './emergency.css'
 import './satin.css'
 
@@ -76,6 +78,8 @@ export function EmergencyStudy() {
   const viewport = useRef<HTMLDivElement>(null)
   const heading = useRef<HTMLHeadingElement>(null)
   const focusAfterChange = useRef<'action' | 'event' | null>(null)
+  // 장면 전환은 view transition 으로 다음 frame 에 commit 된다. 그 사이 이전 장면의 countdown 이 끝나 운전자의 선택을 덮지 않게 막는다.
+  const leaving = useRef(false)
   const activeSceneButton = useRef<HTMLButtonElement>(null)
   const utterance = useRef<SpeechSynthesisUtterance | null>(null)
   const remainingMs = useRef(0)
@@ -104,11 +108,13 @@ export function EmergencyStudy() {
     return () => { window.removeEventListener('popstate', onBack); window.removeEventListener('pagehide', cancelSpeech) }
   }, [])
 
-  useEffect(() => {
+  // 장면이 바뀐 commit 에서 바로 실행한다. 일반 effect 는 view transition 이 끝날 때까지 밀린다.
+  useLayoutEffect(() => {
     const url = new URL(location.href)
     url.searchParams.set('scenario', selection.scenarioId)
     url.searchParams.set('scene', selection.sceneId)
     history.replaceState(null, '', url)
+    leaving.current = false
     cancelSpeech()
     setVoiceState('idle')
     if (focusAfterChange.current === 'action') heading.current?.focus()
@@ -138,6 +144,7 @@ export function EmergencyStudy() {
     if (!auto || paused || present === 'covered') return
     const end = Date.now() + remainingMs.current
     const timer = setInterval(() => {
+      if (leaving.current) return clearInterval(timer)
       remainingMs.current = Math.max(0, end - Date.now())
       setCountdown({ for: selection, seconds: Math.ceil(remainingMs.current / 1000) })
       if (remainingMs.current === 0) {
@@ -174,7 +181,8 @@ export function EmergencyStudy() {
   function goToScene(id: string, source: 'action' | 'event' | null = null) {
     if (paused || !scenario.states.some(state => state.id === id)) return
     focusAfterChange.current = source
-    setSelection({ ...selection, sceneId: id })
+    leaving.current = true
+    startTransition(() => setSelection({ ...selection, sceneId: id }))
   }
 
   function playVoice() {
@@ -202,7 +210,7 @@ export function EmergencyStudy() {
     <header className="emergency-review-header"><a href="/?study=emergency" className="emergency-review-brand">AFTER / CARE <span>Emergency storyboard</span></a><div><span className="emergency-demo-label">가상 scenario · 실제 전화·전송 없음</span><span className="emergency-demo-label">안전 안내 {manifest.safety_guidance.status}</span><a href="/?study=tools">이전 design 비교 <ArrowRight size={14} aria-hidden="true" /></a></div></header>
     <div className="emergency-review-intro"><div><h1>상황을 보고, 다음 행동으로.</h1><p>장면을 바꿔 핵심 상황·행동·미확인이 어떻게 전달되는지 확인해 보세요.</p></div><button className="emergency-review-button" aria-expanded={showSpec} aria-controls="emergency-spec" onClick={() => setShowSpec(!showSpec)}><Code2 size={17} aria-hidden="true" />현재 장면 spec</button></div>
     <section className="emergency-material-review" aria-label="Surface preview"><div><strong>C / SATIN METAL</strong><p>{satin && surfaceStatus === 'unavailable' ? 'C render 불가 · 기본 background로 표시' : 'Surface preview · 장면과 요청 상태는 그대로 유지'}</p></div><div className="emergency-material-controls"><div className="emergency-material-switch" role="group" aria-label="화면 재질"><button aria-pressed={!satin} onClick={() => setSatin(false)}>기존 flat</button><button aria-pressed={satin} onClick={() => setSatin(true)}>C · Satin</button></div><label className="emergency-material-intensity" htmlFor="surface-intensity"><span>표면 강도</span><span>{surfaceIntensity}%</span><input id="surface-intensity" aria-label="표면 강도" type="range" min="0" max="100" value={surfaceIntensity} disabled={!satin} onChange={event => setSurfaceIntensity(Number(event.target.value))} /></label></div></section>
-    <nav className="emergency-scenarios" aria-label="상황 선택">{manifest.scenarios.map((item, index) => <button key={item.id} aria-pressed={scenario.id === item.id} aria-label={item.title} onClick={() => { setPaused(false); setSelection({ scenarioId: item.id, sceneId: item.initial }) }}><span>{item.id}</span><strong>{item.title}</strong>{index === 0 ? <TriangleAlert size={20} aria-hidden="true" /> : <CircleHelp size={20} aria-hidden="true" />}</button>)}</nav>
+    <nav className="emergency-scenarios" aria-label="상황 선택">{manifest.scenarios.map((item, index) => <button key={item.id} aria-pressed={scenario.id === item.id} aria-label={item.title} onClick={() => { setPaused(false); startTransition(() => setSelection({ scenarioId: item.id, sceneId: item.initial })) }}><span>{item.id}</span><strong>{item.title}</strong>{index === 0 ? <TriangleAlert size={20} aria-hidden="true" /> : <CircleHelp size={20} aria-hidden="true" />}</button>)}</nav>
     <div className="emergency-canvas-toolbar"><p>시작 상황: {scenario.summary}</p><div><button className="emergency-review-button" onClick={showForThreeSeconds}><Eye size={15} aria-hidden="true" />3초 보기</button><button className="emergency-review-button" onClick={() => setPaused(!paused)}>{paused ? <Play size={15} aria-hidden="true" /> : <Pause size={15} aria-hidden="true" />}{paused ? '시연 재개' : '시연 일시 중단'}</button><button className="emergency-review-button" aria-pressed={actualSize} onClick={() => setActualSize(!actualSize)}>{actualSize ? <Minimize2 size={15} aria-hidden="true" /> : <Maximize2 size={15} aria-hidden="true" />}{actualSize ? '전체 보기' : '원래 크기'}</button></div></div>
     <div className={`emergency-viewport ${paused ? 'is-paused' : ''}`} ref={viewport}>
       <div className="canvas-space" style={{ width: DISPLAY.width * displayScale, height: DISPLAY.height * displayScale }}>
@@ -210,38 +218,38 @@ export function EmergencyStudy() {
         <section className={`emergency-screen${satin ? ' is-satin' : ''}`} data-surface-status={satin ? surfaceStatus : 'flat'} aria-label="시각 중심 사고 대응" inert={paused} style={{ '--metal-plate': metalPlate } as CSSProperties}>
           <GlyphDefs />
           {satin && <SatinSurface intensity={surfaceIntensity} onStatus={setSurfaceStatus} />}
-          <section className="emergency-slot emergency-detected" data-slot="detected" aria-label="핵심 상황">
+          <ViewTransition name="cue"><section className="emergency-slot emergency-detected" data-slot="detected" aria-label="핵심 상황">
             <div className="emergency-cue"><div className="emergency-symbol metal-plate" aria-hidden="true"><Glyph name={glyphFor.cue(scene.cue.symbol)} depth="deep" size={48} /><span className="emergency-symbol-state"><StatusMark tone={scene.cue.status} size={28} /></span></div>
             <h2 className={`tone-${scene.cue.status}`}>{scenario.presentation.detected} · {scene.cue.label}</h2></div>
             <button onClick={playVoice} className="emergency-voice-button">{voiceState === 'speaking' ? <VolumeX size={24} aria-hidden="true" /> : <Volume2 size={24} aria-hidden="true" />}{voiceState === 'speaking' ? '음성 안내 중지' : '음성 안내 듣기'}</button>
             <div className="emergency-facts">{facts.filter(fact => scenario.presentation.visible_facts.includes(fact.id)).map(fact => <div key={fact.id} className={`emergency-fact tone-${fact.status}`} data-fact={fact.id}><span className="emergency-fact-plate metal-plate"><Glyph name={glyphFor.fact(fact.id)} depth="shallow" size={32} /></span><span>{fact.label}</span><strong><StatusMark tone={fact.status} size={24} />{fact.value}</strong></div>)}</div>
-          </section>
+          </section></ViewTransition>
           <section className="emergency-slot emergency-car" data-slot="car" aria-label="차량이 할 일">
             {(() => {
               const carActions = scene.actions.filter(action => action.slot !== 'self').map(action => <button className="emergency-primary-action" key={action.id} onClick={() => goToScene(action.to, 'action')}><Glyph name={glyphFor.action(action.id)} depth="solid" size={36} /><span>{action.label}</span></button>)
-              const copy = <div className="emergency-car-copy" aria-live="polite"><h1 ref={heading} tabIndex={-1}>{scene.title}</h1>{scene.auto_contact ? <p>응답이 없으면 자동 연결</p> : scene.instruction && <p>{scene.instruction}</p>}</div>
+              const copy = <ViewTransition name="car-copy"><div className="emergency-car-copy" aria-live="polite"><h1 ref={heading} tabIndex={-1}>{scene.title}</h1>{scene.auto_contact ? <p>응답이 없으면 자동 연결</p> : scene.instruction && <p>{scene.instruction}</p>}</div></ViewTransition>
               if (scene.auto_contact) return <div className="emergency-car-main" data-urgent>
-                <PhaseRing key={entry.run} phase="decide" fraction={secondsLeft / scene.auto_contact.seconds}><b data-countdown>{secondsLeft}</b></PhaseRing>
-                <div>{copy}<div className="emergency-car-actions">{carActions}<button className="emergency-cancel" onClick={() => goToScene(scene.auto_contact!.cancel, 'action')}>취소</button></div></div>
+                <ViewTransition name="phase-ring" enter="vt-enter" exit="vt-exit"><PhaseRing key={entry.run} phase="decide" fraction={secondsLeft / scene.auto_contact.seconds}><b data-countdown={secondsLeft}><NumberFlow value={secondsLeft} /></b></PhaseRing></ViewTransition>
+                <div>{copy}<ViewTransition name="car-actions" enter="vt-enter" exit="vt-exit"><div className="emergency-car-actions">{carActions}<button className="emergency-cancel" onClick={() => goToScene(scene.auto_contact!.cancel, 'action')}>취소</button></div></ViewTransition></div>
               </div>
               return <div className="emergency-car-main">
-                {scene.phase === 'progress' && <PhaseRing phase="progress" fraction={.28}>···</PhaseRing>}
-                <div>{copy}{carActions.length > 0 && <div className="emergency-car-actions">{carActions}</div>}</div>
+                {scene.phase === 'progress' && <ViewTransition name="phase-ring" enter="vt-enter" exit="vt-exit"><PhaseRing phase="progress" fraction={.28}>···</PhaseRing></ViewTransition>}
+                <div>{copy}{carActions.length > 0 && <ViewTransition name="car-actions" enter="vt-enter" exit="vt-exit"><div className="emergency-car-actions">{carActions}</div></ViewTransition>}</div>
               </div>
             })()}
-            <div className="emergency-requests" aria-label="기관별 요청 상태">{requests.map(request => {
+            <ViewTransition name="requests"><div className="emergency-requests" aria-label="기관별 요청 상태">{requests.map(request => {
               const status = requestStatuses[request.status]
               return <div key={request.id} className={`emergency-request tone-${status.tone}`} data-request={request.id}><StatusMark tone={status.tone} size={30} /><span className="emergency-request-name">{request.label}</span><strong>{status.label}</strong></div>
-            })}</div>
+            })}</div></ViewTransition>
           </section>
-          <section className="emergency-slot emergency-self" data-slot="self" aria-label="지금 할 일">
+          <ViewTransition name="self"><section className="emergency-slot emergency-self" data-slot="self" aria-label="지금 할 일">
             {scene.self_action && <span className="emergency-self-plate metal-plate" aria-hidden="true"><Glyph name={glyphFor.self(scene.self_action.id)} depth="deep" size={56} /></span>}
             <div className="emergency-self-copy">
               {scene.self_action?.condition && <p className="emergency-self-condition">{scene.self_action.condition}</p>}
               {scene.actions.filter(action => action.slot === 'self').map(action => <button className="emergency-primary-action is-self" key={action.id} onClick={() => goToScene(action.to, 'action')}><Glyph name={glyphFor.action(action.id)} depth="solid" size={36} /><span>{action.label}</span></button>)}
               {scene.self_action && <p className="emergency-self-action"><strong>{scene.self_action.now}</strong>{scene.self_action.next && <span>→ {scene.self_action.next}</span>}</p>}
             </div>
-          </section>
+          </section></ViewTransition>
         </section>
         </PleosDisplay>
       </div>

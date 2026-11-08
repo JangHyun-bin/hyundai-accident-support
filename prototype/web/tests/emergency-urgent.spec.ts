@@ -203,9 +203,9 @@ test.describe('rescue countdown', () => {
 
   test('countdown_expires_into_auto_rescue_and_keeps_unknowns', async ({ page }) => {
     const screen = await open(page)
-    await expect(screen.locator('[data-countdown]')).toHaveText('10')
+    await expect(screen.locator('[data-countdown]')).toHaveAttribute('data-countdown', '10')
     await page.clock.runFor(3_000)
-    await expect(screen.locator('[data-countdown]')).toHaveText('7')
+    await expect(screen.locator('[data-countdown]')).toHaveAttribute('data-countdown', '7')
     await page.clock.runFor(7_000)
     await expect(screen.getByRole('heading', { name: '119 연결 중' })).toBeVisible()
     await expect(screen.getByText('응답이 없어 자동으로 연결했어요.')).toBeVisible()
@@ -240,15 +240,15 @@ test.describe('rescue countdown', () => {
   test('pause_freezes_and_reentry_restarts_countdown', async ({ page }) => {
     const screen = await open(page)
     await page.clock.runFor(4_000)
-    await expect(screen.locator('[data-countdown]')).toHaveText('6')
+    await expect(screen.locator('[data-countdown]')).toHaveAttribute('data-countdown', '6')
     await page.getByRole('button', { name: '시연 일시 중단' }).click()
     await page.clock.runFor(10_000)
-    await expect(screen.locator('[data-countdown]')).toHaveText('6')
+    await expect(screen.locator('[data-countdown]')).toHaveAttribute('data-countdown', '6')
     await page.getByRole('button', { name: '시연 재개' }).click()
     await page.clock.runFor(6_000)
     await expect(screen.locator('[data-slot="detected"]')).toContainText('응답 없음')
     await page.getByRole('navigation', { name: '장면 선택' }).getByRole('button', { name: /응답 대기/ }).click()
-    await expect(screen.locator('[data-countdown]')).toHaveText('10')
+    await expect(screen.locator('[data-countdown]')).toHaveAttribute('data-countdown', '10')
   })
 
   test('stale_timer_does_not_fire_after_scene_change', async ({ page }) => {
@@ -278,24 +278,24 @@ test.describe('rescue countdown', () => {
   // 설치한 clock 은 실제 시간으로도 흐른다. 숫자는 고정값 대신 같은 순간에 읽은 값과 비교한다.
   const readCountdown = (page: import('@playwright/test').Page) => page.evaluate(() => {
     const urgent = document.querySelector('[data-urgent]')!
-    return { number: Number(urgent.querySelector('[data-countdown]')!.textContent), sentence: urgent.querySelector('p')!.textContent!, offset: parseFloat(getComputedStyle(urgent.querySelector('.emergency-ring-value')!).strokeDashoffset) }
+    return { number: Number(urgent.querySelector('[data-countdown]')!.getAttribute('data-countdown')), sentence: urgent.querySelector('p')!.textContent!, offset: parseFloat(getComputedStyle(urgent.querySelector('.emergency-ring-value')!).strokeDashoffset) }
   })
 
   test('restart_shows_full_countdown_from_first_frame', async ({ page }) => {
     const screen = await open(page)
     await page.clock.runFor(4_000)
-    await expect(screen.locator('[data-countdown]')).not.toHaveText('10')
+    await expect(screen.locator('[data-countdown]')).not.toHaveAttribute('data-countdown', '10')
     const before = (await readCountdown(page)).number
     await page.evaluate(() => {
       const runtime = window as typeof window & { shown: number[] }
       runtime.shown = []
       // 차량 화면 안의 변화와 3초 보기 class 변화만 본다. Playwright 가 page 에 남기는 변화는 섞지 않는다.
-      const observer = new MutationObserver(() => runtime.shown.push(Number(document.querySelector('[data-countdown]')?.textContent)))
+      const observer = new MutationObserver(() => runtime.shown.push(Number(document.querySelector('[data-countdown]')?.getAttribute('data-countdown'))))
       observer.observe(document.querySelector('.emergency-screen')!, { subtree: true, childList: true, characterData: true, attributes: true })
       observer.observe(document.querySelector('.emergency-study')!, { attributes: true })
     })
     await page.getByRole('button', { name: '3초 보기' }).click()
-    await expect(screen.locator('[data-countdown]')).toHaveText(/^(10|9)$/)
+    await expect(screen.locator('[data-countdown]')).toHaveAttribute('data-countdown', /^(10|9)$/)
     const shown = await page.evaluate(() => (window as typeof window & { shown: number[] }).shown)
     expect(shown.filter(number => number <= before), `stale numbers after restart: ${shown}`).toEqual([])
     // ring 이 이전 값에서 다시 차오르면 안 된다. CSS transition 은 실제 시간으로 흐른다.
@@ -351,7 +351,7 @@ test('three_second_view_hides_review_ui_and_covers_after_3s', async ({ page }) =
   await expect(page.getByRole('navigation', { name: '장면 선택' })).toBeHidden()
   await expect(page.getByRole('navigation', { name: '상황 선택' })).toBeHidden()
   await expect(page.getByText('시작 상황:')).toBeHidden()
-  await expect(screen.locator('[data-countdown]')).toHaveText('10')
+  await expect(screen.locator('[data-countdown]')).toHaveAttribute('data-countdown', '10')
   await expect(page.locator('[data-cover]')).toHaveCount(0)
   await page.clock.runFor(3_000)
   await expect(page.locator('[data-cover]')).toBeVisible()
@@ -360,7 +360,7 @@ test('three_second_view_hides_review_ui_and_covers_after_3s', async ({ page }) =
   await page.getByRole('button', { name: '닫기' }).click()
   await expect(page.getByRole('navigation', { name: '장면 선택' })).toBeVisible()
   await expect(screen.locator('[data-slot="detected"]')).toContainText('응답 미확인')
-  await expect(screen.locator('[data-countdown]')).toHaveText('7')
+  await expect(screen.locator('[data-countdown]')).toHaveAttribute('data-countdown', '7')
 })
 
 test('three_second_view_silences_speech_when_covered', async ({ page }) => {

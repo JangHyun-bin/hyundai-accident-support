@@ -44,7 +44,6 @@
 /* 사고 대응 app 창. 글자는 Pleos type scale(Headline 60·48, Title 40·36·32, Body 30·28·26, Label 24·20)만 쓴다. */
 .emergency-screen { --urgent: #FF4C28; --progress: #FFB340; --pleos-line: #313236; --pleos-subtle: #A4A8AE; position: absolute; left: 834px; top: 94px; width: 840px; height: 1184px; display: flex; flex-direction: column; padding: 32px 40px; background: #1D1E21; color: var(--foreground); border-radius: 32px; overflow: hidden; }
 .emergency-voice-button { display: flex; align-items: center; justify-content: center; gap: 12px; color: var(--foreground); background: var(--pleos-line); border: 0; border-radius: 20px; min-height: 72px; padding: 0 16px; font-size: 24px; }
-.emergency-voice-button:hover { background: #44464E; }
 .emergency-slot { display: flex; flex-direction: column; }
 /* 화면을 설명하는 글(칸 이름표·말머리·app 이름)은 두지 않는다. ① 은 작은 상황 줄, ② 는 가운데 큰 영역, ③ 은 따로 띄운 card 다. */
 /* 창 안의 모든 가로 배치는 같은 3단 grid(간격 16)에 맞춘다. ① 은 위, 기관 상태와 ③ 은 아래에 붙이고 ② 가 가운데를 채운다. */
@@ -81,11 +80,8 @@
 .emergency-car-actions > .emergency-primary-action { grid-column: span 2; }
 .emergency-car-actions > .emergency-primary-action:only-child { grid-column: 1 / -1; }
 .emergency-primary-action { display: inline-flex; align-items: center; justify-content: center; gap: 14px; min-height: 104px; padding: 0 36px; border: 0; border-radius: 24px; color: #131417; background: #EDEEF2; font-size: 36px; font-weight: 700; }
-.emergency-primary-action:hover { background: #fff; }
 [data-urgent] .emergency-primary-action { color: #131417; background: var(--urgent); }
-[data-urgent] .emergency-primary-action:hover { background: color-mix(in srgb, var(--urgent) 88%, #fff); }
 .emergency-cancel { min-height: 104px; padding: 0 36px; border: 0; border-radius: 24px; background: var(--pleos-line); color: var(--foreground); font-size: 36px; font-weight: 700; }
-.emergency-cancel:hover { background: #44464E; }
 .emergency-requests { padding: 24px 0; border-top: 1px solid var(--pleos-line); }
 .emergency-request { display: grid; grid-template-columns: 30px minmax(0, 1fr); align-items: center; gap: 6px 12px; }
 .emergency-request strong { grid-column: 2; }
@@ -157,3 +153,27 @@
 .emergency-study.is-presenting > :not(.emergency-viewport) { display: none; }
 .emergency-study.is-presenting .emergency-viewport { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; overflow: hidden; border-radius: 0; background: #000; opacity: 1; }
 .emergency-cover { position: absolute; inset: 0; z-index: 2; display: flex; align-items: center; justify-content: center; gap: 12px; background: #000; }
+
+/* Motion. 장면 전환은 React <ViewTransition> 이 블록마다 제자리에서 바꾸고, 누름은 CSS transition 이 받는다.
+   새 정보는 0.25초 안에 다 보인다. 하나씩 늦게 띄우기(stagger)와 반복 점멸은 쓰지 않는다. */
+/* Page 전체(root)는 찍지 않는다. 검토 UI·주변 창은 즉시 바뀌고, 이름 붙은 app 블록만 움직인다. */
+:root { --ease-out: cubic-bezier(0.23, 1, 0.32, 1); view-transition-name: none; }
+::view-transition-group(*) { animation-duration: var(--spring-duration); animation-timing-function: var(--spring-easing); }
+::view-transition-old(*), ::view-transition-new(*) { animation-duration: 200ms; animation-timing-function: var(--ease-out); }
+::view-transition-new(*.vt-enter) { animation: vt-enter 250ms var(--ease-out) both; }
+::view-transition-old(*.vt-exit) { animation: vt-exit 150ms var(--ease-out) both; }
+@keyframes vt-enter { from { opacity: 0; transform: scale(.95); } }
+@keyframes vt-exit { to { opacity: 0; transform: scale(.95); } }
+.emergency-primary-action, .emergency-cancel, .emergency-voice-button { transition: transform 120ms var(--ease-out), background-color 150ms ease; }
+:is(.emergency-primary-action, .emergency-cancel, .emergency-voice-button):active { transform: scale(.97); }
+@media (hover: hover) and (pointer: fine) {
+  .emergency-primary-action:hover { background: #fff; }
+  [data-urgent] .emergency-primary-action:hover { background: color-mix(in srgb, var(--urgent) 88%, #fff); }
+  :is(.emergency-cancel, .emergency-voice-button):hover { background: #44464E; }
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*) { animation: none; }
+  ::view-transition-old(*), ::view-transition-new(*) { animation-duration: 120ms; }
+  ::view-transition-new(*.vt-enter), ::view-transition-old(*.vt-exit) { animation: none; }
+  :is(.emergency-primary-action, .emergency-cancel, .emergency-voice-button):active { transform: none; }
+}

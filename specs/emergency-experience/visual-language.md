@@ -67,7 +67,13 @@ Header를 뺀 뒤 화면이 비어 보인다는 피드백("sparse하다, 구조�
 
 ## Motion·음성·입력
 
-- 핵심 상태와 안내는 즉시 교체한다. 사실 chip도 즉시 교체한다. 장식 entrance, 반복 점멸, 단계별 텍스트 지연을 사용하지 않는다.
+- 2026-11-08 사용자 결정으로 app 전체에 같은 motion 규칙을 둔다("전환이나 button 누르는 거나 모든 것에 motion이 필요하다"). 정보가 늦게 보이면 안 된다는 원칙은 유지한다.
+  - 장면·상황 전환은 React `<ViewTransition>`으로 블록(① 상황 줄, ring, ② 문장, button 줄, 기관 상태, ③ card)마다 제자리에서 바꾼다. 같은 ring은 빨간 countdown에서 호박색 연결 중으로 이어진다. 검토 UI와 주변 창은 즉시 바뀐다.
+  - 새 정보는 0.25초 안에 다 보인다(crossfade 200ms, 나타남 250ms, 사라짐 150ms). 블록 위치·크기 변화는 Motion `spring(0.3, 0.1)`을 CSS `linear()`로 풀어 쓴다(`src/emergency/motion.ts`).
+  - Button은 누르는 동안 0.97배로 눌린다(120ms). Hover 색 변화는 mouse가 있을 때만 쓴다.
+  - Countdown 숫자는 NumberFlow로 굴러 바뀐다.
+  - 하나씩 늦게 띄우기(stagger)와 반복 점멸은 쓰지 않는다.
+  - `prefers-reduced-motion`에서는 위치·크기 이동과 눌림을 빼고 120ms fade만 남긴다.
 - Countdown은 구호 자동 연결에만 쓴다. 10초(`auto_contact.seconds`)이며 ring과 숫자만 움직인다. `prefers-reduced-motion`에서는 ring이 1초 단위로 끊어 갱신된다. `취소` button 외의 click은 취소가 아니다(2026-11-08 사용자 결정).
 - 음성 원고는 각 장면의 `voice`에 저장한다. Browser TTS는 사용자가 `음성 안내 듣기`를 선택할 때와 countdown이 시작될 때 실행한다. Countdown 시작에는 짧은 경고음도 낸다. 상태 변경·중단·page 종료 시 기존 음성을 취소한다. 지원하지 않거나 재생에 실패하면 원고를 화면에 보여준다.
 - 음성만으로 진행하거나 확인 응답을 추정하지 않는다. 실제 차량 audio focus·소음·음성 인식은 이번 범위 밖이다.
