@@ -172,7 +172,7 @@ try {
   await action('SC04', '다른 지원 확인', 'support')
   await action('SC04', '나중에 이어하기', 'paused')
   await action('SC04', '남은 지원 확인', 'support')
-  await action('SC04', '보험 전송 다시 검토', 'review')
+  await action('SC04', '보험사 전송 다시 검토', 'review')
   await scope('사고 위치')
   await action('SC04', '나중에 보내기', 'deferred')
   await action('SC04', '전송 다시 검토', 'review', 3)
