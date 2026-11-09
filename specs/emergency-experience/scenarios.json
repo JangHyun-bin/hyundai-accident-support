@@ -1727,7 +1727,7 @@
     {
       "id": "SC04",
       "title": "전송 보류·거절",
-      "summary": "사고 기록 초안 확인 · 보험 전송 범위 검토 · 구호·차량 지원은 별도",
+      "summary": "사고 기록 초안 확인 · 보험사 전송 범위 검토 · 구호·차량 지원은 별도",
       "source_nodes": [
         "U6",
         "I6",
@@ -1852,8 +1852,8 @@
           "id": "review",
           "label": "전송 범위",
           "phase": "settled",
-          "title": "보험에 보낼 내용을 확인하세요",
-          "voice": "보험에 보낼 내용을 확인하세요. ",
+          "title": "보험사에 보낼 내용을 확인하세요",
+          "voice": "보험사에 보낼 내용을 확인하세요. ",
           "cue": {
             "symbol": "record",
             "status": "unknown",
@@ -1890,7 +1890,7 @@
           },
           "deferred": [],
           "panel": "scope",
-          "step": "보험 · 전송 전"
+          "step": "보험사 · 전송 전"
         },
         {
           "id": "deferred",
@@ -1934,8 +1934,8 @@
           "id": "declined",
           "label": "전송 거절",
           "phase": "settled",
-          "title": "보험에 보내지 않았어요",
-          "voice": "보험에 보내지 않았어요. 승인 없이는 전송하지 않아요. 다른 지원은 유지돼요.",
+          "title": "보험사에 보내지 않았어요",
+          "voice": "보험사에 보내지 않았어요. 승인 없이는 전송하지 않아요. 다른 지원은 유지돼요.",
           "cue": {
             "symbol": "record",
             "status": "unknown",
@@ -1972,8 +1972,8 @@
           "id": "sending",
           "label": "전송 중",
           "phase": "progress",
-          "title": "보험에 기록을 보내고 있어요",
-          "voice": "보험에 기록을 보내고 있어요. ",
+          "title": "보험사에 기록을 보내고 있어요",
+          "voice": "보험사에 기록을 보내고 있어요. ",
           "cue": {
             "symbol": "record",
             "status": "unknown",
@@ -2154,7 +2154,7 @@
           "actions": [
             {
               "id": "resume",
-              "label": "보험 전송 다시 검토",
+              "label": "보험사 전송 다시 검토",
               "to": "review"
             },
             {
@@ -2170,7 +2170,7 @@
             "now": "안전한 곳에서 기다리세요"
           },
           "deferred": [],
-          "instruction": "보험 전송 선택과 관계없이 기존 지원을 유지해요.",
+          "instruction": "보험사 전송 선택과 관계없이 기존 지원을 유지해요.",
           "panel": "support"
         },
         {
@@ -2200,7 +2200,7 @@
             "now": "안전한 곳에서 기다리세요"
           },
           "deferred": [],
-          "instruction": "구호·차량 지원은 계속 진행돼요. 보험은 보내지 않아요.",
+          "instruction": "구호·차량 지원은 계속 진행돼요. 보험사에는 보내지 않아요.",
           "panel": "support"
         }
       ],

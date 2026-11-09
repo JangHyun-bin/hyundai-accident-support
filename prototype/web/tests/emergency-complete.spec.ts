@@ -52,7 +52,7 @@ test('SC04 refusal and defer persist, scope edits require explicit new consent',
   await page.reload(); await at(page, 'paused')
   await expect(status(page, 'rescue')).toHaveText('접수 확인')
   await expect(status(page, 'insurance')).toHaveText('전송 거절')
-  await touch(page, '남은 지원 확인'); await touch(page, '보험 전송 다시 검토')
+  await touch(page, '남은 지원 확인'); await touch(page, '보험사 전송 다시 검토')
   await page.getByLabel('사고 위치', { exact: true }).uncheck()
   await touch(page, '나중에 보내기'); await at(page, 'deferred')
   await page.reload(); await touch(page, '전송 다시 검토')
