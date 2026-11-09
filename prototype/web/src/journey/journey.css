@@ -102,8 +102,15 @@
 .journey-empty h2, .journey-empty p { margin: 0; }
 .journey-empty p, .journey-save-status { color: var(--j-secondary); font-size: 14px; line-height: 1.6; }
 .journey-save-status { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; padding-block: 16px; }
-.journey-recovery { border: 1px solid var(--j-line); padding: 16px; border-radius: 12px; }
-.journey-recovery pre { white-space: pre-wrap; overflow-wrap: anywhere; font: inherit; }
+.journey-recovery { border: 1px solid var(--j-line); padding: 16px; border-radius: 12px; word-break: keep-all; }
+.journey-recovery summary, .journey-recovery a { display: inline-flex; align-items: center; min-height: 48px; color: var(--j-foreground); }
+.journey-recovery article { display: grid; gap: 16px; border-top: 1px solid var(--j-line); margin-top: 24px; padding-top: 24px; }
+.journey-recovery section { display: grid; gap: 12px; }
+.journey-recovery p { white-space: pre-wrap; overflow-wrap: anywhere; }
+.journey-recovery .journey-diagram-editor { max-width: 393px; }
+.journey-risk { grid-column: 1 / -1; display: flex; align-items: center; gap: 12px; font-size: var(--j-body); line-height: 1.5; }
+.journey-risk svg { flex: none; color: var(--j-urgent); }
+.emergency-screen .journey-risk { --j-body: 28px; }
 .journey-map-empty { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; text-align: center; padding: 40px; }
 .journey-map-empty svg { width: 64px; height: 64px; color: var(--j-secondary); }
 .journey-map-empty h2 { font-size: 40px; font-weight: 500; margin: 0; }

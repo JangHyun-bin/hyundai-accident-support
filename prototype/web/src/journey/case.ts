@@ -80,6 +80,7 @@ export type CaseCommand =
   | { type: 'diagram-edit'; diagram: Diagram }
   | { type: 'diagram-confirm' }
   | { type: 'report-result'; report: Report }
+  | { type: 'report-restore'; report: Report }
   | { type: 'report-apply-pending' }
   | { type: 'paragraph-edit'; id: string; text: string; references: EvidenceReference[] }
   | { type: 'paragraph-confirm'; id: string; revision?: number }
@@ -354,6 +355,12 @@ export function reduceCase(current: JourneyCase, command: CaseCommand): JourneyC
         statement.confirmedRevision = null
       }
       invalidateReport(next)
+      const snapshots = [...next.submissions.flatMap(item => item.payload ? [item.payload] : []), ...next.shares.map(item => item.payload)]
+      const reports = [next.report, next.pendingReport, ...next.reportHistory, ...snapshots.map(item => item.report)]
+      next.evidenceHistory = next.evidenceHistory.filter(item => item.id !== command.id ||
+        reports.some(report => report?.paragraphs.some(p => p.references.some(ref => ref.evidenceId === item.id && ref.evidenceRevision === item.revision))) ||
+        snapshots.some(snapshot => snapshot.evidence.some(e => e.assetId === item.assetId)) ||
+        [...next.statements, ...next.statementHistory].some(statement => statement.audioEvidenceIds.includes(item.id)))
       break
     }
     case 'diagram-edit':
@@ -373,6 +380,9 @@ export function reduceCase(current: JourneyCase, command: CaseCommand): JourneyC
       else applyReport(next, candidate)
       break
     }
+    case 'report-restore':
+      applyReport(next, { ...command.report, basedOnRevision: current.contentRevision })
+      break
     case 'report-apply-pending':
       if (!next.pendingReport) return current
       applyReport(next, next.pendingReport)
@@ -441,6 +451,10 @@ export function reduceCase(current: JourneyCase, command: CaseCommand): JourneyC
       else if (Object.keys(destination.request_overrides).some(agency => destination.request_overrides[agency] !== current.emergency.requests[agency])) return current
       const advanced = transition(current.emergency, edge)
       moveEmergencyCursor(next, advanced.sceneId, command.now)
+      if (edge.effect === 'handoff') {
+        addObservation(next, { id: `handoff:${next.observations.length}`, kind: 'handoff', label: '구호 인계', value: '인계 확인',
+          source: 'fixture', observedAt: command.now, confirmation: 'confirmed', legacyFactId: 'handoff', supersedes: null })
+      }
       if (edge.effect === 'risk') {
         addObservation(next, { id: `risk:${next.observations.length}`, kind: 'risk', label: '차량 위험', value: '위험 감지',
           source: 'fixture', observedAt: command.now, confirmation: 'attention', legacyFactId: 'risk', supersedes: null })

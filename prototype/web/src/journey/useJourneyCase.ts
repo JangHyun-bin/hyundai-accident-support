@@ -4,13 +4,14 @@ import { openEvidence } from './evidence-media'
 import { makeSubmission, makeShare, preparePayload, reduceCase, type ApprovalInput, type ApprovalCommitResult, type PayloadSnapshot, type AssetWrite, type CaseCommand, type CommitResult, type JourneyCase } from './case'
 
 type SaveState = 'saved' | 'saving' | 'conflict' | 'unavailable' | 'quota' | 'invalid'
+export type Recovery = { value: JourneyCase; assets: AssetWrite[] }
 
 export function useJourneyCase(initialId: string | null) {
   const [value, setValue] = useState<JourneyCase | null>(null)
   const [loading, setLoading] = useState(!!initialId)
   const [missing, setMissing] = useState(false)
   const [saveState, setSaveState] = useState<SaveState>('saved')
-  const [recovery, setRecovery] = useState<{ value: JourneyCase; assets: AssetWrite[] } | null>(null)
+  const [recoveries, setRecoveries] = useState<Recovery[]>([])
   const current = useRef<JourneyCase | null>(null)
   const persistedRevision = useRef<number | null>(null)
   const queue = useRef<Promise<void>>(Promise.resolve())
@@ -18,6 +19,15 @@ export function useJourneyCase(initialId: string | null) {
   const change = useRef(0)
   const savedChange = useRef(0)
   const conflicted = useRef(false)
+
+  useEffect(() => {
+    const warn = (event: BeforeUnloadEvent) => {
+      if (!recoveries.length && (!current.current || change.current === savedChange.current && !conflicted.current)) return
+      event.preventDefault(); event.returnValue = ''
+    }
+    window.addEventListener('beforeunload', warn)
+    return () => window.removeEventListener('beforeunload', warn)
+  }, [recoveries])
 
   const adopt = useCallback((record: JourneyCase) => {
     current.current = record
@@ -174,11 +184,11 @@ export function useJourneyCase(initialId: string | null) {
 
   const reload = useCallback(async () => {
     if (!current.current) return
-    setRecovery({ value: structuredClone(current.current), assets: [...pendingAssets.current.values()] })
+    const recovery = { value: structuredClone(current.current), assets: [...pendingAssets.current.values()] }
     const latest = await loadCase(current.current.id)
-    if (latest) adopt(latest)
+    if (latest) { setRecoveries(previous => [...previous, recovery]); adopt(latest) }
     else setMissing(true)
   }, [adopt])
 
-  return { value, loading, missing, saveState, recovery, dispatch, save, approve, flush, start, reload }
+  return { value, loading, missing, saveState, recoveries, dispatch, save, approve, flush, start, reload }
 }

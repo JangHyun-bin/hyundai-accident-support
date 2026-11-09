@@ -70,6 +70,41 @@ test('real recording cancels speech, meters audio, stops tracks and never invent
   await expect(page.locator('.journey-voice audio')).toHaveCount(1)
 })
 
+test('actual MediaRecorder WebM can be reviewed and approved without trusting its infinite native duration', async ({ page }) => {
+  await fakeMicrophone(page)
+  await begin(page)
+  await page.getByRole('button', { name: '말로 기록하기', exact: true }).click()
+  await expect(page.getByRole('button', { name: '말하기 마치기', exact: true })).toBeVisible()
+  await page.waitForTimeout(1100)
+  await page.getByRole('button', { name: '말하기 마치기', exact: true }).click()
+  await page.getByRole('button', { name: '기록 저장', exact: true }).click()
+  await expect(page.getByText('기록을 저장했어요.', { exact: true })).toBeVisible()
+  expect(await page.locator('.journey-voice audio').evaluate((node: HTMLAudioElement) => String(node.duration))).toBe('Infinity')
+  const opened = await page.evaluate(async () => {
+    const storePath = '/src/journey/case-store.ts', mediaPath = '/src/journey/evidence-media.ts'
+    const { loadCase } = await import(/* @vite-ignore */ storePath) as typeof import('../src/journey/case-store')
+    const { openEvidence } = await import(/* @vite-ignore */ mediaPath) as typeof import('../src/journey/evidence-media')
+    const value = (await loadCase(new URL(location.href).searchParams.get('case')!))!
+    const evidence = value.evidence.find(item => item.kind === 'audio')!
+    try {
+      await openEvidence(value.id, evidence)
+      await openEvidence(value.id, evidence, { evidenceId: evidence.id, evidenceRevision: evidence.revision, start: 0, end: .2 })
+      try {
+        await openEvidence(value.id, evidence, { evidenceId: evidence.id, evidenceRevision: evidence.revision, start: 0, end: 1000 })
+        return 'accepted invalid range'
+      } catch { return 'valid audio and bounded range' }
+    } catch (error) { return String(error) }
+  })
+  expect(opened).toBe('valid audio and bounded range')
+  await page.getByRole('button', { name: '내용 확인으로', exact: true }).click()
+  await page.getByRole('button', { name: '보낼 내용 확인', exact: true }).click()
+  await page.getByLabel('수신처', { exact: true }).fill('선택한 보험사')
+  await page.getByRole('checkbox', { name: '직접 남긴 음성', exact: true }).check()
+  await page.getByRole('button', { name: '선택한 내용 미리보기', exact: true }).click()
+  await page.getByRole('button', { name: '이 내용으로 요청', exact: true }).click()
+  await expect(page.getByText('승인한 내용이 보관됐어요', { exact: true })).toBeVisible()
+})
+
 test('extra recording permission failure preserves the previous statement', async ({ page }) => {
   await fakeMicrophone(page)
   await begin(page)

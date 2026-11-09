@@ -32,6 +32,13 @@ export function DiagramEditor({ value, original: providedOriginal, onChange, onD
 
   useEffect(() => { onDirtyChange?.(dirty) }, [dirty, onDirtyChange])
 
+  useEffect(() => {
+    if (!dirty) return
+    const warn = (event: BeforeUnloadEvent) => { event.preventDefault(); event.returnValue = '' }
+    window.addEventListener('beforeunload', warn)
+    return () => window.removeEventListener('beforeunload', warn)
+  }, [dirty])
+
   function edit(next: Diagram, remember = true) {
     if (locked || geometry(next) === geometry(latest.current)) return
     const before = structuredClone(latest.current)

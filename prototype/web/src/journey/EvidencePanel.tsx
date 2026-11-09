@@ -102,6 +102,13 @@ export function EvidencePanel({ value, onSave, onCommand, ref }: Props) {
 
   useEffect(() => () => { if (draft) URL.revokeObjectURL(draft.url) }, [draft])
 
+  useEffect(() => {
+    if (!draft && !['capturing', 'decoding', 'saving'].includes(phase)) return
+    const warn = (event: BeforeUnloadEvent) => { event.preventDefault(); event.returnValue = '' }
+    window.addEventListener('beforeunload', warn)
+    return () => window.removeEventListener('beforeunload', warn)
+  }, [draft, phase])
+
   useImperativeHandle(ref, () => ({ finishBeforeLeave: async () => {
     if (phase === 'capturing' || phase === 'decoding') { setError('사진을 확인하고 있어요. 잠시 뒤 다시 이동해주세요.'); return false }
     stopCamera()
@@ -182,7 +189,9 @@ export function EvidencePanel({ value, onSave, onCommand, ref }: Props) {
           return false
         }
         setPhotos(result.value.evidence.filter(e => e.kind === 'photo'))
-        setDraft(null); setReplacement(null); setPhase('choose'); setMessage(command.type === 'evidence-remove' ? '사진을 삭제했어요.' : '사진을 저장했어요.')
+        const retained = command.type === 'evidence-remove' && result.value.evidenceHistory.some(item => item.id === command.id)
+        setDraft(null); setReplacement(null); setPhase('choose'); setMessage(command.type === 'evidence-remove'
+          ? retained ? '현재 자료에서 제외했어요. 이전 경위서나 승인 기록에 연결된 원본은 보존돼요.' : '사진을 삭제했어요.' : '사진을 저장했어요.')
         return true
       } catch {
         if (mounted.current) { setSaveFailed(true); setError('사진을 저장하지 못했어요. 이전 사진과 새 사진은 그대로 남아 있어요.'); setPhase(draft ? 'review' : 'choose') }

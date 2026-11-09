@@ -6,12 +6,13 @@ import { EmergencySurface } from '../emergency/EmergencySurface'
 import { createCase, type Device, type JourneyCase, type RequestStatus, type Stage, type CaseCommand, type Evidence, type Diagram, type ReportParagraph, type Receipt } from './case'
 import { useJourneyCase } from './useJourneyCase'
 import { JourneyAction, JourneyHeading, JourneyLayout, JourneyVehicleFrame } from './JourneyLayout'
-import { JourneyNavigation, JourneyRequests, JourneySummary, VehiclePanel } from './VehiclePanel'
+import { JourneyNavigation, JourneyRequests, JourneyRiskNotice, JourneySummary, VehiclePanel } from './VehiclePanel'
 import { VoiceRecordPanel, type VoiceRecordHandle } from './VoiceRecordPanel'
 import { EvidencePanel, type EvidencePanelHandle } from './EvidencePanel'
 import { FollowUpPanel } from './FollowUpPanel'
 import { followUpDirectories, type FollowUpDirectoryState } from './follow-up-fixtures'
 import { JourneyReviewPanel, type JourneyReviewHandle } from './JourneyReviewPanel'
+import { JourneyRecovery } from './JourneyRecovery'
 import '../emergency/motion'
 
 function replaceQuery(values: Record<string, string>) {
@@ -241,6 +242,7 @@ export function JourneyStudy() {
     if (value.stage === 'response') {
       if (device === 'mobile') return mobileResponse(value)
       return <JourneyVehicleFrame navigation={navigation}><EmergencySurface selection={value.emergency} paused={false} present="off"
+        notice={<JourneyRiskNotice value={value} />}
         voiceState={voiceState} storageAvailable={journey.saveState === 'saved'} countdownKey={countdownKey} secondsLeft={secondsLeft} heading={heading}
         onAction={act} onCancel={() => scene.auto_contact && dispatch({ type: 'countdown', target: scene.auto_contact.cancel, now: new Date().toISOString() })}
         onVoice={speak} onEditDraft={() => dispatch({ type: 'navigate', stage: 'record' })} /></JourneyVehicleFrame>
@@ -303,7 +305,7 @@ export function JourneyStudy() {
         {['unavailable', 'quota', 'invalid'].includes(journey.saveState) && <button onClick={() => void journey.flush()}>저장 다시 시도</button>}
         {journey.saveState === 'conflict' && <button onClick={() => void journey.reload()}>최신 기록 불러오기</button>}
       </div>
-      {journey.recovery && <details className="journey-recovery"><summary>내 임시 기록 확인</summary><pre>{journey.recovery.value.statements.map(s => s.text).join('\n\n')}</pre><p>미저장 자료 {journey.recovery.assets.length}개도 이 화면에 보존 중.</p></details>}
+      <JourneyRecovery entries={journey.recoveries} current={value} onRestore={dispatch} />
       {voiceState === 'error' && <p role="status">음성 재생을 사용할 수 없어요. {scene?.voice}</p>}
       {sampleError && <p role="status">{sampleError}</p>}
       {navigationNotice && <p role="status">{navigationNotice}</p>}

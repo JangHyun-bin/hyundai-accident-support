@@ -26,13 +26,14 @@ function CallSpectrum({ paused }: { paused: boolean }) {
 }
 
 type Props = {
+  notice?: ReactNode
   selection: Session; paused: boolean; present: 'off' | 'showing' | 'covered'
   voiceState: 'idle' | 'speaking' | 'error'; storageAvailable: boolean
   countdownKey: string; secondsLeft: number; heading: Ref<HTMLHeadingElement>
   onAction: (edge: Edge) => void; onCancel: () => void; onVoice: () => void
   onEditDraft: (change: { record?: string; scope?: string[] }) => void
 }
-export function EmergencySurface({ selection, paused, present, voiceState, storageAvailable, countdownKey, secondsLeft, heading, onAction, onCancel, onVoice, onEditDraft }: Props) {
+export function EmergencySurface({ selection, paused, present, voiceState, storageAvailable, countdownKey, secondsLeft, heading, onAction, onCancel, onVoice, onEditDraft, notice }: Props) {
   const scenario = scenarioFor(selection.scenarioId)
   const scene = sceneFor(selection)
   const facts = scenario.facts.map(fact => ({ ...fact, ...selection.facts[fact.id] }))
@@ -43,6 +44,7 @@ export function EmergencySurface({ selection, paused, present, voiceState, stora
             <div className="emergency-cue"><div className="emergency-symbol" aria-hidden="true"><Glyph name={glyphFor.cue(scene.cue.symbol)} size={48} /><span className="emergency-symbol-state"><StatusMark tone={scene.cue.status} size={28} /></span></div>
             <h2 className={`tone-${scene.cue.status}`}>{scenario.presentation.detected} · {scene.cue.label}</h2></div>
             <button onClick={onVoice} className="emergency-voice-button">{voiceState === 'speaking' ? <VolumeX size={24} aria-hidden="true" /> : <Volume2 size={24} aria-hidden="true" />}{voiceState === 'speaking' ? '음성 안내 중지' : '음성 안내 듣기'}</button>
+            {notice}
             <div className="emergency-facts">{facts.filter(fact => scenario.presentation.visible_facts.includes(fact.id) || (fact.id === 'risk' && fact.status === 'attention')).map(fact => <div key={fact.id} className={`emergency-fact tone-${fact.status}`} data-fact={fact.id}><span className="emergency-fact-plate"><Glyph name={glyphFor.fact(fact.id)} size={32} /></span><span>{fact.label}</span><strong><StatusMark tone={fact.status} size={24} />{fact.value}</strong></div>)}</div>
           </section></ViewTransition>
           <div className="emergency-response-panel">

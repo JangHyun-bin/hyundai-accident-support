@@ -1,4 +1,4 @@
-import { CarFront, MapPin, ShieldCheck } from 'lucide-react'
+import { CarFront, MapPin, ShieldCheck, TriangleAlert } from 'lucide-react'
 import { manifest, scenarioFor } from '../emergency/session'
 import { JourneyHeading, JourneyStatus } from './JourneyLayout'
 import type { CaseCommand, JourneyCase, Observation } from './case'
@@ -18,11 +18,18 @@ export function JourneySummary({ value }: { value: JourneyCase }) {
   const scenario = scenarioFor(value.emergency.scenarioId)
   return <>
     <div className="journey-summary-title"><CarFront aria-hidden="true" /><strong>충돌 감지</strong></div>
+    <JourneyRiskNotice value={value} />
     <div className="journey-facts">{[{ id: 'driver', label: '운전자 조작' }, { id: 'mobility', label: '차량 이동' }, { id: 'route', label: '이동 경로' }].map(({ id, label }) => {
       const fact = { ...scenario.facts.find(f => f.id === id), ...value.emergency.facts[id] }
       return <div key={id} data-fact={id}><span>{label}</span><JourneyStatus tone={fact.status === 'confirmed' ? 'confirmed' : 'unknown'}>{fact.value ?? '미확인'}</JourneyStatus></div>
     })}</div>
   </>
+}
+
+export function JourneyRiskNotice({ value }: { value: JourneyCase }) {
+  const risks = currentObservations(value, 'risk').filter(item => item.confirmation === 'attention')
+  if (!risks.length) return null
+  return <div className="journey-risk" role="alert"><TriangleAlert aria-hidden="true" /><span>{[...new Set(risks.map(item => item.value))].join(' · ')}</span></div>
 }
 
 export function JourneyRequests({ value }: { value: JourneyCase }) {
