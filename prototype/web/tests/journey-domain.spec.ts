@@ -85,6 +85,35 @@ test('repeated risk observations preserve the stage to return to', () => {
   expect(value.returnStage).toBe('record')
 })
 
+for (const control of ['command', 'edge']) {
+  test(`SC05 ${control} suspension and resume preserve authoritative requests and submission identities`, () => {
+    const original = fresh('SC05')
+    const command: CaseCommand = control === 'command' ? { type: 'suspend' } : { type: 'emergency-edge', edgeId: 'suspend', now }
+    const resume: CaseCommand = control === 'command' ? { type: 'resume' } : { type: 'emergency-edge', edgeId: 'resume', now }
+    const suspended = act(original, command)
+    expect(suspended.emergency).toMatchObject({ sceneId: 'suspended', suspendedFrom: 'initial' })
+    const checking = act(suspended, resume)
+    expect(checking.emergency).toMatchObject({ sceneId: 'checking', suspendedFrom: null })
+    expect(checking.suspended).toBe(false)
+    expect(checking.emergency.requests).toEqual(original.emergency.requests)
+    expect(checking.submissions).toEqual(original.submissions)
+    expect(checking.activeSubmissionIds).toEqual(original.activeSubmissionIds)
+    expect(checking.emergency.submissions).toBe(original.emergency.submissions)
+  })
+}
+
+test('toolbar suspension preserves drafts and returns to each journey stage outside SC05', () => {
+  for (const stage of ['record', 'review', 'follow-up'] as const) {
+    const original = act(fresh('SC01', 'connected'), { type: 'navigate', stage })
+    const suspended = act(original, { type: 'suspend' })
+    const resumed = act(suspended, { type: 'resume' })
+    expect(resumed.stage).toBe(stage)
+    expect(resumed.returnStage).toBe(stage)
+    expect(resumed.emergency).toEqual(original.emergency)
+    expect(resumed.submissions).toEqual(original.submissions)
+  }
+})
+
 test('malformed persisted data and nonexistent audio references fail validation', () => {
   const value = fresh()
   expect(validateCase(value)).toBe(true)

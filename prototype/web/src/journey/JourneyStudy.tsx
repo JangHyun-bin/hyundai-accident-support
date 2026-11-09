@@ -240,7 +240,7 @@ export function JourneyStudy() {
     </JourneyLayout>
     if (value.stage === 'response') {
       if (device === 'mobile') return mobileResponse(value)
-      return <JourneyVehicleFrame navigation={navigation}><EmergencySurface selection={value.emergency} paused={value.suspended} present="off"
+      return <JourneyVehicleFrame navigation={navigation}><EmergencySurface selection={value.emergency} paused={false} present="off"
         voiceState={voiceState} storageAvailable={journey.saveState === 'saved'} countdownKey={countdownKey} secondsLeft={secondsLeft} heading={heading}
         onAction={act} onCancel={() => scene.auto_contact && dispatch({ type: 'countdown', target: scene.auto_contact.cancel, now: new Date().toISOString() })}
         onVoice={speak} onEditDraft={() => dispatch({ type: 'navigate', stage: 'record' })} /></JourneyVehicleFrame>

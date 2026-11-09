@@ -289,8 +289,21 @@ export function reduceCase(current: JourneyCase, command: CaseCommand): JourneyC
       next.returnStage = current.stage
       next.stage = command.stage
       break
-    case 'suspend': next.suspended = true; next.returnStage = current.stage; break
-    case 'resume': next.suspended = false; next.stage = current.returnStage; break
+    case 'suspend':
+    case 'resume': {
+      const scene = sceneFor(current.emergency)
+      const edge = [...scene.actions, ...scene.events].find(item => item.effect === command.type)
+      if (edge) {
+        const advanced = transition(current.emergency, edge)
+        moveEmergencyCursor(next, advanced.sceneId, current.updatedAt)
+        next.emergency.suspendedFrom = advanced.suspendedFrom
+      }
+      next.suspended = command.type === 'suspend'
+      if (command.type === 'suspend') {
+        if (!current.suspended) next.returnStage = current.stage
+      } else next.stage = current.returnStage
+      break
+    }
     case 'observation':
       addObservation(next, command.observation)
       if (command.observation.kind === 'risk' && command.observation.confirmation === 'attention') {
@@ -419,8 +432,8 @@ export function reduceCase(current: JourneyCase, command: CaseCommand): JourneyC
         next.returnStage = current.stage; next.stage = 'review'; break
       }
       if (['receive', 'not_received'].includes(edge.effect ?? '')) return current
-      if (edge.effect === 'suspend') { next.suspended = true; next.returnStage = current.stage; break }
-      if (edge.effect === 'resume' || edge.effect === 'return') { next.suspended = false; next.stage = current.returnStage; break }
+      if (edge.effect === 'suspend' || edge.effect === 'resume') return reduceCase(current, { type: edge.effect })
+      if (edge.effect === 'return') { next.suspended = false; next.stage = current.returnStage; break }
       const destination = scenarioFor(current.emergency.scenarioId).states.find(s => s.id === edge.to)!
       const isStart = ['connect', 'reconnect', 'retry', 'no_response'].includes(edge.id) &&
         destination.request_overrides.rescue === 'connection_unknown'

@@ -156,17 +156,42 @@ test('SC02 no media path stays usable without granting vehicle mobility or confi
   expect(value.submissions.filter(item => item.kind === 'new')).toHaveLength(0)
 })
 
-test('SC05 result during suspension is retained on resume and remains independent from insurance', async ({ page }) => {
-  await begin(page, 'suspended-receipt')
-  await button(page, '시연 event: 차량 지원 접수 확인').click()
-  await expect.poll(async () => (await stored(page)).emergency.requests.vehicle).toBe('received')
-  await button(page, '이어서 확인하기').first().click()
-  await button(page, '후속 처리 보기').click()
-  const value = await stored(page)
-  expect(value.suspended).toBe(false)
-  expect(value.emergency.requests).toMatchObject({ rescue: 'received', vehicle: 'received', insurance: 'not_sent' })
-  expect(value.submissions.filter(item => item.kind === 'new')).toHaveLength(0)
-})
+for (const resumeControl of ['toolbar', 'vehicle scene', 'mobile scene']) {
+  test(`SC05 result during suspension resumes the actual scene through ${resumeControl} without resubmitting`, async ({ page }) => {
+    await begin(page, 'suspended-receipt')
+    if (resumeControl === 'mobile scene') await button(page, 'Mobile 보기').click()
+    const resume = () => resumeControl === 'toolbar'
+      ? page.locator('.journey-product-tools').getByRole('button', { name: '이어서 확인하기', exact: true })
+      : page.locator('[data-journey-stage="response"]').getByRole('button', { name: '이어서 확인하기', exact: true })
+    await expect(page.getByRole('heading', { name: '여기서 잠시 멈췄어요', exact: true })).toBeVisible()
+    const before = await stored(page)
+    await button(page, '시연 event: 차량 지원 접수 확인').click()
+    await expect.poll(async () => (await stored(page)).emergency.requests.vehicle).toBe('received')
+    await resume().click({ timeout: 3000 })
+    await expect(page.getByRole('heading', { name: '차량 지원 접수 확인', exact: true })).toBeVisible()
+    expect((await stored(page)).emergency.sceneId).toBe('received')
+    await page.reload()
+    await expect(page.getByRole('heading', { name: '차량 지원 접수 확인', exact: true })).toBeVisible()
+    await button(page, '나중에 이어하기').click()
+    await expect(page.getByRole('heading', { name: '여기서 잠시 멈췄어요', exact: true })).toBeVisible()
+    const suspended = await stored(page)
+    expect(suspended.suspended).toBe(true)
+    expect(suspended.emergency).toMatchObject({ sceneId: 'suspended', suspendedFrom: 'received' })
+    await page.reload()
+    await expect(page.getByRole('heading', { name: '여기서 잠시 멈췄어요', exact: true })).toBeVisible()
+    await resume().click({ timeout: 3000 })
+    await expect(page.getByRole('heading', { name: '차량 지원 접수 확인', exact: true })).toBeVisible()
+    await button(page, '후속 처리 보기').click()
+    const value = await stored(page)
+    expect(value.suspended).toBe(false)
+    expect(value.emergency).toMatchObject({ sceneId: 'received', suspendedFrom: null })
+    expect(value.emergency.requests).toMatchObject({ rescue: 'received', vehicle: 'received', insurance: 'not_sent' })
+    expect(value.activeSubmissionIds).toEqual(before.activeSubmissionIds)
+    expect(value.emergency.submissions).toBe(before.emergency.submissions)
+    expect(value.submissions.map(item => item.id)).toEqual(before.submissions.map(item => item.id))
+    expect(value.submissions.filter(item => item.kind === 'new')).toHaveLength(0)
+  })
+}
 
 test('denied capture and failed storage preserve manual input through report correction and unknown receipt', async ({ page }) => {
   await page.addInitScript(() => {
