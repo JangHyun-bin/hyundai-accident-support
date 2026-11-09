@@ -190,11 +190,11 @@ async function deleteCase(id: string, expectedRevision: number): Promise<boolean
 
 **Interfaces:** `EvidencePanel({ value, onSave, onCommand }: { value: JourneyCase; onSave: (command: CaseCommand, assets: AssetWrite[]) => Promise<CommitResult>; onCommand: (command: CaseCommand) => void })`. `capturePhoto(stream: MediaStream): Promise<Blob>`는 caller가 시작한 stream의 frame만 capture, 권한 요청은 UI 명시 동작에서 수행.
 
-- [ ] Red tests: JPEG/PNG/WebP 수락; 15 MiB 초과·미지원 MIME·13번째 photo 거절; 저장 실패 때 기존 photo·draft 보존; 한 대상에 사진이 여러 장이어도 대상 확보 수는 1.
-- [ ] 자료 목록과 one-target capture/review/replace/skip 구현. Preview 사용 전 Blob decode 검증. 거절·미지원 때 file input과 skip 제공.
-- [ ] Commit 성공 후에만 available로 표시. Object URL cleanup과 track stop을 close/unmount/error에 적용.
-- [ ] Browser fake media device는 test에서만 사용. 실제 사용자 camera는 자동 실행하지 않음. Skip 이후 자료 없이 review stage 진입 가능 test.
-- [ ] `npm run test:ui -- tests/journey-evidence.spec.ts tests/journey-storage.spec.ts --workers=1`, `npm run check`. Commit `feat: capture and preserve incident photo evidence`.
+- [x] Red tests: JPEG/PNG/WebP 수락; 15 MiB 초과·미지원 MIME·13번째 photo 거절; 저장 실패 때 기존 photo·draft 보존; 한 대상에 사진이 여러 장이어도 대상 확보 수는 1.
+- [x] 자료 목록과 one-target capture/review/replace/skip 구현. Preview 사용 전 Blob decode 검증. 거절·미지원 때 file input과 skip 제공.
+- [x] Commit 성공 후에만 available로 표시. Object URL cleanup과 track stop을 close/unmount/error에 적용.
+- [x] Browser fake media device는 test에서만 사용. 실제 사용자 camera는 자동 실행하지 않음. Skip 이후 자료 없이 review stage 진입 가능 test.
+- [x] `npm run test:ui -- tests/journey-evidence.spec.ts tests/journey-storage.spec.ts --workers=1`, `npm run check`. Commit `feat: capture and preserve incident photo evidence`.
 
 ### Task 6 / P3: 음성 기록·검토
 
@@ -202,12 +202,12 @@ async function deleteCase(id: string, expectedRevision: number): Promise<boolean
 
 **Interfaces:** `VoiceRecordPanel({ value, mode, onSave }: { value: JourneyCase; mode: 'sample' | 'device'; onSave: (command: CaseCommand, assets: AssetWrite[]) => Promise<CommitResult> })`. `startVoiceCapture(stream: MediaStream, onLevel: (level: number) => void): { stop(): Promise<Blob>; cancel(): void }`. Mode는 review shell이 명시적으로 선택하고 sample audio/transcript는 같은 fixture ID로 묶음.
 
-- [ ] Red tests: permission 거절 후 직접 입력 가능; stop/cancel/pagehide에서 track 종료; 120초 자동 stop은 review까지만; TTS와 capture 동시 재생 없음.
-- [ ] Red tests: 실제 녹음 mode+STT 없음은 가상 transcript 미출력; 기존 진술에 추가 녹음 실패해도 기존 내용 유지; 5,000자 저장·5,001자 입력 제한; save 실패에 saved 표시 없음.
-- [ ] Red test: Blob 생성·저장 중 위험 event에 즉시 response 표시, track 종료, 메모리 draft 보존. 저장 실패 후 record로 복귀하면 재저장 가능하며 긴급 상태를 되돌리지 않음.
-- [ ] Browser 지원 MIME을 검사하고 MediaRecorder·AnalyserNode로 capture와 spectrum 구현. 상수 animation으로 실제 음량을 대신하지 않음.
-- [ ] Ready/listening/review/error 상태를 공통 catalog 기준으로 구현. Playback·정정·추가 녹음·직접 입력·저장 제공. 원본 audio와 확정된 text를 연결.
-- [ ] `npm run test:ui -- tests/journey-voice.spec.ts tests/journey-storage.spec.ts --workers=1`, `npm run check`. Commit `feat: add voice-first incident recording and review`.
+- [x] Red tests: permission 거절 후 직접 입력 가능; stop/cancel/pagehide에서 track 종료; 120초 자동 stop은 review까지만; TTS와 capture 동시 재생 없음.
+- [x] Red tests: 실제 녹음 mode+STT 없음은 가상 transcript 미출력; 기존 진술에 추가 녹음 실패해도 기존 내용 유지; 5,000자 저장·5,001자 입력 제한; save 실패에 saved 표시 없음.
+- [x] Red test: Blob 생성·저장 중 위험 event에 즉시 response 표시, track 종료, 메모리 draft 보존. 저장 실패 후 record로 복귀하면 재저장 가능하며 긴급 상태를 되돌리지 않음.
+- [x] Browser 지원 MIME을 검사하고 MediaRecorder·AnalyserNode로 capture와 spectrum 구현. 상수 animation으로 실제 음량을 대신하지 않음.
+- [x] Ready/listening/review/error 상태를 공통 catalog 기준으로 구현. Playback·정정·추가 녹음·직접 입력·저장 제공. 원본 audio와 확정된 text를 연결.
+- [x] `npm run test:ui -- tests/journey-voice.spec.ts tests/journey-storage.spec.ts --workers=1`, `npm run check`. Commit `feat: add voice-first incident recording and review`.
 
 **완료:** STT integration 없이도 실제 녹음과 정직한 fallback이 작동. ElevenLabs 변경·credit 사용은 없음.
 
@@ -217,12 +217,12 @@ async function deleteCase(id: string, expectedRevision: number): Promise<boolean
 
 **Interfaces:** `ClipPlayer({ evidence, blob, range }: { evidence: Evidence; blob: Blob | null; range?: { start: number; end: number } })`; `DiagramEditor({ value, onChange }: { value: Diagram; onChange: (next: Diagram) => void })`.
 
-- [ ] Red tests: missing rear clip에도 front 재생 가능; decode 실패 후 다른 자료 접근 유지; 잘못된 time range는 clamp 또는 오류 표시하고 다른 영상으로 연결하지 않음.
-- [ ] 출처 문서가 있는 합성 front/rear 20초 clip과 사진 사용. 실제 사고 영상·사용자 개인 자료를 repository fixture로 넣지 않음. 자동 생성 가능 단순 vector scene은 외부 의존성 없이 제작.
-- [ ] Video playback·timeline·marker·source/availability 구현. Decode 후 실제 duration으로 seek range 검증.
-- [ ] Red tests: drag와 방향 button/keyboard 이동의 결과 좌표 동일; 좌표 0–1 범위 유지; undo 복원; 수정 후 confirmedRevision 해제; 지원하지 않는 도로 fixture에서 그럴듯한 도식 생성 안 됨.
-- [ ] 두 차량·직선 차선의 SVG 도식 구현. 정정본/원본 구별, mobile 세부 조작 target 확보. Shortcut 한계를 comment와 spec의 지원 범위에 유지.
-- [ ] `npm run test:ui -- tests/journey-reconstruction.spec.ts --workers=1`, `npm run check`. Commit `feat: review dashcam evidence and edit accident diagrams`.
+- [x] Red tests: missing rear clip에도 front 재생 가능; decode 실패 후 다른 자료 접근 유지; 잘못된 time range는 clamp 또는 오류 표시하고 다른 영상으로 연결하지 않음.
+- [x] 출처 문서가 있는 합성 front/rear 20초 clip과 사진 사용. 실제 사고 영상·사용자 개인 자료를 repository fixture로 넣지 않음. 자동 생성 가능 단순 vector scene은 외부 의존성 없이 제작.
+- [x] Video playback·timeline·marker·source/availability 구현. Decode 후 실제 duration으로 seek range 검증.
+- [x] Red tests: drag와 방향 button/keyboard 이동의 결과 좌표 동일; 좌표 0–1 범위 유지; undo 복원; 수정 후 confirmedRevision 해제; 지원하지 않는 도로 fixture에서 그럴듯한 도식 생성 안 됨.
+- [x] 두 차량·직선 차선의 SVG 도식 구현. 정정본/원본 구별, mobile 세부 조작 target 확보. Shortcut 한계를 comment와 spec의 지원 범위에 유지.
+- [x] `npm run test:ui -- tests/journey-reconstruction.spec.ts --workers=1`, `npm run check`. Commit `feat: review dashcam evidence and edit accident diagrams`.
 
 ### Task 8 / P4: 경위서와 근거 확인
 

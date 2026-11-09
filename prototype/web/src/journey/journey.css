@@ -133,9 +133,15 @@
 .journey-input-label { display: flex; justify-content: space-between; gap: 16px; font-size: var(--j-label); color: var(--j-secondary); }
 .journey-textarea { display: block; resize: vertical; width: 100%; min-height: 200px; border: 1px solid var(--j-line); border-radius: 16px; padding: 20px; background: var(--j-control); color: var(--j-foreground); font: inherit; line-height: 1.6; }
 .journey-textarea::placeholder { color: var(--j-secondary); }
+.journey-study [hidden] { display: none !important; }
+.journey-record-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.journey-record-tabs button { border: 1px solid var(--j-line); border-radius: 16px; min-height: 56px; padding: 12px; color: var(--j-secondary); background: transparent; font-size: var(--j-supporting); }
+.journey-record-tabs button[aria-pressed="true"] { color: var(--j-foreground); background: var(--j-control); }
+.journey-review-clips { display: grid; gap: 24px; }
 [data-journey-device="mobile"] .journey-summary-title { font-size: var(--j-supporting); gap: 12px; }
 [data-journey-device="mobile"] .journey-summary-title svg { width: 24px; height: 24px; flex: none; }
 [data-journey-device="mobile"] .journey-facts { gap: 12px; margin-top: 16px; }
+[data-journey-device="mobile"] :is(.journey-facts,.journey-requests) { grid-template-columns: repeat(auto-fit,minmax(min(100%,6rem),1fr)); }
 [data-journey-device="mobile"] .journey-facts > div > span:first-child { font-size: var(--j-label); }
 [data-journey-device="mobile"] .journey-facts .journey-status { font-size: var(--j-supporting); }
 [data-journey-device="mobile"] .journey-detail-list > div { grid-template-columns: 1fr 1.4fr; padding-block: 20px; gap: 12px; }
