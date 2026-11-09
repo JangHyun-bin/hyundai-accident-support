@@ -142,15 +142,15 @@ async function deleteCase(id: string, expectedRevision: number): Promise<boolean
 
 **Interfaces:** 위 공통 types·createCase·validateCase·reduceCase·makeSubmission의 validation 골격. Spec §7의 fields를 구체 type으로 정의.
 
-- [ ] Red test: createCase의 `emergency`는 전달한 Session의 승인·거절·requestId를 보존; 기존 savedRecord는 첫 Statement로 정확히 복사; 새 media·도식·AI 사실은 자동 생성되지 않음.
-- [ ] Red test: SC05 import의 rescue/vehicle은 서로 다른 imported reference, payload null, 기존 submissions count 불변. Received는 resend 불가, unknown은 조회만 가능. Legacy 기록은 변경되지 않음.
-- [ ] Red test: 모르는 case command·잘못된 enum·5,001자 statement·존재하지 않는 evidence 참조 거절. `confirmedRevision`은 내용 revision과 같을 때만 유효.
-- [ ] 초기 case와 validation 구현. Media limits와 copy 가능한 label은 한 곳에서 정의. Domain validation은 DB restore와 fixture load 양쪽에서 재사용.
-- [ ] `긴급 edge 실행`은 현재 scene의 edge만 수락하고 기존 `transition`의 scene/fact 결과만 채택. 반환된 legacy requests/record/approval 값은 사용하지 않음. Countdown cancel/expire는 현재 auto_contact 대상만 허용. Record/save/return·suspend/resume·submit/receive/not_received와 destination request_overrides는 spec §7.1의 새 command 경로로 처리.
-- [ ] Scenario cursor는 진입 맥락으로 유지하고 stage를 별도로 이동. SC01→보험사 검토에서도 scenarioId·구호 요청 보존 test. Observation 상충은 summary 미확인, 상세 양쪽 보존. 외부 결과에 해당 scene edge가 없어도 기관 상태만 갱신 가능.
-- [ ] Rescue 최초 연결/reconnect마다 contact reference 생성. 명시된 외부 결과는 해당 reference와 agency가 일치해야 적용. 자료 승인 없이 연락 가능하되 차량 지원·보험 자동 요청 없음.
-- [ ] 상태 fixture: 정상 전체 여정, 무응답, 이동 불가, 자료 없음/부분 자료, 보험 거절, 중단 중 접수, 늦은 결과를 정의. 기존 SC ID와 provenance를 명시하고 실제 sensor 결과로 표시하지 않음.
-- [ ] `npm run test:ui -- tests/journey-domain.spec.ts --workers=1` 및 root의 `node --test specs/emergency-experience/manifest.test.mjs` 통과. Commit `feat: model incident records and journey transitions`.
+- [x] Red test: createCase의 `emergency`는 전달한 Session의 승인·거절·requestId를 보존; 기존 savedRecord는 첫 Statement로 정확히 복사; 새 media·도식·AI 사실은 자동 생성되지 않음.
+- [x] Red test: SC05 import의 rescue/vehicle은 서로 다른 imported reference, payload null, 기존 submissions count 불변. Received는 resend 불가, unknown은 조회만 가능. Legacy 기록은 변경되지 않음.
+- [x] Red test: 모르는 case command·잘못된 enum·5,001자 statement·존재하지 않는 evidence 참조 거절. `confirmedRevision`은 내용 revision과 같을 때만 유효.
+- [x] 초기 case와 validation 구현. Media limits와 copy 가능한 label은 한 곳에서 정의. Domain validation은 DB restore와 fixture load 양쪽에서 재사용.
+- [x] `긴급 edge 실행`은 현재 scene의 edge만 수락하고 기존 `transition`의 scene/fact 결과만 채택. 반환된 legacy requests/record/approval 값은 사용하지 않음. Countdown cancel/expire는 현재 auto_contact 대상만 허용. Record/save/return·suspend/resume·submit/receive/not_received와 destination request_overrides는 spec §7.1의 새 command 경로로 처리.
+- [x] Scenario cursor는 진입 맥락으로 유지하고 stage를 별도로 이동. SC01→보험사 검토에서도 scenarioId·구호 요청 보존 test. Observation 상충은 summary 미확인, 상세 양쪽 보존. 외부 결과에 해당 scene edge가 없어도 기관 상태만 갱신 가능.
+- [x] Rescue 최초 연결/reconnect마다 contact reference 생성. 명시된 외부 결과는 해당 reference와 agency가 일치해야 적용. 자료 승인 없이 연락 가능하되 차량 지원·보험 자동 요청 없음.
+- [x] 상태 fixture: 정상 전체 여정, 무응답, 이동 불가, 자료 없음/부분 자료, 보험 거절, 중단 중 접수, 늦은 결과를 정의. 기존 SC ID와 provenance를 명시하고 실제 sensor 결과로 표시하지 않음.
+- [x] `npm run test:ui -- tests/journey-domain.spec.ts --workers=1` 및 root의 `node --test specs/emergency-experience/manifest.test.mjs` 통과. Commit `feat: model incident records and journey transitions`.
 
 **완료:** UI·storage 없이도 입력·정정·긴급 복귀의 의미를 test로 확인 가능. 승인 snapshot의 세부 구현은 Task 9가 소유.
 

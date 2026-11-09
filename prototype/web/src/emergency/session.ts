@@ -1,4 +1,4 @@
-import source from '../../../../specs/emergency-experience/scenarios.json'
+import source from '../../../../specs/emergency-experience/scenarios.json' with { type: 'json' }
 
 export type Fact = { id: string; label: string; value: string; status: string }
 export type Edge = { id: string; label: string; to: string; slot?: string; secondary?: boolean; effect?: string; agency?: string }

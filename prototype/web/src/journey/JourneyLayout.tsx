@@ -1,10 +1,11 @@
 import { useLayoutEffect, useRef, useState, type ButtonHTMLAttributes, type ReactNode } from 'react'
 import { Check, CircleHelp, Clock3, Minus, TriangleAlert } from 'lucide-react'
 import { DISPLAY, PleosDisplay } from '../emergency/PleosDisplay'
+import type { Device } from './case'
+export type { Device } from './case'
 import '../emergency/emergency.css'
 import './journey.css'
 
-export type Device = 'vehicle' | 'mobile'
 export type JourneyTone = 'unknown' | 'pending' | 'confirmed' | 'failed' | 'skipped'
 
 export function JourneyStatus({ tone, children }: { tone: JourneyTone; children: ReactNode }) {
