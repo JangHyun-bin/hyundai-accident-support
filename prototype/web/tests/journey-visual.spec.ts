@@ -48,8 +48,9 @@ for (const viewport of [{ width: 2560, height: 1440 }, { width: 1440, height: 90
     await page.locator('[data-case-id]').screenshot({ path: testInfo.outputPath(`vehicle-${viewport.width}.png`) })
     await action.click()
     await page.getByRole('button', { name: '후속 처리 보기', exact: true }).click()
-    const positions = await page.locator('.journey-requests:visible > div > strong').evaluateAll(nodes => nodes.map(node => node.getBoundingClientRect().y))
-    expect(positions).toHaveLength(3)
+    const statuses = page.locator('.journey-requests:visible > div > strong')
+    await expect(statuses).toHaveCount(3)
+    const positions = await statuses.evaluateAll(nodes => nodes.map(node => node.getBoundingClientRect().y))
     expect(Math.max(...positions) - Math.min(...positions)).toBeLessThanOrEqual(1)
   })
 }
