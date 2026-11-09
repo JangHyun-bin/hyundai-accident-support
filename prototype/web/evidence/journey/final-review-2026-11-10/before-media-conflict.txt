@@ -1,0 +1,38 @@
+AUDIO {
+  mime: 'audio/webm;codecs=opus',
+  metadataDuration: 1.244,
+  nativeDuration: 'Infinity',
+  open: '근거를 열 수 없어요'
+}
+CONFLICT_BEFORE 내용을 한 문장씩 확인해주세요
+
+추정과 미확인은 확인한 뒤에도 그대로 표시돼요.
+
+사용자 진술 · 사용자 정정
+확인 필요
+
+충돌한 나의 중요한 정정
+
+원문 보기
+정정하기
+문장 제외
+문장 확인
+문장 추가
+CONFLICT_AFTER 내용을 한 문장씩 확인해주세요
+
+추정과 미확인은 확인한 뒤에도 그대로 표시돼요.
+
+사용자 진술 · 사용자 정정
+확인 필요
+
+먼저 저장한 문장
+
+원문 보기
+정정하기
+문장 제외
+문장 확인
+문장 추가
+RECOVERY 내 임시 기록 확인
+
+미저장 자료 0개도 이 화면에 보존 중.
+LOCAL_EDIT_ACCESSIBLE 0

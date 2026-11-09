@@ -100,3 +100,5 @@ node scripts/record-journey-flow.mjs /absolute/path/journey-flow.mp4
 ```
 
 새 경로에 차량·mobile MP4와 timeline·coverage JSON 생성. 기존 영상은 덮어쓰지 않음. 무음이며 유료 API를 호출하지 않음.
+
+전체 여정의 [최종 review와 검증](evidence/journey/final-review-2026-11-10/README.md)에 Important 6건의 fix, regression241/241, manifest12/12, build 결과와 남은 제약 기록. 충돌 사본의 개별 복원, 미저장 종료 경고, 실제 WebM 검토·승인, 위험 표시·구호 인계, 참조 없는 사진 삭제 포함.

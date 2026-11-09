@@ -1,0 +1,425 @@
+
+> accident-support-design-poc@0.1.0 test:ui
+> playwright test tests/journey-review-fixes.spec.ts tests/journey-voice.spec.ts --grep conflicting|reload can|failed report commit|new risk|SC05 handoff|photo deletion|actual MediaRecorder --workers=1 --output=/tmp/hyundai-final-review-red
+
+
+Running 12 tests using 1 worker
+
+(node:97588) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   1 tests/journey-review-fixes.spec.ts:28:1 › conflicting reports remain readable after two successive latest-record reloads (7.1s)
+(node:97641) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   2 tests/journey-review-fixes.spec.ts:50:3 › conflicting diagram stays accessible separately from the latest saved content (6.6s)
+(node:97686) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   3 tests/journey-review-fixes.spec.ts:50:3 › conflicting follow-up stays accessible separately from the latest saved content (6.7s)
+(node:97810) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   4 tests/journey-review-fixes.spec.ts:79:3 › reload can be cancelled without losing an unsaved photo (1.1s)
+(node:97830) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   5 tests/journey-review-fixes.spec.ts:79:3 › reload can be cancelled without losing an unsaved diagram (1.1s)
+(node:97852) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   6 tests/journey-review-fixes.spec.ts:97:1 › failed report commit remains protected after its editor closes (891ms)
+(node:97868) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   7 tests/journey-review-fixes.spec.ts:113:3 › new risk is visible on the vehicle response without discarding the current report (6.1s)
+(node:97918) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   8 tests/journey-review-fixes.spec.ts:113:3 › new risk is visible on the mobile response without discarding the current report (5.9s)
+(node:97956) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   9 tests/journey-review-fixes.spec.ts:124:1 › SC05 handoff becomes an observation without changing agency requests (5ms)
+(node:97957) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  10 tests/journey-review-fixes.spec.ts:134:3 › photo deletion removes unreferenced media from storage (1.1s)
+(node:98034) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  11 tests/journey-review-fixes.spec.ts:134:3 › photo deletion retains and discloses approved media (6.2s)
+(node:98180) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  12 tests/journey-voice.spec.ts:73:1 › actual MediaRecorder WebM can be reviewed and approved without trusting its infinite native duration (2.1s)
+
+
+  1) tests/journey-review-fixes.spec.ts:28:1 › conflicting reports remain readable after two successive latest-record reloads 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('.journey-recovery')
+    Expected substring: "내가 보존할 정정 1"
+    Received string:    "내 임시 기록 확인미저장 자료 0개도 이 화면에 보존 중."
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" locator('.journey-recovery') with timeout 5000ms
+      - waiting for locator('.journey-recovery')
+        14 × locator resolved to <details open="" class="journey-recovery">…</details>
+           - unexpected value "내 임시 기록 확인미저장 자료 0개도 이 화면에 보존 중."
+
+
+      42 |   }
+      43 |   await other.getByText('내 임시 기록 확인', { exact: true }).click()
+    > 44 |   await expect(other.locator('.journey-recovery')).toContainText('내가 보존할 정정 1')
+         |                                                    ^
+      45 |   await expect(other.locator('.journey-recovery')).toContainText('내가 보존할 정정 2')
+      46 |   expect(await other.evaluate(() => { const event = new Event('beforeunload', { cancelable: true }); dispatchEvent(event); return event.defaultPrevented })).toBe(true)
+      47 | })
+        at /Users/janghyunbin/.codex/worktrees/dcbb/hyundai-accident-support/prototype/web/tests/journey-review-fixes.spec.ts:44:52
+
+    Error Context: ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-confl-e76da-ssive-latest-record-reloads/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-confl-e76da-ssive-latest-record-reloads/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-confl-e76da-ssive-latest-record-reloads/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/journey-review-fixes.spec.ts:50:3 › conflicting diagram stays accessible separately from the latest saved content 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: locator('.journey-recovery').getByRole('img', { name: '내 차량 위치', exact: true })
+    Expected: "translate(400 550)"
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveAttribute" locator('.journey-recovery').getByRole('img', { name: '내 차량 위치', exact: true }) with timeout 5000ms
+      - waiting for locator('.journey-recovery').getByRole('img', { name: '내 차량 위치', exact: true })
+
+
+      68 |     if (kind === 'diagram') {
+      69 |       await expect(other.getByRole('button', { name: '내 차량 위치', exact: true })).toHaveAttribute('transform', 'translate(450 500)')
+    > 70 |       await expect(recovery.getByRole('img', { name: '내 차량 위치', exact: true })).toHaveAttribute('transform', 'translate(400 550)')
+         |                                                                                 ^
+      71 |     } else {
+      72 |       await expect(other.getByRole('checkbox', { name: '전면등 작동', exact: true })).not.toBeChecked()
+      73 |       await expect(recovery).toContainText('전면등 작동')
+        at /Users/janghyunbin/.codex/worktrees/dcbb/hyundai-accident-support/prototype/web/tests/journey-review-fixes.spec.ts:70:81
+
+    Error Context: ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-confl-62bbf-om-the-latest-saved-content/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-confl-62bbf-om-the-latest-saved-content/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-confl-62bbf-om-the-latest-saved-content/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/journey-review-fixes.spec.ts:50:3 › conflicting follow-up stays accessible separately from the latest saved content 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('.journey-recovery')
+    Expected substring: "전면등 작동"
+    Received string:    "내 임시 기록 확인미저장 자료 0개도 이 화면에 보존 중."
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" locator('.journey-recovery') with timeout 5000ms
+      - waiting for locator('.journey-recovery')
+        14 × locator resolved to <details open="" class="journey-recovery">…</details>
+           - unexpected value "내 임시 기록 확인미저장 자료 0개도 이 화면에 보존 중."
+
+
+      71 |     } else {
+      72 |       await expect(other.getByRole('checkbox', { name: '전면등 작동', exact: true })).not.toBeChecked()
+    > 73 |       await expect(recovery).toContainText('전면등 작동')
+         |                              ^
+      74 |     }
+      75 |   })
+      76 | }
+        at /Users/janghyunbin/.codex/worktrees/dcbb/hyundai-accident-support/prototype/web/tests/journey-review-fixes.spec.ts:73:30
+
+    Error Context: ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-confl-a2858-om-the-latest-saved-content/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-confl-a2858-om-the-latest-saved-content/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-confl-a2858-om-the-latest-saved-content/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) tests/journey-review-fixes.spec.ts:79:3 › reload can be cancelled without losing an unsaved photo 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 1
+    Received: 0
+
+      89 |     page.on('dialog', async dialog => { dialogs++; await dialog.dismiss() })
+      90 |     await page.reload().catch(error => { if (!String(error).includes('ERR_ABORTED')) throw error })
+    > 91 |     expect(dialogs).toBe(1)
+         |                     ^
+      92 |     if (kind === 'photo') await expect(button(page, '이 사진 사용')).toBeVisible()
+      93 |     else await expect(page.getByRole('button', { name: '내 차량 위치', exact: true })).toHaveAttribute('transform', 'translate(450 500)')
+      94 |   })
+        at /Users/janghyunbin/.codex/worktrees/dcbb/hyundai-accident-support/prototype/web/tests/journey-review-fixes.spec.ts:91:21
+
+    Error Context: ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-reloa-38854-out-losing-an-unsaved-photo/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-reloa-38854-out-losing-an-unsaved-photo/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-reloa-38854-out-losing-an-unsaved-photo/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) tests/journey-review-fixes.spec.ts:79:3 › reload can be cancelled without losing an unsaved diagram 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 1
+    Received: 0
+
+      89 |     page.on('dialog', async dialog => { dialogs++; await dialog.dismiss() })
+      90 |     await page.reload().catch(error => { if (!String(error).includes('ERR_ABORTED')) throw error })
+    > 91 |     expect(dialogs).toBe(1)
+         |                     ^
+      92 |     if (kind === 'photo') await expect(button(page, '이 사진 사용')).toBeVisible()
+      93 |     else await expect(page.getByRole('button', { name: '내 차량 위치', exact: true })).toHaveAttribute('transform', 'translate(450 500)')
+      94 |   })
+        at /Users/janghyunbin/.codex/worktrees/dcbb/hyundai-accident-support/prototype/web/tests/journey-review-fixes.spec.ts:91:21
+
+    Error Context: ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-reloa-e40e2-t-losing-an-unsaved-diagram/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-reloa-e40e2-t-losing-an-unsaved-diagram/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-reloa-e40e2-t-losing-an-unsaved-diagram/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) tests/journey-review-fixes.spec.ts:97:1 › failed report commit remains protected after its editor closes 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      107 |   await button(page, '정정 저장').click()
+      108 |   await expect(page.locator('.journey-save-status')).toContainText('이 기기에 저장하지 못했어요')
+    > 109 |   expect(await page.evaluate(() => { const event = new Event('beforeunload', { cancelable: true }); dispatchEvent(event); return event.defaultPrevented })).toBe(true)
+          |                                                                                                                                                             ^
+      110 | })
+      111 |
+      112 | for (const device of ['vehicle', 'mobile']) {
+        at /Users/janghyunbin/.codex/worktrees/dcbb/hyundai-accident-support/prototype/web/tests/journey-review-fixes.spec.ts:109:157
+
+    Error Context: ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-faile-1b6c6-ted-after-its-editor-closes/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-faile-1b6c6-ted-after-its-editor-closes/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-faile-1b6c6-ted-after-its-editor-closes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7) tests/journey-review-fixes.spec.ts:113:3 › new risk is visible on the vehicle response without discarding the current report 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('[data-case-id]').getByRole('alert')
+    Expected substring: "위험 정보 확인 필요"
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toContainText" locator('[data-case-id]').getByRole('alert') with timeout 5000ms
+      - waiting for locator('[data-case-id]').getByRole('alert')
+
+
+      116 |     await button(page, '시연 event: 위험 정보').click()
+      117 |     await expect(page.locator('[data-journey-stage="response"]')).toBeVisible()
+    > 118 |     await expect(page.locator('[data-case-id]').getByRole('alert')).toContainText('위험 정보 확인 필요')
+          |                                                                     ^
+      119 |     await button(page, '내용 확인으로 돌아가기').click(); await button(page, '경위서').click()
+      120 |     await expect(page.locator('.journey-report')).toContainText('초기 문장')
+      121 |   })
+        at /Users/janghyunbin/.codex/worktrees/dcbb/hyundai-accident-support/prototype/web/tests/journey-review-fixes.spec.ts:118:69
+
+    Error Context: ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-new-r-b6a19-scarding-the-current-report/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-new-r-b6a19-scarding-the-current-report/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-new-r-b6a19-scarding-the-current-report/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  8) tests/journey-review-fixes.spec.ts:113:3 › new risk is visible on the mobile response without discarding the current report 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('[data-case-id]').getByRole('alert')
+    Expected substring: "위험 정보 확인 필요"
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toContainText" locator('[data-case-id]').getByRole('alert') with timeout 5000ms
+      - waiting for locator('[data-case-id]').getByRole('alert')
+
+
+      116 |     await button(page, '시연 event: 위험 정보').click()
+      117 |     await expect(page.locator('[data-journey-stage="response"]')).toBeVisible()
+    > 118 |     await expect(page.locator('[data-case-id]').getByRole('alert')).toContainText('위험 정보 확인 필요')
+          |                                                                     ^
+      119 |     await button(page, '내용 확인으로 돌아가기').click(); await button(page, '경위서').click()
+      120 |     await expect(page.locator('.journey-report')).toContainText('초기 문장')
+      121 |   })
+        at /Users/janghyunbin/.codex/worktrees/dcbb/hyundai-accident-support/prototype/web/tests/journey-review-fixes.spec.ts:118:69
+
+    Error Context: ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-new-r-0cfd1-scarding-the-current-report/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-new-r-0cfd1-scarding-the-current-report/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-new-r-0cfd1-scarding-the-current-report/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  9) tests/journey-review-fixes.spec.ts:124:1 › SC05 handoff becomes an observation without changing agency requests 
+
+    Error: expect(received).toMatchObject(expected)
+
+    - Expected  - 2
+    + Received  + 2
+
+      Object {
+    -   "confirmation": "confirmed",
+    +   "confirmation": "unknown",
+        "kind": "handoff",
+        "source": "fixture",
+    -   "value": "인계 확인",
+    +   "value": "미확인",
+      }
+
+      125 |   const before = createCase(createSession('SC05', 'initial'), 'handoff-case', '2026-11-10T00:00:00Z')
+      126 |   const after = reduceCase(before, { type: 'emergency-edge', edgeId: 'handoff', now: '2026-11-10T00:01:00Z' })
+    > 127 |   expect(after.observations.at(-1)).toMatchObject({ kind: 'handoff', value: '인계 확인', confirmation: 'confirmed', source: 'fixture' })
+          |                                     ^
+      128 |   expect(after.emergency.facts.handoff).toEqual({ value: '인계 확인', status: 'confirmed' })
+      129 |   expect(after.emergency.requests).toEqual(before.emergency.requests)
+      130 |   expect(after.submissions).toEqual(before.submissions)
+        at /Users/janghyunbin/.codex/worktrees/dcbb/hyundai-accident-support/prototype/web/tests/journey-review-fixes.spec.ts:127:37
+
+    Error Context: ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-SC05--d0fc1-ut-changing-agency-requests/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-SC05--d0fc1-ut-changing-agency-requests/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-SC05--d0fc1-ut-changing-agency-requests/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  10) tests/journey-review-fixes.spec.ts:134:3 › photo deletion removes unreferenced media from storage 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 0
+    Received: 33754
+
+      162 |     }, assetId)
+      163 |     if (retained) expect(bytes).toBeGreaterThan(0)
+    > 164 |     else expect(bytes).toBe(0)
+          |                        ^
+      165 |   })
+      166 | }
+      167 |
+        at /Users/janghyunbin/.codex/worktrees/dcbb/hyundai-accident-support/prototype/web/tests/journey-review-fixes.spec.ts:164:24
+
+    Error Context: ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-photo-70ea8-ferenced-media-from-storage/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-photo-70ea8-ferenced-media-from-storage/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-photo-70ea8-ferenced-media-from-storage/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  11) tests/journey-review-fixes.spec.ts:134:3 › photo deletion retains and discloses approved media 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('현재 자료에서 제외했어요. 이전 경위서나 승인 기록에 연결된 원본은 보존돼요.', { exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('현재 자료에서 제외했어요. 이전 경위서나 승인 기록에 연결된 원본은 보존돼요.', { exact: true }) with timeout 5000ms
+      - waiting for getByText('현재 자료에서 제외했어요. 이전 경위서나 승인 기록에 연결된 원본은 보존돼요.', { exact: true })
+
+
+      154 |     await page.reload(); await saved(page); await button(page, '사진 남기기').click(); await button(page, '현장 전체 사진').click()
+      155 |     await button(page, '현장 전체 사진 1 삭제').click(); await saved(page)
+    > 156 |     if (retained) await expect(page.getByText('현재 자료에서 제외했어요. 이전 경위서나 승인 기록에 연결된 원본은 보존돼요.', { exact: true })).toBeVisible()
+          |                                                                                                                ^
+      157 |     else await expect(page.getByText('사진을 삭제했어요.', { exact: true })).toBeVisible()
+      158 |     const bytes = await page.evaluate(async assetId => {
+      159 |       const path = '/src/journey/case-store.ts'
+        at /Users/janghyunbin/.codex/worktrees/dcbb/hyundai-accident-support/prototype/web/tests/journey-review-fixes.spec.ts:156:112
+
+    Error Context: ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-photo-54ebf-nd-discloses-approved-media/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-photo-54ebf-nd-discloses-approved-media/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../../tmp/hyundai-final-review-red/journey-review-fixes-photo-54ebf-nd-discloses-approved-media/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  12) tests/journey-voice.spec.ts:73:1 › actual MediaRecorder WebM can be reviewed and approved without trusting its infinite native duration 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "valid audio and bounded range"
+    Received: "Error: 근거를 열 수 없어요"
+
+       96 |     } catch (error) { return String(error) }
+       97 |   })
+    >  98 |   expect(opened).toBe('valid audio and bounded range')
+          |                  ^
+       99 |   await page.getByRole('button', { name: '내용 확인으로', exact: true }).click()
+      100 |   await page.getByRole('button', { name: '보낼 내용 확인', exact: true }).click()
+      101 |   await page.getByLabel('수신처', { exact: true }).fill('선택한 보험사')
+        at /Users/janghyunbin/.codex/worktrees/dcbb/hyundai-accident-support/prototype/web/tests/journey-voice.spec.ts:98:18
+
+    Error Context: ../../../../../../../../tmp/hyundai-final-review-red/journey-voice-actual-Media-e27ef-ts-infinite-native-duration/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../../tmp/hyundai-final-review-red/journey-voice-actual-Media-e27ef-ts-infinite-native-duration/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../../tmp/hyundai-final-review-red/journey-voice-actual-Media-e27ef-ts-infinite-native-duration/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  12 failed
+    tests/journey-review-fixes.spec.ts:28:1 › conflicting reports remain readable after two successive latest-record reloads 
+    tests/journey-review-fixes.spec.ts:50:3 › conflicting diagram stays accessible separately from the latest saved content 
+    tests/journey-review-fixes.spec.ts:50:3 › conflicting follow-up stays accessible separately from the latest saved content 
+    tests/journey-review-fixes.spec.ts:79:3 › reload can be cancelled without losing an unsaved photo 
+    tests/journey-review-fixes.spec.ts:79:3 › reload can be cancelled without losing an unsaved diagram 
+    tests/journey-review-fixes.spec.ts:97:1 › failed report commit remains protected after its editor closes 
+    tests/journey-review-fixes.spec.ts:113:3 › new risk is visible on the vehicle response without discarding the current report 
+    tests/journey-review-fixes.spec.ts:113:3 › new risk is visible on the mobile response without discarding the current report 
+    tests/journey-review-fixes.spec.ts:124:1 › SC05 handoff becomes an observation without changing agency requests 
+    tests/journey-review-fixes.spec.ts:134:3 › photo deletion removes unreferenced media from storage 
+    tests/journey-review-fixes.spec.ts:134:3 › photo deletion retains and discloses approved media ─
+    tests/journey-voice.spec.ts:73:1 › actual MediaRecorder WebM can be reviewed and approved without trusting its infinite native duration 

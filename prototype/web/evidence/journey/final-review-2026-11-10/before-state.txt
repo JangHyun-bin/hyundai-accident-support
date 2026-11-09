@@ -1,0 +1,50 @@
+RISK 충돌 감지
+운전자 조작
+미확인
+차량 이동
+가능
+이동 경로
+미확인
+119 통화 연결됨
+
+접수는 아직 미확인이에요.
+
+음성 안내 듣기
+구호
+통화 연결
+접수 미확인
+차량 지원
+요청 전
+보험사
+요청 전
+
+움직일 수 있으면
+가드레일 밖으로 대피하세요
+
+사고 기록 남기기
+HANDOFF {
+  before: {
+    id: 'imported-fact:handoff',
+    kind: 'handoff',
+    label: '구호 인계',
+    value: '미확인',
+    source: 'fixture',
+    observedAt: null,
+    confirmation: 'unknown',
+    legacyFactId: 'handoff',
+    supersedes: null
+  },
+  after: {
+    id: 'imported-fact:handoff',
+    kind: 'handoff',
+    label: '구호 인계',
+    value: '미확인',
+    source: 'fixture',
+    observedAt: null,
+    confirmation: 'unknown',
+    legacyFactId: 'handoff',
+    supersedes: null
+  },
+  projected: undefined
+}
+HIDDEN_CLIP { paused: false, visible: false, currentTime: 0.0438 }

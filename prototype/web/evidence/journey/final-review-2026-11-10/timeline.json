@@ -1,0 +1,1822 @@
+{
+  "output": "/Users/janghyunbin/Downloads/journey-flow-2026-11-10-v4.mp4",
+  "sourceCommit": "7748808d8ffb0c79f7492d6d46d8e5e296ba2e8d",
+  "simulationOnly": true,
+  "audio": false,
+  "raw": "/var/folders/56/g_c2rtzx1bl0zfxdv64qbglh0000gn/T/journey-flow-3waoCD/page@c62e34fea5c174676dbd649c795aa07e.webm",
+  "mobileRaw": "/var/folders/56/g_c2rtzx1bl0zfxdv64qbglh0000gn/T/journey-flow-3waoCD/page@79ae4a9dce9d1818a3b8064a8515c04b.webm",
+  "trim": 0.39628333299999996,
+  "vehicleEnd": 22.004882708,
+  "mobileBegan": 25.403167583000002,
+  "mobileStart": 25.603321541,
+  "finished": 179.63646454099998,
+  "composition": "Actual browser footage. Vehicle then mobile. Same persistent browser profile reopened at each native viewport; setup omitted. Portrait footage scaled and centered.",
+  "limitations": [
+    "Same-browser device preview, not device synchronization",
+    "Authored media and explicit external result events, no agency requests",
+    "Voice sample, not live STT or JaeGyu TTS",
+    "Late historical callbacks, denied permissions and quota errors are covered by tests, not all shown in this video"
+  ],
+  "timeline": [
+    {
+      "id": "vehicle-response",
+      "atRaw": 0.40551941599999997,
+      "device": "vehicle",
+      "fixture": "complete-journey",
+      "caseId": "97b84ed7-3324-44b8-804e-e69d342b3a4b",
+      "stage": "response",
+      "sceneId": "initial",
+      "suspended": false,
+      "coverage": [
+        "V1"
+      ],
+      "headings": [
+        "119에 연결합니다"
+      ],
+      "requests": {
+        "rescue": "not_sent",
+        "vehicle": "not_sent",
+        "insurance": "not_sent"
+      },
+      "submissions": 0,
+      "shares": 0,
+      "at": 0.009236083000000006
+    },
+    {
+      "id": "rescue-connected",
+      "atRaw": 3.2256605,
+      "device": "vehicle",
+      "fixture": "complete-journey",
+      "caseId": "97b84ed7-3324-44b8-804e-e69d342b3a4b",
+      "stage": "response",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "V1",
+        "V2"
+      ],
+      "headings": [
+        "119 통화 연결됨"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "not_sent"
+      },
+      "submissions": 1,
+      "shares": 0,
+      "at": 2.829377167
+    },
+    {
+      "id": "vehicle-unknown-observations",
+      "atRaw": 7.544330790999999,
+      "device": "vehicle",
+      "fixture": "complete-journey",
+      "caseId": "97b84ed7-3324-44b8-804e-e69d342b3a4b",
+      "stage": "response",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "V1"
+      ],
+      "headings": [
+        "차량에서 확인한 내용"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "not_sent"
+      },
+      "submissions": 1,
+      "shares": 0,
+      "at": 7.148047457999999
+    },
+    {
+      "id": "vehicle-observations",
+      "atRaw": 10.385167083,
+      "device": "vehicle",
+      "fixture": "complete-journey",
+      "caseId": "97b84ed7-3324-44b8-804e-e69d342b3a4b",
+      "stage": "response",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "V1"
+      ],
+      "headings": [
+        "차량에서 확인한 내용"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "not_sent"
+      },
+      "submissions": 1,
+      "shares": 0,
+      "at": 9.988883750000001
+    },
+    {
+      "id": "hazard-user-confirmed",
+      "atRaw": 13.373387999999998,
+      "device": "vehicle",
+      "fixture": "complete-journey",
+      "caseId": "97b84ed7-3324-44b8-804e-e69d342b3a4b",
+      "stage": "response",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "V2"
+      ],
+      "headings": [
+        "차량에서 확인한 내용"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "not_sent"
+      },
+      "submissions": 1,
+      "shares": 0,
+      "at": 12.977104666999999
+    },
+    {
+      "id": "hazard-device-result",
+      "atRaw": 16.211552833,
+      "device": "vehicle",
+      "fixture": "complete-journey",
+      "caseId": "97b84ed7-3324-44b8-804e-e69d342b3a4b",
+      "stage": "response",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "V2"
+      ],
+      "headings": [
+        "차량에서 확인한 내용"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "not_sent"
+      },
+      "submissions": 1,
+      "shares": 0,
+      "at": 15.8152695
+    },
+    {
+      "id": "evacuation-location",
+      "atRaw": 19.5032895,
+      "device": "vehicle",
+      "fixture": "complete-journey",
+      "caseId": "97b84ed7-3324-44b8-804e-e69d342b3a4b",
+      "stage": "response",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "V2"
+      ],
+      "headings": [
+        "119 통화 연결됨"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "not_sent"
+      },
+      "submissions": 1,
+      "shares": 0,
+      "at": 19.107006167
+    },
+    {
+      "id": "mobile-same-case",
+      "atRaw": 25.605469,
+      "device": "mobile",
+      "fixture": "complete-journey",
+      "caseId": "97b84ed7-3324-44b8-804e-e69d342b3a4b",
+      "stage": "response",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "H1"
+      ],
+      "headings": [
+        "119 통화 연결됨"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "not_sent"
+      },
+      "submissions": 1,
+      "shares": 0,
+      "at": 21.635480459
+    },
+    {
+      "id": "voice-entry",
+      "atRaw": 28.592917458,
+      "device": "mobile",
+      "fixture": "complete-journey",
+      "caseId": "97b84ed7-3324-44b8-804e-e69d342b3a4b",
+      "stage": "record",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "R2"
+      ],
+      "headings": [
+        "기억나는 내용을 남겨주세요"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "not_sent"
+      },
+      "submissions": 1,
+      "shares": 0,
+      "at": 24.622928916999996
+    },
+    {
+      "id": "photo-targets",
+      "atRaw": 31.597322333,
+      "device": "mobile",
+      "fixture": "complete-journey",
+      "caseId": "97b84ed7-3324-44b8-804e-e69d342b3a4b",
+      "stage": "record",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "R1"
+      ],
+      "headings": [
+        "사진 남기기"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "not_sent"
+      },
+      "submissions": 1,
+      "shares": 0,
+      "at": 27.627333792
+    },
+    {
+      "id": "photo-before-approval",
+      "atRaw": 34.601267291,
+      "device": "mobile",
+      "fixture": "complete-journey",
+      "caseId": "97b84ed7-3324-44b8-804e-e69d342b3a4b",
+      "stage": "record",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "R1"
+      ],
+      "headings": [
+        "사진 남기기"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "not_sent"
+      },
+      "submissions": 1,
+      "shares": 0,
+      "at": 30.63127875
+    },
+    {
+      "id": "photo-saved",
+      "atRaw": 37.579584041,
+      "device": "mobile",
+      "fixture": "complete-journey",
+      "caseId": "97b84ed7-3324-44b8-804e-e69d342b3a4b",
+      "stage": "record",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "R1"
+      ],
+      "headings": [
+        "사진 남기기"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "not_sent"
+      },
+      "submissions": 1,
+      "shares": 0,
+      "at": 33.6095955
+    },
+    {
+      "id": "voice-review",
+      "atRaw": 41.042705166,
+      "device": "mobile",
+      "fixture": "complete-journey",
+      "caseId": "97b84ed7-3324-44b8-804e-e69d342b3a4b",
+      "stage": "record",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "R2"
+      ],
+      "headings": [
+        "이렇게 기록할까요?"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "not_sent"
+      },
+      "submissions": 1,
+      "shares": 0,
+      "at": 37.072716625
+    },
+    {
+      "id": "voice-saved",
+      "atRaw": 45.530681124999994,
+      "device": "mobile",
+      "fixture": "complete-journey",
+      "caseId": "97b84ed7-3324-44b8-804e-e69d342b3a4b",
+      "stage": "record",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "R2"
+      ],
+      "headings": [
+        "이렇게 기록할까요?"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "not_sent"
+      },
+      "submissions": 1,
+      "shares": 0,
+      "at": 41.560692583999995
+    },
+    {
+      "id": "front-clip-playing",
+      "atRaw": 49.298588208,
+      "device": "mobile",
+      "fixture": "complete-journey",
+      "caseId": "97b84ed7-3324-44b8-804e-e69d342b3a4b",
+      "stage": "review",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "R3"
+      ],
+      "headings": [
+        "남겨진 자료를 살펴보세요"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "not_sent"
+      },
+      "submissions": 1,
+      "shares": 0,
+      "at": 45.328599667000006
+    },
+    {
+      "id": "diagram-original",
+      "atRaw": 53.769829458,
+      "device": "mobile",
+      "fixture": "complete-journey",
+      "caseId": "97b84ed7-3324-44b8-804e-e69d342b3a4b",
+      "stage": "review",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "C1"
+      ],
+      "headings": [
+        "남겨진 자료를 살펴보세요"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "not_sent"
+      },
+      "submissions": 1,
+      "shares": 0,
+      "at": 49.799840917
+    },
+    {
+      "id": "diagram-corrected",
+      "atRaw": 57.689956833,
+      "device": "mobile",
+      "fixture": "complete-journey",
+      "caseId": "97b84ed7-3324-44b8-804e-e69d342b3a4b",
+      "stage": "review",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "C1"
+      ],
+      "headings": [
+        "남겨진 자료를 살펴보세요"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "not_sent"
+      },
+      "submissions": 1,
+      "shares": 0,
+      "at": 53.71996829199999
+    },
+    {
+      "id": "report-review",
+      "atRaw": 60.984441874999995,
+      "device": "mobile",
+      "fixture": "complete-journey",
+      "caseId": "97b84ed7-3324-44b8-804e-e69d342b3a4b",
+      "stage": "review",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "C2"
+      ],
+      "headings": [
+        "남겨진 자료를 살펴보세요"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "not_sent"
+      },
+      "submissions": 1,
+      "shares": 0,
+      "at": 57.014453333999995
+    },
+    {
+      "id": "report-evidence",
+      "atRaw": 65.021036125,
+      "device": "mobile",
+      "fixture": "complete-journey",
+      "caseId": "97b84ed7-3324-44b8-804e-e69d342b3a4b",
+      "stage": "review",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "C2",
+        "R3"
+      ],
+      "headings": [
+        "남겨진 자료를 살펴보세요"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "not_sent"
+      },
+      "submissions": 1,
+      "shares": 0,
+      "at": 61.05104758399999
+    },
+    {
+      "id": "report-confirmed",
+      "atRaw": 72.33568916600001,
+      "device": "mobile",
+      "fixture": "complete-journey",
+      "caseId": "97b84ed7-3324-44b8-804e-e69d342b3a4b",
+      "stage": "review",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "C2"
+      ],
+      "headings": [
+        "남겨진 자료를 살펴보세요"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "not_sent"
+      },
+      "submissions": 1,
+      "shares": 0,
+      "at": 68.365700625
+    },
+    {
+      "id": "empty-insurance-selection",
+      "atRaw": 75.306790041,
+      "device": "mobile",
+      "fixture": "complete-journey",
+      "caseId": "97b84ed7-3324-44b8-804e-e69d342b3a4b",
+      "stage": "review",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "S1"
+      ],
+      "headings": [
+        "보낼 범위를 직접 선택해주세요"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "not_sent"
+      },
+      "submissions": 1,
+      "shares": 0,
+      "at": 71.33680149999999
+    },
+    {
+      "id": "payload-preview-21",
+      "atRaw": 79.16692420800001,
+      "device": "mobile",
+      "fixture": "complete-journey",
+      "caseId": "97b84ed7-3324-44b8-804e-e69d342b3a4b",
+      "stage": "review",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "S1"
+      ],
+      "headings": [
+        "보낼 범위를 직접 선택해주세요"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "not_sent"
+      },
+      "submissions": 1,
+      "shares": 0,
+      "at": 75.196935667
+    },
+    {
+      "id": "approval-waits-for-receipt",
+      "atRaw": 82.63691725,
+      "device": "mobile",
+      "fixture": "complete-journey",
+      "caseId": "97b84ed7-3324-44b8-804e-e69d342b3a4b",
+      "stage": "review",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "S1",
+        "S2"
+      ],
+      "headings": [
+        "보낼 범위를 직접 선택해주세요"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "sent"
+      },
+      "submissions": 2,
+      "shares": 0,
+      "at": 78.666928709
+    },
+    {
+      "id": "insurance-receipt",
+      "atRaw": 85.46643095800002,
+      "device": "mobile",
+      "fixture": "complete-journey",
+      "caseId": "97b84ed7-3324-44b8-804e-e69d342b3a4b",
+      "stage": "review",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "S2"
+      ],
+      "headings": [
+        "보낼 범위를 직접 선택해주세요"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "received"
+      },
+      "submissions": 2,
+      "shares": 0,
+      "at": 81.49644241700001
+    },
+    {
+      "id": "independent-share-preview",
+      "atRaw": 90.62988216600002,
+      "device": "mobile",
+      "fixture": "complete-journey",
+      "caseId": "97b84ed7-3324-44b8-804e-e69d342b3a4b",
+      "stage": "review",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "S2"
+      ],
+      "headings": [
+        "보낼 범위를 직접 선택해주세요"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "received"
+      },
+      "submissions": 2,
+      "shares": 0,
+      "at": 86.65989362500001
+    },
+    {
+      "id": "independent-share-result",
+      "atRaw": 93.9130775,
+      "device": "mobile",
+      "fixture": "complete-journey",
+      "caseId": "97b84ed7-3324-44b8-804e-e69d342b3a4b",
+      "stage": "review",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "S2"
+      ],
+      "headings": [
+        "보낼 범위를 직접 선택해주세요"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "received"
+      },
+      "submissions": 2,
+      "shares": 1,
+      "at": 89.94308895900001
+    },
+    {
+      "id": "repair-shops",
+      "atRaw": 96.73204487500001,
+      "device": "mobile",
+      "fixture": "complete-journey",
+      "caseId": "97b84ed7-3324-44b8-804e-e69d342b3a4b",
+      "stage": "follow-up",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "F1"
+      ],
+      "headings": [
+        "필요한 다음 일을 살펴보세요"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "received"
+      },
+      "submissions": 2,
+      "shares": 1,
+      "at": 92.76205633400001
+    },
+    {
+      "id": "repair-item-review",
+      "atRaw": 100.382746083,
+      "device": "mobile",
+      "fixture": "complete-journey",
+      "caseId": "97b84ed7-3324-44b8-804e-e69d342b3a4b",
+      "stage": "follow-up",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "F1"
+      ],
+      "headings": [
+        "필요한 다음 일을 살펴보세요"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "received"
+      },
+      "submissions": 2,
+      "shares": 1,
+      "at": 96.412757542
+    },
+    {
+      "id": "repair-route-preview",
+      "atRaw": 103.85887862500002,
+      "device": "mobile",
+      "fixture": "complete-journey",
+      "caseId": "97b84ed7-3324-44b8-804e-e69d342b3a4b",
+      "stage": "follow-up",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "F1"
+      ],
+      "headings": [
+        "필요한 다음 일을 살펴보세요"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "received"
+      },
+      "submissions": 2,
+      "shares": 1,
+      "at": 99.88889008400001
+    },
+    {
+      "id": "rental-pending",
+      "atRaw": 107.308743625,
+      "device": "mobile",
+      "fixture": "complete-journey",
+      "caseId": "97b84ed7-3324-44b8-804e-e69d342b3a4b",
+      "stage": "follow-up",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "F1"
+      ],
+      "headings": [
+        "필요한 다음 일을 살펴보세요"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "received"
+      },
+      "submissions": 2,
+      "shares": 1,
+      "at": 103.338755084
+    },
+    {
+      "id": "rental-result",
+      "atRaw": 110.13543266600001,
+      "device": "mobile",
+      "fixture": "complete-journey",
+      "caseId": "97b84ed7-3324-44b8-804e-e69d342b3a4b",
+      "stage": "follow-up",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "F1"
+      ],
+      "headings": [
+        "필요한 다음 일을 살펴보세요"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "received"
+      },
+      "submissions": 2,
+      "shares": 1,
+      "at": 106.16544412500001
+    },
+    {
+      "id": "no-evidence-no-fabricated-report",
+      "atRaw": 116.3779295,
+      "device": "mobile",
+      "fixture": "no-evidence",
+      "caseId": "4ddaf5fc-4817-4233-8f47-b982271cb633",
+      "stage": "review",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "R1",
+        "R3",
+        "C2"
+      ],
+      "headings": [
+        "남겨진 자료를 살펴보세요"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "not_sent"
+      },
+      "submissions": 1,
+      "shares": 0,
+      "at": 112.40794095899999
+    },
+    {
+      "id": "partial-rear-clip-unavailable",
+      "atRaw": 121.00889562500001,
+      "device": "mobile",
+      "fixture": "partial-evidence",
+      "caseId": "5f32e174-4190-4ce9-b2a8-28ec21f82363",
+      "stage": "review",
+      "sceneId": "connected",
+      "suspended": false,
+      "coverage": [
+        "R3"
+      ],
+      "headings": [
+        "남겨진 자료를 살펴보세요"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "not_sent"
+      },
+      "submissions": 1,
+      "shares": 0,
+      "at": 117.038907084
+    },
+    {
+      "id": "immobile-vehicle-support",
+      "atRaw": 124.353190041,
+      "device": "mobile",
+      "fixture": "immobile",
+      "caseId": "8960f2c2-de6b-4853-aeca-94c368cc8dd8",
+      "stage": "response",
+      "sceneId": "initial",
+      "suspended": false,
+      "coverage": [
+        "V1",
+        "V2",
+        "S1"
+      ],
+      "headings": [
+        "차량 지원이 필요해요"
+      ],
+      "requests": {
+        "rescue": "not_sent",
+        "vehicle": "not_sent",
+        "insurance": "not_sent"
+      },
+      "submissions": 0,
+      "shares": 0,
+      "at": 120.3832015
+    },
+    {
+      "id": "shop-lookup-failed",
+      "atRaw": 127.68272,
+      "device": "mobile",
+      "fixture": "immobile",
+      "caseId": "8960f2c2-de6b-4853-aeca-94c368cc8dd8",
+      "stage": "follow-up",
+      "sceneId": "initial",
+      "suspended": false,
+      "coverage": [
+        "F1"
+      ],
+      "headings": [
+        "필요한 다음 일을 살펴보세요"
+      ],
+      "requests": {
+        "rescue": "not_sent",
+        "vehicle": "not_sent",
+        "insurance": "not_sent"
+      },
+      "submissions": 0,
+      "shares": 0,
+      "at": 123.71273145900001
+    },
+    {
+      "id": "rental-unknown",
+      "atRaw": 131.480546,
+      "device": "mobile",
+      "fixture": "immobile",
+      "caseId": "8960f2c2-de6b-4853-aeca-94c368cc8dd8",
+      "stage": "follow-up",
+      "sceneId": "initial",
+      "suspended": false,
+      "coverage": [
+        "F1"
+      ],
+      "headings": [
+        "필요한 다음 일을 살펴보세요"
+      ],
+      "requests": {
+        "rescue": "not_sent",
+        "vehicle": "not_sent",
+        "insurance": "not_sent"
+      },
+      "submissions": 0,
+      "shares": 0,
+      "at": 127.510557459
+    },
+    {
+      "id": "insurance-declined",
+      "atRaw": 134.81863945799998,
+      "device": "mobile",
+      "fixture": "insurance-declined",
+      "caseId": "aa71a296-e338-4ed7-b32f-8dfd1872fc92",
+      "stage": "response",
+      "sceneId": "declined",
+      "suspended": false,
+      "coverage": [
+        "S1",
+        "S2"
+      ],
+      "headings": [
+        "보험사에 보내지 않았어요"
+      ],
+      "requests": {
+        "rescue": "received",
+        "vehicle": "received",
+        "insurance": "declined"
+      },
+      "submissions": 2,
+      "shares": 0,
+      "at": 130.848650917
+    },
+    {
+      "id": "suspended-with-existing-requests",
+      "atRaw": 138.15837575,
+      "device": "mobile",
+      "fixture": "suspended-receipt",
+      "caseId": "7a7a2afd-6416-4b8b-8219-5144fe16646f",
+      "stage": "response",
+      "sceneId": "suspended",
+      "suspended": true,
+      "coverage": [
+        "H1",
+        "S2"
+      ],
+      "headings": [
+        "여기서 잠시 멈췄어요"
+      ],
+      "requests": {
+        "rescue": "received",
+        "vehicle": "unknown",
+        "insurance": "not_sent"
+      },
+      "submissions": 2,
+      "shares": 0,
+      "at": 134.18838720899998
+    },
+    {
+      "id": "result-during-suspension",
+      "atRaw": 141.491141375,
+      "device": "mobile",
+      "fixture": "suspended-receipt",
+      "caseId": "7a7a2afd-6416-4b8b-8219-5144fe16646f",
+      "stage": "response",
+      "sceneId": "suspended",
+      "suspended": true,
+      "coverage": [
+        "S2"
+      ],
+      "headings": [
+        "여기서 잠시 멈췄어요"
+      ],
+      "requests": {
+        "rescue": "received",
+        "vehicle": "received",
+        "insurance": "not_sent"
+      },
+      "submissions": 2,
+      "shares": 0,
+      "at": 137.52115283400002
+    },
+    {
+      "id": "resumed-without-resending",
+      "atRaw": 145.002874541,
+      "device": "mobile",
+      "fixture": "suspended-receipt",
+      "caseId": "7a7a2afd-6416-4b8b-8219-5144fe16646f",
+      "stage": "response",
+      "sceneId": "received",
+      "suspended": false,
+      "coverage": [
+        "H1",
+        "S2"
+      ],
+      "headings": [
+        "차량 지원 접수 확인"
+      ],
+      "requests": {
+        "rescue": "received",
+        "vehicle": "received",
+        "insurance": "not_sent"
+      },
+      "submissions": 2,
+      "shares": 0,
+      "at": 141.03288600000002
+    },
+    {
+      "id": "unknown-existing-request",
+      "atRaw": 148.331436958,
+      "device": "mobile",
+      "fixture": "late-result",
+      "caseId": "8d2e6b7e-d5e8-4f86-abed-3b6de19d51da",
+      "stage": "response",
+      "sceneId": "checking",
+      "suspended": false,
+      "coverage": [
+        "S1",
+        "S2"
+      ],
+      "headings": [
+        "차량 지원 접수 확인 중"
+      ],
+      "requests": {
+        "rescue": "received",
+        "vehicle": "checking",
+        "insurance": "not_sent"
+      },
+      "submissions": 2,
+      "shares": 0,
+      "at": 144.36144841700002
+    },
+    {
+      "id": "explicit-nonreceipt",
+      "atRaw": 151.666072166,
+      "device": "mobile",
+      "fixture": "late-result",
+      "caseId": "8d2e6b7e-d5e8-4f86-abed-3b6de19d51da",
+      "stage": "response",
+      "sceneId": "not_received",
+      "suspended": false,
+      "coverage": [
+        "S1",
+        "S2"
+      ],
+      "headings": [
+        "차량 지원이 접수되지 않았어요"
+      ],
+      "requests": {
+        "rescue": "received",
+        "vehicle": "not_received",
+        "insurance": "not_sent"
+      },
+      "submissions": 2,
+      "shares": 0,
+      "at": 147.69608362499997
+    },
+    {
+      "id": "fresh-approval-after-nonreceipt",
+      "atRaw": 156.616210458,
+      "device": "mobile",
+      "fixture": "late-result",
+      "caseId": "8d2e6b7e-d5e8-4f86-abed-3b6de19d51da",
+      "stage": "review",
+      "sceneId": "not_received",
+      "suspended": false,
+      "coverage": [
+        "S1"
+      ],
+      "headings": [
+        "보낼 범위를 직접 선택해주세요"
+      ],
+      "requests": {
+        "rescue": "received",
+        "vehicle": "not_received",
+        "insurance": "not_sent"
+      },
+      "submissions": 2,
+      "shares": 0,
+      "at": 152.646221917
+    },
+    {
+      "id": "new-request-is-not-a-receipt",
+      "atRaw": 159.599107666,
+      "device": "mobile",
+      "fixture": "late-result",
+      "caseId": "8d2e6b7e-d5e8-4f86-abed-3b6de19d51da",
+      "stage": "review",
+      "sceneId": "not_received",
+      "suspended": false,
+      "coverage": [
+        "S2"
+      ],
+      "headings": [
+        "보낼 범위를 직접 선택해주세요"
+      ],
+      "requests": {
+        "rescue": "received",
+        "vehicle": "sent",
+        "insurance": "not_sent"
+      },
+      "submissions": 3,
+      "shares": 0,
+      "at": 155.629119125
+    },
+    {
+      "id": "unanswered-countdown",
+      "atRaw": 162.42904191600002,
+      "device": "mobile",
+      "fixture": "unanswered",
+      "caseId": "ef84e64a-0b9a-45ba-840c-bfea5f79521d",
+      "stage": "response",
+      "sceneId": "initial",
+      "suspended": false,
+      "coverage": [
+        "V1",
+        "V2"
+      ],
+      "headings": [
+        "119에 연결합니다"
+      ],
+      "requests": {
+        "rescue": "not_sent",
+        "vehicle": "not_sent",
+        "insurance": "not_sent"
+      },
+      "submissions": 0,
+      "shares": 0,
+      "at": 158.459053375
+    },
+    {
+      "id": "unanswered-contact-attempt",
+      "atRaw": 172.31396170800002,
+      "device": "mobile",
+      "fixture": "unanswered",
+      "caseId": "ef84e64a-0b9a-45ba-840c-bfea5f79521d",
+      "stage": "response",
+      "sceneId": "unanswered",
+      "suspended": false,
+      "coverage": [
+        "V2"
+      ],
+      "headings": [
+        "119 연결 중"
+      ],
+      "requests": {
+        "rescue": "connection_unknown",
+        "vehicle": "not_sent",
+        "insurance": "not_sent"
+      },
+      "submissions": 1,
+      "shares": 0,
+      "at": 168.343973167
+    },
+    {
+      "id": "late-call-result-not-receipt",
+      "atRaw": 175.632461416,
+      "device": "mobile",
+      "fixture": "unanswered",
+      "caseId": "ef84e64a-0b9a-45ba-840c-bfea5f79521d",
+      "stage": "response",
+      "sceneId": "unanswered_connected",
+      "suspended": false,
+      "coverage": [
+        "V2",
+        "S2"
+      ],
+      "headings": [
+        "119 통화 연결됨"
+      ],
+      "requests": {
+        "rescue": "connected",
+        "vehicle": "not_sent",
+        "insurance": "not_sent"
+      },
+      "submissions": 1,
+      "shares": 0,
+      "at": 171.662472875
+    }
+  ],
+  "actions": [
+    {
+      "atRaw": 2.408825875,
+      "kind": "user",
+      "name": "지금 연결",
+      "device": "vehicle",
+      "at": 2.012542542
+    },
+    {
+      "atRaw": 2.9014577079999997,
+      "kind": "external",
+      "name": "시연 event: 통화 연결 확인",
+      "device": "vehicle",
+      "hiddenByRecordingLayout": true,
+      "at": 2.5051743749999997
+    },
+    {
+      "atRaw": 7.228024666,
+      "kind": "user-navigation",
+      "name": "차량 상태 보기",
+      "device": "vehicle",
+      "hiddenByRecordingLayout": true,
+      "at": 6.831741333
+    },
+    {
+      "atRaw": 10.049718333,
+      "kind": "external",
+      "name": "시연 event: 차량 감지 자료",
+      "device": "vehicle",
+      "hiddenByRecordingLayout": true,
+      "at": 9.653435
+    },
+    {
+      "atRaw": 12.889126333,
+      "kind": "user",
+      "name": "비상등을 켰어요",
+      "device": "vehicle",
+      "at": 12.492843
+    },
+    {
+      "atRaw": 15.876082,
+      "kind": "external",
+      "name": "시연 event: 비상등 작동 확인",
+      "device": "vehicle",
+      "hiddenByRecordingLayout": true,
+      "at": 15.479798667
+    },
+    {
+      "atRaw": 18.713757875000002,
+      "kind": "user",
+      "name": "대응 화면으로",
+      "device": "vehicle",
+      "at": 18.317474542000003
+    },
+    {
+      "atRaw": 19.182573166,
+      "kind": "external",
+      "name": "시연 event: 안내 지점 자료",
+      "device": "vehicle",
+      "hiddenByRecordingLayout": true,
+      "at": 18.786289833
+    },
+    {
+      "atRaw": 22.004886625000005,
+      "kind": "device-preview",
+      "name": "Mobile 보기",
+      "device": "vehicle",
+      "hiddenByRecordingLayout": true,
+      "at": 21.608603292000005
+    },
+    {
+      "atRaw": 28.109535583,
+      "kind": "user",
+      "name": "사고 기록 남기기",
+      "device": "mobile",
+      "at": 24.139547042000004
+    },
+    {
+      "atRaw": 31.096922416,
+      "kind": "user",
+      "name": "사진 남기기",
+      "device": "mobile",
+      "at": 27.126933875000006
+    },
+    {
+      "atRaw": 34.100165958,
+      "kind": "user",
+      "name": "현장 전체 사진",
+      "device": "mobile",
+      "at": 30.130177417
+    },
+    {
+      "atRaw": 37.103505458,
+      "kind": "user",
+      "name": "이 사진 사용",
+      "device": "mobile",
+      "at": 33.133516917
+    },
+    {
+      "atRaw": 40.082475290999994,
+      "kind": "user",
+      "name": "말로 남기기",
+      "device": "mobile",
+      "at": 36.112486749999995
+    },
+    {
+      "atRaw": 40.560575082999996,
+      "kind": "user",
+      "name": "말로 기록하기",
+      "device": "mobile",
+      "at": 36.590586542
+    },
+    {
+      "atRaw": 45.047659625,
+      "kind": "user",
+      "name": "기록 저장",
+      "device": "mobile",
+      "at": 41.077671084
+    },
+    {
+      "atRaw": 48.034644708,
+      "kind": "external",
+      "name": "시연 event: 사고 자료 확보",
+      "device": "mobile",
+      "hiddenByRecordingLayout": true,
+      "at": 44.064656166999995
+    },
+    {
+      "atRaw": 48.358044083,
+      "kind": "user",
+      "name": "내용 확인으로",
+      "device": "mobile",
+      "at": 44.388055542000004
+    },
+    {
+      "atRaw": 48.824763958,
+      "kind": "user",
+      "name": "전방 영상 재생",
+      "device": "mobile",
+      "at": 44.854775417
+    },
+    {
+      "atRaw": 53.301650166,
+      "kind": "user",
+      "name": "사고 도식",
+      "device": "mobile",
+      "at": 49.331661624999995
+    },
+    {
+      "atRaw": 56.271955708,
+      "kind": "user",
+      "name": "오른쪽으로 이동",
+      "device": "mobile",
+      "at": 52.301967167
+    },
+    {
+      "atRaw": 56.731834625,
+      "kind": "user",
+      "name": "도식 정정 저장",
+      "device": "mobile",
+      "at": 52.761846084
+    },
+    {
+      "atRaw": 57.210678458,
+      "kind": "user",
+      "name": "도식 내용 확인",
+      "device": "mobile",
+      "at": 53.240689917
+    },
+    {
+      "atRaw": 60.192925375,
+      "kind": "external",
+      "name": "시연 event: 경위서 초안",
+      "device": "mobile",
+      "hiddenByRecordingLayout": true,
+      "at": 56.22293683400001
+    },
+    {
+      "atRaw": 60.510843957999995,
+      "kind": "user",
+      "name": "경위서",
+      "device": "mobile",
+      "at": 56.540855417
+    },
+    {
+      "atRaw": 74.838553791,
+      "kind": "user",
+      "name": "보낼 내용 확인",
+      "device": "mobile",
+      "at": 70.86856525
+    },
+    {
+      "atRaw": 77.85429508300001,
+      "kind": "selection",
+      "name": "전방 영상",
+      "device": "mobile",
+      "at": 73.884306542
+    },
+    {
+      "atRaw": 78.06620208300001,
+      "kind": "selection",
+      "name": "음성 기록 예시",
+      "device": "mobile",
+      "at": 74.096213542
+    },
+    {
+      "atRaw": 78.282483833,
+      "kind": "selection",
+      "name": "사고 도식",
+      "device": "mobile",
+      "at": 74.31249529200001
+    },
+    {
+      "atRaw": 78.50022779100001,
+      "kind": "selection",
+      "name": "경위서",
+      "device": "mobile",
+      "at": 74.53023925000001
+    },
+    {
+      "atRaw": 78.70241675,
+      "kind": "user",
+      "name": "선택한 내용 미리보기",
+      "device": "mobile",
+      "at": 74.73242820899999
+    },
+    {
+      "atRaw": 82.16952962500001,
+      "kind": "user",
+      "name": "이 내용으로 요청",
+      "device": "mobile",
+      "at": 78.19954108400002
+    },
+    {
+      "atRaw": 85.14074987500001,
+      "kind": "external",
+      "name": "시연 event: 보험사 접수번호 확인",
+      "device": "mobile",
+      "hiddenByRecordingLayout": true,
+      "at": 81.170761334
+    },
+    {
+      "atRaw": 89.468506083,
+      "kind": "user",
+      "name": "상대방 공유",
+      "device": "mobile",
+      "at": 85.49851754199999
+    },
+    {
+      "atRaw": 89.96665375,
+      "kind": "selection",
+      "name": "전방 영상",
+      "device": "mobile",
+      "at": 85.996665209
+    },
+    {
+      "atRaw": 90.169113375,
+      "kind": "user",
+      "name": "선택한 내용 미리보기",
+      "device": "mobile",
+      "at": 86.19912483399999
+    },
+    {
+      "atRaw": 93.132531375,
+      "kind": "user",
+      "name": "이 내용으로 공유 요청",
+      "device": "mobile",
+      "at": 89.162542834
+    },
+    {
+      "atRaw": 93.591302208,
+      "kind": "external",
+      "name": "시연 event: 상대방 공유 확인",
+      "device": "mobile",
+      "hiddenByRecordingLayout": true,
+      "at": 89.621313667
+    },
+    {
+      "atRaw": 96.416276708,
+      "kind": "user-navigation",
+      "name": "후속 처리 보기",
+      "device": "mobile",
+      "hiddenByRecordingLayout": true,
+      "at": 92.44628816699999
+    },
+    {
+      "atRaw": 99.23622025,
+      "kind": "user",
+      "name": "가온 정비센터 선택",
+      "device": "mobile",
+      "at": 95.266231709
+    },
+    {
+      "atRaw": 99.716187,
+      "kind": "selection",
+      "name": "앞 범퍼 외관",
+      "device": "mobile",
+      "at": 95.74619845900001
+    },
+    {
+      "atRaw": 99.91845604100001,
+      "kind": "user",
+      "name": "선택한 항목 검토",
+      "device": "mobile",
+      "at": 95.9484675
+    },
+    {
+      "atRaw": 102.88630325000001,
+      "kind": "user",
+      "name": "검토 내용 저장",
+      "device": "mobile",
+      "at": 98.91631470900002
+    },
+    {
+      "atRaw": 103.36183387500002,
+      "kind": "user",
+      "name": "경로 미리보기",
+      "device": "mobile",
+      "at": 99.39184533400002
+    },
+    {
+      "atRaw": 106.363525125,
+      "kind": "user",
+      "name": "안내 시작",
+      "device": "mobile",
+      "at": 102.39353658399999
+    },
+    {
+      "atRaw": 106.836135208,
+      "kind": "user",
+      "name": "대차 가능 여부 확인",
+      "device": "mobile",
+      "at": 102.866146667
+    },
+    {
+      "atRaw": 109.81060520800001,
+      "kind": "external",
+      "name": "시연 event: 대차 가능 확인",
+      "device": "mobile",
+      "hiddenByRecordingLayout": true,
+      "at": 105.84061666700002
+    },
+    {
+      "atRaw": 114.16859450000001,
+      "kind": "fixture",
+      "name": "새 시연 시작",
+      "device": "mobile",
+      "hiddenByRecordingLayout": true,
+      "at": 110.198605959
+    },
+    {
+      "atRaw": 114.47973387500001,
+      "kind": "user",
+      "name": "사고 기록 남기기",
+      "device": "mobile",
+      "at": 110.50974533400002
+    },
+    {
+      "atRaw": 114.9521885,
+      "kind": "user",
+      "name": "사진 남기기",
+      "device": "mobile",
+      "at": 110.982199959
+    },
+    {
+      "atRaw": 115.432992291,
+      "kind": "user",
+      "name": "사진 없이 내용 확인",
+      "device": "mobile",
+      "at": 111.46300375
+    },
+    {
+      "atRaw": 115.903830916,
+      "kind": "user",
+      "name": "경위서",
+      "device": "mobile",
+      "at": 111.933842375
+    },
+    {
+      "atRaw": 119.392743833,
+      "kind": "fixture",
+      "name": "새 시연 시작",
+      "device": "mobile",
+      "hiddenByRecordingLayout": true,
+      "at": 115.42275529199999
+    },
+    {
+      "atRaw": 119.70278558300001,
+      "kind": "external",
+      "name": "시연 event: 사고 자료 확보",
+      "device": "mobile",
+      "hiddenByRecordingLayout": true,
+      "at": 115.732797042
+    },
+    {
+      "atRaw": 120.029185625,
+      "kind": "user",
+      "name": "사고 기록 남기기",
+      "device": "mobile",
+      "at": 116.05919708399999
+    },
+    {
+      "atRaw": 120.506571333,
+      "kind": "user",
+      "name": "내용 확인으로",
+      "device": "mobile",
+      "at": 116.536582792
+    },
+    {
+      "atRaw": 124.03780125,
+      "kind": "fixture",
+      "name": "새 시연 시작",
+      "device": "mobile",
+      "hiddenByRecordingLayout": true,
+      "at": 120.067812709
+    },
+    {
+      "atRaw": 127.355158291,
+      "kind": "user-navigation",
+      "name": "후속 처리 보기",
+      "device": "mobile",
+      "hiddenByRecordingLayout": true,
+      "at": 123.38516975
+    },
+    {
+      "atRaw": 130.68652329100001,
+      "kind": "user",
+      "name": "대차 가능 여부 확인",
+      "device": "mobile",
+      "at": 126.71653475000001
+    },
+    {
+      "atRaw": 131.157100791,
+      "kind": "external",
+      "name": "시연 event: 대차 결과 미확인",
+      "device": "mobile",
+      "hiddenByRecordingLayout": true,
+      "at": 127.18711225
+    },
+    {
+      "atRaw": 134.505416375,
+      "kind": "fixture",
+      "name": "새 시연 시작",
+      "device": "mobile",
+      "hiddenByRecordingLayout": true,
+      "at": 130.53542783400002
+    },
+    {
+      "atRaw": 137.844537833,
+      "kind": "fixture",
+      "name": "새 시연 시작",
+      "device": "mobile",
+      "hiddenByRecordingLayout": true,
+      "at": 133.87454929199998
+    },
+    {
+      "atRaw": 141.1613285,
+      "kind": "external",
+      "name": "시연 event: 차량 지원 접수 확인",
+      "device": "mobile",
+      "hiddenByRecordingLayout": true,
+      "at": 137.191339959
+    },
+    {
+      "atRaw": 144.50539,
+      "kind": "user",
+      "name": "이어서 확인하기",
+      "device": "mobile",
+      "at": 140.535401459
+    },
+    {
+      "atRaw": 148.02077633300001,
+      "kind": "fixture",
+      "name": "새 시연 시작",
+      "device": "mobile",
+      "hiddenByRecordingLayout": true,
+      "at": 144.050787792
+    },
+    {
+      "atRaw": 151.33509041599999,
+      "kind": "external",
+      "name": "시연 event: 차량 지원 미접수 확인",
+      "device": "mobile",
+      "hiddenByRecordingLayout": true,
+      "at": 147.365101875
+    },
+    {
+      "atRaw": 154.668606208,
+      "kind": "user",
+      "name": "요청 범위 다시 확인",
+      "device": "mobile",
+      "at": 150.698617667
+    },
+    {
+      "atRaw": 155.150804791,
+      "kind": "user",
+      "name": "보낼 내용 확인",
+      "device": "mobile",
+      "at": 151.18081625000002
+    },
+    {
+      "atRaw": 155.609438541,
+      "kind": "user",
+      "name": "차량 지원",
+      "device": "mobile",
+      "at": 151.63945
+    },
+    {
+      "atRaw": 156.13190420799998,
+      "kind": "user",
+      "name": "선택한 내용 미리보기",
+      "device": "mobile",
+      "at": 152.16191566699996
+    },
+    {
+      "atRaw": 159.120257166,
+      "kind": "user",
+      "name": "이 내용으로 요청",
+      "device": "mobile",
+      "at": 155.15026862499997
+    },
+    {
+      "atRaw": 162.116862791,
+      "kind": "fixture",
+      "name": "새 시연 시작",
+      "device": "mobile",
+      "hiddenByRecordingLayout": true,
+      "at": 158.14687425
+    },
+    {
+      "atRaw": 175.31680195799999,
+      "kind": "external",
+      "name": "시연 event: 통화 연결 확인",
+      "device": "mobile",
+      "hiddenByRecordingLayout": true,
+      "at": 171.34681341699996
+    }
+  ],
+  "fixtureCoverage": [
+    {
+      "id": "complete-journey",
+      "scenes": [
+        "vehicle-response",
+        "rescue-connected",
+        "vehicle-unknown-observations",
+        "vehicle-observations",
+        "hazard-user-confirmed",
+        "hazard-device-result",
+        "evacuation-location",
+        "mobile-same-case",
+        "voice-entry",
+        "photo-targets",
+        "photo-before-approval",
+        "photo-saved",
+        "voice-review",
+        "voice-saved",
+        "front-clip-playing",
+        "diagram-original",
+        "diagram-corrected",
+        "report-review",
+        "report-evidence",
+        "report-confirmed",
+        "empty-insurance-selection",
+        "payload-preview-21",
+        "approval-waits-for-receipt",
+        "insurance-receipt",
+        "independent-share-preview",
+        "independent-share-result",
+        "repair-shops",
+        "repair-item-review",
+        "repair-route-preview",
+        "rental-pending",
+        "rental-result"
+      ]
+    },
+    {
+      "id": "unanswered",
+      "scenes": [
+        "unanswered-countdown",
+        "unanswered-contact-attempt",
+        "late-call-result-not-receipt"
+      ]
+    },
+    {
+      "id": "immobile",
+      "scenes": [
+        "immobile-vehicle-support",
+        "shop-lookup-failed",
+        "rental-unknown"
+      ]
+    },
+    {
+      "id": "no-evidence",
+      "scenes": [
+        "no-evidence-no-fabricated-report"
+      ]
+    },
+    {
+      "id": "partial-evidence",
+      "scenes": [
+        "partial-rear-clip-unavailable"
+      ]
+    },
+    {
+      "id": "insurance-declined",
+      "scenes": [
+        "insurance-declined"
+      ]
+    },
+    {
+      "id": "suspended-receipt",
+      "scenes": [
+        "suspended-with-existing-requests",
+        "result-during-suspension",
+        "resumed-without-resending"
+      ]
+    },
+    {
+      "id": "late-result",
+      "scenes": [
+        "unknown-existing-request",
+        "explicit-nonreceipt",
+        "fresh-approval-after-nonreceipt",
+        "new-request-is-not-a-receipt"
+      ]
+    }
+  ],
+  "features": [
+    "V1",
+    "V2",
+    "H1",
+    "R2",
+    "R1",
+    "R3",
+    "C1",
+    "C2",
+    "S1",
+    "S2",
+    "F1"
+  ],
+  "probe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 2560,
+        "height": 1440,
+        "r_frame_rate": "30/1"
+      }
+    ],
+    "format": {
+      "duration": "175.666667",
+      "size": "4360941"
+    }
+  },
+  "errors": []
+}

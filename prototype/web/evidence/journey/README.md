@@ -25,8 +25,8 @@ Review shell에서 상황을 선택하고 **이 상황으로 시작** 실행. �
 | 8 | [경위서와 근거 확인](task-8/) |
 | 9 | [승인 snapshot과 독립 접수·공유](task-9/) |
 | 10 | [후속 처리 통합](task-10/), [작은 화면과 실패 상태](task-10-ui/) |
-| 11 | [전체 flow·시각·접근성 검증](task-11-2026-11-10/README.md). 당시 221개 test, manifest 12개, build 통과. 최신 regression은 Task 12의 226개 |
-| 12 | [실제 browser 영상과 coverage 검증](task-12-2026-11-10/README.md). 175.7초, 47개 checkpoint, 전체 decode 통과 |
+| 11 | [전체 flow·시각·접근성 검증](task-11-2026-11-10/README.md). 당시 221개 test, manifest 12개, build 통과. 최신 regression은 [최종 review](final-review-2026-11-10/README.md)의 241개 |
+| 12 | [최종 V4 영상과 coverage 검증](final-review-2026-11-10/README.md). 175.7초, 47개 checkpoint, 전체 decode 통과. [이전 V3 기록](task-12-2026-11-10/README.md) 보존 |
 
 ## 영상 재생성
 
@@ -42,7 +42,7 @@ node scripts/record-journey-flow.mjs /absolute/path/journey-flow.mp4
 
 제품 button으로 입력·검토·승인 진행. 외부 결과와 기기 보기·전역 이동은 기존 review control의 handler를 실행. 영상에서는 review shell을 숨기며, 해당 action은 JSON의 `hiddenByRecordingLayout`에 기록. App state를 직접 바꾸거나 편집으로 성공 결과를 만들지 않음.
 
-검증한 영상은 `/Users/janghyunbin/Downloads/journey-flow-2026-11-10-v3.mp4`. [장면별 coverage와 검증 근거](task-12-2026-11-10/README.md) 제공. 전체 branch의 독립 review는 이 영상 검증 뒤 별도로 진행.
+최종 영상은 `/Users/janghyunbin/Downloads/journey-flow-2026-11-10-v4.mp4`. 독립 review의 Important 6건을 fix한 code에서 재녹화. [최종 장면별 coverage와 검증 근거](final-review-2026-11-10/README.md) 제공. [이전 V3 기록](task-12-2026-11-10/README.md)은 보존.
 
 ## 시연 경계와 남은 제약
 
@@ -53,4 +53,7 @@ node scripts/record-journey-flow.mjs /absolute/path/journey-flow.mp4
 - 권한 거절·quota 실패·과거 요청의 늦은 callback은 test로 검증. 영상에 모든 가능한 실패 조합이 포함된 것은 아님. Fixture 진입 수와 모든 transition coverage를 같은 수치로 표현하지 않음.
 - Browser 저장소의 외부 손상으로 Blob이 사라진 case는 복원하지 않음. 원문과 승인 기록은 자동 삭제하지 않지만 부분 복원 UI는 제공하지 않음.
 - 기존 500kB 초과 bundle 경고 유지. 실사용 성능·이해도 평가·공식 Pleos 적합성 검증은 미수행.
+- 충돌한 임시 기록은 누적 보존하며 개별 복원과 사본 내려받기 제공. Browser 강제 종료 전에는 복원하거나 사본을 보관해야 함.
+- 차량 상세 뒤에서 숨겨진 dashcam이 계속 재생되는 Minor 1건은 남음. 현재 sample은 무음.
+- Legacy import와 전체 case 삭제는 storage API와 test로 제공하며 별도 관리 UI는 없음.
 - Local commit만 수행. Push·merge·Funnel 갱신 없음.

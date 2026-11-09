@@ -1,0 +1,14 @@
+DIAGRAM {
+  recovery: '내 임시 기록 확인\n\n미저장 자료 0개도 이 화면에 보존 중.',
+  current: 'translate(450 500)'
+}
+FOLLOWUP { recovery: '내 임시 기록 확인\n\n미저장 자료 0개도 이 화면에 보존 중.', current: false }
+UNLOAD_DIAGRAM { warned: false, dialogs: 0 }
+UNLOAD_PHOTO { warned: false, dialogs: 0 }
+DELETE_RETENTION {
+  currentPhotos: 0,
+  history: 1,
+  reportHistory: 0,
+  submissions: 1,
+  retainedBytes: 33754
+}
