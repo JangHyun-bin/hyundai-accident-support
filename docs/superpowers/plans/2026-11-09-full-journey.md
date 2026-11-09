@@ -160,12 +160,12 @@ async function deleteCase(id: string, expectedRevision: number): Promise<boolean
 
 **Interfaces:** 공통 loadCase/commitCase/readAsset/deleteCase. `importLegacySession(session: Session, id: string, now: string): Promise<CommitResult>`는 createCase와 commitCase만 조합.
 
-- [ ] Red browser tests: case+Blob commit 후 reload 동일 내용; transaction abort면 둘 다 미반영; 2개 page의 동일 revision 수정은 하나만 성공; 실패한 draft는 반환값에 남음.
-- [ ] Red tests: 저장 차단·quota 실패에 `ok:false`; 손상 case는 load 불가지만 원본 삭제 안 함; 다른 case asset ID 참조 차단; legacy localStorage bytes가 import 전후 동일.
-- [ ] Red tests: 기존 assetId overwrite 거절; 교체 시 새 ID 사용; 과거 승인 snapshot으로 readAsset하면 이전 Blob, 새 draft는 새 Blob 반환. Draft photo 12개 제한과 과거 asset을 포함한 150 MiB 제한을 별도로 검사.
-- [ ] IndexedDB transaction 구현. DB operation 오류를 성공으로 삼키지 않음. Asset limit·case ownership을 commit 시 검증. Blob URL은 저장하지 않음.
-- [ ] 삭제는 case와 해당 assets만 한 transaction으로 처리. 과거 report/전송/공유 snapshot이 참조하는 asset의 draft 삭제는 물리 삭제하지 않음. 참조 없는 asset만 명시적 자료 삭제 때 제거, 전체 case 삭제 시 보존 asset도 제거.
-- [ ] `npm run test:ui -- tests/journey-storage.spec.ts tests/journey-domain.spec.ts --workers=1`, `npm run check` 통과. Commit `feat: persist incident records and media atomically`.
+- [x] Red browser tests: case+Blob commit 후 reload 동일 내용; transaction abort면 둘 다 미반영; 2개 page의 동일 revision 수정은 하나만 성공; 실패한 draft는 반환값에 남음.
+- [x] Red tests: 저장 차단·quota 실패에 `ok:false`; 손상 case는 load 불가지만 원본 삭제 안 함; 다른 case asset ID 참조 차단; legacy localStorage bytes가 import 전후 동일.
+- [x] Red tests: 기존 assetId overwrite 거절; 교체 시 새 ID 사용; 과거 승인 snapshot으로 readAsset하면 이전 Blob, 새 draft는 새 Blob 반환. Draft photo 12개 제한과 과거 asset을 포함한 150 MiB 제한을 별도로 검사.
+- [x] IndexedDB transaction 구현. DB operation 오류를 성공으로 삼키지 않음. Asset limit·case ownership을 commit 시 검증. Blob URL은 저장하지 않음.
+- [x] 삭제는 case와 해당 assets만 한 transaction으로 처리. 과거 report/전송/공유 snapshot이 참조하는 asset의 draft 삭제는 물리 삭제하지 않음. 참조 없는 asset만 명시적 자료 삭제 때 제거, 전체 case 삭제 시 보존 asset도 제거.
+- [x] `npm run test:ui -- tests/journey-storage.spec.ts tests/journey-domain.spec.ts --workers=1`, `npm run check` 통과. Commit `feat: persist incident records and media atomically`.
 
 **완료:** Media 입력을 붙이기 전에 실제 browser 저장과 실패 복구의 기반 검증.
 
