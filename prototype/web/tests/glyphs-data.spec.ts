@@ -18,6 +18,11 @@ test('every_visible_fact_cue_action_and_tone_has_a_glyph', () => {
       used.add(book.cue[state.cue.symbol as keyof typeof book.cue])
       expect(marks, `cue tone ${state.cue.status}`).toHaveProperty(state.cue.status)
       for (const action of state.actions) used.add((book.actions as Record<string, string>)[action.id] ?? book.actions.default)
+      const self = (state as { self_action?: { id: string } }).self_action
+      if (self) {
+        expect(book, `self ${self.id}`).toHaveProperty(['self', self.id])
+        used.add((book as unknown as { self: Record<string, string> }).self[self.id])
+      }
     }
   }
   for (const status of Object.values(manifest.request_statuses)) expect(marks, `tone ${status.tone}`).toHaveProperty(status.tone)
@@ -30,7 +35,7 @@ test('every_visible_fact_cue_action_and_tone_has_a_glyph', () => {
 })
 
 test('no_glyph_for_hidden_facts', () => {
-  for (const id of ['road', 'mobility', 'response']) expect(book.facts).not.toHaveProperty(id)
+  for (const id of ['road', 'response']) expect(book.facts).not.toHaveProperty(id)
 })
 
 test('tone_marks_differ_without_color', () => {

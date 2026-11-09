@@ -4,47 +4,30 @@
     "cue person": {
       "query": "scenario=SC01&scene=initial",
       "target": ".emergency-symbol",
-      "ratio": 3.460274530449087,
-      "face_pixels": 25666,
-      "plate_pixels": 18458,
+      "ratio": 3.6328278937348353,
+      "face_pixels": 3919,
+      "plate_pixels": 7609,
       "face_worst_rgb": [
-        160,
-        166,
-        168
+        162,
+        169,
+        171
       ],
       "plate_worst_rgb": [
-        73,
-        77,
-        80
-      ]
-    },
-    "cue phone": {
-      "query": "scenario=SC01&scene=contact_unknown",
-      "target": ".emergency-symbol",
-      "ratio": 3.460274530449087,
-      "face_pixels": 20397,
-      "plate_pixels": 16486,
-      "face_worst_rgb": [
-        160,
-        166,
-        168
-      ],
-      "plate_worst_rgb": [
-        73,
-        77,
-        80
+        72,
+        76,
+        79
       ]
     },
     "cue vehicle": {
       "query": "scenario=SC05&scene=initial",
       "target": ".emergency-symbol",
-      "ratio": 3.259451735623948,
-      "face_pixels": 34023,
-      "plate_pixels": 26467,
+      "ratio": 3.3765570858292433,
+      "face_pixels": 4973,
+      "plate_pixels": 9331,
       "face_worst_rgb": [
-        160,
-        166,
-        168
+        163,
+        169,
+        171
       ],
       "plate_worst_rgb": [
         76,
@@ -55,13 +38,13 @@
     "fact driver": {
       "query": "scenario=SC01",
       "target": "[data-fact=\"driver\"] .emergency-fact-plate",
-      "ratio": 3.7346945882554246,
-      "face_pixels": 772,
-      "plate_pixels": 3969,
+      "ratio": 3.303377538465997,
+      "face_pixels": 1638,
+      "plate_pixels": 5220,
       "face_worst_rgb": [
-        178,
-        183,
-        186
+        168,
+        172,
+        174
       ],
       "plate_worst_rgb": [
         80,
@@ -72,47 +55,47 @@
     "fact route": {
       "query": "scenario=SC01",
       "target": "[data-fact=\"route\"] .emergency-fact-plate",
-      "ratio": 4.250133240255105,
-      "face_pixels": 240,
-      "plate_pixels": 4262,
+      "ratio": 3.2890078162923464,
+      "face_pixels": 670,
+      "plate_pixels": 5602,
       "face_worst_rgb": [
-        178,
-        184,
-        186
+        170,
+        175,
+        176
       ],
       "plate_worst_rgb": [
-        73,
-        77,
-        80
+        83,
+        87,
+        90
       ]
     },
     "fact injury": {
       "query": "scenario=SC03",
       "target": "[data-fact=\"injury\"] .emergency-fact-plate",
-      "ratio": 3.9870006607180404,
-      "face_pixels": 832,
-      "plate_pixels": 3956,
+      "ratio": 3.3271880648905805,
+      "face_pixels": 1818,
+      "plate_pixels": 5286,
       "face_worst_rgb": [
-        177,
-        182,
-        184
+        169,
+        173,
+        175
       ],
       "plate_worst_rgb": [
-        75,
-        80,
-        83
+        81,
+        85,
+        88
       ]
     },
     "fact consciousness": {
       "query": "scenario=SC03",
       "target": "[data-fact=\"consciousness\"] .emergency-fact-plate",
-      "ratio": 3.6905337505348053,
-      "face_pixels": 773,
-      "plate_pixels": 3977,
+      "ratio": 3.3337034845887326,
+      "face_pixels": 1638,
+      "plate_pixels": 5220,
       "face_worst_rgb": [
-        177,
-        182,
-        184
+        168,
+        173,
+        175
       ],
       "plate_worst_rgb": [
         80,
@@ -123,43 +106,94 @@
     "fact arrival": {
       "query": "scenario=SC05",
       "target": "[data-fact=\"arrival\"] .emergency-fact-plate",
-      "ratio": 3.6370344296140686,
-      "face_pixels": 847,
-      "plate_pixels": 4569,
+      "ratio": 3.154587557849722,
+      "face_pixels": 1951,
+      "plate_pixels": 6249,
       "face_worst_rgb": [
-        173,
-        178,
-        180
+        169,
+        174,
+        176
       ],
       "plate_worst_rgb": [
-        78,
-        83,
-        86
+        85,
+        89,
+        92
       ]
     },
     "fact handoff": {
       "query": "scenario=SC05",
       "target": "[data-fact=\"handoff\"] .emergency-fact-plate",
-      "ratio": 4.072334300069317,
-      "face_pixels": 848,
-      "plate_pixels": 4361,
+      "ratio": 3.260393941025547,
+      "face_pixels": 1855,
+      "plate_pixels": 5890,
       "face_worst_rgb": [
-        176,
-        181,
-        184
+        166,
+        171,
+        174
       ],
       "plate_worst_rgb": [
-        73,
-        78,
-        81
+        80,
+        85,
+        87
+      ]
+    },
+    "self hazard": {
+      "query": "scenario=SC01&scene=initial",
+      "target": ".emergency-self-plate",
+      "ratio": 3.4742582159877835,
+      "face_pixels": 6365,
+      "plate_pixels": 10494,
+      "face_worst_rgb": [
+        160,
+        166,
+        169
+      ],
+      "plate_worst_rgb": [
+        72,
+        77,
+        80
+      ]
+    },
+    "self evacuate": {
+      "query": "scenario=SC01&scene=contact_unknown",
+      "target": ".emergency-self-plate",
+      "ratio": 3.574172742747555,
+      "face_pixels": 2741,
+      "plate_pixels": 9476,
+      "face_worst_rgb": [
+        160,
+        166,
+        169
+      ],
+      "plate_worst_rgb": [
+        71,
+        75,
+        78
+      ]
+    },
+    "self wait": {
+      "query": "scenario=SC05&scene=initial",
+      "target": ".emergency-self-plate",
+      "ratio": 3.574172742747555,
+      "face_pixels": 5485,
+      "plate_pixels": 8900,
+      "face_worst_rgb": [
+        160,
+        166,
+        169
+      ],
+      "plate_worst_rgb": [
+        71,
+        75,
+        78
       ]
     },
     "mark unknown": {
       "query": "scenario=SC05&scene=initial",
       "target": ".emergency-symbol-state [data-mark]",
       "ratio": 11.01718075223034,
-      "face_pixels": 1025,
-      "plate_pixels": 5274,
+      "face_pixels": 287,
+      "plate_pixels": 2813,
       "face_worst_rgb": [
         230,
         234,
@@ -174,9 +208,9 @@
     "mark attention": {
       "query": "scenario=SC01&scene=initial",
       "target": ".emergency-symbol-state [data-mark]",
-      "ratio": 6.988909463268978,
-      "face_pixels": 480,
-      "plate_pixels": 3230,
+      "ratio": 7.043509795884252,
+      "face_pixels": 150,
+      "plate_pixels": 1612,
       "face_worst_rgb": [
         58,
         34,
@@ -184,33 +218,33 @@
       ],
       "plate_worst_rgb": [
         227,
-        164,
-        137
+        165,
+        138
       ]
     },
     "mark confirmed": {
       "query": "scenario=SC05&scene=initial",
       "target": "[data-request] [data-mark=\"confirmed\"]",
-      "ratio": 9.683946362694142,
-      "face_pixels": 112,
-      "plate_pixels": 1625,
+      "ratio": 9.796952575644328,
+      "face_pixels": 343,
+      "plate_pixels": 3239,
       "face_worst_rgb": [
         23,
         42,
         36
       ],
       "plate_worst_rgb": [
-        168,
-        218,
-        196
+        170,
+        219,
+        197
       ]
     },
     "mark neutral": {
       "query": "scenario=SC05&scene=initial",
       "target": "[data-request] [data-mark=\"neutral\"]",
       "ratio": 11.01718075223034,
-      "face_pixels": 29,
-      "plate_pixels": 1604,
+      "face_pixels": 212,
+      "plate_pixels": 3388,
       "face_worst_rgb": [
         230,
         234,

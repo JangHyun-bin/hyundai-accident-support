@@ -1,5 +1,5 @@
 {
-  "version": "0.1",
+  "version": "0.2",
   "simulation_only": true,
   "data_source": "scenario_fixture",
   "safety_guidance": {
@@ -34,6 +34,26 @@
     "received": {
       "label": "접수 확인",
       "tone": "confirmed"
+    },
+    "sent": {
+      "label": "전송됨 · 접수 미확인",
+      "tone": "unknown"
+    },
+    "failed": {
+      "label": "전송 실패",
+      "tone": "attention"
+    },
+    "not_received": {
+      "label": "미접수 확인",
+      "tone": "attention"
+    },
+    "deferred": {
+      "label": "전송 보류",
+      "tone": "neutral"
+    },
+    "declined": {
+      "label": "전송 거절",
+      "tone": "neutral"
     }
   },
   "scenarios": [
@@ -75,6 +95,18 @@
         {
           "id": "route",
           "label": "이동 경로",
+          "value": "미확인",
+          "status": "unknown"
+        },
+        {
+          "id": "arrival",
+          "label": "현장 도착",
+          "value": "미확인",
+          "status": "unknown"
+        },
+        {
+          "id": "handoff",
+          "label": "구호 인계",
           "value": "미확인",
           "status": "unknown"
         }
@@ -131,7 +163,8 @@
             }
           ],
           "self_action": {
-            "now": "비상등 켜기",
+            "id": "hazard",
+            "now": "비상등을 켜세요",
             "next": "트렁크 열기"
           },
           "deferred": [
@@ -163,7 +196,8 @@
           ],
           "events": [],
           "self_action": {
-            "now": "비상등 켜기",
+            "id": "hazard",
+            "now": "비상등을 켜세요",
             "next": "트렁크 열기"
           },
           "deferred": [
@@ -196,7 +230,18 @@
               "to": "contact_unknown"
             }
           ],
-          "events": [],
+          "events": [
+            {
+              "id": "connected",
+              "label": "통화 연결 확인",
+              "to": "auto_connected"
+            },
+            {
+              "id": "failed",
+              "label": "연결 실패",
+              "to": "auto_failed"
+            }
+          ],
           "deferred": [
             "보험 상세",
             "사고 경위 기록"
@@ -224,11 +269,17 @@
               "id": "call_connected",
               "label": "통화 연결 확인",
               "to": "connected"
+            },
+            {
+              "id": "call_failed",
+              "label": "연결 실패",
+              "to": "call_failed"
             }
           ],
           "self_action": {
             "condition": "움직일 수 있으면",
-            "now": "가드레일 밖으로 대피"
+            "id": "evacuate",
+            "now": "가드레일 밖으로 대피하세요"
           },
           "deferred": [
             "보험 상세",
@@ -252,18 +303,396 @@
             "rescue": "connected"
           },
           "fact_overrides": {},
-          "actions": [],
+          "actions": [
+            {
+              "id": "record",
+              "label": "사고 기록 남기기",
+              "to": "record"
+            }
+          ],
           "events": [
             {
               "id": "call_dropped",
               "label": "연결 끊김",
               "to": "contact_unknown"
+            },
+            {
+              "id": "rescue_received",
+              "label": "구호 접수 확인",
+              "to": "received"
             }
           ],
           "self_action": {
             "condition": "움직일 수 있으면",
-            "now": "가드레일 밖으로 대피"
+            "id": "evacuate",
+            "now": "가드레일 밖으로 대피하세요"
           },
+          "deferred": [
+            "보험 상세",
+            "사고 경위 기록"
+          ]
+        },
+        {
+          "id": "call_failed",
+          "label": "연결 실패",
+          "phase": "settled",
+          "title": "119 연결을 다시 시도하세요",
+          "voice": "119 연결을 다시 시도하세요. 아직 통화가 연결되지 않았어요.",
+          "cue": {
+            "symbol": "person",
+            "status": "attention",
+            "label": "부상 있음",
+            "detail": ""
+          },
+          "request_overrides": {
+            "rescue": "connection_unknown"
+          },
+          "fact_overrides": {},
+          "actions": [
+            {
+              "id": "retry",
+              "label": "다시 연결",
+              "to": "contact_unknown"
+            }
+          ],
+          "events": [],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "instruction": "아직 통화가 연결되지 않았어요."
+        },
+        {
+          "id": "received",
+          "label": "구호 접수",
+          "phase": "settled",
+          "title": "구호 접수가 확인됐어요",
+          "voice": "구호 접수가 확인됐어요. 현장 도착과 인계는 따로 확인해요.",
+          "cue": {
+            "symbol": "person",
+            "status": "confirmed",
+            "label": "구호 접수 확인",
+            "detail": ""
+          },
+          "request_overrides": {
+            "rescue": "received"
+          },
+          "fact_overrides": {},
+          "actions": [
+            {
+              "id": "record",
+              "label": "사고 기록 남기기",
+              "to": "record"
+            }
+          ],
+          "events": [
+            {
+              "id": "arrived",
+              "label": "구호 현장 도착",
+              "to": "arrived"
+            }
+          ],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "panel": "receipt",
+          "instruction": "현장 도착과 인계는 따로 확인해요."
+        },
+        {
+          "id": "arrived",
+          "label": "현장 도착",
+          "phase": "settled",
+          "title": "구호가 현장에 도착했어요",
+          "voice": "구호가 현장에 도착했어요. 구호 인계는 아직 확인 중이에요.",
+          "cue": {
+            "symbol": "person",
+            "status": "confirmed",
+            "label": "현장 도착 확인",
+            "detail": ""
+          },
+          "request_overrides": {
+            "rescue": "received"
+          },
+          "fact_overrides": {
+            "arrival": {
+              "value": "도착 확인",
+              "status": "confirmed"
+            }
+          },
+          "actions": [],
+          "events": [
+            {
+              "id": "handoff",
+              "label": "구호 인계 확인",
+              "to": "handoff"
+            }
+          ],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "instruction": "구호 인계는 아직 확인 중이에요."
+        },
+        {
+          "id": "handoff",
+          "label": "구호 인계",
+          "phase": "settled",
+          "title": "구호 인계가 확인됐어요",
+          "voice": "구호 인계가 확인됐어요. 차량 지원과 보험은 별도 요청이 필요해요.",
+          "cue": {
+            "symbol": "person",
+            "status": "confirmed",
+            "label": "구호 인계 확인",
+            "detail": ""
+          },
+          "request_overrides": {
+            "rescue": "received"
+          },
+          "fact_overrides": {
+            "handoff": {
+              "value": "인계 확인",
+              "status": "confirmed"
+            }
+          },
+          "actions": [],
+          "events": [],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "instruction": "차량 지원과 보험은 별도 요청이 필요해요."
+        },
+        {
+          "id": "record",
+          "label": "사고 기록",
+          "phase": "settled",
+          "title": "기억나는 내용을 남겨주세요",
+          "voice": "기억나는 내용을 남겨주세요. 확실한 내용만 적어주세요. 외부로 전송하지 않아요.",
+          "cue": {
+            "symbol": "person",
+            "status": "attention",
+            "label": "부상 있음",
+            "detail": ""
+          },
+          "request_overrides": {
+            "rescue": "connected"
+          },
+          "fact_overrides": {},
+          "actions": [
+            {
+              "id": "save_record",
+              "label": "기록 저장",
+              "to": "record_saved",
+              "effect": "save_record"
+            },
+            {
+              "id": "back",
+              "label": "돌아가기",
+              "to": "connected",
+              "secondary": true,
+              "effect": "return"
+            }
+          ],
+          "events": [],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "panel": "record",
+          "instruction": "확실한 내용만 적어주세요. 외부로 전송하지 않아요."
+        },
+        {
+          "id": "record_saved",
+          "label": "기록 저장",
+          "phase": "settled",
+          "title": "사고 기록을 저장했어요",
+          "voice": "사고 기록을 저장했어요. 필요할 때 이어서 고칠 수 있어요.",
+          "cue": {
+            "symbol": "person",
+            "status": "attention",
+            "label": "부상 있음",
+            "detail": ""
+          },
+          "request_overrides": {
+            "rescue": "connected"
+          },
+          "fact_overrides": {},
+          "actions": [
+            {
+              "id": "back",
+              "label": "지원 상황으로",
+              "to": "connected",
+              "effect": "return"
+            },
+            {
+              "id": "edit",
+              "label": "기록 고치기",
+              "to": "record",
+              "secondary": true
+            }
+          ],
+          "events": [],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "panel": "record_summary",
+          "instruction": "필요할 때 이어서 고칠 수 있어요."
+        },
+        {
+          "id": "auto_connected",
+          "label": "무응답 통화",
+          "phase": "settled",
+          "title": "119 통화 연결됨",
+          "instruction": "사용자 응답은 아직 확인되지 않았어요.",
+          "voice": "119 통화 연결됨. 사용자 응답은 아직 확인되지 않았어요.",
+          "cue": {
+            "symbol": "person",
+            "status": "attention",
+            "label": "부상 있음 · 응답 없음",
+            "detail": "부상 부위·정도는 미확인"
+          },
+          "request_overrides": {
+            "rescue": "connected"
+          },
+          "fact_overrides": {},
+          "actions": [
+            {
+              "id": "respond",
+              "label": "응답할 수 있어요",
+              "to": "connected",
+              "slot": "self"
+            }
+          ],
+          "events": [
+            {
+              "id": "dropped",
+              "label": "연결 끊김",
+              "to": "auto_contact"
+            },
+            {
+              "id": "received",
+              "label": "구호 접수 확인",
+              "to": "auto_received"
+            }
+          ],
+          "deferred": [
+            "보험 상세",
+            "사고 경위 기록"
+          ]
+        },
+        {
+          "id": "auto_failed",
+          "label": "무응답 연결 실패",
+          "phase": "settled",
+          "title": "119 연결을 다시 시도하세요",
+          "instruction": "사용자 응답은 아직 확인되지 않았어요.",
+          "voice": "119 연결을 다시 시도하세요. 사용자 응답은 아직 확인되지 않았어요.",
+          "cue": {
+            "symbol": "person",
+            "status": "attention",
+            "label": "부상 있음 · 응답 없음",
+            "detail": "부상 부위·정도는 미확인"
+          },
+          "request_overrides": {
+            "rescue": "connection_unknown"
+          },
+          "fact_overrides": {},
+          "actions": [
+            {
+              "id": "respond",
+              "label": "응답할 수 있어요",
+              "to": "contact_unknown",
+              "slot": "self"
+            }
+          ],
+          "events": [
+            {
+              "id": "retry",
+              "label": "구호 연결 재시도",
+              "to": "auto_contact"
+            }
+          ],
+          "deferred": [
+            "보험 상세",
+            "사고 경위 기록"
+          ]
+        },
+        {
+          "id": "auto_received",
+          "label": "무응답 구호 접수",
+          "phase": "settled",
+          "title": "구호 접수가 확인됐어요",
+          "instruction": "사용자 응답은 아직 확인되지 않았어요.",
+          "voice": "구호 접수가 확인됐어요. 사용자 응답은 아직 확인되지 않았어요.",
+          "cue": {
+            "symbol": "person",
+            "status": "attention",
+            "label": "부상 있음 · 응답 없음",
+            "detail": "부상 부위·정도는 미확인"
+          },
+          "request_overrides": {
+            "rescue": "received"
+          },
+          "fact_overrides": {},
+          "actions": [
+            {
+              "id": "respond",
+              "label": "응답할 수 있어요",
+              "to": "received",
+              "slot": "self"
+            }
+          ],
+          "events": [
+            {
+              "id": "handoff",
+              "label": "구호 인계 확인",
+              "to": "auto_handoff"
+            }
+          ],
+          "deferred": [
+            "보험 상세",
+            "사고 경위 기록"
+          ]
+        },
+        {
+          "id": "auto_handoff",
+          "label": "무응답 구호 인계",
+          "phase": "settled",
+          "title": "구호 인계가 확인됐어요",
+          "instruction": "사용자 응답은 아직 확인되지 않았어요.",
+          "voice": "구호 인계가 확인됐어요. 사용자 응답은 아직 확인되지 않았어요.",
+          "cue": {
+            "symbol": "person",
+            "status": "attention",
+            "label": "부상 있음 · 응답 없음",
+            "detail": "부상 부위·정도는 미확인"
+          },
+          "request_overrides": {
+            "rescue": "received"
+          },
+          "fact_overrides": {
+            "handoff": {
+              "value": "인계 확인",
+              "status": "confirmed"
+            }
+          },
+          "actions": [
+            {
+              "id": "respond",
+              "label": "응답할 수 있어요",
+              "to": "handoff",
+              "slot": "self"
+            }
+          ],
+          "events": [],
           "deferred": [
             "보험 상세",
             "사고 경위 기록"
@@ -284,6 +713,435 @@
           "insurance"
         ],
         "detected": "충돌 감지"
+      }
+    },
+    {
+      "id": "SC02",
+      "title": "차량 이동 불가",
+      "summary": "부상·즉시 위험 없음 확인 · 차량 이동 불가 · 차량 지원 필요",
+      "source_nodes": [
+        "I4N",
+        "X2",
+        "S4",
+        "G4"
+      ],
+      "open_decisions": [
+        "D01",
+        "D02",
+        "D03"
+      ],
+      "initial": "initial",
+      "facts": [
+        {
+          "id": "mobility",
+          "label": "차량 이동",
+          "value": "이동 불가",
+          "status": "attention"
+        },
+        {
+          "id": "injury",
+          "label": "부상 여부",
+          "value": "없음 확인",
+          "status": "confirmed"
+        },
+        {
+          "id": "arrival",
+          "label": "현장 도착",
+          "value": "미확인",
+          "status": "unknown"
+        }
+      ],
+      "requests": [
+        {
+          "id": "rescue",
+          "label": "구호",
+          "status": "not_sent"
+        },
+        {
+          "id": "vehicle",
+          "label": "차량 지원",
+          "status": "not_sent"
+        },
+        {
+          "id": "insurance",
+          "label": "보험",
+          "status": "not_sent"
+        }
+      ],
+      "states": [
+        {
+          "id": "initial",
+          "label": "지원 안내",
+          "phase": "settled",
+          "title": "차량 지원이 필요해요",
+          "voice": "차량 지원이 필요해요. 차량을 직접 이동하지 말고 도움을 요청하세요.",
+          "cue": {
+            "symbol": "vehicle",
+            "status": "attention",
+            "label": "이동 불가",
+            "detail": ""
+          },
+          "request_overrides": {},
+          "fact_overrides": {},
+          "actions": [
+            {
+              "id": "review",
+              "label": "차량 지원 요청하기",
+              "to": "review"
+            }
+          ],
+          "events": [],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "instruction": "차량을 직접 이동하지 말고 도움을 요청하세요."
+        },
+        {
+          "id": "review",
+          "label": "요청 범위",
+          "phase": "settled",
+          "title": "요청할 내용을 확인하세요",
+          "voice": "요청할 내용을 확인하세요. ",
+          "cue": {
+            "symbol": "vehicle",
+            "status": "attention",
+            "label": "이동 불가",
+            "detail": ""
+          },
+          "request_overrides": {},
+          "fact_overrides": {},
+          "actions": [
+            {
+              "id": "send",
+              "label": "동의하고 요청",
+              "to": "sending",
+              "effect": "submit",
+              "agency": "vehicle"
+            },
+            {
+              "id": "cancel",
+              "label": "나중에",
+              "to": "initial",
+              "secondary": true
+            }
+          ],
+          "events": [],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "panel": "scope",
+          "step": "차량 지원 · 요청 전"
+        },
+        {
+          "id": "sending",
+          "label": "전송 중",
+          "phase": "progress",
+          "title": "차량 지원 요청을 보내고 있어요",
+          "voice": "차량 지원 요청을 보내고 있어요. ",
+          "cue": {
+            "symbol": "vehicle",
+            "status": "unknown",
+            "label": "진행 확인",
+            "detail": ""
+          },
+          "request_overrides": {
+            "vehicle": "sent"
+          },
+          "fact_overrides": {},
+          "actions": [],
+          "events": [
+            {
+              "id": "sent",
+              "label": "전송 완료",
+              "to": "waiting"
+            },
+            {
+              "id": "failed",
+              "label": "전송 실패",
+              "to": "failed"
+            }
+          ],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": []
+        },
+        {
+          "id": "failed",
+          "label": "전송 실패",
+          "phase": "settled",
+          "title": "요청을 보내지 못했어요",
+          "voice": "요청을 보내지 못했어요. 접수되지 않았어요. 내용을 확인한 뒤 다시 요청하세요.",
+          "cue": {
+            "symbol": "vehicle",
+            "status": "attention",
+            "label": "진행 확인",
+            "detail": ""
+          },
+          "request_overrides": {
+            "vehicle": "failed"
+          },
+          "fact_overrides": {},
+          "actions": [
+            {
+              "id": "retry",
+              "label": "요청 내용 다시 확인",
+              "to": "review"
+            }
+          ],
+          "events": [],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "instruction": "접수되지 않았어요. 내용을 확인한 뒤 다시 요청하세요."
+        },
+        {
+          "id": "waiting",
+          "label": "접수 대기",
+          "phase": "settled",
+          "title": "차량 지원 접수를 기다려요",
+          "voice": "차량 지원 접수를 기다려요. 요청은 전송됐어요. 접수 여부를 확인 중이에요.",
+          "cue": {
+            "symbol": "vehicle",
+            "status": "unknown",
+            "label": "진행 확인",
+            "detail": ""
+          },
+          "request_overrides": {
+            "vehicle": "unknown"
+          },
+          "fact_overrides": {},
+          "actions": [
+            {
+              "id": "record",
+              "label": "사고 기록 남기기",
+              "to": "record"
+            },
+            {
+              "id": "check",
+              "label": "요청 상태 확인",
+              "to": "checking",
+              "secondary": true
+            }
+          ],
+          "events": [
+            {
+              "id": "received",
+              "label": "차량 지원 접수 확인",
+              "to": "received",
+              "effect": "receive",
+              "agency": "vehicle"
+            }
+          ],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "instruction": "요청은 전송됐어요. 접수 여부를 확인 중이에요."
+        },
+        {
+          "id": "checking",
+          "label": "결과 조회",
+          "phase": "progress",
+          "title": "기존 요청을 확인하고 있어요",
+          "voice": "기존 요청을 확인하고 있어요. 같은 요청을 다시 보내지 않아요.",
+          "cue": {
+            "symbol": "vehicle",
+            "status": "unknown",
+            "label": "진행 확인",
+            "detail": ""
+          },
+          "request_overrides": {
+            "vehicle": "checking"
+          },
+          "fact_overrides": {},
+          "actions": [],
+          "events": [
+            {
+              "id": "unknown",
+              "label": "결과 미확인",
+              "to": "waiting"
+            },
+            {
+              "id": "received",
+              "label": "차량 지원 접수 확인",
+              "to": "received",
+              "effect": "receive",
+              "agency": "vehicle"
+            }
+          ],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "instruction": "같은 요청을 다시 보내지 않아요."
+        },
+        {
+          "id": "record",
+          "label": "사고 기록",
+          "phase": "settled",
+          "title": "기억나는 내용을 남겨주세요",
+          "voice": "기억나는 내용을 남겨주세요. 위치와 경위 중 확실한 내용만 적어주세요.",
+          "cue": {
+            "symbol": "vehicle",
+            "status": "unknown",
+            "label": "진행 확인",
+            "detail": ""
+          },
+          "request_overrides": {},
+          "fact_overrides": {},
+          "actions": [
+            {
+              "id": "save",
+              "label": "기록 저장",
+              "to": "record_saved",
+              "effect": "save_record"
+            },
+            {
+              "id": "back",
+              "label": "돌아가기",
+              "to": "waiting",
+              "secondary": true,
+              "effect": "return"
+            }
+          ],
+          "events": [],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "panel": "record",
+          "instruction": "위치와 경위 중 확실한 내용만 적어주세요."
+        },
+        {
+          "id": "record_saved",
+          "label": "기록 저장",
+          "phase": "settled",
+          "title": "사고 기록을 저장했어요",
+          "voice": "사고 기록을 저장했어요. 기록은 이 기기에 보관돼요. 아직 전송하지 않았어요.",
+          "cue": {
+            "symbol": "vehicle",
+            "status": "confirmed",
+            "label": "진행 확인",
+            "detail": ""
+          },
+          "request_overrides": {},
+          "fact_overrides": {},
+          "actions": [
+            {
+              "id": "back",
+              "label": "지원 상황으로",
+              "to": "waiting",
+              "effect": "return"
+            },
+            {
+              "id": "edit",
+              "label": "기록 고치기",
+              "to": "record",
+              "secondary": true
+            }
+          ],
+          "events": [],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "panel": "record_summary",
+          "instruction": "기록은 이 기기에 보관돼요. 아직 전송하지 않았어요."
+        },
+        {
+          "id": "received",
+          "label": "접수 확인",
+          "phase": "settled",
+          "title": "차량 지원 접수가 확인됐어요",
+          "voice": "차량 지원 접수가 확인됐어요. 현장 도착은 아직 확인되지 않았어요.",
+          "cue": {
+            "symbol": "vehicle",
+            "status": "confirmed",
+            "label": "진행 확인",
+            "detail": ""
+          },
+          "request_overrides": {
+            "vehicle": "received"
+          },
+          "fact_overrides": {},
+          "actions": [
+            {
+              "id": "record",
+              "label": "사고 기록 남기기",
+              "to": "record"
+            }
+          ],
+          "events": [
+            {
+              "id": "arrived",
+              "label": "차량 지원 현장 도착",
+              "to": "arrived"
+            }
+          ],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "panel": "receipt",
+          "instruction": "현장 도착은 아직 확인되지 않았어요."
+        },
+        {
+          "id": "arrived",
+          "label": "현장 도착",
+          "phase": "settled",
+          "title": "차량 지원이 도착했어요",
+          "voice": "차량 지원이 도착했어요. 보험 요청과 사고 기록은 별도로 유지돼요.",
+          "cue": {
+            "symbol": "vehicle",
+            "status": "confirmed",
+            "label": "현장 도착 확인",
+            "detail": ""
+          },
+          "request_overrides": {
+            "vehicle": "received"
+          },
+          "fact_overrides": {
+            "arrival": {
+              "value": "도착 확인",
+              "status": "confirmed"
+            }
+          },
+          "actions": [],
+          "events": [],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "instruction": "보험 요청과 사고 기록은 별도로 유지돼요."
+        }
+      ],
+      "presentation": {
+        "context_label": "지원 진행 확인",
+        "support_title": "접수 이후에도 확인할 것",
+        "visible_facts": [
+          "mobility",
+          "injury"
+        ],
+        "visible_requests": [
+          "rescue",
+          "vehicle",
+          "insurance"
+        ],
+        "detected": "차량 상태"
       }
     },
     {
@@ -318,6 +1176,18 @@
         {
           "id": "consciousness",
           "label": "의식 상태",
+          "value": "미확인",
+          "status": "unknown"
+        },
+        {
+          "id": "risk",
+          "label": "차량 위험",
+          "value": "미확인",
+          "status": "unknown"
+        },
+        {
+          "id": "handoff",
+          "label": "구호 인계",
           "value": "미확인",
           "status": "unknown"
         }
@@ -371,10 +1241,17 @@
               "id": "no_response",
               "label": "응답 없음 (즉시)",
               "to": "unanswered"
+            },
+            {
+              "id": "risk",
+              "label": "차량 위험 감지",
+              "to": "initial",
+              "effect": "risk"
             }
           ],
           "self_action": {
-            "now": "비상등 켜기",
+            "id": "hazard",
+            "now": "비상등을 켜세요",
             "next": "트렁크 열기"
           },
           "deferred": [
@@ -412,7 +1289,24 @@
               "to": "contact_unknown"
             }
           ],
-          "events": [],
+          "events": [
+            {
+              "id": "connected",
+              "label": "통화 연결 확인",
+              "to": "unanswered_connected"
+            },
+            {
+              "id": "failed",
+              "label": "연결 실패",
+              "to": "unanswered_failed"
+            },
+            {
+              "id": "risk",
+              "label": "차량 위험 감지",
+              "to": "unanswered",
+              "effect": "risk"
+            }
+          ],
           "deferred": [
             "보험 상세",
             "사고 경위 기록"
@@ -440,9 +1334,21 @@
             }
           },
           "actions": [],
-          "events": [],
+          "events": [
+            {
+              "id": "connected",
+              "label": "통화 연결 확인",
+              "to": "connected"
+            },
+            {
+              "id": "failed",
+              "label": "연결 실패",
+              "to": "call_failed"
+            }
+          ],
           "self_action": {
-            "now": "비상등 켜기",
+            "id": "hazard",
+            "now": "비상등을 켜세요",
             "next": "트렁크 열기"
           },
           "deferred": [
@@ -479,13 +1385,327 @@
           ],
           "events": [],
           "self_action": {
-            "now": "비상등 켜기",
+            "id": "hazard",
+            "now": "비상등을 켜세요",
             "next": "트렁크 열기"
           },
           "deferred": [
             "보험 상세",
             "사고 경위 기록"
           ]
+        },
+        {
+          "id": "connected",
+          "label": "119 통화 연결됨",
+          "phase": "settled",
+          "title": "119 통화 연결됨",
+          "voice": "119 통화 연결됨. 부상·의식 상태는 별도 확인이 필요해요.",
+          "cue": {
+            "symbol": "person",
+            "status": "confirmed",
+            "label": "응답 확인",
+            "detail": ""
+          },
+          "request_overrides": {
+            "rescue": "connected"
+          },
+          "fact_overrides": {
+            "response": {
+              "value": "응답 확인",
+              "status": "confirmed"
+            }
+          },
+          "actions": [],
+          "events": [
+            {
+              "id": "dropped",
+              "label": "연결 끊김",
+              "to": "contact_unknown"
+            },
+            {
+              "id": "received",
+              "label": "구호 접수 확인",
+              "to": "received"
+            }
+          ],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "instruction": "부상·의식 상태는 별도 확인이 필요해요."
+        },
+        {
+          "id": "call_failed",
+          "label": "119 연결을 다시 시도하세요",
+          "phase": "settled",
+          "title": "119 연결을 다시 시도하세요",
+          "voice": "119 연결을 다시 시도하세요. 부상·의식 상태는 별도 확인이 필요해요.",
+          "cue": {
+            "symbol": "person",
+            "status": "unknown",
+            "label": "응답 확인",
+            "detail": ""
+          },
+          "request_overrides": {
+            "rescue": "connection_unknown"
+          },
+          "fact_overrides": {
+            "response": {
+              "value": "응답 확인",
+              "status": "confirmed"
+            }
+          },
+          "actions": [
+            {
+              "id": "retry",
+              "label": "다시 연결",
+              "to": "contact_unknown"
+            }
+          ],
+          "events": [],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "instruction": "부상·의식 상태는 별도 확인이 필요해요."
+        },
+        {
+          "id": "received",
+          "label": "구호 접수가 확인됐어요",
+          "phase": "settled",
+          "title": "구호 접수가 확인됐어요",
+          "voice": "구호 접수가 확인됐어요. 부상·의식 상태는 별도 확인이 필요해요.",
+          "cue": {
+            "symbol": "person",
+            "status": "confirmed",
+            "label": "응답 확인",
+            "detail": ""
+          },
+          "request_overrides": {
+            "rescue": "received"
+          },
+          "fact_overrides": {
+            "response": {
+              "value": "응답 확인",
+              "status": "confirmed"
+            }
+          },
+          "actions": [],
+          "events": [
+            {
+              "id": "handoff",
+              "label": "구호 인계 확인",
+              "to": "handoff"
+            }
+          ],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "instruction": "부상·의식 상태는 별도 확인이 필요해요."
+        },
+        {
+          "id": "handoff",
+          "label": "구호 인계가 확인됐어요",
+          "phase": "settled",
+          "title": "구호 인계가 확인됐어요",
+          "voice": "구호 인계가 확인됐어요. 부상·의식 상태는 별도 확인이 필요해요.",
+          "cue": {
+            "symbol": "person",
+            "status": "confirmed",
+            "label": "응답 확인",
+            "detail": ""
+          },
+          "request_overrides": {
+            "rescue": "received"
+          },
+          "fact_overrides": {
+            "response": {
+              "value": "응답 확인",
+              "status": "confirmed"
+            },
+            "handoff": {
+              "value": "인계 확인",
+              "status": "confirmed"
+            }
+          },
+          "actions": [],
+          "events": [],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "instruction": "부상·의식 상태는 별도 확인이 필요해요."
+        },
+        {
+          "id": "unanswered_connected",
+          "label": "119 통화 연결됨",
+          "phase": "settled",
+          "title": "119 통화 연결됨",
+          "voice": "119 통화 연결됨. 응답 여부와 부상·의식 상태는 따로 확인해요.",
+          "cue": {
+            "symbol": "person",
+            "status": "unknown",
+            "label": "응답 없음",
+            "detail": ""
+          },
+          "request_overrides": {
+            "rescue": "connected"
+          },
+          "fact_overrides": {
+            "response": {
+              "value": "응답 없음",
+              "status": "unknown"
+            }
+          },
+          "actions": [
+            {
+              "id": "respond",
+              "label": "응답할 수 있어요",
+              "to": "connected",
+              "slot": "self"
+            }
+          ],
+          "events": [
+            {
+              "id": "received",
+              "label": "구호 접수 확인",
+              "to": "unanswered_received"
+            },
+            {
+              "id": "risk",
+              "label": "차량 위험 감지",
+              "to": "unanswered_connected",
+              "effect": "risk"
+            }
+          ],
+          "deferred": [],
+          "instruction": "응답 여부와 부상·의식 상태는 따로 확인해요."
+        },
+        {
+          "id": "unanswered_received",
+          "label": "구호 접수가 확인됐어요",
+          "phase": "settled",
+          "title": "구호 접수가 확인됐어요",
+          "voice": "구호 접수가 확인됐어요. 응답 여부와 부상·의식 상태는 따로 확인해요.",
+          "cue": {
+            "symbol": "person",
+            "status": "unknown",
+            "label": "응답 없음",
+            "detail": ""
+          },
+          "request_overrides": {
+            "rescue": "received"
+          },
+          "fact_overrides": {
+            "response": {
+              "value": "응답 없음",
+              "status": "unknown"
+            }
+          },
+          "actions": [
+            {
+              "id": "respond",
+              "label": "응답할 수 있어요",
+              "to": "received",
+              "slot": "self"
+            }
+          ],
+          "events": [
+            {
+              "id": "risk",
+              "label": "차량 위험 감지",
+              "to": "unanswered_received",
+              "effect": "risk"
+            },
+            {
+              "id": "handoff",
+              "label": "구호 인계 확인",
+              "to": "unanswered_handoff"
+            }
+          ],
+          "deferred": [],
+          "instruction": "응답 여부와 부상·의식 상태는 따로 확인해요."
+        },
+        {
+          "id": "unanswered_failed",
+          "label": "119 연결을 다시 시도하세요",
+          "phase": "settled",
+          "title": "119 연결을 다시 시도하세요",
+          "voice": "119 연결을 다시 시도하세요. 응답 여부와 부상·의식 상태는 따로 확인해요.",
+          "cue": {
+            "symbol": "person",
+            "status": "unknown",
+            "label": "응답 없음",
+            "detail": ""
+          },
+          "request_overrides": {
+            "rescue": "connection_unknown"
+          },
+          "fact_overrides": {
+            "response": {
+              "value": "응답 없음",
+              "status": "unknown"
+            }
+          },
+          "actions": [
+            {
+              "id": "respond",
+              "label": "응답할 수 있어요",
+              "to": "contact_unknown",
+              "slot": "self"
+            }
+          ],
+          "events": [
+            {
+              "id": "retry",
+              "label": "구호 연결 재시도",
+              "to": "unanswered"
+            }
+          ],
+          "deferred": [],
+          "instruction": "응답 여부와 부상·의식 상태는 따로 확인해요."
+        },
+        {
+          "id": "unanswered_handoff",
+          "label": "무응답 인계",
+          "phase": "settled",
+          "title": "구호 인계가 확인됐어요",
+          "voice": "구호 담당자의 인계 확인을 받았어요. 사용자 응답과 부상·의식은 별도 확인이 필요해요.",
+          "cue": {
+            "symbol": "person",
+            "status": "unknown",
+            "label": "응답 없음",
+            "detail": ""
+          },
+          "request_overrides": {
+            "rescue": "received"
+          },
+          "fact_overrides": {
+            "response": {
+              "value": "응답 없음",
+              "status": "unknown"
+            },
+            "handoff": {
+              "value": "인계 확인",
+              "status": "confirmed"
+            }
+          },
+          "actions": [
+            {
+              "id": "respond",
+              "label": "응답할 수 있어요",
+              "to": "handoff",
+              "slot": "self"
+            }
+          ],
+          "events": [],
+          "deferred": [],
+          "instruction": "구호 담당자가 인계를 확인했어요."
         }
       ],
       "presentation": {
@@ -502,6 +1722,501 @@
           "insurance"
         ],
         "detected": "충돌 감지"
+      }
+    },
+    {
+      "id": "SC04",
+      "title": "전송 보류·거절",
+      "summary": "사고 기록 초안 확인 · 보험 전송 범위 검토 · 구호·차량 지원은 별도",
+      "source_nodes": [
+        "U6",
+        "I6",
+        "U7",
+        "E5",
+        "S8",
+        "I8",
+        "U8",
+        "S8B",
+        "G8"
+      ],
+      "open_decisions": [
+        "D02",
+        "D05"
+      ],
+      "initial": "initial",
+      "facts": [
+        {
+          "id": "record",
+          "label": "사고 기록",
+          "value": "초안 있음",
+          "status": "confirmed"
+        },
+        {
+          "id": "consent",
+          "label": "전송 승인",
+          "value": "승인 전",
+          "status": "unknown"
+        }
+      ],
+      "requests": [
+        {
+          "id": "rescue",
+          "label": "구호",
+          "status": "received"
+        },
+        {
+          "id": "vehicle",
+          "label": "차량 지원",
+          "status": "received"
+        },
+        {
+          "id": "insurance",
+          "label": "보험",
+          "status": "not_sent"
+        }
+      ],
+      "states": [
+        {
+          "id": "initial",
+          "label": "기록 확인",
+          "phase": "settled",
+          "title": "전송할 기록을 확인하세요",
+          "voice": "전송할 기록을 확인하세요. 확인된 사실만 남기고 잘못된 내용은 고쳐주세요.",
+          "cue": {
+            "symbol": "record",
+            "status": "confirmed",
+            "label": "초안 준비",
+            "detail": ""
+          },
+          "request_overrides": {},
+          "fact_overrides": {},
+          "actions": [
+            {
+              "id": "scope",
+              "label": "전송 범위 확인",
+              "to": "review"
+            },
+            {
+              "id": "edit",
+              "label": "기록 고치기",
+              "to": "record",
+              "secondary": true
+            }
+          ],
+          "events": [],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "panel": "record_summary",
+          "instruction": "확인된 사실만 남기고 잘못된 내용은 고쳐주세요."
+        },
+        {
+          "id": "record",
+          "label": "기록 정정",
+          "phase": "settled",
+          "title": "사고 기록을 고쳐주세요",
+          "voice": "사고 기록을 고쳐주세요. ",
+          "cue": {
+            "symbol": "record",
+            "status": "unknown",
+            "label": "초안 정정",
+            "detail": ""
+          },
+          "request_overrides": {},
+          "fact_overrides": {},
+          "actions": [
+            {
+              "id": "save",
+              "label": "저장하고 돌아가기",
+              "to": "initial",
+              "effect": "save_record"
+            },
+            {
+              "id": "cancel",
+              "label": "돌아가기",
+              "to": "initial",
+              "secondary": true
+            }
+          ],
+          "events": [],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "panel": "record"
+        },
+        {
+          "id": "review",
+          "label": "전송 범위",
+          "phase": "settled",
+          "title": "보험에 보낼 내용을 확인하세요",
+          "voice": "보험에 보낼 내용을 확인하세요. ",
+          "cue": {
+            "symbol": "record",
+            "status": "unknown",
+            "label": "전송 승인 전",
+            "detail": ""
+          },
+          "request_overrides": {},
+          "fact_overrides": {},
+          "actions": [
+            {
+              "id": "send",
+              "label": "동의하고 전송",
+              "to": "sending",
+              "effect": "submit",
+              "agency": "insurance"
+            },
+            {
+              "id": "defer",
+              "label": "나중에 보내기",
+              "to": "deferred",
+              "secondary": true
+            },
+            {
+              "id": "decline",
+              "label": "보내지 않기",
+              "to": "declined",
+              "secondary": true
+            }
+          ],
+          "events": [],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "panel": "scope",
+          "step": "보험 · 전송 전"
+        },
+        {
+          "id": "deferred",
+          "label": "전송 보류",
+          "phase": "settled",
+          "title": "전송을 보류했어요",
+          "voice": "전송을 보류했어요. 기록은 보관돼요. 구호·차량 지원은 계속 진행돼요.",
+          "cue": {
+            "symbol": "record",
+            "status": "unknown",
+            "label": "전송 보류",
+            "detail": ""
+          },
+          "request_overrides": {
+            "insurance": "deferred"
+          },
+          "fact_overrides": {},
+          "actions": [
+            {
+              "id": "resume",
+              "label": "전송 다시 검토",
+              "to": "review"
+            },
+            {
+              "id": "support",
+              "label": "다른 지원 확인",
+              "to": "support",
+              "secondary": true,
+              "effect": "support"
+            }
+          ],
+          "events": [],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "instruction": "기록은 보관돼요. 구호·차량 지원은 계속 진행돼요."
+        },
+        {
+          "id": "declined",
+          "label": "전송 거절",
+          "phase": "settled",
+          "title": "보험에 보내지 않았어요",
+          "voice": "보험에 보내지 않았어요. 승인 없이는 전송하지 않아요. 다른 지원은 유지돼요.",
+          "cue": {
+            "symbol": "record",
+            "status": "unknown",
+            "label": "전송 거절",
+            "detail": ""
+          },
+          "request_overrides": {
+            "insurance": "declined"
+          },
+          "fact_overrides": {},
+          "actions": [
+            {
+              "id": "reconsider",
+              "label": "전송 다시 검토",
+              "to": "review"
+            },
+            {
+              "id": "support",
+              "label": "다른 지원 확인",
+              "to": "support",
+              "secondary": true,
+              "effect": "support"
+            }
+          ],
+          "events": [],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "instruction": "승인 없이는 전송하지 않아요. 다른 지원은 유지돼요."
+        },
+        {
+          "id": "sending",
+          "label": "전송 중",
+          "phase": "progress",
+          "title": "보험에 기록을 보내고 있어요",
+          "voice": "보험에 기록을 보내고 있어요. ",
+          "cue": {
+            "symbol": "record",
+            "status": "unknown",
+            "label": "기록 전송",
+            "detail": ""
+          },
+          "request_overrides": {
+            "insurance": "sent"
+          },
+          "fact_overrides": {},
+          "actions": [],
+          "events": [
+            {
+              "id": "sent",
+              "label": "전송 완료",
+              "to": "sent"
+            },
+            {
+              "id": "failed",
+              "label": "전송 실패",
+              "to": "failed"
+            }
+          ],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": []
+        },
+        {
+          "id": "failed",
+          "label": "전송 실패",
+          "phase": "settled",
+          "title": "기록을 보내지 못했어요",
+          "voice": "기록을 보내지 못했어요. 전송 범위를 확인한 뒤 다시 승인해 주세요.",
+          "cue": {
+            "symbol": "record",
+            "status": "attention",
+            "label": "전송 실패",
+            "detail": ""
+          },
+          "request_overrides": {
+            "insurance": "failed"
+          },
+          "fact_overrides": {},
+          "actions": [
+            {
+              "id": "retry",
+              "label": "전송 범위 다시 확인",
+              "to": "review"
+            }
+          ],
+          "events": [],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "instruction": "전송 범위를 확인한 뒤 다시 승인해 주세요."
+        },
+        {
+          "id": "sent",
+          "label": "접수 미확인",
+          "phase": "settled",
+          "title": "기록을 보냈어요",
+          "voice": "기록을 보냈어요. 전송은 완료됐어요. 보험 접수는 아직 미확인이에요.",
+          "cue": {
+            "symbol": "record",
+            "status": "unknown",
+            "label": "접수 미확인",
+            "detail": ""
+          },
+          "request_overrides": {
+            "insurance": "unknown"
+          },
+          "fact_overrides": {},
+          "actions": [
+            {
+              "id": "check",
+              "label": "접수 상태 확인",
+              "to": "checking"
+            }
+          ],
+          "events": [
+            {
+              "id": "received",
+              "label": "보험 접수 확인",
+              "to": "received",
+              "effect": "receive",
+              "agency": "insurance"
+            }
+          ],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "panel": "receipt",
+          "instruction": "전송은 완료됐어요. 보험 접수는 아직 미확인이에요."
+        },
+        {
+          "id": "checking",
+          "label": "결과 조회",
+          "phase": "progress",
+          "title": "보험 접수를 확인하고 있어요",
+          "voice": "보험 접수를 확인하고 있어요. ",
+          "cue": {
+            "symbol": "record",
+            "status": "unknown",
+            "label": "접수 확인 중",
+            "detail": ""
+          },
+          "request_overrides": {
+            "insurance": "checking"
+          },
+          "fact_overrides": {},
+          "actions": [],
+          "events": [
+            {
+              "id": "unknown",
+              "label": "결과 미확인",
+              "to": "sent"
+            },
+            {
+              "id": "received",
+              "label": "보험 접수 확인",
+              "to": "received",
+              "effect": "receive",
+              "agency": "insurance"
+            }
+          ],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": []
+        },
+        {
+          "id": "received",
+          "label": "보험 접수",
+          "phase": "settled",
+          "title": "보험 접수가 확인됐어요",
+          "voice": "보험 접수가 확인됐어요. 현장 도착·인계와 보상 처리는 별도 확인이 필요해요.",
+          "cue": {
+            "symbol": "record",
+            "status": "confirmed",
+            "label": "보험 접수 확인",
+            "detail": ""
+          },
+          "request_overrides": {
+            "insurance": "received"
+          },
+          "fact_overrides": {},
+          "actions": [],
+          "events": [],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "panel": "receipt",
+          "instruction": "현장 도착·인계와 보상 처리는 별도 확인이 필요해요."
+        },
+        {
+          "id": "support",
+          "label": "남은 지원",
+          "phase": "settled",
+          "title": "다른 지원은 계속 진행돼요",
+          "voice": "전송을 보류했어요. 기록은 보관돼요. 구호·차량 지원은 계속 진행돼요.",
+          "cue": {
+            "symbol": "record",
+            "status": "unknown",
+            "label": "전송 보류",
+            "detail": ""
+          },
+          "request_overrides": {},
+          "fact_overrides": {},
+          "actions": [
+            {
+              "id": "resume",
+              "label": "보험 전송 다시 검토",
+              "to": "review"
+            },
+            {
+              "id": "leave",
+              "label": "나중에 이어하기",
+              "to": "paused",
+              "secondary": true
+            }
+          ],
+          "events": [],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "instruction": "보험 전송 선택과 관계없이 기존 지원을 유지해요.",
+          "panel": "support"
+        },
+        {
+          "id": "paused",
+          "label": "보관 후 중단",
+          "phase": "settled",
+          "title": "남은 일을 보관했어요",
+          "voice": "전송을 보류했어요. 기록은 보관돼요. 구호·차량 지원은 계속 진행돼요.",
+          "cue": {
+            "symbol": "record",
+            "status": "unknown",
+            "label": "전송 보류",
+            "detail": ""
+          },
+          "request_overrides": {},
+          "fact_overrides": {},
+          "actions": [
+            {
+              "id": "resume",
+              "label": "남은 지원 확인",
+              "to": "support"
+            }
+          ],
+          "events": [],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "instruction": "구호·차량 지원은 계속 진행돼요. 보험은 보내지 않아요.",
+          "panel": "support"
+        }
+      ],
+      "presentation": {
+        "context_label": "지원 진행 확인",
+        "support_title": "접수 이후에도 확인할 것",
+        "visible_facts": [
+          "record",
+          "consent"
+        ],
+        "visible_requests": [
+          "rescue",
+          "vehicle",
+          "insurance"
+        ],
+        "detected": "사고 기록"
       }
     },
     {
@@ -565,24 +2280,42 @@
             "label": "접수 미확인",
             "detail": "차량 지원"
           },
-          "request_overrides": {},
+          "request_overrides": {
+            "vehicle": "unknown"
+          },
           "fact_overrides": {},
           "actions": [
             {
               "id": "check_status",
               "label": "요청 상태 확인",
               "to": "checking"
+            },
+            {
+              "id": "suspend",
+              "label": "나중에 이어하기",
+              "to": "suspended",
+              "secondary": true,
+              "effect": "suspend"
             }
           ],
           "events": [
             {
               "id": "receipt_received",
               "label": "차량 지원 접수 확인",
-              "to": "received"
+              "to": "received",
+              "effect": "receive",
+              "agency": "vehicle"
+            },
+            {
+              "id": "handoff",
+              "label": "구호 인계 확인",
+              "to": "initial",
+              "effect": "handoff"
             }
           ],
           "self_action": {
-            "now": "안전한 곳에서 대기"
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
           },
           "deferred": [
             "보험 상세",
@@ -606,7 +2339,15 @@
             "vehicle": "checking"
           },
           "fact_overrides": {},
-          "actions": [],
+          "actions": [
+            {
+              "id": "suspend",
+              "label": "나중에 이어하기",
+              "to": "suspended",
+              "secondary": true,
+              "effect": "suspend"
+            }
+          ],
           "events": [
             {
               "id": "receipt_unknown",
@@ -616,11 +2357,32 @@
             {
               "id": "receipt_received",
               "label": "차량 지원 접수 확인",
-              "to": "received"
+              "to": "received",
+              "effect": "receive",
+              "agency": "vehicle"
+            },
+            {
+              "id": "not_received",
+              "label": "차량 지원 미접수 확인",
+              "to": "not_received",
+              "effect": "not_received",
+              "agency": "vehicle"
+            },
+            {
+              "id": "lookup_failed",
+              "label": "조회 실패",
+              "to": "lookup_failed"
+            },
+            {
+              "id": "handoff",
+              "label": "구호 인계 확인",
+              "to": "checking",
+              "effect": "handoff"
             }
           ],
           "self_action": {
-            "now": "안전한 곳에서 대기"
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
           },
           "deferred": [
             "보험 상세",
@@ -632,8 +2394,8 @@
           "label": "접수 확인",
           "phase": "settled",
           "title": "차량 지원 접수 확인",
-          "instruction": "현장 도착과 구호 인계는 아직 미확인이에요.",
-          "voice": "차량 지원의 접수가 확인됐어요. 현장 도착과 구호 인계는 아직 미확인이에요. 보험은 요청 전이에요.",
+          "instruction": "현장 도착·구호 인계 상태를 확인하세요.",
+          "voice": "차량 지원의 접수가 확인됐어요. 현장 도착과 구호 인계는 각각 확인해요. 보험은 요청 전이에요.",
           "cue": {
             "symbol": "vehicle",
             "status": "confirmed",
@@ -644,15 +2406,365 @@
             "vehicle": "received"
           },
           "fact_overrides": {},
-          "actions": [],
-          "events": [],
+          "actions": [
+            {
+              "id": "suspend",
+              "label": "나중에 이어하기",
+              "to": "suspended",
+              "secondary": true,
+              "effect": "suspend"
+            }
+          ],
+          "events": [
+            {
+              "id": "arrived",
+              "label": "차량 지원 현장 도착",
+              "to": "arrived"
+            },
+            {
+              "id": "handoff",
+              "label": "구호 인계 확인",
+              "to": "received",
+              "effect": "handoff"
+            }
+          ],
           "self_action": {
-            "now": "안전한 곳에서 대기"
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
           },
           "deferred": [
             "보험 상세",
             "사고 경위 기록"
-          ]
+          ],
+          "panel": "receipt"
+        },
+        {
+          "id": "suspended",
+          "label": "중단",
+          "phase": "settled",
+          "title": "여기서 잠시 멈췄어요",
+          "voice": "여기서 잠시 멈췄어요. 기존 요청은 계속 진행돼요. 돌아오면 결과부터 확인해요.",
+          "cue": {
+            "symbol": "vehicle",
+            "status": "unknown",
+            "label": "진행 확인",
+            "detail": ""
+          },
+          "request_overrides": {},
+          "fact_overrides": {},
+          "actions": [
+            {
+              "id": "resume",
+              "label": "이어서 확인하기",
+              "to": "checking",
+              "effect": "resume"
+            }
+          ],
+          "events": [
+            {
+              "id": "received",
+              "label": "차량 지원 접수 확인",
+              "to": "suspended",
+              "effect": "receive",
+              "agency": "vehicle"
+            },
+            {
+              "id": "handoff",
+              "label": "구호 인계 확인",
+              "to": "suspended",
+              "effect": "handoff"
+            }
+          ],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "panel": "resume",
+          "instruction": "기존 요청은 계속 진행돼요. 돌아오면 결과부터 확인해요."
+        },
+        {
+          "id": "lookup_failed",
+          "label": "조회 실패",
+          "phase": "settled",
+          "title": "접수 결과를 확인하지 못했어요",
+          "voice": "접수 결과를 확인하지 못했어요. 기존 요청은 유지돼요. 새 요청을 보내지 않아요.",
+          "cue": {
+            "symbol": "vehicle",
+            "status": "unknown",
+            "label": "진행 확인",
+            "detail": ""
+          },
+          "request_overrides": {
+            "vehicle": "unknown"
+          },
+          "fact_overrides": {},
+          "actions": [
+            {
+              "id": "retry",
+              "label": "다시 확인",
+              "to": "checking"
+            },
+            {
+              "id": "suspend",
+              "label": "나중에 이어하기",
+              "to": "suspended",
+              "secondary": true,
+              "effect": "suspend"
+            }
+          ],
+          "events": [
+            {
+              "id": "handoff",
+              "label": "구호 인계 확인",
+              "to": "lookup_failed",
+              "effect": "handoff"
+            }
+          ],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "instruction": "기존 요청은 유지돼요. 새 요청을 보내지 않아요."
+        },
+        {
+          "id": "not_received",
+          "label": "미접수 확인",
+          "phase": "settled",
+          "title": "차량 지원이 접수되지 않았어요",
+          "voice": "차량 지원이 접수되지 않았어요. 미접수를 확인했어요. 내용을 확인한 뒤 다시 요청하세요.",
+          "cue": {
+            "symbol": "vehicle",
+            "status": "attention",
+            "label": "진행 확인",
+            "detail": ""
+          },
+          "request_overrides": {
+            "vehicle": "not_received"
+          },
+          "fact_overrides": {},
+          "actions": [
+            {
+              "id": "review",
+              "label": "요청 범위 다시 확인",
+              "to": "review"
+            },
+            {
+              "id": "suspend",
+              "label": "나중에 이어하기",
+              "to": "suspended",
+              "secondary": true,
+              "effect": "suspend"
+            }
+          ],
+          "events": [
+            {
+              "id": "handoff",
+              "label": "구호 인계 확인",
+              "to": "not_received",
+              "effect": "handoff"
+            }
+          ],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "instruction": "미접수를 확인했어요. 내용을 확인한 뒤 다시 요청하세요."
+        },
+        {
+          "id": "review",
+          "label": "재요청 승인",
+          "phase": "settled",
+          "title": "다시 요청할 내용을 확인하세요",
+          "voice": "다시 요청할 내용을 확인하세요. 변경한 전송 범위에 다시 동의해 주세요.",
+          "cue": {
+            "symbol": "vehicle",
+            "status": "unknown",
+            "label": "진행 확인",
+            "detail": ""
+          },
+          "request_overrides": {
+            "vehicle": "not_received"
+          },
+          "fact_overrides": {},
+          "actions": [
+            {
+              "id": "retry",
+              "label": "동의하고 다시 요청",
+              "to": "sending",
+              "effect": "submit",
+              "agency": "vehicle"
+            },
+            {
+              "id": "cancel",
+              "label": "나중에",
+              "to": "not_received",
+              "secondary": true
+            }
+          ],
+          "events": [
+            {
+              "id": "handoff",
+              "label": "구호 인계 확인",
+              "to": "review",
+              "effect": "handoff"
+            }
+          ],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "panel": "scope",
+          "instruction": "변경한 전송 범위에 다시 동의해 주세요.",
+          "step": "차량 지원 · 재승인"
+        },
+        {
+          "id": "sending",
+          "label": "재전송 중",
+          "phase": "progress",
+          "title": "차량 지원을 다시 요청하고 있어요",
+          "voice": "차량 지원을 다시 요청하고 있어요. ",
+          "cue": {
+            "symbol": "vehicle",
+            "status": "unknown",
+            "label": "진행 확인",
+            "detail": ""
+          },
+          "request_overrides": {
+            "vehicle": "sent"
+          },
+          "fact_overrides": {},
+          "actions": [],
+          "events": [
+            {
+              "id": "sent",
+              "label": "전송 완료",
+              "to": "initial"
+            },
+            {
+              "id": "failed",
+              "label": "전송 실패",
+              "to": "send_failed"
+            },
+            {
+              "id": "handoff",
+              "label": "구호 인계 확인",
+              "to": "sending",
+              "effect": "handoff"
+            }
+          ],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": []
+        },
+        {
+          "id": "send_failed",
+          "label": "전송 실패",
+          "phase": "settled",
+          "title": "요청을 보내지 못했어요",
+          "voice": "요청을 보내지 못했어요. 전송 범위를 다시 확인해 주세요.",
+          "cue": {
+            "symbol": "vehicle",
+            "status": "attention",
+            "label": "진행 확인",
+            "detail": ""
+          },
+          "request_overrides": {
+            "vehicle": "failed"
+          },
+          "fact_overrides": {},
+          "actions": [
+            {
+              "id": "retry",
+              "label": "요청 범위 다시 확인",
+              "to": "review"
+            }
+          ],
+          "events": [
+            {
+              "id": "handoff",
+              "label": "구호 인계 확인",
+              "to": "send_failed",
+              "effect": "handoff"
+            }
+          ],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "instruction": "전송 범위를 다시 확인해 주세요."
+        },
+        {
+          "id": "arrived",
+          "label": "현장 도착",
+          "phase": "settled",
+          "title": "차량 지원이 현장에 도착했어요",
+          "voice": "차량 지원이 현장에 도착했어요. 구호 인계 상태도 함께 확인하세요.",
+          "cue": {
+            "symbol": "vehicle",
+            "status": "confirmed",
+            "label": "진행 확인",
+            "detail": ""
+          },
+          "request_overrides": {
+            "vehicle": "received"
+          },
+          "fact_overrides": {
+            "arrival": {
+              "value": "도착 확인",
+              "status": "confirmed"
+            }
+          },
+          "actions": [],
+          "events": [
+            {
+              "id": "handoff",
+              "label": "구호 인계 확인",
+              "to": "handoff"
+            }
+          ],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "instruction": "구호 인계 상태도 함께 확인하세요."
+        },
+        {
+          "id": "handoff",
+          "label": "구호 인계",
+          "phase": "settled",
+          "title": "구호 인계가 확인됐어요",
+          "voice": "구호 인계가 확인됐어요. 보험은 요청 전이에요. 남은 지원을 따로 확인하세요.",
+          "cue": {
+            "symbol": "vehicle",
+            "status": "confirmed",
+            "label": "진행 확인",
+            "detail": ""
+          },
+          "request_overrides": {
+            "vehicle": "received"
+          },
+          "fact_overrides": {
+            "handoff": {
+              "value": "인계 확인",
+              "status": "confirmed"
+            }
+          },
+          "actions": [],
+          "events": [],
+          "self_action": {
+            "id": "wait",
+            "now": "안전한 곳에서 기다리세요"
+          },
+          "deferred": [],
+          "instruction": "보험은 요청 전이에요. 남은 지원을 따로 확인하세요."
         }
       ],
       "presentation": {

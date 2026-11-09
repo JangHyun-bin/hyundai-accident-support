@@ -1,0 +1,32 @@
+
+> accident-support-design-poc@0.1.0 test:ui
+> playwright test tests/emergency-glyphs.spec.ts tests/glyphs-data.spec.ts tests/emergency-visual.spec.ts --workers=2
+
+
+Running 19 tests using 2 workers
+
+(node:7191) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7192) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 tests/emergency-glyphs.spec.ts:36:1 › attention_cue_keeps_attention_mark_with_flat_glyph (871ms)
+  ✓   3 tests/emergency-glyphs.spec.ts:45:1 › scaled_canvas_keeps_glyph_inside_plate (547ms)
+  ✓   4 tests/emergency-glyphs.spec.ts:125:3 › contrast › flat_glyphs_and_marks_reach_3_to_1 (8.8s)
+  ✓   1 tests/emergency-glyphs.spec.ts:11:1 › vehicle_screen_draws_mapped_glyphs_and_marks (15.5s)
+  ✓   5 tests/emergency-visual.spec.ts:6:3 › desktop SC01: every scene fits and uses the shared palette (5.5s)
+  ✓   6 tests/emergency-visual.spec.ts:6:3 › desktop SC02: every scene fits and uses the shared palette (3.7s)
+  ✓   7 tests/emergency-visual.spec.ts:6:3 › desktop SC03: every scene fits and uses the shared palette (4.4s)
+  ✓   8 tests/emergency-visual.spec.ts:6:3 › desktop SC04: every scene fits and uses the shared palette (4.4s)
+  ✓   9 tests/emergency-visual.spec.ts:6:3 › desktop SC05: every scene fits and uses the shared palette (4.1s)
+  ✓  11 tests/emergency-visual.spec.ts:6:3 › mobile SC02: every scene fits and uses the shared palette (3.2s)
+  ✓  10 tests/emergency-visual.spec.ts:6:3 › mobile SC01: every scene fits and uses the shared palette (4.6s)
+  ✓  12 tests/emergency-visual.spec.ts:6:3 › mobile SC03: every scene fits and uses the shared palette (3.7s)
+  ✓  13 tests/emergency-visual.spec.ts:6:3 › mobile SC04: every scene fits and uses the shared palette (3.7s)
+  ✓  15 tests/emergency-visual.spec.ts:47:1 › component catalog exposes actual editable workflow components (500ms)
+  ✓  16 tests/glyphs-data.spec.ts:9:1 › every_visible_fact_cue_action_and_tone_has_a_glyph (19ms)
+  ✓  17 tests/glyphs-data.spec.ts:37:1 › no_glyph_for_hidden_facts (0ms)
+  ✓  18 tests/glyphs-data.spec.ts:41:1 › tone_marks_differ_without_color (0ms)
+  ✓  19 tests/glyphs-data.spec.ts:60:1 › parts_are_well_formed (135ms)
+  ✓  14 tests/emergency-visual.spec.ts:6:3 › mobile SC05: every scene fits and uses the shared palette (3.4s)
+
+  19 passed (35.7s)

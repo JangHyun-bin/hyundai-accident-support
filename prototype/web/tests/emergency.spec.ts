@@ -78,7 +78,8 @@ test('voice_failure_keeps_script_visible_and_scene_change_cancels_old_speech', a
   await expect(page.getByRole('status')).toContainText('음성 원고')
   const before = await page.evaluate(() => (window as typeof window & { speechCancelled: number }).speechCancelled)
   await page.getByRole('navigation', { name: '장면 선택' }).getByRole('button', { name: /결과 조회/ }).click()
-  expect(await page.evaluate(() => (window as typeof window & { speechCancelled: number }).speechCancelled)).toBeGreaterThan(before)
+  // 장면 전환은 view transition 으로 다음 frame 에 commit 된다.
+  await expect.poll(() => page.evaluate(() => (window as typeof window & { speechCancelled: number }).speechCancelled)).toBeGreaterThan(before)
   await expect(page.getByRole('status')).not.toContainText('차량 지원의 접수가 미확인이에요')
 })
 
