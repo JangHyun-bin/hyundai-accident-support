@@ -269,12 +269,12 @@ async function deleteCase(id: string, expectedRevision: number): Promise<boolean
 
 **Interfaces:** Coverage ID는 fixtures의 case/step ID와 spec V1–F1을 연결. Route query로 실제 미확인 결과를 자동 확정하지 않음.
 
-- [ ] 정상 전체 경로: response→device switch→photos/voice→diagram/report→승인→접수→후속 처리. 각 단계는 사용자 button으로 진행하고 외부 결과만 review event 사용.
-- [ ] 예외 경로: SC03 무응답·늦은 응답, SC02 이동 불가, camera/mic 거절, 자료 없이 진행, 저장 실패, report 정정, 접수 미확인, SC05 중단 중 결과·재개. 원래 SC 전체 검증과 별개로 새 여정의 연결을 검사.
-- [ ] 차량 전체·축소, mobile 393/360, 긴 한국어·keyboard·200% text·reduced motion 검사. 가로 overflow, focus 복귀, primary action 노출, column baseline 확인. Contrast는 raw media를 제외한 실제 render 색 기준.
-- [ ] 정상·미확인·실패 대표 screenshot을 사람이 검토. Product copy에 구현 용어·시연 설명이 섞였는지 확인. 결과는 날짜별 새 evidence 문서에 기록.
-- [ ] Root `node --test specs/emergency-experience/manifest.test.mjs`; web `npm run check`; `npm run test:ui -- tests/journey-*.spec.ts tests/emergency-*.spec.ts tests/glyphs-data.spec.ts --workers=1` 통과. 기존 optical/tools test는 관련 code를 건드린 경우에만 추가.
-- [ ] Commit `test: verify the complete incident journey and recovery paths`. 남은 실기 검증은 Not verified로 기록, UI tests 통과와 혼동하지 않음.
+- [x] 정상 전체 경로: response→device switch→photos/voice→diagram/report→승인→접수→후속 처리. 각 단계는 사용자 button으로 진행하고 외부 결과만 review event 사용.
+- [x] 예외 경로: SC03 무응답·늦은 응답, SC02 이동 불가, camera/mic 거절, 자료 없이 진행, 저장 실패, report 정정, 접수 미확인, SC05 중단 중 결과·재개. 원래 SC 전체 검증과 별개로 새 여정의 연결을 검사.
+- [x] 차량 전체·축소, mobile 393/360, 긴 한국어·keyboard·200% text·reduced motion 검사. 가로 overflow, focus 복귀, primary action 노출, column baseline 확인. Contrast는 raw media를 제외한 실제 render 색 기준.
+- [x] 정상·미확인·실패 대표 screenshot을 사람이 검토. Product copy에 구현 용어·시연 설명이 섞였는지 확인. 결과는 날짜별 새 evidence 문서에 기록.
+- [x] Root `node --test specs/emergency-experience/manifest.test.mjs`; web `npm run check`; `npm run test:ui -- tests/journey-*.spec.ts tests/emergency-*.spec.ts tests/glyphs-data.spec.ts --workers=1` 통과. 기존 optical/tools test는 관련 code를 건드린 경우에만 추가.
+- [x] Commit `test: verify the complete incident journey and recovery paths`. 남은 실기 검증은 Not verified로 기록, UI tests 통과와 혼동하지 않음.
 
 ### Task 12 / P6: 영상·preview·handoff 문서
 
@@ -291,11 +291,11 @@ async function deleteCase(id: string, expectedRevision: number): Promise<boolean
 
 ## 착수 checklist
 
-- [ ] 현재 branch와 변경 사항 재확인. 독립된 작업 branch/worktree 사용 여부는 실행 환경에 맞춰 결정, 사용자의 다른 변경 보존.
-- [ ] 이 spec/plan의 vehicle+mobile 범위와 prototype integration 경계를 작업 시작 요약에 명시.
-- [ ] Task 1만 먼저 착수. 첫 review 대상은 차량 상태·voice review·경위서 세 장면.
-- [ ] Task 1 화면 검토 의견을 반영한 뒤 Task 2/3의 data·storage contract 고정.
-- [ ] 실행 도중 승인·기록 보존·실제 연동 범위가 달라지면 해당 spec 항목과 test를 먼저 갱신.
+- [x] 현재 branch와 변경 사항 재확인. 독립된 작업 branch/worktree 사용 여부는 실행 환경에 맞춰 결정, 사용자의 다른 변경 보존.
+- [x] 이 spec/plan의 vehicle+mobile 범위와 prototype integration 경계를 작업 시작 요약에 명시.
+- [x] Task 1 대표 화면부터 착수. 첫 review는 차량 상태·voice review·경위서 세 장면. 전체12단계 연속 실행과 자율 시각 검토는 goal의 사용자 지시로 승인됨.
+- [x] Task 1 화면 검토 의견을 반영한 뒤 Task 2/3의 data·storage contract 고정.
+- [x] 실행 도중 승인·기록 보존·실제 연동 범위가 달라지면 해당 spec 항목과 test를 먼저 갱신.
 
 ## 이번 준비 작업의 확인 기록
 

@@ -1,5 +1,6 @@
 .journey-record-tabs.journey-review-tabs { grid-template-columns: repeat(auto-fit, minmax(min(100%, 6rem), 1fr)); }
 .journey-report { display: grid; gap: 24px; min-width: 0; }
+.journey-report:focus-visible, .journey-report-paragraph:focus-visible { outline: 2px solid var(--j-foreground); outline-offset: 4px; }
 .journey-report-heading { display: flex; gap: 12px; align-items: flex-start; }
 .journey-report-heading > svg { flex: none; width: 24px; height: 24px; margin-top: 4px; }
 .journey-report-heading h2 { font-size: var(--j-section); line-height: 1.4; font-weight: 600; margin-bottom: 12px; }

@@ -48,6 +48,7 @@ export function ReportPanel({ value, onCommand, active = true, onDirtyChange }: 
   const [drawer, setDrawer] = useState<string | null>(null)
   const [checking, setChecking] = useState<string | null>(null)
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const panel = useRef<HTMLElement>(null)
   const dialog = useRef<HTMLDialogElement>(null)
   const trigger = useRef<HTMLButtonElement | null>(null)
   const current = useRef(value)
@@ -100,21 +101,22 @@ export function ReportPanel({ value, onCommand, active = true, onDirtyChange }: 
         {value.evidence.find(e => e.id === reference.evidenceId)?.label ?? '확보하지 못한 자료'} 포함
       </label>)}
       <JourneyAction disabled={!draft.text.trim()} onClick={() => {
+        panel.current?.focus()
         onCommand({ type: 'paragraph-edit', ...draft })
         setErrors(previous => { const next = { ...previous }; delete next[draft.id]; return next })
         setDraft(null)
       }}>정정 저장</JourneyAction>
-      <JourneyAction secondary onClick={() => setDraft(null)}>정정 취소</JourneyAction>
+      <JourneyAction secondary onClick={() => { panel.current?.focus(); setDraft(null) }}>정정 취소</JourneyAction>
     </div>
   }
-  return <section className="journey-report" aria-label="경위서 검토">
+  return <section ref={panel} tabIndex={-1} className="journey-report" aria-label="경위서 검토">
     <header className="journey-report-heading"><FileText aria-hidden="true" /><div><h2>내용을 한 문장씩 확인해주세요</h2><p className="journey-supporting">추정과 미확인은 확인한 뒤에도 그대로 표시돼요.</p></div></header>
     {!paragraphs.length && <p className="journey-supporting">아직 작성된 경위서가 없어요.</p>}
     {paragraphs.map((paragraph, index) => {
       const broken = paragraph.references.some(reference => !evidenceForReference(value, reference))
       const original = value.reportHistory.flatMap(report => report.paragraphs).find(p => p.id === paragraph.id)
       const corrected = original && original.text !== paragraph.text
-      return <article className="journey-report-paragraph" aria-label={`문장 ${index + 1}`} key={paragraph.id}>
+      return <article tabIndex={-1} className="journey-report-paragraph" aria-label={`문장 ${index + 1}`} key={paragraph.id}>
         <div className="journey-report-meta"><span>{kinds[paragraph.kind]}{corrected ? ' · 사용자 정정' : ''}</span>
           <JourneyStatus tone={paragraph.confirmedRevision === paragraph.revision && !broken && !errors[paragraph.id] ? 'confirmed' : 'unknown'}>
             {paragraph.confirmedRevision === paragraph.revision && !broken && !errors[paragraph.id] ? '내용 확인함' : '확인 필요'}
@@ -126,9 +128,9 @@ export function ReportPanel({ value, onCommand, active = true, onDirtyChange }: 
           <div className="journey-report-tools">
             {paragraph.references.length > 0 && <button type="button" onClick={event => { trigger.current = event.currentTarget; setDrawer(paragraph.id) }}>근거 보기</button>}
             <button type="button" disabled={dirty || checking !== null} onClick={() => setDraft({ id: paragraph.id, text: paragraph.text, references: structuredClone(paragraph.references) })}>정정하기</button>
-            <button type="button" disabled={dirty || checking !== null} onClick={() => onCommand({ type: 'paragraph-remove', id: paragraph.id })}>문장 제외</button>
+            <button type="button" disabled={dirty || checking !== null} onClick={() => { panel.current?.focus(); onCommand({ type: 'paragraph-remove', id: paragraph.id }) }}>문장 제외</button>
           </div>
-          {paragraph.confirmedRevision !== paragraph.revision && <JourneyAction secondary disabled={dirty || checking !== null || broken} onClick={() => void confirm(paragraph)}>{checking === paragraph.id ? '근거 확인 중' : '문장 확인'}</JourneyAction>}
+          {paragraph.confirmedRevision !== paragraph.revision && <JourneyAction secondary disabled={dirty || checking !== null || broken} onClick={event => { event.currentTarget.closest('article')?.focus(); void confirm(paragraph) }}>{checking === paragraph.id ? '근거 확인 중' : '문장 확인'}</JourneyAction>}
         </>}
       </article>
     })}

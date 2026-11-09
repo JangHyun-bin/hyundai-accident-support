@@ -1,5 +1,4 @@
 import { test, expect, type Page } from '@playwright/test'
-import { mkdir } from 'node:fs/promises'
 import type { Diagram, Evidence } from '../src/journey/case'
 
 const original: Diagram = { revision: 1, origin: 'fixture', road: 'straight', vehicles: [
@@ -188,12 +187,11 @@ test('small mobile and enlarged text preserve all reconstruction controls', asyn
   await expect(page.getByRole('button', { name: '반시계 방향으로 회전', exact: true })).toBeVisible()
 })
 
-test('representative mobile diagram and clip remain visually reviewable', async ({ page }) => {
+test('representative mobile diagram and clip remain visually reviewable', async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 393, height: 852 })
   await mount(page, { diagram: original, clips: [{ evidence: { ...video('front'), metadata: { ...video('front').metadata, eventTime: 11 } }, path: '/journey-samples/front-20s.mp4' }] })
   await expect(page.getByRole('button', { name: '전방 영상 재생', exact: true })).toBeEnabled()
-  await mkdir('evidence/journey/task-7', { recursive: true })
-  await page.screenshot({ path: 'evidence/journey/task-7/mobile-reconstruction.png', fullPage: true })
+  await page.screenshot({ path: testInfo.outputPath('mobile-reconstruction.png'), fullPage: true })
 })
 
 test('journey integration restores clips and edited diagrams after reload without losing urgent drafts', async ({ page }) => {

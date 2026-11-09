@@ -225,3 +225,34 @@ test('deletion is revision guarded and removes only the selected case and its me
   })
   expect(result).toMatchObject({ stale: false, deleted: true, removed: null, asset: null, kept: { id: 'keep' }, legacy: 'legacy-unchanged' })
 })
+
+test('missing snapshot media rejects restoration without deleting the stored text, approval or another case', async ({ page }) => {
+  const result = await page.evaluate(async () => {
+    const { store, make, photo } = window.journeyStorageTest
+    const value = make('missing-media')
+    value.evidence = [photo('lost-asset')]
+    value.statements = [{ id: 'story', text: '보존해야 할 사고 기록', audioEvidenceIds: [], revision: 1, confirmedRevision: 1 }]
+    value.shares = [{ id: 'original-share', recipient: '상대방', approvedAt: value.createdAt, status: 'confirmed', payload: {
+      observations: [], statements: structuredClone(value.statements), evidence: structuredClone(value.evidence), report: null, diagram: null,
+    } }]
+    const saved = await store.commitCase(value, null, [{ id: 'lost-asset', caseId: value.id, blob: new Blob(['old'], { type: 'image/png' }) }])
+    if (!saved.ok) throw new Error(saved.reason)
+    await store.commitCase(make('unaffected'), null)
+    const request = indexedDB.open('after-care-journey-v1', 1)
+    const db = await new Promise<IDBDatabase>((resolve, reject) => { request.onsuccess = () => resolve(request.result); request.onerror = () => reject(request.error) })
+    const transaction = db.transaction('assets', 'readwrite')
+    transaction.objectStore('assets').delete('lost-asset')
+    await new Promise<void>((resolve, reject) => { transaction.oncomplete = () => resolve(); transaction.onabort = () => reject(transaction.error) })
+    const restored = await store.loadCase(value.id)
+    const read = db.transaction('cases').objectStore('cases').get(value.id)
+    const raw = await new Promise<JourneyCase>(resolve => { read.onsuccess = () => resolve(read.result) })
+    db.close()
+    return { restored, original: saved.value, raw, other: await store.loadCase('unaffected') }
+  })
+  expect(result.restored).toBeNull()
+  expect(result.raw).toEqual(result.original)
+  expect(result.other?.id).toBe('unaffected')
+  await page.goto('/?study=journey&case=missing-media&device=mobile')
+  await expect(page.getByRole('heading', { name: '이 기기에서 기록을 찾지 못했어요', exact: true })).toBeVisible()
+  await expect(page.locator('[data-case-id]')).toHaveCount(0)
+})
