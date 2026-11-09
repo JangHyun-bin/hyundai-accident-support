@@ -9,6 +9,8 @@ import { JourneyAction, JourneyHeading, JourneyLayout, JourneyVehicleFrame } fro
 import { JourneyNavigation, JourneyRequests, JourneySummary, VehiclePanel } from './VehiclePanel'
 import { VoiceRecordPanel, type VoiceRecordHandle } from './VoiceRecordPanel'
 import { EvidencePanel, type EvidencePanelHandle } from './EvidencePanel'
+import { FollowUpPanel } from './FollowUpPanel'
+import { followUpDirectories, type FollowUpDirectoryState } from './follow-up-fixtures'
 import { JourneyReviewPanel, type JourneyReviewHandle } from './JourneyReviewPanel'
 import '../emergency/motion'
 
@@ -25,6 +27,8 @@ export function JourneyStudy() {
   const [fixture, setFixture] = useState(initial.get('fixture') ?? fixtures.cases[0].id)
   const [device, setDevice] = useState<Device>(initial.get('device') === 'mobile' ? 'mobile' : 'vehicle')
   const [details, setDetails] = useState(false)
+  const [followUpDirty, setFollowUpDirty] = useState(false)
+  const [directoryState, setDirectoryState] = useState<FollowUpDirectoryState>(() => (['ready', 'stale', 'empty', 'failed'] as const).find(item => item === initial.get('directory')) ?? 'ready')
   const [recordTab, setRecordTab] = useState<'voice' | 'photos'>('voice')
   const [voiceMode, setVoiceMode] = useState<'device' | 'sample'>('device')
   const [loadingSamples, setLoadingSamples] = useState(false)
@@ -42,7 +46,6 @@ export function JourneyStudy() {
   const scene = value ? sceneFor(value.emergency) : null
   const countdownKey = value && scene ? value.id + '/' + scene.id : ''
   const secondsLeft = countdown.key === countdownKey ? countdown.seconds : scene?.auto_contact?.seconds ?? 0
-  const record = value?.statements[0]
 
   useEffect(() => {
     if (!scene?.auto_contact || !value || value.suspended) return
@@ -103,7 +106,8 @@ export function JourneyStudy() {
   async function prepareToLeave(force = false) {
     const recordReady = !force && value?.stage !== 'record' || (await voicePanel.current?.finishBeforeLeave() ?? true) && (await photoPanel.current?.finishBeforeLeave() ?? true)
     const reviewReady = !force && value?.stage !== 'review' || (await reviewPanel.current?.finishBeforeLeave() ?? true)
-    const ready = recordReady && reviewReady
+    const followUpReady = !force && value?.stage !== 'follow-up' || !followUpDirty
+    const ready = recordReady && reviewReady && followUpReady
     setNavigationNotice(ready ? '' : '남기던 기록을 확인하고 저장하거나 취소해주세요.')
     return ready
   }
@@ -209,9 +213,27 @@ export function JourneyStudy() {
     </JourneyLayout>
   }
 
+  function renderNavigation(record: JourneyCase) {
+    if (record.stage !== 'follow-up') return <JourneyNavigation value={record} />
+    const directory = record.fixtureId ? followUpDirectories[directoryState] : null
+    const shop = directory?.shops.find(item => item.id === record.followUp.shopId)
+    const navigation = directory?.origin && shop?.position && shop.distanceMeters && ['preview', 'guiding'].includes(record.followUp.route)
+      ? { source: 'fixture' as const, vehicle: directory.origin, destination: shop.position, distanceMeters: shop.distanceMeters, updatedAt: directory.updatedAt! } : null
+    return <JourneyNavigation value={{ ...record, navigation }} destinationLabel={shop?.name} />
+  }
+
+  function followUpResult(kind: 'route' | 'rental', status: 'guiding' | 'unavailable' | 'eligible' | 'ineligible' | 'unknown') {
+    if (!value) return
+    const request = kind === 'route' ? value.followUp.routeRequest : value.followUp.rentalRequest
+    if (!request) return
+    const identity = { caseId: value.id, requestId: request.id, shopId: request.shopId, source: 'fixture' as const, updatedAt: new Date().toISOString() }
+    if (kind === 'route' && (status === 'guiding' || status === 'unavailable')) dispatch({ type: 'follow-up-result', ...identity, kind, status })
+    if (kind === 'rental' && (status === 'eligible' || status === 'ineligible' || status === 'unknown')) dispatch({ type: 'follow-up-result', ...identity, kind, status })
+  }
+
   function content() {
     if (!value || !scene) return null
-    const navigation = <JourneyNavigation value={value} />
+    const navigation = renderNavigation(value)
     if (details) return <JourneyLayout device={device} navigation={navigation} summary={<JourneySummary value={value} />}
       action={<JourneyAction onClick={() => setDetails(false)}><ArrowLeft aria-hidden="true" />대응 화면으로</JourneyAction>}>
       <VehiclePanel value={value} onCommand={dispatch} />
@@ -223,12 +245,7 @@ export function JourneyStudy() {
         onAction={act} onCancel={() => scene.auto_contact && dispatch({ type: 'countdown', target: scene.auto_contact.cancel, now: new Date().toISOString() })}
         onVoice={speak} onEditDraft={() => dispatch({ type: 'navigate', stage: 'record' })} /></JourneyVehicleFrame>
     }
-    if (value.stage === 'record' || value.stage === 'review') return null
-    return <JourneyLayout device={device} navigation={navigation} summary={<JourneySummary value={value} />}
-      action={<JourneyAction onClick={() => dispatch({ type: 'navigate', stage: 'record' })}>기록으로 돌아가기</JourneyAction>}>
-      <JourneyHeading title="남긴 기록">{record?.text || '아직 남긴 기록이 없어요.'}</JourneyHeading>
-      <JourneyRequests value={value} />
-    </JourneyLayout>
+    return null
   }
 
   return <main className="journey-study journey-theme">
@@ -244,15 +261,17 @@ export function JourneyStudy() {
     {value && <>
       <div className="journey-product-tools">
         <button onClick={() => void navigate('response')}>긴급 대응 보기</button>
+        {value.stage !== 'follow-up' && <button onClick={() => void navigate('follow-up')}>후속 처리 보기</button>}
         <button onClick={async () => { if (await prepareToLeave()) setDetails(true) }}>차량 상태 보기</button>
         {value.stage === 'response' && value.returnStage === 'record' && <button onClick={() => dispatch({ type: 'navigate', stage: 'record' })}>기록으로 돌아가기</button>}
         {value.stage === 'response' && value.returnStage === 'review' && <button onClick={() => dispatch({ type: 'navigate', stage: 'review' })}>내용 확인으로 돌아가기</button>}
+        {value.stage === 'response' && value.returnStage === 'follow-up' && <button onClick={() => dispatch({ type: 'navigate', stage: 'follow-up' })}>후속 처리로 돌아가기</button>}
         {value.suspended && <button onClick={() => dispatch({ type: 'resume' })}>이어서 확인하기</button>}
       </div>
       <section data-case-id={value.id} data-journey-stage={value.stage}>
         {content()}
         <div key={value.id} hidden={value.stage !== 'record' || details}>
-          <JourneyLayout device={device} navigation={<JourneyNavigation value={value} />} summary={<JourneySummary value={value} />}
+          <JourneyLayout device={device} navigation={renderNavigation(value)} summary={<JourneySummary value={value} />}
             action={<JourneyAction secondary onClick={() => void navigate('review')}>내용 확인으로<ArrowRight aria-hidden="true" /></JourneyAction>}>
             <nav className="journey-record-tabs" aria-label="기록 방법">
               <button aria-pressed={recordTab === 'voice'} onClick={async () => { if (await prepareToLeave()) setRecordTab('voice') }}>말로 남기기</button>
@@ -264,9 +283,17 @@ export function JourneyStudy() {
           </JourneyLayout>
         </div>
         <div key={value.id + '-review'} hidden={value.stage !== 'review' || details}>
-          <JourneyLayout device={device} navigation={<JourneyNavigation value={value} />} summary={<JourneySummary value={value} />}
+          <JourneyLayout device={device} navigation={renderNavigation(value)} summary={<JourneySummary value={value} />}
             action={<JourneyAction secondary onClick={() => void navigate('record')}>기록으로 돌아가기</JourneyAction>}>
             <JourneyReviewPanel ref={reviewPanel} value={value} onCommand={dispatch} onApprove={journey.approve} />
+            <JourneyRequests value={value} />
+          </JourneyLayout>
+        </div>
+        <div key={value.id + '-follow-up'} hidden={value.stage !== 'follow-up' || details}>
+          <JourneyLayout device={device} navigation={renderNavigation(value)} summary={<JourneySummary value={value} />}
+            action={<JourneyAction secondary onClick={() => void navigate('review')}>사고 내용으로 돌아가기</JourneyAction>}>
+            <FollowUpPanel value={value} onCommand={dispatch} directory={value.fixtureId ? followUpDirectories[directoryState] : undefined} onDirtyChange={setFollowUpDirty}
+              navigation={device === 'mobile' ? renderNavigation(value) : undefined} />
             <JourneyRequests value={value} />
           </JourneyLayout>
         </div>
@@ -282,6 +309,11 @@ export function JourneyStudy() {
       {navigationNotice && <p role="status">{navigationNotice}</p>}
       <section className="journey-review-events" aria-label="외부 결과 시연">
         <span>외부 결과 시연</span>
+        <label htmlFor="journey-directory">정비소 정보</label><select id="journey-directory" value={directoryState} onChange={event => { const state = event.target.value as FollowUpDirectoryState; setDirectoryState(state); replaceQuery({ directory: state }) }}>
+          <option value="ready">안내 있음</option><option value="stale">오래된 안내</option><option value="empty">제공된 목록 없음</option><option value="failed">조회 실패</option>
+        </select>
+        {value.followUp.rentalRequest && <><button aria-label="시연 event: 대차 가능 확인" onClick={() => followUpResult('rental', 'eligible')}>대차 가능 확인</button><button aria-label="시연 event: 대차 불가 확인" onClick={() => followUpResult('rental', 'ineligible')}>대차 불가 확인</button><button aria-label="시연 event: 대차 결과 미확인" onClick={() => followUpResult('rental', 'unknown')}>대차 결과 미확인</button></>}
+        {value.followUp.routeRequest && <button aria-label="시연 event: 경로 확인 실패" onClick={() => followUpResult('route', 'unavailable')}>경로 확인 실패</button>}
         <button aria-label="시연 event: 차량 감지 자료" onClick={vehicleData}>차량 감지 자료</button>
         <button aria-label="시연 event: 사고 자료 확보" disabled={loadingSamples} onClick={() => void sampleEvidence()}>{loadingSamples ? '자료 보관 중' : '사고 자료 확보'}</button>
         <button aria-label="시연 event: 경위서 초안" onClick={sampleReport}>경위서 초안</button>

@@ -48,7 +48,9 @@ export type Submission = {
   approvedAt: string | null; payload: PayloadSnapshot | null; status: RequestStatus; externalReceipt: Receipt | null
 }
 export type ShareRecord = { id: string; recipient: string; approvedAt: string; payload: PayloadSnapshot; status: 'pending' | 'confirmed' | 'failed' | 'unknown' }
+export type FollowUpRequest = { id: string; shopId: string | null; source: Source; updatedAt: string | null }
 export type FollowUp = {
+  requestRevision?: number; routeRequest?: FollowUpRequest | null; rentalRequest?: FollowUpRequest | null
   shopId: string | null; repairItems: string[]; route: 'idle' | 'preview' | 'guiding' | 'unavailable'
   rental: 'idle' | 'checking' | 'eligible' | 'ineligible' | 'unknown'; source: Source; updatedAt: string | null
 }
@@ -85,7 +87,9 @@ export type CaseCommand =
   | { type: 'paragraph-remove'; id: string }
   | { type: 'agency-decision'; agency: Agency; decision: 'deferred' | 'declined' }
   | { type: 'share-result'; caseId: string; shareId: string; status: ShareRecord['status'] }
-  | { type: 'follow-up'; value: FollowUp }
+  | { type: 'follow-up'; value: FollowUp; now?: string }
+  | ({ type: 'follow-up-result'; caseId: string; shopId: string | null; requestId: string; source: Source; updatedAt: string } &
+      ({ kind: 'route'; status: 'guiding' | 'unavailable' } | { kind: 'rental'; status: 'eligible' | 'ineligible' | 'unknown' }))
 export type AssetWrite = { id: string; caseId: string; blob: Blob }
 export type CommitResult = { ok: true; value: JourneyCase } | { ok: false; reason: 'conflict' | 'unavailable' | 'quota' | 'invalid'; draft: JourneyCase }
 export type ApprovalResult = { ok: true; value: JourneyCase } | { ok: false; reason: 'recipient' | 'empty-selection' | 'missing-evidence' | 'unreviewed-content' | 'retry-not-allowed' }
@@ -120,7 +124,7 @@ export function createCase(session: Session, id: string, now: string): JourneyCa
     statements: session.savedRecord ? [{ id: 'imported-statement', text: session.savedRecord, audioEvidenceIds: [], revision: 1, confirmedRevision: null }] : [],
     statementHistory: [], diagram: null, diagramHistory: [], report: null, reportHistory: [], pendingReport: null,
     contentRevision: 0, shares: [],
-    followUp: { shopId: null, repairItems: [], route: 'idle', rental: 'idle', source: 'fixture', updatedAt: null },
+    followUp: { requestRevision: 0, routeRequest: null, rentalRequest: null, shopId: null, repairItems: [], route: 'idle', rental: 'idle', source: 'fixture', updatedAt: null },
   }
   if (!validateCase(value)) throw new Error('Invalid incident input')
   return value
@@ -430,6 +434,52 @@ export function reduceCase(current: JourneyCase, command: CaseCommand): JourneyC
         if (current.stage !== 'response') next.returnStage = current.stage
         next.stage = 'response'
       }
+      break
+    }
+    case 'follow-up': {
+      const previous = current.followUp
+      const desired = command.value
+      const followUp = next.followUp
+      followUp.repairItems = [...desired.repairItems]
+      if (desired.shopId !== previous.shopId) {
+        followUp.shopId = desired.shopId
+        followUp.route = 'idle'; followUp.rental = 'idle'
+        followUp.routeRequest = null; followUp.rentalRequest = null
+        followUp.source = desired.source; followUp.updatedAt = desired.updatedAt
+      } else {
+        if (desired.route !== previous.route) {
+          if (desired.route === 'preview' && previous.shopId) {
+            followUp.requestRevision = (followUp.requestRevision ?? 0) + 1
+            followUp.routeRequest = { id: `${current.id}:route:${followUp.requestRevision}`, shopId: previous.shopId, source: 'user', updatedAt: command.now ?? null }
+          } else if (desired.route === 'guiding' && previous.route === 'preview' && previous.routeRequest) {
+            followUp.routeRequest = { ...previous.routeRequest, updatedAt: command.now ?? previous.routeRequest.updatedAt }
+          } else if (desired.route === 'idle') followUp.routeRequest = null
+          else return current
+          followUp.route = desired.route
+        }
+        if (desired.rental !== previous.rental) {
+          if (desired.rental === 'checking' && ['idle', 'unknown'].includes(previous.rental)) {
+            followUp.requestRevision = (followUp.requestRevision ?? 0) + 1
+            followUp.rentalRequest = { id: `${current.id}:rental:${followUp.requestRevision}`, shopId: previous.shopId, source: 'user', updatedAt: command.now ?? null }
+          } else if (desired.rental === 'idle') followUp.rentalRequest = null
+          else return current
+          followUp.rental = desired.rental
+        }
+      }
+      if (command.now) next.updatedAt = command.now
+      break
+    }
+    case 'follow-up-result': {
+      if (command.caseId !== current.id || command.source === 'user' || !['route', 'rental'].includes(command.kind)) return current
+      const key = command.kind === 'route' ? 'routeRequest' : 'rentalRequest'
+      const request = current.followUp[key]
+      if (!request || request.id !== command.requestId || request.shopId !== command.shopId || current.followUp.shopId !== command.shopId ||
+        request.updatedAt && Date.parse(command.updatedAt) < Date.parse(request.updatedAt)) return current
+      if (command.kind === 'rental' && ['eligible', 'ineligible'].includes(current.followUp.rental) && command.status === 'unknown') return current
+      next.followUp[key] = { ...request, source: command.source, updatedAt: command.updatedAt }
+      if (command.kind === 'route') next.followUp.route = command.status
+      else next.followUp.rental = command.status
+      next.updatedAt = command.updatedAt
       break
     }
     case 'agency-decision':

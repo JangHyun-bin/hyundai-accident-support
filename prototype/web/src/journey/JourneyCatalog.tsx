@@ -78,7 +78,7 @@ export function JourneyCatalog() {
     <header className="journey-review-heading"><div><p>COMPONENT CATALOG</p><h1>전체 여정 · 표현 기준</h1><span>새 화면은 이 기준의 값과 component만 사용. 없는 표현은 여기에 먼저 추가.</span></div><a href="/?study=emergency-catalog">기존 catalog<ArrowRight size={16} /></a></header>
     <nav className="journey-preview-tabs" aria-label="대표 화면">{views.map(view => <button key={view} aria-pressed={preview === view} onClick={() => setPreview(view)}>{labels[view]}</button>)}</nav>
     <p className="journey-preview-caption">고정 자료로 보는 표현 시안 · 실제 감지·녹음·전송 없음</p>
-    <a className="journey-preview-caption" href="/?study=journey&device=mobile&fixture=partial-evidence">사진·음성·영상·도식·경위서의 실제 조작 화면 열기</a>
+    <a className="journey-preview-caption" href="/?study=journey&device=mobile&fixture=partial-evidence">기록·내용 확인·접수·후속 처리의 실제 조작 화면 열기</a>
     {preview === 'vehicle' ? <VehiclePreview /> : preview === 'voice' ? <VoicePreview /> : <ReportPreview />}
     <section className="journey-component-states"><h2><FileText aria-hidden="true" />공통 상태</h2><div>{([
       ['unknown', '확인되지 않았어요'], ['pending', '확인 중'], ['confirmed', '확인됨'], ['failed', '저장하지 못했어요'], ['skipped', '지금은 남기지 않음'],

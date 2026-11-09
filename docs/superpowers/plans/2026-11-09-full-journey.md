@@ -258,10 +258,10 @@ async function deleteCase(id: string, expectedRevision: number): Promise<boolean
 
 **Interfaces:** `FollowUpPanel({ value, onCommand }: { value: JourneyCase; onCommand: (command: CaseCommand) => void })`. 후속 결과는 선택한 shop/request ID와 source/updatedAt을 포함.
 
-- [ ] Red tests: 빈 목록·오래된 입고 정보·조회 실패 표현; 예상 수리 항목이 확정 견적/주행 허용으로 변하지 않음; 대차 자격 미확인은 가입 사실로 덮지 않음.
-- [ ] 정비소 선택·보낼 수리 항목 검토·경로 preview·대차 확인 상태 구현. 기존 map slot 재사용. 자동 예약·자동 전송 없음.
-- [ ] 차량 지원 대기 중 후속 화면을 열어도 지원 상태·return stage 보존. 후속 업무 거절·중단은 구호 상태와 독립.
-- [ ] `npm run test:ui -- tests/journey-follow-up.spec.ts tests/journey-submission.spec.ts --workers=1`, `npm run check`. Commit `feat: add repair and replacement-car follow-up previews`.
+- [x] Red tests: 빈 목록·오래된 입고 정보·조회 실패 표현; 예상 수리 항목이 확정 견적/주행 허용으로 변하지 않음; 대차 자격 미확인은 가입 사실로 덮지 않음.
+- [x] 정비소 선택·보낼 수리 항목 검토·경로 preview·대차 확인 상태 구현. 기존 map slot 재사용. 자동 예약·자동 전송 없음.
+- [x] 차량 지원 대기 중 후속 화면을 열어도 지원 상태·return stage 보존. 후속 업무 거절·중단은 구호 상태와 독립.
+- [x] `npm run test:ui -- tests/journey-follow-up.spec.ts tests/journey-submission.spec.ts --workers=1`, `npm run check`. Commit `feat: add repair and replacement-car follow-up previews`.
 
 ### Task 11 / P6: 전체 경로와 시각·접근성 검증
 

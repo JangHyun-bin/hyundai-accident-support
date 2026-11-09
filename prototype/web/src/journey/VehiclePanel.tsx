@@ -34,7 +34,7 @@ export function JourneyRequests({ value }: { value: JourneyCase }) {
   })}</div>
 }
 
-export function JourneyNavigation({ value }: { value: JourneyCase }) {
+export function JourneyNavigation({ value, destinationLabel = '안내 지점' }: { value: JourneyCase; destinationLabel?: string }) {
   const data = value.navigation
   if (!data) return <div className="journey-map-empty" data-navigation-state="unknown"><MapPin aria-hidden="true" /><h2>위치 확인 중</h2><p>아직 안내 지점이 확인되지 않았어요.</p></div>
   return <div className="journey-map" data-navigation-state="fixture">
@@ -45,7 +45,7 @@ export function JourneyNavigation({ value }: { value: JourneyCase }) {
       <circle data-vehicle-position cx={data.vehicle.x * 1000} cy={data.vehicle.y * 1000} r="18" />
       <circle className="journey-map-destination" cx={data.destination.x * 1000} cy={data.destination.y * 1000} r="14" />
     </svg>
-    <div className="journey-map-caption"><MapPin aria-hidden="true" /><div><strong>안내 지점</strong><span>현재 위치에서 {data.distanceMeters} m</span></div></div>
+    <div className="journey-map-caption"><MapPin aria-hidden="true" /><div><strong>{destinationLabel}</strong><span>현재 위치에서 {data.distanceMeters} m</span></div></div>
   </div>
 }
 

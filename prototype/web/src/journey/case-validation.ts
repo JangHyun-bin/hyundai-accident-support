@@ -110,8 +110,13 @@ function share(v: unknown) {
   return object(v) && id(v.id) && text(v.recipient, 100) && v.recipient.trim().length > 0 &&
     date(v.approvedAt) && payload(v.payload) && oneOf(v.status, ['pending', 'confirmed', 'failed', 'unknown'])
 }
+function followUpRequest(v: unknown) {
+  return object(v) && id(v.id) && nullable(v.shopId, id) && source(v.source) && nullable(v.updatedAt, date)
+}
 function followUp(v: unknown) {
-  return object(v) && nullable(v.shopId, id) && list(v.repairItems, x => text(x, 200), 30) &&
+  return object(v) && (v.requestRevision === undefined || integer(v.requestRevision)) &&
+    [v.routeRequest, v.rentalRequest].every(request => request === undefined || request === null || object(request) && followUpRequest(request) && request.shopId === v.shopId) &&
+    nullable(v.shopId, id) && list(v.repairItems, x => text(x, 200), 30) &&
     oneOf(v.route, ['idle', 'preview', 'guiding', 'unavailable']) && oneOf(v.rental, ['idle', 'checking', 'eligible', 'ineligible', 'unknown']) &&
     source(v.source) && nullable(v.updatedAt, date)
 }
