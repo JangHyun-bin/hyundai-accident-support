@@ -62,3 +62,5 @@
 .journey-clip-range button { flex: 1 1 100%; border: 0; border-radius: 12px; background: var(--j-control); min-height: 48px; color: var(--j-foreground); font: inherit; }
 [data-journey-device="vehicle"] .journey-diagram-canvas { width: min(100%, 500px); justify-self: center; }
 [data-journey-device="vehicle"] .journey-diagram-controls button { min-height: 64px; }
+
+.journey-diagram-editor[data-readonly="true"] :is(.journey-diagram-car,.journey-diagram-contact) { cursor: default; }

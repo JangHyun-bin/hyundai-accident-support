@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowRight, CarFront, Mic, Phone, Smartphone, Volume2 } from
 import fixtures from '../../../../specs/emergency-experience/journey-fixtures.json'
 import { createSession, sceneFor, scenarioFor, type Edge } from '../emergency/session'
 import { EmergencySurface } from '../emergency/EmergencySurface'
-import { createCase, type Device, type JourneyCase, type RequestStatus, type Stage, type CaseCommand, type Evidence, type Diagram, type ReportParagraph } from './case'
+import { createCase, type Device, type JourneyCase, type RequestStatus, type Stage, type CaseCommand, type Evidence, type Diagram, type ReportParagraph, type Receipt } from './case'
 import { useJourneyCase } from './useJourneyCase'
 import { JourneyAction, JourneyHeading, JourneyLayout, JourneyVehicleFrame } from './JourneyLayout'
 import { JourneyNavigation, JourneyRequests, JourneySummary, VehiclePanel } from './VehiclePanel'
@@ -125,9 +125,9 @@ export function JourneyStudy() {
     dispatch({ type: 'emergency-edge', edgeId: edge.id, now: new Date().toISOString() })
   }
 
-  function result(agency: 'rescue' | 'vehicle' | 'insurance', status: RequestStatus) {
+  function result(agency: 'rescue' | 'vehicle' | 'insurance', status: RequestStatus, externalReceipt: Receipt | null = null) {
     const id = value?.activeSubmissionIds[agency]
-    if (id && value) dispatch({ type: 'request-result', caseId: value.id, agency, submissionId: id, status, externalReceipt: null, now: new Date().toISOString() })
+    if (id && value) dispatch({ type: 'request-result', caseId: value.id, agency, submissionId: id, status, externalReceipt, now: new Date().toISOString() })
   }
 
   function risk() {
@@ -266,7 +266,7 @@ export function JourneyStudy() {
         <div key={value.id + '-review'} hidden={value.stage !== 'review' || details}>
           <JourneyLayout device={device} navigation={<JourneyNavigation value={value} />} summary={<JourneySummary value={value} />}
             action={<JourneyAction secondary onClick={() => void navigate('record')}>기록으로 돌아가기</JourneyAction>}>
-            <JourneyReviewPanel ref={reviewPanel} value={value} onCommand={dispatch} />
+            <JourneyReviewPanel ref={reviewPanel} value={value} onCommand={dispatch} onApprove={journey.approve} />
             <JourneyRequests value={value} />
           </JourneyLayout>
         </div>
@@ -289,6 +289,9 @@ export function JourneyStudy() {
         <button aria-label="시연 event: 안내 지점 자료" onClick={() => dispatch({ type: 'navigation-data', value: { source: 'fixture', vehicle: { x: .4, y: .7 }, destination: { x: .7, y: .7 }, distanceMeters: 15, updatedAt: new Date().toISOString() } })}>안내 지점 자료</button>
         <button aria-label="시연 event: 위험 정보" onClick={risk}>위험 정보</button>
         {value.activeSubmissionIds.rescue && <><button aria-label="시연 event: 통화 연결 확인" onClick={() => result('rescue', 'connected')}>통화 연결 확인</button><button aria-label="시연 event: 구호 접수 확인" onClick={() => result('rescue', 'received')}>구호 접수 확인</button></>}
+        {value.activeSubmissionIds.insurance && <><button aria-label="시연 event: 보험사 접수 확인" onClick={() => result('insurance', 'received')}>보험사 접수 확인</button><button aria-label="시연 event: 보험사 접수번호 확인" onClick={() => result('insurance', 'received', { number: 'AC-20261110-001', receivedAt: new Date().toISOString(), agencyName: value.submissions.find(item => item.id === value.activeSubmissionIds.insurance)?.recipient ?? '보험사', next: '담당자의 안내를 기다려주세요.' })}>보험사 접수번호 확인</button><button aria-label="시연 event: 보험사 결과 미확인" onClick={() => result('insurance', 'unknown')}>보험사 결과 미확인</button><button aria-label="시연 event: 보험사 전송 실패" onClick={() => result('insurance', 'failed')}>보험사 전송 실패</button></>}
+        {value.activeSubmissionIds.vehicle && <><button aria-label="시연 event: 차량 지원 접수 확인" onClick={() => result('vehicle', 'received')}>차량 지원 접수 확인</button><button aria-label="시연 event: 차량 지원 미접수 확인" onClick={() => result('vehicle', 'not_received')}>차량 지원 미접수 확인</button></>}
+        {value.shares.length > 0 && <><button aria-label="시연 event: 상대방 공유 확인" onClick={() => dispatch({ type: 'share-result', caseId: value.id, shareId: value.shares.at(-1)!.id, status: 'confirmed' })}>상대방 공유 확인</button><button aria-label="시연 event: 상대방 공유 실패" onClick={() => dispatch({ type: 'share-result', caseId: value.id, shareId: value.shares.at(-1)!.id, status: 'failed' })}>상대방 공유 실패</button></>}
       </section>
     </>}
     {!value && !journey.loading && !journey.missing && <div className="journey-empty"><Mic aria-hidden="true" /><h2>상황을 선택해 여정을 시작하세요</h2><p>기록은 이 browser에만 보관돼요.</p></div>}

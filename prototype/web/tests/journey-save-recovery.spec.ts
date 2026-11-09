@@ -78,3 +78,61 @@ for (const kind of ['photo', 'audio', 'text'] as const) {
     expect(afterRetry.statements[0].text).toBe(kind === 'photo' ? '기존 기록' : '새로 말한 내용')
   })
 }
+
+test('failed approval leaves no request, then duplicate approval commits exactly once', async ({ page }) => {
+  await setup(page)
+  const result = await page.evaluate(async () => {
+    const controller = window.journeyController
+    const casePath = '/src/journey/case.ts'
+    const { preparePayload } = await import(/* @vite-ignore */ casePath) as typeof import('../src/journey/case')
+    const selection = { observationIds: [], statementIds: ['statement'], evidenceIds: [], includeDiagram: false, includeReport: false }
+    const payload = preparePayload(controller.value!, selection)
+    if (!payload.ok) throw new Error(payload.reason)
+    const input = { kind: 'submission' as const, agency: 'insurance' as const, recipient: '선택한 보험사', selection, id: 'approved-once', now: new Date().toISOString() }
+    const original = IDBObjectStore.prototype.put
+    IDBObjectStore.prototype.put = function () { throw new DOMException('No space', 'QuotaExceededError') }
+    const failed = await controller.approve(input, payload.value)
+    IDBObjectStore.prototype.put = original
+    await controller.flush()
+    const before = window.journeyController.value!.submissions.filter(item => item.kind === 'new').length
+    const attempts = await Promise.all([controller.approve(input, payload.value), controller.approve(input, payload.value)])
+    await controller.flush()
+    return { failed: failed.ok, before, attempts: attempts.map(item => item.ok) }
+  })
+  expect(result).toEqual({ failed: false, before: 0, attempts: [true, false] })
+  await expect.poll(() => page.evaluate(() => window.journeyController.value!.submissions.filter(item => item.kind === 'new').length)).toBe(1)
+})
+
+test('approval commit preserves an urgent event arriving during the transaction', async ({ page }) => {
+  await setup(page)
+  const result = await page.evaluate(async () => {
+    const controller = window.journeyController
+    const casePath = '/src/journey/case.ts'
+    const { preparePayload } = await import(/* @vite-ignore */ casePath) as typeof import('../src/journey/case')
+    const selection = { observationIds: [], statementIds: ['statement'], evidenceIds: [], includeDiagram: false, includeReport: false }
+    const payload = preparePayload(controller.value!, selection)
+    if (!payload.ok) throw new Error(payload.reason)
+    const original = IDBObjectStore.prototype.put
+    IDBObjectStore.prototype.put = function (...args: Parameters<IDBObjectStore['put']>) {
+      const request = original.apply(this, args)
+      if (this.name === 'cases' && args[0].submissions.some((item: { id: string }) => item.id === 'urgent-approval')) {
+        IDBObjectStore.prototype.put = original
+        controller.dispatch({ type: 'observation', observation: { id: 'approval-risk', kind: 'risk', label: '위험', value: '확인 필요',
+          source: 'fixture', observedAt: null, confirmation: 'attention', legacyFactId: null, supersedes: null } })
+      }
+      return request
+    }
+    const result = await controller.approve({ kind: 'submission', agency: 'insurance', recipient: '선택한 보험사', selection, id: 'urgent-approval', now: new Date().toISOString() }, payload.value)
+    IDBObjectStore.prototype.put = original
+    await controller.flush()
+    const storePath = '/src/journey/case-store.ts'
+    const { loadCase } = await import(/* @vite-ignore */ storePath) as typeof import('../src/journey/case-store')
+    return { ok: result.ok, saved: await loadCase('recovery-case') as JourneyCase }
+  })
+  expect(result.ok).toBe(true)
+  expect(result.saved.stage).toBe('response')
+  expect(result.saved.returnStage).toBe('record')
+  expect(result.saved.submissions.filter(item => item.kind === 'new')).toHaveLength(1)
+  expect(result.saved.emergency.requests.insurance).toBe('sent')
+  expect(result.saved.statements[0].text).toBe('기존 기록')
+})

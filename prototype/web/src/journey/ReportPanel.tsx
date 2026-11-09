@@ -9,7 +9,7 @@ import './report.css'
 const kinds = { observation: '자료 관측', statement: '사용자 진술', inference: '추정', unknown: '미확인' }
 type Draft = { id: string; text: string; references: EvidenceReference[] }
 
-function EvidenceView({ caseId, evidence, reference, onFailure }: { caseId: string; evidence: Evidence | null; reference: EvidenceReference; onFailure: () => void }) {
+export function EvidenceView({ caseId, evidence, reference, onFailure }: { caseId: string; evidence: Evidence | null; reference: EvidenceReference; onFailure: () => void }) {
   const [media, setMedia] = useState<{ blob: Blob; url: string } | null>(null)
   const [failed, setFailed] = useState(false)
   const failure = useRef(onFailure)

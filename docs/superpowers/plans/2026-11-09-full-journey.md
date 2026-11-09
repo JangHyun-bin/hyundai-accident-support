@@ -242,15 +242,15 @@ async function deleteCase(id: string, expectedRevision: number): Promise<boolean
 
 **Interfaces:** makeSubmission 완성. `SubmissionPanel({ value, onApprove, onCommand })`; `onApprove`는 makeSubmission 결과를 commit한 뒤에만 sending을 사용자에게 표시. Response command는 `{ caseId, submissionId, agency, status, externalReceipt }`를 필수 식별 정보로 가짐.
 
-- [ ] Red tests: recipient/선택 항목이 비었거나 현재 내용 확인이 유효하지 않으면 제출 차단; 동의 2회 click으로 snapshot 1개; commit 실패면 제출 횟수 불변.
-- [ ] Red tests: 사진만 선택한 제출 허용; 선택하지 않은 미완료 도식은 차단 사유 아님; 포함 report의 broken reference는 차단; 사용자가 검토한 `미확인` 문장은 해당 표현을 유지한 채 제출 가능.
-- [ ] Red tests: edit 후 새 승인 필요·기존 payload 불변; unknown/lookup failure는 재전송 불가; explicit failed/not_received 후 새 승인 가능; 과거 submission 결과는 새 요청의 현재 상태를 덮지 않음.
-- [ ] Red tests: agency 불일치 결과 거절; 같은 submission의 received 후 unknown은 상태 퇴행 없음; imported payload는 null 유지하고 새 제출만 현재 승인 내용을 snapshot으로 가짐.
-- [ ] 수신처·목적·선택 자료·실제 payload preview와 보류·거절 구현. 승인한 snapshot을 저장 transaction으로 보존. `emergency.requests`와 제출 이력은 한 reducer event에서 갱신.
-- [ ] 기관 발급 번호 없는 received는 `접수번호 확인 중`. 내부 ID를 노출하지 않음. 다른 기관의 상태는 바꾸지 않음.
-- [ ] 상대방 공유는 별도 recipient와 비어 있는 기본 selection으로 시작. 보험사 자료 자동 복제 없음. Preview 승인 뒤 결과 event가 있어야 공유 확인, button click만으로 완료 처리 안 함.
-- [ ] makeShare와 ShareRecord 결과 command를 사용하며 Agency에 상대방을 끼워 넣지 않음. Test: 공유 승인·성공·실패 전후 보험사 active ID·현재 상태·기존 payload snapshot이 모두 불변.
-- [ ] `npm run test:ui -- tests/journey-submission.spec.ts tests/journey-report.spec.ts tests/emergency-complete.spec.ts --workers=1`, `npm run check`. Commit `feat: preserve approved payloads and independent receipt states`.
+- [x] Red tests: recipient/선택 항목이 비었거나 현재 내용 확인이 유효하지 않으면 제출 차단; 동의 2회 click으로 snapshot 1개; commit 실패면 제출 횟수 불변.
+- [x] Red tests: 사진만 선택한 제출 허용; 선택하지 않은 미완료 도식은 차단 사유 아님; 포함 report의 broken reference는 차단; 사용자가 검토한 `미확인` 문장은 해당 표현을 유지한 채 제출 가능.
+- [x] Red tests: edit 후 새 승인 필요·기존 payload 불변; unknown/lookup failure는 재전송 불가; explicit failed/not_received 후 새 승인 가능; 과거 submission 결과는 새 요청의 현재 상태를 덮지 않음.
+- [x] Red tests: agency 불일치 결과 거절; 같은 submission의 received 후 unknown은 상태 퇴행 없음; imported payload는 null 유지하고 새 제출만 현재 승인 내용을 snapshot으로 가짐.
+- [x] 수신처·목적·선택 자료·실제 payload preview와 보류·거절 구현. 승인한 snapshot을 저장 transaction으로 보존. `emergency.requests`와 제출 이력은 한 reducer event에서 갱신.
+- [x] 기관 발급 번호 없는 received는 `접수번호 확인 중`. 내부 ID를 노출하지 않음. 다른 기관의 상태는 바꾸지 않음.
+- [x] 상대방 공유는 별도 recipient와 비어 있는 기본 selection으로 시작. 보험사 자료 자동 복제 없음. Preview 승인 뒤 결과 event가 있어야 공유 확인, button click만으로 완료 처리 안 함.
+- [x] makeShare와 ShareRecord 결과 command를 사용하며 Agency에 상대방을 끼워 넣지 않음. Test: 공유 승인·성공·실패 전후 보험사 active ID·현재 상태·기존 payload snapshot이 모두 불변.
+- [x] `npm run test:ui -- tests/journey-submission.spec.ts tests/journey-report.spec.ts tests/emergency-complete.spec.ts --workers=1`, `npm run check`. Commit `feat: preserve approved payloads and independent receipt states`.
 
 ### Task 10 / P5: 정비·길 안내·대차 후속 처리
 

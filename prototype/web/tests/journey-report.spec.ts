@@ -250,25 +250,26 @@ for (const kind of ['photo', 'audio'] as const) test(`the report drawer opens st
   await expect(page.getByRole('article').getByText('미확인', { exact: true })).toBeVisible()
 })
 
-test('representative report and evidence drawer remain visually reviewable', async ({ page }) => {
+test('representative report and evidence drawer remain visually reviewable', async ({ page }, testInfo) => {
   const { mkdir } = await import('node:fs/promises')
-  await mkdir('evidence/journey/task-8', { recursive: true })
+  const directory = testInfo.outputPath('screenshots')
+  await mkdir(directory, { recursive: true })
   await openReport(page)
-  await page.locator('[data-journey-device="mobile"]:visible').screenshot({ path: 'evidence/journey/task-8/mobile-report.png' })
+  await page.locator('[data-journey-device="mobile"]:visible').screenshot({ path: directory + '/mobile-report.png' })
   await page.getByRole('button', { name: '근거 보기', exact: true }).click()
   await expect(page.getByRole('dialog').getByRole('button', { name: '전방 영상 재생', exact: true })).toBeEnabled()
-  await page.screenshot({ path: 'evidence/journey/task-8/mobile-evidence-drawer.png' })
+  await page.screenshot({ path: directory + '/mobile-evidence-drawer.png' })
   await page.keyboard.press('Escape')
   await page.getByRole('button', { name: '차량 보기', exact: true }).click()
   await page.setViewportSize({ width: 1600, height: 1050 })
   await page.getByRole('button', { name: '경위서', exact: true }).click()
   await expect(page.getByRole('article', { name: '문장 1', exact: true })).toBeVisible()
-  await page.locator('[data-journey-stage]').screenshot({ path: 'evidence/journey/task-8/vehicle-report.png' })
+  await page.locator('[data-journey-stage]').screenshot({ path: directory + '/vehicle-report.png' })
   await page.getByRole('button', { name: 'Mobile 보기', exact: true }).click()
   await page.getByRole('button', { name: '경위서', exact: true }).click()
   await page.setViewportSize({ width: 360, height: 800 })
   await page.evaluate(() => { document.documentElement.style.fontSize = '32px' })
-  await page.locator('[data-journey-device="mobile"]:visible').screenshot({ path: 'evidence/journey/task-8/mobile-report-200.png' })
+  await page.locator('[data-journey-device="mobile"]:visible').screenshot({ path: directory + '/mobile-report-200.png' })
 })
 
 test('stale asynchronous review results cannot confirm or invalidate a newer paragraph', () => {

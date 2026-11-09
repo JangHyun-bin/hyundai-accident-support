@@ -1,4 +1,4 @@
-import { manifest, scenarioFor, sceneFor, transition, type Session } from '../emergency/session'
+import { scenarioFor, sceneFor, transition, type Session } from '../emergency/session'
 import { validateCase } from './case-validation'
 export { validateCase } from './case-validation'
 
@@ -90,6 +90,10 @@ export type AssetWrite = { id: string; caseId: string; blob: Blob }
 export type CommitResult = { ok: true; value: JourneyCase } | { ok: false; reason: 'conflict' | 'unavailable' | 'quota' | 'invalid'; draft: JourneyCase }
 export type ApprovalResult = { ok: true; value: JourneyCase } | { ok: false; reason: 'recipient' | 'empty-selection' | 'missing-evidence' | 'unreviewed-content' | 'retry-not-allowed' }
 
+export type ApprovalInput = { recipient: string; selection: PayloadSelection; id: string; now: string } &
+  ({ kind: 'submission'; agency: Agency } | { kind: 'share' })
+export type ApprovalCommitResult = CommitResult | Extract<ApprovalResult, { ok: false }>
+
 export const agencies: Agency[] = ['rescue', 'vehicle', 'insurance']
 
 export function createCase(session: Session, id: string, now: string): JourneyCase {
@@ -124,6 +128,55 @@ export function createCase(session: Session, id: string, now: string): JourneyCa
 
 export function canSubmit(value: JourneyCase, agency: Agency): boolean {
   return ['not_sent', 'deferred', 'declined', 'failed', 'not_received'].includes(value.emergency.requests[agency])
+}
+
+export type PayloadResult = { ok: true; value: PayloadSnapshot } | Extract<ApprovalResult, { ok: false }>
+
+export function preparePayload(current: JourneyCase, selection: PayloadSelection): PayloadResult {
+  const observations = current.observations.filter(item => selection.observationIds.includes(item.id))
+  const statements = current.statements.filter(item => selection.statementIds.includes(item.id))
+  const evidence = current.evidence.filter(item => selection.evidenceIds.includes(item.id))
+  if (observations.length !== selection.observationIds.length || statements.length !== selection.statementIds.length) return { ok: false, reason: 'unreviewed-content' }
+  if (evidence.length !== selection.evidenceIds.length || evidence.some(item => item.availability !== 'available' || !item.assetId)) return { ok: false, reason: 'missing-evidence' }
+  if (!observations.length && !statements.length && !evidence.length && !selection.includeDiagram && !selection.includeReport) return { ok: false, reason: 'empty-selection' }
+  if (statements.some(item => !item.text.trim() || item.confirmedRevision !== item.revision)) return { ok: false, reason: 'unreviewed-content' }
+  const diagram = selection.includeDiagram ? current.diagram : null
+  if (selection.includeDiagram && (!diagram || diagram.road === 'unsupported' || !diagram.vehicles.length || diagram.confirmedRevision !== diagram.revision)) return { ok: false, reason: 'unreviewed-content' }
+  const report = selection.includeReport ? current.report : null
+  if (selection.includeReport && (!report || !report.paragraphs.length || report.paragraphs.some(item => !item.text.trim() || item.confirmedRevision !== item.revision))) return { ok: false, reason: 'unreviewed-content' }
+  if (report?.paragraphs.some(item => item.references.some(reference => !evidenceForReference(current, reference) || !selection.evidenceIds.includes(reference.evidenceId)))) return { ok: false, reason: 'missing-evidence' }
+  return { ok: true, value: structuredClone({ observations,
+    statements: statements.map(item => ({ ...item, audioEvidenceIds: item.audioEvidenceIds.filter(id => selection.evidenceIds.includes(id)) })),
+    evidence, diagram, report }) }
+}
+
+export function makeSubmission(current: JourneyCase, input: {
+  agency: Agency; recipient: string; selection: PayloadSelection; id: string; now: string
+}): ApprovalResult {
+  if (!input.recipient.trim() || input.recipient.length > 100) return { ok: false, reason: 'recipient' }
+  if (!canSubmit(current, input.agency) || current.submissions.some(item => item.id === input.id)) return { ok: false, reason: 'retry-not-allowed' }
+  const payload = preparePayload(current, input.selection)
+  if (!payload.ok) return payload
+  const next = structuredClone(current)
+  next.submissions.push({ id: input.id, kind: 'new', agency: input.agency, recipient: input.recipient.trim(), approvedAt: input.now,
+    payload: payload.value, status: 'sent', externalReceipt: null })
+  next.activeSubmissionIds[input.agency] = input.id
+  next.emergency.requests[input.agency] = 'sent'
+  next.updatedAt = input.now
+  return validateCase(next) ? { ok: true, value: next } : { ok: false, reason: 'unreviewed-content' }
+}
+
+export function makeShare(current: JourneyCase, input: {
+  recipient: string; selection: PayloadSelection; id: string; now: string
+}): ApprovalResult {
+  if (!input.recipient.trim() || input.recipient.length > 100) return { ok: false, reason: 'recipient' }
+  if (current.shares.some(item => item.id === input.id)) return { ok: false, reason: 'retry-not-allowed' }
+  const payload = preparePayload(current, input.selection)
+  if (!payload.ok) return payload
+  const next = structuredClone(current)
+  next.shares.push({ id: input.id, recipient: input.recipient.trim(), approvedAt: input.now, payload: payload.value, status: 'pending' })
+  next.updatedAt = input.now
+  return validateCase(next) ? { ok: true, value: next } : { ok: false, reason: 'unreviewed-content' }
 }
 
 export function evidenceForReference(value: JourneyCase, reference: EvidenceReference): Evidence | null {
@@ -379,14 +432,25 @@ export function reduceCase(current: JourneyCase, command: CaseCommand): JourneyC
       }
       break
     }
+    case 'agency-decision':
+      if (!canSubmit(current, command.agency)) return current
+      next.emergency.requests[command.agency] = command.decision
+      break
+    case 'share-result': {
+      if (command.caseId !== current.id) return current
+      const share = next.shares.find(item => item.id === command.shareId)
+      if (!share || share.status === 'confirmed' && command.status !== 'confirmed') return current
+      share.status = command.status
+      break
+    }
     case 'request-result': {
-      if (command.caseId !== current.id || !Object.hasOwn(manifest.request_statuses, command.status)) return current
+      if (command.caseId !== current.id || !['connection_unknown', 'connected', 'checking', 'unknown', 'received', 'sent', 'failed', 'not_received'].includes(command.status)) return current
       const request = next.submissions.find(s => s.id === command.submissionId && s.agency === command.agency)
       if (!request) return current
       if (request.status === 'received' && command.status !== 'received') return current
       request.status = command.status
       request.externalReceipt = command.externalReceipt ?? request.externalReceipt
-      if (next.activeSubmissionIds[command.agency] === request.id) {
+      if (next.activeSubmissionIds[command.agency] === request.id && (current.emergency.requests[command.agency] !== 'received' || command.status === 'received')) {
         next.emergency.requests[command.agency] = command.status
         const scene = sceneFor(next.emergency)
         const matching = [...scene.actions, ...scene.events].find(edge =>

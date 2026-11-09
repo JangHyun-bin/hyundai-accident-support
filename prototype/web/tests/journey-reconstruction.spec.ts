@@ -9,7 +9,7 @@ const original: Diagram = { revision: 1, origin: 'fixture', road: 'straight', ve
 
 declare global { interface Window { reconstructionResult: Diagram | null; reconstructionRerender: (value: Diagram) => void; reconstructionSetClipActive: (active: boolean) => void; reconstructionDirty: boolean } }
 
-async function mount(page: Page, input: { diagram?: Diagram; original?: Diagram; clips?: { evidence: Evidence; path?: string; corrupt?: boolean; range?: { start: number; end: number } }[] }) {
+async function mount(page: Page, input: { diagram?: Diagram; original?: Diagram; readOnly?: boolean; clips?: { evidence: Evidence; path?: string; corrupt?: boolean; range?: { start: number; end: number } }[] }) {
   await page.goto('/?study=journey-catalog')
   await page.evaluate(async input => {
     const reactPath = '/node_modules/.vite/deps/react.js'
@@ -25,7 +25,7 @@ async function mount(page: Page, input: { diagram?: Diagram; original?: Diagram;
     const children: import('react').ReactNode[] = []
     window.reconstructionResult = null
     window.reconstructionDirty = false
-    if (input.diagram) children.push(React.createElement(DiagramEditor, { key: 'diagram', value: input.diagram, original: input.original,
+    if (input.diagram) children.push(React.createElement(DiagramEditor, { key: 'diagram', value: input.diagram, original: input.original, readOnly: input.readOnly,
       onChange: value => { window.reconstructionResult = value }, onDirtyChange: dirty => { window.reconstructionDirty = dirty } }))
     for (const clip of input.clips ?? []) {
       const blob = clip.corrupt ? new Blob(['not a video'], { type: 'video/mp4' }) : clip.path ? await (await fetch(clip.path)).blob() : null
@@ -220,4 +220,13 @@ test('journey integration restores clips and edited diagrams after reload withou
   await expect(page.getByRole('button', { name: '내 차량 위치', exact: true })).toHaveAttribute('transform', edited!)
   await page.getByRole('button', { name: '원본 보기', exact: true }).click()
   await expect(page.getByRole('button', { name: '내 차량 위치', exact: true })).not.toHaveAttribute('transform', edited!)
+})
+
+
+test('approved diagram preview shows exact positions without editing actions', async ({ page }) => {
+  await mount(page, { diagram: original, readOnly: true })
+  const preview = page.getByRole('region', { name: '보낼 사고 도식', exact: true })
+  await expect(preview.getByRole('img', { name: '내 차량 위치', exact: true })).toHaveAttribute('transform', 'translate(350 650)')
+  await expect(preview.getByRole('button')).toHaveCount(0)
+  await expect(preview.getByText('사용자 정정', { exact: true })).toHaveCount(0)
 })

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { commitCase, loadCase } from './case-store'
-import { reduceCase, type AssetWrite, type CaseCommand, type CommitResult, type JourneyCase } from './case'
+import { openEvidence } from './evidence-media'
+import { makeSubmission, makeShare, preparePayload, reduceCase, type ApprovalInput, type ApprovalCommitResult, type PayloadSnapshot, type AssetWrite, type CaseCommand, type CommitResult, type JourneyCase } from './case'
 
 type SaveState = 'saved' | 'saving' | 'conflict' | 'unavailable' | 'quota' | 'invalid'
 
@@ -104,6 +105,62 @@ export function useJourneyCase(initialId: string | null) {
     })
   }, [flush])
 
+  const approve = useCallback(async (input: ApprovalInput, preview: PayloadSnapshot): Promise<ApprovalCommitResult> => {
+    const caseId = current.current?.id
+    const saved = await flush()
+    if (!saved.ok) return saved
+    const job = queue.current.then(async (): Promise<ApprovalCommitResult> => {
+      const source = current.current!
+      if (source.id !== caseId) return { ok: false, reason: 'unreviewed-content' }
+      if (conflicted.current) return { ok: false, reason: 'conflict', draft: source }
+      const selected = preparePayload(source, input.selection)
+      if (!selected.ok) return selected
+      if (JSON.stringify(selected.value) !== JSON.stringify(preview)) return { ok: false, reason: 'unreviewed-content' }
+      try {
+        for (const evidence of selected.value.evidence) await openEvidence(source.id, evidence)
+        for (const paragraph of selected.value.report?.paragraphs ?? []) {
+          for (const reference of paragraph.references) {
+            const evidence = selected.value.evidence.find(item => item.id === reference.evidenceId)!
+            await openEvidence(source.id, evidence, reference)
+          }
+        }
+      } catch { return { ok: false, reason: 'missing-evidence' } }
+      const latest = current.current!
+      if (latest.id !== source.id) return { ok: false, reason: 'unreviewed-content' }
+      const payload = preparePayload(latest, input.selection)
+      if (!payload.ok) return payload
+      if (JSON.stringify(payload.value) !== JSON.stringify(preview)) return { ok: false, reason: 'unreviewed-content' }
+      const approval = input.kind === 'submission' ? makeSubmission(latest, input) : makeShare(latest, input)
+      if (!approval.ok) return approval
+      const generation = change.current
+      const writes = [...pendingAssets.current.values()]
+      setSaveState('saving')
+      const result = await commitCase(approval.value, persistedRevision.current, writes)
+      if (!result.ok) {
+        conflicted.current = result.reason === 'conflict'
+        setSaveState(result.reason)
+        return result
+      }
+      persistedRevision.current = result.value.revision
+      savedChange.current = generation
+      for (const write of writes) pendingAssets.current.delete(write.id)
+      const live = current.current!
+      const committed = { ...live, revision: result.value.revision, updatedAt: result.value.updatedAt }
+      // 승인 저장 중 들어온 긴급 event와 새 입력은 유지하고 승인 이력만 합침.
+      if (input.kind === 'submission') {
+        committed.submissions = [...live.submissions, result.value.submissions.at(-1)!]
+        committed.activeSubmissionIds = { ...live.activeSubmissionIds, [input.agency]: input.id }
+        committed.emergency = { ...live.emergency, requests: { ...live.emergency.requests, [input.agency]: 'sent' } }
+      } else committed.shares = [...live.shares, result.value.shares.at(-1)!]
+      current.current = committed
+      setValue(committed)
+      setSaveState(change.current === generation ? 'saved' : 'saving')
+      return { ok: true, value: committed }
+    })
+    queue.current = job.then(() => {}, () => {})
+    return job
+  }, [flush])
+
   const dispatch = useCallback((command: CaseCommand) => { void save(command) }, [save])
 
   const start = useCallback(async (record: JourneyCase) => {
@@ -123,5 +180,5 @@ export function useJourneyCase(initialId: string | null) {
     else setMissing(true)
   }, [adopt])
 
-  return { value, loading, missing, saveState, recovery, dispatch, save, flush, start, reload }
+  return { value, loading, missing, saveState, recovery, dispatch, save, approve, flush, start, reload }
 }
