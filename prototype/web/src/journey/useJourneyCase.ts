@@ -75,14 +75,33 @@ export function useJourneyCase(initialId: string | null) {
     const previous = current.current
     if (!previous) return Promise.reject(new Error('No incident is open'))
     const next = reduceCase(previous, command)
-    if (next === previous && assets.length) return Promise.resolve({ ok: false, reason: 'invalid', draft: previous })
+    if (next === previous && assets.length && !assets.every(asset => pendingAssets.current.get(asset.id)?.blob === asset.blob)) {
+      return Promise.resolve({ ok: false, reason: 'invalid', draft: previous })
+    }
     if (next !== previous) {
       for (const asset of assets) pendingAssets.current.set(asset.id, asset)
       current.current = next
       change.current += 1
       setValue(next); setSaveState('saving')
     }
-    return flush()
+    return flush().then(result => {
+      if (result.ok || (!assets.length && command.type !== 'voice-save') || current.current?.id !== previous.id) return result
+      // Media 실패는 해당 편집만 복원. 그동안 들어온 긴급 상태와 다른 편집은 유지.
+      const latest = current.current
+      const restored = { ...latest }
+      for (const key of Object.keys(next) as (keyof JourneyCase)[]) {
+        if (JSON.stringify(next[key]) !== JSON.stringify(previous[key]) && JSON.stringify(latest[key]) === JSON.stringify(next[key])) {
+          Object.assign(restored, { [key]: previous[key] })
+        }
+      }
+      const referenced = new Set([...restored.evidence, ...restored.evidenceHistory,
+        ...restored.submissions.flatMap(item => item.payload?.evidence ?? []), ...restored.shares.flatMap(item => item.payload.evidence)].map(item => item.assetId))
+      for (const asset of assets) if (!referenced.has(asset.id)) pendingAssets.current.delete(asset.id)
+      current.current = restored
+      change.current += 1
+      setValue(restored)
+      return result
+    })
   }, [flush])
 
   const dispatch = useCallback((command: CaseCommand) => { void save(command) }, [save])

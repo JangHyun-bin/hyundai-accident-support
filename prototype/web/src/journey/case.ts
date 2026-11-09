@@ -24,7 +24,7 @@ export type SafetyAction = { id: string; label: string; status: 'unknown' | 'req
 export type Evidence = {
   id: string; label: string; kind: EvidenceKind; revision: number; origin: 'sample' | 'user'
   assetId: string | null; availability: Availability; captureTarget: CaptureTarget | null
-  metadata: { mime: string; bytes: number; duration: number | null; capturedAt: string | null; sourceLabel: string }
+  metadata: { mime: string; bytes: number; duration: number | null; eventTime?: number | null; capturedAt: string | null; sourceLabel: string }
 }
 export type Statement = { id: string; text: string; audioEvidenceIds: string[]; revision: number; confirmedRevision: number | null }
 export type Point = { x: number; y: number }
@@ -72,6 +72,7 @@ export type CaseCommand =
   | { type: 'request-result'; caseId: string; agency: Agency; submissionId: string; status: RequestStatus; externalReceipt: Receipt | null; now: string }
   | { type: 'statement-edit'; id: string; text: string; audioEvidenceIds: string[] }
   | { type: 'statement-confirm'; id: string }
+  | { type: 'voice-save'; evidence: Evidence[]; statement: { id: string; text: string; audioEvidenceIds: string[] } | null }
   | { type: 'evidence-put'; evidence: Evidence }
   | { type: 'evidence-remove'; id: string }
   | { type: 'diagram-edit'; diagram: Diagram }
@@ -130,6 +131,40 @@ function invalidateReport(value: JourneyCase) {
     value.report = { ...value.report, revision: value.report.revision + 1,
       paragraphs: value.report.paragraphs.map(p => ({ ...p, confirmedRevision: null })) }
   }
+}
+
+function putEvidence(value: JourneyCase, evidence: Evidence): boolean {
+  const index = value.evidence.findIndex(item => item.id === evidence.id)
+  const previous = value.evidence[index]
+  if (previous && JSON.stringify(previous) === JSON.stringify(evidence)) return true
+  const history = value.evidenceHistory.filter(item => item.id === evidence.id)
+  const revision = previous?.revision ?? Math.max(0, ...history.map(item => item.revision))
+  if (evidence.revision !== revision + 1 || (previous && previous.kind !== evidence.kind)) return false
+  const retained = [...value.evidence, ...value.evidenceHistory,
+    ...value.submissions.flatMap(item => item.payload?.evidence ?? []), ...value.shares.flatMap(item => item.payload.evidence)]
+  if (evidence.assetId && retained.some(item => item.assetId === evidence.assetId)) return false
+  if (previous) value.evidenceHistory.push(structuredClone(previous))
+  if (index < 0) value.evidence.push(structuredClone(evidence))
+  else value.evidence[index] = structuredClone(evidence)
+  return true
+}
+
+function editStatement(value: JourneyCase, input: { id: string; text: string; audioEvidenceIds: string[] }, confirm = false): boolean {
+  if (input.text.length > LIMITS.statementLength ||
+    !input.audioEvidenceIds.every(id => value.evidence.some(e => e.id === id && e.kind === 'audio'))) return false
+  const index = value.statements.findIndex(s => s.id === input.id)
+  const previous = value.statements[index]
+  if (previous && previous.text === input.text && JSON.stringify(previous.audioEvidenceIds) === JSON.stringify(input.audioEvidenceIds)) {
+    if (confirm && input.text.trim()) previous.confirmedRevision = previous.revision
+    return true
+  }
+  if (previous) value.statementHistory.push(structuredClone(previous))
+  const revision = previous ? previous.revision + 1 : 1
+  const statement: Statement = { ...input, audioEvidenceIds: [...input.audioEvidenceIds], revision,
+    confirmedRevision: confirm && input.text.trim() ? revision : null }
+  if (index < 0) value.statements.push(statement)
+  else value.statements[index] = statement
+  return true
 }
 
 function addObservation(value: JourneyCase, observation: Observation) {
@@ -194,15 +229,8 @@ export function reduceCase(current: JourneyCase, command: CaseCommand): JourneyC
     }
     case 'navigation-data': next.navigation = structuredClone(command.value); break
     case 'statement-edit': {
-      if (command.text.length > LIMITS.statementLength ||
-        !command.audioEvidenceIds.every(id => next.evidence.some(e => e.id === id && e.kind === 'audio'))) return current
-      const index = next.statements.findIndex(s => s.id === command.id)
-      const previous = next.statements[index]
-      if (previous) next.statementHistory.push(structuredClone(previous))
-      const statement: Statement = { id: command.id, text: command.text, audioEvidenceIds: [...command.audioEvidenceIds],
-        revision: previous ? previous.revision + 1 : 1, confirmedRevision: null }
-      if (index < 0) next.statements.push(statement)
-      else next.statements[index] = statement
+      if (!editStatement(next, { id: command.id, text: command.text, audioEvidenceIds: command.audioEvidenceIds })) return current
+      if (JSON.stringify(next.statements) === JSON.stringify(current.statements)) return current
       invalidateReport(next)
       break
     }
@@ -212,6 +240,41 @@ export function reduceCase(current: JourneyCase, command: CaseCommand): JourneyC
       statement.confirmedRevision = statement.revision
       break
     }
+    case 'voice-save':
+      if (command.evidence.some(e => e.kind !== 'audio') || !command.evidence.every(e => putEvidence(next, e))) return current
+      if (command.statement && !editStatement(next, command.statement, true)) return current
+      if (JSON.stringify(next.evidence) === JSON.stringify(current.evidence) && JSON.stringify(next.statements) === JSON.stringify(current.statements)) return current
+      invalidateReport(next)
+      break
+    case 'evidence-put':
+      if (!putEvidence(next, command.evidence)) return current
+      if (JSON.stringify(next.evidence) === JSON.stringify(current.evidence)) return current
+      invalidateReport(next)
+      break
+    case 'evidence-remove': {
+      const removed = next.evidence.find(e => e.id === command.id)
+      if (!removed) return current
+      next.evidenceHistory.push(removed)
+      next.evidence = next.evidence.filter(e => e.id !== command.id)
+      for (const statement of next.statements) {
+        if (!statement.audioEvidenceIds.includes(command.id)) continue
+        next.statementHistory.push(structuredClone(statement))
+        statement.audioEvidenceIds = statement.audioEvidenceIds.filter(id => id !== command.id)
+        statement.revision += 1
+        statement.confirmedRevision = null
+      }
+      invalidateReport(next)
+      break
+    }
+    case 'diagram-edit':
+      if (current.diagram) next.diagramHistory.push(structuredClone(current.diagram))
+      next.diagram = { ...structuredClone(command.diagram), revision: (current.diagram?.revision ?? 0) + 1, confirmedRevision: null }
+      invalidateReport(next)
+      break
+    case 'diagram-confirm':
+      if (!next.diagram || next.diagram.road === 'unsupported' || !next.diagram.vehicles.length) return current
+      next.diagram.confirmedRevision = next.diagram.revision
+      break
     case 'contact-start':
       startContact(next, command.now)
       moveEmergencyCursor(next, 'contact_unknown', command.now)

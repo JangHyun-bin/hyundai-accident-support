@@ -57,6 +57,8 @@ function evidence(v: unknown) {
     !nullable(m.capturedAt, date) || !text(m.sourceLabel, 100)) return false
   if (v.kind === 'photo' && m.bytes > LIMITS.photoBytes) return false
   if (v.kind === 'audio' && typeof m.duration === 'number' && m.duration > LIMITS.voiceSeconds) return false
+  if (m.eventTime !== undefined && m.eventTime !== null && (typeof m.eventTime !== 'number' || !Number.isFinite(m.eventTime) ||
+    m.eventTime < 0 || (typeof m.duration === 'number' && m.eventTime > m.duration))) return false
   if (v.availability === 'available') {
     if (!id(v.assetId) || m.bytes <= 0) return false
     if (v.kind === 'photo' && !oneOf(m.mime, ['image/jpeg', 'image/png', 'image/webp'])) return false
@@ -127,7 +129,7 @@ export function validateCase(v: unknown): v is JourneyCase {
     !list(v.submissions, submission) || !uniqueIds(v.submissions) || !object(v.activeSubmissionIds) ||
     Object.keys(v.activeSubmissionIds).length !== 3 || !list(v.shares, share) || !uniqueIds(v.shares) || !followUp(v.followUp)) return false
   const value = v as JourneyCase
-  if (value.evidence.filter(e => e.kind === 'photo').length > LIMITS.photoCount) return false
+  if (value.evidence.filter(e => e.kind === 'photo' && (e.assetId !== null || e.metadata.bytes > 0)).length > LIMITS.photoCount) return false
   if (!value.statements.every(s => s.audioEvidenceIds.every(key => value.evidence.some(e => e.id === key && e.kind === 'audio')))) return false
   if (!['rescue', 'vehicle', 'insurance'].every(a => {
     const key = (v.activeSubmissionIds as Record<string, unknown>)[a]
