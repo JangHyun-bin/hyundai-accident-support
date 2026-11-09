@@ -127,12 +127,12 @@ async function deleteCase(id: string, expectedRevision: number): Promise<boolean
 
 **Interfaces:** `JourneyLayout({ device, summary, children, action }: { device: Device; summary: ReactNode; children: ReactNode; action?: ReactNode })`; `JourneyCatalog()`는 상태 변경 없는 preview. Device type은 Task 2 이전에는 같은 literal union을 사용하고 이후 정본 import로 교체.
 
-- [ ] 기존 catalog의 색·type·radius를 읽고 새 semantic alias만 공통 scope로 노출. 기존 CSS selector의 paint 변화는 만들지 않음.
-- [ ] 차량 상태+주 행동, mobile voice review, 경위서+근거의 대표 3개 화면을 고정 fixture로 구성. 기능 구현 전 정보 위계와 실내용 길이를 확인.
-- [ ] 상태별 component preview: unknown/pending/confirmed/failed/skipped, 긴 label, 자료 없음. Raw media를 제외한 모든 paint가 token을 사용하도록 구성.
-- [ ] `journey-design.spec.ts`: 393×852/360×800/차량 canvas에서 `scrollWidth <= clientWidth`; button의 전체 label 노출; 200% text에서 핵심 content 접근 가능; reduced motion에서 반복 animation 없음을 검사.
-- [ ] `npm run test:ui -- tests/journey-design.spec.ts tests/emergency-flat.spec.ts --workers=1`, `npm run check` 통과 후 대표 screenshot을 사람이 확인. 색만 바꾼 시안이 아닌 정보량·조작 위계 확인 기록을 남김.
-- [ ] Local commit: `feat: establish full-journey component previews`. 사용자 preview 의견으로 구조가 바뀌면 다음 Task 전에 catalog에 반영.
+- [x] 기존 catalog의 색·type·radius를 읽고 새 semantic alias만 공통 scope로 노출. 기존 CSS selector의 paint 변화는 만들지 않음.
+- [x] 차량 상태+주 행동, mobile voice review, 경위서+근거의 대표 3개 화면을 고정 fixture로 구성. 기능 구현 전 정보 위계와 실내용 길이를 확인.
+- [x] 상태별 component preview: unknown/pending/confirmed/failed/skipped, 긴 label, 자료 없음. Raw media를 제외한 모든 paint가 token을 사용하도록 구성.
+- [x] `journey-design.spec.ts`: 393×852/360×800/차량 canvas에서 `scrollWidth <= clientWidth`; button의 전체 label 노출; 200% text에서 핵심 content 접근 가능; reduced motion에서 반복 animation 없음을 검사.
+- [x] `npm run test:ui -- tests/journey-design.spec.ts tests/emergency-flat.spec.ts --workers=1`, `npm run check` 통과 후 대표 screenshot을 사람이 확인. 색만 바꾼 시안이 아닌 정보량·조작 위계 확인 기록을 남김.
+- [x] Local commit: `feat: establish full-journey component previews`. 사용자 preview 의견으로 구조가 바뀌면 다음 Task 전에 catalog에 반영.
 
 **완료:** 기존 긴급 화면의 회귀 없이 새 3개 대표 화면을 review 가능. 이 단계만으로 실제 기록 기능이 구현됐다고 표시하지 않음.
 
