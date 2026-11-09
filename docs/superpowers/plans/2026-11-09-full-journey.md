@@ -282,12 +282,12 @@ async function deleteCase(id: string, expectedRevision: number): Promise<boolean
 
 **Interfaces:** `node scripts/record-journey-flow.mjs /absolute/path/journey-flow.mp4`. Output: 차량+mobile 순서의 MP4, 장면별 timeline/coverage JSON, simulation 경계·검증 기록이 있는 README. 기존 파일 overwrite 금지.
 
-- [ ] 녹화 시작 전 Task 11 결과·asset 출처·sample/user mode 확인. 실제 개인정보가 없는 deterministic fixture 사용.
-- [ ] 기존 recorder의 Chrome 시작·상태 대기·output 존재 검사를 재사용. 녹화용 layout은 해당 browser context에만 적용, 제품 code에 촬영 전용 상태 조작을 넣지 않음.
-- [ ] 실제 UI 조작과 명시적 외부 event를 기록. 불필요한 timer 성공·영상 편집으로 UI 결과를 만들어내지 않음. 기본 무음, ElevenLabs 생성·음성 합성은 별도 결정.
-- [ ] `node scripts/record-journey-flow.mjs <새 절대경로>` 후 ffprobe로 해상도·duration·decode 확인. Timeline의 요구 단계가 모두 존재하는지 검사하고 시작/중간/끝 및 화면 전환을 직접 확인.
-- [ ] Preview 배포가 이번 실행에 포함됐을 때만 기존 Funnel의 8443 대상 snapshot 갱신. 다른 port·다른 프로젝트 설정을 변경하지 않음. 먼저 새 artifact를 준비·검증하고 현재 URL에서 확인.
-- [ ] `docs: document the complete journey preview and verification` commit. Push/PR/merge는 실행 시 사용자의 범위와 repo checks에 따라 별도 수행.
+- [x] 녹화 시작 전 Task 11 결과·asset 출처·sample/user mode 확인. 실제 개인정보가 없는 deterministic fixture 사용.
+- [x] 기존 recorder의 Chrome 시작·상태 대기·output 존재 검사를 재사용. 녹화용 layout은 해당 browser context에만 적용, 제품 code에 촬영 전용 상태 조작을 넣지 않음.
+- [x] 실제 UI 조작과 명시적 외부 event를 기록. 불필요한 timer 성공·영상 편집으로 UI 결과를 만들어내지 않음. 기본 무음, ElevenLabs 생성·음성 합성은 별도 결정.
+- [x] `node scripts/record-journey-flow.mjs <새 절대경로>` 후 ffprobe로 해상도·duration·decode 확인. Timeline의 요구 단계가 모두 존재하는지 검사하고 시작/중간/끝 및 화면 전환을 직접 확인.
+- [x] 이번 goal은 배포 제외이므로 미실행. Preview 배포가 실행에 포함됐을 때만 기존 Funnel의 8443 대상 snapshot 갱신. 다른 port·다른 프로젝트 설정을 변경하지 않음. 먼저 새 artifact를 준비·검증하고 현재 URL에서 확인.
+- [x] `docs: document the complete journey preview and verification` commit. Push/PR/merge는 실행 시 사용자의 범위와 repo checks에 따라 별도 수행.
 
 ## 착수 checklist
 

@@ -86,3 +86,17 @@ npm run test:ui -- tests/emergency-complete.spec.ts tests/emergency-visual.spec.
 ```
 
 모든 장면 desktop/mobile screenshot은 `evidence/emergency-complete/`. 하나의 output directory에 여러 Playwright process를 동시에 실행하지 않는다.
+
+## 전체 여정 · 차량과 mobile
+
+`?study=journey`에서 차량 상태·안전 행동·사진·음성 기록·사고 영상·도식·경위서·보험사 접수·상대방 공유·정비 후속 처리까지 확인 가능. `?study=journey-catalog`는 표현 기준. 기존 emergency route와 저장 key는 보존.
+
+새 여정의 case와 media는 IndexedDB에 저장. Device 보기 전환은 같은 browser에서의 preview이며 실제 기기 간 sync가 아님. Sample 입력과 외부 결과는 review shell에서 명시적으로 선택.
+
+[전체 여정 실행·영상·검증 기록](evidence/journey/README.md)에 재현 명령과 미검증 범위 정리.
+
+```sh
+node scripts/record-journey-flow.mjs /absolute/path/journey-flow.mp4
+```
+
+새 경로에 차량·mobile MP4와 timeline·coverage JSON 생성. 기존 영상은 덮어쓰지 않음. 무음이며 유료 API를 호출하지 않음.
