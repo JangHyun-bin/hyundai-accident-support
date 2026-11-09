@@ -6,6 +6,8 @@ import book from '../../../specs/emergency-experience/glyphs.json' with { type: 
 const facts = book.facts as Record<string, string>
 const actions = book.actions as Record<string, string>
 
+test.setTimeout(120_000)
+
 test('vehicle_screen_draws_mapped_glyphs_and_marks', async ({ page }) => {
   for (const scenario of manifest.scenarios) for (const scene of scenario.states) {
     await page.goto(`/?study=emergency&scenario=${scenario.id}&scene=${scene.id}`)
@@ -23,7 +25,7 @@ test('vehicle_screen_draws_mapped_glyphs_and_marks', async ({ page }) => {
       const tone = (await request.getAttribute('class'))!.match(/tone-(\w+)/)![1]
       await expect(request.locator('[data-mark]'), where).toHaveAttribute('data-mark', tone)
     }
-    const buttons = screen.locator('.emergency-primary-action')
+    const buttons = screen.locator('.emergency-primary-action, .emergency-secondary-action')
     await expect(buttons, where).toHaveCount(scene.actions.length)
     for (const [index, action] of scene.actions.entries()) {
       await expect(buttons.nth(index).locator('[data-glyph]').first(), `${where} ${action.id}`).toHaveAttribute('data-glyph', actions[action.id] ?? actions.default)
@@ -31,13 +33,13 @@ test('vehicle_screen_draws_mapped_glyphs_and_marks', async ({ page }) => {
   }
 })
 
-test('attention_cue_keeps_attention_mark_with_metal_glyph', async ({ page }) => {
+test('attention_cue_keeps_attention_mark_with_flat_glyph', async ({ page }) => {
   await page.goto('/?study=emergency&scenario=SC01&scene=initial')
   const cue = page.getByRole('region', { name: '핵심 상황' })
   await expect(cue.locator('[data-mark="attention"]')).toBeVisible()
   const fills = await cue.locator('.emergency-symbol > [data-glyph] path').evaluateAll(paths => paths.map(path => path.getAttribute('fill')))
   expect(fills.length).toBeGreaterThan(0)
-  for (const fill of fills) expect(fill).toMatch(/^url\(#/)
+  for (const fill of fills) expect(fill).toBe('currentColor')
 })
 
 test('scaled_canvas_keeps_glyph_inside_plate', async ({ page }) => {
@@ -54,8 +56,8 @@ test('scaled_canvas_keeps_glyph_inside_plate', async ({ page }) => {
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
 })
 
-// 대비 측정 정의: plan Task 3. A = 평소 render, B = data-measure (면·기호 흰색, plate·원판 검은색, 나머지 회색).
-// 1 px anti-aliasing 은 8 이웃 검사로 빼고, 그림자 띠·lip 은 포함한다.
+// A = 평소 render, B = data-measure (면·기호 흰색, 주변 면·원판 검은색, 나머지 회색).
+// 1 px anti-aliasing 은 8 이웃 검사로 제외한다.
 const REACH = 6
 const DSF = 3
 async function contrast(page: Page, target: Locator, hide?: string) {
@@ -120,12 +122,12 @@ async function contrast(page: Page, target: Locator, hide?: string) {
 test.describe('contrast', () => {
   test.use({ deviceScaleFactor: DSF })
 
-  test('engraved_glyphs_and_marks_reach_3_to_1', async ({ page }) => {
+  test('flat_glyphs_and_marks_reach_3_to_1', async ({ page }) => {
     const results: Record<string, unknown> = {}
     const check = async (name: string, query: string, target: string, hide?: string) => {
-      await page.goto(`/?study=emergency&material=satin&${query}`)
+      await page.goto(`/?study=emergency&${query}`)
       const screen = page.locator('.emergency-screen')
-      await expect(screen).toHaveAttribute('data-surface-status', 'ready')
+      await expect(screen).toHaveAttribute('data-surface-status', 'flat')
       await page.evaluate(() => document.fonts.ready)
       // Pleos 화면(2560 px)을 창에 맞추면 표식이 너무 작아져 면 pixel 이 남지 않는다. 실제 크기에서 잰다.
       await page.getByRole('button', { name: '원래 크기' }).click()
@@ -150,10 +152,10 @@ test.describe('contrast', () => {
     await check('mark confirmed', 'scenario=SC05&scene=initial', '[data-request] [data-mark="confirmed"]')
     await check('mark neutral', 'scenario=SC05&scene=initial', '[data-request] [data-mark="neutral"]')
     if (process.env.RECORD_EVIDENCE) {
-      const folder = new URL('../evidence/emergency-glyphs/', import.meta.url)
+      const folder = new URL('../evidence/emergency-flat/', import.meta.url)
       mkdirSync(folder, { recursive: true })
       writeFileSync(new URL('contrast-check.json', folder), `${JSON.stringify({
-        definition: 'WCAG 1.4.11 non-text contrast on rendered pixels at deviceScaleFactor 3. Face = glyph face or mark symbol, plate = surrounding plate or mark disc within 6 CSS px of the face. 1 px anti-aliasing excluded by an 8-neighbour test; inner shadow band and lip highlight included. Ratio pairs the worst face pixel with the worst plate pixel.',
+        definition: 'WCAG 1.4.11 non-text contrast on rendered pixels at deviceScaleFactor 3. Face = glyph face or mark symbol, plate = surrounding plate or mark disc within 6 CSS px of the face. 1 px anti-aliasing excluded by an 8-neighbour test; Flat glyph and status-mark paint only; no material or shadow. Ratio pairs the worst face pixel with the worst plate pixel.',
         results,
         note: 'Chrome render of the web prototype only. Actual vehicle display, viewing angle and glare are not covered.',
       }, null, 2)}\n`)

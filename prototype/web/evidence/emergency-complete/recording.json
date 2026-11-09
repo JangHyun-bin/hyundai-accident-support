@@ -1,0 +1,1223 @@
+{
+  "output": "/Users/janghyunbin/Downloads/emergency-flow-2026-11-09-complete.mp4",
+  "appOutput": "/Users/janghyunbin/Downloads/emergency-flow-2026-11-09-complete-app.mp4",
+  "appBounds": {
+    "x": 32,
+    "y": 112,
+    "width": 1232,
+    "height": 1152
+  },
+  "raw": "/var/folders/56/g_c2rtzx1bl0zfxdv64qbglh0000gn/T/emergency-flow-OkQDFp/page@1ed1ab9227c7b23041bb6eca05fa142c.webm",
+  "trim": 0.29301779200000005,
+  "timeline": [
+    {
+      "at": 5.717596291,
+      "scenario": "SC01",
+      "scene": "initial",
+      "title": "119에 연결합니다"
+    },
+    {
+      "at": 8.534075791,
+      "scenario": "SC01",
+      "scene": "cancelled",
+      "title": "구호 연결 안 함"
+    },
+    {
+      "at": 11.264375791,
+      "scenario": "SC01",
+      "scene": "contact_unknown",
+      "title": "119 연결 중"
+    },
+    {
+      "at": 13.807991666,
+      "scenario": "SC01",
+      "scene": "call_failed",
+      "title": "119 연결을 다시 시도하세요"
+    },
+    {
+      "at": 16.539793749999998,
+      "scenario": "SC01",
+      "scene": "contact_unknown",
+      "title": "119 연결 중"
+    },
+    {
+      "at": 19.0616455,
+      "scenario": "SC01",
+      "scene": "connected",
+      "title": "119 통화 연결됨"
+    },
+    {
+      "at": 24.098258916,
+      "scenario": "SC01",
+      "scene": "contact_unknown",
+      "title": "119 연결 중"
+    },
+    {
+      "at": 26.638066333,
+      "scenario": "SC01",
+      "scene": "connected",
+      "title": "119 통화 연결됨"
+    },
+    {
+      "at": 29.372918958,
+      "scenario": "SC01",
+      "scene": "record",
+      "title": "기억나는 내용을 남겨주세요"
+    },
+    {
+      "at": 34.132132791000004,
+      "scenario": "SC01",
+      "scene": "record_saved",
+      "title": "사고 기록을 저장했어요"
+    },
+    {
+      "at": 36.854736125,
+      "scenario": "SC01",
+      "scene": "connected",
+      "title": "119 통화 연결됨"
+    },
+    {
+      "at": 39.388468625,
+      "scenario": "SC01",
+      "scene": "received",
+      "title": "구호 접수가 확인됐어요"
+    },
+    {
+      "at": 41.935687166,
+      "scenario": "SC01",
+      "scene": "arrived",
+      "title": "구호가 현장에 도착했어요"
+    },
+    {
+      "at": 44.459694416,
+      "scenario": "SC01",
+      "scene": "handoff",
+      "title": "구호 인계가 확인됐어요"
+    },
+    {
+      "at": 50.518262916,
+      "scenario": "SC01",
+      "scene": "initial",
+      "title": "119에 연결합니다"
+    },
+    {
+      "at": 60.8769965,
+      "scenario": "SC01",
+      "scene": "auto_contact",
+      "title": "119 연결 중"
+    },
+    {
+      "at": 63.919999125000004,
+      "scenario": "SC01",
+      "scene": "auto_failed",
+      "title": "119 연결을 다시 시도하세요"
+    },
+    {
+      "at": 66.46620620799999,
+      "scenario": "SC01",
+      "scene": "auto_contact",
+      "title": "119 연결 중"
+    },
+    {
+      "at": 69.013101208,
+      "scenario": "SC01",
+      "scene": "auto_connected",
+      "title": "119 통화 연결됨"
+    },
+    {
+      "at": 73.04678712499998,
+      "scenario": "SC01",
+      "scene": "auto_received",
+      "title": "구호 접수가 확인됐어요"
+    },
+    {
+      "at": 75.57466624999999,
+      "scenario": "SC01",
+      "scene": "auto_handoff",
+      "title": "구호 인계가 확인됐어요"
+    },
+    {
+      "at": 78.29631437499998,
+      "scenario": "SC01",
+      "scene": "handoff",
+      "title": "구호 인계가 확인됐어요"
+    },
+    {
+      "at": 83.34093299999999,
+      "scenario": "SC02",
+      "scene": "initial",
+      "title": "차량 지원이 필요해요"
+    },
+    {
+      "at": 86.086218041,
+      "scenario": "SC02",
+      "scene": "review",
+      "title": "요청할 내용을 확인하세요"
+    },
+    {
+      "at": 90.314092791,
+      "scenario": "SC02",
+      "scene": "initial",
+      "title": "차량 지원이 필요해요"
+    },
+    {
+      "at": 93.070322416,
+      "scenario": "SC02",
+      "scene": "review",
+      "title": "요청할 내용을 확인하세요"
+    },
+    {
+      "at": 95.79700004099999,
+      "scenario": "SC02",
+      "scene": "sending",
+      "title": "차량 지원 요청을 보내고 있어요"
+    },
+    {
+      "at": 98.33929662499999,
+      "scenario": "SC02",
+      "scene": "failed",
+      "title": "요청을 보내지 못했어요"
+    },
+    {
+      "at": 101.06332733299999,
+      "scenario": "SC02",
+      "scene": "review",
+      "title": "요청할 내용을 확인하세요"
+    },
+    {
+      "at": 103.80287516599999,
+      "scenario": "SC02",
+      "scene": "sending",
+      "title": "차량 지원 요청을 보내고 있어요"
+    },
+    {
+      "at": 106.34500675,
+      "scenario": "SC02",
+      "scene": "waiting",
+      "title": "차량 지원 접수를 기다려요"
+    },
+    {
+      "at": 109.063281416,
+      "scenario": "SC02",
+      "scene": "record",
+      "title": "기억나는 내용을 남겨주세요"
+    },
+    {
+      "at": 113.81817391599999,
+      "scenario": "SC02",
+      "scene": "record_saved",
+      "title": "사고 기록을 저장했어요"
+    },
+    {
+      "at": 117.06936512499999,
+      "scenario": "SC02",
+      "scene": "waiting",
+      "title": "차량 지원 접수를 기다려요"
+    },
+    {
+      "at": 119.79489408299999,
+      "scenario": "SC02",
+      "scene": "checking",
+      "title": "기존 요청을 확인하고 있어요"
+    },
+    {
+      "at": 122.33991366599999,
+      "scenario": "SC02",
+      "scene": "waiting",
+      "title": "차량 지원 접수를 기다려요"
+    },
+    {
+      "at": 125.06142799999999,
+      "scenario": "SC02",
+      "scene": "checking",
+      "title": "기존 요청을 확인하고 있어요"
+    },
+    {
+      "at": 127.583620833,
+      "scenario": "SC02",
+      "scene": "received",
+      "title": "차량 지원 접수가 확인됐어요"
+    },
+    {
+      "at": 130.12987125,
+      "scenario": "SC02",
+      "scene": "arrived",
+      "title": "차량 지원이 도착했어요"
+    },
+    {
+      "at": 135.71328820800002,
+      "scenario": "SC03",
+      "scene": "initial",
+      "title": "119에 연결합니다"
+    },
+    {
+      "at": 138.224893041,
+      "scenario": "SC03",
+      "scene": "initial",
+      "title": "119에 연결합니다"
+    },
+    {
+      "at": 146.086361,
+      "scenario": "SC03",
+      "scene": "unanswered",
+      "title": "119 연결 중"
+    },
+    {
+      "at": 149.13147650000002,
+      "scenario": "SC03",
+      "scene": "unanswered_failed",
+      "title": "119 연결을 다시 시도하세요"
+    },
+    {
+      "at": 151.673513708,
+      "scenario": "SC03",
+      "scene": "unanswered",
+      "title": "119 연결 중"
+    },
+    {
+      "at": 154.21754816600003,
+      "scenario": "SC03",
+      "scene": "unanswered_connected",
+      "title": "119 통화 연결됨"
+    },
+    {
+      "at": 158.249125708,
+      "scenario": "SC03",
+      "scene": "unanswered_received",
+      "title": "구호 접수가 확인됐어요"
+    },
+    {
+      "at": 160.795064458,
+      "scenario": "SC03",
+      "scene": "unanswered_handoff",
+      "title": "구호 인계가 확인됐어요"
+    },
+    {
+      "at": 163.527851916,
+      "scenario": "SC03",
+      "scene": "handoff",
+      "title": "구호 인계가 확인됐어요"
+    },
+    {
+      "at": 168.608249083,
+      "scenario": "SC03",
+      "scene": "initial",
+      "title": "119에 연결합니다"
+    },
+    {
+      "at": 171.441176958,
+      "scenario": "SC03",
+      "scene": "responded",
+      "title": "구호 연결 안 함"
+    },
+    {
+      "at": 174.182731291,
+      "scenario": "SC03",
+      "scene": "contact_unknown",
+      "title": "119 연결 중"
+    },
+    {
+      "at": 176.72563887500002,
+      "scenario": "SC03",
+      "scene": "call_failed",
+      "title": "119 연결을 다시 시도하세요"
+    },
+    {
+      "at": 179.466609333,
+      "scenario": "SC03",
+      "scene": "contact_unknown",
+      "title": "119 연결 중"
+    },
+    {
+      "at": 182.007580291,
+      "scenario": "SC03",
+      "scene": "connected",
+      "title": "119 통화 연결됨"
+    },
+    {
+      "at": 186.038963083,
+      "scenario": "SC03",
+      "scene": "contact_unknown",
+      "title": "119 연결 중"
+    },
+    {
+      "at": 188.58678012500002,
+      "scenario": "SC03",
+      "scene": "connected",
+      "title": "119 통화 연결됨"
+    },
+    {
+      "at": 191.120480583,
+      "scenario": "SC03",
+      "scene": "received",
+      "title": "구호 접수가 확인됐어요"
+    },
+    {
+      "at": 193.66681925,
+      "scenario": "SC03",
+      "scene": "handoff",
+      "title": "구호 인계가 확인됐어요"
+    },
+    {
+      "at": 198.710586583,
+      "scenario": "SC04",
+      "scene": "initial",
+      "title": "전송할 기록을 확인하세요"
+    },
+    {
+      "at": 201.42627366600001,
+      "scenario": "SC04",
+      "scene": "record",
+      "title": "사고 기록을 고쳐주세요"
+    },
+    {
+      "at": 206.18123333300002,
+      "scenario": "SC04",
+      "scene": "initial",
+      "title": "전송할 기록을 확인하세요"
+    },
+    {
+      "at": 208.93312929100003,
+      "scenario": "SC04",
+      "scene": "review",
+      "title": "보험에 보낼 내용을 확인하세요"
+    },
+    {
+      "at": 213.15776375000002,
+      "scenario": "SC04",
+      "scene": "declined",
+      "title": "보험에 보내지 않았어요"
+    },
+    {
+      "at": 215.875646208,
+      "scenario": "SC04",
+      "scene": "support",
+      "title": "다른 지원은 계속 진행돼요"
+    },
+    {
+      "at": 218.59081475000002,
+      "scenario": "SC04",
+      "scene": "paused",
+      "title": "남은 일을 보관했어요"
+    },
+    {
+      "at": 221.33141816600002,
+      "scenario": "SC04",
+      "scene": "support",
+      "title": "다른 지원은 계속 진행돼요"
+    },
+    {
+      "at": 224.081557458,
+      "scenario": "SC04",
+      "scene": "review",
+      "title": "보험에 보낼 내용을 확인하세요"
+    },
+    {
+      "at": 228.338847916,
+      "scenario": "SC04",
+      "scene": "deferred",
+      "title": "전송을 보류했어요"
+    },
+    {
+      "at": 231.05768650000002,
+      "scenario": "SC04",
+      "scene": "review",
+      "title": "보험에 보낼 내용을 확인하세요"
+    },
+    {
+      "at": 234.31430170800002,
+      "scenario": "SC04",
+      "scene": "sending",
+      "title": "보험에 기록을 보내고 있어요"
+    },
+    {
+      "at": 236.85826200000002,
+      "scenario": "SC04",
+      "scene": "failed",
+      "title": "기록을 보내지 못했어요"
+    },
+    {
+      "at": 239.574333875,
+      "scenario": "SC04",
+      "scene": "review",
+      "title": "보험에 보낼 내용을 확인하세요"
+    },
+    {
+      "at": 243.830919708,
+      "scenario": "SC04",
+      "scene": "sending",
+      "title": "보험에 기록을 보내고 있어요"
+    },
+    {
+      "at": 246.37505241600002,
+      "scenario": "SC04",
+      "scene": "sent",
+      "title": "기록을 보냈어요"
+    },
+    {
+      "at": 249.114576625,
+      "scenario": "SC04",
+      "scene": "checking",
+      "title": "보험 접수를 확인하고 있어요"
+    },
+    {
+      "at": 251.655386458,
+      "scenario": "SC04",
+      "scene": "sent",
+      "title": "기록을 보냈어요"
+    },
+    {
+      "at": 254.373860791,
+      "scenario": "SC04",
+      "scene": "checking",
+      "title": "보험 접수를 확인하고 있어요"
+    },
+    {
+      "at": 256.918389083,
+      "scenario": "SC04",
+      "scene": "received",
+      "title": "보험 접수가 확인됐어요"
+    },
+    {
+      "at": 262.959579333,
+      "scenario": "SC05",
+      "scene": "initial",
+      "title": "차량 지원 접수 미확인"
+    },
+    {
+      "at": 265.69634829100005,
+      "scenario": "SC05",
+      "scene": "suspended",
+      "title": "여기서 잠시 멈췄어요"
+    },
+    {
+      "at": 268.715967625,
+      "scenario": "SC05",
+      "scene": "suspended",
+      "title": "여기서 잠시 멈췄어요"
+    },
+    {
+      "at": 271.73327575,
+      "scenario": "SC05",
+      "scene": "suspended",
+      "title": "여기서 잠시 멈췄어요"
+    },
+    {
+      "at": 274.95825241600005,
+      "scenario": "SC05",
+      "scene": "received",
+      "title": "차량 지원 접수 확인"
+    },
+    {
+      "at": 277.503353541,
+      "scenario": "SC05",
+      "scene": "arrived",
+      "title": "차량 지원이 현장에 도착했어요"
+    },
+    {
+      "at": 280.044206791,
+      "scenario": "SC05",
+      "scene": "handoff",
+      "title": "구호 인계가 확인됐어요"
+    },
+    {
+      "at": 285.086561916,
+      "scenario": "SC05",
+      "scene": "initial",
+      "title": "차량 지원 접수 미확인"
+    },
+    {
+      "at": 287.829605833,
+      "scenario": "SC05",
+      "scene": "checking",
+      "title": "차량 지원 접수 확인 중"
+    },
+    {
+      "at": 290.374980916,
+      "scenario": "SC05",
+      "scene": "lookup_failed",
+      "title": "접수 결과를 확인하지 못했어요"
+    },
+    {
+      "at": 293.106046833,
+      "scenario": "SC05",
+      "scene": "suspended",
+      "title": "여기서 잠시 멈췄어요"
+    },
+    {
+      "at": 295.827841416,
+      "scenario": "SC05",
+      "scene": "checking",
+      "title": "차량 지원 접수 확인 중"
+    },
+    {
+      "at": 298.366940666,
+      "scenario": "SC05",
+      "scene": "initial",
+      "title": "차량 지원 접수 미확인"
+    },
+    {
+      "at": 301.095272625,
+      "scenario": "SC05",
+      "scene": "checking",
+      "title": "차량 지원 접수 확인 중"
+    },
+    {
+      "at": 303.640996125,
+      "scenario": "SC05",
+      "scene": "not_received",
+      "title": "차량 지원이 접수되지 않았어요"
+    },
+    {
+      "at": 306.39532470800003,
+      "scenario": "SC05",
+      "scene": "review",
+      "title": "다시 요청할 내용을 확인하세요"
+    },
+    {
+      "at": 312.153223958,
+      "scenario": "SC05",
+      "scene": "not_received",
+      "title": "차량 지원이 접수되지 않았어요"
+    },
+    {
+      "at": 314.870963,
+      "scenario": "SC05",
+      "scene": "review",
+      "title": "다시 요청할 내용을 확인하세요"
+    },
+    {
+      "at": 317.587497125,
+      "scenario": "SC05",
+      "scene": "sending",
+      "title": "차량 지원을 다시 요청하고 있어요"
+    },
+    {
+      "at": 320.132351083,
+      "scenario": "SC05",
+      "scene": "send_failed",
+      "title": "요청을 보내지 못했어요"
+    },
+    {
+      "at": 322.854473791,
+      "scenario": "SC05",
+      "scene": "review",
+      "title": "다시 요청할 내용을 확인하세요"
+    },
+    {
+      "at": 325.57708554100003,
+      "scenario": "SC05",
+      "scene": "sending",
+      "title": "차량 지원을 다시 요청하고 있어요"
+    },
+    {
+      "at": 328.12346108300005,
+      "scenario": "SC05",
+      "scene": "initial",
+      "title": "차량 지원 접수 미확인"
+    },
+    {
+      "at": 330.877026208,
+      "scenario": "SC05",
+      "scene": "checking",
+      "title": "차량 지원 접수 확인 중"
+    },
+    {
+      "at": 333.423781583,
+      "scenario": "SC05",
+      "scene": "received",
+      "title": "차량 지원 접수 확인"
+    }
+  ],
+  "actions": [
+    {
+      "kind": "user",
+      "name": "취소",
+      "from": "initial"
+    },
+    {
+      "kind": "user",
+      "name": "다시 연결",
+      "from": "cancelled"
+    },
+    {
+      "kind": "external",
+      "name": "연결 실패",
+      "from": "contact_unknown"
+    },
+    {
+      "kind": "user",
+      "name": "다시 연결",
+      "from": "call_failed"
+    },
+    {
+      "kind": "external",
+      "name": "통화 연결 확인",
+      "from": "contact_unknown"
+    },
+    {
+      "kind": "external",
+      "name": "연결 끊김",
+      "from": "connected"
+    },
+    {
+      "kind": "external",
+      "name": "통화 연결 확인",
+      "from": "contact_unknown"
+    },
+    {
+      "kind": "user",
+      "name": "사고 기록 남기기",
+      "from": "connected"
+    },
+    {
+      "kind": "input",
+      "field": "record",
+      "value": "고속도로에서 충격을 느꼈어요. 정확한 사고 경위는 확인 중이에요."
+    },
+    {
+      "kind": "user",
+      "name": "기록 저장",
+      "from": "record"
+    },
+    {
+      "kind": "user",
+      "name": "지원 상황으로",
+      "from": "record_saved"
+    },
+    {
+      "kind": "external",
+      "name": "구호 접수 확인",
+      "from": "connected"
+    },
+    {
+      "kind": "external",
+      "name": "구호 현장 도착",
+      "from": "received"
+    },
+    {
+      "kind": "external",
+      "name": "구호 인계 확인",
+      "from": "arrived"
+    },
+    {
+      "kind": "external",
+      "name": "연결 실패",
+      "from": "auto_contact"
+    },
+    {
+      "kind": "external",
+      "name": "구호 연결 재시도",
+      "from": "auto_failed"
+    },
+    {
+      "kind": "external",
+      "name": "통화 연결 확인",
+      "from": "auto_contact"
+    },
+    {
+      "kind": "external",
+      "name": "구호 접수 확인",
+      "from": "auto_connected"
+    },
+    {
+      "kind": "external",
+      "name": "구호 인계 확인",
+      "from": "auto_received"
+    },
+    {
+      "kind": "user",
+      "name": "응답할 수 있어요",
+      "from": "auto_handoff"
+    },
+    {
+      "kind": "user",
+      "name": "차량 지원 요청하기",
+      "from": "initial"
+    },
+    {
+      "kind": "user",
+      "name": "나중에",
+      "from": "review"
+    },
+    {
+      "kind": "user",
+      "name": "차량 지원 요청하기",
+      "from": "initial"
+    },
+    {
+      "kind": "user",
+      "name": "동의하고 요청",
+      "from": "review"
+    },
+    {
+      "kind": "external",
+      "name": "전송 실패",
+      "from": "sending"
+    },
+    {
+      "kind": "user",
+      "name": "요청 내용 다시 확인",
+      "from": "failed"
+    },
+    {
+      "kind": "user",
+      "name": "동의하고 요청",
+      "from": "review"
+    },
+    {
+      "kind": "external",
+      "name": "전송 완료",
+      "from": "sending"
+    },
+    {
+      "kind": "user",
+      "name": "사고 기록 남기기",
+      "from": "waiting"
+    },
+    {
+      "kind": "input",
+      "field": "record",
+      "value": "차량이 움직이지 않아요. 정차 위치와 충돌 경위를 확인 중이에요."
+    },
+    {
+      "kind": "user",
+      "name": "기록 저장",
+      "from": "record"
+    },
+    {
+      "kind": "user",
+      "name": "지원 상황으로",
+      "from": "record_saved"
+    },
+    {
+      "kind": "user",
+      "name": "요청 상태 확인",
+      "from": "waiting"
+    },
+    {
+      "kind": "external",
+      "name": "결과 미확인",
+      "from": "checking"
+    },
+    {
+      "kind": "user",
+      "name": "요청 상태 확인",
+      "from": "waiting"
+    },
+    {
+      "kind": "external",
+      "name": "차량 지원 접수 확인",
+      "from": "checking"
+    },
+    {
+      "kind": "external",
+      "name": "차량 지원 현장 도착",
+      "from": "received"
+    },
+    {
+      "kind": "external",
+      "name": "차량 위험 감지",
+      "from": "initial"
+    },
+    {
+      "kind": "external",
+      "name": "연결 실패",
+      "from": "unanswered"
+    },
+    {
+      "kind": "external",
+      "name": "구호 연결 재시도",
+      "from": "unanswered_failed"
+    },
+    {
+      "kind": "external",
+      "name": "통화 연결 확인",
+      "from": "unanswered"
+    },
+    {
+      "kind": "external",
+      "name": "구호 접수 확인",
+      "from": "unanswered_connected"
+    },
+    {
+      "kind": "external",
+      "name": "구호 인계 확인",
+      "from": "unanswered_received"
+    },
+    {
+      "kind": "user",
+      "name": "응답할 수 있어요",
+      "from": "unanswered_handoff"
+    },
+    {
+      "kind": "user",
+      "name": "취소",
+      "from": "initial"
+    },
+    {
+      "kind": "user",
+      "name": "다시 연결",
+      "from": "responded"
+    },
+    {
+      "kind": "external",
+      "name": "연결 실패",
+      "from": "contact_unknown"
+    },
+    {
+      "kind": "user",
+      "name": "다시 연결",
+      "from": "call_failed"
+    },
+    {
+      "kind": "external",
+      "name": "통화 연결 확인",
+      "from": "contact_unknown"
+    },
+    {
+      "kind": "external",
+      "name": "연결 끊김",
+      "from": "connected"
+    },
+    {
+      "kind": "external",
+      "name": "통화 연결 확인",
+      "from": "contact_unknown"
+    },
+    {
+      "kind": "external",
+      "name": "구호 접수 확인",
+      "from": "connected"
+    },
+    {
+      "kind": "external",
+      "name": "구호 인계 확인",
+      "from": "received"
+    },
+    {
+      "kind": "user",
+      "name": "기록 고치기",
+      "from": "initial"
+    },
+    {
+      "kind": "input",
+      "field": "record",
+      "value": "정차 중 뒤쪽에서 충격을 느꼈어요. 상대 차량의 진행 방향은 미확인이에요."
+    },
+    {
+      "kind": "user",
+      "name": "저장하고 돌아가기",
+      "from": "record"
+    },
+    {
+      "kind": "user",
+      "name": "전송 범위 확인",
+      "from": "initial"
+    },
+    {
+      "kind": "user",
+      "name": "보내지 않기",
+      "from": "review"
+    },
+    {
+      "kind": "user",
+      "name": "다른 지원 확인",
+      "from": "declined"
+    },
+    {
+      "kind": "user",
+      "name": "나중에 이어하기",
+      "from": "support"
+    },
+    {
+      "kind": "user",
+      "name": "남은 지원 확인",
+      "from": "paused"
+    },
+    {
+      "kind": "user",
+      "name": "보험 전송 다시 검토",
+      "from": "support"
+    },
+    {
+      "kind": "scope",
+      "field": "사고 위치",
+      "checked": false
+    },
+    {
+      "kind": "user",
+      "name": "나중에 보내기",
+      "from": "review"
+    },
+    {
+      "kind": "user",
+      "name": "전송 다시 검토",
+      "from": "deferred"
+    },
+    {
+      "kind": "user",
+      "name": "동의하고 전송",
+      "from": "review"
+    },
+    {
+      "kind": "external",
+      "name": "전송 실패",
+      "from": "sending"
+    },
+    {
+      "kind": "user",
+      "name": "전송 범위 다시 확인",
+      "from": "failed"
+    },
+    {
+      "kind": "scope",
+      "field": "차량 상태",
+      "checked": false
+    },
+    {
+      "kind": "user",
+      "name": "동의하고 전송",
+      "from": "review"
+    },
+    {
+      "kind": "external",
+      "name": "전송 완료",
+      "from": "sending"
+    },
+    {
+      "kind": "user",
+      "name": "접수 상태 확인",
+      "from": "sent"
+    },
+    {
+      "kind": "external",
+      "name": "결과 미확인",
+      "from": "checking"
+    },
+    {
+      "kind": "user",
+      "name": "접수 상태 확인",
+      "from": "sent"
+    },
+    {
+      "kind": "external",
+      "name": "보험 접수 확인",
+      "from": "checking"
+    },
+    {
+      "kind": "user",
+      "name": "나중에 이어하기",
+      "from": "initial"
+    },
+    {
+      "kind": "external",
+      "name": "구호 인계 확인",
+      "from": "suspended"
+    },
+    {
+      "kind": "external",
+      "name": "차량 지원 접수 확인",
+      "from": "suspended"
+    },
+    {
+      "kind": "user",
+      "name": "이어서 확인하기",
+      "from": "suspended"
+    },
+    {
+      "kind": "external",
+      "name": "차량 지원 현장 도착",
+      "from": "received"
+    },
+    {
+      "kind": "external",
+      "name": "구호 인계 확인",
+      "from": "arrived"
+    },
+    {
+      "kind": "user",
+      "name": "요청 상태 확인",
+      "from": "initial"
+    },
+    {
+      "kind": "external",
+      "name": "조회 실패",
+      "from": "checking"
+    },
+    {
+      "kind": "user",
+      "name": "나중에 이어하기",
+      "from": "lookup_failed"
+    },
+    {
+      "kind": "user",
+      "name": "이어서 확인하기",
+      "from": "suspended"
+    },
+    {
+      "kind": "external",
+      "name": "결과 미확인",
+      "from": "checking"
+    },
+    {
+      "kind": "user",
+      "name": "요청 상태 확인",
+      "from": "initial"
+    },
+    {
+      "kind": "external",
+      "name": "차량 지원 미접수 확인",
+      "from": "checking"
+    },
+    {
+      "kind": "user",
+      "name": "요청 범위 다시 확인",
+      "from": "not_received"
+    },
+    {
+      "kind": "scope",
+      "field": "사고 위치",
+      "checked": false
+    },
+    {
+      "kind": "user",
+      "name": "나중에",
+      "from": "review"
+    },
+    {
+      "kind": "user",
+      "name": "요청 범위 다시 확인",
+      "from": "not_received"
+    },
+    {
+      "kind": "user",
+      "name": "동의하고 다시 요청",
+      "from": "review"
+    },
+    {
+      "kind": "external",
+      "name": "전송 실패",
+      "from": "sending"
+    },
+    {
+      "kind": "user",
+      "name": "요청 범위 다시 확인",
+      "from": "send_failed"
+    },
+    {
+      "kind": "user",
+      "name": "동의하고 다시 요청",
+      "from": "review"
+    },
+    {
+      "kind": "external",
+      "name": "전송 완료",
+      "from": "sending"
+    },
+    {
+      "kind": "user",
+      "name": "요청 상태 확인",
+      "from": "initial"
+    },
+    {
+      "kind": "external",
+      "name": "차량 지원 접수 확인",
+      "from": "checking"
+    }
+  ],
+  "visited": [
+    "SC01/initial",
+    "SC01/cancelled",
+    "SC01/contact_unknown",
+    "SC01/call_failed",
+    "SC01/connected",
+    "SC01/record",
+    "SC01/record_saved",
+    "SC01/received",
+    "SC01/arrived",
+    "SC01/handoff",
+    "SC01/auto_contact",
+    "SC01/auto_failed",
+    "SC01/auto_connected",
+    "SC01/auto_received",
+    "SC01/auto_handoff",
+    "SC02/initial",
+    "SC02/review",
+    "SC02/sending",
+    "SC02/failed",
+    "SC02/waiting",
+    "SC02/record",
+    "SC02/record_saved",
+    "SC02/checking",
+    "SC02/received",
+    "SC02/arrived",
+    "SC03/initial",
+    "SC03/unanswered",
+    "SC03/unanswered_failed",
+    "SC03/unanswered_connected",
+    "SC03/unanswered_received",
+    "SC03/unanswered_handoff",
+    "SC03/handoff",
+    "SC03/responded",
+    "SC03/contact_unknown",
+    "SC03/call_failed",
+    "SC03/connected",
+    "SC03/received",
+    "SC04/initial",
+    "SC04/record",
+    "SC04/review",
+    "SC04/declined",
+    "SC04/support",
+    "SC04/paused",
+    "SC04/deferred",
+    "SC04/sending",
+    "SC04/failed",
+    "SC04/sent",
+    "SC04/checking",
+    "SC04/received",
+    "SC05/initial",
+    "SC05/suspended",
+    "SC05/received",
+    "SC05/arrived",
+    "SC05/handoff",
+    "SC05/checking",
+    "SC05/lookup_failed",
+    "SC05/not_received",
+    "SC05/review",
+    "SC05/sending",
+    "SC05/send_failed"
+  ],
+  "full": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 2560,
+        "height": 1440,
+        "r_frame_rate": "25/1"
+      }
+    ],
+    "format": {
+      "duration": "343.240000",
+      "size": "12451465"
+    }
+  },
+  "app": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1232,
+        "height": 1152,
+        "r_frame_rate": "25/1"
+      }
+    ],
+    "format": {
+      "duration": "343.240000",
+      "size": "10508606"
+    }
+  }
+}

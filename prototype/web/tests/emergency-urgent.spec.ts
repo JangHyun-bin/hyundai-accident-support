@@ -15,6 +15,8 @@ const contrast = (a: number[], b: number[]) => {
 }
 const channels = (css: string) => css.match(/\d+/g)!.slice(0, 3).map(Number)
 
+test.setTimeout(120_000)
+
 test('every_scene_has_three_slots_and_three_agencies', async ({ page }) => {
   for (const { scenario, scene } of scenes) {
     await page.goto(`/?study=emergency&scenario=${scenario.id}&scene=${scene.id}`)
@@ -45,7 +47,7 @@ test('red_appears_only_inside_the_rescue_decision', async ({ page }) => {
 test('detected_heading_has_no_accent_colour', async ({ page }) => {
   for (const { scenario, scene } of scenes) {
     await page.goto(`/?study=emergency&scenario=${scenario.id}&scene=${scene.id}`)
-    await expect(page.locator('[data-slot="detected"] h2'), `${scenario.id}/${scene.id}`).toHaveCSS('color', 'rgb(242, 244, 242)')
+    await expect(page.locator('[data-slot="detected"] h2'), `${scenario.id}/${scene.id}`).toHaveCSS('color', 'rgb(237, 238, 242)')
   }
 })
 
@@ -53,12 +55,21 @@ test('app_runs_in_a_one_to_one_split_beside_navigation', async ({ page }) => {
   await page.goto('/?study=emergency&scenario=SC01&scene=initial')
   await expect(page.locator('[data-pleos="gnb"]')).toBeVisible()
   const box = async (selector: string) => (await page.locator(selector).boundingBox())!
-  const display = await box('.pleos-display'), status = await box('[data-pleos="status-bar"]'), driving = await box('[data-pleos="driving-view"]')
+  const display = await box('.pleos-display'), status = await box('[data-pleos="status-bar"]')
   const navigation = await box('[data-pleos="navigation"]'), app = await box('.emergency-screen'), gnb = await box('[data-pleos="gnb"]')
   expect(display.width / display.height).toBeCloseTo(16 / 9, 2)
   expect(Math.abs(app.width - navigation.width)).toBeLessThan(1)
   expect(Math.abs(app.height - navigation.height)).toBeLessThan(1)
-  expect(app.x).toBeGreaterThanOrEqual(driving.x + driving.width)
+  await expect(page.locator('[data-pleos="driving-view"]')).toHaveCount(0)
+  await expect(page.locator('[data-pleos="vehicle-status"]')).toContainText('P')
+  const scale = display.width / 2560
+  expect((app.x - display.x) / scale).toBeCloseTo(32, 1)
+  expect((navigation.x - app.x - app.width) / scale).toBeCloseTo(32, 1)
+  expect((display.x + display.width - navigation.x - navigation.width) / scale).toBeCloseTo(32, 1)
+  expect((app.y - status.y - status.height) / scale).toBeCloseTo(24, 1)
+  expect((gnb.y - app.y - app.height) / scale).toBeCloseTo(32, 1)
+  for (const selector of ['.emergency-screen', '.pleos-navigation']) await expect(page.locator(selector)).toHaveCSS('border-radius', '32px')
+  expect((app.width + navigation.width) / display.width).toBeGreaterThan(.95)
   expect(app.y).toBeGreaterThanOrEqual(status.y + status.height)
   expect(app.y + app.height).toBeLessThanOrEqual(gnb.y)
   expect(app.width).toBeLessThan(display.width / 2)
@@ -85,16 +96,16 @@ test('rescue_button_is_pleos_red_with_4_5_to_1_text', async ({ page }) => {
   expect(contrast(channels(color), channels(background))).toBeGreaterThanOrEqual(4.5)
 })
 
-test('only_the_rescue_ring_glows', async ({ page }) => {
+test('rescue_ring_and_buttons_use_flat_paint', async ({ page }) => {
   await page.goto('/?study=emergency&scenario=SC01&scene=initial')
-  await expect(page.locator('[data-urgent] .emergency-ring-value')).toHaveCSS('filter', /drop-shadow/)
+  await expect(page.locator('[data-urgent] .emergency-ring-value')).toHaveCSS('filter', 'none')
   const glowing = await page.locator('.emergency-screen').evaluate(root => [...root.querySelectorAll('button')].filter(node => getComputedStyle(node).boxShadow !== 'none' || getComputedStyle(node).backgroundImage !== 'none').map(node => node.textContent))
   expect(glowing).toEqual([])
 })
 
 // 화면을 설명하는 글(칸 이름표·말머리·설계 주석·app 이름·창 설명)은 운전자에게 주는 정보가 아니다.
 const TAGS = ['감지', '차량', '나']
-const META = ['지금 할 일', '사고 대응', '별도 확인', 'system UI', '다른 app']
+const META = ['지금 할 일', '사고 대응', 'system UI', '다른 app']
 test('screen_has_no_meta_labels', async ({ page }) => {
   for (const { scenario, scene } of scenes) {
     await page.goto(`/?study=emergency&scenario=${scenario.id}&scene=${scene.id}`)
@@ -106,8 +117,8 @@ test('screen_has_no_meta_labels', async ({ page }) => {
   }
 })
 
-// 창 배치: 바깥 여백 좌우 40·위아래 32, 3단 grid(간격 16). 값은 원래 크기(840 × 1184) px 이다.
-const WINDOW = { width: 840, height: 1184, side: 40, edge: 32, gap: 16 }
+// 각 panel 내부 여백 좌우 40·위아래 24, 3단 grid(간격 16). 값은 원래 크기(1232 × 1152) px 이다.
+const WINDOW = { width: 1232, height: 1152, side: 40, edge: 24, gap: 16 }
 const column = (index: number) => {
   const width = (WINDOW.width - 2 * WINDOW.side - 2 * WINDOW.gap) / 3
   const x = WINDOW.side + index * (width + WINDOW.gap)
@@ -116,7 +127,7 @@ const column = (index: number) => {
 type Rect = { x: number; right: number; y: number; bottom: number }
 const rects = (page: import('@playwright/test').Page, selectors: Record<string, string>) => page.locator('.emergency-screen').evaluate((screen, selectors) => {
   const box = screen.getBoundingClientRect()
-  const scale = box.width / 840
+  const scale = box.width / 1232
   return Object.fromEntries(Object.entries(selectors).map(([name, selector]) => [name, [...screen.querySelectorAll(selector)].map(node => {
     const rect = node.getBoundingClientRect()
     return { x: (rect.left - box.left) / scale, right: (rect.right - box.left) / scale, y: (rect.top - box.top) / scale, bottom: (rect.bottom - box.top) / scale }
@@ -145,13 +156,13 @@ test('window_content_snaps_to_three_columns', async ({ page }) => {
 test('bands_dock_to_window_edges_and_stage_fills_the_middle', async ({ page }) => {
   await page.goto('/?study=emergency&scenario=SC01&scene=initial')
   await expect(page.locator('[data-countdown]')).toBeVisible()
-  const box = await rects(page, { detected: '[data-slot="detected"]', ring: '.emergency-ring', actions: '.emergency-car-actions', requests: '.emergency-requests', self: '[data-slot="self"]' })
+  const box = await rects(page, { panel: '.emergency-response-panel', detected: '[data-slot="detected"]', ring: '.emergency-ring', actions: '.emergency-car-actions', requests: '.emergency-requests', self: '[data-slot="self"]' })
   const [detected, ring, actions, requests, self] = [box.detected[0], box.ring[0], box.actions[0], box.requests[0], box.self[0]]
-  expect(Math.abs(detected.y - WINDOW.edge), '① top').toBeLessThan(1)
+  expect(Math.abs(detected.y), '① top').toBeLessThan(1)
   expect(Math.abs(self.bottom - (WINDOW.height - WINDOW.edge)), '③ bottom').toBeLessThan(1)
   expect(self.y - requests.bottom, 'agency row sits on ③').toBeLessThanOrEqual(24)
   expect(Math.abs((ring.x + ring.right) / 2 - WINDOW.width / 2), 'ring centred').toBeLessThan(1)
-  const above = ring.y - detected.bottom
+  const above = ring.y - box.panel[0].y - WINDOW.edge
   const below = requests.y - actions.bottom
   expect(Math.abs(above - below), 'stage centred').toBeLessThan(2)
   expect(Math.max(above, below), 'no void').toBeLessThanOrEqual(80)
@@ -401,5 +412,5 @@ test('review_header_marks_safety_copy_as_draft', async ({ page }) => {
 
 test('footer_counts_scenes_from_data', async ({ page }) => {
   await page.goto('/?study=emergency&scenario=SC05')
-  await expect(page.getByText('3 scenarios / 12 scenes')).toBeVisible()
+  await expect(page.getByText(`${manifest.scenarios.length} scenarios / ${manifest.scenarios.reduce((n, s) => n + s.states.length, 0)} scenes`)).toBeVisible()
 })

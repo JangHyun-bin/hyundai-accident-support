@@ -121,12 +121,20 @@
       {
         "d": "M 24 5.2 C 25.8 5.2 27.2 6.2 28.2 7.8 L 44.4 36.4 C 46.2 39.6 44 43.6 40.2 43.6 H 7.8 C 4 43.6 1.8 39.6 3.6 36.4 L 19.8 7.8 C 20.8 6.2 22.2 5.2 24 5.2 Z"
       }
+    ],
+    "document": [
+      {
+        "d": "M12 5 H28 L38 15 V43 H12 Z M28 5 V15 H38 M19 24 H31 M19 31 H31 M19 38 H27",
+        "paint": "stroke",
+        "width": 3
+      }
     ]
   },
   "cue": {
     "person": "person",
     "phone": "phone",
-    "vehicle": "vehicle"
+    "vehicle": "vehicle",
+    "record": "document"
   },
   "facts": {
     "driver": "person",
@@ -134,13 +142,24 @@
     "injury": "heart-pulse",
     "consciousness": "person",
     "arrival": "vehicle",
-    "handoff": "handoff"
+    "handoff": "handoff",
+    "mobility": "vehicle",
+    "record": "document",
+    "consent": "check",
+    "risk": "hazard"
   },
   "actions": {
     "connect": "phone",
     "reconnect": "phone",
     "respond": "check",
-    "default": "route"
+    "default": "arrow-right",
+    "retry": "phone",
+    "save": "check",
+    "save_record": "check",
+    "record": "document",
+    "edit": "document",
+    "send": "arrow-right",
+    "suspend": "person"
   },
   "self": {
     "hazard": "hazard",

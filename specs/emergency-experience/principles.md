@@ -1,4 +1,4 @@
-# 긴급 상황의 경험 spec v0.1
+# 긴급 상황의 경험 spec v0.2
 
 상태: 구현·검토용 제안. 사용자가 2026-11-05 상황 spec과 storyboard를 함께 만드는 범위를 선택하였다. 안전 안내의 적합성이나 기관 연계가 승인되었다는 뜻은 아니다.
 
@@ -48,3 +48,10 @@
 `scenarios.json`은 실행 data, `visual-language.md`는 표현 규칙, `acceptance.md`는 검사와 사용자 평가 절차다. Storyboard의 spec 보기에서 현재 장면의 source node·미결정 사항·숨긴 정보·가상 상태를 확인한다. 화면은 spec의 문구와 상태를 직접 사용한다.
 
 Scenario의 `presentation`은 화면에 보일 사실·기관을 명시한다. SC01에서는 운전자·경로 미확인과 구호 상태를, SC03에서는 부상·의식 미확인과 구호 상태를, SC05에서는 세 기관 상태와 도착·인계 미확인을 우선한다. 다른 사실·요청 상태도 manifest와 spec 보기에 보존한다.
+
+
+## 전체 scenario 확장 · 2026-11-09
+
+사용자가 SC01–SC05 전체 code 구현 후 영상 제작을 goal로 승인. 위의 세 scenario는 초기 storyboard 선정 기록이며 현재 실행 범위는 다섯 scenario 전체다. SC02 차량 지원·기록, SC04 전송 범위·보류·거절·재승인, SC05 업무 중단·복원·기존 요청 조회를 포함한다. 주 행동은 하나이며 보조 행동은 낮은 강조의 button으로 구분한다.
+
+구현·검증 기준은 [전체 scenario 설계](../../docs/superpowers/specs/2026-11-09-complete-scenarios-design.md). 기존 요청의 승인 snapshot을 새 draft와 분리하며, 구호 인계와 차량 지원 도착을 독립적으로 유지한다.

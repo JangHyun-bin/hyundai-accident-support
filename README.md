@@ -66,7 +66,7 @@ Editor의 **검수 표시**로 분류를 표시하고 node를 선택하면 근�
 
 [Anti-UI-slop 조사](docs/research/anti-slop-stack.md)에는 design critique·art direction·reference 추출·component·browser 검증·Compose token 공유의 후보와 적용 범위를 정리하였다. [보완 source 조사](docs/research/anti-slop-tools-scout.md)는 추출·검증 도구의 실제 구현과 license를 확인한 기록이다.
 
-현재 검토 대상은 **[상황 spec + 시각 중심 storyboard](specs/emergency-experience/principles.md)**다. 부상·응답 없음·접수 미확인의 3개 scenario, 9개 장면을 하나의 JSON manifest에서 읽는다. 실행 방법은 [web prototype README](prototype/web/README.md), 선행 네 도구 적용안은 [적용 기록](docs/reviews/design-tools/README.md)을 따른다. 긴급 상황에서의 이해도와 차량 실기 검증은 아직 수행하지 않았다.
+현재 검토 대상은 **[상황 spec + 시각 중심 storyboard](specs/emergency-experience/principles.md)**다. SC01–SC05 전체 5개 scenario, 60개 장면을 하나의 JSON manifest에서 읽는다. 차량 지원·기록·전송 승인·거절·보류·중단·복원까지 실행 가능한 Web prototype으로 구현했다. [검증 기록](prototype/web/evidence/emergency-complete/README.md)에 test와 화면 근거를 모았다. 실행 방법은 [web prototype README](prototype/web/README.md), 선행 네 도구 적용안은 [적용 기록](docs/reviews/design-tools/README.md)을 따른다. 긴급 상황에서의 이해도와 차량 실기 검증은 아직 수행하지 않았다.
 
 Native 재현으로 SC05 · 접수 미확인의 세 장면과 C · Satin을 Kotlin + Compose로 옮겼다. 실행 방법은 [Android PoC](prototype/android/README.md), web과의 비교는 [검토 기록](docs/reviews/cult-design-poc.md#task-3--compose-재현-2026-11-07)에 있다.
 

@@ -138,3 +138,7 @@ v2 시안의 `확인 중 · …` 표식은 쓰지 않는다. Data에 확인 중�
 
 - 48 grid 위의 최종 좌표와 반경, plate 크기, gradient의 정확한 값.
 - Test의 세부 구성, README와 review 문서 갱신 범위.
+
+## 후속 결정 · 2026-11-08
+
+사용자가 Pleos design system에 맞춘 flat pictogram으로 전환 지시. Web에서 금속 plate·각인 filter·gradient·Satin 선택 제거. 기존 48×48 path와 상태 의미는 유지. 본문의 각인 설계·검증은 과거 기록이며 Android에는 이번 변경 미반영.

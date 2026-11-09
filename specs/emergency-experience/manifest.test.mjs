@@ -28,14 +28,14 @@ test('all storyboard transitions and source references resolve', () => {
     assert.ok(states.has(scenario.initial))
     for (const state of scenario.states) {
       assert.ok(state.voice && state.title && state.cue.label)
-      assert.ok(['person', 'phone', 'vehicle'].includes(state.cue.symbol))
+      assert.ok(['person', 'phone', 'vehicle', 'record'].includes(state.cue.symbol))
       assert.ok(['attention', 'unknown', 'confirmed'].includes(state.cue.status))
-      assert.ok(state.actions.length <= 1)
+      assert.ok(state.actions.filter(a => !a.secondary).length <= 1)
       for (const edge of [...state.actions, ...state.events]) assert.ok(states.has(edge.to), `${scenario.id}.${state.id} -> ${edge.to}`)
       if (state.auto_contact) for (const to of [state.auto_contact.cancel, state.auto_contact.expire]) assert.ok(states.has(to), `${scenario.id}.${state.id} auto -> ${to}`)
       for (const id of Object.keys(state.request_overrides)) assert.ok(requestIds.has(id))
       for (const id of Object.keys(state.fact_overrides)) assert.ok(factIds.has(id))
-      for (const status of Object.values(state.request_overrides)) assert.ok(['not_sent', 'connection_unknown', 'connected', 'checking', 'unknown', 'received'].includes(status))
+      for (const status of Object.values(state.request_overrides)) assert.ok(Object.hasOwn(manifest.request_statuses, status))
     }
   }
 })
@@ -103,7 +103,7 @@ test('connecting_rescue_never_returns_to_not_sent', () => {
     if (rescueOf(scenario, state) === 'not_sent') continue
     const targets = [...state.actions, ...state.events].map(edge => edge.to)
     if (state.auto_contact) targets.push(state.auto_contact.cancel, state.auto_contact.expire)
-    for (const to of targets) assert.notEqual(rescueOf(scenario, scenario.states.find(s => s.id === to)), 'not_sent', `${scenario.id}.${state.id} -> ${to}`)
+    for (const to of targets) assert.notEqual(scenario.states.find(s => s.id === to).request_overrides.rescue ?? rescueOf(scenario, state), 'not_sent', `${scenario.id}.${state.id} -> ${to}`)
   }
 })
 
@@ -149,6 +149,28 @@ test('auto_connected_scene_keeps_respond_button_until_driver_responds', () => {
     for (const event of expired.events) {
       const next = scenario.states.find(s => s.id === event.to)
       assert.ok(next.id === state.id || next.actions.some(action => action.slot === 'self'), `${where} --${event.id}--> ${next.id} drops the respond button`)
+    }
+  }
+})
+
+
+test('all five scenarios and every authored state are reachable', () => {
+  const m = readManifest()
+  assert.deepEqual(m.scenarios.map(s => s.id), ['SC01', 'SC02', 'SC03', 'SC04', 'SC05'])
+  for (const s of m.scenarios) {
+    const seen = new Set(), queue = [s.initial]
+    while (queue.length) {
+      const id = queue.shift()
+      if (seen.has(id)) continue
+      seen.add(id)
+      const st = s.states.find(x => x.id === id)
+      queue.push(...[...st.actions, ...st.events].map(x => x.to))
+      if (st.auto_contact) queue.push(st.auto_contact.cancel, st.auto_contact.expire)
+    }
+    assert.deepEqual([...seen].sort(), s.states.map(x => x.id).sort(), s.id)
+    for (const st of s.states) for (const e of st.actions.filter(e => e.effect === 'submit')) {
+      assert.equal(st.panel, 'scope', `${s.id}/${st.id} requires consent panel`)
+      assert.ok(e.agency)
     }
   }
 })

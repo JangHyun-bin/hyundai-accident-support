@@ -35,7 +35,7 @@ test('every_visible_fact_cue_action_and_tone_has_a_glyph', () => {
 })
 
 test('no_glyph_for_hidden_facts', () => {
-  for (const id of ['road', 'mobility', 'response']) expect(book.facts).not.toHaveProperty(id)
+  for (const id of ['road', 'response']) expect(book.facts).not.toHaveProperty(id)
 })
 
 test('tone_marks_differ_without_color', () => {
