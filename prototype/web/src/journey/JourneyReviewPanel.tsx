@@ -1,6 +1,7 @@
 import { useEffect, useImperativeHandle, useState, type Ref } from 'react'
 import { JourneyAction, JourneyHeading, JourneyStatus } from './JourneyLayout'
 import { ClipPlayer } from './ClipPlayer'
+import { ReportPanel } from './ReportPanel'
 import { DiagramEditor } from './DiagramEditor'
 import { readAsset } from './case-store'
 import type { CaseCommand, Evidence, JourneyCase } from './case'
@@ -19,15 +20,17 @@ export function StoredClip({ caseId, evidence, range, active = true }: { caseId:
 
 export type JourneyReviewHandle = { finishBeforeLeave: () => Promise<boolean> }
 export function JourneyReviewPanel({ value, onCommand, ref }: { value: JourneyCase; onCommand: (command: CaseCommand) => void; ref?: Ref<JourneyReviewHandle> }) {
-  const [tab, setTab] = useState<'clips' | 'diagram'>('clips')
+  const [tab, setTab] = useState<'clips' | 'diagram' | 'report'>('clips')
   const [diagramDirty, setDiagramDirty] = useState(false)
+  const [reportDirty, setReportDirty] = useState(false)
   const clips = value.evidence.filter(item => item.kind === 'video')
-  useImperativeHandle(ref, () => ({ finishBeforeLeave: async () => !diagramDirty }), [diagramDirty])
+  useImperativeHandle(ref, () => ({ finishBeforeLeave: async () => !diagramDirty && !reportDirty }), [diagramDirty, reportDirty])
   return <>
     <JourneyHeading step="사고 내용 확인" title="남겨진 자료를 살펴보세요">확인할 수 없는 내용은 그대로 남겨도 돼요.</JourneyHeading>
-    <nav className="journey-record-tabs" aria-label="확인할 자료">
+    <nav className="journey-record-tabs journey-review-tabs" aria-label="확인할 자료">
       <button aria-pressed={tab === 'clips'} onClick={() => setTab('clips')}>사고 영상</button>
       <button aria-pressed={tab === 'diagram'} onClick={() => setTab('diagram')}>사고 도식</button>
+      <button aria-pressed={tab === 'report'} onClick={() => setTab('report')}>경위서</button>
     </nav>
     <div hidden={tab !== 'clips'} className="journey-review-clips">
       {clips.length ? clips.map(item => <StoredClip key={item.id} caseId={value.id} evidence={item} active={value.stage === 'review' && tab === 'clips'} />)
@@ -41,5 +44,6 @@ export function JourneyReviewPanel({ value, onCommand, ref }: { value: JourneyCa
           : <JourneyAction secondary disabled={diagramDirty} onClick={() => onCommand({ type: 'diagram-confirm' })}>도식 내용 확인</JourneyAction>)}
       </> : <p className="journey-supporting">아직 확인할 도식이 없어요. 기억나는 내용만 기록해도 돼요.</p>}
     </div>
+    <div hidden={tab !== 'report'}><ReportPanel value={value} onCommand={onCommand} active={value.stage === 'review' && tab === 'report'} onDirtyChange={setReportDirty} /></div>
   </>
 }

@@ -80,7 +80,9 @@ export type CaseCommand =
   | { type: 'report-result'; report: Report }
   | { type: 'report-apply-pending' }
   | { type: 'paragraph-edit'; id: string; text: string; references: EvidenceReference[] }
-  | { type: 'paragraph-confirm'; id: string }
+  | { type: 'paragraph-confirm'; id: string; revision?: number }
+  | { type: 'paragraph-unconfirm'; id: string; revision: number }
+  | { type: 'paragraph-remove'; id: string }
   | { type: 'agency-decision'; agency: Agency; decision: 'deferred' | 'declined' }
   | { type: 'share-result'; caseId: string; shareId: string; status: ShareRecord['status'] }
   | { type: 'follow-up'; value: FollowUp }
@@ -122,6 +124,23 @@ export function createCase(session: Session, id: string, now: string): JourneyCa
 
 export function canSubmit(value: JourneyCase, agency: Agency): boolean {
   return ['not_sent', 'deferred', 'declined', 'failed', 'not_received'].includes(value.emergency.requests[agency])
+}
+
+export function evidenceForReference(value: JourneyCase, reference: EvidenceReference): Evidence | null {
+  const evidence = value.evidence.find(item => item.id === reference.evidenceId && item.revision === reference.evidenceRevision)
+  if (!evidence || evidence.availability !== 'available' || !evidence.assetId) return null
+  if (reference.start !== null || reference.end !== null) {
+    if (evidence.kind === 'photo' || reference.start === null || reference.end === null ||
+      !Number.isFinite(reference.start) || !Number.isFinite(reference.end) || reference.start < 0 || reference.end <= reference.start ||
+      evidence.metadata.duration === null || reference.end > evidence.metadata.duration) return null
+  }
+  return evidence
+}
+
+function applyReport(value: JourneyCase, report: Report) {
+  if (value.report) value.reportHistory.push(structuredClone(value.report))
+  value.report = { ...structuredClone(report), revision: (value.report?.revision ?? 0) + 1,
+    paragraphs: report.paragraphs.map(paragraph => ({ ...structuredClone(paragraph), confirmedRevision: null })) }
 }
 
 function invalidateReport(value: JourneyCase) {
@@ -170,6 +189,7 @@ function editStatement(value: JourneyCase, input: { id: string; text: string; au
 function addObservation(value: JourneyCase, observation: Observation) {
   if (value.observations.some(o => o.id === observation.id)) return
   value.observations.push(structuredClone(observation))
+  invalidateReport(value)
   const key = observation.legacyFactId
   if (!key) return
   const superseded = new Set(value.observations.map(o => o.supersedes))
@@ -274,6 +294,50 @@ export function reduceCase(current: JourneyCase, command: CaseCommand): JourneyC
     case 'diagram-confirm':
       if (!next.diagram || next.diagram.road === 'unsupported' || !next.diagram.vehicles.length) return current
       next.diagram.confirmedRevision = next.diagram.revision
+      break
+    case 'report-result': {
+      if (!current.fixtureId || command.report.basedOnRevision > current.contentRevision) return current
+      if (!current.evidence.some(e => e.availability === 'available') && !current.statements.some(s => s.text.trim())) return current
+      const candidate = { ...structuredClone(command.report), paragraphs: command.report.paragraphs.map(p => ({ ...p, confirmedRevision: null })) }
+      if (current.report || candidate.basedOnRevision !== current.contentRevision) next.pendingReport = candidate
+      else applyReport(next, candidate)
+      break
+    }
+    case 'report-apply-pending':
+      if (!next.pendingReport) return current
+      applyReport(next, next.pendingReport)
+      next.pendingReport = null
+      break
+    case 'paragraph-edit': {
+      if (command.text.length > LIMITS.statementLength) return current
+      if (!next.report) next.report = { revision: 0, basedOnRevision: current.contentRevision, paragraphs: [] }
+      else next.reportHistory.push(structuredClone(next.report))
+      const index = next.report.paragraphs.findIndex(p => p.id === command.id)
+      const previous = next.report.paragraphs[index]
+      const paragraph: ReportParagraph = { id: command.id, text: command.text, kind: previous?.kind ?? 'statement',
+        references: structuredClone(command.references), revision: (previous?.revision ?? 0) + 1, confirmedRevision: null }
+      if (index < 0) next.report.paragraphs.push(paragraph)
+      else next.report.paragraphs[index] = paragraph
+      next.report.revision += 1
+      break
+    }
+    case 'paragraph-confirm': {
+      const paragraph = next.report?.paragraphs.find(p => p.id === command.id)
+      if (!paragraph?.text.trim() || command.revision !== undefined && command.revision !== paragraph.revision || paragraph.references.some(ref => !evidenceForReference(next, ref))) return current
+      paragraph.confirmedRevision = paragraph.revision
+      break
+    }
+    case 'paragraph-unconfirm': {
+      const paragraph = next.report?.paragraphs.find(p => p.id === command.id)
+      if (!paragraph || paragraph.revision !== command.revision || paragraph.confirmedRevision === null) return current
+      paragraph.confirmedRevision = null
+      break
+    }
+    case 'paragraph-remove':
+      if (!next.report?.paragraphs.some(p => p.id === command.id)) return current
+      next.reportHistory.push(structuredClone(next.report))
+      next.report.paragraphs = next.report.paragraphs.filter(p => p.id !== command.id)
+      next.report.revision += 1
       break
     case 'contact-start':
       startContact(next, command.now)

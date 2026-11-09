@@ -3,6 +3,10 @@
   "simulationOnly": true,
   "source": "Authored synthetic cases for the full-journey prototype; not vehicle or agency observations.",
   "createdAt": "2026-11-10T09:12:00.000Z",
+  "report": {
+    "observation": "오른쪽 차량이 내 차량 쪽으로 이동하는 모습이 보여요.",
+    "inference": "접촉했을 가능성이 있어요."
+  },
   "cases": [
     { "id": "complete-journey", "title": "사고 대응부터 후속 처리까지", "scenarioId": "SC01", "sceneId": "initial", "coverage": ["V1", "V2", "H1", "R1", "R2", "R3", "C1", "C2", "S1", "S2", "F1"], "condition": "normal" },
     { "id": "unanswered", "title": "응답 없음과 늦은 응답", "scenarioId": "SC03", "sceneId": "initial", "coverage": ["V1", "V2"], "condition": "unanswered" },

@@ -230,11 +230,11 @@ async function deleteCase(id: string, expectedRevision: number): Promise<boolean
 
 **Interfaces:** `ReportPanel({ value, onCommand }: { value: JourneyCase; onCommand: (command: CaseCommand) => void })`. Report 결과 command는 `basedOnRevision`과 paragraph provenance를 필수로 가짐.
 
-- [ ] Red tests: 문장 정정→해당 확인 해제; 자료/진술/도식 정정→report 확인 무효화; 근거 삭제→broken reference 표시; 이미 보낸 snapshot은 불변.
-- [ ] Red tests: 늦은 fixture 생성 결과는 현재 편집을 덮지 않음; 비교 후 교체만 가능; user-confirmed 추정은 여전히 추정; 자료가 없는 빈 case에 사실 문장 자동 생성 없음.
-- [ ] 문장별 편집·확인, 근거 drawer, 원문 확인, 미확인 항목 표시 구현. Drawer 닫힘 후 trigger에 focus 복귀.
-- [ ] 기존 report의 revision과 새 결과를 비교하는 적용 동작 구현. 사용자 진술은 실제 입력만 사용하고 fixture mode의 결과는 fixture case에서만 제공.
-- [ ] `npm run test:ui -- tests/journey-report.spec.ts tests/journey-reconstruction.spec.ts --workers=1`, `npm run check`. Commit `feat: review evidence-linked accident statements`.
+- [x] Red tests: 문장 정정→해당 확인 해제; 자료/진술/도식 정정→report 확인 무효화; 근거 삭제→broken reference 표시; 이미 보낸 snapshot은 불변.
+- [x] Red tests: 늦은 fixture 생성 결과는 현재 편집을 덮지 않음; 비교 후 교체만 가능; user-confirmed 추정은 여전히 추정; 자료가 없는 빈 case에 사실 문장 자동 생성 없음.
+- [x] 문장별 편집·확인, 근거 drawer, 원문 확인, 미확인 항목 표시 구현. Drawer 닫힘 후 trigger에 focus 복귀.
+- [x] 기존 report의 revision과 새 결과를 비교하는 적용 동작 구현. 사용자 진술은 실제 입력만 사용하고 fixture mode의 결과는 fixture case에서만 제공.
+- [x] `npm run test:ui -- tests/journey-report.spec.ts tests/journey-reconstruction.spec.ts --workers=1`, `npm run check`. Commit `feat: review evidence-linked accident statements`.
 
 ### Task 9 / P5: 전송 snapshot·보험사 접수·상대방 공유
 

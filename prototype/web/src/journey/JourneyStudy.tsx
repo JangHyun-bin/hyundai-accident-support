@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowRight, CarFront, Mic, Phone, Smartphone, Volume2 } from
 import fixtures from '../../../../specs/emergency-experience/journey-fixtures.json'
 import { createSession, sceneFor, scenarioFor, type Edge } from '../emergency/session'
 import { EmergencySurface } from '../emergency/EmergencySurface'
-import { createCase, type Device, type JourneyCase, type RequestStatus, type Stage, type CaseCommand, type Evidence, type Diagram } from './case'
+import { createCase, type Device, type JourneyCase, type RequestStatus, type Stage, type CaseCommand, type Evidence, type Diagram, type ReportParagraph } from './case'
 import { useJourneyCase } from './useJourneyCase'
 import { JourneyAction, JourneyHeading, JourneyLayout, JourneyVehicleFrame } from './JourneyLayout'
 import { JourneyNavigation, JourneyRequests, JourneySummary, VehiclePanel } from './VehiclePanel'
@@ -138,6 +138,22 @@ export function JourneyStudy() {
     setDetails(false)
   }
 
+  function sampleReport() {
+    if (!value?.fixtureId) return
+    const clip = value.evidence.find(item => item.id === 'sample-front' && item.origin === 'sample' && item.availability === 'available')
+    const paragraphs: ReportParagraph[] = []
+    if (clip) paragraphs.push({ id: crypto.randomUUID(), text: fixtures.report.observation, kind: 'observation', revision: 1, confirmedRevision: null,
+      references: [{ evidenceId: clip.id, evidenceRevision: clip.revision, start: 8, end: 16 }] })
+    for (const statement of value.statements.filter(item => item.text.trim())) paragraphs.push({ id: crypto.randomUUID(), text: statement.text,
+      kind: 'statement', revision: 1, confirmedRevision: null, references: statement.audioEvidenceIds.flatMap(id => {
+        const item = value.evidence.find(e => e.id === id && e.availability === 'available')
+        return item ? [{ evidenceId: item.id, evidenceRevision: item.revision, start: null, end: null }] : []
+      }) })
+    if (!paragraphs.length) return
+    if (clip) paragraphs.push({ id: crypto.randomUUID(), text: fixtures.report.inference, kind: 'inference', revision: 1, confirmedRevision: null, references: [] })
+    dispatch({ type: 'report-result', report: { revision: 1, basedOnRevision: value.contentRevision, paragraphs } })
+  }
+
   function vehicleData() {
     for (const [kind, label, text] of [['impact-direction', '충격 방향', '우측 전방'], ['impact-strength', '충격 세기', '0.4 G'], ['collision-time', '감지 시각', '오후 9:12']]) {
       dispatch({ type: 'observation', observation: { id: kind + '-' + crypto.randomUUID(), kind, label, value: text,
@@ -268,6 +284,7 @@ export function JourneyStudy() {
         <span>외부 결과 시연</span>
         <button aria-label="시연 event: 차량 감지 자료" onClick={vehicleData}>차량 감지 자료</button>
         <button aria-label="시연 event: 사고 자료 확보" disabled={loadingSamples} onClick={() => void sampleEvidence()}>{loadingSamples ? '자료 보관 중' : '사고 자료 확보'}</button>
+        <button aria-label="시연 event: 경위서 초안" onClick={sampleReport}>경위서 초안</button>
         <button aria-label="시연 event: 비상등 작동 확인" onClick={() => dispatch({ type: 'safety-action', action: { id: 'hazard', label: '비상등', status: 'device-confirmed', source: 'fixture', confirmedAt: new Date().toISOString() } })}>비상등 작동 확인</button>
         <button aria-label="시연 event: 안내 지점 자료" onClick={() => dispatch({ type: 'navigation-data', value: { source: 'fixture', vehicle: { x: .4, y: .7 }, destination: { x: .7, y: .7 }, distanceMeters: 15, updatedAt: new Date().toISOString() } })}>안내 지점 자료</button>
         <button aria-label="시연 event: 위험 정보" onClick={risk}>위험 정보</button>
