@@ -1,0 +1,140 @@
+
+Running 3 tests using 1 worker
+
+(node:73131) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/3] tests/journey-flow.spec.ts:160:3 › SC05 result during suspension resumes the actual scene through toolbar without resubmitting
+  1) tests/journey-flow.spec.ts:160:3 › SC05 result during suspension resumes the actual scene through toolbar without resubmitting 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('heading', { name: '차량 지원 접수 확인', exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('heading', { name: '차량 지원 접수 확인', exact: true }) with timeout 5000ms
+      - waiting for getByRole('heading', { name: '차량 지원 접수 확인', exact: true })
+
+
+      169 |     await expect.poll(async () => (await stored(page)).emergency.requests.vehicle).toBe('received')
+      170 |     await resume().click({ timeout: 3000 })
+    > 171 |     await expect(page.getByRole('heading', { name: '차량 지원 접수 확인', exact: true })).toBeVisible()
+          |                                                                                   ^
+      172 |     expect((await stored(page)).emergency.sceneId).toBe('received')
+      173 |     await page.reload()
+      174 |     await expect(page.getByRole('heading', { name: '차량 지원 접수 확인', exact: true })).toBeVisible()
+        at /Users/janghyunbin/.codex/worktrees/dcbb/hyundai-accident-support/prototype/web/tests/journey-flow.spec.ts:171:83
+
+    Error Context: ../../../../../../../../tmp/journey-resume-red-artifacts/journey-flow-SC05-result-d-55b7c-oolbar-without-resubmitting/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../../tmp/journey-resume-red-artifacts/journey-flow-SC05-result-d-55b7c-oolbar-without-resubmitting/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../../tmp/journey-resume-red-artifacts/journey-flow-SC05-result-d-55b7c-oolbar-without-resubmitting/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:73336) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[2/3] tests/journey-flow.spec.ts:160:3 › SC05 result during suspension resumes the actual scene through vehicle scene without resubmitting
+  2) tests/journey-flow.spec.ts:160:3 › SC05 result during suspension resumes the actual scene through vehicle scene without resubmitting 
+
+    TimeoutError: locator.click: Timeout 3000ms exceeded.
+    Call log:
+      - waiting for locator('[data-journey-stage="response"]').getByRole('button', { name: '이어서 확인하기', exact: true })
+        - locator resolved to <button class="emergency-primary-action">…</button>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <div class="pleos-display">…</div> intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <div class="pleos-display">…</div> intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        6 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <div class="pleos-display">…</div> intercepts pointer events
+        - retrying click action
+          - waiting 500ms
+
+
+      168 |     await button(page, '시연 event: 차량 지원 접수 확인').click()
+      169 |     await expect.poll(async () => (await stored(page)).emergency.requests.vehicle).toBe('received')
+    > 170 |     await resume().click({ timeout: 3000 })
+          |                    ^
+      171 |     await expect(page.getByRole('heading', { name: '차량 지원 접수 확인', exact: true })).toBeVisible()
+      172 |     expect((await stored(page)).emergency.sceneId).toBe('received')
+      173 |     await page.reload()
+        at /Users/janghyunbin/.codex/worktrees/dcbb/hyundai-accident-support/prototype/web/tests/journey-flow.spec.ts:170:20
+
+    Error Context: ../../../../../../../../tmp/journey-resume-red-artifacts/journey-flow-SC05-result-d-45ace--scene-without-resubmitting/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../../tmp/journey-resume-red-artifacts/journey-flow-SC05-result-d-45ace--scene-without-resubmitting/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../../tmp/journey-resume-red-artifacts/journey-flow-SC05-result-d-45ace--scene-without-resubmitting/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:73382) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[3/3] tests/journey-flow.spec.ts:160:3 › SC05 result during suspension resumes the actual scene through mobile scene without resubmitting
+  3) tests/journey-flow.spec.ts:160:3 › SC05 result during suspension resumes the actual scene through mobile scene without resubmitting 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('heading', { name: '차량 지원 접수 확인', exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('heading', { name: '차량 지원 접수 확인', exact: true }) with timeout 5000ms
+      - waiting for getByRole('heading', { name: '차량 지원 접수 확인', exact: true })
+
+
+      169 |     await expect.poll(async () => (await stored(page)).emergency.requests.vehicle).toBe('received')
+      170 |     await resume().click({ timeout: 3000 })
+    > 171 |     await expect(page.getByRole('heading', { name: '차량 지원 접수 확인', exact: true })).toBeVisible()
+          |                                                                                   ^
+      172 |     expect((await stored(page)).emergency.sceneId).toBe('received')
+      173 |     await page.reload()
+      174 |     await expect(page.getByRole('heading', { name: '차량 지원 접수 확인', exact: true })).toBeVisible()
+        at /Users/janghyunbin/.codex/worktrees/dcbb/hyundai-accident-support/prototype/web/tests/journey-flow.spec.ts:171:83
+
+    Error Context: ../../../../../../../../tmp/journey-resume-red-artifacts/journey-flow-SC05-result-d-d6699--scene-without-resubmitting/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../../tmp/journey-resume-red-artifacts/journey-flow-SC05-result-d-d6699--scene-without-resubmitting/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../../tmp/journey-resume-red-artifacts/journey-flow-SC05-result-d-d6699--scene-without-resubmitting/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+  3 failed
+    tests/journey-flow.spec.ts:160:3 › SC05 result during suspension resumes the actual scene through toolbar without resubmitting 
+    tests/journey-flow.spec.ts:160:3 › SC05 result during suspension resumes the actual scene through vehicle scene without resubmitting 
+    tests/journey-flow.spec.ts:160:3 › SC05 result during suspension resumes the actual scene through mobile scene without resubmitting 
