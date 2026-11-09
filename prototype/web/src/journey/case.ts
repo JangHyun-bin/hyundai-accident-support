@@ -28,6 +28,7 @@ export type Evidence = {
 }
 export type Statement = { id: string; text: string; audioEvidenceIds: string[]; revision: number; confirmedRevision: number | null }
 export type Point = { x: number; y: number }
+export type NavigationData = { source: 'fixture'; vehicle: Point; destination: Point; distanceMeters: number; updatedAt: string }
 export type Diagram = {
   revision: number; origin: 'fixture' | 'user'; road: 'straight' | 'unsupported'
   vehicles: { id: 'own' | 'other'; position: Point; heading: number }[]
@@ -53,7 +54,7 @@ export type FollowUp = {
 }
 export type JourneyCase = {
   schemaVersion: 1; id: string; revision: number; createdAt: string; updatedAt: string
-  emergency: Session; stage: Stage; returnStage: Stage; suspended: boolean
+  emergency: Session; stage: Stage; returnStage: Stage; suspended: boolean; fixtureId: string | null; navigation: NavigationData | null
   observations: Observation[]; safetyActions: SafetyAction[]; evidence: Evidence[]; evidenceHistory: Evidence[]
   statements: Statement[]; statementHistory: Statement[]; diagram: Diagram | null; diagramHistory: Diagram[]
   report: Report | null; reportHistory: Report[]; pendingReport: Report | null; contentRevision: number
@@ -64,6 +65,7 @@ export type CaseCommand =
   | { type: 'suspend' | 'resume' }
   | { type: 'observation'; observation: Observation }
   | { type: 'safety-action'; action: SafetyAction }
+  | { type: 'navigation-data'; value: NavigationData }
   | { type: 'emergency-edge'; edgeId: string; now: string }
   | { type: 'countdown'; target: string; now: string }
   | { type: 'contact-start'; now: string }
@@ -101,7 +103,7 @@ export function createCase(session: Session, id: string, now: string): JourneyCa
   }
   const value: JourneyCase = {
     schemaVersion: 1, id, revision: 0, createdAt: now, updatedAt: now, emergency,
-    stage: 'response', returnStage: 'response', suspended: false, activeSubmissionIds, submissions,
+    stage: 'response', returnStage: 'response', suspended: ['suspended', 'paused'].includes(session.sceneId), fixtureId: null, navigation: null, activeSubmissionIds, submissions,
     observations: scenario.facts.map(fact => {
       const merged = { ...fact, ...session.facts[fact.id] }
       return { id: `imported-fact:${fact.id}`, kind: fact.id, label: merged.label, value: merged.value, source: 'fixture',
@@ -180,7 +182,8 @@ export function reduceCase(current: JourneyCase, command: CaseCommand): JourneyC
     case 'observation':
       addObservation(next, command.observation)
       if (command.observation.kind === 'risk' && command.observation.confirmation === 'attention') {
-        next.returnStage = current.stage; next.stage = 'response'
+        if (current.stage !== 'response') next.returnStage = current.stage
+        next.stage = 'response'
       }
       break
     case 'safety-action': {
@@ -189,8 +192,9 @@ export function reduceCase(current: JourneyCase, command: CaseCommand): JourneyC
       else next.safetyActions[index] = structuredClone(command.action)
       break
     }
+    case 'navigation-data': next.navigation = structuredClone(command.value); break
     case 'statement-edit': {
-      if (!command.text.trim() || command.text.length > LIMITS.statementLength ||
+      if (command.text.length > LIMITS.statementLength ||
         !command.audioEvidenceIds.every(id => next.evidence.some(e => e.id === id && e.kind === 'audio'))) return current
       const index = next.statements.findIndex(s => s.id === command.id)
       const previous = next.statements[index]
@@ -204,7 +208,7 @@ export function reduceCase(current: JourneyCase, command: CaseCommand): JourneyC
     }
     case 'statement-confirm': {
       const statement = next.statements.find(s => s.id === command.id)
-      if (!statement) return current
+      if (!statement?.text.trim()) return current
       statement.confirmedRevision = statement.revision
       break
     }
@@ -243,7 +247,8 @@ export function reduceCase(current: JourneyCase, command: CaseCommand): JourneyC
       if (edge.effect === 'risk') {
         addObservation(next, { id: `risk:${next.observations.length}`, kind: 'risk', label: '차량 위험', value: '위험 감지',
           source: 'fixture', observedAt: command.now, confirmation: 'attention', legacyFactId: 'risk', supersedes: null })
-        next.returnStage = current.stage; next.stage = 'response'
+        if (current.stage !== 'response') next.returnStage = current.stage
+        next.stage = 'response'
       }
       break
     }

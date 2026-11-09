@@ -89,7 +89,67 @@
 .journey-component-states h2 { display: flex; gap: 12px; align-items: center; margin-bottom: 24px; font-size: 18px; }
 .journey-component-states > div { display: flex; gap: 24px; flex-wrap: wrap; font-size: 15px; }
 .journey-component-states p { font-size: 14px; color: var(--j-secondary); margin-top: 24px; }
+.journey-study { max-width: 2600px; margin: auto; padding: 24px; }
+.journey-study :is(.journey-review-controls,.journey-product-tools,.journey-review-events,.journey-save-status) :is(button,select) { font: inherit; }
+.journey-review-controls, .journey-product-tools, .journey-review-events { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-block: 20px; font-size: 14px; }
+.journey-review-controls label { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; color: var(--j-secondary); }
+.journey-study :is(.journey-review-controls,.journey-product-tools,.journey-review-events,.journey-save-status) :is(button,select) { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; max-width: 100%; padding: 10px 16px; border: 1px solid var(--j-line); border-radius: 12px; background: var(--j-surface); color: var(--j-foreground); }
+.journey-study :is(button,select):focus-visible { outline: 2px solid var(--j-foreground); outline-offset: 4px; }
+.journey-study button:disabled { opacity: .55; }
+.journey-review-events { border-top: 1px solid var(--j-line); padding-top: 20px; }
+.journey-review-events > span { width: 100%; color: var(--j-secondary); font-size: 12px; }
+.journey-empty { display: grid; justify-items: center; gap: 16px; padding: 80px 24px; text-align: center; }
+.journey-empty h2, .journey-empty p { margin: 0; }
+.journey-empty p, .journey-save-status { color: var(--j-secondary); font-size: 14px; line-height: 1.6; }
+.journey-save-status { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; padding-block: 16px; }
+.journey-recovery { border: 1px solid var(--j-line); padding: 16px; border-radius: 12px; }
+.journey-recovery pre { white-space: pre-wrap; overflow-wrap: anywhere; font: inherit; }
+.journey-map-empty { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; text-align: center; padding: 40px; }
+.journey-map-empty svg { width: 64px; height: 64px; color: var(--j-secondary); }
+.journey-map-empty h2 { font-size: 40px; font-weight: 500; margin: 0; }
+.journey-map-empty p { color: var(--j-secondary); font-size: 28px; margin: 0; }
+.journey-map { width: 100%; height: 100%; position: relative; }
+.journey-map > svg { width: 100%; height: 100%; fill: none; }
+.journey-map-road { stroke: var(--j-control); stroke-width: 90; }
+.journey-map-line { stroke: var(--j-secondary); stroke-width: 2; stroke-dasharray: 16 24; }
+.journey-map-route { stroke: var(--j-foreground); stroke-width: 7; }
+.journey-map [data-vehicle-position] { fill: var(--j-foreground); stroke: var(--j-surface); stroke-width: 6; }
+.journey-map-destination { fill: var(--j-surface); stroke: var(--j-foreground); stroke-width: 5; }
+.journey-map-caption { position: absolute; top: 32px; left: 32px; right: 32px; display: flex; gap: 20px; padding: 32px; background: var(--j-surface); border-radius: 24px; font-size: 32px; }
+.journey-map-caption svg { width: 40px; height: 40px; }
+.journey-map-caption div { display: grid; gap: 12px; }
+.journey-map-caption span { color: var(--j-secondary); font-size: 26px; }
+.journey-requests { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; border-top: 1px solid var(--j-line); padding-top: 24px; }
+.journey-requests > div { display: grid; align-content: start; gap: 12px; }
+.journey-requests > div > span { color: var(--j-secondary); font-size: var(--j-label); }
+.journey-requests strong { display: grid; gap: 6px; font-size: var(--j-supporting); font-weight: 500; }
+.journey-safety-list { display: grid; gap: 24px; }
+.journey-safety-list > div { border-top: 1px solid var(--j-line); padding-top: 24px; display: grid; gap: 16px; }
+.journey-safety-list > div > div { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+.journey-safety-list strong { font-weight: 500; }
+.journey-safety-list button { border: 0; border-radius: 16px; background: var(--j-control); min-height: 56px; padding: 12px 20px; font-size: var(--j-supporting); }
+.journey-countdown { font-size: 64px; font-variant-numeric: tabular-nums; text-align: center; }
+.journey-phone { width: 56px; height: 56px; margin: 24px auto; }
+.journey-input-label { display: flex; justify-content: space-between; gap: 16px; font-size: var(--j-label); color: var(--j-secondary); }
+.journey-textarea { display: block; resize: vertical; width: 100%; min-height: 200px; border: 1px solid var(--j-line); border-radius: 16px; padding: 20px; background: var(--j-control); color: var(--j-foreground); font: inherit; line-height: 1.6; }
+.journey-textarea::placeholder { color: var(--j-secondary); }
+[data-journey-device="mobile"] .journey-summary-title { font-size: var(--j-supporting); gap: 12px; }
+[data-journey-device="mobile"] .journey-summary-title svg { width: 24px; height: 24px; flex: none; }
+[data-journey-device="mobile"] .journey-facts { gap: 12px; margin-top: 16px; }
+[data-journey-device="mobile"] .journey-facts > div > span:first-child { font-size: var(--j-label); }
+[data-journey-device="mobile"] .journey-facts .journey-status { font-size: var(--j-supporting); }
+[data-journey-device="mobile"] .journey-detail-list > div { grid-template-columns: 1fr 1.4fr; padding-block: 20px; gap: 12px; }
+[data-journey-device="mobile"] .journey-vehicle-detail { grid-template-columns: 1fr; gap: 24px; }
+[data-journey-device="mobile"] .journey-car-outline svg { width: 150px; height: 200px; }
+[data-journey-device="mobile"] .journey-car-outline > span { font-size: var(--j-label); }
+[data-journey-device="mobile"] .journey-detail-list dt, [data-journey-device="mobile"] .journey-detail-list dd { font-size: var(--j-body); }
+[data-journey-device="mobile"] .journey-detail-list dd > span:not(.journey-status) { font-size: var(--j-label); }
+[data-journey-device="mobile"] .journey-inline-note { gap: 12px; align-items: flex-start; }
+[data-journey-device="mobile"] .journey-inline-note svg { width: 24px; height: 24px; flex: none; }
+[data-journey-device="mobile"] .journey-inline-note p { font-size: var(--j-supporting); }
 @media (max-width: 600px) {
+  .journey-study { padding: 16px 0; }
+  .journey-review-controls, .journey-product-tools, .journey-review-events, .journey-save-status, .journey-recovery { margin-inline: 20px; }
   .journey-catalog { padding: 16px 0; }
   .journey-review-heading, .journey-preview-tabs, .journey-preview-caption, .journey-component-states { margin-left: 20px; margin-right: 20px; }
   .journey-review-heading { flex-direction: column; align-items: flex-start; }

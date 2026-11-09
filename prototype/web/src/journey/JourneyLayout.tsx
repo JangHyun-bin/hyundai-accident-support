@@ -21,9 +21,7 @@ export function JourneyHeading({ step, title, children }: { step?: string; title
   return <header className="journey-heading">{step && <p className="journey-eyebrow">{step}</p>}<h1 tabIndex={-1}>{title}</h1>{children && <p className="journey-supporting">{children}</p>}</header>
 }
 
-export function JourneyLayout({ device, summary, children, action }: {
-  device: Device; summary: ReactNode; children: ReactNode; action?: ReactNode
-}) {
+export function JourneyVehicleFrame({ children, navigation }: { children: ReactNode; navigation?: ReactNode }) {
   const viewport = useRef<HTMLDivElement>(null)
   const [scale, setScale] = useState(1)
   useLayoutEffect(() => {
@@ -34,7 +32,13 @@ export function JourneyLayout({ device, summary, children, action }: {
     const observer = new ResizeObserver(measure)
     observer.observe(node)
     return () => observer.disconnect()
-  }, [device])
+  }, [])
+  return <div className="journey-theme"><div ref={viewport} className="journey-vehicle-viewport" style={{ height: DISPLAY.height * scale }}><PleosDisplay scale={scale} navigation={navigation}>{children}</PleosDisplay></div></div>
+}
+
+export function JourneyLayout({ device, summary, children, action, navigation }: {
+  device: Device; summary: ReactNode; children: ReactNode; action?: ReactNode; navigation?: ReactNode
+}) {
   const surface = <section className="journey-surface" data-journey-device={device}>
     <div className="journey-summary">{summary}</div>
     <div className="journey-response">
@@ -44,7 +48,7 @@ export function JourneyLayout({ device, summary, children, action }: {
   </section>
   return <div className="journey-theme">
     {device === 'vehicle'
-      ? <div ref={viewport} className="journey-vehicle-viewport" style={{ height: DISPLAY.height * scale }}><PleosDisplay scale={scale}>{surface}</PleosDisplay></div>
+      ? <JourneyVehicleFrame navigation={navigation}>{surface}</JourneyVehicleFrame>
       : <div className="journey-mobile-viewport">{surface}</div>}
   </div>
 }

@@ -66,6 +66,25 @@ test('statement confirmation is tied to the exact content revision', () => {
   expect(value.revision).toBe(0)
 })
 
+test('clearing a statement preserves an empty draft but cannot confirm empty content', () => {
+  let value = act(fresh(), { type: 'statement-edit', id: 's1', text: '지울 내용', audioEvidenceIds: [] })
+  value = act(value, { type: 'statement-edit', id: 's1', text: '', audioEvidenceIds: [] })
+  expect(value.statements[0].text).toBe('')
+  expect(validateCase(value)).toBe(true)
+  expect(act(value, { type: 'statement-confirm', id: 's1' })).toBe(value)
+  expect(value.statementHistory[0].text).toBe('지울 내용')
+})
+
+test('repeated risk observations preserve the stage to return to', () => {
+  let value = act(fresh(), { type: 'navigate', stage: 'record' })
+  const risk = { id: 'risk-1', kind: 'risk', label: '위험', value: '확인 필요', source: 'fixture' as const,
+    observedAt: now, confirmation: 'attention' as const, legacyFactId: null, supersedes: null }
+  value = act(value, { type: 'observation', observation: risk })
+  value = act(value, { type: 'observation', observation: { ...risk, id: 'risk-2' } })
+  expect(value.stage).toBe('response')
+  expect(value.returnStage).toBe('record')
+})
+
 test('malformed persisted data and nonexistent audio references fail validation', () => {
   const value = fresh()
   expect(validateCase(value)).toBe(true)

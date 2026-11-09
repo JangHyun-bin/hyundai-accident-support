@@ -175,12 +175,12 @@ async function deleteCase(id: string, expectedRevision: number): Promise<boolean
 
 **Interfaces:** `VehiclePanel({ value, onCommand }: { value: JourneyCase; onCommand: (command: CaseCommand) => void })`. `PleosDisplay`에 optional `navigation?: ReactNode`; 없으면 기존 지도 유지. `EmergencySurface`는 Session·scene·countdown·voice 상태와 action callback을 받아 render하며 effects를 소유하지 않음.
 
-- [ ] 기존 EmergencyStudy의 제품 JSX만 controlled EmergencySurface로 추출. 기존 timer·speech·URL·storage·review 동작은 controller에 유지. 먼저 기존 `emergency-urgent`, `emergency-complete`, `emergency-call-symbol` tests 통과.
-- [ ] JourneyStudy에서 case load/commit 실패·device/stage 전환·review event를 관리. 한 tab의 저장을 직렬화하고 비동기 작업 결과는 최신 case에 command로 적용. 녹음 시작 시점의 snapshot으로 이후 긴급 event를 덮지 않음. `?study=journey`와 `?study=journey-catalog`만 추가하며 기존 entry point 유지.
-- [ ] 차량 summary/details: 충격 방향·세기·출처·시각·미확인, user/device 확인 구분, 불가능한 행동. 확정 근거 없는 손상·주행 가능 그림 없음.
-- [ ] 명시된 fixture 위치만 map slot에 render. 좌표 없는 경우 marker/거리/대피 경로 숨김. 같은 browser device switch는 durable commit 후 이동, 다른 browser context는 case 없음 상태.
-- [ ] Tests: 기록 도중 위험 event에 저장 Promise 해결 전 response 표시·draft 유지; 늦은 저장이 response를 되돌리지 않음; 위험 event로 countdown 재시작 안 함; 안전 행동 tap만으로 device 확인 안 됨; unknown mobility 유지; 최신 case 없는 기기에서 인계 완료 표시 안 됨.
-- [ ] `npm run test:ui -- tests/journey-vehicle.spec.ts tests/emergency-urgent.spec.ts tests/emergency-complete.spec.ts tests/emergency-call-symbol.spec.ts --workers=1`, `npm run check`. Commit `feat: connect vehicle status and mobile journey views`.
+- [x] 기존 EmergencyStudy의 제품 JSX만 controlled EmergencySurface로 추출. 기존 timer·speech·URL·storage·review 동작은 controller에 유지. 먼저 기존 `emergency-urgent`, `emergency-complete`, `emergency-call-symbol` tests 통과.
+- [x] JourneyStudy에서 case load/commit 실패·device/stage 전환·review event를 관리. 한 tab의 저장을 직렬화하고 비동기 작업 결과는 최신 case에 command로 적용. 녹음 시작 시점의 snapshot으로 이후 긴급 event를 덮지 않음. `?study=journey`와 `?study=journey-catalog`만 추가하며 기존 entry point 유지.
+- [x] 차량 summary/details: 충격 방향·세기·출처·시각·미확인, user/device 확인 구분, 불가능한 행동. 확정 근거 없는 손상·주행 가능 그림 없음.
+- [x] 명시된 fixture 위치만 map slot에 render. 좌표 없는 경우 marker/거리/대피 경로 숨김. 같은 browser device switch는 durable commit 후 이동, 다른 browser context는 case 없음 상태.
+- [x] Tests: 기록 도중 위험 event에 저장 Promise 해결 전 response 표시·draft 유지; 늦은 저장이 response를 되돌리지 않음; 위험 event로 countdown 재시작 안 함; 안전 행동 tap만으로 device 확인 안 됨; unknown mobility 유지; 최신 case 없는 기기에서 인계 완료 표시 안 됨.
+- [x] `npm run test:ui -- tests/journey-vehicle.spec.ts tests/emergency-urgent.spec.ts tests/emergency-complete.spec.ts tests/emergency-call-symbol.spec.ts --workers=1`, `npm run check`. Commit `feat: connect vehicle status and mobile journey views`.
 
 **완료:** 실제 기록 기능 전에도 차량 대응과 mobile 표현을 같은 case에서 이어 확인 가능.
 

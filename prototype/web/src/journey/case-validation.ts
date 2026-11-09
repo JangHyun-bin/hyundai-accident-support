@@ -67,7 +67,7 @@ function evidence(v: unknown) {
 }
 
 function statement(v: unknown) {
-  return object(v) && id(v.id) && text(v.text, LIMITS.statementLength) && v.text.trim().length > 0 &&
+  return object(v) && id(v.id) && text(v.text, LIMITS.statementLength) && (v.text.trim().length > 0 || v.confirmedRevision === null) &&
     list(v.audioEvidenceIds, id, 100) && new Set(v.audioEvidenceIds).size === v.audioEvidenceIds.length && versionConfirmed(v)
 }
 function point(v: unknown) {
@@ -117,6 +117,8 @@ function followUp(v: unknown) {
 export function validateCase(v: unknown): v is JourneyCase {
   if (!object(v) || v.schemaVersion !== 1 || !id(v.id) || !integer(v.revision) || !date(v.createdAt) || !date(v.updatedAt) ||
     !session(v.emergency) || !stage(v.stage) || !stage(v.returnStage) || typeof v.suspended !== 'boolean' ||
+    !nullable(v.fixtureId, id) || !nullable(v.navigation, n => object(n) && n.source === 'fixture' && point(n.vehicle) && point(n.destination) &&
+      typeof n.distanceMeters === 'number' && Number.isFinite(n.distanceMeters) && n.distanceMeters > 0 && date(n.updatedAt)) ||
     !list(v.observations, observation) || !uniqueIds(v.observations) || !list(v.safetyActions, safetyAction) || !uniqueIds(v.safetyActions) ||
     !list(v.evidence, evidence) || !uniqueIds(v.evidence) || !list(v.evidenceHistory, evidence) ||
     !list(v.statements, statement) || !uniqueIds(v.statements) || !list(v.statementHistory, statement) ||
