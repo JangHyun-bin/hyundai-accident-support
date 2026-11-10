@@ -1,0 +1,45 @@
+.journey-follow-up { display: grid; gap: 32px; min-width: 0; }
+.journey-follow-up-section { display: grid; gap: 20px; min-width: 0; padding-top: 24px; border-top: 1px solid var(--j-line); }
+.journey-follow-up-heading { display: flex; align-items: center; gap: 12px; }
+.journey-follow-up-heading svg { width: 24px; height: 24px; flex: none; }
+.journey-follow-up h2 { font-size: var(--j-section); font-weight: 600; line-height: 1.4; }
+.journey-follow-up h3 { font-size: var(--j-body); font-weight: 600; }
+.journey-follow-up-source { color: var(--j-secondary); font-size: var(--j-label); line-height: 1.6; }
+.journey-follow-up-source span { display: block; }
+.journey-follow-up-notice { display: grid; gap: 12px; border-left: 2px solid var(--j-secondary); padding-left: 16px; font-size: var(--j-supporting); }
+.journey-follow-up-notice p { color: var(--j-secondary); }
+.journey-follow-up-shops { display: grid; gap: 16px; }
+.journey-shop { display: grid; gap: 16px; min-width: 0; border: 1px solid var(--j-line); border-radius: 20px; padding: 20px; }
+.journey-shop-title { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 16px; }
+.journey-shop-title > span { color: var(--j-secondary); font-size: var(--j-supporting); font-variant-numeric: tabular-nums; }
+.journey-shop-intake { display: grid; gap: 8px; font-size: var(--j-supporting); }
+.journey-shop-intake dt { color: var(--j-secondary); }
+.journey-follow-up-empty { display: grid; gap: 12px; padding-block: 12px; }
+.journey-follow-up-empty > svg { width: 32px; height: 32px; color: var(--j-secondary); }
+.journey-follow-up-empty p { font-size: var(--j-supporting); color: var(--j-secondary); }
+.journey-selected-shop { display: grid; gap: 12px; padding: 20px; border: 1px solid var(--j-line); border-radius: 20px; }
+.journey-selected-shop strong { font-size: var(--j-section); font-weight: 600; }
+.journey-selected-shop p { color: var(--j-secondary); font-size: var(--j-supporting); }
+.journey-follow-up-text-button { justify-self: start; min-height: 48px; padding: 10px 0; font: inherit; font-size: var(--j-supporting); background: transparent; border: 0; text-decoration: underline; text-underline-offset: 5px; }
+.journey-follow-up button:disabled { opacity: .5; cursor: default; }
+.journey-repair-options { border: 0; padding: 0; margin: 0; min-width: 0; display: grid; }
+.journey-repair-options label { display: flex; align-items: center; gap: 16px; min-height: 56px; padding-block: 16px; border-bottom: 1px solid var(--j-line); font-size: var(--j-body); }
+.journey-repair-options input { flex: none; width: 24px; height: 24px; accent-color: var(--j-foreground); }
+.journey-repair-review { display: grid; gap: 20px; padding: 20px; border: 1px solid var(--j-line); border-radius: 20px; }
+.journey-repair-review ul { margin: 0; padding-left: 24px; display: grid; gap: 12px; }
+.journey-follow-up-route { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; }
+.journey-follow-up-route > div { display: grid; gap: 8px; }
+.journey-follow-up-route span { color: var(--j-secondary); font-size: var(--j-supporting); }
+.journey-follow-up-route strong { font-weight: 500; }
+
+.journey-follow-up-navigation { min-width: 0; overflow: hidden; border: 1px solid var(--j-line); border-radius: 20px; }
+.journey-follow-up-navigation .journey-map { display: grid; height: auto; }
+.journey-follow-up-navigation .journey-map > svg { aspect-ratio: 4 / 3; height: auto; grid-area: 2 / 1; }
+.journey-follow-up-navigation .journey-map-caption { position: static; margin: 16px; padding: 0; gap: 12px; border-radius: 0; font-size: var(--j-body); grid-area: 1 / 1; }
+.journey-follow-up-navigation .journey-map-caption svg { width: 24px; height: 24px; flex: none; }
+.journey-follow-up-navigation .journey-map-caption div { min-width: 0; gap: 8px; }
+.journey-follow-up-navigation .journey-map-caption span { font-size: var(--j-supporting); }
+.journey-follow-up-navigation .journey-map-empty { min-height: 240px; height: auto; gap: 16px; padding: 24px; }
+.journey-follow-up-navigation .journey-map-empty svg { width: 32px; height: 32px; }
+.journey-follow-up-navigation .journey-map-empty h2 { font-size: var(--j-section); }
+.journey-follow-up-navigation .journey-map-empty p { font-size: var(--j-supporting); }

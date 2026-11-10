@@ -1,0 +1,20 @@
+✔ all storyboard transitions and source references resolve (4.067042ms)
+✔ response and connection cannot imply unobserved outcomes (0.554292ms)
+✔ receipt applies only to the named agency (0.438875ms)
+✔ auto_contact_only_where_rescue_is_not_sent_and_only_rescue_changes (0.464584ms)
+✔ decide_phase_means_countdown (0.404459ms)
+✔ connecting_rescue_never_returns_to_not_sent (0.47125ms)
+✔ self_action_now_is_three_words_or_fewer (0.441417ms)
+✔ self_action_asks_politely_and_names_its_kind (0.43325ms)
+✔ scene_copy_never_says_unconscious (0.796333ms)
+✔ every_scenario_shows_three_agencies_and_detected_label (0.8865ms)
+✔ auto_connected_scene_keeps_respond_button_until_driver_responds (0.567208ms)
+✔ all five scenarios and every authored state are reachable (0.557041ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 59.304042

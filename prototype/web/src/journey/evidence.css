@@ -1,0 +1,37 @@
+.journey-evidence { display: grid; gap: 24px; min-width: 0; }
+.journey-photo-progress { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; color: var(--j-secondary); font-size: var(--j-label); padding-bottom: 20px; border-bottom: 1px solid var(--j-line); }
+.journey-photo-progress strong { color: var(--j-foreground); font-size: var(--j-section); font-weight: 500; font-variant-numeric: tabular-nums; }
+.journey-photo-progress > :last-child { margin-left: auto; }
+.journey-photo-targets { display: grid; gap: 12px; }
+.journey-photo-targets > button { display: flex; align-items: center; gap: 16px; width: 100%; min-height: 80px; padding: 16px 20px; border: 0; border-radius: 16px; background: var(--j-control); color: var(--j-foreground); text-align: left; }
+.journey-photo-targets > button > svg { width: 24px; height: 24px; flex: none; }
+.journey-photo-targets > button > svg:last-child { width: 20px; height: 20px; margin-left: auto; }
+.journey-photo-targets > button > span { display: grid; gap: 8px; min-width: 0; }
+.journey-photo-targets strong { font-size: var(--j-body); font-weight: 500; }
+.journey-photo-targets .journey-status { font-size: var(--j-label); }
+.journey-photo-target-heading { display: grid; gap: 16px; }
+.journey-photo-target-heading h2 { font-size: var(--j-section); font-weight: 500; }
+.journey-photo-target-heading .journey-text-action { justify-content: flex-start; color: var(--j-secondary); }
+.journey-photo-file { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.journey-photo-saved { display: grid; gap: 16px; }
+.journey-photo-saved article { display: grid; gap: 12px; padding-bottom: 20px; border-bottom: 1px solid var(--j-line); }
+.journey-photo-thumbnail { aspect-ratio: 16 / 10; min-height: 120px; display: grid; place-items: center; background: var(--j-control); border-radius: 16px; overflow: hidden; }
+.journey-photo-thumbnail > span { padding: 20px; font-size: var(--j-supporting); color: var(--j-secondary); }
+.journey-photo-thumbnail img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.journey-photo-saved article > div:last-child { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; color: var(--j-secondary); font-size: var(--j-label); }
+.journey-photo-saved article > div:last-child > div { display: flex; margin-left: auto; gap: 12px; }
+.journey-photo-saved button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 12px; background: var(--j-control); color: var(--j-foreground); border: 0; border-radius: 12px; font-size: var(--j-label); }
+.journey-photo-saved button svg { width: 18px; height: 18px; }
+.journey-photo-review, .journey-photo-choose, .journey-photo-camera { display: grid; gap: 12px; }
+.journey-photo-review > img { width: 100%; max-height: 440px; aspect-ratio: 4 / 3; object-fit: contain; background: var(--j-control); border-radius: 16px; }
+.journey-photo-review > p, .journey-photo-message { font-size: var(--j-supporting); line-height: 1.6; color: var(--j-secondary); }
+.journey-photo-review > p { padding-block: 8px; }
+.journey-photo-viewfinder { position: relative; overflow: hidden; min-height: 240px; aspect-ratio: 3 / 4; border-radius: 20px; background: var(--j-background); }
+.journey-photo-viewfinder video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.journey-photo-frame { position: absolute; inset: 20% 12%; border: 1px solid var(--j-foreground); border-radius: 16px; }
+.journey-photo-viewfinder > span { position: absolute; bottom: 20px; left: 16px; right: 16px; padding: 12px; border-radius: 12px; background: var(--j-surface); font-size: var(--j-label); text-align: center; }
+[data-journey-device="vehicle"] .journey-photo-targets { grid-template-columns: repeat(2,minmax(0,1fr)); }
+[data-journey-device="vehicle"] .journey-photo-targets > button { min-height: 120px; padding: 24px; }
+[data-journey-device="vehicle"] .journey-photo-targets > button > svg { width: 36px; height: 36px; }
+[data-journey-device="vehicle"] .journey-photo-saved { grid-template-columns: repeat(2,minmax(0,1fr)); }
+[data-journey-device="vehicle"] .journey-photo-viewfinder { aspect-ratio: 16 / 9; max-height: 480px; }

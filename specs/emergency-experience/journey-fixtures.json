@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "simulationOnly": true,
+  "source": "Authored synthetic cases for the full-journey prototype; not vehicle or agency observations.",
+  "createdAt": "2026-11-10T09:12:00.000Z",
+  "report": {
+    "observation": "오른쪽 차량이 내 차량 쪽으로 이동하는 모습이 보여요.",
+    "inference": "접촉했을 가능성이 있어요."
+  },
+  "cases": [
+    { "id": "complete-journey", "title": "사고 대응부터 후속 처리까지", "scenarioId": "SC01", "sceneId": "initial", "coverage": ["V1", "V2", "H1", "R1", "R2", "R3", "C1", "C2", "S1", "S2", "F1"], "condition": "normal" },
+    { "id": "unanswered", "title": "응답 없음과 늦은 응답", "scenarioId": "SC03", "sceneId": "initial", "coverage": ["V1", "V2"], "condition": "unanswered" },
+    { "id": "immobile", "title": "차량 이동 불가", "scenarioId": "SC02", "sceneId": "initial", "coverage": ["V1", "V2", "S1", "F1"], "condition": "immobile" },
+    { "id": "no-evidence", "title": "자료 없이 이어가기", "scenarioId": "SC01", "sceneId": "connected", "coverage": ["R1", "R2", "R3", "C1", "C2", "S1"], "condition": "empty" },
+    { "id": "partial-evidence", "title": "일부 자료만 확보", "scenarioId": "SC01", "sceneId": "connected", "coverage": ["R1", "R3", "C2"], "condition": "partial" },
+    { "id": "insurance-declined", "title": "보험사 전송 거절 유지", "scenarioId": "SC04", "sceneId": "declined", "coverage": ["S1", "S2", "F1"], "condition": "declined" },
+    { "id": "suspended-receipt", "title": "중단 중 접수 결과 도착", "scenarioId": "SC05", "sceneId": "suspended", "coverage": ["H1", "S1", "S2"], "condition": "suspended" },
+    { "id": "late-result", "title": "과거 요청의 늦은 결과", "scenarioId": "SC05", "sceneId": "checking", "coverage": ["S1", "S2"], "condition": "late-result" }
+  ]
+}

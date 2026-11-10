@@ -1,0 +1,5 @@
+Independent review: journey_final_review, gpt-6-astra/xhigh,563445d..5c46df2. Verdict With fixes.
+Important: F1 conflict recovery hides report/diagram/followUp and overwrites prior backup; F2 pending photo/diagram and pending/failed controller writes lack beforeunload protection; F3 actual Chrome MediaRecorder WebM Infinity duration rejected by openEvidence; F4 active risk observation absent from vehicle/mobile response; F5 SC05 handoff effect fact dropped; F6 unreferenced deleted photo always retained in evidenceHistory with misleading deleted copy.
+Minor deferred: hidden dashcam keeps playing behind vehicle details; supplied prototype video is silent, affects playback/resources, no evidence of agency or data integrity impact. Preserve as separate future issue.
+Root reproduced all with /tmp/journey-independent-probes.mjs,/tmp/journey-draft-probes.mjs,/tmp/journey-state-probes.mjs. Outputs /tmp/hyundai-root-review-repro.log,/tmp/hyundai-root-draft-repro.log,/tmp/hyundai-root-state-repro.log. All exit0.
+One root-owned fix pass. No re-review. RED then GREEN for each, fullsuite and build, final video afterward.
