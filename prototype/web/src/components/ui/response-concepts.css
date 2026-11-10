@@ -253,14 +253,8 @@
 @media (prefers-reduced-motion:reduce) { .rc-spectrum i { animation:none; } }
 
 /* B refinements: the reference uses a blurred dark core over an edge-lit surface. */
-.rs-material { position:absolute; inset:0; z-index:-1; pointer-events:none; border-radius:inherit; overflow:hidden; }
 .rc-device .rs-material-defs { position:absolute; width:0; height:0; }
-.rs-material-source { position:absolute; inset:0; isolation:isolate; background:var(--rs-gradient); }
-.rs-material-source > i { position:absolute; inset:var(--rs-inset); background:var(--rs-core); filter:blur(var(--rs-blur)); opacity:var(--rs-opacity); border-radius:var(--rs-radius); }
 .rc-safety .rs-material:after { content:''; position:absolute; inset:0; border-radius:inherit; box-shadow:inset 0 1px 0 var(--rs-rim); }
-.rs-material[data-chromatic] { overflow:visible; }
-.rs-material[data-chromatic] .rs-material-source { border-radius:inherit; overflow:hidden; }
-.rs-material[data-chromatic] .rs-material-source:after { content:''; position:absolute; inset:0; border-radius:inherit; box-shadow:inset 0 1px 0 var(--rs-rim),inset 0 0 0 1px var(--rc-glass-border); }
 .rc-B2 .rc-call:has(.rs-material[data-chromatic]):after,.rc-safety .rs-material[data-chromatic]:after { display:none; }
 .rc-B2 .rc-call:has(.rs-material[data-chromatic]),.rc-B2 .rc-safety:has(.rs-material[data-chromatic]) { overflow:visible; }
 .rc-B2 .rc-call:has(.rs-material[data-chromatic]):before,.rc-B2 .rc-safety:has(.rs-material[data-chromatic]):before { display:none; }

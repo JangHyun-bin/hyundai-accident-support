@@ -1,3 +1,4 @@
+import './surface-effects.css'
 import { useEffect, useId, useMemo, useRef, useState } from 'react'
 
 export const surfaceEffectDefaults = { chromatic: 0, chromaticAngle: 0, grain: 0, grainSize: 1.2, grainClumping: 35, grainTone: 70, grainSeed: 17 }
