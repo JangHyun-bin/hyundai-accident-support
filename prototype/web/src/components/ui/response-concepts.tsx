@@ -2,6 +2,7 @@ import { useState, type CSSProperties } from 'react'
 import { ArrowRight, AudioLines, CarFront, CircleHelp, Fan, House, MapPin, Mic, Navigation, Phone, Shield, Sun, Footprints } from 'lucide-react'
 import './response-concepts.css'
 import { ResponseNumeral, type NumeralStyle } from './response-numeral'
+import { SurfaceEffectsLayer, type SurfaceEffects } from './surface-effects'
 
 // Throwaway study: families compare interpretations of one fixed call-connected screen.
 export type ResponseConcept = 'A' | 'B' | 'C' | 'B1' | 'B2'
@@ -53,8 +54,9 @@ function MapField() {
   </section>
 }
 
-function Safety() {
-  return <section className="rc-safety" aria-label="지금 해야 할 행동">
+function Safety({ style, effects }: { style?: CSSProperties; effects?: SurfaceEffects }) {
+  return <section className="rc-safety" style={style} aria-label="지금 해야 할 행동">
+    {effects && (effects.chromatic > 0 || effects.grain > 0) && <SurfaceEffectsLayer effects={effects} />}
     <div className="rc-safety-label"><Footprints /><span>움직일 수 있으면</span></div>
     <h2>가드레일 밖으로<br />대피하세요</h2>
     <div className="rc-safety-footer"><span>안전한 곳에서 기다리세요.</span><ArrowRight aria-hidden="true" /></div>
@@ -65,8 +67,9 @@ function RecordAction({ onRecord }: { onRecord: () => void }) {
   return <button type="button" className="rc-record" onClick={onRecord}><Mic /><span>안전한 곳에서 <strong>말로 기록하기</strong></span><ArrowRight /></button>
 }
 
-function Call({ dots = false, dense = false, numeral }: { dots?: boolean; dense?: boolean; numeral?: NumeralStyle }) {
-  return <div className="rc-call">
+function Call({ dots = false, dense = false, numeral, style, effects }: { dots?: boolean; dense?: boolean; numeral?: NumeralStyle; style?: CSSProperties; effects?: SurfaceEffects }) {
+  return <div className="rc-call" style={style}>
+    {effects && (effects.chromatic > 0 || effects.grain > 0) && <SurfaceEffectsLayer effects={effects} />}
     <div className="rc-call-top"><span><AudioLines />119 긴급 통화</span><span className="rc-connected">연결됨</span></div>
     <div className="rc-call-center"><div className="rc-call-number"><span className="rc-phone"><Phone /></span>{dots ? <ResponseNumeral kind={numeral} /> : <span className="rc-number">119</span>}</div><h2>통화 연결됨</h2><Spectrum dense={dense} /></div>
     <div className="rc-call-footer"><span>119와 통화 중이에요</span><span>접수 미확인</span></div>
@@ -84,10 +87,17 @@ function VariantA({ onRecord }: { onRecord: () => void }) {
   </div>
 }
 
-function VariantB({ onRecord, dots = false, numeral }: { onRecord: () => void; dots?: boolean; numeral?: NumeralStyle }) {
+type SurfaceStyles = { call: CSSProperties; safety: CSSProperties }
+type SurfaceEffectsPair = { call: SurfaceEffects; safety: SurfaceEffects }
+
+export function ResponseSurfacePreview({ target, style, effects }: { target: 'call' | 'safety'; style: CSSProperties; effects?: SurfaceEffects }) {
+  return target === 'call' ? <Call dots dense numeral="solid" style={style} effects={effects} /> : <Safety style={style} effects={effects} />
+}
+
+function VariantB({ onRecord, dots = false, numeral, surfaces, effects }: { onRecord: () => void; dots?: boolean; numeral?: NumeralStyle; surfaces?: SurfaceStyles; effects?: SurfaceEffectsPair }) {
   return <div className="rc-layout">
-    <div className="rc-left"><Condition compact /><Call dots={dots} dense={dots} numeral={numeral} /><Requests /></div>
-    <div className="rc-right"><MapField /><Safety /><RecordAction onRecord={onRecord} /></div>
+    <div className="rc-left"><Condition compact /><Call dots={dots} dense={dots} numeral={numeral} style={surfaces?.call} effects={effects?.call} /><Requests /></div>
+    <div className="rc-right"><MapField /><Safety style={surfaces?.safety} effects={effects?.safety} /><RecordAction onRecord={onRecord} /></div>
   </div>
 }
 
@@ -98,12 +108,12 @@ function VariantC({ onRecord }: { onRecord: () => void }) {
   </div>
 }
 
-export function ResponseConceptScreen({ variant, onRecord, numeral }: { variant: ResponseConcept; onRecord: () => void; numeral?: NumeralStyle }) {
+export function ResponseConceptScreen({ variant, onRecord, numeral, surfaces, effects }: { variant: ResponseConcept; onRecord: () => void; numeral?: NumeralStyle; surfaces?: SurfaceStyles; effects?: SurfaceEffectsPair }) {
   const isB = variant === 'B' || variant === 'B1' || variant === 'B2'
   const Variant = variant === 'A' ? VariantA : isB ? VariantB : VariantC
   return <div className={`rc-device ${isB ? 'rc-B ' : ''}rc-${variant}`}>
     <div className="rc-system"><div><span>P</span><strong>0 <small>km/h</small></strong></div><span className="rc-system-context">사고 대응</span><div><Sun /><span>18°</span><time>오후 9:12</time></div></div>
-    <Variant onRecord={onRecord} dots={variant === 'B2'} numeral={numeral} />
+    <Variant onRecord={onRecord} dots={variant === 'B2'} numeral={numeral} surfaces={surfaces} effects={effects} />
     <div className="rc-dock" aria-hidden="true"><span><Fan />22.5°</span><div><House /><Navigation /><span className="rc-dock-active"><Phone /></span></div><span>22.5°<Fan /></span></div>
   </div>
 }

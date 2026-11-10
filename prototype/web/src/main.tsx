@@ -7,7 +7,10 @@ import { JourneyCatalog } from './journey/JourneyCatalog'
 import { JourneyStudy } from './journey/JourneyStudy'
 import { ResponseConceptStudy } from './journey/ResponseConceptStudy'
 import { ResponseNumeralStudy } from './journey/ResponseNumeralStudy'
+import { ResponseSurfaceStudy } from './journey/ResponseSurfaceStudy'
+import { ResponseSplitStudy } from './journey/ResponseSplitStudy'
 import './styles.css'
 
 const study = new URLSearchParams(location.search).get('study')
-createRoot(document.getElementById('root')!).render(study === 'response-alts' && import.meta.env.DEV ? new URLSearchParams(location.search).get('focus') === 'numeral' ? <ResponseNumeralStudy /> : <ResponseConceptStudy /> : study === 'journey' ? <JourneyStudy /> : study === 'journey-catalog' ? <JourneyCatalog /> : study === 'emergency-catalog' ? <EmergencyCatalog /> : study === 'emergency' ? <EmergencyStudy /> : study === 'tools' ? <ToolsStudy /> : <App />)
+const focus = new URLSearchParams(location.search).get('focus')
+createRoot(document.getElementById('root')!).render(study === 'response-alts' && import.meta.env.DEV ? focus === 'split' ? <ResponseSplitStudy /> : focus === 'surface' ? <ResponseSurfaceStudy /> : focus === 'numeral' ? <ResponseNumeralStudy /> : <ResponseConceptStudy /> : study === 'journey' ? <JourneyStudy /> : study === 'journey-catalog' ? <JourneyCatalog /> : study === 'emergency-catalog' ? <EmergencyCatalog /> : study === 'emergency' ? <EmergencyStudy /> : study === 'tools' ? <ToolsStudy /> : <App />)

@@ -32,7 +32,7 @@ export function ResponseNumeralStudy() {
       </button>)}
     </div>
     <ResponseConceptScreen variant="B2" numeral={numeral} onRecord={() => setNotice(true)} />
-    <div className="rc-study-meta"><p>고정 시연 상태 · 숫자 표현만 비교 · 실제 통화·녹음 없음</p><p>같은 SVG 영역 · 같은 위치 · 같은 흰색</p></div>
+    <div className="rc-study-meta"><p>고정 시연 상태 · 숫자 표현만 비교 · 실제 통화·녹음 없음</p><a href="?study=response-alts&focus=surface">B″ 색·shade 조절 →</a></div>
     {notice && <div className="rc-notice" role="status"><p>숫자 디자인을 비교하는 시안이에요. 녹음은 시작하지 않았어요.</p><button onClick={() => setNotice(false)} aria-label="안내 닫기"><X size={18}/></button></div>}
     <nav className="rc-switcher" aria-label="숫자 표현 선택">{numeralStyles.map((item, i) => <button key={item.id} aria-pressed={numeral === item.id} className={numeral === item.id ? 'is-current' : ''} onClick={() => choose(item.id)}>0{i + 1}<span>{item.name}</span></button>)}</nav>
   </main>
