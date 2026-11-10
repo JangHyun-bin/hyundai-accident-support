@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#eeede9">
+  <link rel="icon" href="data:,">
+  <title>After / Care · Light response study</title>
+  <style>
+    @font-face { font-family: Asta; src: url('/fonts/asta_regular.ttf'); font-weight: 400; font-display: swap; }
+    @font-face { font-family: Asta; src: url('/fonts/asta_semibold.ttf'); font-weight: 600; font-display: swap; }
+    :root {
+      --paper: #eeede9; --canvas: #f5f4f0; --surface: #ffffff; --ink: #282930;
+      --muted: #6c6c74; --line: #deddd9; --road: #e9e7e3; --road-edge: #eeece8;
+      --accent: #e8e4f0; --accent-ink: #595069; --on-dark: #f6f5f8; --on-dark-muted: #c6c4ce;
+      --radius: 28px; --radius-small: 16px; --body: 18px; --label: 14px;
+      color-scheme: light; font-family: Asta, sans-serif; color: var(--ink); background: var(--paper);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 28px 32px 20px; -webkit-font-smoothing: antialiased; }
+    button, a { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    button, a, summary { -webkit-tap-highlight-color: transparent; }
+    :focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 5px; }
+    h1,h2,h3,p { margin: 0; font-weight: 400; }
+    p,h1,h2,h3,button { word-break: keep-all; }
+    svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+    [hidden] { display: none !important; }
+    .study { max-width: 1600px; margin: auto; }
+    .study-header { display: flex; justify-content: space-between; align-items: center; gap: 24px; margin-bottom: 24px; font-size: 12px; color: var(--muted); }
+    .wordmark { color: var(--ink); letter-spacing: .12em; font-size: 14px; }
+    .study-header a { text-decoration: none; display: inline-flex; gap: 8px; align-items: center; min-height: 44px; }
+    .study-header svg { width: 16px; height: 16px; }
+    .study-name { display: flex; align-items: center; gap: 24px; }
+    .display { background: var(--canvas); border: 7px solid var(--surface); border-radius: 40px; overflow: hidden; }
+    .system-bar { display: flex; align-items: center; justify-content: space-between; padding: 24px 34px; min-height: 80px; font-size: 17px; }
+    .system-bar > div { display: flex; gap: 24px; align-items: center; }
+    .system-bar .speed { font-size: 25px; }
+    .system-bar .unit { color: var(--muted); font-size: 14px; margin-left: -18px; }
+    .system-bar .context { color: var(--muted); font-size: 15px; }
+    .workspace { padding: 8px 26px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .response-column { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+    .condition { border-radius: var(--radius); background: var(--surface); padding: 25px 30px; }
+    .condition-heading { display: flex; justify-content: space-between; gap: 20px; align-items: center; }
+    .condition-title { display: flex; gap: 14px; align-items: center; }
+    .condition-title h2 { font-size: 22px; letter-spacing: -.025em; }
+    .condition-title svg { width: 29px; height: 29px; }
+    .condition-time { font-size: var(--label); color: var(--muted); white-space: nowrap; }
+    .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 25px; }
+    .fact { display: flex; justify-content: space-between; gap: 12px; font-size: 16px; }
+    .fact > span { color: var(--muted); }
+    .unknown { display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; }
+    .unknown svg { width: 17px; height: 17px; }
+    .response { flex: 1; display: flex; flex-direction: column; }
+    .tabs { display: flex; gap: 5px; padding-right: 27%; }
+    .tabs button { border: 0; border-radius: 20px 20px 0 0; background: var(--road); color: var(--muted); padding: 17px 20px 15px; flex: 1; min-height: 54px; white-space: nowrap; font-size: 16px; }
+    .tabs button[aria-selected="true"] { background: var(--surface); color: var(--ink); }
+    .response-body { background: var(--surface); border-radius: 0 var(--radius) var(--radius) var(--radius); padding: 28px 30px 26px; flex: 1; }
+    .hero { min-height: 295px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 14px 0 28px; }
+    .call-identity { display: flex; align-items: center; gap: 25px; }
+    .phone { display: grid; place-items: center; background: var(--accent); width: 78px; height: 78px; border-radius: 25px; color: var(--accent-ink); }
+    .phone svg { width: 40px; height: 40px; stroke-width: 1.5; }
+    .hero h1 { font-size: 112px; letter-spacing: -.075em; line-height: 1; padding-right: 8px; }
+    .hero h2 { font-size: 31px; letter-spacing: -.035em; margin-top: 14px; }
+    .spectrum { display: flex; gap: 5px; height: 36px; align-items: center; margin-top: 25px; color: var(--accent-ink); }
+    .spectrum i { width: 3px; height: var(--height); border-radius: 4px; background: currentColor; animation: voice 1.8s ease-in-out infinite alternate; animation-delay: var(--delay); }
+    .spectrum i:nth-child(-n+4), .spectrum i:nth-last-child(-n+4) { opacity: .3; }
+    @keyframes voice { from { transform: scaleY(.45); } to { transform: scaleY(1); } }
+    .agencies { border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); padding-top: 24px; gap: 20px; }
+    .agency { display: flex; flex-direction: column; gap: 9px; }
+    .agency > span { font-size: var(--label); color: var(--muted); }
+    .agency strong { font-weight: 400; font-size: var(--body); }
+    .agency small { color: var(--muted); font-size: var(--label); min-height: 20px; }
+    .agency-label { display: flex; align-items: center; gap: 8px; }
+    .agency-label:before { content: ''; width: 6px; height: 6px; border: 1px solid var(--muted); border-radius: 50%; }
+    .agency:first-child .agency-label:before { border-color: var(--accent-ink); background: var(--accent-ink); }
+    .record { border: 0; border-radius: var(--radius-small); background: var(--canvas); display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 60px; padding: 16px 20px; margin-top: 24px; width: 100%; font-size: 17px; }
+    .record > span { display: flex; align-items: center; gap: 12px; }
+    .record svg { width: 21px; height: 21px; }
+    .record-note { font-size: var(--label); color: var(--muted); margin-top: 14px; line-height: 1.6; }
+    .surroundings { position: relative; display: flex; flex-direction: column; justify-content: space-between; min-width: 0; border-radius: var(--radius); overflow: hidden; background: var(--road-edge); }
+    .map { position: absolute; inset: 0; width: 100%; height: 100%; stroke: none; }
+    .map-road { fill: var(--line); }
+    .map-block { fill: var(--canvas); }
+    .map-lane { stroke: var(--canvas); stroke-width: 2; stroke-dasharray: 10 15; fill: none; }
+    .map-title { position: relative; padding: 26px 30px; display: flex; justify-content: space-between; align-items: center; gap: 20px; font-size: 20px; }
+    .map-title span { font-size: var(--label); color: var(--muted); }
+    .location { position: relative; margin: 10px auto 36px; display: flex; flex-direction: column; align-items: center; flex: 1; justify-content: center; min-height: 265px; }
+    .location-mark { width: 68px; height: 68px; border-radius: 23px; display: grid; place-items: center; background: var(--surface); margin-bottom: 18px; }
+    .location-mark svg { width: 31px; height: 31px; color: var(--accent-ink); }
+    .location h2 { font-size: 23px; letter-spacing: -.03em; }
+    .location p { color: var(--muted); font-size: 15px; margin-top: 9px; }
+    .safety-wrap { padding: 0 18px 18px; position: relative; }
+    .safety { position: relative; padding: 50px 29px 29px; color: var(--on-dark); background: var(--ink); border-radius: 24px; clip-path: polygon(0 0,100% 10%,100% 100%,0 100%); }
+    .safety-top { display: flex; align-items: center; gap: 10px; color: var(--on-dark-muted); font-size: 15px; margin-bottom: 19px; }
+    .safety-top svg { width: 21px; height: 21px; }
+    .safety h2 { font-size: clamp(27px,2.15vw,34px); line-height: 1.5; letter-spacing: -.035em; }
+    .safety-bottom { margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--muted); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .safety-bottom span { font-size: var(--label); color: var(--on-dark-muted); }
+    .safety-bottom svg { width: 24px; height: 24px; }
+    .climate { display: flex; align-items: center; gap: 12px; font-size: 18px; }
+    .bottom-bar { min-height: 84px; padding: 21px 34px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .dock { display: flex; align-items: center; gap: 36px; color: var(--muted); }
+    .dock > span { display: grid; place-items: center; width: 46px; height: 40px; }
+    .dock .current { border-radius: 13px; background: var(--accent); color: var(--accent-ink); }
+    .detail-title { font-size: 26px; margin-bottom: 20px; letter-spacing: -.025em; }
+    .vehicle-detail { min-height: 295px; padding-top: 12px; }
+    .detail-list { margin: 0; }
+    .detail-list > div { display: flex; justify-content: space-between; gap: 20px; padding: 19px 0; border-bottom: 1px solid var(--line); font-size: 17px; }
+    .detail-list dt { color: var(--muted); }
+    .detail-list dd { margin: 0; }
+    .vehicle-detail p { color: var(--muted); font-size: var(--label); line-height: 1.7; margin-top: 18px; }
+    .study-footer { display: flex; justify-content: space-between; flex-wrap: wrap; align-items: start; gap: 16px; padding: 22px 4px 0; color: var(--muted); font-size: 12px; line-height: 1.7; }
+    details { max-width: 440px; }
+    summary { cursor: pointer; min-height: 30px; }
+    .tokens { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+    .tokens span { display: inline-flex; gap: 6px; align-items: center; }
+    .tokens i { width: 14px; height: 14px; border: 1px solid var(--line); border-radius: 4px; background: var(--swatch); }
+    @media (prefers-reduced-motion: reduce) { .spectrum i { animation: none; } }
+    @media (max-width: 1000px) {
+      body { padding: 18px; }
+      .workspace { gap: 18px; padding-inline: 18px; }
+      .condition, .response-body { padding-inline: 22px; }
+      .condition-title h2 { font-size: 19px; }
+      .condition-time { display: none; }
+      .facts { gap: 16px; }
+      .fact { display: block; font-size: 15px; }
+      .fact .unknown { display: flex; margin-top: 8px; }
+      .tabs { padding-right: 10%; }
+      .agency strong { font-size: 16px; }
+      .safety { padding-inline: 22px; }
+    }
+    @media (max-width: 700px) {
+      body { padding: 14px; }
+      .study-header { margin-bottom: 12px; gap: 12px; }
+      .study-name { display: block; }
+      .study-name > span:last-child { display: block; margin-top: 5px; font-size: 11px; }
+      .study-header a { font-size: 11px; }
+      .display { border-width: 4px; border-radius: 27px; }
+      .system-bar { padding: 20px; font-size: 14px; }
+      .system-bar > div { gap: 14px; }
+      .system-bar .context, .system-bar .weather { display: none; }
+      .system-bar .unit { margin-left: -9px; }
+      .workspace { grid-template-columns: 1fr; padding: 0 12px; }
+      .condition, .response-body { padding: 23px 20px; }
+      .condition-title h2 { font-size: 19px; }
+      .condition-title svg { width: 24px; height: 24px; }
+      .hero { min-height: 270px; }
+      .hero h1 { font-size: 96px; }
+      .call-identity { gap: 20px; }
+      .phone { width: 65px; height: 65px; border-radius: 22px; }
+      .phone svg { width: 33px; height: 33px; }
+      .hero h2 { font-size: 28px; }
+      .agencies { gap: 12px; }
+      .agency > span, .agency small { font-size: 12px; }
+      .agency strong { font-size: 16px; }
+      .record { font-size: 15px; padding-inline: 15px; }
+      .surroundings { min-height: 580px; }
+      .map-title { padding: 25px; }
+      .location { min-height: 210px; }
+      .safety h2 { font-size: 27px; }
+      .bottom-bar { padding: 20px; }
+      .bottom-bar > .climate:last-child { display: none; }
+      .dock { gap: 8px; }
+      .dock > span { width: 37px; }
+      .dock > span:nth-child(2), .dock > span:nth-child(4) { display: none; }
+      .climate { font-size: 15px; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <svg aria-hidden="true" style="display:none"><defs>
+    <symbol id="phone" viewBox="0 0 24 24"><path d="M8 3 5 2C3 2 2 4 2 6c1 8 8 15 16 16 2 0 4-1 4-3l-1-3-5-2-2 3c-3-1-6-4-7-7l3-2Z"/></symbol>
+    <symbol id="car" viewBox="0 0 24 24"><path d="m4 10 2-6h12l2 6M3 10h18v9H3ZM5 19v2m14-2v2M6 14h2m8 0h2M8 4l1-2h6l1 2"/></symbol>
+    <symbol id="question" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 4 2c-1 .7-1.5 1-1.5 2.5M12 17h.01"/></symbol>
+    <symbol id="pin" viewBox="0 0 24 24"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2.2"/></symbol>
+    <symbol id="arrow" viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6"/></symbol>
+    <symbol id="mic" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="13" rx="3"/><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3m-3 0h6"/></symbol>
+    <symbol id="walk" viewBox="0 0 24 24"><circle cx="14" cy="3" r="1.5"/><path d="m8 21 3-7 3 3 1 5M7 12l2-5 4-1 3 5 4 1M13 7l-2 7"/></symbol>
+    <symbol id="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></symbol>
+    <symbol id="fan" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><path d="M10 10C5 5 10 1 13 3c2 1 0 5 0 7m1 0c5-5 9 0 7 3-1 2-5 0-7 0m0 1c5 5 0 9-3 7-2-1 0-5 0-7m-1 0C5 19 1 14 3 11c1-2 5 0 7 0"/></symbol>
+    <symbol id="home" viewBox="0 0 24 24"><path d="m3 10 9-8 9 8v11h-6v-8H9v8H3Z"/></symbol>
+    <symbol id="navigation" viewBox="0 0 24 24"><path d="m21 3-7 18-3-8-8-3Z"/></symbol>
+    <symbol id="grid" viewBox="0 0 24 24"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="3" width="6" height="6" rx="1"/><rect x="3" y="15" width="6" height="6" rx="1"/><rect x="15" y="15" width="6" height="6" rx="1"/></symbol>
+  </defs></svg>
+  <main class="study">
+    <header class="study-header"><div class="study-name"><span class="wordmark">AFTER / CARE</span><span>Light study 01 · 사고 대응 화면</span></div><a href="/?study=journey">기존 flow 보기<svg aria-hidden="true"><use href="#arrow"/></svg></a></header>
+    <section class="display" aria-label="사고 대응 light concept 시안">
+      <div class="system-bar"><div><span>P</span><span class="speed">0</span><span class="unit">km/h</span></div><span class="context">사고 대응</span><div><svg class="weather" aria-hidden="true"><use href="#sun"/></svg><span class="weather">18°</span><span>오후 9:12</span></div></div>
+      <div class="workspace">
+        <div class="response-column">
+          <section class="condition" aria-label="현재 상황">
+            <div class="condition-heading"><div class="condition-title"><svg aria-hidden="true"><use href="#car"/></svg><h2>충돌 감지 · 부상 있음</h2></div><span class="condition-time">오후 9:12</span></div>
+            <div class="facts"><div class="fact"><span>운전자 조작</span><span class="unknown"><svg aria-hidden="true"><use href="#question"/></svg>미확인</span></div><div class="fact"><span>이동 경로</span><span class="unknown"><svg aria-hidden="true"><use href="#question"/></svg>미확인</span></div></div>
+          </section>
+          <section class="response" aria-label="통화와 차량 상태">
+            <div class="tabs" role="tablist" aria-label="확인할 내용"><button id="call-tab" role="tab" aria-selected="true" aria-controls="call-panel">119 통화</button><button id="vehicle-tab" role="tab" aria-selected="false" aria-controls="vehicle-panel" tabindex="-1">차량 상태</button></div>
+            <div class="response-body">
+              <div id="call-panel" role="tabpanel" aria-labelledby="call-tab"><div class="hero"><div class="call-identity"><span class="phone"><svg aria-hidden="true"><use href="#phone"/></svg></span><h1>119</h1></div><h2>통화 연결됨</h2><div class="spectrum" aria-hidden="true"></div></div></div>
+              <div id="vehicle-panel" role="tabpanel" aria-labelledby="vehicle-tab" hidden><div class="vehicle-detail"><h2 class="detail-title">차량에서 확인한 내용</h2><dl class="detail-list"><div><dt>충격 방향</dt><dd>미확인</dd></div><div><dt>차량 이동</dt><dd>미확인</dd></div><div><dt>비상등</dt><dd>미확인</dd></div></dl><p>확인되지 않은 차량 상태는<br>안전하다고 판단하지 않아요.</p></div></div>
+              <div class="agencies" aria-label="기관별 요청 상태"><div class="agency"><span class="agency-label">구호</span><strong>통화 연결</strong><small>접수 미확인</small></div><div class="agency"><span class="agency-label">차량 지원</span><strong>요청 전</strong><small></small></div><div class="agency"><span class="agency-label">보험사</span><strong>요청 전</strong><small></small></div></div>
+              <button class="record" aria-expanded="false" aria-controls="record-note"><span><svg aria-hidden="true"><use href="#mic"/></svg>안전한 곳에서 말로 기록하기</span><svg aria-hidden="true"><use href="#arrow"/></svg></button><p id="record-note" class="record-note" hidden>이 시안에서는 녹음을 시작하지 않아요. 실제 기록은 상단의 ‘기존 flow 보기’에서 확인할 수 있어요.</p>
+            </div>
+          </section>
+        </div>
+        <section class="surroundings" aria-label="주변 위치와 안전 행동">
+          <svg class="map" viewBox="0 0 620 760" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><path class="map-block" d="M0 0H230L151 237H0ZM287 0H620V219H228ZM0 285H130L65 478H0ZM213 276H620V490H140ZM0 526H47L0 665ZM125 538H620V760H48Z"/><path class="map-road" d="M245-30h32L31 790H0ZM-10 244 650 226v28L-10 277ZM-10 488l660 15v27L-10 515Z"/><path class="map-lane" d="M260-30 15 790M-10 260 650 240"/></svg>
+          <div class="map-title"><h2 style="font-size:inherit">내 주변</h2><span>위치 미확인</span></div>
+          <div class="location"><span class="location-mark"><svg aria-hidden="true"><use href="#pin"/></svg></span><h2>위치 확인 중</h2><p>아직 안내 지점이 확인되지 않았어요.</p></div>
+          <div class="safety-wrap"><section class="safety"><div class="safety-top"><svg aria-hidden="true"><use href="#walk"/></svg><span>움직일 수 있으면</span></div><h2>가드레일 밖으로<br>대피하세요</h2><div class="safety-bottom"><span>안전한 곳에서 기다리세요.</span><svg aria-hidden="true"><use href="#arrow"/></svg></div></section></div>
+        </section>
+      </div>
+      <div class="bottom-bar" aria-hidden="true"><span class="climate"><svg><use href="#fan"/></svg>22.5°</span><div class="dock"><span><svg><use href="#home"/></svg></span><span><svg><use href="#navigation"/></svg></span><span class="current"><svg><use href="#phone"/></svg></span><span><svg><use href="#grid"/></svg></span></div><span class="climate">22.5°<svg><use href="#fan"/></svg></span></div>
+    </section>
+    <footer class="study-footer"><p>시각 검토용 prototype · 고정 시연 상태 · 실제 통화·녹음·위치 조회 없음</p><details><summary>표현 기준</summary><p>이 시안의 색과 component만 사용하는 독립 study. 기존 제품 theme에는 미적용.</p><div class="tokens"><span><i style="--swatch:var(--canvas)"></i>Warm canvas</span><span><i style="--swatch:var(--surface)"></i>White surface</span><span><i style="--swatch:var(--ink)"></i>Graphite</span><span><i style="--swatch:var(--accent)"></i>Lavender</span></div><p>Asta · 14 / 18 / 31 / 112px · Card 28px · Control 16px</p></details></footer>
+  </main>
+  <script>
+    const heights = [4,7,10,15,10,22,30,17,24,34,21,16,27,20,35,25,14,23,31,17,26,20,12,18,9,13,7,5,3];
+    document.querySelector('.spectrum').innerHTML = heights.map((height, index) => `<i style="--height:${height}px;--delay:-${index * .13}s"></i>`).join('');
+    const tabs = [...document.querySelectorAll('[role="tab"]')];
+    function selectTab(selected, focus = false) {
+      tabs.forEach(tab => {
+        const active = tab === selected;
+        tab.setAttribute('aria-selected', String(active));
+        tab.tabIndex = active ? 0 : -1;
+        document.getElementById(tab.getAttribute('aria-controls')).hidden = !active;
+      });
+      if (focus) selected.focus();
+    }
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => selectTab(tab));
+      tab.addEventListener('keydown', event => {
+        if (!['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
+        event.preventDefault();
+        selectTab(event.key === 'Home' ? tabs[0] : event.key === 'End' ? tabs.at(-1) : tabs[(index + 1) % tabs.length], true);
+      });
+    });
+    document.querySelector('.record').addEventListener('click', event => {
+      const button = event.currentTarget;
+      const note = document.getElementById('record-note');
+      note.hidden = !note.hidden;
+      button.setAttribute('aria-expanded', String(!note.hidden));
+    });
+  </script>
+</body>
+</html>
