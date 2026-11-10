@@ -1,5 +1,5 @@
 :root {
-  --ac-background:#09090c; --ac-surface:#18181c; --ac-control:#303037;
+  --ac-scrim:rgb(0 0 0 / .65); --ac-background:#09090c; --ac-surface:#18181c; --ac-control:#303037;
   --ac-text:#f4f4f8; --ac-muted:#b6b6bf; --ac-line:#37373f; --ac-ink:#141418;
   --ac-confirmed:#a7e3bf; --ac-pending:#e8d797; --ac-attention:#ffb39c;
   --ac-material-line:#ffffff35; --ac-material-border:#ffffff18;

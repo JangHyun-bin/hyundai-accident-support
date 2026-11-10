@@ -1,3 +1,4 @@
+import {captureGuidance,collectedGuidance,narrateVisible,verifiedSegments,muxGuidance} from './guidance-recording.mjs'
 import { chromium, expect } from '@playwright/test'
 import assert from 'node:assert/strict'
 import { mkdtempSync, readFileSync, writeFileSync, existsSync } from 'node:fs'
@@ -8,7 +9,7 @@ import { performance } from 'node:perf_hooks'
 
 // 실제 browser 전환을 녹화한다. Layout override·chapter card는 이 recording context에만 적용.
 const output = resolve(process.argv[2] ?? join(homedir(), 'Downloads/emergency-flow-2026-11-09-complete.mp4'))
-const appOutput = output.replace(/\.mp4$/, '-app.mp4')
+const appOutput = output
 assert.ok(output.endsWith('.mp4'))
 assert.ok(!existsSync(output) && !existsSync(appOutput), 'Existing videos must not be overwritten')
 const manifest = JSON.parse(readFileSync(new URL('../../../specs/emergency-experience/scenarios.json', import.meta.url)))
@@ -18,6 +19,10 @@ const context = await browser.newContext({ viewport: { width: 2560, height: 1440
   reducedMotion: 'no-preference', recordVideo: { dir: temp, size: { width: 2560, height: 1440 } } })
 const began = performance.now()
 const page = await context.newPage()
+await captureGuidance(page)
+const sourceCommit=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim()
+const wallOrigin=Date.now()-(performance.now()-began)
+let lastScript='',voiceClips=[]
 const errors = [], timeline = [], actions = [], visited = new Set()
 page.on('pageerror', error => errors.push(error.message))
 let trim, raw, appBounds
@@ -41,7 +46,8 @@ const state = async (scenarioId, sceneId, seconds = 3) => {
   visited.add(`${scenarioId}/${sceneId}`)
   timeline.push({ at: (performance.now() - began) / 1000 - trim, scenario: scenarioId, scene: sceneId, title: scene.title })
   console.log(`RECORD ${scenarioId}/${sceneId}`)
-  await hold(seconds)
+  const narration=await narrateVisible(page,lastScript);lastScript=narration.lastScript
+  await hold(Math.max(seconds,narration.hold))
 }
 const card = async (eyebrow, title, detail, seconds = 2) => {
   await page.evaluate(({ eyebrow, title, detail }) => {
@@ -69,8 +75,7 @@ try {
     #record-card h2{font-size:56px;line-height:1.25;letter-spacing:-.035em;margin:0;white-space:pre-line}
     #record-card p{font-size:28px;line-height:1.8;color:#a4a8ae;margin:0;white-space:pre-line}
   ` })
-  appBounds = await page.locator('.emergency-screen').boundingBox()
-  assert.ok(appBounds && Object.values(appBounds).every(value => Number.isInteger(value) && value % 2 === 0))
+  appBounds = {x:0,y:0,width:2560,height:1440}
   await page.evaluate(({ x, y, width, height }) => {
     const card = document.createElement('aside');card.id = 'record-card';card.hidden = true
     Object.assign(card.style, { left: `${x}px`, top: `${y}px`, width: `${width}px`, height: `${height}px` })
@@ -105,7 +110,7 @@ try {
   await result('SC01', '연결 실패', 'call_failed')
   await action('SC01', '다시 연결', 'contact_unknown')
   await result('SC01', '통화 연결 확인', 'connected', 5)
-  assert.equal(await page.locator('.emergency-call-spectrum > span').count(), 31)
+  assert.equal(await page.locator('.ac-call-content .ac-spectrum > i').count(), 28)
   await result('SC01', '연결 끊김', 'contact_unknown')
   await result('SC01', '통화 연결 확인', 'connected')
   await action('SC01', '사고 기록 남기기', 'record')
@@ -218,6 +223,7 @@ try {
   const expected = manifest.scenarios.flatMap(s => s.states.map(x => `${s.id}/${x.id}`))
   assert.deepEqual([...visited].sort(), expected.sort(), 'Every authored scene must appear')
   assert.deepEqual(errors, [], 'No browser runtime errors')
+  voiceClips=await collectedGuidance(page)
   raw = await page.video().path()
 } finally {
   await context.close()
@@ -230,11 +236,13 @@ function encode(args) {
     process.on('error', reject);process.on('close', code => code === 0 ? resolve() : reject(new Error(`ffmpeg exit ${code}`)))
   })
 }
-console.log('ENCODING full Pleos view')
-await encode(['-ss', String(trim), '-i', raw, '-an', '-c:v', 'libx264', '-preset', 'fast', '-crf', '18', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', output])
-console.log('ENCODING app view')
-await encode(['-ss', String(trim), '-i', raw, '-an', '-vf', `crop=${appBounds.width}:${appBounds.height}:${appBounds.x}:${appBounds.y}`, '-c:v', 'libx264', '-preset', 'fast', '-crf', '18', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', appOutput])
+const silent=join(temp,'silent.mp4')
+console.log('ENCODING responsive full flow')
+await encode(['-ss',String(trim),'-i',raw,'-an','-c:v','libx264','-preset','fast','-crf','18','-pix_fmt','yuv420p',silent])
 const probe = file => JSON.parse(execFileSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration,size:stream=codec_name,width,height,r_frame_rate', '-of', 'json', file], { encoding: 'utf8' }))
-const result = { output, appOutput, appBounds, raw, trim, timeline, actions, visited: [...visited], full: probe(output), app: probe(appOutput) }
+const duration=Number(probe(silent).format.duration)
+const audioSegments=verifiedSegments(voiceClips,stamp=>(stamp-wallOrigin)/1000-trim,duration)
+await muxGuidance(silent,output,audioSegments,duration)
+const result={output,sourceCommit,appBounds,raw,trim,timeline,actions,visited:[...visited],audio:true,audioSegments,full:probe(output)}
 writeFileSync(output.replace(/\.mp4$/, '.json'), JSON.stringify(result, null, 2))
 console.log(JSON.stringify(result, null, 2))

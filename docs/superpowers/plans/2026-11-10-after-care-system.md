@@ -1,6 +1,6 @@
 # AFTER / CARE Global Design System Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** 승인된 B를 전역 design system으로 구현하고 전체 scenario·음성·E2E 영상·PR 완성.
 
@@ -34,11 +34,11 @@
 
 **Interfaces:** `SurfaceThemeProvider({value?,children})`, `useSurfaceTheme(): SurfacePair`, `readAppliedTheme()`, `applySurfaceTheme(pair)`. UI exports `CareSurface({tone,children,...})`, `CareAction`, `CareStatus`, `CareHeading`, `CareSpectrum`.
 
-- [ ] Scenario inventory와 원래 goal의 대응 관계 확인, 현재 시안 checkpoint 보관.
-- [ ] Write/run failing browser tests: catalog exists; theme apply updates a second tab; C·C_02 raw storage unchanged; invalid applied theme falls back with visible error and is not overwritten.
-- [ ] Implement token CSS, validated theme store/context, material primitive and catalog previews using the same exports.
-- [ ] Run `npm run check` and `npx playwright test tests/design-system.spec.ts --workers=2`. Expected: PASS. Inspect catalog screenshot.
-- [ ] Commit foundation checkpoint.
+- [x] Scenario inventory와 원래 goal의 대응 관계 확인, 현재 시안 checkpoint 보관.
+- [x] Write/run failing browser tests: catalog exists; theme apply updates a second tab; C·C_02 raw storage unchanged; invalid applied theme falls back with visible error and is not overwritten.
+- [x] Implement token CSS, validated theme store/context, material primitive and catalog previews using the same exports.
+- [x] Run `npm run check` and `npx playwright test tests/design-system.spec.ts --workers=2`. Expected: PASS. Inspect catalog screenshot.
+- [x] Commit foundation checkpoint.
 
 ### Task 2: Responsive B layout·Surface editor
 
@@ -46,11 +46,11 @@
 
 **Interfaces:** `ResponseLayout({summary,primary,requests,navigation,guidance,action})`; `TaskLayout({summary,navigation,children,action})`; `VehicleShell({children})`. Context에서 surface theme 사용.
 
-- [ ] Write/run failing behavior tests: long text at multiple viewport sizes stays within safe area; mobile natural flow; same tokens and actual B layout in editor/catalog; explicit apply preserves draft presets.
-- [ ] Extract rounded geometry; use intrinsic layout + measured background shape; implement responsive shell and workspace.
-- [ ] Replace fixed editor context and selected B preview with shared layout; expose apply action with storage errors.
-- [ ] Run layout tests and capture desktop/mobile/reduced-motion. Expected: no overflow, clipped text, duplicate filter IDs or observer loop errors.
-- [ ] Commit layout checkpoint.
+- [x] Write/run failing behavior tests: long text at multiple viewport sizes stays within safe area; mobile natural flow; same tokens and actual B layout in editor/catalog; explicit apply preserves draft presets.
+- [x] Extract rounded geometry; use intrinsic layout + measured background shape; implement responsive shell and workspace.
+- [x] Replace fixed editor context and selected B preview with shared layout; expose apply action with storage errors.
+- [x] Run layout tests and capture desktop/mobile/reduced-motion. Expected: no overflow, clipped text, duplicate filter IDs or observer loop errors.
+- [x] Commit layout checkpoint.
 
 ### Task 3: Emergency 전체 상태 적용
 
@@ -58,11 +58,11 @@
 
 **Interfaces:** 기존 `EmergencySurface` event contract 유지. `ResponseLayout`에 domain copy·facts·actions·requests·navigation을 전달.
 
-- [ ] Add behavioral coverage for 60 manifest states, call/receipt/arrival distinction, unknown map, long scope/record panels, cancel/retry/late response.
-- [ ] Implement shared response composition and data-backed navigation, preserving reducer, focus and countdown semantics.
-- [ ] Move emergency catalog to shared design catalog. Existing direct scene URLs remain reviewable.
-- [ ] Run manifest validation + emergency suites + desktop/mobile screenshots. Expected: all 60 states mapped and verified.
-- [ ] Update inventory evidence and commit.
+- [x] Add behavioral coverage for 60 manifest states, call/receipt/arrival distinction, unknown map, long scope/record panels, cancel/retry/late response.
+- [x] Implement shared response composition and data-backed navigation, preserving reducer, focus and countdown semantics.
+- [x] Move emergency catalog to shared design catalog. Existing direct scene URLs remain reviewable.
+- [x] Run manifest validation + emergency suites + desktop/mobile screenshots. Expected: all 60 states mapped and verified.
+- [x] Update inventory evidence and commit.
 
 ### Task 4: 전체 journey·root·catalog 이동
 
@@ -70,11 +70,11 @@
 
 **Interfaces:** 기존 journey action/status/heading API를 공용 primitive adapter로 유지. Root는 JourneyStudy. 과거 비교 route는 archive entry로 보존.
 
-- [ ] Add assertions for catalog/product shared components, default full journey, mobile 200% and all 8 fixture transitions.
-- [ ] Migrate vehicle state, voice/photo input, review/diagram/report, approval/submission, follow-up onto TaskLayout and common tokens.
-- [ ] Replace duplicate per-page presentation constants with system references while preserving meaningful domain differences.
-- [ ] Run journey suites. Inspect representative screenshots and exceptional states. Expected: no persistence/consent/focus regression.
-- [ ] Update inventory and commit.
+- [x] Add assertions for catalog/product shared components, default full journey, mobile 200% and all 8 fixture transitions.
+- [x] Migrate vehicle state, voice/photo input, review/diagram/report, approval/submission, follow-up onto TaskLayout and common tokens.
+- [x] Replace duplicate per-page presentation constants with system references while preserving meaningful domain differences.
+- [x] Run journey suites. Inspect representative screenshots and exceptional states. Expected: no persistence/consent/focus regression.
+- [x] Update inventory and commit.
 
 ### Task 5: 공통 motion·재규 음성
 
@@ -82,11 +82,11 @@
 
 **Interfaces:** `useGuidanceAudio({text,key})` exposes state/play/stop; manifest maps script hash to voice/model/path/duration. Static assets only in client.
 
-- [ ] Verify paid voice access and current supported model with primary provider evidence. Existing key remains outside repo.
-- [ ] Test playback cancellation, missing asset, retry, scene switch and reduced motion before integration.
-- [ ] Generate deduplicated approved Korean scene scripts with JaeGyu, record provenance/duration, listen to representative generated speech.
-- [ ] Connect shared motion and audio to all flow states; synchronize phase/spectrum without misleading audio claims.
-- [ ] Run audio+motion suites and rendering measurements; commit asset/code checkpoint.
+- [x] Verify paid voice access and current supported model with primary provider evidence. Existing key remains outside repo.
+- [x] Test playback cancellation, missing asset, retry, scene switch and reduced motion before integration.
+- [x] Generate deduplicated approved Korean scene scripts with JaeGyu, record provenance/duration, listen to representative generated speech.
+- [x] Connect shared motion and audio to all flow states; synchronize phase/spectrum without misleading audio claims.
+- [x] Run audio+motion suites and rendering measurements; commit asset/code checkpoint.
 
 ### Task 6: 전체 범위 검증·영상·PR
 

@@ -6,3 +6,7 @@ __pycache__/
 .env
 .env.*
 node_modules/
+
+# Rendered review media stays local; timelines and representative captures are tracked.
+evidence/design-system/videos/*.mp4
+prototype/web/evidence/emergency-system/

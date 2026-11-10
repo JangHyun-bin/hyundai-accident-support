@@ -1,3 +1,4 @@
+import {captureGuidance,collectedGuidance,narrateVisible,verifiedSegments,muxGuidance} from './guidance-recording.mjs'
 import { chromium, expect } from '@playwright/test'
 import assert from 'node:assert/strict'
 import { existsSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
@@ -20,6 +21,9 @@ const launch = viewport => chromium.launchPersistentContext(profile, { channel: 
 let context = await launch({ width: 2560, height: 1440 })
 const began = performance.now()
 let page = await context.newPage()
+await captureGuidance(page)
+const wallOrigin=Date.now()-(performance.now()-began)
+let voiceClips=[],lastScript=''
 const errors = [], actions = [], timeline = []
 page.on('pageerror', error => errors.push(error.message))
 const elapsed = () => (performance.now() - began) / 1000
@@ -31,7 +35,8 @@ const recordingStyle = `
   .journey-study{margin:0!important;padding:0!important;max-width:none!important}
   .journey-study>:not([data-case-id]){display:none!important}
   .journey-mobile-viewport{border-radius:0!important}
-  .journey-vehicle-viewport .pleos-display{border-radius:0!important}
+  .ac-vehicle{min-height:100vh}
+  .ac-task-body{scroll-behavior:smooth}
 `
 
 async function click(name) {
@@ -63,7 +68,8 @@ async function mark(id, coverage, seconds = 2.5) {
     headings: await page.locator('[data-case-id] h1:visible').allTextContents(),
     requests: value.emergency.requests, submissions: value.submissions.length, shares: value.shares.length })
   console.log('RECORD', id)
-  await hold(seconds)
+  const narration=await narrateVisible(page,lastScript);lastScript=narration.lastScript
+  await hold(Math.max(seconds,narration.hold))
 }
 async function beginFixture(id) {
   await page.getByRole('combobox', { name: '시연 상황', exact: true, includeHidden: true }).selectOption(id, { force: true })
@@ -109,6 +115,7 @@ try {
   await click('대응 화면으로')
   await event('안내 지점 자료')
   await mark('evacuation-location', ['V2'])
+  voiceClips.push(...(await collectedGuidance(page)).map(clip=>({...clip,device:'vehicle'})))
   vehicleEnd = elapsed()
   await reviewControl('Mobile 보기', 'device-preview')
   const mobileUrl = page.url()
@@ -117,6 +124,7 @@ try {
   context = await launch({ width: 393, height: 852 })
   mobileBegan = elapsed()
   page = await context.newPage()
+  await captureGuidance(page)
   page.on('pageerror', error => errors.push(error.message))
   await page.goto(mobileUrl)
   await page.evaluate(() => document.fonts.ready)
@@ -251,6 +259,7 @@ try {
   await event('통화 연결 확인')
   await mark('late-call-result-not-receipt', ['V2', 'S2'], 4)
   finished = elapsed()
+  voiceClips.push(...(await collectedGuidance(page)).map(clip=>({...clip,device:'mobile'})))
   mobileRaw = await page.video().path()
   assert.deepEqual(errors, [], 'No browser runtime errors')
   assert.deepEqual([...new Set(timeline.map(item => item.fixture))].sort(), fixtures.cases.map(item => item.id).sort())
@@ -272,17 +281,21 @@ await encode(['-ss', String(trim), '-i', raw, '-t', String(vehicleEnd - trim), '
 await encode(['-ss', String(mobileStart - mobileBegan), '-i', mobileRaw, '-t', String(finished - mobileStart), '-vf', 'scale=-2:1440,pad=2560:1440:(ow-iw)/2:0:color=0x0B0C0E,setsar=1', ...codec, mobileFile])
 const list = join(temp, 'concat.txt')
 writeFileSync(list, `file '${vehicleFile}'\nfile '${mobileFile}'\n`)
-await encode(['-f', 'concat', '-safe', '0', '-i', list, '-c', 'copy', '-movflags', '+faststart', output])
+const silent=join(temp,'silent.mp4')
+await encode(['-f','concat','-safe','0','-i',list,'-c','copy',silent])
 const probe = file => JSON.parse(execFileSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration,size:stream=codec_name,codec_type,width,height,r_frame_rate', '-of', 'json', file], { encoding: 'utf8' }))
-const result = probe(output), vehicleDuration = Number(probe(vehicleFile).format.duration)
-assert.equal(result.streams.length, 1)
+const vehicleDuration=Number(probe(vehicleFile).format.duration),totalDuration=Number(probe(silent).format.duration)
+const audioSegments=voiceClips.flatMap(clip=>verifiedSegments([clip],stamp=>{const at=(stamp-wallOrigin)/1000;return clip.device==='vehicle'?at-trim:vehicleDuration+at-mobileStart},totalDuration))
+await muxGuidance(silent,output,audioSegments,totalDuration)
+const result=probe(output)
+assert.equal(result.streams.length, 2)
 assert.equal(result.streams[0].width, 2560)
 assert.equal(result.streams[0].height, 1440)
 assert.ok(Number(result.format.duration) > 90)
 const time = item => item.device === 'vehicle' ? item.atRaw - trim : vehicleDuration + item.atRaw - mobileStart
-writeFileSync(metadataPath, JSON.stringify({ output, sourceCommit, simulationOnly: true, audio: false, raw, mobileRaw, trim, vehicleEnd, mobileBegan, mobileStart, finished,
+writeFileSync(metadataPath, JSON.stringify({ output, sourceCommit, simulationOnly: true, audio: true, audioSegments, raw, mobileRaw, trim, vehicleEnd, mobileBegan, mobileStart, finished,
   composition: 'Actual browser footage. Vehicle then mobile. Same persistent browser profile reopened at each native viewport; setup omitted. Portrait footage scaled and centered.',
-  limitations: ['Same-browser device preview, not device synchronization', 'Authored media and explicit external result events, no agency requests', 'Voice sample, not live STT or JaeGyu TTS', 'Late historical callbacks, denied permissions and quota errors are covered by tests, not all shown in this video'],
+  limitations: ['Same-browser device preview, not device synchronization', 'Authored media and explicit external result events, no agency requests', 'Authored voice-input sample, not live STT; guidance is JaeGyu / eleven_v4', 'Late historical callbacks, denied permissions and quota errors are covered by tests, not all shown in this video'],
   timeline: timeline.map(item => ({ ...item, at: time(item) })), actions: actions.map(item => ({ ...item, at: time(item) })),
   fixtureCoverage: fixtures.cases.map(item => ({ id: item.id, scenes: timeline.filter(scene => scene.fixture === item.id).map(scene => scene.id) })),
   features: [...new Set(timeline.flatMap(item => item.coverage))], probe: result, errors,
