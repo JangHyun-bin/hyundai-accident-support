@@ -8,7 +8,7 @@ type ResponseProps={summary:ReactNode;primary:ReactNode;requests:ReactNode;navig
 
 export function VehicleShell({children}:{children:ReactNode}) {
   return <div className="ac-system ac-vehicle" data-care-component="vehicle-shell">
-    <div className="ac-vehicle-status" aria-label="차량 상태"><span><strong>P</strong> <b>0</b> km/h</span><span>AFTER / CARE</span></div>
+    <div className="ac-vehicle-status" aria-label="기어와 속도"><span><strong>P</strong> <b>0</b> km/h</span><span>AFTER / CARE</span></div>
     <div className="ac-vehicle-content">{children}</div>
     <div className="ac-vehicle-dock" aria-hidden="true"><span><Fan/>22.5°</span><span><House/><Navigation/><i/><Phone/></span><span>22.5°</span></div>
   </div>

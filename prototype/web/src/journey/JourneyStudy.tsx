@@ -2,10 +2,11 @@ import { useEffect, useRef, useState } from 'react'
 import { ArrowLeft, ArrowRight, CarFront, Mic, Phone, Smartphone, Volume2 } from 'lucide-react'
 import fixtures from '../../../../specs/emergency-experience/journey-fixtures.json'
 import { createSession, sceneFor, scenarioFor, type Edge } from '../emergency/session'
+import {VehicleShell} from '@/components/ui/after-care-layout'
 import { EmergencySurface } from '../emergency/EmergencySurface'
 import { createCase, type Device, type JourneyCase, type RequestStatus, type Stage, type CaseCommand, type Evidence, type Diagram, type ReportParagraph, type Receipt } from './case'
 import { useJourneyCase } from './useJourneyCase'
-import { JourneyAction, JourneyHeading, JourneyLayout, JourneyVehicleFrame } from './JourneyLayout'
+import { JourneyAction, JourneyHeading, JourneyLayout } from './JourneyLayout'
 import { JourneyNavigation, JourneyRequests, JourneyRiskNotice, JourneySummary, VehiclePanel } from './VehiclePanel'
 import { VoiceRecordPanel, type VoiceRecordHandle } from './VoiceRecordPanel'
 import { EvidencePanel, type EvidencePanelHandle } from './EvidencePanel'
@@ -241,11 +242,11 @@ export function JourneyStudy() {
     </JourneyLayout>
     if (value.stage === 'response') {
       if (device === 'mobile') return mobileResponse(value)
-      return <JourneyVehicleFrame navigation={navigation}><EmergencySurface selection={value.emergency} paused={false} present="off"
+      return <VehicleShell><EmergencySurface navigation={navigation} selection={value.emergency} paused={false} present="off"
         notice={<JourneyRiskNotice value={value} />}
         voiceState={voiceState} storageAvailable={journey.saveState === 'saved'} countdownKey={countdownKey} secondsLeft={secondsLeft} heading={heading}
         onAction={act} onCancel={() => scene.auto_contact && dispatch({ type: 'countdown', target: scene.auto_contact.cancel, now: new Date().toISOString() })}
-        onVoice={speak} onEditDraft={() => dispatch({ type: 'navigate', stage: 'record' })} /></JourneyVehicleFrame>
+        onVoice={speak} onEditDraft={() => dispatch({ type: 'navigate', stage: 'record' })} /></VehicleShell>
     }
     return null
   }

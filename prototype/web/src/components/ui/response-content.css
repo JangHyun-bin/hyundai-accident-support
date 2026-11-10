@@ -33,3 +33,5 @@
   .ac-request-list>div:last-child { border:0; padding:0; }
   .ac-request-list dt { margin:0; }
 }
+
+.ac-request-list strong { font-weight:400; }

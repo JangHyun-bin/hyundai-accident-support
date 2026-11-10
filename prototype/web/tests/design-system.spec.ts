@@ -51,7 +51,7 @@ test('catalog supports 200% text and reduced motion on mobile', async ({page}) =
   await expect(page.locator('[data-care-surface="call"]').first()).toBeVisible()
   await page.addStyleTag({content:'html{font-size:200%}'})
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true)
-  expect(await page.locator('.ac-system').evaluate(n=>n.getAnimations({subtree:true}).filter(a=>a.effect?.getTiming().iterations===Infinity).length)).toBe(0)
+  expect(await page.locator('.ac-system').first().evaluate(n=>n.getAnimations({subtree:true}).filter(a=>a.effect?.getTiming().iterations===Infinity).length)).toBe(0)
   for(const target of await page.locator('.ac-action').all()){
     const r=await target.boundingBox();expect(r?.height).toBeGreaterThanOrEqual(48)
   }

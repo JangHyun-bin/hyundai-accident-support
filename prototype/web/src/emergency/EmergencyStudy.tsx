@@ -1,6 +1,6 @@
 import { startTransition, useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { ArrowRight, CheckCircle2, Circle, CircleHelp, Code2, Eye, Maximize2, Minimize2, Pause, Play, TriangleAlert } from 'lucide-react'
-import { DISPLAY, PleosDisplay } from './PleosDisplay'
+import { ArrowRight, CheckCircle2, Circle, CircleHelp, Code2, Eye, Pause, Play, TriangleAlert } from 'lucide-react'
+import {VehicleShell} from '@/components/ui/after-care-layout'
 import { EmergencySurface } from './EmergencySurface'
 import { manifest, createSession, restoreSession, saveSession, transition, updateDraft, type Edge } from './session'
 import './motion'
@@ -46,13 +46,10 @@ export function EmergencyStudy() {
   const [storageAvailable, setStorageAvailable] = useState(true)
   const [paused, setPaused] = useState(false)
   const [showSpec, setShowSpec] = useState(false)
-  const [actualSize, setActualSize] = useState(false)
-  const [scale, setScale] = useState(1)
   const [voiceState, setVoiceState] = useState<'idle' | 'speaking' | 'error'>('idle')
   // 3초 보기: 검토 UI 를 숨기고 차량 화면만 3초 보여 준 뒤 가린다. 가린 동안 countdown 은 멈춘다.
   const [present, setPresent] = useState<'off' | 'showing' | 'covered'>('off')
   const presentTimer = useRef(0)
-  const viewport = useRef<HTMLDivElement>(null)
   const heading = useRef<HTMLHeadingElement>(null)
   const focusAfterChange = useRef<'action' | 'event' | null>(null)
   // 장면 전환은 view transition 으로 다음 frame 에 commit 된다. 그 사이 이전 장면의 countdown 이 끝나 운전자의 선택을 덮지 않게 막는다.
@@ -126,15 +123,6 @@ export function EmergencyStudy() {
     return () => { clearInterval(timer); remainingMs.current = Math.max(0, end - Date.now()) }
   }, [countdownKey, paused, present === 'covered'])
 
-  useEffect(() => {
-    const element = viewport.current!
-    const resize = () => setScale(present !== 'off' ? Math.min(element.clientWidth / DISPLAY.width, innerHeight / DISPLAY.height) : Math.min(1, element.clientWidth / DISPLAY.width, Math.max(280, innerHeight - element.getBoundingClientRect().top - scrollY - 126) / DISPLAY.height))
-    const observer = new ResizeObserver(resize)
-    observer.observe(element)
-    window.addEventListener('resize', resize)
-    return () => { observer.disconnect(); window.removeEventListener('resize', resize) }
-  }, [present !== 'off'])
-
   function showForThreeSeconds() {
     clearTimeout(presentTimer.current)
     setPaused(false)
@@ -205,20 +193,17 @@ export function EmergencyStudy() {
     } catch { utterance.current = null; setVoiceState('error') }
   }
 
-  const displayScale = actualSize && present === 'off' ? 1 : scale
-  return <main className={`emergency-study${present !== 'off' ? ' is-presenting' : ''}`}>
-    <header className="emergency-review-header"><a href="/?study=emergency" className="emergency-review-brand">AFTER / CARE <span>Emergency storyboard</span></a><div><span className="emergency-demo-label">가상 scenario · 실제 전화·전송 없음{callConnected && ' · spectrum은 가상 음성 반응'}</span><span className="emergency-demo-label">안전 안내 {manifest.safety_guidance.status}</span><a href="/?study=emergency-catalog">Design system</a><a href="/?study=tools">이전 design 비교 <ArrowRight size={14} aria-hidden="true" /></a></div></header>
+  return <main className={`emergency-study ac-system ac-emergency-review${present !== 'off' ? ' is-presenting' : ''}`}>
+    <header className="emergency-review-header"><a href="/?study=emergency" className="emergency-review-brand">AFTER / CARE <span>Emergency storyboard</span></a><div><span className="emergency-demo-label">가상 scenario · 실제 전화·전송 없음{callConnected && ' · spectrum은 가상 음성 반응'}</span><span className="emergency-demo-label">안전 안내 {manifest.safety_guidance.status}</span><a href="/?study=design-system">Design system</a><a href="/?study=tools">이전 design 비교 <ArrowRight size={14} aria-hidden="true" /></a></div></header>
     <div className="emergency-review-intro"><div><h1>상황을 보고, 다음 행동으로.</h1><p>장면을 바꿔 핵심 상황·행동·미확인이 어떻게 전달되는지 확인해 보세요.</p></div><button className="emergency-review-button" aria-expanded={showSpec} aria-controls="emergency-spec" onClick={() => setShowSpec(!showSpec)}><Code2 size={17} aria-hidden="true" />현재 장면 spec</button></div>
     <nav className="emergency-scenarios" aria-label="상황 선택">{manifest.scenarios.map((item, index) => <button key={item.id} aria-pressed={scenario.id === item.id} aria-label={item.title} onClick={() => { setPaused(false); setResetKey(key => key + 1); startTransition(() => setSelection(createSession(item.id))) }}><span>{item.id}</span><strong>{item.title}</strong>{index === 0 ? <TriangleAlert size={20} aria-hidden="true" /> : <CircleHelp size={20} aria-hidden="true" />}</button>)}</nav>
-    <div className="emergency-canvas-toolbar"><p>시작 상황: {scenario.summary}</p><div><button className="emergency-review-button" onClick={showForThreeSeconds}><Eye size={15} aria-hidden="true" />3초 보기</button><button className="emergency-review-button" onClick={() => setPaused(!paused)}>{paused ? <Play size={15} aria-hidden="true" /> : <Pause size={15} aria-hidden="true" />}{paused ? '시연 재개' : '시연 일시 중단'}</button><button className="emergency-review-button" aria-pressed={actualSize} onClick={() => setActualSize(!actualSize)}>{actualSize ? <Minimize2 size={15} aria-hidden="true" /> : <Maximize2 size={15} aria-hidden="true" />}{actualSize ? '전체 보기' : '원래 크기'}</button></div></div>
-    <div className={`emergency-viewport ${paused ? 'is-paused' : ''}`} ref={viewport}>
-      <div className="canvas-space" style={{ width: DISPLAY.width * displayScale, height: DISPLAY.height * displayScale }}>
-        <PleosDisplay scale={displayScale}>
+    <div className="emergency-canvas-toolbar"><p>시작 상황: {scenario.summary}</p><div><button className="emergency-review-button" onClick={showForThreeSeconds}><Eye size={15} aria-hidden="true" />3초 보기</button><button className="emergency-review-button" onClick={() => setPaused(!paused)}>{paused ? <Play size={15} aria-hidden="true" /> : <Pause size={15} aria-hidden="true" />}{paused ? '시연 재개' : '시연 일시 중단'}</button></div></div>
+    <div className={`emergency-viewport ${paused ? 'is-paused' : ''}`}>
+      <VehicleShell>
         <EmergencySurface selection={selection} paused={paused} present={present} voiceState={voiceState} storageAvailable={storageAvailable}
           countdownKey={countdownKey} secondsLeft={secondsLeft} heading={heading}
           onAction={edge => act(edge, 'action')} onCancel={() => goToScene(scene.auto_contact!.cancel, 'action')} onVoice={playVoice} onEditDraft={editDraft} />
-        </PleosDisplay>
-      </div>
+      </VehicleShell>
       {present === 'covered' && <div className="emergency-cover" data-cover><button className="emergency-review-button" onClick={showForThreeSeconds}>다시 3초</button><button className="emergency-review-button" onClick={closePresentation}>닫기</button></div>}
     </div>
     {!storageAvailable && <p role="alert" className="emergency-storage-warning">이 browser에서 기록을 보관할 수 없어요. 화면을 닫으면 진행 내용이 사라져요.</p>}

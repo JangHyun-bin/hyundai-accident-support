@@ -6,66 +6,66 @@
 
 | Scenario | State | Title | Verification |
 |---|---|---|---|
-| SC01 | `initial` | 119에 연결합니다 | pending |
-| SC01 | `cancelled` | 구호 연결 안 함 | pending |
-| SC01 | `auto_contact` | 119 연결 중 | pending |
-| SC01 | `contact_unknown` | 119 연결 중 | pending |
-| SC01 | `connected` | 119 통화 연결됨 | pending |
-| SC01 | `call_failed` | 119 연결을 다시 시도하세요 | pending |
-| SC01 | `received` | 구호 접수가 확인됐어요 | pending |
-| SC01 | `arrived` | 구호가 현장에 도착했어요 | pending |
-| SC01 | `handoff` | 구호 인계가 확인됐어요 | pending |
-| SC01 | `record` | 기억나는 내용을 남겨주세요 | pending |
-| SC01 | `record_saved` | 사고 기록을 저장했어요 | pending |
-| SC01 | `auto_connected` | 119 통화 연결됨 | pending |
-| SC01 | `auto_failed` | 119 연결을 다시 시도하세요 | pending |
-| SC01 | `auto_received` | 구호 접수가 확인됐어요 | pending |
-| SC01 | `auto_handoff` | 구호 인계가 확인됐어요 | pending |
-| SC02 | `initial` | 차량 지원이 필요해요 | pending |
-| SC02 | `review` | 요청할 내용을 확인하세요 | pending |
-| SC02 | `sending` | 차량 지원 요청을 보내고 있어요 | pending |
-| SC02 | `failed` | 요청을 보내지 못했어요 | pending |
-| SC02 | `waiting` | 차량 지원 접수를 기다려요 | pending |
-| SC02 | `checking` | 기존 요청을 확인하고 있어요 | pending |
-| SC02 | `record` | 기억나는 내용을 남겨주세요 | pending |
-| SC02 | `record_saved` | 사고 기록을 저장했어요 | pending |
-| SC02 | `received` | 차량 지원 접수가 확인됐어요 | pending |
-| SC02 | `arrived` | 차량 지원이 도착했어요 | pending |
-| SC03 | `initial` | 119에 연결합니다 | pending |
-| SC03 | `unanswered` | 119 연결 중 | pending |
-| SC03 | `contact_unknown` | 119 연결 중 | pending |
-| SC03 | `responded` | 구호 연결 안 함 | pending |
-| SC03 | `connected` | 119 통화 연결됨 | pending |
-| SC03 | `call_failed` | 119 연결을 다시 시도하세요 | pending |
-| SC03 | `received` | 구호 접수가 확인됐어요 | pending |
-| SC03 | `handoff` | 구호 인계가 확인됐어요 | pending |
-| SC03 | `unanswered_connected` | 119 통화 연결됨 | pending |
-| SC03 | `unanswered_received` | 구호 접수가 확인됐어요 | pending |
-| SC03 | `unanswered_failed` | 119 연결을 다시 시도하세요 | pending |
-| SC03 | `unanswered_handoff` | 구호 인계가 확인됐어요 | pending |
-| SC04 | `initial` | 전송할 기록을 확인하세요 | pending |
-| SC04 | `record` | 사고 기록을 고쳐주세요 | pending |
-| SC04 | `review` | 보험사에 보낼 내용을 확인하세요 | pending |
-| SC04 | `deferred` | 전송을 보류했어요 | pending |
-| SC04 | `declined` | 보험사에 보내지 않았어요 | pending |
-| SC04 | `sending` | 보험사에 기록을 보내고 있어요 | pending |
-| SC04 | `failed` | 기록을 보내지 못했어요 | pending |
-| SC04 | `sent` | 기록을 보냈어요 | pending |
-| SC04 | `checking` | 보험 접수를 확인하고 있어요 | pending |
-| SC04 | `received` | 보험 접수가 확인됐어요 | pending |
-| SC04 | `support` | 다른 지원은 계속 진행돼요 | pending |
-| SC04 | `paused` | 남은 일을 보관했어요 | pending |
-| SC05 | `initial` | 차량 지원 접수 미확인 | pending |
-| SC05 | `checking` | 차량 지원 접수 확인 중 | pending |
-| SC05 | `received` | 차량 지원 접수 확인 | pending |
-| SC05 | `suspended` | 여기서 잠시 멈췄어요 | pending |
-| SC05 | `lookup_failed` | 접수 결과를 확인하지 못했어요 | pending |
-| SC05 | `not_received` | 차량 지원이 접수되지 않았어요 | pending |
-| SC05 | `review` | 다시 요청할 내용을 확인하세요 | pending |
-| SC05 | `sending` | 차량 지원을 다시 요청하고 있어요 | pending |
-| SC05 | `send_failed` | 요청을 보내지 못했어요 | pending |
-| SC05 | `arrived` | 차량 지원이 현장에 도착했어요 | pending |
-| SC05 | `handoff` | 구호 인계가 확인됐어요 | pending |
+| SC01 | `initial` | 119에 연결합니다 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC01 | `cancelled` | 구호 연결 안 함 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC01 | `auto_contact` | 119 연결 중 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC01 | `contact_unknown` | 119 연결 중 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC01 | `connected` | 119 통화 연결됨 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC01 | `call_failed` | 119 연결을 다시 시도하세요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC01 | `received` | 구호 접수가 확인됐어요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC01 | `arrived` | 구호가 현장에 도착했어요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC01 | `handoff` | 구호 인계가 확인됐어요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC01 | `record` | 기억나는 내용을 남겨주세요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC01 | `record_saved` | 사고 기록을 저장했어요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC01 | `auto_connected` | 119 통화 연결됨 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC01 | `auto_failed` | 119 연결을 다시 시도하세요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC01 | `auto_received` | 구호 접수가 확인됐어요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC01 | `auto_handoff` | 구호 인계가 확인됐어요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC02 | `initial` | 차량 지원이 필요해요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC02 | `review` | 요청할 내용을 확인하세요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC02 | `sending` | 차량 지원 요청을 보내고 있어요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC02 | `failed` | 요청을 보내지 못했어요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC02 | `waiting` | 차량 지원 접수를 기다려요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC02 | `checking` | 기존 요청을 확인하고 있어요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC02 | `record` | 기억나는 내용을 남겨주세요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC02 | `record_saved` | 사고 기록을 저장했어요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC02 | `received` | 차량 지원 접수가 확인됐어요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC02 | `arrived` | 차량 지원이 도착했어요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC03 | `initial` | 119에 연결합니다 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC03 | `unanswered` | 119 연결 중 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC03 | `contact_unknown` | 119 연결 중 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC03 | `responded` | 구호 연결 안 함 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC03 | `connected` | 119 통화 연결됨 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC03 | `call_failed` | 119 연결을 다시 시도하세요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC03 | `received` | 구호 접수가 확인됐어요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC03 | `handoff` | 구호 인계가 확인됐어요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC03 | `unanswered_connected` | 119 통화 연결됨 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC03 | `unanswered_received` | 구호 접수가 확인됐어요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC03 | `unanswered_failed` | 119 연결을 다시 시도하세요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC03 | `unanswered_handoff` | 구호 인계가 확인됐어요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC04 | `initial` | 전송할 기록을 확인하세요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC04 | `record` | 사고 기록을 고쳐주세요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC04 | `review` | 보험사에 보낼 내용을 확인하세요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC04 | `deferred` | 전송을 보류했어요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC04 | `declined` | 보험사에 보내지 않았어요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC04 | `sending` | 보험사에 기록을 보내고 있어요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC04 | `failed` | 기록을 보내지 못했어요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC04 | `sent` | 기록을 보냈어요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC04 | `checking` | 보험 접수를 확인하고 있어요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC04 | `received` | 보험 접수가 확인됐어요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC04 | `support` | 다른 지원은 계속 진행돼요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC04 | `paused` | 남은 일을 보관했어요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC05 | `initial` | 차량 지원 접수 미확인 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC05 | `checking` | 차량 지원 접수 확인 중 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC05 | `received` | 차량 지원 접수 확인 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC05 | `suspended` | 여기서 잠시 멈췄어요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC05 | `lookup_failed` | 접수 결과를 확인하지 못했어요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC05 | `not_received` | 차량 지원이 접수되지 않았어요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC05 | `review` | 다시 요청할 내용을 확인하세요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC05 | `sending` | 차량 지원을 다시 요청하고 있어요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC05 | `send_failed` | 요청을 보내지 못했어요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC05 | `arrived` | 차량 지원이 현장에 도착했어요 | shared UI + state/geometry + desktop/mobile capture PASS |
+| SC05 | `handoff` | 구호 인계가 확인됐어요 | shared UI + state/geometry + desktop/mobile capture PASS |
 
 ## Journey — 8 fixture
 

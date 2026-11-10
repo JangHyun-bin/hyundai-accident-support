@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react'
 import {ArrowRight, Mic, Phone} from 'lucide-react'
 import {CareAction, CareHeading, CareSpectrum, CareStatus, CareSurface} from '@/components/ui/after-care'
 import {useSurfaceThemeIssue} from './SurfaceTheme'
+import {manifest,scenarioFor} from '@/emergency/session'
 import {ResponseLayoutPreview} from './ResponseLayoutPreview'
 import './catalog.css'
 
@@ -9,6 +10,8 @@ const colors=[['background','바탕'],['surface','기본 surface'],['control','C
 export function DesignSystemCatalog() {
   const issue=useSurfaceThemeIssue()
   const [long,setLong]=useState(false)
+  const [scenarioId,setScenarioId]=useState('SC01')
+  const [sceneId,setSceneId]=useState('connected')
   const [values,setValues]=useState<Record<string,string>>({})
   useEffect(()=>{const css=getComputedStyle(document.documentElement);setValues(Object.fromEntries(colors.map(([name])=>[name,css.getPropertyValue('--ac-'+name).trim()])))},[])
   return <main className="ac-system ac-catalog">
@@ -26,6 +29,6 @@ export function DesignSystemCatalog() {
       <label className="ac-catalog-field">기억나는 내용<textarea className="ac-field" placeholder="확실한 내용만 남겨주세요" rows={3}/></label>
     </CareSurface></section>
     <section className="ac-catalog-section"><div className="ac-catalog-section-title"><span>04</span><h2>Typography와 공간</h2></div><CareSurface><CareHeading level={2} eyebrow="Asta · 400 / 600 / 700" title="지금 필요한 행동을, 한눈에.">본문 17px · 보조 15px · label 13px. 한국어 단어를 유지하고 긴 내용은 자연스럽게 이어짐.</CareHeading><p className="ac-catalog-material-note">Card 28px · Control 16px · Gap 16px · 여백 24–32px</p></CareSurface></section>
-    <section className="ac-catalog-section" aria-label="Response layout preview"><div className="ac-catalog-section-title"><span>05</span><h2>Three cells · 실제 내용과 공간</h2><CareAction secondary onClick={()=>setLong(!long)}>{long?'기본 문구 보기':'긴 문구 보기'}</CareAction></div><ResponseLayoutPreview long={long}/></section>
+    <section className="ac-catalog-section" aria-label="Response layout preview"><div className="ac-catalog-section-title"><span>05</span><h2>Three cells · 실제 내용과 공간</h2><CareAction secondary onClick={()=>setLong(!long)}>{long?'기본 문구 보기':'긴 문구 보기'}</CareAction></div><div className="ac-catalog-scene-controls"><label>Scenario<select aria-label="Scenario" value={scenarioId} onChange={e=>{setScenarioId(e.target.value);setSceneId(scenarioFor(e.target.value).initial)}}>{manifest.scenarios.map(s=><option key={s.id} value={s.id}>{s.id} · {s.title}</option>)}</select></label><label>State<select aria-label="State" value={sceneId} onChange={e=>setSceneId(e.target.value)}>{scenarioFor(scenarioId).states.map(s=><option key={s.id} value={s.id}>{s.label}</option>)}</select></label><a href={`/?study=emergency&scenario=${scenarioId}&scene=${sceneId}`}>이 장면 조작하기</a></div><ResponseLayoutPreview long={long} scenarioId={scenarioId} sceneId={sceneId}/></section>
   </main>
 }
