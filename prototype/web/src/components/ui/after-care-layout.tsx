@@ -47,7 +47,7 @@ export function ResponseLayout({summary,primary,requests,navigation,guidance,act
 export function TaskLayout({summary,navigation,children,action}:{summary:ReactNode;navigation?:ReactNode;children:ReactNode;action?:ReactNode}) {
   return <div className="ac-layout-container"><div className="ac-task-grid" data-care-layout="task">
     <CareSurface className="ac-task-summary">{summary}</CareSurface>
-    <CareSurface className="ac-task-workspace">{children}{action&&<div className="ac-task-action">{action}</div>}</CareSurface>
+    <CareSurface className="ac-task-workspace"><div className="ac-task-body" tabIndex={0} role="region" aria-label="작업 내용">{children}</div>{action&&<div className="ac-task-action">{action}</div>}</CareSurface>
     {navigation&&<CareSurface tone="map" className="ac-task-navigation">{navigation}</CareSurface>}
   </div></div>
 }

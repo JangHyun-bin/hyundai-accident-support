@@ -17,9 +17,9 @@ export function CareSurface({tone='plain',children,className='',style,shape,...p
 export function CareAction({secondary=false,className='',children,...props}:ButtonHTMLAttributes<HTMLButtonElement>&{secondary?:boolean}) {
   return <button type="button" {...props} className={`ac-action${secondary?' ac-secondary':''} ${className}`}>{children}</button>
 }
-export function CareStatus({tone,children}:{tone:CareTone;children:ReactNode}) {
+export function CareStatus({tone,children,className=''}:{tone:CareTone;children:ReactNode;className?:string}) {
   const Icon={unknown:CircleHelp,pending:Clock3,confirmed:Check,failed:TriangleAlert,skipped:Minus}[tone]
-  return <span className="ac-status" data-care-component="status" data-tone={tone}><Icon aria-hidden="true"/><span>{children}</span></span>
+  return <span className={`ac-status ${className}`} data-care-component="status" data-tone={tone}><Icon aria-hidden="true"/><span>{children}</span></span>
 }
 export function CareHeading({eyebrow,title,children,level=1}:{eyebrow?:string;title:string;children?:ReactNode;level?:1|2|3}) {
   const Tag=level===1?'h1':level===2?'h2':'h3'

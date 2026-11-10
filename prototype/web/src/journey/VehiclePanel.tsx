@@ -1,4 +1,6 @@
-import { CarFront, MapPin, ShieldCheck, TriangleAlert } from 'lucide-react'
+import { MapPin, ShieldCheck, TriangleAlert } from 'lucide-react'
+import {CareSituation,CareRequests,CareUnknownMap} from '@/components/ui/response-content'
+import {careTone} from '@/emergency/EmergencySurface'
 import { manifest, scenarioFor } from '../emergency/session'
 import { JourneyHeading, JourneyStatus } from './JourneyLayout'
 import type { CaseCommand, JourneyCase, Observation } from './case'
@@ -16,14 +18,7 @@ function agreedValue(observations: Observation[]) {
 
 export function JourneySummary({ value }: { value: JourneyCase }) {
   const scenario = scenarioFor(value.emergency.scenarioId)
-  return <>
-    <div className="journey-summary-title"><CarFront aria-hidden="true" /><strong>충돌 감지</strong></div>
-    <JourneyRiskNotice value={value} />
-    <div className="journey-facts">{[{ id: 'driver', label: '운전자 조작' }, { id: 'mobility', label: '차량 이동' }, { id: 'route', label: '이동 경로' }].map(({ id, label }) => {
-      const fact = { ...scenario.facts.find(f => f.id === id), ...value.emergency.facts[id] }
-      return <div key={id} data-fact={id}><span>{label}</span><JourneyStatus tone={fact.status === 'confirmed' ? 'confirmed' : 'unknown'}>{fact.value ?? '미확인'}</JourneyStatus></div>
-    })}</div>
-  </>
+  return <CareSituation title="충돌 감지" facts={[{id:'driver',label:'운전자 조작'},{id:'mobility',label:'차량 이동'},{id:'route',label:'이동 경로'}].map(({id,label})=>{const fact={...scenario.facts.find(f=>f.id===id),...value.emergency.facts[id]};return {id,label,value:fact.value??'미확인',tone:careTone(fact.status??'unknown')}})}><JourneyRiskNotice value={value}/></CareSituation>
 }
 
 export function JourneyRiskNotice({ value }: { value: JourneyCase }) {
@@ -33,17 +28,12 @@ export function JourneyRiskNotice({ value }: { value: JourneyCase }) {
 }
 
 export function JourneyRequests({ value }: { value: JourneyCase }) {
-  return <div className="journey-requests" aria-label="기관별 요청 상태">{([
-    ['rescue', '구호'], ['vehicle', '차량 지원'], ['insurance', '보험사'],
-  ] as const).map(([id, label]) => {
-    const status = manifest.request_statuses[value.emergency.requests[id]]
-    return <div key={id} data-request={id}><span>{label}</span><strong>{status.label.split(' · ').map(part => <span key={part}>{part}</span>)}</strong></div>
-  })}</div>
+  return <CareRequests items={(['rescue','vehicle','insurance'] as const).map(id=>{const status=manifest.request_statuses[value.emergency.requests[id]];return {id,label:{rescue:'구호',vehicle:'차량 지원',insurance:'보험사'}[id],status:status.label,tone:careTone(status.tone)}})}/>
 }
 
 export function JourneyNavigation({ value, destinationLabel = '안내 지점' }: { value: JourneyCase; destinationLabel?: string }) {
   const data = value.navigation
-  if (!data) return <div className="journey-map-empty" data-navigation-state="unknown"><MapPin aria-hidden="true" /><h2>위치 확인 중</h2><p>아직 안내 지점이 확인되지 않았어요.</p></div>
+  if (!data) return <CareUnknownMap/>
   return <div className="journey-map" data-navigation-state="fixture">
     <svg viewBox="0 0 1000 1000" role="img" aria-label="현재 위치와 안내 지점">
       <path className="journey-map-road" d="M400 0V1000M0 700H1000" />

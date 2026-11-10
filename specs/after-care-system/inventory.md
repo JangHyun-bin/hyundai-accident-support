@@ -71,14 +71,14 @@
 
 | Fixture | 범위 | Verification |
 |---|---|---|
-| `complete-journey` | V1, V2, H1, R1, R2, R3, C1, C2, S1, S2, F1 | pending |
-| `unanswered` | V1, V2 | pending |
-| `immobile` | V1, V2, S1, F1 | pending |
-| `no-evidence` | R1, R2, R3, C1, C2, S1 | pending |
-| `partial-evidence` | R1, R3, C2 | pending |
-| `insurance-declined` | S1, S2, F1 | pending |
-| `suspended-receipt` | H1, S1, S2 | pending |
-| `late-result` | S1, S2 | pending |
+| `complete-journey` | V1, V2, H1, R1, R2, R3, C1, C2, S1, S2, F1 | shared TaskLayout + fixture/behavior PASS |
+| `unanswered` | V1, V2 | shared TaskLayout + fixture/behavior PASS |
+| `immobile` | V1, V2, S1, F1 | shared TaskLayout + fixture/behavior PASS |
+| `no-evidence` | R1, R2, R3, C1, C2, S1 | shared TaskLayout + fixture/behavior PASS |
+| `partial-evidence` | R1, R3, C2 | shared TaskLayout + fixture/behavior PASS |
+| `insurance-declined` | S1, S2, F1 | shared TaskLayout + fixture/behavior PASS |
+| `suspended-receipt` | H1, S1, S2 | shared TaskLayout + fixture/behavior PASS |
+| `late-result` | S1, S2 | shared TaskLayout + fixture/behavior PASS |
 
 ## Functional routes / 공용 적용 대상
 

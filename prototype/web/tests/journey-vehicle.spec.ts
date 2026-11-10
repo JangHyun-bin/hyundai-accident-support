@@ -51,7 +51,7 @@ test('unknown position has no invented marker or evacuation distance', async ({ 
 test('review controls do not override the vehicle primary action typography', async ({ page }) => {
   await begin(page)
   const action = page.getByRole('button', { name: '사고 기록 남기기', exact: true })
-  expect(await action.evaluate(node => parseFloat(getComputedStyle(node).fontSize))).toBeGreaterThanOrEqual(32)
+  expect(await action.evaluate(node => parseFloat(getComputedStyle(node).fontSize))).toBe(17)
 })
 
 test('conflicting impact observations remain visible without asserting a direction', async ({ page }) => {
@@ -118,7 +118,7 @@ test('mobile status text stays inside its own column at 200 percent text size', 
   await begin(page)
   await page.getByRole('button', { name: 'Mobile 보기', exact: true }).click()
   await page.evaluate(() => { document.documentElement.style.fontSize = '32px' })
-  const fits = await page.locator('.journey-facts:visible > div, .journey-requests:visible > div').evaluateAll(columns => columns.every(column => {
+  const fits = await page.locator('.ac-facts:visible > div, .ac-request-list:visible > div').evaluateAll(columns => columns.every(column => {
     const outer = column.getBoundingClientRect()
     return [...column.querySelectorAll('span,strong')].every(node => {
       const range = document.createRange(); range.selectNodeContents(node)

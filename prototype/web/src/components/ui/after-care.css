@@ -7,7 +7,7 @@
 .ac-surface[data-shaped] .rs-material-source,.ac-surface[data-shaped] .ac-solid-source { clip-path:var(--ac-clip); border-radius:0; }
 .ac-surface[data-shaped] .rs-material { overflow:visible; }
 
-.ac-action { display:inline-flex; align-items:center; justify-content:center; gap:var(--ac-space-3); min-height:var(--ac-touch); min-width:var(--ac-touch); max-width:100%; border:0; border-radius:var(--ac-radius-control); padding:var(--ac-space-3) var(--ac-space-6); font-size:var(--ac-type-body); line-height:1.4; font-weight:600; text-align:center; background:var(--ac-text); color:var(--ac-ink); transition:background var(--ac-motion-fast) var(--ac-ease),transform var(--ac-motion-fast) var(--ac-ease); }
+.ac-system .ac-action { display:inline-flex; align-items:center; justify-content:center; gap:var(--ac-space-3); min-height:var(--ac-touch); min-width:var(--ac-touch); max-width:100%; border:0; border-radius:var(--ac-radius-control); padding:var(--ac-space-3) var(--ac-space-6); font-size:var(--ac-type-body); line-height:1.4; font-weight:600; text-align:center; background:var(--ac-text); color:var(--ac-ink); transition:background var(--ac-motion-fast) var(--ac-ease),transform var(--ac-motion-fast) var(--ac-ease); }
 .ac-action.ac-secondary { background:var(--ac-control); color:var(--ac-text); font-weight:400; }
 .ac-action:disabled { opacity:.5; cursor:default; }
 .ac-action:not(:disabled):active { transform:scale(.985); }
