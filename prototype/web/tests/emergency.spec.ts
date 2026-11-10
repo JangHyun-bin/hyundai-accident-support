@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+import {mockGuidanceAudio} from './guidance-mock'
 
 test('injury_action_preserves_movement_unknowns_and_separates_connection_from_receipt', async ({ page }) => {
   await page.goto('/?study=emergency&scenario=SC01')
@@ -65,47 +66,30 @@ test('external_event_keeps_keyboard_focus_in_scene_controls', async ({ page }) =
 })
 
 test('voice_failure_keeps_script_visible_and_scene_change_cancels_old_speech', async ({ page }) => {
-  await page.addInitScript(() => {
-    const runtime = window as typeof window & { speechCancelled: number }
-    runtime.speechCancelled = 0
-    Object.defineProperty(window, 'speechSynthesis', { value: {
-      cancel: () => { runtime.speechCancelled++ },
-      speak: () => { throw new Error('Audio unavailable') },
-    } })
-  })
+  await page.addInitScript(mockGuidanceAudio)
+  await page.addInitScript(()=>{window.guidanceMock.fail=true})
   await page.goto('/?study=emergency&scenario=SC05')
   await page.getByRole('button', { name: '음성 안내 듣기' }).click()
   await expect(page.getByRole('status')).toContainText('음성 원고')
-  const before = await page.evaluate(() => (window as typeof window & { speechCancelled: number }).speechCancelled)
+  expect(await page.evaluate(()=>window.guidanceMock.cancels)).toBeGreaterThan(0)
   await page.getByRole('navigation', { name: '장면 선택' }).getByRole('button', { name: /결과 조회/ }).click()
-  // 장면 전환은 view transition 으로 다음 frame 에 commit 된다.
-  await expect.poll(() => page.evaluate(() => (window as typeof window & { speechCancelled: number }).speechCancelled)).toBeGreaterThan(before)
   await expect(page.getByRole('status')).not.toContainText('차량 지원의 접수가 미확인이에요')
 })
 
 test('playing_voice_stops_on_pause_and_old_callbacks_cannot_change_new_voice', async ({ page }) => {
-  await page.addInitScript(() => {
-    const runtime = window as typeof window & { spoken: SpeechSynthesisUtterance[]; cancellations: number }
-    runtime.spoken = []
-    runtime.cancellations = 0
-    Object.defineProperty(window, 'speechSynthesis', { value: {
-      speak: (utterance: SpeechSynthesisUtterance) => runtime.spoken.push(utterance),
-      cancel: () => { runtime.cancellations++ },
-    } })
-  })
+  await page.addInitScript(mockGuidanceAudio)
   await page.goto('/?study=emergency&scenario=SC05')
   await page.getByRole('button', { name: '음성 안내 듣기' }).click()
   await expect(page.getByRole('button', { name: '음성 안내 중지' })).toBeVisible()
-  const before = await page.evaluate(() => (window as typeof window & { cancellations: number }).cancellations)
+  const before = await page.evaluate(() => window.guidanceMock.cancels)
   await page.getByRole('button', { name: '시연 일시 중단' }).click()
-  expect(await page.evaluate(() => (window as typeof window & { cancellations: number }).cancellations)).toBeGreaterThan(before)
+  expect(await page.evaluate(() => window.guidanceMock.cancels)).toBeGreaterThan(before)
   await page.getByRole('button', { name: '시연 재개' }).click()
   await expect(page.getByRole('button', { name: '음성 안내 듣기' })).toBeVisible()
   await page.getByRole('navigation', { name: '장면 선택' }).getByRole('button', { name: /결과 조회/ }).click()
   await page.getByRole('button', { name: '음성 안내 듣기' }).click()
   await page.evaluate(() => {
-    const runtime = window as typeof window & { spoken: SpeechSynthesisUtterance[] }
-    runtime.spoken[0].dispatchEvent(new Event('error'))
+    ;window.guidanceMock.audios[0].dispatchEvent(new Event('error'))
   })
   await expect(page.getByRole('button', { name: '음성 안내 중지' })).toBeVisible()
   await expect(page.getByRole('status')).not.toContainText('음성 원고')

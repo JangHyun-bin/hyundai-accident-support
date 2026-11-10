@@ -3,7 +3,7 @@ import { ArrowRight, CheckCircle2, Circle, CircleHelp, Code2, Eye, Pause, Play, 
 import {VehicleShell} from '@/components/ui/after-care-layout'
 import { EmergencySurface } from './EmergencySurface'
 import { manifest, createSession, restoreSession, saveSession, transition, updateDraft, type Edge } from './session'
-import './motion'
+import {useGuidanceAudio} from '@/audio/useGuidanceAudio'
 import './emergency.css'
 
 function readSelection() {
@@ -46,16 +46,14 @@ export function EmergencyStudy() {
   const [storageAvailable, setStorageAvailable] = useState(true)
   const [paused, setPaused] = useState(false)
   const [showSpec, setShowSpec] = useState(false)
-  const [voiceState, setVoiceState] = useState<'idle' | 'speaking' | 'error'>('idle')
   // 3초 보기: 검토 UI 를 숨기고 차량 화면만 3초 보여 준 뒤 가린다. 가린 동안 countdown 은 멈춘다.
   const [present, setPresent] = useState<'off' | 'showing' | 'covered'>('off')
   const presentTimer = useRef(0)
   const heading = useRef<HTMLHeadingElement>(null)
   const focusAfterChange = useRef<'action' | 'event' | null>(null)
-  // 장면 전환은 view transition 으로 다음 frame 에 commit 된다. 그 사이 이전 장면의 countdown 이 끝나 운전자의 선택을 덮지 않게 막는다.
+  // React transition commit 전에 이전 countdown이 운전자의 선택을 덮지 않도록 차단.
   const leaving = useRef(false)
   const activeSceneButton = useRef<HTMLButtonElement>(null)
-  const utterance = useRef<SpeechSynthesisUtterance | null>(null)
   const remainingMs = useRef(0)
   // 남은 초에는 어느 장면 진입에서 센 값인지 꼬리표를 단다. 클릭 직전 tick 의 갱신이 React 큐에 남아
   // 재진입 뒤에 적용돼도, 꼬리표가 다르면 버리고 처음 초를 보여 준다.
@@ -63,25 +61,22 @@ export function EmergencyStudy() {
   const scenario = manifest.scenarios.find(item => item.id === selection.scenarioId)!
   const sceneIndex = scenario.states.findIndex(item => item.id === selection.sceneId)
   const scene = scenario.states[sceneIndex]
+  const audio=useGuidanceAudio({text:scene.voice,key:countdownKey+'/'+paused+'/'+(present==='covered')})
+  const voiceState=audio.state
   const facts = scenario.facts.map(fact => ({ ...fact, ...Object.entries(selection.facts).find(([id]) => id === fact.id)?.[1] }))
   const requests = scenario.requests.map(request => ({ ...request, status: Object.entries(selection.requests).find(([id]) => id === request.id)?.[1] ?? request.status }))
   const callConnected = scene.title === '119 통화 연결됨'
   const secondsLeft = countdown.for === countdownKey ? countdown.seconds : scene.auto_contact?.seconds ?? 0
   useEffect(() => { setStorageAvailable(saveSession(selection)) }, [selection])
 
-  function cancelSpeech() {
-    utterance.current = null
-    window.speechSynthesis?.cancel()
-  }
 
   useEffect(() => {
     const onBack = () => { setSelection(readSelection()); setPaused(false) }
     window.addEventListener('popstate', onBack)
-    window.addEventListener('pagehide', cancelSpeech)
-    return () => { window.removeEventListener('popstate', onBack); window.removeEventListener('pagehide', cancelSpeech) }
+    return () => { window.removeEventListener('popstate', onBack) }
   }, [])
 
-  // 장면이 바뀐 commit 에서 바로 실행한다. 일반 effect 는 view transition 이 끝날 때까지 밀린다.
+  // 장면 commit 직후 URL과 focus를 함께 갱신.
   useLayoutEffect(() => {
     const url = new URL(location.href)
     url.searchParams.set('scenario', selection.scenarioId)
@@ -89,12 +84,9 @@ export function EmergencyStudy() {
     url.searchParams.delete('material')
     history.replaceState(null, '', url)
     leaving.current = false
-    cancelSpeech()
-    setVoiceState('idle')
     if (focusAfterChange.current === 'action') heading.current?.focus()
     if (focusAfterChange.current === 'event') activeSceneButton.current?.focus()
     focusAfterChange.current = null
-    return cancelSpeech
   }, [selection, paused, present === 'covered'])
 
   // 장면에 들어올 때마다 countdown 을 처음부터 시작하고 경고음·음성을 한 번 낸다.
@@ -102,7 +94,7 @@ export function EmergencyStudy() {
     if (!scene.auto_contact) return
     remainingMs.current = scene.auto_contact.seconds * 1000
     beep()
-    speak()
+    void audio.play()
   }, [countdownKey])
 
   // 남은 시간은 마감 시각으로 계산한다. 멈추면 남은 ms 를 저장하고, 장면이 바뀌면 timer 를 버린다.
@@ -138,6 +130,7 @@ export function EmergencyStudy() {
 
   function goToScene(id: string, source: 'action' | 'event' | null = null) {
     if (paused || !scenario.states.some(state => state.id === id)) return
+    audio.stop()
     focusAfterChange.current = source
     leaving.current = true
     startTransition(() => setSelection(current => {
@@ -159,6 +152,7 @@ export function EmergencyStudy() {
     if (paused || leaving.current) return
     const next = transition(selection, edge)
     if (next === selection) return
+    audio.stop()
     focusAfterChange.current = source
     leaving.current = true
     // Persist the accepted action before an animation or immediate reload can interrupt it.
@@ -173,36 +167,17 @@ export function EmergencyStudy() {
     setSelection(current => updateDraft(current, change))
   }
 
-  function playVoice() {
-    if (voiceState === 'speaking') { cancelSpeech(); setVoiceState('idle'); return }
-    speak()
-  }
-
-  function speak() {
-    try {
-      if (!window.speechSynthesis || !window.SpeechSynthesisUtterance) throw new Error('Speech unavailable')
-      cancelSpeech()
-      const next = new SpeechSynthesisUtterance(scene.voice)
-      next.lang = 'ko-KR'
-      next.rate = 1
-      next.onend = () => { if (utterance.current === next) { utterance.current = null; setVoiceState('idle') } }
-      next.onerror = () => { if (utterance.current === next) { utterance.current = null; setVoiceState('error') } }
-      utterance.current = next
-      setVoiceState('speaking')
-      window.speechSynthesis.speak(next)
-    } catch { utterance.current = null; setVoiceState('error') }
-  }
 
   return <main className={`emergency-study ac-system ac-emergency-review${present !== 'off' ? ' is-presenting' : ''}`}>
     <header className="emergency-review-header"><a href="/?study=emergency" className="emergency-review-brand">AFTER / CARE <span>Emergency storyboard</span></a><div><span className="emergency-demo-label">가상 scenario · 실제 전화·전송 없음{callConnected && ' · spectrum은 가상 음성 반응'}</span><span className="emergency-demo-label">안전 안내 {manifest.safety_guidance.status}</span><a href="/?study=design-system">Design system</a><a href="/?study=tools">이전 design 비교 <ArrowRight size={14} aria-hidden="true" /></a></div></header>
     <div className="emergency-review-intro"><div><h1>상황을 보고, 다음 행동으로.</h1><p>장면을 바꿔 핵심 상황·행동·미확인이 어떻게 전달되는지 확인해 보세요.</p></div><button className="emergency-review-button" aria-expanded={showSpec} aria-controls="emergency-spec" onClick={() => setShowSpec(!showSpec)}><Code2 size={17} aria-hidden="true" />현재 장면 spec</button></div>
-    <nav className="emergency-scenarios" aria-label="상황 선택">{manifest.scenarios.map((item, index) => <button key={item.id} aria-pressed={scenario.id === item.id} aria-label={item.title} onClick={() => { setPaused(false); setResetKey(key => key + 1); startTransition(() => setSelection(createSession(item.id))) }}><span>{item.id}</span><strong>{item.title}</strong>{index === 0 ? <TriangleAlert size={20} aria-hidden="true" /> : <CircleHelp size={20} aria-hidden="true" />}</button>)}</nav>
+    <nav className="emergency-scenarios" aria-label="상황 선택">{manifest.scenarios.map((item, index) => <button key={item.id} aria-pressed={scenario.id === item.id} aria-label={item.title} onClick={() => { audio.stop(); setPaused(false); setResetKey(key => key + 1); startTransition(() => setSelection(createSession(item.id))) }}><span>{item.id}</span><strong>{item.title}</strong>{index === 0 ? <TriangleAlert size={20} aria-hidden="true" /> : <CircleHelp size={20} aria-hidden="true" />}</button>)}</nav>
     <div className="emergency-canvas-toolbar"><p>시작 상황: {scenario.summary}</p><div><button className="emergency-review-button" onClick={showForThreeSeconds}><Eye size={15} aria-hidden="true" />3초 보기</button><button className="emergency-review-button" onClick={() => setPaused(!paused)}>{paused ? <Play size={15} aria-hidden="true" /> : <Pause size={15} aria-hidden="true" />}{paused ? '시연 재개' : '시연 일시 중단'}</button></div></div>
     <div className={`emergency-viewport ${paused ? 'is-paused' : ''}`}>
       <VehicleShell>
         <EmergencySurface selection={selection} paused={paused} present={present} voiceState={voiceState} storageAvailable={storageAvailable}
           countdownKey={countdownKey} secondsLeft={secondsLeft} heading={heading}
-          onAction={edge => act(edge, 'action')} onCancel={() => goToScene(scene.auto_contact!.cancel, 'action')} onVoice={playVoice} onEditDraft={editDraft} />
+          onAction={edge => act(edge, 'action')} onCancel={() => goToScene(scene.auto_contact!.cancel, 'action')} onVoice={audio.toggle} onEditDraft={editDraft} />
       </VehicleShell>
       {present === 'covered' && <div className="emergency-cover" data-cover><button className="emergency-review-button" onClick={showForThreeSeconds}>다시 3초</button><button className="emergency-review-button" onClick={closePresentation}>닫기</button></div>}
     </div>

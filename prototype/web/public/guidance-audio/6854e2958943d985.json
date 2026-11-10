@@ -1,0 +1,23 @@
+{
+  "voiceId": "gKJdDVRmX8dROO8aA5I8",
+  "voiceName": "JaeGyu - Calm & Trustworthy",
+  "model": "eleven_v4",
+  "script": "차량에서 확인한 내용이에요. 확인된 정보와 아직 모르는 내용을 구분해요. 충격 정보만으로 차량 손상이나 이동 가능 여부를 판단하지 않아요.",
+  "scriptHash": "6854e2958943d985744e535c3ff2bab89939040ad3203a9f5819ea4a5f9cd430",
+  "file": "6854e2958943d985.mp3",
+  "path": "/guidance-audio/6854e2958943d985.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "journey/차량에서 확인한 내용"
+  ],
+  "duration": 10.48,
+  "bytes": 253326,
+  "audioHash": "1a610796baf7c5f89d119f83d1f5dd715b55c1142b64f3368e90c56c4d272b23",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-10T10:23:46.964Z"
+}

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { ArrowLeft, ArrowRight, CarFront, Mic, Smartphone } from 'lucide-react'
 import fixtures from '../../../../specs/emergency-experience/journey-fixtures.json'
 import { createSession, sceneFor, scenarioFor, type Edge } from '../emergency/session'
@@ -14,7 +14,8 @@ import { FollowUpPanel } from './FollowUpPanel'
 import { followUpDirectories, type FollowUpDirectoryState } from './follow-up-fixtures'
 import { JourneyReviewPanel, type JourneyReviewHandle } from './JourneyReviewPanel'
 import { JourneyRecovery } from './JourneyRecovery'
-import '../emergency/motion'
+import {useGuidanceAudio,stopGuidanceAudio} from '@/audio/useGuidanceAudio'
+import {useCareMotion} from '@/design-system/motion'
 
 function replaceQuery(values: Record<string, string>) {
   const url = new URL(location.href)
@@ -41,12 +42,15 @@ export function JourneyStudy({embedded=false}:{embedded?:boolean}) {
   const voicePanel = useRef<VoiceRecordHandle>(null)
   const photoPanel = useRef<EvidencePanelHandle>(null)
   const reviewPanel = useRef<JourneyReviewHandle>(null)
-  const [voiceState, setVoiceState] = useState<'idle' | 'speaking' | 'error'>('idle')
   const [countdown, setCountdown] = useState({ key: '', seconds: 0 })
   const heading = useRef<HTMLHeadingElement>(null)
-  const utterance = useRef<SpeechSynthesisUtterance | null>(null)
   const scene = value ? sceneFor(value.emergency) : null
   const countdownKey = value && scene ? value.id + '/' + scene.id : ''
+  const contextKey=[value?.id,value?.stage,scene?.id,details,recordTab,device].join('/')
+  const motionRef=useCareMotion<HTMLElement>([value?.id,value?.stage,details,recordTab,device].join('/'))
+  const audio=useGuidanceAudio({text:scene?.voice??'',key:contextKey})
+  const voiceState=audio.state
+  useLayoutEffect(()=>{stopGuidanceAudio()},[contextKey])
   const secondsLeft = countdown.key === countdownKey ? countdown.seconds : scene?.auto_contact?.seconds ?? 0
 
   useEffect(() => {
@@ -67,25 +71,9 @@ export function JourneyStudy({embedded=false}:{embedded?:boolean}) {
   }, [countdownKey, value?.suspended, dispatch])
 
   useEffect(() => {
-    utterance.current = null
-    window.speechSynthesis?.cancel()
-    setVoiceState('idle')
     const frame = requestAnimationFrame(() => [...document.querySelectorAll<HTMLElement>('[data-case-id] h1')].find(node => node.getClientRects().length)?.focus())
-    return () => { cancelAnimationFrame(frame); utterance.current = null; window.speechSynthesis?.cancel() }
+    return () => cancelAnimationFrame(frame)
   }, [value?.id, value?.stage, scene?.id, details, recordTab])
-
-  function speak() {
-    if (voiceState === 'speaking') { utterance.current = null; window.speechSynthesis?.cancel(); setVoiceState('idle'); return }
-    if (!scene) return
-    try {
-      if (!window.speechSynthesis || !window.SpeechSynthesisUtterance) throw new Error('Speech unavailable')
-      const next = new SpeechSynthesisUtterance(scene.voice)
-      next.lang = 'ko-KR'
-      next.onend = () => { if (utterance.current === next) { utterance.current = null; setVoiceState('idle') } }
-      next.onerror = () => { if (utterance.current === next) setVoiceState('error') }
-      utterance.current = next; setVoiceState('speaking'); speechSynthesis.speak(next)
-    } catch { setVoiceState('error') }
-  }
 
   async function begin() {
     if (value && !await prepareToLeave(true)) return
@@ -230,7 +218,7 @@ export function JourneyStudy({embedded=false}:{embedded?:boolean}) {
         notice={<JourneyRiskNotice value={value} />}
         voiceState={voiceState} storageAvailable={journey.saveState === 'saved'} countdownKey={countdownKey} secondsLeft={secondsLeft} heading={heading}
         onAction={act} onCancel={() => scene.auto_contact && dispatch({ type: 'countdown', target: scene.auto_contact.cancel, now: new Date().toISOString() })}
-        onVoice={speak} onEditDraft={() => dispatch({ type: 'navigate', stage: 'record' })} />
+        onVoice={audio.toggle} onEditDraft={() => dispatch({ type: 'navigate', stage: 'record' })} />
       return device==='vehicle'?<VehicleShell>{response}</VehicleShell>:<div className="journey-mobile-viewport" data-journey-device="mobile">{response}</div>
     }
     return null
@@ -256,7 +244,7 @@ export function JourneyStudy({embedded=false}:{embedded?:boolean}) {
         {value.stage === 'response' && value.returnStage === 'follow-up' && <button onClick={() => dispatch({ type: 'navigate', stage: 'follow-up' })}>후속 처리로 돌아가기</button>}
         {value.suspended && <button onClick={() => dispatch({ type: 'resume' })}>이어서 확인하기</button>}
       </div>
-      <section data-case-id={value.id} data-journey-stage={value.stage}>
+      <section ref={motionRef} data-care-motion-key={contextKey} data-case-id={value.id} data-journey-stage={value.stage}>
         {content()}
         <div key={value.id} hidden={value.stage !== 'record' || details}>
           <JourneyLayout device={device} navigation={renderNavigation(value)} summary={<JourneySummary value={value} />}

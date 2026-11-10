@@ -1,0 +1,23 @@
+{
+  "voiceId": "gKJdDVRmX8dROO8aA5I8",
+  "voiceName": "JaeGyu - Calm & Trustworthy",
+  "model": "eleven_v4",
+  "script": "차량 지원 요청을 보내고 있어요. ",
+  "scriptHash": "b09243f693cff10842b7c0e78929dc3f4ec4e55262dd417ac80e8d31628ea9fb",
+  "file": "b09243f693cff108.mp3",
+  "path": "/guidance-audio/b09243f693cff108.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "SC02/sending"
+  ],
+  "duration": 2.24,
+  "bytes": 55213,
+  "audioHash": "c99e14b59b26ea98fc8adba9662dbd9ce3efffbc3c8f78a91d62b1064f0bd358",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-10T10:22:23.844Z"
+}

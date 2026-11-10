@@ -1,4 +1,6 @@
 import { expect, test } from '@playwright/test'
+import {mockGuidanceAudio} from './guidance-mock'
+import assets from '../src/audio/assets.json' with {type:'json'}
 import manifest from '../../../specs/emergency-experience/scenarios.json' with { type: 'json' }
 
 type Scene = (typeof manifest.scenarios)[number]['states'][number] & { phase: string; self_action?: { id: string; condition?: string; now: string; next?: string } }
@@ -171,22 +173,17 @@ test.describe('rescue countdown', () => {
   })
 
   test('countdown_start_speaks_once', async ({ page }) => {
-    await page.addInitScript(() => {
-      const runtime = window as typeof window & { spoken: string[] }
-      runtime.spoken = []
-      Object.defineProperty(window, 'speechSynthesis', { value: { speak: (utterance: SpeechSynthesisUtterance) => runtime.spoken.push(utterance.text), cancel: () => {} } })
-    })
+    await page.addInitScript(mockGuidanceAudio)
     await open(page)
     await page.clock.runFor(3_000)
-    const spoken = await page.evaluate(() => (window as typeof window & { spoken: string[] }).spoken)
+    const spoken = await page.evaluate(() => window.guidanceMock.played)
     expect(spoken).toHaveLength(1)
-    expect(spoken[0]).toContain('10초 후 119에 연결')
+    expect(assets.find(asset=>asset.path===spoken[0])?.script).toContain('10초 후 119에 연결')
   })
 
   test('blocked_countdown_speech_shows_script', async ({ page }) => {
-    await page.addInitScript(() => {
-      Object.defineProperty(window, 'speechSynthesis', { value: { speak: () => { throw new Error('blocked') }, cancel: () => {} } })
-    })
+    await page.addInitScript(mockGuidanceAudio)
+    await page.addInitScript(()=>{window.guidanceMock.fail=true})
     await open(page)
     await expect(page.getByRole('status')).toContainText('음성 원고')
   })
@@ -214,16 +211,12 @@ test('three_second_view_hides_review_ui_and_covers_after_3s', async ({ page }) =
 })
 
 test('three_second_view_silences_speech_when_covered', async ({ page }) => {
-  await page.addInitScript(() => {
-    const runtime = window as typeof window & { cancels: number }
-    runtime.cancels = 0
-    Object.defineProperty(window, 'speechSynthesis', { value: { speak: () => {}, cancel: () => { runtime.cancels++ } } })
-  })
+  await page.addInitScript(mockGuidanceAudio)
   await page.clock.install()
   await page.goto('/?study=emergency&scenario=SC03&scene=initial')
   await page.getByRole('button', { name: '3초 보기' }).click()
   await expect(page.locator('[data-slot=detected]').getByRole('button')).toHaveText('음성 안내 중지')
-  const cancels = () => page.evaluate(() => (window as typeof window & { cancels: number }).cancels)
+  const cancels = () => page.evaluate(() => window.guidanceMock.cancels)
   const before = await cancels()
   await page.clock.runFor(3_000)
   await expect(page.locator('[data-cover]')).toBeVisible()

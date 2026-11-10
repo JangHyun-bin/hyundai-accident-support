@@ -4,6 +4,8 @@ import {TaskLayout,VehicleShell} from '@/components/ui/after-care-layout'
 import type {Device} from './case'
 export type {Device} from './case'
 import './journey.css'
+import {GuidanceControl} from '@/audio/GuidanceControl'
+import scripts from '@/audio/journey-guidance.json'
 
 export type JourneyTone=CareTone
 export function JourneyStatus({tone,children}:{tone:JourneyTone;children:ReactNode}) {
@@ -12,8 +14,9 @@ export function JourneyStatus({tone,children}:{tone:JourneyTone;children:ReactNo
 export function JourneyAction({className='',...props}:ButtonHTMLAttributes<HTMLButtonElement>&{secondary?:boolean}) {
   return <CareAction {...props} className={`journey-action ${className}`}/>
 }
-export function JourneyHeading({step,title,children}:{step?:string;title:string;children?:ReactNode}) {
-  return <CareHeading eyebrow={step} title={title}>{children}</CareHeading>
+export function JourneyHeading({step,title,children,guidanceKey=title}:{step?:string;title:string;children?:ReactNode;guidanceKey?:string}) {
+  const text=scripts[title as keyof typeof scripts]
+  return <div className="ac-task-heading"><CareHeading eyebrow={step} title={title}>{children}</CareHeading>{text&&<GuidanceControl text={text} contextKey={guidanceKey}/>}</div>
 }
 export function JourneyVehicleFrame({children}:{children:ReactNode;navigation?:ReactNode}) {
   return <div className="journey-vehicle-viewport"><VehicleShell>{children}</VehicleShell></div>

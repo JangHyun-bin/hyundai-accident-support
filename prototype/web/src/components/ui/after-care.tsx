@@ -1,3 +1,4 @@
+import {useEffect,useRef,useState} from 'react'
 import type {ButtonHTMLAttributes, CSSProperties, HTMLAttributes, ReactNode} from 'react'
 import {Check, CircleHelp, Clock3, Minus, TriangleAlert} from 'lucide-react'
 import {useSurfaceTheme} from '@/design-system/SurfaceTheme'
@@ -27,6 +28,15 @@ export function CareHeading({eyebrow,title,children,level=1}:{eyebrow?:string;ti
 }
 // 실제 입력은 levels 전달. 통화 시연에는 고정된 합성 spectrum 사용.
 export function CareSpectrum({active=true,levels}:{active?:boolean;levels?:number[]}) {
+  const host=useRef<HTMLDivElement>(null)
+  const [visible,setVisible]=useState(true),[foreground,setForeground]=useState(()=>document.visibilityState!=='hidden')
+  useEffect(()=>{
+    const observer=new IntersectionObserver(entries=>setVisible(entries[0].isIntersecting))
+    if(host.current)observer.observe(host.current)
+    const changed=()=>setForeground(document.visibilityState!=='hidden')
+    document.addEventListener('visibilitychange',changed)
+    return()=>{observer.disconnect();document.removeEventListener('visibilitychange',changed)}
+  },[])
   const bars=levels??[.12,.18,.22,.34,.48,.28,.55,.72,.62,.41,.83,.58,.76,.91,.65,.72,.52,.88,.61,.44,.73,.55,.32,.47,.28,.23,.17,.1]
-  return <div className="ac-spectrum" data-active={active} data-source={levels?'input':'simulation'} aria-hidden="true">{bars.map((v,i)=><i key={i} style={{'--ac-bar':`${Math.max(4,Math.min(1,Math.max(0,v))*42)}px`,'--ac-delay':`${-i*.13}s`,'--ac-duration':`${1.4+i%4*.16}s`} as CSSProperties}/>)}</div>
+  return <div ref={host} className="ac-spectrum" data-active={active&&visible&&foreground} data-source={levels?'input':'simulation'} aria-hidden="true">{bars.map((v,i)=><i key={i} style={{'--ac-bar':`${Math.max(4,Math.min(1,Math.max(0,v))*42)}px`,'--ac-delay':`${-i*.13}s`,'--ac-duration':`${1.4+i%4*.16}s`} as CSSProperties}/>)}</div>
 }

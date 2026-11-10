@@ -5,6 +5,8 @@ import { readAsset } from './case-store'
 import { JourneyAction, JourneyHeading } from './JourneyLayout'
 import { startVoiceCapture, type VoiceCapture } from './voice-capture'
 import './voice.css'
+import {stopGuidanceAudio} from '@/audio/useGuidanceAudio'
+import {CareSpectrum} from '@/components/ui/after-care'
 
 type Phase = 'ready' | 'requesting-permission' | 'listening' | 'review' | 'saving' | 'saved' | 'error'
 type PendingClip = { evidence: Evidence; blob: Blob }
@@ -100,6 +102,7 @@ export function VoiceRecordPanel({ value, mode, onSave, ref }: {
 
   async function start() {
     if (busy || capture.current) return
+    stopGuidanceAudio()
     window.speechSynthesis?.cancel()
     section.current?.querySelectorAll('audio').forEach(audio => audio.pause())
     const generation = ++request.current
@@ -196,7 +199,7 @@ export function VoiceRecordPanel({ value, mode, onSave, ref }: {
     </JourneyHeading>
     {phase === 'listening' ? <div className="journey-voice-listening">
       <div className="journey-voice-meter" data-voice-level={level.toFixed(3)} role="img" aria-label="현재 microphone 음량">
-        {Array.from({ length: 31 }, (_, index) => <span key={index} style={{ height: `${4 + level * 64 * Math.sin((index + 1) / 32 * Math.PI)}px` }} />)}
+        <CareSpectrum levels={Array.from({length:31},(_,index)=>level*Math.sin((index+1)/32*Math.PI))}/>
       </div><p className="journey-voice-clock">{clock(elapsed)}<span> / 2:00</span></p>
       <JourneyAction onClick={() => void finishRecording()} disabled={finishing}><Square aria-hidden="true" />말하기 마치기</JourneyAction>
       <button className="journey-text-action" disabled={finishing} onClick={cancelRecording}><X aria-hidden="true" />녹음 취소</button>

@@ -33,7 +33,7 @@ export function JourneyReviewPanel({ value, onCommand, onApprove, ref }: { value
   useImperativeHandle(ref, () => ({ finishBeforeLeave: async () => !diagramDirty && !reportDirty && !submissionDirty }), [diagramDirty, reportDirty, submissionDirty])
   return <>
     <div ref={reviewContent} hidden={submission} className="journey-review-content">
-    <JourneyHeading step="사고 내용 확인" title="남겨진 자료를 살펴보세요">확인할 수 없는 내용은 그대로 남겨도 돼요.</JourneyHeading>
+    <JourneyHeading guidanceKey={tab+'/'+submission} step="사고 내용 확인" title="남겨진 자료를 살펴보세요">확인할 수 없는 내용은 그대로 남겨도 돼요.</JourneyHeading>
     <nav className="journey-record-tabs journey-review-tabs" aria-label="확인할 자료">
       <button aria-pressed={tab === 'clips'} onClick={() => setTab('clips')}>사고 영상</button>
       <button aria-pressed={tab === 'diagram'} onClick={() => setTab('diagram')}>사고 도식</button>

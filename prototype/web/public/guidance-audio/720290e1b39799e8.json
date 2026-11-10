@@ -1,0 +1,23 @@
+{
+  "voiceId": "gKJdDVRmX8dROO8aA5I8",
+  "voiceName": "JaeGyu - Calm & Trustworthy",
+  "model": "eleven_v4",
+  "script": "119 통화 연결됨. 응답 여부와 부상·의식 상태는 따로 확인해요.",
+  "scriptHash": "720290e1b39799e8c4598d05addb4ce1f50479d9070ff8ec568314276bc612a9",
+  "file": "720290e1b39799e8.mp3",
+  "path": "/guidance-audio/720290e1b39799e8.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "SC03/unanswered_connected"
+  ],
+  "duration": 5.12,
+  "bytes": 124176,
+  "audioHash": "2b5db79119e05f3edda709edf69aa4cc8502ecdd13490b2a57ca42bb6c9aef77",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-10T10:22:57.017Z"
+}

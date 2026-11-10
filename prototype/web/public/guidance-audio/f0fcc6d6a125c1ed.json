@@ -1,0 +1,23 @@
+{
+  "voiceId": "gKJdDVRmX8dROO8aA5I8",
+  "voiceName": "JaeGyu - Calm & Trustworthy",
+  "model": "eleven_v4",
+  "script": "요청을 보내지 못했어요. 접수되지 않았어요. 내용을 확인한 뒤 다시 요청하세요.",
+  "scriptHash": "f0fcc6d6a125c1ed6ae62e73e17eede67ccde044e4fa8d177d133f11a2bf8da3",
+  "file": "f0fcc6d6a125c1ed.mp3",
+  "path": "/guidance-audio/f0fcc6d6a125c1ed.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "SC02/failed"
+  ],
+  "duration": 6,
+  "bytes": 145492,
+  "audioHash": "4e4008eab47788a93b37aad75ef3ab1efc6fae3229b01a6f39e7a7b9d4a20be5",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-10T10:22:26.391Z"
+}

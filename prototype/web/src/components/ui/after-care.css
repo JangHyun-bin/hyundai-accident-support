@@ -30,3 +30,7 @@
 .ac-field { width:100%; min-width:0; min-height:var(--ac-touch); border:1px solid var(--ac-line); border-radius:var(--ac-radius-control); background:var(--ac-control); color:var(--ac-text); padding:var(--ac-space-4); font:inherit; line-height:var(--ac-leading); }
 .ac-field::placeholder { color:var(--ac-muted); }
 @media(prefers-reduced-motion:reduce) { .ac-action:active { transform:none!important; } .ac-spectrum i { animation:none; transition:none; } }
+
+.ac-task-heading { display:grid; gap:var(--ac-space-4); }
+.ac-guidance-control { display:grid; justify-items:start; gap:var(--ac-space-3); }
+.ac-guidance-control p { color:var(--ac-muted); font-size:var(--ac-type-supporting); }

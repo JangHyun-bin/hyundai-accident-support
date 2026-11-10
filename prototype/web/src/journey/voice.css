@@ -3,7 +3,7 @@
 .journey-voice-start > svg { width: 64px; height: 64px; stroke-width: 1.4; margin-block: var(--ac-space-3); }
 .journey-voice-listening { display: grid; justify-items: stretch; gap: var(--ac-space-6); }
 .journey-voice-meter { display: flex; justify-content: center; align-items: center; gap: 5px; height: 112px; padding: var(--ac-space-4); }
-.journey-voice-meter span { display: block; flex: 1 1 4px; max-width: 6px; min-width: 2px; background: var(--ac-text); border-radius: 4px; }
+
 .journey-voice-clock { text-align: center; font-size: var(--ac-type-section); font-variant-numeric: tabular-nums; }
 .journey-voice-clock span { color: var(--ac-muted); font-size: var(--ac-type-label); }
 .journey-voice-edit, .journey-voice-actions { display: grid; gap: var(--ac-space-3); }
@@ -16,6 +16,6 @@
 .journey-voice-clip p, .journey-voice-message { font-size: var(--ac-type-supporting); color: var(--ac-muted); line-height: 1.6; overflow-wrap: anywhere; }
 .journey-voice .journey-text-action { justify-content: center; }
 [data-journey-device="vehicle"] .journey-voice-start { padding-block: var(--ac-space-10); }
-[data-journey-device="vehicle"] .journey-voice-meter { height: 160px; gap: var(--ac-space-3); }
-[data-journey-device="vehicle"] .journey-voice-meter span { max-width: 10px; }
-@media (prefers-reduced-motion: reduce) { .journey-voice-meter span { height: 4px !important; } }
+
+
+

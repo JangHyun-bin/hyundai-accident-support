@@ -95,3 +95,11 @@
 - Local draft·preset·기록 보존, 충돌·quota·복구, 오래된 외부 응답, 명시적 전송 승인.
 - Rendering 비용·grain 생성 횟수, API asset 오류와 음성 재생 중단.
 - 최종 전체 영상과 주요 분기 영상에 scenario·source commit·timeline 근거 연결.
+
+## 공통 motion·음성 적용
+
+- Emergency 전체 60 state와 journey 7개 작업 안내가 64개 deduplicated JaeGyu asset으로 연결됨.
+- 정본: `prototype/web/src/audio/assets.json`, `journey-guidance.json`. Voice `gKJdDVRmX8dROO8aA5I8`, model `eleven_v4`.
+- Scene·pagehide·hidden·녹음 시작 시 playback 중단, 오류 시 원고 유지와 재시도. 실제 browser decode·재생 검증 PASS.
+- 전사·decode 64개 PASS. 음색에 대한 사람의 청취 평가는 수행하지 않음.
+- 상태 전환 240ms, reduced motion과 숨겨진 spectrum 정지. 측정 근거 `evidence/design-system/rendering-measurement.json`.
