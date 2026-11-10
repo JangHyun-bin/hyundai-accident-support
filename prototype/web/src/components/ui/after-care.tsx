@@ -1,16 +1,17 @@
 import type {ButtonHTMLAttributes, CSSProperties, HTMLAttributes, ReactNode} from 'react'
 import {Check, CircleHelp, Clock3, Minus, TriangleAlert} from 'lucide-react'
 import {useSurfaceTheme} from '@/design-system/SurfaceTheme'
+import type {SurfaceShape} from '@/design-system/split-geometry'
 import {surfaceStyle} from '@/design-system/surfaces'
 import {SurfaceEffectsLayer} from './surface-effects'
 import './after-care.css'
 
 export type CareTone='unknown'|'pending'|'confirmed'|'failed'|'skipped'
-export function CareSurface({tone='plain',children,className='',style,...props}:HTMLAttributes<HTMLElement>&{tone?:'plain'|'call'|'safety'|'map'}) {
+export function CareSurface({tone='plain',children,className='',style,shape,...props}:HTMLAttributes<HTMLElement>&{tone?:'plain'|'call'|'safety'|'map';shape?:SurfaceShape}) {
   const theme=useSurfaceTheme()
   const material=tone==='call'||tone==='safety'?theme[tone]:null
-  return <section {...props} data-care-surface={tone} className={`ac-surface ${className}`} style={{...(material?surfaceStyle(material):{}),...style}}>
-    {material&&<SurfaceEffectsLayer effects={material}/>}{children}
+  return <section {...props} data-care-surface={tone} data-shaped={shape?true:undefined} className={`ac-surface ${className}`} style={{...(material?surfaceStyle(material):{}),...style}}>
+    <div className="ac-material-frame" data-shape-path={shape?.path} style={shape?{left:shape.left,top:shape.top,width:shape.width,height:shape.height,'--ac-clip':`path("${shape.path}")`} as CSSProperties:undefined}>{material?<SurfaceEffectsLayer effects={material}/>:<div className="ac-solid-source"/>}</div>{children}
   </section>
 }
 export function CareAction({secondary=false,className='',children,...props}:ButtonHTMLAttributes<HTMLButtonElement>&{secondary?:boolean}) {

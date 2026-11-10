@@ -1,35 +1,4 @@
-type Point = [number, number]
-
-// 공유 경계의 양쪽을 같은 normal 거리만큼 이동해 gap 유지.
-export function insetEdges(points: Point[], distances: number[]): Point[] {
-  const lines = points.map((p, i) => {
-    const q = points[(i + 1) % points.length], dx = q[0] - p[0], dy = q[1] - p[1], length = Math.hypot(dx, dy)
-    return { x: p[0] - dy / length * distances[i], y: p[1] + dx / length * distances[i], dx, dy }
-  })
-  return lines.map((b, i) => {
-    const a = lines[(i + lines.length - 1) % lines.length]
-    const t = ((b.x - a.x) * b.dy - (b.y - a.y) * b.dx) / (a.dx * b.dy - a.dy * b.dx)
-    return [a.x + t * a.dx, a.y + t * a.dy]
-  })
-}
-
-export function roundedPath(points: Point[], radius = 28): string {
-  const corners = points.map((p, i) => {
-    const a = points[(i + points.length - 1) % points.length], b = points[(i + 1) % points.length]
-    const al = Math.hypot(a[0] - p[0], a[1] - p[1]), bl = Math.hypot(b[0] - p[0], b[1] - p[1])
-    const u = [(a[0] - p[0]) / al, (a[1] - p[1]) / al], v = [(b[0] - p[0]) / bl, (b[1] - p[1]) / bl]
-    const angle = Math.acos(Math.max(-1, Math.min(1, u[0] * v[0] + u[1] * v[1])))
-    const d = Math.min(radius / Math.tan(angle / 2), al * .45, bl * .45)
-    const handle = 4 / 3 * Math.tan((Math.PI - angle) / 4) * d * Math.tan(angle / 2)
-    return {
-      start: [p[0] + u[0] * d, p[1] + u[1] * d], end: [p[0] + v[0] * d, p[1] + v[1] * d],
-      c1: [p[0] + u[0] * (d - handle), p[1] + u[1] * (d - handle)],
-      c2: [p[0] + v[0] * (d - handle), p[1] + v[1] * (d - handle)],
-    }
-  })
-  const xy = (p: number[]) => p.map(n => n.toFixed(3)).join(' ')
-  return corners.map((c, i) => `${i ? 'L' : 'M'}${xy(c.start)} C${xy(c.c1)} ${xy(c.c2)} ${xy(c.end)}`).join(' ') + ' Z'
-}
+import {insetEdges, roundedPath, type Point} from '@/design-system/split-geometry'
 
 function place(node: HTMLElement, points: Point[]) {
   const x = Math.min(...points.map(p => p[0])), y = Math.min(...points.map(p => p[1]))

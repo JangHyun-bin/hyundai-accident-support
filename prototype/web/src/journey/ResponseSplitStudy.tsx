@@ -3,6 +3,8 @@ import {ArrowLeft, ArrowRight, X} from 'lucide-react'
 import {ResponseConceptScreen} from '@/components/ui/response-concepts'
 import {applyStudioFinish, readSurfaceLibrary, surfaceStyle, type SurfacePair} from './response-surfaces'
 import {drawSplit} from './response-split-geometry'
+import {SurfaceThemeProvider} from '@/design-system/SurfaceTheme'
+import {ResponseLayoutPreview} from '@/design-system/ResponseLayoutPreview'
 import './response-split-study.css'
 
 // Throwaway 시안: 같은 B″의 A 사선 분할과 B 세 영역 접점을 비교. Preset은 읽기만 수행.
@@ -55,9 +57,9 @@ export function ResponseSplitStudy() {
     <div className="rc-study-intro"><div><span className="rc-eyebrow">B″ / TWO WAYS TO SHARE AN EDGE</span><h1>경계는 부드럽게, 정보는 또렷하게.</h1></div><p>같은 색과 내용, 두 가지 분할.<br/>Grain 12% · CA 1px · gap 16px</p></div>
     {initial.error&&<p role="status" className="rps-read-error">{initial.error}</p>}
     <section className={`rps-comparison rps-view-${view}`} aria-label="Split 시안 비교">
-      {(view==='both'?['A','B'] as const:[view]).map(variant=><SplitBoard key={variant} variant={variant} surfaces={surfaces} onRecord={()=>setNotice(true)}/>)}
+      {(view==='both'?['A','B'] as const:[view]).map(variant=>variant==='B'?<article key="B" className="rps-option ac-system" aria-label="Split B"><header className="rps-caption"><div><span>B</span><h2>Three cells</h2></div><p>내용과 화면 너비에 맞춰 이어지는 공용 layout.</p></header><SurfaceThemeProvider value={surfaces}><ResponseLayoutPreview/></SurfaceThemeProvider></article>:<SplitBoard key={variant} variant={variant} surfaces={surfaces} onRecord={()=>setNotice(true)}/>)}
     </section>
-    <p className="rps-footnote">비교 화면은 차량 display 비율로 축소 표시. A·B를 선택하면 크게 볼 수 있어요. 저장한 preset은 변경하지 않아요.</p>
+    <p className="rps-footnote">A는 과거 artboard 비교안, B는 제품과 같은 responsive layout. 저장한 preset은 변경하지 않아요.</p>
     <nav className="rps-switcher" aria-label="Split 보기">
       <button aria-label="이전 시안" onClick={()=>select(view==='A'?'B':'A')}><ArrowLeft size={17}/></button>
       {(['A','both','B'] as const).map(v=><button key={v} aria-pressed={view===v} onClick={()=>select(v)}>{v==='both'?'A + B':v}</button>)}

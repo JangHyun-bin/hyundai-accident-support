@@ -75,3 +75,11 @@
   .rs-study .rs-explanation { display:none; }
   .rs-presets { grid-template-columns:1fr; gap:24px; }
 }
+
+.rs-product-preview { margin-block:32px; }
+.rs-product-controls { display:flex; align-items:end; flex-wrap:wrap; gap:24px; margin-bottom:24px; }
+.rs-product-controls label { display:grid; gap:8px; font-size:var(--ac-type-label); color:var(--ac-muted); }
+.rs-product-controls select { min-height:48px; background:var(--ac-control); color:var(--ac-text); border:1px solid var(--ac-line); border-radius:var(--ac-radius-small); padding:12px; }
+.rs-product-controls>a { min-height:48px; display:flex; align-items:center; color:var(--ac-muted); }
+.ac-preview-notice { margin-block:24px!important; color:var(--ac-muted); font-size:var(--ac-type-supporting); }
+.ac-preview-notice a { text-decoration:underline; }

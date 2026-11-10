@@ -3,15 +3,15 @@ import {expect, test} from '@playwright/test'
 test('catalog exposes actual semantic components and the selected material', async ({page}) => {
   await page.goto('/?study=design-system')
   await expect(page.getByRole('heading', {name:'AFTER / CARE design system', exact:true})).toBeVisible()
-  await expect(page.locator('[data-care-component="status"]')).toHaveCount(5)
-  await expect(page.locator('[data-care-surface="call"]')).toBeVisible()
-  await expect(page.locator('[data-care-surface="safety"]')).toBeVisible()
-  await expect(page.locator('[data-care-surface="call"] feImage[result="grain"]')).toHaveCount(1)
+  await expect(page.getByRole('region',{name:'Interactive components'}).locator('[data-care-component="status"]')).toHaveCount(5)
+  await expect(page.locator('[data-care-surface="call"]').first()).toBeVisible()
+  await expect(page.locator('[data-care-surface="safety"]').first()).toBeVisible()
+  await expect(page.getByRole('region',{name:'Surface components'}).locator('[data-care-surface="call"] feImage[result="grain"]')).toHaveCount(1)
 })
 
 test('applying a theme updates another tab while preserving named presets and draft', async ({page,context}) => {
   await page.goto('/?study=design-system')
-  await expect(page.locator('[data-care-surface="call"]')).toBeVisible()
+  await expect(page.locator('[data-care-surface="call"]').first()).toBeVisible()
   const other=await context.newPage();await other.goto('/?study=design-system')
   const before=await page.evaluate(async () => {
     const path='/src/design-system/surfaces.ts'
@@ -25,9 +25,9 @@ test('applying a theme updates another tab while preserving named presets and dr
     if(!applySurfaceTheme(pair).ok)throw new Error('apply failed')
     return raw
   })
-  for(const tab of [page,other])await expect.poll(()=>tab.locator('[data-care-surface="call"]').evaluate(n=>getComputedStyle(n).getPropertyValue('--rs-gradient'))).toContain('#aabbcc')
+  for(const tab of [page,other])await expect.poll(()=>tab.locator('[data-care-surface="call"]').first().evaluate(n=>getComputedStyle(n).getPropertyValue('--rs-gradient'))).toContain('#aabbcc')
   await other.reload()
-  await expect.poll(()=>other.locator('[data-care-surface="call"]').evaluate(n=>getComputedStyle(n).getPropertyValue('--rs-gradient'))).toContain('#aabbcc')
+  await expect.poll(()=>other.locator('[data-care-surface="call"]').first().evaluate(n=>getComputedStyle(n).getPropertyValue('--rs-gradient'))).toContain('#aabbcc')
   expect(await page.evaluate(()=>localStorage.getItem('response-surface-study-v1'))).toBe(before)
 })
 
@@ -48,7 +48,7 @@ test('catalog supports 200% text and reduced motion on mobile', async ({page}) =
   await page.setViewportSize({width:393,height:852})
   await page.emulateMedia({reducedMotion:'reduce'})
   await page.goto('/?study=design-system')
-  await expect(page.locator('[data-care-surface="call"]')).toBeVisible()
+  await expect(page.locator('[data-care-surface="call"]').first()).toBeVisible()
   await page.addStyleTag({content:'html{font-size:200%}'})
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true)
   expect(await page.locator('.ac-system').evaluate(n=>n.getAnimations({subtree:true}).filter(a=>a.effect?.getTiming().iterations===Infinity).length)).toBe(0)

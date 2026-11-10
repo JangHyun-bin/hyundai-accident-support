@@ -1,7 +1,10 @@
 import { useEffect, useState, type FormEvent } from 'react'
-import { ArrowRight, Download, RotateCcw, Save, X } from 'lucide-react'
-import { ResponseConceptScreen, ResponseSurfacePreview } from '@/components/ui/response-concepts'
+import { ArrowRight, Download, RotateCcw, Save } from 'lucide-react'
+import { ResponseSurfacePreview } from '@/components/ui/response-concepts'
 import { applyStudioFinish, completeSurfacePair, originalSurfaces, readSurfaceLibrary, surfaceColors, surfaceRanges, surfaceStorageKey, surfaceStyle, type Surface, type SurfaceLibrary, type SurfacePair } from './response-surfaces'
+import {SurfaceThemeProvider,applySurfaceTheme} from '@/design-system/SurfaceTheme'
+import {ResponseLayoutPreview} from '@/design-system/ResponseLayoutPreview'
+import {CareAction} from '@/components/ui/after-care'
 import './response-surface-study.css'
 
 // Prototype: tune the existing B″ card surfaces; keep presets separate from incident records.
@@ -10,9 +13,9 @@ export function ResponseSurfaceStudy() {
   const [library, setLibrary] = useState(initial.value)
   const [message, setMessage] = useState(initial.error)
   const [target, setTarget] = useState<keyof SurfacePair>('call')
+  const [layout,setLayout]=useState<'response'|'task'>('response')
   const [compare, setCompare] = useState(false)
   const [name, setName] = useState(() => initial.value.presets.find(p => JSON.stringify(p.surfaces) === JSON.stringify(initial.value.draft))?.name ?? '')
-  const [notice, setNotice] = useState(false)
   const draft = completeSurfacePair(library.draft)
   const presets = library.presets.map(p => ({ ...p, surfaces: completeSurfacePair(p.surfaces) }))
   const current = draft[target]
@@ -70,7 +73,7 @@ export function ResponseSurfaceStudy() {
     setTimeout(() => URL.revokeObjectURL(url), 1000)
   }
 
-  return <main className="rc-study rs-study">
+  return <main className="rc-study rs-study ac-system">
     <header className="rc-study-header"><span className="rc-wordmark">AFTER / CARE <span>SURFACE STUDY</span></span><a href="?study=response-alts&focus=numeral&numeral=solid">숫자 비교 <ArrowRight size={15} /></a></header>
     <div className="rc-study-intro"><div><span className="rc-eyebrow">B″ / COLOR, LIGHT & SHADE</span><h1>빛과 깊이를, 내 취향으로.</h1></div><p>색을 고르고, 빛을 옮기고, shade를 다듬어요.<br />두 card의 조합을 하나의 preset으로 저장해요.</p></div>
 
@@ -117,8 +120,10 @@ export function ResponseSurfaceStudy() {
     </section>
 
     <div className="rs-context-heading"><span className="rc-eyebrow">IN CONTEXT</span><h2>전체 화면에서 확인.</h2><p>{compare ? '원본 B″를 보는 중이에요.' : '위에서 조절한 값이 두 card에 함께 반영돼요.'}</p></div>
-    <ResponseConceptScreen variant="B2" numeral="solid" surfaces={styles} effects={shown} onRecord={() => setNotice(true)} />
+    <section className="rs-product-preview" aria-label="제품 layout 미리보기">
+      <div className="rs-product-controls"><label>미리볼 layout<select aria-label="미리볼 layout" value={layout} onChange={e=>setLayout(e.target.value as 'response'|'task')}><option value="response">Response / Three cells</option><option value="task">Task / Workspace</option></select></label><CareAction disabled={compare} onClick={()=>{const result=applySurfaceTheme(draft);setMessage(result.ok?'제품에 적용했어요. Catalog와 전체 흐름에 같은 surface가 반영돼요.':result.error)}}>제품에 적용</CareAction><a href="/?study=design-system">Design system 열기</a></div>
+      <SurfaceThemeProvider value={shown}><ResponseLayoutPreview layout={layout}/></SurfaceThemeProvider>
+    </section>
     <details className="rs-values"><summary>현재 parameter 보기</summary><pre>{JSON.stringify(draft, null, 2)}</pre></details>
-    {notice && <div className="rc-notice" role="status"><p>색과 shade를 조절하는 시안이에요. 녹음은 시작하지 않았어요.</p><button onClick={() => setNotice(false)} aria-label="안내 닫기"><X size={18} /></button></div>}
   </main>
 }
