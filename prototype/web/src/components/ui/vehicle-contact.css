@@ -1,0 +1,8 @@
+.ac-contact-edge,.ac-contact-core { fill:none; stroke-linecap:round; vector-effect:non-scaling-stroke; pointer-events:none; }
+.ac-contact-edge { stroke:var(--ac-contact); stroke-width:2.6; }
+.ac-contact-core { stroke:#ffd5c9; stroke-width:.8; }
+.ac-contact-target { cursor:pointer; outline:none; }
+.ac-contact-hit { fill:transparent; stroke:transparent; stroke-width:1; }
+.ac-contact-dot { fill:#ffd5c9; stroke:var(--ac-contact); stroke-width:1.2; pointer-events:none; }
+.ac-contact-target:focus-visible .ac-contact-hit { stroke:var(--ac-focus); }
+.ac-contact-target:hover .ac-contact-dot { fill:var(--ac-text); }

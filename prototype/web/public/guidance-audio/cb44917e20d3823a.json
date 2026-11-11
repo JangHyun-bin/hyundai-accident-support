@@ -1,0 +1,24 @@
+{
+  "voiceId": "gKJdDVRmX8dROO8aA5I8",
+  "voiceName": "JaeGyu - Calm & Trustworthy",
+  "model": "eleven_v4",
+  "script": "응답이 없어 119에 자동으로 연결했어요. 부상이나 의식 상태를 뜻하는 것은 아니에요. 응답할 수 있다면 알려주세요.",
+  "scriptHash": "cb44917e20d3823a41cf56d17a3efb7708fd55c0c63328e63fae54eb78d0a763",
+  "file": "cb44917e20d3823a.mp3",
+  "path": "/guidance-audio/cb44917e20d3823a.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "SC01/auto_contact",
+    "SC03/unanswered"
+  ],
+  "duration": 8.56,
+  "bytes": 206932,
+  "audioHash": "287a4d78b70871a658ae5a665b3118efd20b965739cb6d727321abcca7c8dcfe",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-10T10:21:58.968Z"
+}

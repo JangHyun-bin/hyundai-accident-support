@@ -88,7 +88,7 @@ export function SubmissionPanel({ value, onApprove, onCommand, onCancel, onDirty
     } finally { submitting.current = false; setBusy(false) }
   }
   return <section className="journey-submission" aria-label="전송 검토">
-    <JourneyHeading step="전송 검토" title="보낼 범위를 직접 선택해주세요">수신처와 내용을 확인한 뒤 요청할 수 있어요.</JourneyHeading>
+    <JourneyHeading guidanceKey={[target,!!preview,busy,approved,currentRequest?.status,currentShare?.status].join('/')} step="전송 검토" title="보낼 범위를 직접 선택해주세요">수신처와 내용을 확인한 뒤 요청할 수 있어요.</JourneyHeading>
     <nav className="journey-record-tabs journey-review-tabs" aria-label="보낼 대상">{(['insurance', 'vehicle', 'share'] as const).map(item => <button key={item} disabled={busy} aria-pressed={target === item} onClick={() => { setTarget(item); setPreview(null); setError(''); setApproved(false) }}>{labels[item]}</button>)}</nav>
     {approved && <p role="status">승인한 내용이 보관됐어요</p>}
     {currentRequest && <section className="journey-receipt" aria-label="요청 결과">

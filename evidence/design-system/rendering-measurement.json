@@ -1,0 +1,22 @@
+{
+  "route": "?study=emergency&scenario=SC01&scene=connected",
+  "browser": "Chrome headless",
+  "viewport": [
+    1600,
+    1050
+  ],
+  "loadLongTasksMs": [
+    76,
+    91,
+    82
+  ],
+  "initialCanvasExports": 6,
+  "additionalIdleExports": 0,
+  "idleObservationSeconds": 1.5,
+  "rapidResizeSteps": 10,
+  "additionalResizeExports": 2,
+  "resizeLongTasksMs": [
+    81
+  ],
+  "limitation": "Local desktop measurement, not target vehicle hardware. Static film grain generated on size changes; no continuous raster work."
+}

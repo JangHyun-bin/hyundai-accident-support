@@ -23,3 +23,11 @@ Credential은 repository 밖 local 설정에서만 사용. 이 문서와 fronten
 - ElevenLabs Voice Library API의 해당 voice 등록 정보와 기존 preview.
 - [ElevenLabs model 안내](https://elevenlabs.io/docs/overview/models).
 - 사용자 선택은 "재규로 가자".
+
+## 2026-11-10 paid access 재확인
+
+- GET /v1/user: Creator / active, character_limit 131000, character_count 118 확인.
+- 선택 voice: JaeGyu - Calm & Trustworthy (`gKJdDVRmX8dROO8aA5I8`), model `eleven_v4`.
+- Library voice ID 직접 TTS 생성 성공. Key의 voices_write 확대 없이 사용 가능.
+- UTF-8 JSON을 temporary file에서 --data-binary로 전달. Curl config 안의 이중 JSON escaping은 한국어를 손상시킴을 local HTTP server에서 재현. 해당 첫 생성물은 public에서 격리; 재생성물 6.8s MP3만 public에 보관.
+- Pilot: `public/guidance-audio/f2672771e5fe1ba5.mp3`, SC01/connected. 청취 검증·frontend 연결은 아직 진행 전.

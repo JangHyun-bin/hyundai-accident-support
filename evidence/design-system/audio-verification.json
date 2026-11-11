@@ -1,0 +1,588 @@
+{
+  "method": "ElevenLabs scribe_v2 transcription and ffmpeg decode; no human listening claim",
+  "clips": [
+    {
+      "file": "5e8ed5f06f79adb7.mp3",
+      "audioHash": "d440916e787e6fae379627037aaed2bb8f7fbfdf27a074dd9503b6bbf27c93b8",
+      "script": "응답이 없으면 10초 후 119에 연결합니다. 지금 연결하거나 취소할 수 있어요. 차량 이동은 운전자와 경로 확인이 필요해요.",
+      "transcript": "응답이 없으면 10초 후 119에 연결합니다. 지금 연결하거나 취소할 수 있어요. 차량 이동은 운전자와 경로 확인이 필요해요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:26:39.847Z"
+    },
+    {
+      "file": "e56536bf1b5735cc.mp3",
+      "audioHash": "f2ade9c1371de62843ac92827a003fc26576f678597a3e8c2462984904dd5a98",
+      "script": "구호 연결을 취소했어요. 필요하면 다시 연결을 선택하세요.",
+      "transcript": "구호 연결을 취소했어요. 필요하면 다시 연결을 선택하세요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:26:40.529Z"
+    },
+    {
+      "file": "cb44917e20d3823a.mp3",
+      "audioHash": "287a4d78b70871a658ae5a665b3118efd20b965739cb6d727321abcca7c8dcfe",
+      "script": "응답이 없어 119에 자동으로 연결했어요. 부상이나 의식 상태를 뜻하는 것은 아니에요. 응답할 수 있다면 알려주세요.",
+      "transcript": "응답이 없어 119에 자동으로 연결했어요. 부상이나 의식 상태를 뜻하는 것은 아니에요. 응답할 수 있다면 알려주세요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:26:41.565Z"
+    },
+    {
+      "file": "f404ac654f524aff.mp3",
+      "audioHash": "84a426b3f0ec598c544819053e4b55bcefdcfabb1f315e98dba72d2d86437c8f",
+      "script": "119에 연결하고 있어요. 연결과 접수는 각각 확인이 필요해요. 움직일 수 있으면 가드레일 밖으로 대피하세요.",
+      "transcript": "119에 연결하고 있어요. 연결과 접수는 각각 확인이 필요해요. 움직일 수 있으면 가드레일 밖으로 대피하세요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:26:42.535Z"
+    },
+    {
+      "file": "f2672771e5fe1ba5.mp3",
+      "audioHash": "9ffa7f9bdc6edf20f6d2da1c0432adbe2216497852c5c1be2466b6c2c5c017eb",
+      "script": "통화는 연결됐어요. 구호 접수는 아직 미확인이에요. 움직일 수 있으면 가드레일 밖으로 대피하세요.",
+      "transcript": "통화는 연결됐어요. 구호 접수는 아직 미확인이에요. 움직일 수 있으면 가드레일 밖으로 대피하세요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:26:43.469Z"
+    },
+    {
+      "file": "6b9c0869bc8f0219.mp3",
+      "audioHash": "03857c6a8c46cbbaa8f46ae4de5b4727e094e696a700c755b579d75cd1869840",
+      "script": "119 연결을 다시 시도하세요. 아직 통화가 연결되지 않았어요.",
+      "transcript": "119 연결을 다시 시도하세요. 아직 통화가 연결되지 않았어요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:26:44.404Z"
+    },
+    {
+      "file": "d860a6fcc6c0e7f4.mp3",
+      "audioHash": "69f428448342941f6011c40ea0d168609fc811bbc1d314cff153f4c777ad09f4",
+      "script": "구호 접수가 확인됐어요. 현장 도착과 인계는 따로 확인해요.",
+      "transcript": "9호 접수가 확인됐어요. 현장 도착과 인계는 따로 확인해요.",
+      "language": "kor",
+      "similarity": 0.9583333333333334,
+      "checkedAt": "2026-11-10T10:26:45.113Z"
+    },
+    {
+      "file": "7492af343306274d.mp3",
+      "audioHash": "7d4212688667561c2d487bdbe9334a1f538384f8e29bad2b2db11897f6f1f039",
+      "script": "구호가 현장에 도착했어요. 구호 인계는 아직 확인 중이에요.",
+      "transcript": "9호가 현장에 도착했어요. 9호 인계는 아직 확인 중이에요.",
+      "language": "kor",
+      "similarity": 0.9166666666666666,
+      "checkedAt": "2026-11-10T10:26:46.139Z"
+    },
+    {
+      "file": "8ac91b9d56d18725.mp3",
+      "audioHash": "dcdc2156e1b908c47adc1df1d34bd4df3ef7d143d1f89ae5f63884e844854a3f",
+      "script": "구호 인계가 확인됐어요. 차량 지원과 보험은 별도 요청이 필요해요.",
+      "transcript": "구호 인계가 확인됐어요. 차량 지원과 보험은 별도 요청이 필요해요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:26:46.927Z"
+    },
+    {
+      "file": "cee866fcdcdb7ad7.mp3",
+      "audioHash": "7a4eaee1d1808945e539e6246124c4c21dde805d98c06065f7290aee62031dd7",
+      "script": "기억나는 내용을 남겨주세요. 확실한 내용만 적어주세요. 외부로 전송하지 않아요.",
+      "transcript": "기억나는 내용을 남겨주세요. 확실한 내용만 적어주세요. 외부로 전송하지 않아요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:26:48.137Z"
+    },
+    {
+      "file": "8ca5481629c54e4a.mp3",
+      "audioHash": "809d55f8160f0e12dfa50ffbd0b5eaf57d6a62c86e2398132ef9265b3f8dde82",
+      "script": "사고 기록을 저장했어요. 필요할 때 이어서 고칠 수 있어요.",
+      "transcript": "사고 기록을 저장했어요. 필요할 때 이어서 고칠 수 있어요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:26:49.027Z"
+    },
+    {
+      "file": "a5b9c89c0528181a.mp3",
+      "audioHash": "a978a9ee8cf2d8d78a1734cdae7e9eff9fd0d6cb22638dc87f8c605313d8965f",
+      "script": "119 통화 연결됨. 사용자 응답은 아직 확인되지 않았어요.",
+      "transcript": "119 통화 연결됨. 사용자 응답은 아직 확인되지 않았어요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:26:49.733Z"
+    },
+    {
+      "file": "8c1fe7a67be27341.mp3",
+      "audioHash": "1319383e574201e0939e0a6bb69827b3987a25902eea731f04334bb02bb72fcc",
+      "script": "119 연결을 다시 시도하세요. 사용자 응답은 아직 확인되지 않았어요.",
+      "transcript": "119 연결을 다시 시도하세요. 사용자 응답은 아직 확인되지 않았어요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:26:50.642Z"
+    },
+    {
+      "file": "1b6592b9b6a30172.mp3",
+      "audioHash": "2b625f751f4f39f00a58bddba85e9d85c63f571f8ac1a59bb92e12b0bb3b98a0",
+      "script": "구호 접수가 확인됐어요. 사용자 응답은 아직 확인되지 않았어요.",
+      "transcript": "9호 접수가 확인됐어요. 사용자 응답은 아직 확인되지 않았어요.",
+      "language": "kor",
+      "similarity": 0.9615384615384616,
+      "checkedAt": "2026-11-10T10:26:51.419Z"
+    },
+    {
+      "file": "c5888a1cfa5b01d6.mp3",
+      "audioHash": "7d3510f254484d7dafe57b40e553a2e1a394c1ce50f80324f637e5523acdf5fa",
+      "script": "구호 인계가 확인됐어요. 사용자 응답은 아직 확인되지 않았어요.",
+      "transcript": "9호 인계가 확인됐어요. 사용자 응답은 아직 확인되지 않았어요.",
+      "language": "kor",
+      "similarity": 0.9615384615384616,
+      "checkedAt": "2026-11-10T10:26:52.251Z"
+    },
+    {
+      "file": "d887833598a3c98f.mp3",
+      "audioHash": "a59e1f0feae597d7c67f873f6b1b234db33e8a64ed07eb39140a8a3bc43f9ee4",
+      "script": "차량 지원이 필요해요. 차량을 직접 이동하지 말고 도움을 요청하세요.",
+      "transcript": "차량 지원이 필요해요. 차량을 직접 이동하지 말고 도움을 요청하세요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:26:53.182Z"
+    },
+    {
+      "file": "232c20a56d3b7bed.mp3",
+      "audioHash": "845d2c4895db758442d4cfbe868d115693d470e96714ed3ca44ba7144841a4a2",
+      "script": "요청할 내용을 확인하세요. ",
+      "transcript": "요청할 내용을 확인하세요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:26:53.828Z"
+    },
+    {
+      "file": "b09243f693cff108.mp3",
+      "audioHash": "c99e14b59b26ea98fc8adba9662dbd9ce3efffbc3c8f78a91d62b1064f0bd358",
+      "script": "차량 지원 요청을 보내고 있어요. ",
+      "transcript": "차량 지원 요청을 보내고 있어요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:26:54.670Z"
+    },
+    {
+      "file": "f0fcc6d6a125c1ed.mp3",
+      "audioHash": "4e4008eab47788a93b37aad75ef3ab1efc6fae3229b01a6f39e7a7b9d4a20be5",
+      "script": "요청을 보내지 못했어요. 접수되지 않았어요. 내용을 확인한 뒤 다시 요청하세요.",
+      "transcript": "요청을 보내지 못했어요. 접수되지 않았어요. 내용을 확인한 뒤 다시 요청하세요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:26:55.359Z"
+    },
+    {
+      "file": "702f8cdf0f3908d9.mp3",
+      "audioHash": "9a9fb130cb5af2e85ca8c5c2c107f61b0aed1b9f29aa90a4dd0025ae0bad237d",
+      "script": "차량 지원 접수를 기다려요. 요청은 전송됐어요. 접수 여부를 확인 중이에요.",
+      "transcript": "차량 지원 접수를 기다려요. 요청은 전송됐어요. 접수 여부를 확인 중이에요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:26:56.234Z"
+    },
+    {
+      "file": "007a6e3ee0d3e097.mp3",
+      "audioHash": "9a9c7ff77376f8e006b4b8ad64fc93a0a7c00404b33b291eb926bc96297cbf57",
+      "script": "기존 요청을 확인하고 있어요. 같은 요청을 다시 보내지 않아요.",
+      "transcript": "기존 요청을 확인하고 있어요. 같은 요청을 다시 보내지 않아요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:26:56.910Z"
+    },
+    {
+      "file": "37a03a4259765807.mp3",
+      "audioHash": "079dbd851dd120d69f66f59773afeb3aa83a2c11a7819e81cb61e5b9c94ab891",
+      "script": "기억나는 내용을 남겨주세요. 위치와 경위 중 확실한 내용만 적어주세요.",
+      "transcript": "기억나는 내용을 남겨주세요. 위치와 경위 중 확실한 내용만 적어주세요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:26:57.786Z"
+    },
+    {
+      "file": "e8599a5ea11d8008.mp3",
+      "audioHash": "6b376bc3d2f558389c9caac47e03f4e9ee0bab7a59d94b92f4228f98f17d8b95",
+      "script": "사고 기록을 저장했어요. 기록은 이 기기에 보관돼요. 아직 전송하지 않았어요.",
+      "transcript": "사고 기록을 저장했어요. 기록은 이 기기에 보관돼요. 아직 전송하지 않았어요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:26:58.625Z"
+    },
+    {
+      "file": "9c86b740763759ba.mp3",
+      "audioHash": "bde04b9bad8a2445889001ac372e3a14d7183642d4ed9e74f612f8f42cc9d0aa",
+      "script": "차량 지원 접수가 확인됐어요. 현장 도착은 아직 확인되지 않았어요.",
+      "transcript": "차량 지원 접수가 확인됐어요. 현장 도착은 아직 확인되지 않았어요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:26:59.584Z"
+    },
+    {
+      "file": "76025f0f85a33f79.mp3",
+      "audioHash": "f31dc4d1d75b6e98901dc32010038025b688e1b359ccdbf7f78bd3015465b23d",
+      "script": "차량 지원이 도착했어요. 보험 요청과 사고 기록은 별도로 유지돼요.",
+      "transcript": "차량 지원이 도착했어요. 보험 요청과 사고 기록은 별도로 유지돼요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:00.257Z"
+    },
+    {
+      "file": "7f715ff47346ac5e.mp3",
+      "audioHash": "06dfdd3a6bb93daa2a4925c1979e35d8168b808b2e1b33edf8ebcbacfd2d95a9",
+      "script": "응답이 없으면 10초 후 119에 연결합니다. 응답할 수 있다면 지금 연결하거나 취소를 선택하세요.",
+      "transcript": "응답이 없으면 10초 후 119에 연결합니다. 응답할 수 있다면 지금 연결하거나 취소를 선택하세요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:01.031Z"
+    },
+    {
+      "file": "c9e9cb907565cd00.mp3",
+      "audioHash": "6c2111db72ec322dc1ecbf183fa3984b8e4b920697df1facb0b70ab9e2b6e813",
+      "script": "응답이 확인됐어요. 119에 연결하고 있어요. 부상과 의식 상태는 아직 미확인이에요.",
+      "transcript": "응답이 확인됐어요. 119에 연결하고 있어요. 부상과 의식 상태는 아직 미확인이에요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:01.870Z"
+    },
+    {
+      "file": "2e89ef89bcdb3455.mp3",
+      "audioHash": "d4a04385dd760996004b80e232a4433a512be00abcc8fe87e02857bcb0f92584",
+      "script": "응답이 확인됐고 구호 연결은 취소했어요. 필요하면 다시 연결을 선택하세요.",
+      "transcript": "응답이 확인됐고 구호 연결은 취소했어요. 필요하면 다시 연결을 선택하세요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:03.050Z"
+    },
+    {
+      "file": "6ee5298606ba8a77.mp3",
+      "audioHash": "0fc9ffc947e305fd59791a2effb9a67b1f37a2a28de1ca0bf0ba39e7569d6286",
+      "script": "119 통화 연결됨. 부상·의식 상태는 별도 확인이 필요해요.",
+      "transcript": "119 통화 연결됨. 부상, 의식 상태는 별도 확인이 필요해요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:03.755Z"
+    },
+    {
+      "file": "6bbfecf55fa70b03.mp3",
+      "audioHash": "34b2b441e33e6bbcacb4f9be1e2960d58a8026321e84df7d0fb5600f22a4f004",
+      "script": "119 연결을 다시 시도하세요. 부상·의식 상태는 별도 확인이 필요해요.",
+      "transcript": "119 연결을 다시 시도하세요. 부상, 의식 상태는 별도 확인이 필요해요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:04.592Z"
+    },
+    {
+      "file": "a0009014ef74feae.mp3",
+      "audioHash": "01fa0ddacb3756fd08d314910c96ff06e151ac2d498357e0c7ace1fef1e3bebe",
+      "script": "구호 접수가 확인됐어요. 부상·의식 상태는 별도 확인이 필요해요.",
+      "transcript": "구호 접수가 확인됐어요. 부상, 의식 상태는 별도 확인이 필요해요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:05.359Z"
+    },
+    {
+      "file": "1c2861111920789c.mp3",
+      "audioHash": "260909e0bb71e39c1fb946337333f85ed83ffdc2fdc6ebc890cd8117998ea2a5",
+      "script": "구호 인계가 확인됐어요. 부상·의식 상태는 별도 확인이 필요해요.",
+      "transcript": "구호 인계가 확인됐어요. 부상, 의식 상태는 별도 확인이 필요해요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:06.097Z"
+    },
+    {
+      "file": "720290e1b39799e8.mp3",
+      "audioHash": "2b5db79119e05f3edda709edf69aa4cc8502ecdd13490b2a57ca42bb6c9aef77",
+      "script": "119 통화 연결됨. 응답 여부와 부상·의식 상태는 따로 확인해요.",
+      "transcript": "119 통화 연결됨. 응답 여부와 부상, 의식 상태는 따로 확인해요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:07.206Z"
+    },
+    {
+      "file": "fe6c9a9ab225c8b0.mp3",
+      "audioHash": "341b94444b02e5e51509ff43410882d8cf1426ced1659678b67a3560c939d0bc",
+      "script": "구호 접수가 확인됐어요. 응답 여부와 부상·의식 상태는 따로 확인해요.",
+      "transcript": "구호 접수가 확인됐어요. 응답 여부와 부상, 의식 상태는 따로 확인해요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:07.912Z"
+    },
+    {
+      "file": "56859336a918d7a6.mp3",
+      "audioHash": "4601626d86a996396f38c01d51fbe4e1573327051a74db958a92f3b617aeafc8",
+      "script": "119 연결을 다시 시도하세요. 응답 여부와 부상·의식 상태는 따로 확인해요.",
+      "transcript": "119 연결을 다시 시도하세요. 응답 여부와 부상, 의식 상태는 따로 확인해요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:08.959Z"
+    },
+    {
+      "file": "59f2e213904a42f7.mp3",
+      "audioHash": "76506984de0a7aa3a94c5027bd9f29a11ef5def296cf26b33ada4f0d578c7572",
+      "script": "구호 담당자의 인계 확인을 받았어요. 사용자 응답과 부상·의식은 별도 확인이 필요해요.",
+      "transcript": "구호 담당자의 인계 확인을 받았어요. 사용자 응답과 부상 의식은 별도 확인이 필요해요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:09.732Z"
+    },
+    {
+      "file": "10f6a36768aa515e.mp3",
+      "audioHash": "b5e00bac6573e9a5400f62963a0b7016bdbaaf900fa52d724edee72854dd7438",
+      "script": "전송할 기록을 확인하세요. 확인된 사실만 남기고 잘못된 내용은 고쳐주세요.",
+      "transcript": "전송할 기록을 확인하세요. 확인된 사실만 남기고 잘못된 내용은 고쳐주세요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:10.594Z"
+    },
+    {
+      "file": "57ce3258336640d1.mp3",
+      "audioHash": "112154e529be5ee2e4f137793d0cd8f45364e9c6b1e213d176aa9d439384a8db",
+      "script": "사고 기록을 고쳐주세요. ",
+      "transcript": "사고 기록을 고쳐주세요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:11.440Z"
+    },
+    {
+      "file": "995f437ca4302ad0.mp3",
+      "audioHash": "05fb98bb24497e8378c815663e5fcbb7144aa4ab2c099744053000d1f94708ef",
+      "script": "보험사에 보낼 내용을 확인하세요. ",
+      "transcript": "보험사에 보낼 내용을 확인하세요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:12.091Z"
+    },
+    {
+      "file": "229cdf9de7da274e.mp3",
+      "audioHash": "409e6a842e2b4860eb17381c4cb85765a76d7bf039784caaa6715c2e6713276a",
+      "script": "전송을 보류했어요. 기록은 보관돼요. 구호·차량 지원은 계속 진행돼요.",
+      "transcript": "전송을 보류했어요. 기록은 보관돼요. 구호, 차량 지원은 계속 진행돼요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:12.963Z"
+    },
+    {
+      "file": "c9473ed9a8fc3ec4.mp3",
+      "audioHash": "ac6da3982a329f5083fa809a15cadd5998189e101d24678d365b527c075fc998",
+      "script": "보험사에 보내지 않았어요. 승인 없이는 전송하지 않아요. 다른 지원은 유지돼요.",
+      "transcript": "보험사에 보내지 않았어요. 승인 없이는 전송하지 않아요. 다른 지원은 유지돼요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:13.936Z"
+    },
+    {
+      "file": "faa9ff838313ebaf.mp3",
+      "audioHash": "d1ef707dcc32bcfec8e1baeb5825d87be7f9b85f893f13790b2129b82ffe6f2e",
+      "script": "보험사에 기록을 보내고 있어요. ",
+      "transcript": "보험사에 기록을 보내고 있어요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:14.809Z"
+    },
+    {
+      "file": "0d8498e30697e269.mp3",
+      "audioHash": "b00f022d19504f07e6d8ab4dd4a20f0b418f3fc1f2932cc4080eb92c782284d7",
+      "script": "기록을 보내지 못했어요. 전송 범위를 확인한 뒤 다시 승인해 주세요.",
+      "transcript": "기록을 보내지 못했어요. 전송 범위를 확인한 뒤 다시 승인해 주세요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:16.223Z"
+    },
+    {
+      "file": "b8edcba6e7d3353b.mp3",
+      "audioHash": "303755bd44060be4e969e4e0530838715d6b428a566d5d730bcb708995ba28e4",
+      "script": "기록을 보냈어요. 전송은 완료됐어요. 보험 접수는 아직 미확인이에요.",
+      "transcript": "기록을 보냈어요. 전송은 완료됐어요. 보험 접수는 아직 미확인이에요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:17.275Z"
+    },
+    {
+      "file": "38773edde770ebe4.mp3",
+      "audioHash": "08dbfbc4e616f053ca39795305e8997b703edffefc8d0018ff332dbfdef3d1a3",
+      "script": "보험 접수를 확인하고 있어요. ",
+      "transcript": "보험 접수를 확인하고 있어요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:17.963Z"
+    },
+    {
+      "file": "9c6b96b614ec29ad.mp3",
+      "audioHash": "71be688d1b9243919e30352bdd0d97190af3b48d462412069c6de786a09dd02a",
+      "script": "보험 접수가 확인됐어요. 현장 도착·인계와 보상 처리는 별도 확인이 필요해요.",
+      "transcript": "보험 접수가 확인됐어요. 현장 도착 인계와 보상 처리는 별도 확인이 필요해요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:18.852Z"
+    },
+    {
+      "file": "48d460ed0badef90.mp3",
+      "audioHash": "da03d8b739f769ac17a020ac7dd399ced3a7a46b41e1a5d65c0a361a802de8d9",
+      "script": "차량 지원의 접수가 미확인이에요. 구호는 접수됐고 보험은 요청 전이에요. 기존 요청 결과부터 확인하세요.",
+      "transcript": "차량 지원의 접수가 미확인이에요. 구호는 접수됐고 보험은 요청 전이에요. 기존 요청 결과부터 확인하세요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:20.145Z"
+    },
+    {
+      "file": "7003712ef7955fce.mp3",
+      "audioHash": "babd922688c6e0e27a9cc64dd1c151ef36e9267e4825cf88d5e4cf518eedb087",
+      "script": "차량 지원 접수 결과를 확인하고 있어요. 새 요청을 보낸 것은 아니에요.",
+      "transcript": "차량 지원 접수 결과를 확인하고 있어요. 새 요청을 보낸 것은 아니에요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:21.051Z"
+    },
+    {
+      "file": "820454aaf013fca8.mp3",
+      "audioHash": "792a27cfb2c2fe12c81ecec93fd53f79d746b516dbefea7572f60c2aefe7d743",
+      "script": "차량 지원의 접수가 확인됐어요. 현장 도착과 구호 인계는 각각 확인해요. 보험은 요청 전이에요.",
+      "transcript": "차량 지원의 접수가 확인됐어요. 현장 도착과 구호 인계는 각각 확인해요. 보험은 요청 전이에요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:21.717Z"
+    },
+    {
+      "file": "2bb1a8f229da750b.mp3",
+      "audioHash": "c4b3e090a44c95fa0842a6569e8ad02243fb7dc1b413d7c6f3a0a8c35426e33d",
+      "script": "여기서 잠시 멈췄어요. 기존 요청은 계속 진행돼요. 돌아오면 결과부터 확인해요.",
+      "transcript": "여기서 잠시 멈췄어요. 기존 요청은 계속 진행돼요. 돌아오면 결과부터 확인해요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:22.534Z"
+    },
+    {
+      "file": "583ffe1d1d04701d.mp3",
+      "audioHash": "f7c953c3c498c746c56e729d36434d3cea8e49cdd454f347b7d06ebc8296b2b2",
+      "script": "접수 결과를 확인하지 못했어요. 기존 요청은 유지돼요. 새 요청을 보내지 않아요.",
+      "transcript": "접수 결과를 확인하지 못했어요. 기존 요청은 유지돼요. 새 요청을 보내지 않아요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:23.279Z"
+    },
+    {
+      "file": "c68d58b4ac518493.mp3",
+      "audioHash": "8641699a2980d13091cb817ca161add7c6273c2d63cb14985df96be1bc069119",
+      "script": "차량 지원이 접수되지 않았어요. 미접수를 확인했어요. 내용을 확인한 뒤 다시 요청하세요.",
+      "transcript": "차량 지원이 접수되지 않았어요. 미접수를 확인했어요. 내용을 확인한 뒤 다시 요청하세요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:25.146Z"
+    },
+    {
+      "file": "984a53d3fa980f76.mp3",
+      "audioHash": "38938092a86512a7effabdc3a59fef944ffd1fd6f4d78f5cab262992b92aff29",
+      "script": "다시 요청할 내용을 확인하세요. 변경한 전송 범위에 다시 동의해 주세요.",
+      "transcript": "다시 요청할 내용을 확인하세요. 변경한 전송 범위에 다시 동의해 주세요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:26.215Z"
+    },
+    {
+      "file": "266bac624013f337.mp3",
+      "audioHash": "54890dc2b28b5a4abbd040a371bf6189e4f071724ab1f8c66d4ce3d4b744e3bf",
+      "script": "차량 지원을 다시 요청하고 있어요. ",
+      "transcript": "차량 지원을 다시 요청하고 있어요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:26.851Z"
+    },
+    {
+      "file": "4d94d9bdafae03be.mp3",
+      "audioHash": "0327133c05b429c6dfb053ecbaf6ce64a46bc8ef448739886d8b8126e8e9b43e",
+      "script": "요청을 보내지 못했어요. 전송 범위를 다시 확인해 주세요.",
+      "transcript": "요청을 보내지 못했어요. 전송 범위를 다시 확인해 주세요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:27.832Z"
+    },
+    {
+      "file": "b532b131df700472.mp3",
+      "audioHash": "f157429f5d3ef5e2273bb7d8ed52356f9dfa18db0fd920990000035fa1244d88",
+      "script": "차량 지원이 현장에 도착했어요. 구호 인계 상태도 함께 확인하세요.",
+      "transcript": "차량 지원이 현장에 도착했어요. 구호 인계 상태도 함께 확인하세요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:28.695Z"
+    },
+    {
+      "file": "5ad78d38dad07000.mp3",
+      "audioHash": "389a9ea015fecd2c9aebe9f1d2ded4177089818de3ba820b452959b49c6af041",
+      "script": "구호 인계가 확인됐어요. 보험은 요청 전이에요. 남은 지원을 따로 확인하세요.",
+      "transcript": "구호 인계가 확인됐어요. 보험은 요청 전이에요. 남은 지원을 따로 확인하세요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:29.425Z"
+    },
+    {
+      "file": "6854e2958943d985.mp3",
+      "audioHash": "1a610796baf7c5f89d119f83d1f5dd715b55c1142b64f3368e90c56c4d272b23",
+      "script": "차량에서 확인한 내용이에요. 확인된 정보와 아직 모르는 내용을 구분해요. 충격 정보만으로 차량 손상이나 이동 가능 여부를 판단하지 않아요.",
+      "transcript": "차량에서 확인한 내용이에요. 확인된 정보와 아직 모르는 내용을 구분해요. 충격 정보만으로 차량 손상이나 이동 가능 여부를 판단하지 않아요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:30.650Z"
+    },
+    {
+      "file": "e7af40e571accdc7.mp3",
+      "audioHash": "eb6698a0570ca24bdb3e598e9ed29b8c0c4fb5d4accc13be8433dc53bb8e4398",
+      "script": "기억나는 내용을 말로 남겨주세요. 확실한 내용만 말해도 돼요. 말하기를 마친 뒤 내용을 확인하고 저장할 수 있어요.",
+      "transcript": "기억나는 내용을 말로 남겨주세요. 확실한 내용만 말해도 돼요. 말하기를 마친 뒤 내용을 확인하고 저장할 수 있어요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:31.610Z"
+    },
+    {
+      "file": "8eb0969f13dc0196.mp3",
+      "audioHash": "841c0689dfa53427c77ab2cd3784ad9627275781e02675ff87249668beb92be4",
+      "script": "남긴 내용을 확인해주세요. 기억과 다른 내용은 저장 전에 고칠 수 있어요. 확인을 마쳤으면 기록 저장을 눌러주세요.",
+      "transcript": "남긴 내용을 확인해 주세요. 기억과 다른 내용은 저장 전에 고칠 수 있어요. 확인을 마쳤으면 기록 저장을 눌러주세요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:32.793Z"
+    },
+    {
+      "file": "0cda98bcb102aa57.mp3",
+      "audioHash": "b9bf6fda26440fa67dac945417e2923628def94ea6eb35fd85493d96910c227e",
+      "script": "지금 남길 수 있는 사진만 선택해도 돼요. 사진을 확인한 뒤 저장해주세요. 안전하게 촬영할 수 없다면 건너뛰어도 돼요.",
+      "transcript": "지금 남길 수 있는 사진만 선택해도 돼요. 사진을 확인한 뒤 저장해 주세요. 안전하게 촬영할 수 없다면 건너뛰어도 돼요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:33.717Z"
+    },
+    {
+      "file": "0afe85bba4e32baa.mp3",
+      "audioHash": "59a74d8f45ad5c3e3cd2a06b6613ffb2c3f3ebcf6054811a4d519776e666c785",
+      "script": "남겨진 자료를 살펴보세요. 영상과 사고 도식, 경위서를 각각 확인할 수 있어요. 확인할 수 없는 내용은 그대로 남겨도 돼요.",
+      "transcript": "남겨진 자료를 살펴보세요. 영상과 사고 도식, 경위서를 각각 확인할 수 있어요. 확인할 수 없는 내용은 그대로 남겨도 돼요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:34.479Z"
+    },
+    {
+      "file": "ce865a7bbb79f10b.mp3",
+      "audioHash": "8daf18976eea977057be180d7a7c65b431fd99d667bbffac74c590d3e39d56fb",
+      "script": "보낼 범위를 직접 선택해주세요. 수신처와 보낼 내용을 확인한 뒤 요청할 수 있어요. 전송과 접수 확인은 별개예요.",
+      "transcript": "보낼 범위를 직접 선택해 주세요. 수신처와 보낼 내용을 확인한 뒤 요청할 수 있어요. 전송과 접수 확인은 별개예요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:35.336Z"
+    },
+    {
+      "file": "c26504c1a1e30085.mp3",
+      "audioHash": "340b59c77b5c2edcab5554b47163668c422f522e34aa35863c4f63c038c3be69",
+      "script": "필요한 다음 일을 살펴보세요. 정비소와 이동 경로, 대차 여부를 따로 확인할 수 있어요. 미확인된 결과는 확인될 때까지 그대로 표시해요.",
+      "transcript": "필요한 다음 일을 살펴보세요. 정비소와 이동 경로, 대차 여부를 따로 확인할 수 있어요. 미확인된 결과는 확인될 때까지 그대로 표시해요.",
+      "language": "kor",
+      "similarity": 1,
+      "checkedAt": "2026-11-10T10:27:36.431Z"
+    }
+  ],
+  "review": {
+    "clips": 64,
+    "exactNormalized": 60,
+    "homophoneTranscriptions": 4,
+    "finding": "All four differences are scribe rendering 구호 as the homophone 9호; the remaining Korean wording matches.",
+    "humanListening": "Not performed by agent; automated transcription, decode and browser playback checked."
+  }
+}

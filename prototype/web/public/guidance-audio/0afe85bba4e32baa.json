@@ -1,0 +1,23 @@
+{
+  "voiceId": "gKJdDVRmX8dROO8aA5I8",
+  "voiceName": "JaeGyu - Calm & Trustworthy",
+  "model": "eleven_v4",
+  "script": "남겨진 자료를 살펴보세요. 영상과 사고 도식, 경위서를 각각 확인할 수 있어요. 확인할 수 없는 내용은 그대로 남겨도 돼요.",
+  "scriptHash": "0afe85bba4e32baa36b1c84a5754bb6cf8b17905ab6bc8909015ef016b81cf6f",
+  "file": "0afe85bba4e32baa.mp3",
+  "path": "/guidance-audio/0afe85bba4e32baa.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "journey/남겨진 자료를 살펴보세요"
+  ],
+  "duration": 8.8,
+  "bytes": 212575,
+  "audioHash": "59a74d8f45ad5c3e3cd2a06b6613ffb2c3f3ebcf6054811a4d519776e666c785",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-10T10:23:57.882Z"
+}

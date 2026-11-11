@@ -115,7 +115,7 @@ test('SC03 risk and unresponsive call/receipt/handoff never imply response or co
   await event(page, '응답 없음 (즉시)'); await event(page, '연결 실패')
   await at(page, 'unanswered_failed'); await event(page, '구호 연결 재시도')
   await event(page, '통화 연결 확인'); await at(page, 'unanswered_connected')
-  await expect(root(page).locator('.emergency-call-spectrum')).toBeVisible()
+  await expect(root(page).locator('.ac-spectrum')).toBeVisible()
   await event(page, '구호 접수 확인'); await event(page, '구호 인계 확인')
   await at(page, 'unanswered_handoff')
   const s = await snapshot(page, 'SC03')

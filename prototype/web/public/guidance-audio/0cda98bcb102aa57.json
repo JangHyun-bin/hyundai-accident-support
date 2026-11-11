@@ -1,0 +1,23 @@
+{
+  "voiceId": "gKJdDVRmX8dROO8aA5I8",
+  "voiceName": "JaeGyu - Calm & Trustworthy",
+  "model": "eleven_v4",
+  "script": "지금 남길 수 있는 사진만 선택해도 돼요. 사진을 확인한 뒤 저장해주세요. 안전하게 촬영할 수 없다면 건너뛰어도 돼요.",
+  "scriptHash": "0cda98bcb102aa5797a082cd0064f67fe1a4ff3041d2bf305c2c038160712523",
+  "file": "0cda98bcb102aa57.mp3",
+  "path": "/guidance-audio/0cda98bcb102aa57.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "journey/사진 남기기"
+  ],
+  "duration": 8.16,
+  "bytes": 197528,
+  "audioHash": "b9bf6fda26440fa67dac945417e2923628def94ea6eb35fd85493d96910c227e",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-10T10:23:55.210Z"
+}

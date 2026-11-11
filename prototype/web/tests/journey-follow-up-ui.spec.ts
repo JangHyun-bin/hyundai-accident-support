@@ -16,11 +16,10 @@ declare global {
 async function mount(page: Page, input: { directory?: FollowUpDirectoryState; rental?: FollowUp['rental']; device?: Device; actual?: boolean } = {}) {
   await page.goto('/?study=journey-catalog')
   await page.evaluate(async input => {
-    const paths = { react: '/node_modules/.vite/deps/react.js', dom: '/node_modules/.vite/deps/react-dom_client.js',
+    const paths = { runtime: '/tests/react-runtime.ts',
       panel: '/src/journey/FollowUpPanel.tsx', fixtures: '/src/journey/follow-up-fixtures.ts', layout: '/src/journey/JourneyLayout.tsx',
       domain: '/src/journey/case.ts', session: '/src/emergency/session.ts', vehicle: '/src/journey/VehiclePanel.tsx' }
-    const React = (await import(paths.react)).default as typeof import('react')
-    const { createRoot } = (await import(paths.dom)).default as typeof import('react-dom/client')
+    const { React, createRoot } = await import(paths.runtime) as typeof import('./react-runtime')
     const { FollowUpPanel } = await import(paths.panel) as typeof import('../src/journey/FollowUpPanel')
     const { followUpDirectories } = await import(paths.fixtures) as typeof import('../src/journey/follow-up-fixtures')
     const { JourneyLayout } = await import(paths.layout) as typeof import('../src/journey/JourneyLayout')

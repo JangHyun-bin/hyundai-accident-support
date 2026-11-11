@@ -1,0 +1,16 @@
+{
+  "desktop1600": [
+    "A",
+    "B",
+    "both"
+  ],
+  "textWithinShapes": true,
+  "presetStorageUnchanged": true,
+  "keyboard": true,
+  "reload": true,
+  "switcher": true,
+  "recordStub": true,
+  "mobile393": true,
+  "invalidVariantFallback": true,
+  "consoleErrors": []
+}

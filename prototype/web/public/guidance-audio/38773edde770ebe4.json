@@ -1,0 +1,23 @@
+{
+  "voiceId": "gKJdDVRmX8dROO8aA5I8",
+  "voiceName": "JaeGyu - Calm & Trustworthy",
+  "model": "eleven_v4",
+  "script": "보험 접수를 확인하고 있어요. ",
+  "scriptHash": "38773edde770ebe4f14cd8112633624e028ee1f5cb05a73db9bf2204b3cb4236",
+  "file": "38773edde770ebe4.mp3",
+  "path": "/guidance-audio/38773edde770ebe4.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "SC04/checking"
+  ],
+  "duration": 2.24,
+  "bytes": 55213,
+  "audioHash": "08dbfbc4e616f053ca39795305e8997b703edffefc8d0018ff332dbfdef3d1a3",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-10T10:23:19.068Z"
+}
