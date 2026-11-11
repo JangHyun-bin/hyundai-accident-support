@@ -18,9 +18,9 @@
 .ac-material-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:var(--ac-space-6); }
 .ac-material-grid .ac-surface { display:flex; flex-direction:column; gap:var(--ac-space-6); min-height:360px; }
 .ac-catalog-call-label { display:flex; justify-content:space-between; align-items:center; gap:var(--ac-space-4); font-size:var(--ac-type-supporting); }
-.ac-catalog-number { font-size:var(--ac-type-number); line-height:1; letter-spacing:-.045em; font-variant-numeric:tabular-nums; }
-.ac-material-grid h3 { font-size:var(--ac-type-section); font-weight:400; line-height:1.4; }
-.ac-material-grid [data-care-surface=safety] h3 { font-size:var(--ac-type-title); margin-block:auto; }
+.ac-catalog-number { font-size:var(--ac-type-number); line-height:1; letter-spacing:-.055em; font-variant-numeric:tabular-nums; }
+.ac-material-grid h3 { font-size:var(--ac-type-call); font-weight:400; line-height:1.25; letter-spacing:-.035em; }
+.ac-material-grid [data-care-surface=safety] h3 { font-size:var(--ac-type-guide); font-weight:600; line-height:1.22; letter-spacing:-.02em; margin-block:auto; }
 .ac-material-grid .ac-eyebrow { color:inherit; }
 .ac-catalog-material-note { margin-top:var(--ac-space-6)!important; padding-top:var(--ac-space-6); border-top:1px solid var(--ac-line); font-size:var(--ac-type-supporting); }
 .ac-material-grid .ac-catalog-material-note { border-color:var(--ac-material-line); margin-top:auto!important; }
@@ -35,3 +35,5 @@
 .ac-catalog-scene-controls label { display:grid; gap:var(--ac-space-2); font-size:var(--ac-type-label); color:var(--ac-muted); max-width:100%; }
 .ac-catalog-scene-controls select { min-height:var(--ac-touch); min-width:0; max-width:100%; padding:var(--ac-space-3); color:var(--ac-text); background:var(--ac-control); border:1px solid var(--ac-line); border-radius:var(--ac-radius-small); }
 .ac-catalog-scene-controls a { min-height:var(--ac-touch); display:flex; align-items:center; font-size:var(--ac-type-supporting); }
+
+.ac-catalog-section-title h2 { min-width:0; max-width:100%; overflow-wrap:anywhere; }

@@ -1,5 +1,5 @@
-.journey-review-content { display: grid; gap: var(--ac-space-6); }
-.journey-submission { display: grid; gap: var(--ac-space-6); min-width: 0; }
+.journey-review-content { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--ac-space-6); }
+.journey-submission { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--ac-space-6); min-width: 0; }
 .journey-recipient { display: grid; gap: var(--ac-space-3); font-size: var(--ac-type-supporting); }
 .journey-recipient input { min-height: 56px; width: 100%; padding: var(--ac-space-3) var(--ac-space-4); border: 1px solid var(--ac-line); border-radius:var(--ac-radius-control); background: var(--ac-control); color: var(--ac-text); font: inherit; }
 .journey-send-options { min-width: 0; border: 0; padding: 0; margin: 0; display: grid; gap: var(--ac-space-3); }
@@ -8,7 +8,7 @@
 .journey-send-options input { flex: none; width: 24px; height: 24px; accent-color: var(--ac-text); }
 .journey-send-options span { min-width: 0; }
 .journey-send-options small { display: block; font-size: var(--ac-type-label); color: var(--ac-muted); margin-top: var(--ac-space-2); }
-.journey-send-preview, .journey-receipt { display: grid; gap: var(--ac-space-6); padding: var(--ac-space-6); border: 1px solid var(--ac-line); border-radius:var(--ac-radius-control); }
+.journey-send-preview, .journey-receipt { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--ac-space-6); padding: var(--ac-space-6); border: 1px solid var(--ac-line); border-radius:var(--ac-radius-control); }
 .journey-send-preview h2 { font-size: var(--ac-type-section); }
 .journey-payload { display: grid; gap: var(--ac-space-6); }
 .journey-payload section { display: grid; gap: var(--ac-space-3); padding-block: var(--ac-space-4); border-block-start: 1px solid var(--ac-line); }

@@ -13,6 +13,8 @@ import { EvidencePanel, type EvidencePanelHandle } from './EvidencePanel'
 import { FollowUpPanel } from './FollowUpPanel'
 import { followUpDirectories, type FollowUpDirectoryState } from './follow-up-fixtures'
 import { JourneyReviewPanel, type JourneyReviewHandle } from './JourneyReviewPanel'
+import {JourneyFlow} from './JourneyFlow'
+import {hasJourneyRecord} from './journey-flow'
 import { JourneyRecovery } from './JourneyRecovery'
 import {useGuidanceAudio,stopGuidanceAudio} from '@/audio/useGuidanceAudio'
 import {useCareMotion} from '@/design-system/motion'
@@ -23,10 +25,14 @@ function replaceQuery(values: Record<string, string>) {
   history.replaceState(null, '', url)
 }
 
-export function JourneyStudy({embedded=false}:{embedded?:boolean}) {
+export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;previewHeight?:number}) {
   const [initial] = useState(() => new URLSearchParams(location.search))
   const journey = useJourneyCase(initial.get('case'))
   const { value, dispatch } = journey
+  const representative = value?.fixtureId === 'complete-journey'
+  const insurance = value?.submissions.find(item=>item.id===value.activeSubmissionIds.insurance)
+  const insuranceResultReady = insurance?.transport === undefined || insurance.transport === 'sent'
+  const sending = value?.submissions.some(item => item.transport === 'sending') ?? false
   const [fixture, setFixture] = useState(initial.get('fixture') ?? fixtures.cases[0].id)
   const [device, setDevice] = useState<Device>(initial.get('device') === 'mobile' ? 'mobile' : 'vehicle')
   const [details, setDetails] = useState(false)
@@ -54,7 +60,7 @@ export function JourneyStudy({embedded=false}:{embedded?:boolean}) {
   const secondsLeft = countdown.key === countdownKey ? countdown.seconds : scene?.auto_contact?.seconds ?? 0
 
   useEffect(() => {
-    if (!scene?.auto_contact || !value || value.suspended) return
+    if (!scene?.auto_contact || !value || value.suspended || representative) return
     const auto = scene.auto_contact
     const deadline = Date.now() + auto.seconds * 1000
     const key = value.id + '/' + scene.id
@@ -68,12 +74,13 @@ export function JourneyStudy({embedded=false}:{embedded?:boolean}) {
       }
     }, 100)
     return () => clearInterval(timer)
-  }, [countdownKey, value?.suspended, dispatch])
+  }, [countdownKey, value?.suspended, representative, dispatch])
 
   useEffect(() => {
-    const frame = requestAnimationFrame(() => [...document.querySelectorAll<HTMLElement>('[data-case-id] h1')].find(node => node.getClientRects().length)?.focus())
+    if (representative && !details && value?.stage !== 'follow-up') return
+    const frame = requestAnimationFrame(() => [...document.querySelectorAll<HTMLElement>('[data-case-id] h1')].find(node => node.getClientRects().length)?.focus({preventScroll:true}))
     return () => cancelAnimationFrame(frame)
-  }, [value?.id, value?.stage, scene?.id, details, recordTab])
+  }, [value?.id, value?.stage, scene?.id, details, recordTab, representative])
 
   async function begin() {
     if (value && !await prepareToLeave(true)) return
@@ -81,7 +88,9 @@ export function JourneyStudy({embedded=false}:{embedded?:boolean}) {
     const created = createCase(createSession(definition.scenarioId, definition.sceneId), crypto.randomUUID(), new Date().toISOString())
     created.fixtureId = definition.id
     const saved = await journey.start(created)
-    if (saved.ok) replaceQuery({ case: saved.value.id, device })
+    if (saved.ok) {
+      replaceQuery({ case: saved.value.id, device })
+    }
     setDetails(false)
   }
 
@@ -103,10 +112,12 @@ export function JourneyStudy({embedded=false}:{embedded?:boolean}) {
   }
 
   async function navigate(stage: Stage) {
-    if (stage !== 'response' && !await prepareToLeave()) return
-    if (stage !== 'response' && !(await journey.flush()).ok) return
+    if(stage==='response'){voicePanel.current?.preserveDraft();reviewPanel.current?.preserveDraft()}
+    if (sending || stage !== 'response' && !await prepareToLeave()) return false
+    if (stage !== 'response' && !(await journey.flush()).ok) return false
     setDetails(false)
     dispatch({ type: 'navigate', stage })
+    return true
   }
 
   function photoCommand(command: CaseCommand) {
@@ -126,6 +137,8 @@ export function JourneyStudy({embedded=false}:{embedded?:boolean}) {
 
   function risk() {
     if (!value) return
+    voicePanel.current?.preserveDraft()
+    reviewPanel.current?.preserveDraft()
     const fact = scenarioFor(value.emergency.scenarioId).facts.find(f => f.id === 'risk')
     dispatch({ type: 'observation', observation: { id: 'risk-' + crypto.randomUUID(), kind: 'risk', label: '차량 위험', value: '위험 정보 확인 필요',
       source: 'fixture', observedAt: new Date().toISOString(), confirmation: 'attention', legacyFactId: fact ? 'risk' : null, supersedes: null } })
@@ -206,6 +219,33 @@ export function JourneyStudy({embedded=false}:{embedded?:boolean}) {
     if (kind === 'rental' && (status === 'eligible' || status === 'ineligible' || status === 'unknown')) dispatch({ type: 'follow-up-result', ...identity, kind, status })
   }
 
+  async function selectRecordTab(tab:'voice'|'photos') {
+    if (!await prepareToLeave()) return
+    setRecordTab(tab)
+    requestAnimationFrame(()=>{
+      const selected=[...document.querySelectorAll<HTMLButtonElement>('#journey-record-editor .journey-record-tabs button[aria-pressed=true]')].find(node=>node.getClientRects().length&&!node.closest('[hidden],[inert]'))
+      selected?.focus({preventScroll:true})
+    })
+  }
+
+  function recordWorkspace() {
+    if (!value) return null
+    const tabs=<nav className="journey-record-tabs" aria-label="기록 방법">
+      <button aria-pressed={recordTab === 'voice'} onClick={() => void selectRecordTab('voice')}>말로 남기기</button>
+      <button aria-pressed={recordTab === 'photos'} onClick={() => void selectRecordTab('photos')}>사진 남기기</button>
+    </nav>
+    const footer=<JourneyRequests value={value}/>
+    return <>
+      <div hidden={recordTab !== 'voice'} className="journey-editor-holder"><VoiceRecordPanel ref={voicePanel} value={value} mode={voiceMode} onSave={journey.save} navigation={tabs} footer={footer}/></div>
+      <div hidden={recordTab !== 'photos'} className="journey-editor-holder"><EvidencePanel ref={photoPanel} value={value} onSave={journey.save} onCommand={photoCommand} navigation={tabs} footer={footer}/></div>
+    </>
+  }
+
+  function reviewWorkspace() {
+    if (!value) return null
+    return <JourneyReviewPanel ref={reviewPanel} explicitTransport={representative} value={value} onCommand={dispatch} onApprove={journey.approve} footer={<JourneyRequests value={value}/>}/>
+  }
+
   function content() {
     if (!value || !scene) return null
     const navigation = renderNavigation(value)
@@ -213,7 +253,7 @@ export function JourneyStudy({embedded=false}:{embedded?:boolean}) {
       action={<JourneyAction onClick={() => setDetails(false)}><ArrowLeft aria-hidden="true" />대응 화면으로</JourneyAction>}>
       <VehiclePanel value={value} onCommand={dispatch} />
     </JourneyLayout>
-    if (value.stage === 'response') {
+    if (value.stage === 'response' && !representative) {
       const response=<EmergencySurface navigation={navigation} selection={value.emergency} paused={false} present="off"
         notice={<JourneyRiskNotice value={value} />}
         voiceState={voiceState} storageAvailable={journey.saveState === 'saved'} countdownKey={countdownKey} secondsLeft={secondsLeft} heading={heading}
@@ -224,7 +264,7 @@ export function JourneyStudy({embedded=false}:{embedded?:boolean}) {
     return null
   }
 
-  return <div className={`journey-study journey-theme ac-system${embedded?' journey-embedded':''}`}>
+  return <div data-care-device={device} className={`journey-study journey-theme ac-system${embedded?' journey-embedded':''}`}>
     {!embedded&&<header className="journey-review-heading"><div><p>AFTER / CARE</p><h1>사고 대응 · 전체 여정</h1><span>가상 자료와 명시적 결과로 검토 · 실제 전화·전송·기기 간 동기화 없음</span></div><a href="/?study=design-system">Design system<ArrowRight size={16} /></a></header>}
     <section className="journey-review-controls" aria-label="시연 설정">
       <label>시연 상황<select value={fixture} onChange={e => setFixture(e.target.value)}>{fixtures.cases.map(f => <option key={f.id} value={f.id}>{f.title}</option>)}</select></label>
@@ -235,6 +275,30 @@ export function JourneyStudy({embedded=false}:{embedded?:boolean}) {
     {journey.loading && <p role="status">기록을 불러오고 있어요.</p>}
     {journey.missing && !value && <section className="journey-empty"><h2>이 기기에서 기록을 찾지 못했어요</h2><p>다른 기기의 기록은 자동으로 이어지지 않아요.</p></section>}
     {value && <>
+      <section ref={representative?undefined:motionRef} data-care-motion-key={contextKey} data-case-id={value.id} data-journey-stage={value.stage}>
+        {representative&&<div hidden={details||value.stage==='follow-up'}><JourneyFlow previewHeight={previewHeight} key={value.id} value={value} device={device} active={!details&&value.stage!=='follow-up'} onCommand={dispatch} onNavigate={navigate} recordWorkspace={recordWorkspace()} reviewWorkspace={reviewWorkspace()} onReview={()=>reviewPanel.current?.openSubmission()}/></div>}
+        {content()}
+        {!representative&&<div id="journey-record-editor" key={value.id} hidden={value.stage !== 'record' || details}>
+          <JourneyLayout device={device} navigation={renderNavigation(value)} summary={<JourneySummary value={value} />}
+            action={<JourneyAction secondary disabled={representative&&!hasJourneyRecord(value)} onClick={() => void navigate('review')}>{representative?'기록 내용 확인':'내용 확인으로'}<ArrowRight aria-hidden="true" /></JourneyAction>}>
+            {recordWorkspace()}
+          </JourneyLayout>
+        </div>}
+        {!representative&&<div id="journey-review-editor" key={value.id + '-review'} hidden={value.stage !== 'review' || details}>
+          <JourneyLayout device={device} navigation={renderNavigation(value)} summary={<JourneySummary value={value} />}
+            action={<JourneyAction secondary disabled={sending} onClick={() => void navigate('record')}>기록으로 돌아가기</JourneyAction>}>
+            {reviewWorkspace()}
+          </JourneyLayout>
+        </div>}
+        <div key={value.id + '-follow-up'} hidden={value.stage !== 'follow-up' || details}>
+          <JourneyLayout device={device} navigation={renderNavigation(value)} summary={<JourneySummary value={value} />}
+            action={<JourneyAction secondary disabled={representative&&!hasJourneyRecord(value)} onClick={() => void navigate('review')}>사고 내용으로 돌아가기</JourneyAction>}>
+            <FollowUpPanel value={value} onCommand={dispatch} directory={value.fixtureId ? followUpDirectories[directoryState] : undefined} onDirtyChange={setFollowUpDirty}
+              navigation={device === 'mobile' ? renderNavigation(value) : undefined} />
+            <JourneyRequests value={value} />
+          </JourneyLayout>
+        </div>
+      </section>
       <div className="journey-product-tools">
         <button onClick={() => void navigate('response')}>긴급 대응 보기</button>
         {value.stage !== 'follow-up' && <button onClick={() => void navigate('follow-up')}>후속 처리 보기</button>}
@@ -244,36 +308,6 @@ export function JourneyStudy({embedded=false}:{embedded?:boolean}) {
         {value.stage === 'response' && value.returnStage === 'follow-up' && <button onClick={() => dispatch({ type: 'navigate', stage: 'follow-up' })}>후속 처리로 돌아가기</button>}
         {value.suspended && <button onClick={() => dispatch({ type: 'resume' })}>이어서 확인하기</button>}
       </div>
-      <section ref={motionRef} data-care-motion-key={contextKey} data-case-id={value.id} data-journey-stage={value.stage}>
-        {content()}
-        <div key={value.id} hidden={value.stage !== 'record' || details}>
-          <JourneyLayout device={device} navigation={renderNavigation(value)} summary={<JourneySummary value={value} />}
-            action={<JourneyAction secondary onClick={() => void navigate('review')}>내용 확인으로<ArrowRight aria-hidden="true" /></JourneyAction>}>
-            <nav className="journey-record-tabs" aria-label="기록 방법">
-              <button aria-pressed={recordTab === 'voice'} onClick={async () => { if (await prepareToLeave()) setRecordTab('voice') }}>말로 남기기</button>
-              <button aria-pressed={recordTab === 'photos'} onClick={async () => { if (await prepareToLeave()) setRecordTab('photos') }}>사진 남기기</button>
-            </nav>
-            <div hidden={recordTab !== 'voice'}><VoiceRecordPanel ref={voicePanel} value={value} mode={voiceMode} onSave={journey.save} /></div>
-            <div hidden={recordTab !== 'photos'}><EvidencePanel ref={photoPanel} value={value} onSave={journey.save} onCommand={photoCommand} /></div>
-            <JourneyRequests value={value} />
-          </JourneyLayout>
-        </div>
-        <div key={value.id + '-review'} hidden={value.stage !== 'review' || details}>
-          <JourneyLayout device={device} navigation={renderNavigation(value)} summary={<JourneySummary value={value} />}
-            action={<JourneyAction secondary onClick={() => void navigate('record')}>기록으로 돌아가기</JourneyAction>}>
-            <JourneyReviewPanel ref={reviewPanel} value={value} onCommand={dispatch} onApprove={journey.approve} />
-            <JourneyRequests value={value} />
-          </JourneyLayout>
-        </div>
-        <div key={value.id + '-follow-up'} hidden={value.stage !== 'follow-up' || details}>
-          <JourneyLayout device={device} navigation={renderNavigation(value)} summary={<JourneySummary value={value} />}
-            action={<JourneyAction secondary onClick={() => void navigate('review')}>사고 내용으로 돌아가기</JourneyAction>}>
-            <FollowUpPanel value={value} onCommand={dispatch} directory={value.fixtureId ? followUpDirectories[directoryState] : undefined} onDirtyChange={setFollowUpDirty}
-              navigation={device === 'mobile' ? renderNavigation(value) : undefined} />
-            <JourneyRequests value={value} />
-          </JourneyLayout>
-        </div>
-      </section>
       <div className="journey-save-status" role="status">{journey.saveState === 'saved' ? '이 기기에 보관됨' : journey.saveState === 'saving' ? '저장 중' :
         journey.saveState === 'conflict' ? '다른 화면에서 기록이 바뀌었어요. 내 입력은 이 화면에 남아 있어요.' : '이 기기에 저장하지 못했어요. 입력 내용은 이 화면에 남아 있어요.'}
         {['unavailable', 'quota', 'invalid'].includes(journey.saveState) && <button onClick={() => void journey.flush()}>저장 다시 시도</button>}
@@ -296,8 +330,8 @@ export function JourneyStudy({embedded=false}:{embedded?:boolean}) {
         <button aria-label="시연 event: 비상등 작동 확인" onClick={() => dispatch({ type: 'safety-action', action: { id: 'hazard', label: '비상등', status: 'device-confirmed', source: 'fixture', confirmedAt: new Date().toISOString() } })}>비상등 작동 확인</button>
         <button aria-label="시연 event: 안내 지점 자료" onClick={() => dispatch({ type: 'navigation-data', value: { source: 'fixture', vehicle: { x: .4, y: .7 }, destination: { x: .7, y: .7 }, distanceMeters: 15, updatedAt: new Date().toISOString() } })}>안내 지점 자료</button>
         <button aria-label="시연 event: 위험 정보" onClick={risk}>위험 정보</button>
-        {value.activeSubmissionIds.rescue && <><button aria-label="시연 event: 통화 연결 확인" onClick={() => result('rescue', 'connected')}>통화 연결 확인</button><button aria-label="시연 event: 구호 접수 확인" onClick={() => result('rescue', 'received')}>구호 접수 확인</button></>}
-        {value.activeSubmissionIds.insurance && <><button aria-label="시연 event: 보험사 접수 확인" onClick={() => result('insurance', 'received')}>보험사 접수 확인</button><button aria-label="시연 event: 보험사 접수번호 확인" onClick={() => result('insurance', 'received', { number: 'AC-20261110-001', receivedAt: new Date().toISOString(), agencyName: value.submissions.find(item => item.id === value.activeSubmissionIds.insurance)?.recipient ?? '보험사', next: '담당자의 안내를 기다려주세요.' })}>보험사 접수번호 확인</button><button aria-label="시연 event: 보험사 결과 미확인" onClick={() => result('insurance', 'unknown')}>보험사 결과 미확인</button><button aria-label="시연 event: 보험사 전송 실패" onClick={() => result('insurance', 'failed')}>보험사 전송 실패</button></>}
+        {value.activeSubmissionIds.rescue && <>{!representative&&<button aria-label="시연 event: 통화 연결 확인" onClick={() => result('rescue', 'connected')}>통화 연결 확인</button>}<button aria-label="시연 event: 구호 접수 확인" onClick={() => result('rescue', 'received')}>구호 접수 확인</button></>}
+        {value.activeSubmissionIds.insurance && <><button disabled={!insuranceResultReady} aria-label="시연 event: 보험사 접수 확인" onClick={() => result('insurance', 'received')}>보험사 접수 확인</button><button disabled={!insuranceResultReady} aria-label="시연 event: 보험사 접수번호 확인" onClick={() => result('insurance', 'received', { number: 'AC-20261110-001', receivedAt: new Date().toISOString(), agencyName: value.submissions.find(item => item.id === value.activeSubmissionIds.insurance)?.recipient ?? '보험사', next: '담당자의 안내를 기다려주세요.' })}>보험사 접수번호 확인</button><button disabled={!insuranceResultReady} aria-label="시연 event: 보험사 결과 미확인" onClick={() => result('insurance', 'unknown')}>보험사 결과 미확인</button>{!representative&&<button aria-label="시연 event: 보험사 전송 실패" onClick={() => result('insurance', 'failed')}>보험사 전송 실패</button>}</>}
         {value.activeSubmissionIds.vehicle && <><button aria-label="시연 event: 차량 지원 접수 확인" onClick={() => result('vehicle', 'received')}>차량 지원 접수 확인</button><button aria-label="시연 event: 차량 지원 미접수 확인" onClick={() => result('vehicle', 'not_received')}>차량 지원 미접수 확인</button></>}
         {value.shares.length > 0 && <><button aria-label="시연 event: 상대방 공유 확인" onClick={() => dispatch({ type: 'share-result', caseId: value.id, shareId: value.shares.at(-1)!.id, status: 'confirmed' })}>상대방 공유 확인</button><button aria-label="시연 event: 상대방 공유 실패" onClick={() => dispatch({ type: 'share-result', caseId: value.id, shareId: value.shares.at(-1)!.id, status: 'failed' })}>상대방 공유 실패</button></>}
       </section>

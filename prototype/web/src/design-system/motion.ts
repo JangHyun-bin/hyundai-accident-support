@@ -1,4 +1,12 @@
-import {useLayoutEffect,useRef} from 'react'
+import {useLayoutEffect,useRef,useSyncExternalStore} from 'react'
+const reducedQuery='(prefers-reduced-motion: reduce)'
+const subscribeReduced=(changed:()=>void)=>{
+ const media=matchMedia(reducedQuery);media.addEventListener('change',changed)
+ return()=>media.removeEventListener('change',changed)
+}
+export function useReducedMotionPreference(){
+ return useSyncExternalStore(subscribeReduced,()=>matchMedia(reducedQuery).matches,()=>false)
+}
 // 상태 commit을 기다리게 하지 않고, 새 내용만 짧게 나타냄. Countdown tick은 key에 포함하지 않음.
 export function useCareMotion<T extends HTMLElement>(key:string){
  const host=useRef<T>(null),previous=useRef(key)

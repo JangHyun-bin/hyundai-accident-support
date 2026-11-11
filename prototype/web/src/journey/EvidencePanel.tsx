@@ -1,8 +1,8 @@
-import { useEffect, useImperativeHandle, useRef, useState, type Ref } from 'react'
+import { useEffect, useImperativeHandle, useRef, useState, type Ref, type ReactNode } from 'react'
 import { ArrowLeft, ArrowRight, Camera, Check, ImagePlus, RefreshCw, Trash2, X } from 'lucide-react'
 import { captureTargets, LIMITS, type AssetWrite, type CaptureTarget, type CaseCommand, type CommitResult, type Evidence, type JourneyCase } from './case'
 import { loadCase, readAsset } from './case-store'
-import { JourneyAction, JourneyHeading, JourneyStatus } from './JourneyLayout'
+import { JourneyAction, JourneyEditorLayout, JourneyStatus } from './JourneyLayout'
 import { capturePhoto, validatePhoto } from './capture'
 import './evidence.css'
 
@@ -10,6 +10,8 @@ export type EvidencePanelHandle = { finishBeforeLeave: () => Promise<boolean> }
 type Draft = { evidence: Evidence; blob: Blob; url: string }
 type Phase = 'choose' | 'requesting' | 'camera' | 'capturing' | 'decoding' | 'review' | 'saving'
 type Props = {
+  navigation?:ReactNode
+  footer?:ReactNode
   value: JourneyCase
   onSave: (command: CaseCommand, assets: AssetWrite[]) => Promise<CommitResult>
   onCommand: (command: CaseCommand) => void
@@ -40,7 +42,7 @@ function StoredPhoto({ caseId, evidence, label }: { caseId: string; evidence: Ev
     : <span>{failed ? '사진을 열 수 없어요' : '사진 확인 중'}</span>}</div>
 }
 
-export function EvidencePanel({ value, onSave, onCommand, ref }: Props) {
+export function EvidencePanel({ value, onSave, onCommand, ref, navigation, footer }: Props) {
   const [photos, setPhotos] = useState<Evidence[]>([])
   const [target, setTarget] = useState<CaptureTarget | null>(null)
   const [replacement, setReplacement] = useState<Evidence | null>(null)
@@ -216,8 +218,14 @@ export function EvidencePanel({ value, onSave, onCommand, ref }: Props) {
     if (await commit({ type: 'evidence-put', evidence }, [])) { setTarget(null); setMessage('이 대상은 지금 생략했어요.') }
   }
 
-  return <section className="journey-evidence" aria-label="사진 자료">
-    <JourneyHeading step="현장 기록" title="사진 남기기">지금 남길 수 있는 사진만 선택해도 돼요.</JourneyHeading>
+  return <section className="journey-evidence journey-editor-panel" aria-label="사진 자료">
+    <JourneyEditorLayout step="현장 기록" title="사진 남기기" description={'지금 남길 수 있는 사진만 선택해도 돼요.'} primary={target ? (draft
+      ? <JourneyAction disabled={phase === 'saving'} onClick={savePhoto}><Check aria-hidden="true" />{phase === 'saving' ? '사진 저장 중' : saveFailed ? '저장 다시 시도' : '이 사진 사용'}</JourneyAction>
+      : phase==='camera'||phase==='requesting'
+        ? <JourneyAction disabled={!cameraReady} onClick={() => void takePhoto()}><Camera aria-hidden="true" />사진 찍기</JourneyAction>
+        : <JourneyAction disabled={phase !== 'choose'} onClick={() => void openCamera()}><Camera aria-hidden="true" />촬영하기</JourneyAction>) : null}>
+
+    {navigation}
     <div className="journey-photo-progress"><span>확보한 대상</span><strong data-photo-count>{obtained} / 6</strong><span>{currentPhotos.length}장 보관 중</span></div>
     {!target ? <>
       <div className="journey-photo-targets">{captureTargets.map(item => {
@@ -243,20 +251,20 @@ export function EvidencePanel({ value, onSave, onCommand, ref }: Props) {
       {draft ? <div className="journey-photo-review">
         <img src={draft.url} alt={`저장 전 ${label} 사진`} />
         <p>{replacement ? '이 사진으로 바꿀까요? 저장될 때까지 이전 사진을 유지해요.' : '이 사진을 기록에 남길까요?'}</p>
-        <JourneyAction disabled={phase === 'saving'} onClick={savePhoto}><Check aria-hidden="true" />{phase === 'saving' ? '사진 저장 중' : saveFailed ? '저장 다시 시도' : '이 사진 사용'}</JourneyAction>
         <JourneyAction secondary disabled={phase === 'saving'} onClick={() => { setDraft(null); setReplacement(null); setPhase('choose'); setError('') }}><X aria-hidden="true" />새 사진 버리기</JourneyAction>
       </div> : phase === 'capturing' || phase === 'decoding' ? <p className="journey-photo-message" role="status">사진을 확인하고 있어요.</p>
       : phase === 'camera' || phase === 'requesting' ? <div className="journey-photo-camera">
         <div className="journey-photo-viewfinder"><video ref={video} muted playsInline autoPlay aria-label={`${label} 촬영 화면`} onCanPlay={() => setCameraReady(true)} /><div className="journey-photo-frame" aria-hidden="true" /><span>{phase === 'requesting' ? 'Camera 사용을 기다리고 있어요' : label + '이 화면에 들어오게 맞춰주세요'}</span></div>
-        <JourneyAction disabled={!cameraReady} onClick={() => void takePhoto()}><Camera aria-hidden="true" />사진 찍기</JourneyAction>
         <JourneyAction secondary onClick={() => { stopCamera(); setPhase('choose') }}>촬영 취소</JourneyAction>
       </div> : <div className="journey-photo-choose">
-        <JourneyAction disabled={phase === 'saving'} onClick={() => void openCamera()}><Camera aria-hidden="true" />촬영하기</JourneyAction>
         <JourneyAction secondary disabled={phase === 'saving'} onClick={() => { setReplacement(null); input.current?.click() }}><ImagePlus aria-hidden="true" />사진 선택</JourneyAction>
         {!targetPhotos.length && <button className="journey-text-action" disabled={phase === 'saving'} onClick={() => void skip()}>지금 촬영하기 어려워요<ArrowRight aria-hidden="true" /></button>}
       </div>}
     </>}
     {error && <p className="journey-photo-message" role="alert">{error}</p>}
     {message && <p className="journey-photo-message" role="status">{message}</p>}
+    {footer}
+    </JourneyEditorLayout>
+
   </section>
 }

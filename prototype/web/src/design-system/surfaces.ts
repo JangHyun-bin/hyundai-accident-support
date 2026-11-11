@@ -47,6 +47,11 @@ export function completeSurfacePair(pair: SurfacePair): SurfacePair {
   return { call: { ...surfaceEffectDefaults, ...pair.call }, safety: { ...surfaceEffectDefaults, ...pair.safety } }
 }
 
+// v1 palette slots retain their stored values; semantic roles are resolved only when rendered.
+export function semanticSurfaces(pair: SurfacePair): SurfacePair {
+  return { call: pair.safety, safety: pair.call }
+}
+
 export function surfaceStyle(s: Surface): CSSProperties {
   return {
     '--rs-gradient': `linear-gradient(${s.angle}deg, ${s.top} 0%, ${s.base} ${s.topSpread}%, ${s.base} ${100 - s.bottomSpread}%, ${s.bottom} 100%)`,

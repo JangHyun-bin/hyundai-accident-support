@@ -34,7 +34,7 @@ export function EmergencySurface({selection,paused,present,voiceState,storageAva
   const title=!storageAvailable&&scene.id==='record_saved'?'기기에 저장하지 못했어요':scene.title
   const callTone=callConnected||!!scene.auto_contact||(['SC01','SC03'].includes(scenario.id)&&scene.phase==='progress')
   return <section ref={motionRef} data-care-motion-key={motionKey} className="emergency-screen ac-emergency ac-system" data-surface-status="flat" data-scenario={scenario.id} data-scene={scene.id} data-request-count={selection.submissions} aria-label="시각 중심 사고 대응" inert={paused||present==='covered'}>
-    <ResponseLayout primaryTone={callTone?'call':'plain'}
+    <ResponseLayout notificationKey={motionKey} primaryTone={callTone?'call':'plain'}
       summary={<div data-slot="detected"><CareSituation title={`${scenario.presentation.detected} · ${scene.cue.label}`} action={<GuidanceButton state={voiceState} onClick={onVoice}/>} facts={facts.filter(f=>scenario.presentation.visible_facts.includes(f.id)||(f.id==='risk'&&f.status==='attention')).map(f=>({...f,tone:careTone(f.status)}))}>{notice}</CareSituation></div>}
       primary={<div className="ac-emergency-primary" data-slot="car" data-urgent={scene.auto_contact?true:undefined} aria-live="polite">
         {scene.auto_contact&&<div className="ac-countdown" key={countdownKey} data-countdown={secondsLeft} aria-hidden="true"><NumberFlow value={secondsLeft}/></div>}

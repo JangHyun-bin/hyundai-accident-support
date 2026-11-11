@@ -18,6 +18,14 @@ export function JourneyHeading({step,title,children,guidanceKey=title}:{step?:st
   const text=scripts[title as keyof typeof scripts]
   return <div className="ac-task-heading"><CareHeading eyebrow={step} title={title}>{children}</CareHeading>{text&&<GuidanceControl text={text} contextKey={guidanceKey}/>}</div>
 }
+export function JourneyEditorLayout({step,title,description,children,primary,guidanceKey=title}:{step?:string;title:string;description:ReactNode;children:ReactNode;primary?:ReactNode;guidanceKey?:string}) {
+  const text=scripts[title as keyof typeof scripts]
+  return <>
+    <div className="journey-editor-title"><CareHeading eyebrow={step} title={title}/></div>
+    <div className="journey-workspace-scroll"><p className="journey-supporting">{description}</p>{text&&<GuidanceControl text={text} contextKey={guidanceKey}/>}{children}</div>
+    {primary&&<div className="journey-editor-primary">{primary}</div>}
+  </>
+}
 export function JourneyVehicleFrame({children}:{children:ReactNode;navigation?:ReactNode}) {
   return <div className="journey-vehicle-viewport"><VehicleShell>{children}</VehicleShell></div>
 }

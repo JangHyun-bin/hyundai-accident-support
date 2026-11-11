@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useImperativeHandle, useRef, useState, type Ref } from 'react'
 import { FileText, X } from 'lucide-react'
 import { JourneyAction, JourneyStatus } from './JourneyLayout'
 import { ClipPlayer } from './ClipPlayer'
@@ -41,8 +41,10 @@ export function EvidenceView({ caseId, evidence, reference, onFailure }: { caseI
   </section>
 }
 
-export function ReportPanel({ value, onCommand, active = true, onDirtyChange }: {
+export type ReportPanelHandle = { preserveDraft: () => void }
+export function ReportPanel({ value, onCommand, active = true, onDirtyChange, ref }: {
   value: JourneyCase; onCommand: (command: CaseCommand) => void; active?: boolean; onDirtyChange?: (dirty: boolean) => void
+  ref?: Ref<ReportPanelHandle>
 }) {
   const [draft, setDraft] = useState<Draft | null>(null)
   const [drawer, setDrawer] = useState<string | null>(null)
@@ -56,6 +58,10 @@ export function ReportPanel({ value, onCommand, active = true, onDirtyChange }: 
   const paragraphs = value.report?.paragraphs ?? []
   const selected = paragraphs.find(p => p.id === drawer)
   const dirty = draft !== null
+  useImperativeHandle(ref, () => ({ preserveDraft: () => {
+    const input = panel.current?.querySelector('textarea')
+    if (draft && input && input.value !== draft.text) setDraft({ ...draft, text: input.value })
+  } }))
   useEffect(() => { onDirtyChange?.(dirty) }, [dirty, onDirtyChange])
   useEffect(() => {
     if (!dirty) return

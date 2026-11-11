@@ -1,5 +1,6 @@
+import {useReducedMotionPreference} from '@/design-system/motion'
 import {useId,useLayoutEffect,useRef,useState,type ReactNode} from 'react'
-import {AnimatePresence,motion,useIsPresent,useReducedMotion} from 'motion/react'
+import {AnimatePresence,motion,useIsPresent} from 'motion/react'
 import {ArrowLeft,ArrowUp,ChevronRight,Circle,CircleCheck,Clock3,Minus} from 'lucide-react'
 import {CareStatus, type CareTone} from './after-care'
 import {ContourCar} from './contour-car'
@@ -70,7 +71,7 @@ function PartLabel({name,state,side,lower=false,middle=false,panelId,expanded,on
 export function CareVehicleContour({state}:{state:VehicleContourState}) {
   const id=useId().replaceAll(':','')
   const [active,setActive]=useState<VehiclePart|null>(null)
-  const reduce=useReducedMotion()
+  const reduce=useReducedMotionPreference()
   const opener=useRef<HTMLButtonElement|null>(null)
   const detailHeading=useRef<HTMLHeadingElement>(null)
   const focusDetail=useRef(false)

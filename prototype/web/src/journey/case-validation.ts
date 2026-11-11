@@ -104,7 +104,12 @@ function submission(v: unknown) {
     nullable(v.recipient, x => text(x, 100)) && nullable(v.approvedAt, date) && nullable(v.payload, payload) &&
     (v.kind !== 'new' || (v.payload !== null && v.approvedAt !== null && typeof v.recipient === 'string' && v.recipient.trim().length > 0)) &&
     (v.kind !== 'contact' || (v.agency === 'rescue' && v.payload === null && v.approvedAt === null)) &&
-    status(v.status) && nullable(v.externalReceipt, receipt)
+    status(v.status) && nullable(v.externalReceipt, receipt) &&
+    (v.call === undefined || v.agency === 'rescue' && oneOf(v.call, ['connecting', 'connected', 'ended'])) &&
+    (v.transport === undefined || v.kind === 'new' &&
+      (oneOf(v.transport, ['approved', 'sending']) && v.status === 'checking' ||
+       v.transport === 'failed' && v.status === 'failed' ||
+       v.transport === 'sent' && oneOf(v.status, ['sent', 'received', 'unknown', 'not_received'])))
 }
 function share(v: unknown) {
   return object(v) && id(v.id) && text(v.recipient, 100) && v.recipient.trim().length > 0 &&

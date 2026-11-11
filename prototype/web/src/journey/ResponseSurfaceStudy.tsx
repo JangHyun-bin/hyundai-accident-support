@@ -12,7 +12,7 @@ export function ResponseSurfaceStudy() {
   const [initial] = useState(readSurfaceLibrary)
   const [library, setLibrary] = useState(initial.value)
   const [message, setMessage] = useState(initial.error)
-  const [target, setTarget] = useState<keyof SurfacePair>('call')
+  const [target, setTarget] = useState<keyof SurfacePair>('safety')
   const [layout,setLayout]=useState<'response'|'task'>('response')
   const [compare, setCompare] = useState(false)
   const [name, setName] = useState(() => initial.value.presets.find(p => JSON.stringify(p.surfaces) === JSON.stringify(initial.value.draft))?.name ?? '')
@@ -81,20 +81,20 @@ export function ResponseSurfaceStudy() {
       <section className="rs-preview" aria-label="Surface 미리보기">
         <div className="rs-toolbar">
           <div className="rs-segment" role="group" aria-label="조절할 card">
-            <button aria-pressed={target === 'call'} onClick={() => setTarget('call')}>119 통화</button>
-            <button aria-pressed={target === 'safety'} onClick={() => setTarget('safety')}>대피 안내</button>
+            <button aria-pressed={target === 'call'} onClick={() => setTarget('call')}>대피 안내</button>
+            <button aria-pressed={target === 'safety'} onClick={() => setTarget('safety')}>119 통화</button>
           </div>
           <button className="rs-compare" aria-pressed={compare} onClick={() => setCompare(!compare)}>{compare ? '편집 화면으로' : '원본 비교'}</button>
         </div>
-        <div className="rs-stage"><div className="rc-device rc-B rc-B2 rs-canvas"><ResponseSurfacePreview target={target} style={styles[target]} effects={shown[target]} /></div></div>
-        <div className="rs-caption"><span>{compare ? 'B″ ORIGINAL' : 'LIVE PREVIEW'}</span><span>{target === 'call' ? '01 / CALL' : '02 / SAFETY'}</span></div>
+        <div className="rs-stage"><div className="rc-device rc-B rc-B2 rs-canvas"><ResponseSurfacePreview target={target==='call'?'safety':'call'} style={styles[target]} effects={shown[target]} /></div></div>
+        <div className="rs-caption"><span>{compare ? 'B″ ORIGINAL' : 'LIVE PREVIEW'}</span><span>{target === 'call' ? '01 / GUIDE' : '02 / CALL'}</span></div>
         <p className="rs-explanation">Gradient는 색의 흐름, shade는 안쪽의 깊이,<br />rim은 가장자리에 남는 얇은 빛.</p>
       </section>
 
       <aside className="rs-controls" aria-label="Surface 조절">
-        <div className="rs-control-heading"><h2>{target === 'call' ? '119 통화' : '대피 안내'}</h2><button className="rs-reset" onClick={() => { persist({ ...library, draft: { ...draft, [target]: originalSurfaces[target] } }); setCompare(false) }}><RotateCcw size={13} /> 이 card 초기화</button></div>
+        <div className="rs-control-heading"><h2>{target === 'call' ? '대피 안내' : '119 통화'}</h2><button className="rs-reset" onClick={() => { persist({ ...library, draft: { ...draft, [target]: originalSurfaces[target] } }); setCompare(false) }}><RotateCcw size={13} /> 이 card 초기화</button></div>
         <fieldset disabled={compare}>
-          <legend className="rs-sr-only">{target === 'call' ? '119 통화' : '대피 안내'} 색과 shade</legend>
+          <legend className="rs-sr-only">{target === 'call' ? '대피 안내' : '119 통화'} 색과 shade</legend>
           <button className="rs-finish" type="button" onClick={applyFinish}>추천 질감 · 두 card에 적용 <ArrowRight size={14} /></button>
           <div className="rs-colors">{surfaceColors.map(({ key, label }) => <label key={key}><span>{label}</span><div><input type="color" aria-label={label} value={current[key]} onChange={e => change(key, e.target.value)} /><code>{current[key].toUpperCase()}</code></div></label>)}</div>
           {([

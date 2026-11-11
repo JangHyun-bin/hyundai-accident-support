@@ -17,7 +17,7 @@ test('full flow keeps call after sending and only settles after call ends',async
  await expect(root).toHaveAttribute('data-step','7',{timeout:6000});await expect(board).toHaveAttribute('data-layout','sending')
  await expect(page.getByTestId('flow-step-support')).toContainText('접수 여부는 아직')
  await page.getByRole('button',{name:'통화 종료 시연',exact:true}).click()
- await expect(board).toHaveAttribute('data-layout','calm');await expect(page.getByText('천천히 숨을 내쉬세요', {exact:true})).toBeVisible()
+ await expect(board).toHaveAttribute('data-layout','calm');await expect(page.getByText('천천히 숨을 내쉬세요', {exact:true})).toBeVisible();await expect(board.locator('.fs-cell:visible')).toHaveCount(0)
 })
 test('failed send preserves contents, retry works, and reset cancels pending result',async({page})=>{
  await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/?study=flow');await toReview(page)
@@ -110,6 +110,20 @@ test('primary action is visible on entry and stays reachable through all seven s
    if(step<7)await primary.click()
   }
   await page.evaluate(()=>scrollTo(0,document.documentElement.scrollHeight))
+  await primary.scrollIntoViewIfNeeded()
   await expect(primary).toBeInViewport({ratio:1})
+  const header=await page.locator('.fs-action-bar').boundingBox(),content=await page.locator('.ac-vehicle-content').boundingBox()
+  expect(header!.y+header!.height,'reserved header must not cover the task').toBeLessThanOrEqual(content!.y)
  }
+})
+
+test('wide preview gives the board one full pane and keeps external controls clickable',async({page})=>{
+ await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/?study=flow')
+ await expect(page.locator('.ac-vehicle')).toHaveAttribute('data-flow-mode','wide')
+ await expect(page.getByRole('button',{name:'차량 상태 보기',exact:true})).toBeHidden()
+ const scene=await page.locator('.fs-vehicle').boundingBox(),board=await page.getByTestId('flow-board').boundingBox()
+ expect(Math.abs(scene!.height-board!.height)).toBeLessThanOrEqual(1)
+ expect(Math.abs(scene!.y-board!.y)).toBeLessThanOrEqual(1)
+ expect(board!.height).toBeGreaterThan(400)
+ await page.getByRole('button',{name:'처음부터',exact:true}).click()
 })
