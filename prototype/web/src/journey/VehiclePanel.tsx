@@ -5,6 +5,7 @@ import {careTone} from '@/emergency/EmergencySurface'
 import { manifest, scenarioFor } from '../emergency/session'
 import { JourneyHeading, JourneyStatus } from './JourneyLayout'
 import type { CaseCommand, JourneyCase } from './case'
+import {activeRequest} from './journey-flow'
 import {agreedValue,currentObservations,vehicleContourState} from './vehicle-state'
 
 export function JourneySummary({ value }: { value: JourneyCase }) {
@@ -19,7 +20,7 @@ export function JourneyRiskNotice({ value }: { value: JourneyCase }) {
 }
 
 export function JourneyRequests({ value }: { value: JourneyCase }) {
-  return <CareRequests items={(['rescue','vehicle','insurance'] as const).map(id=>{const status=manifest.request_statuses[value.emergency.requests[id]];return {id,label:{rescue:'구호',vehicle:'차량 지원',insurance:'보험사'}[id],status:status.label,tone:careTone(status.tone)}})}/>
+  return <CareRequests items={(['rescue','vehicle','insurance'] as const).map(id=>{const status=manifest.request_statuses[value.emergency.requests[id]],request=activeRequest(value,id),transport=request?.transport;const label=transport==='approved'?'승인 완료 · 전송 전':transport==='sending'?'전송 중 · 접수 미확인':transport==='sent'&&request?.status==='sent'?'전송 완료 · 접수 미확인':status.label;return {id,label:{rescue:'구호',vehicle:'차량 지원',insurance:'보험사'}[id],status:label,tone:careTone(status.tone)}})}/>
 }
 
 export function JourneyNavigation({ value, destinationLabel = '안내 지점' }: { value: JourneyCase; destinationLabel?: string }) {

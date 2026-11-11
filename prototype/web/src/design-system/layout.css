@@ -55,3 +55,6 @@
 @container care-layout (min-width:60rem) {
  .ac-response-grid[data-interactive] { grid-template-columns:minmax(0,calc((100% - var(--ac-layout-gap,16px))*var(--ac-main-share,.5))) minmax(0,1fr); }
 }
+
+.ac-vehicle[data-care-device=mobile] { max-width:560px; padding:var(--ac-space-3); }
+.ac-vehicle[data-care-device=mobile]>.ac-vehicle-status,.ac-vehicle[data-care-device=mobile]>.ac-vehicle-dock { display:none; }

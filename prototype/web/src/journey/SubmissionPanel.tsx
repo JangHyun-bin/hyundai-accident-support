@@ -41,7 +41,8 @@ function PayloadContent({ payload, caseId, active, onMediaFailure }: { payload: 
   </div>
 }
 
-export function SubmissionPanel({ value, onApprove, onCommand, onCancel, onDirtyChange, active }: {
+export function SubmissionPanel({ value, onApprove, onCommand, onCancel, onDirtyChange, active, explicitTransport=false }: {
+  explicitTransport?: boolean
   value: JourneyCase; onApprove: (input: ApprovalInput, preview: PayloadSnapshot) => Promise<ApprovalCommitResult>
   onCommand: (command: CaseCommand) => void; onCancel: () => void; onDirtyChange: (dirty: boolean) => void; active: boolean
 }) {
@@ -74,7 +75,7 @@ export function SubmissionPanel({ value, onApprove, onCommand, onCancel, onDirty
     const payload = preparePayload(value, draft.selection)
     if (!payload.ok) { setError(failures[payload.reason]); return }
     const common = { recipient: draft.recipient.trim(), selection: structuredClone(draft.selection), id: crypto.randomUUID(), now: new Date().toISOString() }
-    setPreview({ input: target === 'share' ? { ...common, kind: 'share' } : { ...common, kind: 'submission', agency: target }, payload: payload.value })
+    setPreview({ input: target === 'share' ? { ...common, kind: 'share' } : { ...common, kind: 'submission', agency: target, ...(explicitTransport && target === 'insurance' ? { transport: 'explicit' as const } : {}) }, payload: payload.value })
     setError('')
   }
   async function approve() {
@@ -93,7 +94,7 @@ export function SubmissionPanel({ value, onApprove, onCommand, onCancel, onDirty
     {approved && <p role="status">승인한 내용이 보관됐어요</p>}
     {currentRequest && <section className="journey-receipt" aria-label="요청 결과">
       <JourneyStatus tone={currentRequest.status === 'received' ? 'confirmed' : currentRequest.status === 'failed' ? 'failed' : 'pending'}>
-        {currentRequest.status === 'received' ? '접수 확인됨' : currentRequest.status === 'failed' ? '전송 실패 확인됨' : currentRequest.status === 'not_received' ? '미접수 확인됨' : '접수 결과 확인 중'}
+        {currentRequest.transport === 'approved' ? '승인 완료 · 전송 전' : currentRequest.transport === 'sending' ? '전송 중 · 접수 미확인' : currentRequest.transport === 'sent' && currentRequest.status === 'sent' ? '전송 완료 · 접수 미확인' : currentRequest.status === 'received' ? '접수 확인됨' : currentRequest.status === 'failed' ? '전송 실패 확인됨' : currentRequest.status === 'not_received' ? '미접수 확인됨' : '접수 결과 확인 중'}
       </JourneyStatus>
       <p>{currentRequest.recipient ?? labels[target]}</p>
       {currentRequest.status === 'received' && <><strong>{currentRequest.externalReceipt?.number ?? '접수번호 확인 중'}</strong>
@@ -131,6 +132,6 @@ export function SubmissionPanel({ value, onApprove, onCommand, onCancel, onDirty
     </details>}
     {target === 'share' && value.shares.length > 1 && <details className="journey-receipt" onToggle={pauseCollapsedMedia}><summary>이전 공유 내용</summary>{value.shares.slice(0, -1).map(item => <section key={item.id}><h3>{item.recipient}</h3><PayloadContent payload={item.payload} caseId={value.id} active={active} /></section>)}</details>}
     {error && <p role="status">{error}</p>}
-    <JourneyAction secondary disabled={busy} onClick={() => { setDrafts(emptyDrafts()); setPreview(null); setError(''); onCancel() }}>전송 검토 닫기</JourneyAction>
+    <JourneyAction secondary disabled={busy || currentRequest?.transport === 'sending'} onClick={() => { setDrafts(emptyDrafts()); setPreview(null); setError(''); onCancel() }}>전송 검토 닫기</JourneyAction>
   </section>
 }

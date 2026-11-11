@@ -24,7 +24,7 @@
 .fs-cell-label { display:flex; justify-content:space-between; align-items:center; gap:var(--ac-space-2); width:100%; font-size:var(--ac-type-label); color:var(--ac-muted); }
 .fs-cell-label svg { width:20px; height:20px; flex:none; }
 .fs-cell-body h2 { font-size:var(--ac-type-title); font-weight:600; line-height:1.25; letter-spacing:-.02em; }
-.fs-cell-body>p { font-size:var(--ac-type-body); line-height:1.55; white-space:pre-line; }
+.fs-cell-body>p { font-size:var(--ac-type-body); line-height:1.31; white-space:pre-line; }
 .fs-cell-muted { color:var(--ac-muted); }
 .fs-cell-body small { color:var(--ac-muted); font-size:var(--ac-type-label); }
 .fs-call-number { font-size:var(--ac-type-number); font-weight:400; line-height:1; letter-spacing:-.055em; }

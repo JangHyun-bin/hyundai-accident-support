@@ -1,7 +1,7 @@
 .ac-situation { display:grid; gap:var(--ac-space-6); }
 .ac-situation-top { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:var(--ac-space-4); }
 .ac-situation-top>div { display:flex; align-items:center; gap:var(--ac-space-3); }
-.ac-situation-top h2 { font-size:var(--ac-type-summary); font-weight:600; line-height:1.35; }
+.ac-situation-top h2 { font-size:var(--ac-type-summary); font-weight:600; line-height:1.39; }
 .ac-situation-top svg { flex:none; width:26px; height:26px; }
 .ac-situation-top>.ac-action { font-size:var(--ac-type-supporting); }
 .ac-facts { display:flex; flex-wrap:wrap; gap:var(--ac-space-4) var(--ac-space-8); }
@@ -37,3 +37,6 @@
 .ac-request-list strong { font-weight:400; }
 
 .ac-call-content .ac-heading :is(h1,h2,h3) { font-size:var(--ac-type-call); line-height:1.25; font-weight:400; letter-spacing:-.035em; }
+
+.ac-guidance-content p { font-size:var(--ac-type-body); line-height:1.31; }
+.ac-facts dt,.ac-call-label { line-height:1.32; }

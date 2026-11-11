@@ -6,8 +6,8 @@ import '@/design-system/layout.css'
 
 type ResponseProps={summary:ReactNode;primary:ReactNode;requests:ReactNode;navigation:ReactNode;guidance:ReactNode;action?:ReactNode;primaryTone?:'plain'|'call';interactive?:boolean;notificationKey?:string}
 
-export function VehicleShell({children}:{children:ReactNode}) {
-  return <div className="ac-system ac-vehicle" data-care-component="vehicle-shell" data-care-device="vehicle">
+export function VehicleShell({children,device='vehicle'}:{children:ReactNode;device?:'vehicle'|'mobile'}) {
+  return <div className="ac-system ac-vehicle" data-care-component="vehicle-shell" data-care-device={device}>
     <div className="ac-vehicle-status" role="region" aria-label="차량 상태 표시" data-figma-node="28:2041">
       <time dateTime="21:12">오후 9:12</time>
       <span className="ac-vehicle-mode"><span className="ac-vehicle-mode-mark"><img src="/figma/ivi-status-bar/mode-indicator.svg" width="14" height="14" alt=""/></span><span>차분 · 사고 대응 모드</span></span>

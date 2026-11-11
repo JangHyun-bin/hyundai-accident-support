@@ -19,8 +19,8 @@ export function StoredClip({ caseId, evidence, range, active = true }: { caseId:
   return <ClipPlayer evidence={evidence} blob={media?.blob ?? null} range={range} active={active} />
 }
 
-export type JourneyReviewHandle = { finishBeforeLeave: () => Promise<boolean> }
-export function JourneyReviewPanel({ value, onCommand, onApprove, ref }: { value: JourneyCase; onCommand: (command: CaseCommand) => void; onApprove: (input: ApprovalInput, preview: PayloadSnapshot) => Promise<ApprovalCommitResult>; ref?: Ref<JourneyReviewHandle> }) {
+export type JourneyReviewHandle = { finishBeforeLeave: () => Promise<boolean>; openSubmission: () => void }
+export function JourneyReviewPanel({ value, onCommand, onApprove, explicitTransport=false, ref }: { explicitTransport?: boolean; value: JourneyCase; onCommand: (command: CaseCommand) => void; onApprove: (input: ApprovalInput, preview: PayloadSnapshot) => Promise<ApprovalCommitResult>; ref?: Ref<JourneyReviewHandle> }) {
   const [tab, setTab] = useState<'clips' | 'diagram' | 'report'>('clips')
   const [diagramDirty, setDiagramDirty] = useState(false)
   const [reportDirty, setReportDirty] = useState(false)
@@ -30,7 +30,7 @@ export function JourneyReviewPanel({ value, onCommand, onApprove, ref }: { value
   const submissionContent = useRef<HTMLDivElement>(null)
   useEffect(() => { (submission ? submissionContent : reviewContent).current?.querySelector<HTMLElement>('h1')?.focus() }, [submission])
   const clips = value.evidence.filter(item => item.kind === 'video')
-  useImperativeHandle(ref, () => ({ finishBeforeLeave: async () => !diagramDirty && !reportDirty && !submissionDirty }), [diagramDirty, reportDirty, submissionDirty])
+  useImperativeHandle(ref, () => ({ finishBeforeLeave: async () => !diagramDirty && !reportDirty && !submissionDirty, openSubmission: () => { if (!diagramDirty && !reportDirty) setSubmission(true) } }), [diagramDirty, reportDirty, submissionDirty])
   return <>
     <div ref={reviewContent} hidden={submission} className="journey-review-content">
     <JourneyHeading guidanceKey={tab+'/'+submission} step="사고 내용 확인" title="남겨진 자료를 살펴보세요">확인할 수 없는 내용은 그대로 남겨도 돼요.</JourneyHeading>
@@ -54,6 +54,6 @@ export function JourneyReviewPanel({ value, onCommand, onApprove, ref }: { value
     <div hidden={tab !== 'report'}><ReportPanel value={value} onCommand={onCommand} active={!submission && value.stage === 'review' && tab === 'report'} onDirtyChange={setReportDirty} /></div>
     <JourneyAction disabled={diagramDirty || reportDirty} onClick={() => setSubmission(true)}>보낼 내용 확인</JourneyAction>
     </div>
-    <div ref={submissionContent} hidden={!submission}><SubmissionPanel value={value} onApprove={onApprove} onCommand={onCommand} active={submission && value.stage === 'review'} onCancel={() => setSubmission(false)} onDirtyChange={setSubmissionDirty} /></div>
+    <div ref={submissionContent} hidden={!submission}><SubmissionPanel explicitTransport={explicitTransport} value={value} onApprove={onApprove} onCommand={onCommand} active={submission && value.stage === 'review'} onCancel={() => setSubmission(false)} onDirtyChange={setSubmissionDirty} /></div>
   </>
 }

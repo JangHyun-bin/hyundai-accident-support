@@ -35,3 +35,5 @@
 .ac-catalog-scene-controls label { display:grid; gap:var(--ac-space-2); font-size:var(--ac-type-label); color:var(--ac-muted); max-width:100%; }
 .ac-catalog-scene-controls select { min-height:var(--ac-touch); min-width:0; max-width:100%; padding:var(--ac-space-3); color:var(--ac-text); background:var(--ac-control); border:1px solid var(--ac-line); border-radius:var(--ac-radius-small); }
 .ac-catalog-scene-controls a { min-height:var(--ac-touch); display:flex; align-items:center; font-size:var(--ac-type-supporting); }
+
+.ac-catalog-section-title h2 { min-width:0; max-width:100%; overflow-wrap:anywhere; }

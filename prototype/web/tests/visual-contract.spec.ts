@@ -34,9 +34,21 @@ test('2560 IVI renders the approved typography and small semantic status colors'
   expect(await style('.ac-catalog-number')).toEqual({ size: 141, weight: '400', leading: 141, spacing: -7.755 })
   expect(await style('.ac-material-grid [data-care-surface=safety] h3')).toEqual({ size: 46, weight: '600', leading: 56.12, spacing: -.92 })
   expect(await style('.ac-material-grid [data-care-surface=call] h3')).toEqual({ size: 40, weight: '400', leading: 50, spacing: -1.4 })
+  expect(await style('.ac-situation-top h2')).toMatchObject({ size: 36, weight: '600', leading: 50.04 })
+  expect(await style('.ac-guidance-content p')).toMatchObject({ size: 26, weight: '400', leading: 34.06 })
+  expect(await style('.ac-heading p')).toMatchObject({ size: 22, weight: '400', leading: 29.04 })
+  expect(await style('.ac-catalog-statuses .ac-status')).toMatchObject({ size: 24, weight: '600', leading: 31.2 })
   for (const [tone, color] of [['pending', 'rgb(242, 165, 65)'], ['confirmed', 'rgb(167, 227, 191)'], ['failed', 'rgb(255, 179, 156)'], ['info', 'rgb(108, 142, 245)']]) {
     expect(await page.locator(`.ac-catalog-statuses [data-tone=${tone}]`).evaluate(node => getComputedStyle(node).color)).toBe(color)
   }
+})
+
+test('Catalog keeps long titles within 360px at 200 percent text', async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 852 })
+  await page.goto('/?study=design-system')
+  await page.getByRole('button', { name: '긴 문구 보기', exact: true }).click()
+  await page.addStyleTag({ content: 'html { font-size:200% }' })
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
 })
 
 test('narrow vehicle retains 64px targets, actual mobile uses 48px, and text enlargement doubles roles', async ({ page }) => {

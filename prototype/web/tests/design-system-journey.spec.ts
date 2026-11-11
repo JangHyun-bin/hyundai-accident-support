@@ -19,7 +19,11 @@ for(const fixture of fixtures.cases)test(`${fixture.id}: task screens use common
   await page.getByRole('button',{name:'후속 처리 보기',exact:true}).click()
   await expect(page.locator('[data-care-layout=task]:visible')).toBeVisible()
   await page.getByRole('button',{name:'긴급 대응 보기',exact:true}).click()
-  await expect(page.locator('[data-care-layout=response]:visible')).toBeVisible()
+  if(fixture.id==='complete-journey'){
+    await expect(page.getByTestId('journey-flow')).toBeVisible()
+    await expect(page.getByRole('list',{name:'사고 대응 진행'}).getByRole('listitem')).toHaveCount(7)
+    await expect(page.getByTestId('flow-board')).toHaveAttribute('data-target','detect')
+  }else await expect(page.locator('[data-care-layout=response]:visible')).toBeVisible()
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true)
 })
 

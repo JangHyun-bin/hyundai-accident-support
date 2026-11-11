@@ -1,0 +1,25 @@
+.journey-flow { min-width:0; }
+.journey-flow .fs-action-bar { align-items:flex-start; }
+.journey-flow .fs-step-copy h1 { font-size:var(--ac-type-guide); line-height:1.22; letter-spacing:-.02em; font-weight:600; padding-block:var(--ac-space-2); }
+.journey-flow-actions { display:flex; flex-wrap:wrap; gap:var(--ac-space-3); flex:0 1 32rem; }
+.journey-flow-actions>.ac-action:first-child { flex:1 1 100%; }
+.journey-flow-events { display:flex; flex-wrap:wrap; align-items:center; gap:var(--ac-space-3); margin-block:var(--ac-space-4); font-size:var(--ac-type-supporting); }
+.journey-flow-events>span { color:var(--ac-muted); }
+.journey-flow-scene { min-width:0; }
+.journey-flow .fs-cell-body { overflow-wrap:anywhere; }
+.journey-flow .ss-header h2 { font-weight:600; letter-spacing:0; }
+.journey-flow .ss-visual { max-height:800px; }
+.journey-flow .ss-part-impact strong { color:var(--ac-muted); }
+.journey-flow .fs-stages { margin-bottom:var(--ac-space-3); }
+.journey-flow .ac-vehicle[data-care-device=mobile] .fs-dashboard { grid-template-columns:1fr; }
+.journey-flow .ac-vehicle[data-care-device=mobile] .fs-response { max-width:none; }
+@media(max-width:1150px) {
+  .journey-flow-dashboard { grid-template-columns:1fr; }
+  .journey-flow .fs-action-bar { flex-direction:column; align-items:stretch; }
+  .journey-flow-actions { flex:auto; }
+}
+@media(max-width:700px) {
+  .journey-flow-events { padding-inline:var(--ac-space-3); }
+  .journey-flow .fs-action-bar { position:relative; padding:var(--ac-space-4); }
+  .journey-flow .ac-surface { padding:var(--ac-space-4); }
+}

@@ -20,8 +20,8 @@
 .ac-status[data-tone=failed] { color:var(--ac-attention); }
 .ac-heading { display:grid; gap:var(--ac-space-3); }
 .ac-heading :is(h1,h2,h3) { font-size:var(--ac-type-title); line-height:1.3; font-weight:600; letter-spacing:0; }
-.ac-heading p { color:var(--ac-muted); font-size:var(--ac-type-supporting); line-height:1.6; }
-.ac-eyebrow { color:var(--ac-muted); font-size:var(--ac-type-eyebrow); }
+.ac-heading p { color:var(--ac-muted); font-size:var(--ac-type-caption); line-height:1.32; }
+.ac-eyebrow { color:var(--ac-muted); font-size:var(--ac-type-eyebrow); line-height:1.5; }
 .ac-spectrum { display:flex; align-items:center; justify-content:center; gap:4px; height:48px; width:100%; }
 .ac-spectrum i { display:block; width:4px; height:var(--ac-bar); max-width:calc(100% / 56); border-radius:var(--ac-radius-small); background:currentColor; animation:ac-spectrum var(--ac-duration) var(--ac-ease) var(--ac-delay) infinite alternate; }
 .ac-spectrum i:nth-child(-n+3),.ac-spectrum i:nth-last-child(-n+3) { opacity:.35; }
@@ -43,4 +43,4 @@
 .ac-material-illumination .rs-material-source>i { transform:translateX(var(--ac-notify-shade,0px)); }
 .ac-surface[data-shaped] .ac-material-idle { clip-path:var(--ac-clip); border-radius:0; }
 
-.ac-status { font-size:var(--ac-type-label); line-height:1.3; }
+.ac-status { font-size:var(--ac-type-label); font-weight:600; line-height:1.3; }
