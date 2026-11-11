@@ -1,8 +1,8 @@
 import { useEffect, useImperativeHandle, useRef, useState, type Ref, type ReactNode } from 'react'
 import { JourneyAction, JourneyEditorLayout, JourneyStatus } from './JourneyLayout'
 import { ClipPlayer } from './ClipPlayer'
-import { ReportPanel } from './ReportPanel'
-import { SubmissionPanel } from './SubmissionPanel'
+import { ReportPanel, type ReportPanelHandle } from './ReportPanel'
+import { SubmissionPanel, type SubmissionPanelHandle } from './SubmissionPanel'
 import { DiagramEditor } from './DiagramEditor'
 import { readAsset } from './case-store'
 import type { ApprovalInput, ApprovalCommitResult, PayloadSnapshot, CaseCommand, Evidence, JourneyCase } from './case'
@@ -19,7 +19,7 @@ export function StoredClip({ caseId, evidence, range, active = true }: { caseId:
   return <ClipPlayer evidence={evidence} blob={media?.blob ?? null} range={range} active={active} />
 }
 
-export type JourneyReviewHandle = { finishBeforeLeave: () => Promise<boolean>; openSubmission: () => void }
+export type JourneyReviewHandle = { finishBeforeLeave: () => Promise<boolean>; openSubmission: () => void; preserveDraft: () => void }
 export function JourneyReviewPanel({ value, onCommand, onApprove, explicitTransport=false, ref, footer }: { footer?:ReactNode; explicitTransport?: boolean; value: JourneyCase; onCommand: (command: CaseCommand) => void; onApprove: (input: ApprovalInput, preview: PayloadSnapshot) => Promise<ApprovalCommitResult>; ref?: Ref<JourneyReviewHandle> }) {
   const [tab, setTab] = useState<'clips' | 'diagram' | 'report'>('clips')
   const [diagramDirty, setDiagramDirty] = useState(false)
@@ -28,9 +28,11 @@ export function JourneyReviewPanel({ value, onCommand, onApprove, explicitTransp
   const [submissionDirty, setSubmissionDirty] = useState(false)
   const reviewContent = useRef<HTMLDivElement>(null)
   const submissionContent = useRef<HTMLDivElement>(null)
+  const reportPanel = useRef<ReportPanelHandle>(null)
+  const submissionPanel = useRef<SubmissionPanelHandle>(null)
   useEffect(() => { (submission ? submissionContent : reviewContent).current?.querySelector<HTMLElement>('h1')?.focus({preventScroll:true}) }, [submission])
   const clips = value.evidence.filter(item => item.kind === 'video')
-  useImperativeHandle(ref, () => ({ finishBeforeLeave: async () => !diagramDirty && !reportDirty && !submissionDirty, openSubmission: () => { if (!diagramDirty && !reportDirty) setSubmission(true) } }), [diagramDirty, reportDirty, submissionDirty])
+  useImperativeHandle(ref, () => ({ preserveDraft: () => { reportPanel.current?.preserveDraft(); submissionPanel.current?.preserveDraft() }, finishBeforeLeave: async () => !diagramDirty && !reportDirty && !submissionDirty, openSubmission: () => { if (!diagramDirty && !reportDirty) setSubmission(true) } }), [diagramDirty, reportDirty, submissionDirty])
   return <>
     <div ref={reviewContent} hidden={submission} className="journey-review-content journey-editor-panel">
     <JourneyEditorLayout guidanceKey={tab+'/'+submission} step="사고 내용 확인" title="남겨진 자료를 살펴보세요" description={'확인할 수 없는 내용은 그대로 남겨도 돼요.'} primary={<JourneyAction disabled={diagramDirty || reportDirty} onClick={() => setSubmission(true)}>보낼 내용 확인</JourneyAction>}>
@@ -52,11 +54,11 @@ export function JourneyReviewPanel({ value, onCommand, onApprove, explicitTransp
           : <JourneyAction secondary disabled={diagramDirty} onClick={() => onCommand({ type: 'diagram-confirm' })}>도식 내용 확인</JourneyAction>)}
       </> : <p className="journey-supporting">아직 확인할 도식이 없어요. 기억나는 내용만 기록해도 돼요.</p>}
     </div>
-    <div hidden={tab !== 'report'}><ReportPanel value={value} onCommand={onCommand} active={!submission && value.stage === 'review' && tab === 'report'} onDirtyChange={setReportDirty} /></div>
+    <div hidden={tab !== 'report'}><ReportPanel ref={reportPanel} value={value} onCommand={onCommand} active={!submission && value.stage === 'review' && tab === 'report'} onDirtyChange={setReportDirty} /></div>
     {footer}
     </JourneyEditorLayout>
 
     </div>
-    <div ref={submissionContent} hidden={!submission} className="journey-editor-holder"><SubmissionPanel footer={footer} explicitTransport={explicitTransport} value={value} onApprove={onApprove} onCommand={onCommand} active={submission && value.stage === 'review'} onCancel={() => setSubmission(false)} onDirtyChange={setSubmissionDirty} /></div>
+    <div ref={submissionContent} hidden={!submission} className="journey-editor-holder"><SubmissionPanel ref={submissionPanel} footer={footer} explicitTransport={explicitTransport} value={value} onApprove={onApprove} onCommand={onCommand} active={submission && value.stage === 'review'} onCancel={() => setSubmission(false)} onDirtyChange={setSubmissionDirty} /></div>
   </>
 }

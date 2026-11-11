@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode, type SyntheticEvent } from 'react'
+import { useEffect, useImperativeHandle, useRef, useState, type Ref, type ReactNode, type SyntheticEvent } from 'react'
 import { JourneyAction, JourneyEditorLayout, JourneyStatus } from './JourneyLayout'
 import { DiagramEditor } from './DiagramEditor'
 import { EvidenceView } from './ReportPanel'
@@ -41,8 +41,10 @@ function PayloadContent({ payload, caseId, active, onMediaFailure }: { payload: 
   </div>
 }
 
-export function SubmissionPanel({ value, onApprove, onCommand, onCancel, onDirtyChange, active, explicitTransport=false, footer }: {
+export type SubmissionPanelHandle = { preserveDraft: () => void }
+export function SubmissionPanel({ value, onApprove, onCommand, onCancel, onDirtyChange, active, explicitTransport=false, footer, ref }: {
   footer?:ReactNode
+  ref?:Ref<SubmissionPanelHandle>
   explicitTransport?: boolean
   value: JourneyCase; onApprove: (input: ApprovalInput, preview: PayloadSnapshot) => Promise<ApprovalCommitResult>
   onCommand: (command: CaseCommand) => void; onCancel: () => void; onDirtyChange: (dirty: boolean) => void; active: boolean
@@ -52,6 +54,7 @@ export function SubmissionPanel({ value, onApprove, onCommand, onCancel, onDirty
   const [preview, setPreview] = useState<{ input: ApprovalInput; payload: PayloadSnapshot } | null>(null)
   const [busy, setBusy] = useState(false)
   const submitting = useRef(false)
+  const recipient = useRef<HTMLInputElement>(null)
   const [error, setError] = useState('')
   const [approved, setApproved] = useState(false)
   const draft = drafts[target]
@@ -67,6 +70,10 @@ export function SubmissionPanel({ value, onApprove, onCommand, onCancel, onDirty
     return () => window.removeEventListener('beforeunload', warn)
   }, [dirty])
   function change(next: Partial<Draft>) { setDrafts(previous => ({ ...previous, [target]: { ...previous[target], ...next } })); setError(''); setApproved(false) }
+  useImperativeHandle(ref, () => ({ preserveDraft: () => {
+    const input = recipient.current
+    if (input && input.value !== draft.recipient) change({ recipient: input.value })
+  } }))
   function toggle(group: 'observationIds' | 'statementIds' | 'evidenceIds', id: string) {
     const selected = draft.selection[group]
     change({ selection: { ...draft.selection, [group]: selected.includes(id) ? selected.filter(item => item !== id) : [...selected, id] } })
@@ -111,7 +118,7 @@ export function SubmissionPanel({ value, onApprove, onCommand, onCancel, onDirty
       <p>{currentShare.recipient}</p><details onToggle={pauseCollapsedMedia}><summary>공유 승인한 내용</summary><PayloadContent payload={currentShare.payload} caseId={value.id} active={active} /></details>
     </section>}
     {allowed && !preview && <>
-      <label className="journey-recipient">수신처<input maxLength={100} value={draft.recipient} onChange={event => change({ recipient: event.target.value })} /></label>
+      <label className="journey-recipient">수신처<input ref={recipient} maxLength={100} value={draft.recipient} onChange={event => change({ recipient: event.target.value })} /></label>
       <p className="journey-supporting">목적 · {purposes[target]}</p>
       <fieldset className="journey-send-options"><legend>보낼 내용</legend>
         {value.observations.map(item => <label key={item.id}><input type="checkbox" checked={draft.selection.observationIds.includes(item.id)} onChange={() => toggle('observationIds', item.id)} /><span>{item.label} · {item.value}</span></label>)}
