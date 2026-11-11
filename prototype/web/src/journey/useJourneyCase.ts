@@ -160,7 +160,7 @@ export function useJourneyCase(initialId: string | null) {
       if (input.kind === 'submission') {
         committed.submissions = [...live.submissions, result.value.submissions.at(-1)!]
         committed.activeSubmissionIds = { ...live.activeSubmissionIds, [input.agency]: input.id }
-        committed.emergency = { ...live.emergency, requests: { ...live.emergency.requests, [input.agency]: 'sent' } }
+        committed.emergency = { ...live.emergency, requests: { ...live.emergency.requests, [input.agency]: result.value.emergency.requests[input.agency] } }
       } else committed.shares = [...live.shares, result.value.shares.at(-1)!]
       current.current = committed
       setValue(committed)

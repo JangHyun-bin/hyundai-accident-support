@@ -46,6 +46,7 @@ export type Receipt = { number: string | null; receivedAt: string; agencyName: s
 export type Submission = {
   id: string; kind: 'new' | 'imported' | 'contact'; agency: Agency; recipient: string | null
   approvedAt: string | null; payload: PayloadSnapshot | null; status: RequestStatus; externalReceipt: Receipt | null
+  transport?: 'approved' | 'sending' | 'sent' | 'failed'; call?: 'connecting' | 'connected' | 'ended'
 }
 export type ShareRecord = { id: string; recipient: string; approvedAt: string; payload: PayloadSnapshot; status: 'pending' | 'confirmed' | 'failed' | 'unknown' }
 export type FollowUpRequest = { id: string; shopId: string | null; source: Source; updatedAt: string | null }
@@ -71,6 +72,9 @@ export type CaseCommand =
   | { type: 'emergency-edge'; edgeId: string; now: string }
   | { type: 'countdown'; target: string; now: string }
   | { type: 'contact-start'; now: string }
+  | { type: 'transport-start'; caseId: string; submissionId: string; now: string }
+  | { type: 'transport-result'; caseId: string; submissionId: string; status: 'sent' | 'failed'; now: string }
+  | { type: 'call-end'; caseId: string; submissionId: string; now: string }
   | { type: 'request-result'; caseId: string; agency: Agency; submissionId: string; status: RequestStatus; externalReceipt: Receipt | null; now: string }
   | { type: 'statement-edit'; id: string; text: string; audioEvidenceIds: string[] }
   | { type: 'statement-confirm'; id: string }
@@ -96,7 +100,7 @@ export type CommitResult = { ok: true; value: JourneyCase } | { ok: false; reaso
 export type ApprovalResult = { ok: true; value: JourneyCase } | { ok: false; reason: 'recipient' | 'empty-selection' | 'missing-evidence' | 'unreviewed-content' | 'retry-not-allowed' }
 
 export type ApprovalInput = { recipient: string; selection: PayloadSelection; id: string; now: string } &
-  ({ kind: 'submission'; agency: Agency } | { kind: 'share' })
+  ({ kind: 'submission'; agency: Agency; transport?: 'explicit' } | { kind: 'share' })
 export type ApprovalCommitResult = CommitResult | Extract<ApprovalResult, { ok: false }>
 
 export const agencies: Agency[] = ['rescue', 'vehicle', 'insurance']
@@ -156,7 +160,7 @@ export function preparePayload(current: JourneyCase, selection: PayloadSelection
 }
 
 export function makeSubmission(current: JourneyCase, input: {
-  agency: Agency; recipient: string; selection: PayloadSelection; id: string; now: string
+  agency: Agency; recipient: string; selection: PayloadSelection; id: string; now: string; transport?: 'explicit'
 }): ApprovalResult {
   if (!input.recipient.trim() || input.recipient.length > 100) return { ok: false, reason: 'recipient' }
   if (!canSubmit(current, input.agency) || current.submissions.some(item => item.id === input.id)) return { ok: false, reason: 'retry-not-allowed' }
@@ -164,9 +168,10 @@ export function makeSubmission(current: JourneyCase, input: {
   if (!payload.ok) return payload
   const next = structuredClone(current)
   next.submissions.push({ id: input.id, kind: 'new', agency: input.agency, recipient: input.recipient.trim(), approvedAt: input.now,
-    payload: payload.value, status: 'sent', externalReceipt: null })
+    payload: payload.value, status: input.transport === 'explicit' ? 'checking' : 'sent', externalReceipt: null,
+    ...(input.transport === 'explicit' ? { transport: 'approved' as const } : {}) })
   next.activeSubmissionIds[input.agency] = input.id
-  next.emergency.requests[input.agency] = 'sent'
+  next.emergency.requests[input.agency] = input.transport === 'explicit' ? 'checking' : 'sent'
   next.updatedAt = input.now
   return validateCase(next) ? { ok: true, value: next } : { ok: false, reason: 'unreviewed-content' }
 }
@@ -264,7 +269,7 @@ function startContact(value: JourneyCase, now: string) {
   const id = `${value.id}:contact:${value.submissions.filter(s => s.kind === 'contact').length + 1}`
   value.activeSubmissionIds.rescue = id
   value.submissions.push({ id, agency: 'rescue', kind: 'contact', recipient: '119', approvedAt: null,
-    payload: null, status: 'connection_unknown', externalReceipt: null })
+    payload: null, status: 'connection_unknown', externalReceipt: null, call: 'connecting' })
   if (value.emergency.requests.rescue !== 'received') value.emergency.requests.rescue = 'connection_unknown'
   value.updatedAt = now
 }
@@ -287,6 +292,7 @@ export function reduceCase(current: JourneyCase, command: CaseCommand): JourneyC
   const next = structuredClone(current)
   switch (command.type) {
     case 'navigate':
+      if (current.submissions.some(item => item.transport === 'sending')) return current
       next.returnStage = current.stage
       next.stage = command.stage
       break
@@ -520,11 +526,38 @@ export function reduceCase(current: JourneyCase, command: CaseCommand): JourneyC
       share.status = command.status
       break
     }
+    case 'transport-start':
+    case 'transport-result': {
+      if (command.caseId !== current.id) return current
+      const request = next.submissions.find(item => item.id === command.submissionId)
+      if (!request || next.activeSubmissionIds[request.agency] !== request.id || request.status === 'received') return current
+      if (command.type === 'transport-start') {
+        if (request.transport !== 'approved' && request.transport !== 'failed') return current
+        request.transport = 'sending'; request.status = 'checking'
+      } else {
+        if (request.transport !== 'sending') return current
+        request.transport = command.status; request.status = command.status
+      }
+      next.emergency.requests[request.agency] = request.status
+      next.updatedAt = command.now
+      break
+    }
+    case 'call-end': {
+      if (command.caseId !== current.id || command.submissionId !== current.activeSubmissionIds.rescue) return current
+      const request = next.submissions.find(item => item.id === command.submissionId && item.agency === 'rescue')
+      if (!request || !['connecting', 'connected'].includes(request.call ?? (request.status === 'connected' ? 'connected' : ''))) return current
+      request.call = 'ended'
+      next.updatedAt = command.now
+      break
+    }
     case 'request-result': {
       if (command.caseId !== current.id || !['connection_unknown', 'connected', 'checking', 'unknown', 'received', 'sent', 'failed', 'not_received'].includes(command.status)) return current
       const request = next.submissions.find(s => s.id === command.submissionId && s.agency === command.agency)
-      if (!request) return current
-      if (request.status === 'received' && command.status !== 'received') return current
+      if (!request || request.transport && request.transport !== 'sent') return current
+      if (command.agency === 'rescue' && command.status === 'connected' && request.call !== 'ended') request.call = 'connected'
+      if (request.status === 'received' && command.status !== 'received') {
+        return command.status === 'connected' && request.call !== current.submissions.find(item => item.id === request.id)?.call ? next : current
+      }
       request.status = command.status
       request.externalReceipt = command.externalReceipt ?? request.externalReceipt
       if (next.activeSubmissionIds[command.agency] === request.id && (current.emergency.requests[command.agency] !== 'received' || command.status === 'received')) {
