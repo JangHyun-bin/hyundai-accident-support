@@ -72,7 +72,7 @@ export type CaseCommand =
   | { type: 'emergency-edge'; edgeId: string; now: string }
   | { type: 'countdown'; target: string; now: string }
   | { type: 'contact-start'; now: string }
-  | { type: 'transport-start'; caseId: string; submissionId: string; now: string }
+  | { type: 'transport-start'; caseId: string; submissionId: string; retryId?: string; now: string }
   | { type: 'transport-result'; caseId: string; submissionId: string; status: 'sent' | 'failed'; now: string }
   | { type: 'call-end'; caseId: string; submissionId: string; now: string }
   | { type: 'request-result'; caseId: string; agency: Agency; submissionId: string; status: RequestStatus; externalReceipt: Receipt | null; now: string }
@@ -529,10 +529,16 @@ export function reduceCase(current: JourneyCase, command: CaseCommand): JourneyC
     case 'transport-start':
     case 'transport-result': {
       if (command.caseId !== current.id) return current
-      const request = next.submissions.find(item => item.id === command.submissionId)
+      let request = next.submissions.find(item => item.id === command.submissionId)
       if (!request || next.activeSubmissionIds[request.agency] !== request.id || request.status === 'received') return current
       if (command.type === 'transport-start') {
         if (request.transport !== 'approved' && request.transport !== 'failed') return current
+        if (request.transport === 'failed') {
+          if (!command.retryId || next.submissions.some(item => item.id === command.retryId)) return current
+          request = { ...structuredClone(request), id: command.retryId }
+          next.submissions.push(request)
+          next.activeSubmissionIds[request.agency] = request.id
+        }
         request.transport = 'sending'; request.status = 'checking'
       } else {
         if (request.transport !== 'sending') return current
@@ -553,7 +559,7 @@ export function reduceCase(current: JourneyCase, command: CaseCommand): JourneyC
     case 'request-result': {
       if (command.caseId !== current.id || !['connection_unknown', 'connected', 'checking', 'unknown', 'received', 'sent', 'failed', 'not_received'].includes(command.status)) return current
       const request = next.submissions.find(s => s.id === command.submissionId && s.agency === command.agency)
-      if (!request || request.transport && request.transport !== 'sent') return current
+      if (!request || request.transport && (request.transport !== 'sent' || !['received', 'unknown', 'not_received'].includes(command.status))) return current
       if (command.agency === 'rescue' && command.status === 'connected' && request.call !== 'ended') request.call = 'connected'
       if (request.status === 'received' && command.status !== 'received') {
         return command.status === 'connected' && request.call !== current.submissions.find(item => item.id === request.id)?.call ? next : current
