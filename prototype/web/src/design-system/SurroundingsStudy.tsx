@@ -8,6 +8,7 @@ import {CareVehicleContact,contactWorldPoint} from '@/components/ui/vehicle-cont
 import {detailFor,type VehiclePart,type VehicleContourState} from '@/components/ui/vehicle-contour'
 import {VehicleResponseContext} from './VehicleContourStudy'
 import {FrontScene} from './FrontScene'
+import {useFlowFrame} from './flow-contract'
 import {currentFrame,replayFrame,relativeTime,trailSegments,replayStart,replayEnd,estimatedInterval,sceneContact,type Pose} from './surroundings-fixture'
 import './surroundings-study.css'
 
@@ -42,8 +43,9 @@ export function SurroundingsStudy({initialView='vehicle'}:{initialView?:Surround
   </main>
 }
 
-export function SurroundingsScene({initialView='vehicle',vehicle=vehicleState,onViewChange,studyControls=false,active=true}:{active?:boolean;initialView?:SurroundingsView;vehicle?:VehicleContourState;onViewChange?:(view:SurroundingsView)=>void;studyControls?:boolean}){
-  const id=useId().replaceAll(':',''),reduce=useReducedMotion()
+export function SurroundingsScene({initialView='vehicle',vehicle=vehicleState,onViewChange,studyControls=false,active=true,bounded=false}:{bounded?:boolean;active?:boolean;initialView?:SurroundingsView;vehicle?:VehicleContourState;onViewChange?:(view:SurroundingsView)=>void;studyControls?:boolean}){
+  const id=useId().replaceAll(':',''),reduce=useReducedMotion(),frame=useFlowFrame()
+  const fit=bounded&&frame?.mode!=='document'
   const [view,setView]=useState<SurroundingsView>(initialView),[part,setPart]=useState<VehiclePart|null>(null)
   const focused=view==='vehicle',mode=view==='replay'?'replay':'current',front=view==='front'
   const [liveTime,setLiveTime]=useState(2.5),[replayTime,setReplayTime]=useState(replayStart)
@@ -113,13 +115,15 @@ export function SurroundingsScene({initialView='vehicle',vehicle=vehicleState,on
   function toggleContact(){if(!contactSelected&&mode==='replay'){cancelAnimationFrame(raf.current);setPlaying(false)}setContactSelected(value=>!value)}
   function closeContact(){setContactSelected(false);requestAnimationFrame(()=>stage.current?.querySelector<SVGGElement>('[data-contact-trigger]')?.focus({preventScroll:true}))}
   function showSurroundings(){focusView.current='current';switchMode('current')}
-  function closePart(){const previous=part;setPart(null);requestAnimationFrame(()=>stage.current?.querySelector<HTMLButtonElement>('[data-part="'+previous+'"]')?.focus())}
+  function closePart(){const previous=part;setPart(null);requestAnimationFrame(()=>stage.current?.querySelector<HTMLButtonElement>('[data-part="'+previous+'"]')?.focus({preventScroll:true}))}
+  const detailControls=<><button type="button" className="ac-contour-back" onClick={closePart}><ArrowLeft/>전체 항목</button>
+            <div className="ss-detail-switch" role="group" aria-label="차량 부위 선택">{(['impact','hazard','trunk'] as const).map(key=><button type="button" aria-pressed={part===key} key={key} onClick={()=>setPart(key)}>{partNames[key]}</button>)}</div></>
   const stateLabel=focused?'내 차 상태':front?'전방 상황':mode==='replay'?'사고 당시':'현재 주변'
   const stageLabel=mode==='current'?(!signal?'업데이트 중단':!livePlaying?'주변 움직임 일시정지':front?'내 차량에서 바라본 전방':live.phase):past.contact?'접촉 시점':replayTime<0?'충돌 전 상황':'충돌 후 상황'
-  return <CareSurface className="ss-surface" data-scene-view={view} data-scene-mode={mode} data-scene-focus={focused?'vehicle':'surroundings'}>
+  return <CareSurface className="ss-surface" data-scene-bounded={fit||undefined} data-scene-view={view} data-scene-mode={mode} data-scene-focus={focused?'vehicle':'surroundings'}>
         {studyControls&&<div className="ss-study-tools"><span>INTERACTIVE STUDY</span><button type="button" aria-pressed={!signal} onClick={()=>setSignal(value=>!value)}><WifiOff size={15}/>{signal?'신호 끊김 시연':'신호 복원'}</button></div>}
         <header className="ss-header"><div><span className="ac-eyebrow">{focused?'내 차량':front?'차량 전방':'차량과 주변'}</span><h2 ref={viewTitle} tabIndex={-1}>{stateLabel}</h2></div><div className="ss-header-actions"><span className={`ss-source ${!focused&&mode==='replay'?'ss-source-past':!signal?'ss-source-stale':''}`}><i/>{focused?(signal?'현재 상태 · 시연':'마지막 상태 · 시연'):mode==='replay'?'기록 재생 · 시연':!signal?'신호 없음 · 시연':front?'전방 시점 · 시연':'현재 · 시연'}</span>{focused&&<button type="button" className="ss-surroundings-entry" onClick={showSurroundings}><Expand size={17}/>주변 상황 보기</button>}</div></header>
-        {!focused&&<nav className="ss-surroundings-nav" aria-label="주변 상황 탐색"><button type="button" className="ss-back-to-vehicle" onClick={focusCar}><ArrowLeft size={16}/>내 차 상태로</button><div className="ss-modes" role="group" aria-label="주변 view 선택">{scenePages.map(item=><button key={item.view} ref={item.view==='current'?currentView:undefined} type="button" aria-pressed={view===item.view} onClick={()=>switchMode(item.view)}>{item.label}</button>)}</div></nav>}
+        {(!focused||fit)&&<nav className="ss-surroundings-nav" aria-label="주변 상황 탐색" aria-hidden={focused&&!part||undefined} inert={focused&&!part||undefined} style={focused&&!part?{visibility:'hidden'}:undefined}>{focused&&part?detailControls:<><button type="button" className="ss-back-to-vehicle" onClick={focusCar}><ArrowLeft size={16}/>내 차 상태로</button><div className="ss-modes" role="group" aria-label="주변 view 선택">{scenePages.map(item=><button key={item.view} ref={item.view==='current'?currentView:undefined} type="button" aria-pressed={view===item.view} onClick={()=>switchMode(item.view)}>{item.label}</button>)}</div></>}</nav>}
         <div className="ss-visual" ref={stage} data-front={front} data-focused={focused} data-detail={!!part} data-contact-selected={contactVisible&&contactSelected} onPointerDown={event=>{if(contactSelected&&event.target instanceof Element&&!event.target.closest('[data-contact-marker],.ss-contact-detail'))setContactSelected(false)}} onKeyDown={event=>{if(event.key==='Escape'&&(part||contactSelected)){event.preventDefault();event.stopPropagation();if(contactSelected)closeContact();else closePart()}}}>
           <svg ref={scene} className="ss-scene" viewBox={`0 0 ${width} ${height}`} aria-label={focused?'내 차량 상태 시연':front?'내 차량에서 바라본 전방 시연':mode==='replay'?'사고 당시 차량 위치 시연':'현재 주변 차량 위치 시연'}>
             {front?<FrontScene width={width} height={height} frame={live}/>:<>
@@ -158,8 +162,7 @@ export function SurroundingsScene({initialView='vehicle',vehicle=vehicleState,on
           </>}
           {focused&&!part&&<motion.div className="ss-focus-labels" initial={{opacity:0}} animate={{opacity:1}} transition={{duration:reduce?0:.24,delay:reduce?0:.4}}>{(['impact','hazard','trunk'] as const).map(key=><button type="button" key={key} data-part={key} className={`ss-part ss-part-${key}`} onClick={()=>setPart(key)} aria-label={`${partNames[key]} 자세히 보기`}><span>{partNames[key]}<ChevronRight size={14}/></span><CareStatus tone={key==='impact'?(vehicle.direction?'failed':'unknown'):vehicle[key].tone}>{key==='impact'?vehicle.direction??vehicle.directionNote:vehicle[key].value}</CareStatus></button>)}</motion.div>}
           {focused&&part&&detail&&<motion.section className="ss-part-detail" role="region" aria-label="차량 부위 상세" initial={{opacity:0,x:12}} animate={{opacity:1,x:0}} transition={{duration:reduce?0:.3,delay:reduce?0:.18}}>
-            <button type="button" className="ac-contour-back" onClick={closePart}><ArrowLeft/>전체 항목</button>
-            <div className="ss-detail-switch" role="group" aria-label="차량 부위 선택">{(['impact','hazard','trunk'] as const).map(key=><button type="button" aria-pressed={part===key} key={key} onClick={()=>setPart(key)}>{partNames[key]}</button>)}</div>
+            {!fit&&detailControls}
             <h3 ref={detailTitle} tabIndex={-1}>{partNames[part]}</h3><strong className="ss-detail-value">{detail.status.value}</strong><p>{detail.description}</p>{detail.status.source&&<span className="ss-detail-source">{detail.status.source}</span>}{detail.note&&<p className="ss-detail-note">{detail.note}</p>}
           </motion.section>}
         </div>

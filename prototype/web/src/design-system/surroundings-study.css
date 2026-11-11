@@ -143,3 +143,28 @@
 .ss-study .vcs-heading { margin-bottom:var(--ac-space-4); }
 .ss-study .vcs-heading h1 { margin-top:var(--ac-space-2); font-size:var(--ac-type-section); }
 .ss-study .vcs-heading p { margin-top:var(--ac-space-1); }
+
+/* 모든 scene view에 같은 chrome row를 예약해 replay 진입도 viewport를 밀지 않음. */
+.ss-surface[data-scene-bounded] { --ss-header-height:max(64px,calc(var(--ac-type-label)*1.31 + var(--ac-type-title)*1.3 + 8px)); --ss-footer-height:calc(2*var(--ac-touch)); display:grid; grid-template-rows:var(--ss-header-height) var(--ac-touch) minmax(96px,1fr) var(--ss-footer-height); gap:8px; height:100%; min-height:0; padding:16px; box-sizing:border-box; overflow:auto; overscroll-behavior:contain; }
+.ss-surface[data-scene-bounded]>.ss-header { grid-row:1; min-width:0; min-height:0; flex-wrap:nowrap; gap:8px; }
+.ss-surface[data-scene-bounded] .ss-header h2 { margin-top:0; }
+.ss-surface[data-scene-bounded] .ss-header-actions { display:flex; align-items:center; gap:8px; min-width:0; }
+.ss-surface[data-scene-bounded] .ss-source { white-space:normal; }
+.ss-surface[data-scene-bounded]>.ss-surroundings-nav { grid-row:2; margin:0; min-width:0; flex-wrap:nowrap; gap:8px; overflow-x:auto; overscroll-behavior:contain; }
+.ss-surface[data-scene-bounded] .ss-modes { flex-wrap:nowrap; gap:0; }
+.ss-surface[data-scene-bounded] .ss-modes button { white-space:nowrap; padding-inline:8px; }
+.ss-surface[data-scene-bounded] .ss-back-to-vehicle { white-space:nowrap; }
+.ss-surface[data-scene-bounded][data-scene-view]>.ss-visual { --ss-stacked:0; grid-row:3; min-height:0; height:100%; max-height:none; aspect-ratio:auto; margin:0; }
+.ss-surface[data-scene-bounded] .ss-scene { width:100%; height:100%; aspect-ratio:auto; }
+.ss-surface[data-scene-bounded]>.ss-focus-footer,.ss-surface[data-scene-bounded]>.ss-current-footer,.ss-surface[data-scene-bounded]>.ss-playback { grid-row:4; box-sizing:border-box; height:100%; min-height:0; margin:0; padding-top:8px; overflow:auto; overscroll-behavior:contain; }
+.ss-surface[data-scene-bounded] .ss-focus-labels { position:absolute; inset:auto 0 0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:4px; max-height:100%; overflow:auto; pointer-events:auto; }
+.ss-surface[data-scene-bounded] .ss-part { position:static; width:100%; min-width:0; display:flex; flex-direction:column; justify-content:center; align-items:stretch; gap:4px; padding:4px; background:var(--ac-surface); }
+.ss-surface[data-scene-bounded] .ss-focus-leaders { display:none; }
+.ss-surface[data-scene-bounded] .ss-part-detail { position:absolute; inset:0; min-height:0; padding:8px; overflow:auto; overscroll-behavior:contain; scrollbar-gutter:stable; background:var(--ac-surface); align-content:start; }
+.ss-surface[data-scene-bounded] .ss-contact-detail { position:absolute; inset:auto 0 0!important; width:auto; max-height:100%; box-sizing:border-box; overflow:auto; margin:0; background:var(--ac-surface); }
+.ss-surface[data-scene-bounded] .ss-scene-caption { top:8px; left:8px; right:8px; }
+.ss-surface[data-scene-bounded] .ss-scene-key { position:absolute; left:8px; right:8px; bottom:4px; margin:0; }
+.ss-surface[data-scene-bounded] .ss-timeline { height:var(--ac-touch); margin-top:0; }
+.ss-surface[data-scene-bounded] .ss-study-tools { grid-column:1; grid-row:1; z-index:1; margin:0; }
+.ss-surface[data-scene-bounded]>.ss-surroundings-nav>.ss-detail-switch { flex:1; min-width:0; }
+.ss-surface[data-scene-bounded]>.ss-surroundings-nav>.ac-contour-back { flex:none; margin:0; white-space:nowrap; }
