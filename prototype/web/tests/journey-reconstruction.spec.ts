@@ -11,13 +11,11 @@ declare global { interface Window { reconstructionResult: Diagram | null; recons
 async function mount(page: Page, input: { diagram?: Diagram; original?: Diagram; readOnly?: boolean; clips?: { evidence: Evidence; path?: string; corrupt?: boolean; range?: { start: number; end: number } }[] }) {
   await page.goto('/?study=journey-catalog')
   await page.evaluate(async input => {
-    const reactPath = '/node_modules/.vite/deps/react.js'
-    const domPath = '/node_modules/.vite/deps/react-dom_client.js'
+    const runtimePath = '/tests/react-runtime.ts'
     const diagramPath = '/src/journey/DiagramEditor.tsx'
     const clipPath = '/src/journey/ClipPlayer.tsx'
     const layoutPath = '/src/journey/JourneyLayout.tsx'
-    const { default: React } = await import(/* @vite-ignore */ reactPath) as { default: typeof import('react') }
-    const { default: { createRoot } } = await import(/* @vite-ignore */ domPath) as { default: typeof import('react-dom/client') }
+    const { React, createRoot } = await import(/* @vite-ignore */ runtimePath) as typeof import('./react-runtime')
     const { DiagramEditor } = await import(/* @vite-ignore */ diagramPath) as typeof import('../src/journey/DiagramEditor')
     const { ClipPlayer } = await import(/* @vite-ignore */ clipPath) as typeof import('../src/journey/ClipPlayer')
     const { JourneyLayout } = await import(/* @vite-ignore */ layoutPath) as typeof import('../src/journey/JourneyLayout')
