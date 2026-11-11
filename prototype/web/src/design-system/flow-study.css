@@ -105,3 +105,6 @@
 .fs-action-bar .fs-step-copy h2 { font-size:var(--ac-type-title); }
 .fs-stages { flex-wrap:wrap; }
 .fs-board[data-stack=true] .fs-cell-body { height:auto; }
+
+.fs-step-copy p { line-height:1.32; }
+.fs-cell-body .fs-cell-label { line-height:1.5; }

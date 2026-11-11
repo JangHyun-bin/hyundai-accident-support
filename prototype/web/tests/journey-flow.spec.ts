@@ -96,6 +96,7 @@ test('complete-journey covers V1–F1 through actual controls and preserves the 
   await button(page, '시연 event: 보험사 전송 완료').click()
   await expect(page.getByTestId('journey-flow')).toHaveAttribute('data-step', '7')
   await button(page, '시연 event: 보험사 접수번호 확인').click()
+  await button(page, '전송 내역과 공유 보기').click()
   await expect(page.getByText('AC-20261110-001', { exact: true })).toBeVisible()
   await button(page, '상대방 공유').click()
   await page.getByLabel('수신처', { exact: true }).fill('상대 운전자')

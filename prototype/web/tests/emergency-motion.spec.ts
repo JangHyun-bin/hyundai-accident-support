@@ -22,7 +22,7 @@ test('countdown digits roll',async({page})=>{
  await page.goto('/?study=emergency&scenario=SC01&scene=initial');await expect(page.locator('[data-countdown] number-flow-react')).toHaveCount(1)
 })
 test('buttons use a restrained shared press response',async({page})=>{
- await page.goto('/?study=emergency&scenario=SC01&scene=initial');const b=page.getByRole('button',{name:'지금 연결',exact:true});await b.hover();await page.mouse.down();await expect(b).toHaveCSS('transform','matrix(0.985, 0, 0, 0.985, 0, 0)');await page.mouse.up()
+ await page.goto('/?study=emergency&scenario=SC01&scene=initial');const b=page.getByRole('button',{name:'지금 연결',exact:true});await b.hover();await page.mouse.down();await expect(b).toHaveCSS('opacity','0.85');await expect(b).toHaveCSS('transform','none');await page.mouse.up()
 })
 test('reduced motion removes press movement',async({page})=>{
  await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/?study=emergency&scenario=SC01&scene=initial');const b=page.getByRole('button',{name:'취소',exact:true});await b.hover();await page.mouse.down();await expect(b).toHaveCSS('transform','none');await page.mouse.up()

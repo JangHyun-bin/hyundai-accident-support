@@ -1,7 +1,8 @@
 .journey-record-tabs.journey-review-tabs { grid-template-columns: repeat(auto-fit, minmax(min(100%, 6rem), 1fr)); }
-.journey-report { display: grid; gap: var(--ac-space-6); min-width: 0; }
+.journey-report { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--ac-space-6); min-width: 0; }
 .journey-report:focus-visible, .journey-report-paragraph:focus-visible { outline: 2px solid var(--ac-text); outline-offset: 4px; }
 .journey-report-heading { display: flex; gap: var(--ac-space-3); align-items: flex-start; }
+.journey-report-heading > div { min-width: 0; }
 .journey-report-heading > svg { flex: none; width: 24px; height: 24px; margin-top: var(--ac-space-1); }
 .journey-report-heading h2 { font-size: var(--ac-type-section); line-height: 1.4; font-weight: 600; margin-bottom: var(--ac-space-3); }
 .journey-report-paragraph { display: grid; gap: var(--ac-space-4); min-width: 0; padding-block: var(--ac-space-6); border-block-start: 1px solid var(--ac-line); }

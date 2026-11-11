@@ -51,7 +51,7 @@ test('unknown position has no invented marker or evacuation distance', async ({ 
 test('review controls do not override the vehicle primary action typography', async ({ page }) => {
   await begin(page)
   const action = page.getByRole('button', { name: '사고 기록 남기기', exact: true })
-  expect(await action.evaluate(node => parseFloat(getComputedStyle(node).fontSize))).toBe(17)
+  expect(await action.evaluate(node => parseFloat(getComputedStyle(node).fontSize))).toBe(18)
 })
 
 test('conflicting impact observations remain visible without asserting a direction', async ({ page }) => {

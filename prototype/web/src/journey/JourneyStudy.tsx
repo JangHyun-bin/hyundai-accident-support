@@ -216,6 +216,27 @@ export function JourneyStudy({embedded=false}:{embedded?:boolean}) {
     if (kind === 'rental' && (status === 'eligible' || status === 'ineligible' || status === 'unknown')) dispatch({ type: 'follow-up-result', ...identity, kind, status })
   }
 
+  function recordWorkspace() {
+    if (!value) return null
+    return <>
+            <nav className="journey-record-tabs" aria-label="기록 방법">
+              <button aria-pressed={recordTab === 'voice'} onClick={async () => { if (await prepareToLeave()) setRecordTab('voice') }}>말로 남기기</button>
+              <button aria-pressed={recordTab === 'photos'} onClick={async () => { if (await prepareToLeave()) setRecordTab('photos') }}>사진 남기기</button>
+            </nav>
+            <div hidden={recordTab !== 'voice'}><VoiceRecordPanel ref={voicePanel} value={value} mode={voiceMode} onSave={journey.save} /></div>
+            <div hidden={recordTab !== 'photos'}><EvidencePanel ref={photoPanel} value={value} onSave={journey.save} onCommand={photoCommand} /></div>
+            <JourneyRequests value={value} />
+    </>
+  }
+
+  function reviewWorkspace() {
+    if (!value) return null
+    return <>
+            <JourneyReviewPanel ref={reviewPanel} explicitTransport={representative} value={value} onCommand={dispatch} onApprove={journey.approve} />
+            <JourneyRequests value={value} />
+    </>
+  }
+
   function content() {
     if (!value || !scene) return null
     const navigation = renderNavigation(value)
@@ -246,27 +267,20 @@ export function JourneyStudy({embedded=false}:{embedded?:boolean}) {
     {journey.missing && !value && <section className="journey-empty"><h2>이 기기에서 기록을 찾지 못했어요</h2><p>다른 기기의 기록은 자동으로 이어지지 않아요.</p></section>}
     {value && <>
       <section ref={motionRef} data-care-motion-key={contextKey} data-case-id={value.id} data-journey-stage={value.stage}>
-        {representative&&<div hidden={details||value.stage==='follow-up'}><JourneyFlow key={value.id} value={value} device={device} active={!details&&value.stage!=='follow-up'} onCommand={dispatch} onNavigate={navigate} onReview={()=>{reviewPanel.current?.openSubmission();requestAnimationFrame(()=>document.getElementById('journey-review-editor')?.scrollIntoView({block:'start'}))}}/></div>}
+        {representative&&<div hidden={details||value.stage==='follow-up'}><JourneyFlow key={value.id} value={value} device={device} active={!details&&value.stage!=='follow-up'} onCommand={dispatch} onNavigate={navigate} recordWorkspace={recordWorkspace()} reviewWorkspace={reviewWorkspace()} onReview={()=>reviewPanel.current?.openSubmission()}/></div>}
         {content()}
-        <div id="journey-record-editor" key={value.id} hidden={value.stage !== 'record' || details}>
+        {!representative&&<div id="journey-record-editor" key={value.id} hidden={value.stage !== 'record' || details}>
           <JourneyLayout device={device} navigation={renderNavigation(value)} summary={<JourneySummary value={value} />}
             action={<JourneyAction secondary disabled={representative&&!hasJourneyRecord(value)} onClick={() => void navigate('review')}>{representative?'기록 내용 확인':'내용 확인으로'}<ArrowRight aria-hidden="true" /></JourneyAction>}>
-            <nav className="journey-record-tabs" aria-label="기록 방법">
-              <button aria-pressed={recordTab === 'voice'} onClick={async () => { if (await prepareToLeave()) setRecordTab('voice') }}>말로 남기기</button>
-              <button aria-pressed={recordTab === 'photos'} onClick={async () => { if (await prepareToLeave()) setRecordTab('photos') }}>사진 남기기</button>
-            </nav>
-            <div hidden={recordTab !== 'voice'}><VoiceRecordPanel ref={voicePanel} value={value} mode={voiceMode} onSave={journey.save} /></div>
-            <div hidden={recordTab !== 'photos'}><EvidencePanel ref={photoPanel} value={value} onSave={journey.save} onCommand={photoCommand} /></div>
-            <JourneyRequests value={value} />
+            {recordWorkspace()}
           </JourneyLayout>
-        </div>
-        <div id="journey-review-editor" key={value.id + '-review'} hidden={value.stage !== 'review' || details}>
+        </div>}
+        {!representative&&<div id="journey-review-editor" key={value.id + '-review'} hidden={value.stage !== 'review' || details}>
           <JourneyLayout device={device} navigation={renderNavigation(value)} summary={<JourneySummary value={value} />}
             action={<JourneyAction secondary disabled={sending} onClick={() => void navigate('record')}>기록으로 돌아가기</JourneyAction>}>
-            <JourneyReviewPanel ref={reviewPanel} explicitTransport={representative} value={value} onCommand={dispatch} onApprove={journey.approve} />
-            <JourneyRequests value={value} />
+            {reviewWorkspace()}
           </JourneyLayout>
-        </div>
+        </div>}
         <div key={value.id + '-follow-up'} hidden={value.stage !== 'follow-up' || details}>
           <JourneyLayout device={device} navigation={renderNavigation(value)} summary={<JourneySummary value={value} />}
             action={<JourneyAction secondary disabled={representative&&!hasJourneyRecord(value)} onClick={() => void navigate('review')}>사고 내용으로 돌아가기</JourneyAction>}>

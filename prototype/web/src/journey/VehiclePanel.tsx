@@ -1,3 +1,4 @@
+import {CareAction} from '@/components/ui/after-care'
 import { MapPin, ShieldCheck, TriangleAlert } from 'lucide-react'
 import {CareSituation,CareRequests,CareUnknownMap} from '@/components/ui/response-content'
 import {CareVehicleContour} from '@/components/ui/vehicle-contour'
@@ -13,14 +14,15 @@ export function JourneySummary({ value }: { value: JourneyCase }) {
   return <CareSituation title="충돌 감지" facts={[{id:'driver',label:'운전자 조작'},{id:'mobility',label:'차량 이동'},{id:'route',label:'이동 경로'}].map(({id,label})=>{const fact={...scenario.facts.find(f=>f.id===id),...value.emergency.facts[id]};return {id,label,value:fact.value??'미확인',tone:careTone(fact.status??'unknown')}})}><JourneyRiskNotice value={value}/></CareSituation>
 }
 
-export function JourneyRiskNotice({ value }: { value: JourneyCase }) {
+export function JourneyRiskNotice({ value, onCommand }: { value: JourneyCase; onCommand?:(command:CaseCommand)=>void }) {
   const risks = currentObservations(value, 'risk').filter(item => item.confirmation === 'attention')
   if (!risks.length) return null
-  return <div className="journey-risk" role="alert"><TriangleAlert aria-hidden="true" /><span>{[...new Set(risks.map(item => item.value))].join(' · ')}</span></div>
+  const acknowledged=risks.every(risk=>value.safetyActions.some(action=>action.id===`ack:${risk.id}`&&action.status==='user-confirmed'))
+  return <div className="journey-risk" role="alert"><TriangleAlert aria-hidden="true" /><span>{[...new Set(risks.map(item => item.value))].join(' · ')}</span>{onCommand&&(acknowledged?<span>위험 안내 확인함 · 위험 정보 유지</span>:<CareAction secondary onClick={()=>risks.forEach(risk=>onCommand({type:'safety-action',action:{id:`ack:${risk.id}`,label:'위험 안내 확인',status:'user-confirmed',source:'user',confirmedAt:new Date().toISOString()}}))}>위험 안내 확인</CareAction>)}</div>
 }
 
 export function JourneyRequests({ value }: { value: JourneyCase }) {
-  return <CareRequests items={(['rescue','vehicle','insurance'] as const).map(id=>{const status=manifest.request_statuses[value.emergency.requests[id]],request=activeRequest(value,id),transport=request?.transport;const label=transport==='approved'?'승인 완료 · 전송 전':transport==='sending'?'전송 중 · 접수 미확인':transport==='sent'&&request?.status==='sent'?'전송 완료 · 접수 미확인':status.label;return {id,label:{rescue:'구호',vehicle:'차량 지원',insurance:'보험사'}[id],status:label,tone:careTone(status.tone)}})}/>
+  return <CareRequests items={(['rescue','vehicle','insurance'] as const).map(id=>{const status=manifest.request_statuses[value.emergency.requests[id]],request=activeRequest(value,id),transport=request?.transport;const label=id==='rescue'&&request?.call==='ended'&&request.status==='connected'?'통화 종료 · 구호 접수 미확인':transport==='approved'?'승인 완료 · 전송 전':transport==='sending'?'전송 중 · 접수 미확인':transport==='sent'&&request?.status==='sent'?'전송 완료 · 접수 미확인':status.label;return {id,label:{rescue:'구호',vehicle:'차량 지원',insurance:'보험사'}[id],status:label,tone:careTone(status.tone)}})}/>
 }
 
 export function JourneyNavigation({ value, destinationLabel = '안내 지점' }: { value: JourneyCase; destinationLabel?: string }) {

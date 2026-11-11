@@ -50,11 +50,12 @@ export function SurroundingsScene({initialView='vehicle',vehicle=vehicleState,on
   const [livePlaying,setLivePlaying]=useState(true),[playing,setPlaying]=useState(false),[speed,setSpeed]=useState(1),[signal,setSignal]=useState(true)
   const [contactSelected,setContactSelected]=useState(false)
   const raf=useRef(0),liveClock=useRef(2.5),replayClock=useRef(replayStart)
-  const viewTitle=useRef<HTMLHeadingElement>(null),currentView=useRef<HTMLButtonElement>(null)
+  const viewTitle=useRef<HTMLHeadingElement>(null),currentView=useRef<HTMLButtonElement>(null),focusView=useRef<'vehicle'|'current'|null>(null)
   const stage=useRef<HTMLDivElement>(null),scene=useRef<SVGSVGElement>(null),detailTitle=useRef<HTMLHeadingElement>(null)
   const [viewport,setViewport]=useState({width:0,height:0,stacked:false})
   const running=active&&!focused&&(mode==='current'?livePlaying&&signal:playing)
   useEffect(()=>{onViewChange?.(view)},[view,onViewChange])
+  useLayoutEffect(()=>{if(focusView.current){(focusView.current==='vehicle'?viewTitle:currentView).current?.focus({preventScroll:true});focusView.current=null}},[view])
   useLayoutEffect(()=>{
     const svg=scene.current!,container=stage.current!
     const measure=()=>{
@@ -108,10 +109,10 @@ export function SurroundingsScene({initialView='vehicle',vehicle=vehicleState,on
   function switchMode(next:Exclude<SurroundingsView,'vehicle'>){if(next===view)return;cancelAnimationFrame(raf.current);setView(next);setPart(null);setPlaying(false);setContactSelected(false)}
   function seek(time:number){cancelAnimationFrame(raf.current);setPlaying(false);const next=Math.max(replayStart,Math.min(replayEnd,time));if(next<0)setContactSelected(false);replayClock.current=next;setReplayTime(next)}
   function toggleReplay(){if(playing){cancelAnimationFrame(raf.current);setPlaying(false)}else{if(replayClock.current>=replayEnd){replayClock.current=replayStart;setReplayTime(replayStart);setContactSelected(false)}setPlaying(true)}}
-  function focusCar(){if(focused)return;cancelAnimationFrame(raf.current);setPlaying(false);setView('vehicle');setPart(null);setContactSelected(false);requestAnimationFrame(()=>viewTitle.current?.focus({preventScroll:true}))}
+  function focusCar(){if(focused)return;focusView.current='vehicle';cancelAnimationFrame(raf.current);setPlaying(false);setView('vehicle');setPart(null);setContactSelected(false)}
   function toggleContact(){if(!contactSelected&&mode==='replay'){cancelAnimationFrame(raf.current);setPlaying(false)}setContactSelected(value=>!value)}
   function closeContact(){setContactSelected(false);requestAnimationFrame(()=>stage.current?.querySelector<SVGGElement>('[data-contact-trigger]')?.focus({preventScroll:true}))}
-  function showSurroundings(){switchMode('current');requestAnimationFrame(()=>currentView.current?.focus({preventScroll:true}))}
+  function showSurroundings(){focusView.current='current';switchMode('current')}
   function closePart(){const previous=part;setPart(null);requestAnimationFrame(()=>stage.current?.querySelector<HTMLButtonElement>('[data-part="'+previous+'"]')?.focus())}
   const stateLabel=focused?'내 차 상태':front?'전방 상황':mode==='replay'?'사고 당시':'현재 주변'
   const stageLabel=mode==='current'?(!signal?'업데이트 중단':!livePlaying?'주변 움직임 일시정지':front?'내 차량에서 바라본 전방':live.phase):past.contact?'접촉 시점':replayTime<0?'충돌 전 상황':'충돌 후 상황'

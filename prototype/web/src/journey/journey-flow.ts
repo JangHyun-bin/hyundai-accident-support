@@ -1,11 +1,11 @@
-import type { FlowLayout } from '@/design-system/flow-study-model'
+import { checklistLabels, type FlowLayout } from '@/design-system/flow-study-model'
 import type { JourneyCase, Submission } from './case'
 
 export const safetyChecklist = [
-  { id: 'hazard', label: '비상등 켜기' },
-  { id: 'surroundings', label: '주변 차량 살피기' },
-  { id: 'evacuation', label: '차량에서 벗어나기' },
-  { id: 'barrier', label: '안전한 경로 확인하기' },
+  { id: 'checklist-hazard', label: checklistLabels[0] },
+  { id: 'checklist-trunk', label: checklistLabels[1] },
+  { id: 'checklist-route', label: checklistLabels[2] },
+  { id: 'checklist-mobile', label: checklistLabels[3] },
 ] as const
 export type ResponseStep = 1 | 2 | 3 | 4
 export const safetyConfirmed = (value: JourneyCase, id: string) => value.safetyActions.some(action => action.id === id && ['user-confirmed', 'device-confirmed'].includes(action.status))

@@ -38,9 +38,13 @@ test('2560 IVI renders the approved typography and small semantic status colors'
   expect(await style('.ac-guidance-content p')).toMatchObject({ size: 26, weight: '400', leading: 34.06 })
   expect(await style('.ac-heading p')).toMatchObject({ size: 22, weight: '400', leading: 29.04 })
   expect(await style('.ac-catalog-statuses .ac-status')).toMatchObject({ size: 24, weight: '600', leading: 31.2 })
+  expect(await style('.ac-contour-header h2')).toEqual({ size: 40, weight: '600', leading: 52, spacing: 0 })
+  expect(await style('.ac-unknown-map h2')).toEqual({ size: 40, weight: '600', leading: 52, spacing: 0 })
   for (const [tone, color] of [['pending', 'rgb(242, 165, 65)'], ['confirmed', 'rgb(167, 227, 191)'], ['failed', 'rgb(255, 179, 156)'], ['info', 'rgb(108, 142, 245)']]) {
     expect(await page.locator(`.ac-catalog-statuses [data-tone=${tone}]`).evaluate(node => getComputedStyle(node).color)).toBe(color)
   }
+  await page.goto('/?study=surroundings')
+  expect(await style('.ss-header h2')).toEqual({ size: 40, weight: '600', leading: 52, spacing: 0 })
 })
 
 test('Catalog keeps long titles within 360px at 200 percent text', async ({ page }) => {

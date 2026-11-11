@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test'
 import { createSession } from '../src/emergency/session'
 import { createCase, makeSubmission, reduceCase, validateCase, type JourneyCase } from '../src/journey/case'
+import { checklistLabels } from '../src/design-system/flow-study-model'
+import { journeyFlow, safetyChecklist } from '../src/journey/journey-flow'
 
 const now = '2026-11-12T00:00:00.000Z'
 function approved(explicit = true) {
@@ -87,4 +89,31 @@ test('failed contact ends that call attempt and later results cannot reopen it',
   expect(value.activeSubmissionIds.rescue).toBe(current)
   expect(value.submissions[1].call).toBe('connecting')
   expect(validateCase(value)).toBe(true)
+})
+
+test('a contact failure ends a connected call while preserving its confirmed receipt', () => {
+  let value = reduceCase(createCase(createSession('SC01'), 'received-contact', now), { type: 'contact-start', now })
+  const result = { caseId: value.id, submissionId: value.activeSubmissionIds.rescue!, agency: 'rescue' as const, now, externalReceipt: null }
+  value = reduceCase(value, { type: 'request-result', ...result, status: 'connected' })
+  const receipt = { number: 'confirmed-receipt', receivedAt: now, agencyName: '구호', next: '안내 대기' }
+  value = reduceCase(value, { type: 'request-result', ...result, status: 'received', externalReceipt: receipt })
+  const endedAt = '2026-11-12T00:01:00.000Z'
+  value = reduceCase(value, { type: 'request-result', ...result, status: 'failed', now: endedAt })
+  expect(value.submissions[0]).toMatchObject({ status: 'received', call: 'ended', externalReceipt: receipt })
+  expect(value.emergency.requests.rescue).toBe('received')
+  expect(value.updatedAt).toBe(endedAt)
+  expect(reduceCase(value, { type: 'request-result', ...result, status: 'connected' })).toBe(value)
+  expect(validateCase(value)).toBe(true)
+})
+
+test('approved checklist labels stay shared and checking never asserts vehicle operation or arrival', async ({ page }) => {
+  let value = createCase(createSession('SC01'), 'checklist-case', now)
+  expect(safetyChecklist.map(item => item.label)).toEqual(checklistLabels)
+  for (const item of safetyChecklist) value = reduceCase(value, { type: 'safety-action', action: { ...item, source: 'user', status: 'user-confirmed', confirmedAt: now } })
+  value = reduceCase(value, { type: 'safety-action', action: { id: 'evacuation', label: '대피 확인', source: 'user', status: 'user-confirmed', confirmedAt: now } })
+  expect(journeyFlow(value, 3).step).toBe(3)
+  expect(value.safetyActions.some(item => item.id === 'safe-arrival')).toBe(false)
+  await page.goto('/')
+  const vehicle = await page.evaluate(async value => { const path = '/src/journey/vehicle-state.ts'; return (await import(path)).vehicleContourState(value) }, value)
+  expect(vehicle).toMatchObject({ hazard: { value: '미확인', tone: 'unknown' }, trunk: { value: '미확인', tone: 'unknown' } })
 })
