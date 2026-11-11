@@ -1,6 +1,6 @@
 # Stable Voronoi Layout Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans for integration and the user-authorized A/B/C parallel streams. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans for integration and the user-authorized A/B/C parallel streams. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** 실제 Journey 1–7에서 고정된 차량 frame, 안정된 text, 읽고 조작할 수 있는 persistent editor를 제공.
 
@@ -56,11 +56,11 @@ Priority workspace에 board의 약2/3 width와 전체 height를 먼저 예약하
 
 **Interfaces:** `VehicleShell({presentation?:'bounded',header?:ReactNode,previewHeight?:number,...existing})`; context `FlowFrameContext`. `SurroundingsScene({bounded?:boolean,...existing})`. Pure `resolveFlowFrame(input:FlowFrameInput):FlowFrame`, hook `useBoundedFrame(ref,device,previewHeight)` in owned module. Profile uses environment only. `header` is reserved status/progress/action row; simulation outside. Optional `previewHeight` is host height, not content-derived. Context provider and children identity persist across modes.
 
-- [ ] Write/run failing frame tests: environment-selected profile, 3line+control minimum, 1440/1920/2560 wide, vehicle/mobile touch distinction,200% document exception without stage input.
-- [ ] Implement measured font metric/host sizing and reserved rows. Width split1:1; height from host; `min-height:0` chain. Reserve urgent row independent of current alert.
-- [ ] Scene opt-in bounded fit and internal detail scroll. Keep standalone view and replay lifetime.
-- [ ] Test same host with long mock content and all scene modes; check `tsc --noEmit`. Expected: no shell size change, no scene loss.
-- [ ] Commit owned files only; report port/cache/output and tests.
+- [x] Write/run failing frame tests: environment-selected profile, 3line+control minimum, 1440/1920/2560 wide, vehicle/mobile touch distinction,200% document exception without stage input.
+- [x] Implement measured font metric/host sizing and reserved rows. Width split1:1; height from host; `min-height:0` chain. Reserve urgent row independent of current alert.
+- [x] Scene opt-in bounded fit and internal detail scroll. Keep standalone view and replay lifetime.
+- [x] Test same host with long mock content and all scene modes; check `tsc --noEmit`. Expected: no shell size change, no scene loss.
+- [x] Commit owned files only; report port/cache/output and tests.
 
 ## Task 3: C — real content·scroll·focus
 
@@ -68,12 +68,12 @@ Priority workspace에 board의 약2/3 width와 전체 height를 먼저 예약하
 
 **Interfaces:** Task2 shell props; FlowBoard adds `device?:Device`, unchanged renderCell API. `FlowFrameContext` supplies mode. `journey-flow-workspace` stable DOM, one bounded body scroll. FlowBoard owns shape/content presentation; C owns focus and semantic workspace. Selector `.fs-cell-body` is slot; `.journey-workspace-scroll` is active editor body. Fixed 119 core wrapper `.fs-call-core`, decorative number/spectrum separate.
 
-- [ ] Write/run failing draft/selection/scroll tests for BACK/risk/context and no document scroll on step changes.
-- [ ] Move progress/action/risk into shell header, simulation outside. Preserve minimum header text/action access; no sticky overlap.
-- [ ] Add internal scrolling and stable title/actions as real editor structure permits. No clone/reparent/remount on profile/stage.
-- [ ] Retain focus in active input; focus visible heading only after genuine task change. Scroll own body only. Preserve observable IME value before urgent hide; no new domain state.
-- [ ] Narrow context switch retains scene instance and critical call/actions. Scene toggle cannot trigger record save/remount.
-- [ ] Run owned regression and existing representative/voice/review tests, `tsc --noEmit`; commit owned changes.
+- [x] Write/run failing draft/selection/scroll tests for BACK/risk/context and no document scroll on step changes.
+- [x] Move progress/action/risk into shell header, simulation outside. Preserve minimum header text/action access; no sticky overlap.
+- [x] Add internal scrolling and stable title/actions as real editor structure permits. No clone/reparent/remount on profile/stage.
+- [x] Retain focus in active input; focus visible heading only after genuine task change. Scroll own body only. Preserve observable IME value before urgent hide; no new domain state.
+- [x] Narrow context switch retains scene instance and critical call/actions. Scene toggle cannot trigger record save/remount.
+- [x] Run owned regression and existing representative/voice/review tests, `tsc --noEmit`; commit owned changes.
 
 ## Task 4: B and integration — content-first geometry·renderer
 
@@ -82,27 +82,33 @@ Priority workspace에 board의 약2/3 width와 전체 height를 먼저 예약하
 
 **Interfaces:** B `createFlowPlan(layout:FlowLayout,width:number,height:number,frame:FlowFrame):FlowPlan`; `flowShapes(plan):FlowShapeFrame`; `sampleFlowShapes(from:FlowShapeFrame,to:FlowShapeFrame,progress:number):FlowShapeFrame`. Shapes in board CSS px, path local to own bounds. Stable all4cell keys, null absent shape. Slot rect board CSS px. Critical slot unchanged within environment. Root mutates shape DOM and content translate with one GSAP owner; React content not regenerated every frame.
 
-- [ ] B write/run failing deterministic endpoint and rounded containment tests; initial power candidate versus usable slot evidence; document chosen area ratios.
-- [ ] B implement pure endpoint plan with content first, actual rounded boundary check, stable topology/safe intermediate shapes and interrupted paths. Wide Voronoi; narrow/mobile rectangular workspace. No perframe maximum-content optimizer.
-- [ ] B run dense path/retarget samples and geometry regression; commit owned changes.
-- [ ] Integration write/run normal-motion failure test requiring≥10intermediate RAF frames and ≤1px boundaries/font/linebreak stability.
-- [ ] Replace weight React updates/overflow-stack observer/4000ms queue. Freeze content slot/variant during transition; translate if safe. Otherwise opacity0 commit once for noncritical content. Emergency core always visible and fixed. Generation ignores stale callbacks; resize/font/reduced-motion commit valid final plan.
-- [ ] Connect A/B/C; preview and Catalog use same bounded host. Production route and standalone old shell callers unchanged.
-- [ ] Preserve readout with actual area ratios. Retire obsolete content-driven fallback assertions with equivalent reachability/readability checks.
-- [ ] Run focused state/geometry/browser tests; commit integration.
+- [x] B write/run failing deterministic endpoint and rounded containment tests; initial power candidate versus usable slot evidence; document chosen area ratios.
+- [x] B implement pure endpoint plan with content first, actual rounded boundary check, stable topology/safe intermediate shapes and interrupted paths. Wide Voronoi; narrow/mobile rectangular workspace. No perframe maximum-content optimizer.
+- [x] B run dense path/retarget samples and geometry regression; commit owned changes.
+- [x] Integration write/run normal-motion failure test requiring≥10intermediate RAF frames and ≤1px boundaries/font/linebreak stability.
+- [x] Replace weight React updates/overflow-stack observer/4000ms queue. Freeze content slot/variant during transition; translate if safe. Otherwise opacity0 commit once for noncritical content. Emergency core always visible and fixed. Generation ignores stale callbacks; resize/font/reduced-motion commit valid final plan.
+- [x] Connect A/B/C; preview and Catalog use same bounded host. Production route and standalone old shell callers unchanged.
+- [x] Preserve readout with actual area ratios. Retire obsolete content-driven fallback assertions with equivalent reachability/readability checks.
+- [x] Run focused state/geometry/browser tests; commit integration.
 
 ## Task 5: S3/S4 verification·independent review
 
 **Files:** Relevant tests above, append-only result document `docs/superpowers/results/2026-11-12-stable-voronoi-layout.md`; metrics/screenshot/trace in ignored audit directory.
 
-- [ ] Matrix: vehicle2560×1440,1920×1080,1440×900,1280×720,960×900,393×852; actual mobile393×852,360×800. Text100/200%, profile/reason recorded.
-- [ ] Real normal-motion detect/evacuate/safe/review/sending/calm and rapid reverse: ≥10actual RAF samples each. Heights/anchors≤1px, stable line counts/fonts, actual rounded path text/control/focus-ring containment. Save JSON and screenshot strip; inspect images.
-- [ ] Actual voice listening/review/add, photo, long Korean/report/recipient/payload,textarea resize, keyboard/IME,failed retry/BACK/risk/call hold,scene front/replay seek,follow-up/calm return.
-- [ ] Font delay/resize/reduced toggle/driving pause and resume; no stale callbacks or scroll changes. Browser trace for shape/style/layout/paint. No unsupported hardware FPS claim.
-- [ ] `npx tsc --noEmit`, `npm run check`, `npx playwright test --workers=4` redirected logs. Expected all pass; inspect test coverage before treating green as completion.
-- [ ] Fresh independent whole-change review against spec and evidence; close important findings with reproducing regression and verification.
-- [ ] Requirement-by-requirement completion audit. Local commits only, existing user files unchanged, localhost5173 remains. Record URL, evidence, limitations.
+- [x] Matrix: vehicle2560×1440,1920×1080,1440×900,1280×720,960×900,393×852; actual mobile393×852,360×800. Text100/200%, profile/reason recorded.
+- [x] Real normal-motion detect/evacuate/safe/review/sending/calm and rapid reverse: ≥10actual RAF samples each. Heights/anchors≤1px, stable line counts/fonts, actual rounded path text/control/focus-ring containment. Save JSON and screenshot strip; inspect images.
+- [x] Actual voice listening/review/add, photo, long Korean/report/recipient/payload,textarea resize, keyboard/IME,failed retry/BACK/risk/call hold,scene front/replay seek,follow-up/calm return.
+- [x] Font delay/resize/reduced toggle/driving pause and resume; no stale callbacks or scroll changes. Browser trace for shape/style/layout/paint. No unsupported hardware FPS claim.
+- [x] `npx tsc --noEmit`, `npm run check`, `npx playwright test --workers=4` redirected logs. Expected all pass; inspect test coverage before treating green as completion.
+- [x] Fresh independent whole-change review against spec and evidence; close important findings with reproducing regression and verification.
+- [x] Requirement-by-requirement completion audit. Local commits only, existing user files unchanged, localhost5173 remains. Record URL, evidence, limitations.
 
 ## Execution tracking
 
 User explicitly authorized continuous execution and3parallel streams; no extra plan approval stop. S0 serial, A/B/C separate worktrees with isolated Vite cache/ports/test outputs, root integration serial. Progress ledger `.superpowers/sdd/2026-11-12-stable-voronoi-layout/progress.md`. Fresh review after a stream releases a slot.
+
+## 2026-11-12 실행 결과와 전달 범위 변경
+
+전체 gate 완료. 최종 TypeScript·production build·389/389 tests 통과. 독립 review의5finding closure 완료. 상세 evidence는 `../results/2026-11-12-stable-voronoi-layout.md`에 기록.
+
+최신 사용자 요청에 따라 초기 local-only 조건을 변경하여 branch push·PR·검증 조건 충족 후 merge까지 진행. 기존 사용자 미commit 문서2개는 계속 제외하며 localhost5173 유지.
