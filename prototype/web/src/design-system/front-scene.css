@@ -1,0 +1,22 @@
+.ss-front-horizon { fill:none; stroke:var(--ac-line); stroke-width:1; opacity:.45; }
+.ss-front-road { fill:var(--ac-control); opacity:.16; }
+.ss-front-road-edge { fill:none; stroke:var(--ac-muted); stroke-width:1; opacity:.35; }
+.ss-front-lanes { fill:none; stroke:var(--ac-muted); stroke-width:1.3; opacity:.4; }
+.ss-front-guardrail { fill:none; stroke:var(--ac-muted); stroke-width:1.25; opacity:.55; }
+.ss-front-shadow { fill:var(--ac-ink); opacity:.65; }
+.ss-front-car { fill:none; stroke:var(--ac-muted); stroke-width:.6; stroke-linejoin:round; stroke-linecap:round; }
+.ss-front-body { fill:var(--ac-control); stroke:var(--ac-muted); }
+.ss-front-tires { fill:var(--ac-ink); stroke:var(--ac-line); }
+.ss-front-glass { fill:var(--ac-ink); stroke:var(--ac-muted); stroke-width:.45; }
+.ss-front-secondary { stroke:var(--ac-muted); opacity:.6; stroke-width:.35; }
+.ss-front-rear-lights { fill:var(--ac-muted); stroke:none; opacity:.65; }
+.ss-front-headlights { fill:var(--ac-text); stroke:none; opacity:.7; }
+.ss-front-body-line { stroke:var(--ac-text); opacity:.45; }
+.ss-front-hood { fill:var(--ac-surface); stroke:var(--ac-line); stroke-width:1; }
+.ss-front-hood-line { fill:none; stroke:var(--ac-line); stroke-width:1; opacity:.5; }
+.ss-visual[data-front=true] .ss-scene-key { bottom:var(--ac-space-2); }
+.ss-scene-key .ss-front-orientation i { width:8px; height:12px; border:0; border-left:1px solid var(--ac-muted); border-top:1px solid var(--ac-muted); border-radius:0; transform:rotate(45deg) scale(.7); }
+@container surroundings (max-width:28rem) {
+ .ss-visual[data-front=true] .ss-scene { aspect-ratio:4/5; }
+ .ss-visual[data-front=true] .ss-scene-key { position:static; margin-top:var(--ac-space-3); }
+}

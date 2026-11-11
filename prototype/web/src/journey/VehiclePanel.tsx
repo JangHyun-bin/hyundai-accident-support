@@ -1,20 +1,11 @@
 import { MapPin, ShieldCheck, TriangleAlert } from 'lucide-react'
 import {CareSituation,CareRequests,CareUnknownMap} from '@/components/ui/response-content'
+import {CareVehicleContour} from '@/components/ui/vehicle-contour'
 import {careTone} from '@/emergency/EmergencySurface'
 import { manifest, scenarioFor } from '../emergency/session'
 import { JourneyHeading, JourneyStatus } from './JourneyLayout'
-import type { CaseCommand, JourneyCase, Observation } from './case'
-
-function currentObservations(value: JourneyCase, kind: string) {
-  const superseded = new Set(value.observations.map(o => o.supersedes))
-  return value.observations.filter(o => o.kind === kind && !superseded.has(o.id))
-}
-
-function agreedValue(observations: Observation[]) {
-  const confirmed = observations.filter(o => o.confirmation === 'confirmed')
-  const values = new Set(confirmed.map(o => o.value))
-  return values.size === 1 ? confirmed.at(-1)!.value : null
-}
+import type { CaseCommand, JourneyCase } from './case'
+import {agreedValue,currentObservations,vehicleContourState} from './vehicle-state'
 
 export function JourneySummary({ value }: { value: JourneyCase }) {
   const scenario = scenarioFor(value.emergency.scenarioId)
@@ -48,20 +39,10 @@ export function JourneyNavigation({ value, destinationLabel = '안내 지점' }:
 
 export function VehiclePanel({ value, onCommand }: { value: JourneyCase; onCommand: (command: CaseCommand) => void }) {
   const fields = [{ id: 'impact-direction', label: '충격 방향' }, { id: 'impact-strength', label: '충격 세기' }, { id: 'collision-time', label: '감지 시각' }]
-  const direction = agreedValue(currentObservations(value, 'impact-direction'))
-  const directions: Record<string, number> = { '전방': 0, '우측 전방': 45, '우측': 90, '우측 후방': 135, '후방': 180, '좌측 후방': 225, '좌측': 270, '좌측 전방': 315 }
-  const angle = direction ? directions[direction] : undefined
   return <>
     <JourneyHeading title="차량에서 확인한 내용">확인된 정보와 아직 모르는 내용을 구분해요.</JourneyHeading>
     <div className="journey-vehicle-detail">
-    <div className="journey-car-outline">
-      <svg viewBox="-50 -10 340 340" role="img" aria-label={angle === undefined ? '충격 방향 미확인' : direction + ' 충격 방향'}>
-        <path d="M78 38Q120 22 162 38L180 100V257Q180 280 158 284H82Q60 280 60 257V100Z" />
-        <path d="M79 103L86 66H154L161 103ZM79 229H161L153 257H87Z" />
-        <path d="M75 120V208M165 120V208" />
-        {angle !== undefined && <path className="journey-impact" d="M120 4V27M110 17L120 27L130 17" transform={`rotate(${angle} 120 160)`} />}
-      </svg><span>{direction ?? '충격 방향 미확인'}</span>
-    </div>
+    <CareVehicleContour state={vehicleContourState(value)}/>
     <dl className="journey-detail-list">{fields.map(field => {
       const observations = currentObservations(value, field.id)
       const agreed = agreedValue(observations)

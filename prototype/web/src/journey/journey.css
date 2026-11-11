@@ -30,11 +30,7 @@
 .journey-facts > div { display: grid; gap: 6px; }
 .journey-facts > div > span:first-child { color: var(--ac-muted); font-size: var(--ac-type-label); }
 .journey-facts .journey-status { font-size: var(--ac-type-body); }
-.journey-vehicle-detail { display: grid; grid-template-columns: .8fr 1.2fr; gap: var(--ac-space-8); align-items: center; }
-.journey-car-outline { display: grid; justify-items: center; gap: var(--ac-space-3); color: var(--ac-muted); }
-.journey-car-outline svg { width: min(100%,180px); height: 220px; fill: none; stroke: var(--ac-muted); stroke-width: 3; stroke-linejoin: round; }
-.journey-car-outline .journey-impact { stroke: var(--ac-text); stroke-width: 5; }
-.journey-car-outline > span { font-size: var(--ac-type-label); }
+.journey-vehicle-detail { display:grid; gap:var(--ac-space-8); }
 .journey-detail-list > div { display: grid; grid-template-columns: 1fr 1.5fr; gap: var(--ac-space-6); padding: var(--ac-space-6) 0; border-bottom: 1px solid var(--ac-line); }
 .journey-detail-list dt { color: var(--ac-muted); font-size: var(--ac-type-body); }
 .journey-detail-list dd { font-weight: 600; font-size: var(--ac-type-section); }
