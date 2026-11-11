@@ -77,9 +77,10 @@ export function JourneyStudy({embedded=false}:{embedded?:boolean}) {
   }, [countdownKey, value?.suspended, representative, dispatch])
 
   useEffect(() => {
+    if (representative && !details && (value?.stage === 'record' || value?.stage === 'review')) return
     const frame = requestAnimationFrame(() => [...document.querySelectorAll<HTMLElement>('[data-case-id] h1')].find(node => node.getClientRects().length)?.focus())
     return () => cancelAnimationFrame(frame)
-  }, [value?.id, value?.stage, scene?.id, details, recordTab])
+  }, [value?.id, value?.stage, scene?.id, details, recordTab, representative])
 
   async function begin() {
     if (value && !await prepareToLeave(true)) return

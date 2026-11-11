@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test'
+import { test, expect, type Locator, type Page } from '@playwright/test'
 import type { JourneyCase } from '../src/journey/case'
 
 const primary = (page: Page) => page.getByTestId('journey-primary')
@@ -28,9 +28,14 @@ async function record(page: Page) {
   await primary(page).click()
   await step(page, 5)
 }
+async function focusedAfterLayout(page: Page, heading: Locator) {
+  await expect(heading).toBeFocused({ timeout: 10000 })
+  await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))))
+  await expect(heading).toBeFocused()
+}
 
-test('rapid normal-motion progress reveals and focuses the actual editor after the queued layout settles', async ({ page }) => {
-  await page.setViewportSize({ width: 2560, height: 1440 })
+for (const width of [1920, 2560]) test(`normal-motion record and review retain editor focus after queued layouts at ${width}px`, async ({ page }) => {
+  await page.setViewportSize({ width, height: 1440 })
   await page.emulateMedia({ reducedMotion: 'no-preference' })
   const errors: string[] = []
   page.on('pageerror', error => errors.push(error.message))
@@ -39,12 +44,50 @@ test('rapid normal-motion progress reveals and focuses the actual editor after t
   const editor = page.locator('[data-cell=record] #journey-record-editor')
   await expect(editor).toBeVisible({ timeout: 10000 })
   const heading = editor.getByRole('heading', { name: '기억나는 내용을 남겨주세요', exact: true })
-  await expect(heading).toBeFocused({ timeout: 10000 })
+  await focusedAfterLayout(page, heading)
   await expect(heading).toBeInViewport({ ratio: 1 })
   await expect(page.getByTestId('flow-board')).toHaveAttribute('data-moving', 'false')
   await editor.getByRole('button', { name: '직접 입력', exact: true }).click()
   await editor.getByRole('textbox', { name: '사고 기록', exact: true }).fill('빠르게 진행한 뒤에도 기록할 수 있어요.')
+  await editor.getByRole('button', { name: '기록 저장', exact: true }).click()
+  await primary(page).click()
+  const review = page.locator('#journey-review-editor').getByRole('heading', { name: '남겨진 자료를 살펴보세요', exact: true })
+  await focusedAfterLayout(page, review)
+  await expect(review).toBeInViewport({ ratio: 1 })
   expect(errors).toEqual([])
+})
+
+test('active editor headings receive focus after photo, risk, detail and follow-up returns', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await start(page)
+  await record(page)
+  await page.getByRole('button', { name: '직접 입력', exact: true }).click()
+  await page.getByRole('textbox', { name: '사고 기록', exact: true }).fill('돌아온 뒤에도 기록이 유지돼요.')
+  await page.getByRole('button', { name: '기록 저장', exact: true }).click()
+  await page.getByRole('button', { name: '사진 남기기', exact: true }).click()
+  const photo = page.locator('#journey-record-editor').getByRole('heading', { name: '사진 남기기', exact: true })
+  await page.getByRole('button', { name: '이전 단계', exact: true }).click()
+  await primary(page).click()
+  await focusedAfterLayout(page, photo)
+  await page.getByRole('button', { name: '시연 event: 위험 정보', exact: true }).click()
+  await page.getByRole('button', { name: '기록으로 돌아가기', exact: true }).click()
+  await focusedAfterLayout(page, photo)
+  await page.getByRole('button', { name: '차량 상태 보기', exact: true }).click()
+  await page.getByRole('button', { name: '대응 화면으로', exact: true }).click()
+  await focusedAfterLayout(page, photo)
+  await primary(page).click()
+  const review = page.locator('#journey-review-editor').getByRole('heading', { name: '남겨진 자료를 살펴보세요', exact: true })
+  await focusedAfterLayout(page, review)
+  await page.getByRole('button', { name: '후속 처리 보기', exact: true }).click()
+  await page.getByRole('button', { name: '사고 내용으로 돌아가기', exact: true }).click()
+  await focusedAfterLayout(page, review)
+  await primary(page).click()
+  const submission = page.locator('#journey-review-editor').getByRole('heading', { name: '보낼 범위를 직접 선택해주세요', exact: true })
+  await focusedAfterLayout(page, submission)
+  await page.getByRole('button', { name: '이전 단계', exact: true }).click()
+  await focusedAfterLayout(page, photo)
+  await primary(page).click()
+  await focusedAfterLayout(page, submission)
 })
 
 test('default representative journey uses persisted facts through all seven stages, retry, BACK and call end', async ({ page }) => {

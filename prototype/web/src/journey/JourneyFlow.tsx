@@ -1,4 +1,4 @@
-import { useRef, useState, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { useReducedMotion } from 'motion/react'
 import { ArrowLeft, ArrowRight, FileText, Phone, Send } from 'lucide-react'
 import { CareAction, CareSpectrum, CareStatus } from '@/components/ui/after-care'
@@ -31,6 +31,9 @@ export function JourneyFlow({ value, device, active, onCommand, onNavigate, onRe
   const receipt = request?.status === 'received'
   const inspectingSent = step === 7 && showSentReview
   const reviewVisible = step === 6 && !sending || inspectingSent
+  useEffect(() => {
+    setPendingEditor(active ? value.stage === 'record' ? 'record' : reviewVisible ? 'review' : null : null)
+  }, [active, value.stage, reviewVisible])
   const callLabel = { idle: '연결 전', connecting: '연결 확인 중', connected: '통화 연결됨', ended: '통화 종료' }[call]
   const titles = ['차량 상태를 확인하고 119에 연결하세요', '119의 안내를 들어주세요', '안전한 곳으로 이동하세요', '안전한 곳에서 기록을 남겨요', '기억나는 내용을 남겨주세요', '보험사에 보낼 내용을 확인하세요', '기록 전송을 완료했어요']
   const action = sending ? '전송 중' : step === 1 ? call === 'connecting' ? '연결 확인 기다리는 중' : call === 'idle' ? '119 연결 요청' : '통화 상태 확인'
@@ -51,7 +54,7 @@ export function JourneyFlow({ value, device, active, onCommand, onNavigate, onRe
       setResponseView(4)
     } else if (step === 4 || step === 5) {
       const stage = step === 4 ? 'record' : 'review'
-      if (await onNavigate(stage)) setPendingEditor(stage)
+      await onNavigate(stage)
     } else if (step === 6 && readyToSend) {
       onCommand({ type: 'transport-start', caseId: value.id, submissionId: request.id, retryId: request.transport === 'failed' ? crypto.randomUUID() : undefined, now: new Date().toISOString() })
     } else if (step === 6) { onReview(); setPendingEditor('review') }
@@ -71,7 +74,9 @@ export function JourneyFlow({ value, device, active, onCommand, onNavigate, onRe
     if (!editor?.getClientRects().length || editor.closest('[hidden], [inert]')) return
     const bar = flow.current?.querySelector<HTMLElement>('.fs-action-bar')
     editor.style.scrollMarginTop = `${(bar && getComputedStyle(bar).position === 'sticky' ? bar.offsetHeight : 0) + 32}px`
-    editor.querySelector<HTMLElement>('h1')?.focus({ preventScroll: true })
+    const heading = [...editor.querySelectorAll<HTMLElement>('h1')].find(node => node.getClientRects().length && !node.closest('[hidden], [inert]'))
+    if (!heading) return
+    heading.focus({ preventScroll: true })
     editor.scrollIntoView({ block: 'start' })
     setPendingEditor(null)
   }
