@@ -35,27 +35,28 @@ export type SlotRect = {left:number;top:number;width:number;height:number}
 export type SurfaceShape = {left:number;top:number;width:number;height:number;path:string}
 export type ResponseShapes = Partial<Record<'primary'|'navigation'|'guidance',SurfaceShape>>
 
-function shapeFor(points:Point[],slot:SlotRect):SurfaceShape {
+function shapeFor(points:Point[],slot:SlotRect,radius=28):SurfaceShape {
   const x=Math.min(...points.map(p=>p[0])),y=Math.min(...points.map(p=>p[1]))
-  return {left:x-slot.left,top:y-slot.top,width:Math.max(...points.map(p=>p[0]))-x,height:Math.max(...points.map(p=>p[1]))-y,path:roundedPath(points.map(p=>[p[0]-x,p[1]-y]))}
+  return {left:x-slot.left,top:y-slot.top,width:Math.max(...points.map(p=>p[0]))-x,height:Math.max(...points.map(p=>p[1]))-y,path:roundedPath(points.map(p=>[p[0]-x,p[1]-y]),radius)}
 }
 
 // 내용의 normal flow를 측정한 뒤 background만 분할. 글자는 shape 변형에 참여하지 않음.
-export function responseShapes(width:number,slots:Record<'primary'|'navigation'|'guidance',SlotRect>,gap=16):ResponseShapes {
+export type SplitOptions = {radius?:number;tiltDeg?:number;junctionBias?:number}
+export function responseShapes(width:number,slots:Record<'primary'|'navigation'|'guidance',SlotRect>,gap=16,options:SplitOptions={}):ResponseShapes {
   const {primary,navigation,guidance}=slots
   if(width<=0||navigation.left<primary.width||navigation.height<=0)return {}
   const middle=(primary.width+navigation.left)/2
   const top=navigation.top,bottom=guidance.top+guidance.height
-  const joint:Point=[middle+Math.min(48,width*.035),navigation.top+navigation.height+gap/2]
+  const joint:Point=[middle+Math.min(48,width*.035),navigation.top+navigation.height+gap/2+(options.junctionBias??0)*(bottom-top)]
   const primaryBottom=primary.top+primary.height
   // 큰 글자나 긴 요약으로 접점이 본문 영역을 벗어나면 직사각형 card로 복귀.
   if(joint[1]<=primary.top+32||joint[1]>=primaryBottom-32||bottom-joint[1]<80)return {}
   const upperAt=(y:number)=>middle+(joint[0]-middle)*(y-top)/(joint[1]-top)
   const lowerAt=(y:number)=>joint[0]+(middle-joint[0])*(y-joint[1])/(bottom-joint[1])
-  const right=joint[1]+(width-joint[0])*Math.tan(4*Math.PI/180)
+  const right=joint[1]+(width-joint[0])*Math.tan((options.tiltDeg??4)*Math.PI/180)
   return {
-    primary:shapeFor(insetEdges([[0,primary.top],[upperAt(primary.top),primary.top],joint,[lowerAt(primaryBottom),primaryBottom],[0,primaryBottom]],[0,gap/2,gap/2,0,0]),primary),
-    navigation:shapeFor(insetEdges([[middle,top],[width,top],[width,right],joint],[0,0,gap/2,gap/2]),navigation),
-    guidance:shapeFor(insetEdges([joint,[width,right],[width,bottom],[middle,bottom]],[gap/2,0,0,gap/2]),guidance),
+    primary:shapeFor(insetEdges([[0,primary.top],[upperAt(primary.top),primary.top],joint,[lowerAt(primaryBottom),primaryBottom],[0,primaryBottom]],[0,gap/2,gap/2,0,0]),primary,options.radius),
+    navigation:shapeFor(insetEdges([[middle,top],[width,top],[width,right],joint],[0,0,gap/2,gap/2]),navigation,options.radius),
+    guidance:shapeFor(insetEdges([joint,[width,right],[width,bottom],[middle,bottom]],[gap/2,0,0,gap/2]),guidance,options.radius),
   }
 }

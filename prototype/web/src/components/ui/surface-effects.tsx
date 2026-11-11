@@ -69,7 +69,7 @@ function grainTexture(width: number, height: number, size: number, clumping: num
   return canvas.toDataURL('image/png')
 }
 
-export function SurfaceEffectsLayer({ effects }: { effects: SurfaceEffects }) {
+export function SurfaceEffectsLayer({ effects, resizeDebounceMs=0 }: { effects: SurfaceEffects; resizeDebounceMs?:number }) {
   const id = `surface-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`
   const host = useRef<HTMLDivElement>(null)
   const [texture, setTexture] = useState('')
@@ -79,7 +79,7 @@ export function SurfaceEffectsLayer({ effects }: { effects: SurfaceEffects }) {
   useEffect(() => {
     if (!grainOn || !host.current) return
     const node = host.current
-    let frame = 0
+    let frame = 0, timer:ReturnType<typeof setTimeout> | undefined
     const draw = () => {
       cancelAnimationFrame(frame)
       frame = requestAnimationFrame(() => {
@@ -87,11 +87,14 @@ export function SurfaceEffectsLayer({ effects }: { effects: SurfaceEffects }) {
         if (width && height) setTexture(grainTexture(width, height, effects.grainSize, effects.grainClumping, effects.grainSeed))
       })
     }
-    const observer = new ResizeObserver(draw)
+    const observer = new ResizeObserver(() => {
+      if (!resizeDebounceMs) { draw(); return }
+      clearTimeout(timer); timer=setTimeout(draw,resizeDebounceMs)
+    })
     observer.observe(node)
     draw()
-    return () => { observer.disconnect(); cancelAnimationFrame(frame) }
-  }, [grainOn, effects.grainSize, effects.grainClumping, effects.grainSeed])
+    return () => { observer.disconnect(); cancelAnimationFrame(frame); clearTimeout(timer) }
+  }, [grainOn, effects.grainSize, effects.grainClumping, effects.grainSeed, resizeDebounceMs])
   const tones = Array.from({ length: 17 }, (_, i) => {
     const luminance = i / 16
     const response = .22 + .78 * Math.sqrt(4 * luminance * (1 - luminance))

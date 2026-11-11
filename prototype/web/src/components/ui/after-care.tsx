@@ -8,11 +8,11 @@ import {SurfaceEffectsLayer} from './surface-effects'
 import './after-care.css'
 
 export type CareTone='unknown'|'pending'|'confirmed'|'failed'|'skipped'
-export function CareSurface({tone='plain',children,className='',style,shape,...props}:HTMLAttributes<HTMLElement>&{tone?:'plain'|'call'|'safety'|'map';shape?:SurfaceShape}) {
+export function CareSurface({tone='plain',children,className='',style,shape,interactiveMaterial=false,...props}:HTMLAttributes<HTMLElement>&{tone?:'plain'|'call'|'safety'|'map';shape?:SurfaceShape;interactiveMaterial?:boolean}) {
   const theme=useSurfaceTheme()
   const material=tone==='call'||tone==='safety'?theme[tone]:null
   return <section {...props} data-care-surface={tone} data-shaped={shape?true:undefined} className={`ac-surface ${className}`} style={{...(material?surfaceStyle(material):{}),...style}}>
-    <div className="ac-material-frame" data-shape-path={shape?.path} style={shape?{left:shape.left,top:shape.top,width:shape.width,height:shape.height,'--ac-clip':`path("${shape.path}")`} as CSSProperties:undefined}>{material?<SurfaceEffectsLayer effects={material}/>:<div className="ac-solid-source"/>}</div>{children}
+    <div className="ac-material-frame" data-shape-path={shape?.path} style={shape?{left:shape.left,top:shape.top,width:shape.width,height:shape.height,'--ac-clip':`path("${shape.path}")`} as CSSProperties:undefined}>{material?(interactiveMaterial?<><div className="ac-material-idle"/><div className="ac-material-illumination"><SurfaceEffectsLayer effects={material} resizeDebounceMs={160}/></div></>:<SurfaceEffectsLayer effects={material}/>):<div className="ac-solid-source"/>}</div>{children}
   </section>
 }
 export function CareAction({secondary=false,className='',children,...props}:ButtonHTMLAttributes<HTMLButtonElement>&{secondary?:boolean}) {

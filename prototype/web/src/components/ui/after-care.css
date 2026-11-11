@@ -34,3 +34,10 @@
 .ac-task-heading { display:grid; gap:var(--ac-space-4); }
 .ac-guidance-control { display:grid; justify-items:start; gap:var(--ac-space-3); }
 .ac-guidance-control p { color:var(--ac-muted); font-size:var(--ac-type-supporting); }
+
+/* Opt-in material channel for the interaction study; text stays outside the filter. */
+.ac-material-idle,.ac-material-illumination { position:absolute; inset:0; border-radius:inherit; }
+.ac-material-idle { background:var(--ac-surface); box-shadow:inset 0 0 0 1px var(--ac-line); }
+.ac-material-illumination { opacity:var(--ac-notify-light,0); filter:saturate(var(--ac-notify-chroma,0)); }
+.ac-material-illumination .rs-material-source>i { transform:translateX(var(--ac-notify-shade,0px)); }
+.ac-surface[data-shaped] .ac-material-idle { clip-path:var(--ac-clip); border-radius:0; }
