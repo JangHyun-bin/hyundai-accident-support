@@ -74,13 +74,13 @@ for (const [width, device] of [[2560, 'vehicle'], [1920, 'vehicle'], [1440, 'veh
     for (const font of [16, 32]) {
       await page.evaluate(size => { document.documentElement.style.fontSize = `${size}px` }, font)
       await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true)
+      const profile=await environment(page,font,width,device)
       const minimum = device === 'vehicle' ? 64 : 48
       for (const button of await flow.getByRole('button').all()) {
         const rect = await button.boundingBox()
         expect(rect!.height).toBeGreaterThanOrEqual(minimum)
         expect(rect!.width).toBeGreaterThanOrEqual(minimum)
       }
-      const profile=await environment(page,font,width,device)
       const shell=flow.locator('[data-care-component=vehicle-shell]')
       await contained(flow.locator('.fs-step-copy h1'),shell)
       await contained(primary,shell)

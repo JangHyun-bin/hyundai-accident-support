@@ -10,11 +10,9 @@ async function resolve(page:Page,input:FlowFrameInput):Promise<FlowFrame>{
  },input)
 }
 async function fixture(page:Page,{device='vehicle',height=900,font=16}:{device?:'vehicle'|'mobile';height?:number;font?:number}={}){
- await page.route('**/bounded-frame-fixture',route=>route.fulfill({contentType:'text/html',body:`<!doctype html><html style="font-size:${font}px"><head><meta charset="utf-8"><style>body{margin:0}#host{width:100%}.test-panes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;height:100%;min-height:0}.test-editor{min-height:0;overflow:auto}.test-header{height:100%}</style></head><body><div id="host"></div><script type="module">
+ await page.route('**/bounded-frame-fixture',route=>route.fulfill({contentType:'text/html',body:`<!doctype html><html style="font-size:${font}px"><head><meta charset="utf-8"><style>body{margin:0}#host{width:100%}.test-panes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;height:100%;min-height:0}.test-editor{min-height:0;overflow:auto}.test-header{height:100%}</style></head><body><div id="host" data-device="${device}" data-height="${height}"></div><script type="module">
  import RefreshRuntime from '/@react-refresh';RefreshRuntime.injectIntoGlobalHook(window);window.$RefreshReg$=()=>{};window.$RefreshSig$=()=>type=>type;window.__vite_plugin_react_preamble_installed__=true;
- const {default:React}=await import('/node_modules/.vite/deps/react.js');const {default:ReactDOM}=await import('/node_modules/.vite/deps/react-dom_client.js');const {createRoot}=ReactDOM;
- const {VehicleShell}=await import('/src/components/ui/after-care-layout.tsx');const {SurroundingsScene}=await import('/src/design-system/SurroundingsStudy.tsx');const {FlowFrameContext}=await import('/src/design-system/flow-contract.ts');import '/src/styles.css';
- const h=React.createElement;function FrameReadout(){const frame=React.useContext(FlowFrameContext);return h('output',{'data-testid':'frame-revision','data-revision':frame?.revision,'data-width':frame?.width,hidden:true})}createRoot(document.getElementById('host')).render(h(VehicleShell,{presentation:'bounded',device:${JSON.stringify(device)},previewHeight:${height},header:h('div',{className:'test-header'},'사고 대응 진행',h(FrameReadout))},h('div',{className:'test-panes'},h(SurroundingsScene,{bounded:true}),h('div',{className:'test-editor'},h('textarea',{'aria-label':'긴 기록',defaultValue:'기록'}),h('div',{id:'long-content'},'기록')))));
+ await import('/tests/fixtures/bounded-frame.tsx');
  </script></body></html>`}))
  await page.goto('/bounded-frame-fixture')
  await expect(page.locator('.ac-vehicle')).toHaveAttribute('data-flow-mode',/wide|narrow|mobile|document/)

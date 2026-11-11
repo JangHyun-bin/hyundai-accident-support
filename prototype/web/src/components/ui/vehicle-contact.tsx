@@ -1,4 +1,5 @@
-import {motion,useReducedMotion} from 'motion/react'
+import {useReducedMotionPreference} from '@/design-system/motion'
+import {motion} from 'motion/react'
 import './vehicle-contact.css'
 
 type Pose={x:number;y:number;heading:number}
@@ -15,7 +16,7 @@ const carTransform=(pose:Pose)=>`translate(${pose.x} ${pose.y}) rotate(${pose.he
 export function CareVehicleContact({own,other,geometry,scale,selected,labelId,onToggle}:{
   own:Pose;other:Pose;geometry:VehicleContactGeometry;scale:number;selected:boolean;labelId:string;onToggle:()=>void
 }){
-  const reduce=useReducedMotion(),point=contactWorldPoint(own,geometry.anchor)
+  const reduce=useReducedMotionPreference(),point=contactWorldPoint(own,geometry.anchor)
   return <motion.g className="ac-vehicle-contact" data-contact-marker data-selected={selected} initial={{opacity:0}} animate={{opacity:1}} transition={{duration:reduce?0:.24}}>
     <g transform={carTransform(other)} data-contact-edge="other" aria-hidden="true"><path className="ac-contact-edge" d={geometry.otherEdge}/></g>
     <g transform={carTransform(own)} data-contact-edge="own" aria-hidden="true"><path className="ac-contact-edge" d={geometry.ownEdge}/><path className="ac-contact-core" d={geometry.ownEdge}/></g>

@@ -25,7 +25,7 @@ function replaceQuery(values: Record<string, string>) {
   history.replaceState(null, '', url)
 }
 
-export function JourneyStudy({embedded=false}:{embedded?:boolean}) {
+export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;previewHeight?:number}) {
   const [initial] = useState(() => new URLSearchParams(location.search))
   const journey = useJourneyCase(initial.get('case'))
   const { value, dispatch } = journey
@@ -112,7 +112,7 @@ export function JourneyStudy({embedded=false}:{embedded?:boolean}) {
   }
 
   async function navigate(stage: Stage) {
-    if(stage==='response')voicePanel.current?.preserveDraft()
+    if(stage==='response'){voicePanel.current?.preserveDraft();reviewPanel.current?.preserveDraft()}
     if (sending || stage !== 'response' && !await prepareToLeave()) return false
     if (stage !== 'response' && !(await journey.flush()).ok) return false
     setDetails(false)
@@ -138,6 +138,7 @@ export function JourneyStudy({embedded=false}:{embedded?:boolean}) {
   function risk() {
     if (!value) return
     voicePanel.current?.preserveDraft()
+    reviewPanel.current?.preserveDraft()
     const fact = scenarioFor(value.emergency.scenarioId).facts.find(f => f.id === 'risk')
     dispatch({ type: 'observation', observation: { id: 'risk-' + crypto.randomUUID(), kind: 'risk', label: '차량 위험', value: '위험 정보 확인 필요',
       source: 'fixture', observedAt: new Date().toISOString(), confirmation: 'attention', legacyFactId: fact ? 'risk' : null, supersedes: null } })
@@ -218,11 +219,20 @@ export function JourneyStudy({embedded=false}:{embedded?:boolean}) {
     if (kind === 'rental' && (status === 'eligible' || status === 'ineligible' || status === 'unknown')) dispatch({ type: 'follow-up-result', ...identity, kind, status })
   }
 
+  async function selectRecordTab(tab:'voice'|'photos') {
+    if (!await prepareToLeave()) return
+    setRecordTab(tab)
+    requestAnimationFrame(()=>{
+      const selected=[...document.querySelectorAll<HTMLButtonElement>('#journey-record-editor .journey-record-tabs button[aria-pressed=true]')].find(node=>node.getClientRects().length&&!node.closest('[hidden],[inert]'))
+      selected?.focus({preventScroll:true})
+    })
+  }
+
   function recordWorkspace() {
     if (!value) return null
     const tabs=<nav className="journey-record-tabs" aria-label="기록 방법">
-      <button aria-pressed={recordTab === 'voice'} onClick={async () => { if (await prepareToLeave()) setRecordTab('voice') }}>말로 남기기</button>
-      <button aria-pressed={recordTab === 'photos'} onClick={async () => { if (await prepareToLeave()) setRecordTab('photos') }}>사진 남기기</button>
+      <button aria-pressed={recordTab === 'voice'} onClick={() => void selectRecordTab('voice')}>말로 남기기</button>
+      <button aria-pressed={recordTab === 'photos'} onClick={() => void selectRecordTab('photos')}>사진 남기기</button>
     </nav>
     const footer=<JourneyRequests value={value}/>
     return <>
@@ -265,8 +275,8 @@ export function JourneyStudy({embedded=false}:{embedded?:boolean}) {
     {journey.loading && <p role="status">기록을 불러오고 있어요.</p>}
     {journey.missing && !value && <section className="journey-empty"><h2>이 기기에서 기록을 찾지 못했어요</h2><p>다른 기기의 기록은 자동으로 이어지지 않아요.</p></section>}
     {value && <>
-      <section ref={motionRef} data-care-motion-key={contextKey} data-case-id={value.id} data-journey-stage={value.stage}>
-        {representative&&<div hidden={details||value.stage==='follow-up'}><JourneyFlow key={value.id} value={value} device={device} active={!details&&value.stage!=='follow-up'} onCommand={dispatch} onNavigate={navigate} recordWorkspace={recordWorkspace()} reviewWorkspace={reviewWorkspace()} onReview={()=>reviewPanel.current?.openSubmission()}/></div>}
+      <section ref={representative?undefined:motionRef} data-care-motion-key={contextKey} data-case-id={value.id} data-journey-stage={value.stage}>
+        {representative&&<div hidden={details||value.stage==='follow-up'}><JourneyFlow previewHeight={previewHeight} key={value.id} value={value} device={device} active={!details&&value.stage!=='follow-up'} onCommand={dispatch} onNavigate={navigate} recordWorkspace={recordWorkspace()} reviewWorkspace={reviewWorkspace()} onReview={()=>reviewPanel.current?.openSubmission()}/></div>}
         {content()}
         {!representative&&<div id="journey-record-editor" key={value.id} hidden={value.stage !== 'record' || details}>
           <JourneyLayout device={device} navigation={renderNavigation(value)} summary={<JourneySummary value={value} />}

@@ -53,8 +53,9 @@ test('real editor retains draft, caret and its own scroll through BACK and urgen
 })
 
 test('narrow context keeps the same scene, draft and immediate call facts',async({page})=>{
- await page.setViewportSize({width:393,height:1080})
+ await page.setViewportSize({width:393,height:1200})
  await record(page)
+ await expect(page.locator('.journey-flow .ac-vehicle')).toHaveAttribute('data-flow-mode','narrow')
  const input=page.getByRole('textbox',{name:'사고 기록',exact:true})
  await input.fill('저장 전 기록')
  const original=await input.elementHandle()

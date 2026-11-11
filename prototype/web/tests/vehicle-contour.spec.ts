@@ -53,13 +53,12 @@ test('all directions retain readable callouts across viewport and text sizes',as
     for(const direction of ['전방','우측 전방','우측','우측 후방','후방','좌측 후방','좌측','좌측 전방']){
       await page.getByLabel('예시 충격 방향').selectOption(direction)
       await expect(page.getByRole('img',{name:direction+' 충격 방향',exact:true})).toBeVisible()
-      const layout=await page.locator('[data-care-component="vehicle-contour"]').evaluate(root=>{
+      await expect.poll(()=>page.locator('[data-care-component="vehicle-contour"]').evaluate(root=>{
         const labels=[...root.querySelectorAll('.ac-contour-label')].map(n=>n.getBoundingClientRect())
         const overlap=labels.some((a,i)=>labels.some((b,j)=>j>i&&a.left<b.right&&b.left<a.right&&a.top<b.bottom&&b.top<a.bottom))
         const clipped=[...root.querySelectorAll('.ac-contour-label')].some(n=>n.scrollWidth>n.clientWidth+1)
         return {overlap,clipped,overflow:document.documentElement.scrollWidth>innerWidth+1}
-      })
-      expect(layout,`${width}px / ${textSize}px / ${direction}`).toEqual({overlap:false,clipped:false,overflow:false})
+      }),{message:`${width}px / ${textSize}px / ${direction}`}).toEqual({overlap:false,clipped:false,overflow:false})
     }
   }
   expect(errors).toEqual([])

@@ -1,5 +1,5 @@
+import {useReducedMotionPreference} from '@/design-system/motion'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
-import { useReducedMotion } from 'motion/react'
 import { ArrowLeft, ArrowRight, FileText, Phone, Send } from 'lucide-react'
 import { CareAction, CareSpectrum, CareStatus } from '@/components/ui/after-care'
 import { VehicleShell } from '@/components/ui/after-care-layout'
@@ -14,8 +14,8 @@ import type { CaseCommand, Device, JourneyCase, Stage } from './case'
 import '@/design-system/flow-study.css'
 import './journey-flow.css'
 
-export function JourneyFlow({ value, device, active, onCommand, onNavigate, onReview, recordWorkspace, reviewWorkspace }: {
-  recordWorkspace:ReactNode;reviewWorkspace:ReactNode;
+export function JourneyFlow({ value, device, active, onCommand, onNavigate, onReview, recordWorkspace, reviewWorkspace, previewHeight }: {
+  recordWorkspace:ReactNode;reviewWorkspace:ReactNode;previewHeight?:number;
   value: JourneyCase; device: Device; active:boolean; onCommand: (command: CaseCommand) => void
   onNavigate: (stage: Stage) => Promise<boolean>; onReview: () => void
 }) {
@@ -26,7 +26,12 @@ export function JourneyFlow({ value, device, active, onCommand, onNavigate, onRe
   const composing = useRef(false)
   const deferredAction = useRef<(() => void) | null>(null)
   const [contextVisible,setContextVisible]=useState(false)
-  const reduced = !!useReducedMotion()
+  useEffect(()=>{
+    let alive=true,frame=0
+    if(!previewHeight)document.fonts.ready.then(()=>{if(alive)frame=requestAnimationFrame(()=>flow.current?.querySelector('.ac-vehicle')?.scrollIntoView({block:'start'}))})
+    return()=>{alive=false;cancelAnimationFrame(frame)}
+  },[previewHeight])
+  const reduced = !!useReducedMotionPreference()
   const { step, layout, request, sending, call } = journeyFlow(value, responseView)
   const rescue = activeRequest(value, 'rescue')
   const checks = safetyChecklist.filter(item => safetyConfirmed(value, item.id)).length
@@ -104,13 +109,13 @@ export function JourneyFlow({ value, device, active, onCommand, onNavigate, onRe
   return <section ref={flow} className="journey-flow" data-testid="journey-flow" data-step={step} data-transfer={request?.transport ?? request?.status ?? 'idle'}
     onCompositionStartCapture={()=>{composing.current=true;if(flow.current)flow.current.dataset.composing='true'}}
     onCompositionEndCapture={()=>{composing.current=false;if(flow.current)flow.current.dataset.composing='false';const action=deferredAction.current;deferredAction.current=null;if(action)queueMicrotask(action)}}>
-    <VehicleShell device={device} presentation="bounded" header={header}><JourneyDashboard contextVisible={contextVisible} onContext={()=>afterComposition(()=>setContextVisible(!contextVisible))}>
+    <VehicleShell device={device} presentation="bounded" header={header} previewHeight={previewHeight}><JourneyDashboard contextVisible={contextVisible} onContext={()=>afterComposition(()=>setContextVisible(!contextVisible))}>
       <div className="journey-flow-scene"><SurroundingsScene bounded active={active} vehicle={vehicleContourState(value)} /><p className="journey-supporting">주변 경로·사고 재생은 합성 시연. 저장된 사고 영상과 별개예요.</p></div>
       <FlowBoard layout={inspectingSent ? 'review' : layout} notificationKey={[step, call, request?.transport, receipt, checks, arrived, inspectingSent].join('/')} reduced={reduced||!active} readout={false} persistentCells onSettled={revealEditor} renderCell={(id, compact) => {
-        if (id === 'emergency') return <><div className="fs-call-core"><div className="fs-cell-label"><span>119 긴급 통화</span><Phone aria-hidden="true" /></div><p>{callLabel}</p><CareStatus tone={rescue?.status === 'received' ? 'confirmed' : 'unknown'}>{rescue?.status === 'received' ? '구호 접수 확인' : '구호 접수 미확인'}</CareStatus></div>{!compact && <div className="fs-call-decoration"><div className="fs-call-number">119</div><CareSpectrum active={call === 'connected'} /></div>}</>
+        if (id === 'emergency') return <><div className="fs-call-core"><div className="fs-cell-label"><span>119 긴급 통화</span><Phone aria-hidden="true" /></div><p>{callLabel}</p><CareStatus tone={rescue?.status === 'received' ? 'confirmed' : 'unknown'}>{rescue?.status === 'received' ? '구호 접수 확인' : '구호 접수 미확인'}</CareStatus></div>{!compact && <div className="fs-call-decoration" aria-hidden="true"><div className="fs-call-number">119</div><CareSpectrum active={call === 'connected'} /></div>}</>
         if (id === 'guide') return <><div className="fs-cell-label"><span>안전 확보</span><span>{checks} / 4</span></div>{compact ? <p className="journey-cell-summary">{arrived?'도착 확인':'도착 미확인'}</p> : <h2>{arrived ? '안전한 곳 도착 확인' : step >= 3 ? '안전한 곳으로 이동하세요' : '먼저, 안전을 확인하세요'}</h2>}{step === 3 && <div className="fs-checklist" role="group" aria-label="안전 확인 항목">{safetyChecklist.map(item => <label key={item.id}><input type="checkbox" checked={safetyConfirmed(value, item.id)} disabled={value.safetyActions.find(action=>action.id===item.id)?.status==='device-confirmed'} onChange={event => onCommand({ type: 'safety-action', action: { ...item, status: event.target.checked ? 'user-confirmed' : 'unknown', source: 'user', confirmedAt: event.target.checked ? new Date().toISOString() : null } })} /><span>{item.label}</span></label>)}</div>}{!compact && <p className="fs-cell-muted">{arrived ? '사용자가 도착을 확인했어요.' : '119의 안내를 듣고 주변 상황을 살펴주세요.'}</p>}</>
-        if (id === 'record') return <><div id="journey-record-editor" className="journey-flow-workspace" data-flow-content hidden={step!==5}>{recordWorkspace}</div><div hidden={step===5}><div className="fs-cell-label"><FileText aria-hidden="true" /><span>사고 기록</span></div>{compact ? <p className="journey-cell-summary">{hasJourneyRecord(value)?'기록 있음':'기록 전'}</p> : <h2>{hasJourneyRecord(value) ? '남긴 기록을 확인해요' : '기억나는 내용부터'}</h2>}{!compact && <><p className="fs-cell-muted">{value.statements.filter(item => item.text.trim()).length}개 이야기 · {value.evidence.filter(item => item.availability === 'available').length}개 자료</p><p className="fs-cell-muted">{value.statements.find(item => item.text.trim())?.text || '아직 남긴 기록이 없어요.'}</p></>}</div></>
-        return <><div id="journey-review-editor" className="journey-flow-workspace" data-flow-content hidden={!reviewVisible}>{reviewWorkspace}</div><div hidden={reviewVisible}><div className="fs-cell-label"><Send aria-hidden="true" /><span>보험사 전달</span></div>{compact ? <p className="journey-cell-summary">{step===7?'전송 완료':request?.transport==='failed'?'전송 실패':sending?'전송 중':'전송 전'}</p> : <h2>{step === 7 ? '전송을 완료했어요' : request?.transport === 'failed' ? '기록은 그대로 있어요' : sending ? '기록을 보내고 있어요' : '보낼 내용을 확인해요'}</h2>}<CareStatus tone={receipt ? 'confirmed' : 'unknown'}>{receipt ? '보험사 접수 확인' : '보험사 접수 미확인'}</CareStatus>{!compact && <><p className="fs-cell-muted">{request?.recipient ?? '수신처와 보낼 범위를 직접 선택해주세요.'}</p><p className="fs-cell-muted">{request?.payload?.statements.map(item => item.text).join('\n') ?? ''}</p>{step === 7 && call === 'connected' && <p className="fs-call-held">119 통화는 계속 유지돼요.</p>}</>}</div></>
+        if (id === 'record') return <><div id="journey-record-editor" className="journey-flow-workspace" data-flow-content hidden={step!==5||compact}>{recordWorkspace}</div><div hidden={step===5&&!compact}><div className="fs-cell-label"><FileText aria-hidden="true" /><span>사고 기록</span></div>{compact ? <p className="journey-cell-summary">{hasJourneyRecord(value)?'기록 있음':'기록 전'}</p> : <h2>{hasJourneyRecord(value) ? '남긴 기록을 확인해요' : '기억나는 내용부터'}</h2>}{!compact && <><p className="fs-cell-muted">{value.statements.filter(item => item.text.trim()).length}개 이야기 · {value.evidence.filter(item => item.availability === 'available').length}개 자료</p><p className="fs-cell-muted">{value.statements.find(item => item.text.trim())?.text || '아직 남긴 기록이 없어요.'}</p></>}</div></>
+        return <><div id="journey-review-editor" className="journey-flow-workspace" data-flow-content hidden={!reviewVisible||compact}>{reviewWorkspace}</div><div hidden={reviewVisible&&!compact}><div className="fs-cell-label"><Send aria-hidden="true" /><span>보험사 전달</span></div>{compact ? <p className="journey-cell-summary">{step===7?'전송 완료':request?.transport==='failed'?'전송 실패':sending?'전송 중':'전송 전'}</p> : <h2>{step === 7 ? '전송을 완료했어요' : request?.transport === 'failed' ? '기록은 그대로 있어요' : sending ? '기록을 보내고 있어요' : '보낼 내용을 확인해요'}</h2>}<CareStatus tone={receipt ? 'confirmed' : 'unknown'}>{receipt ? '보험사 접수 확인' : '보험사 접수 미확인'}</CareStatus>{!compact && <><p className="fs-cell-muted">{request?.recipient ?? '수신처와 보낼 범위를 직접 선택해주세요.'}</p><p className="fs-cell-muted">{request?.payload?.statements.map(item => item.text).join('\n') ?? ''}</p>{step === 7 && call === 'connected' && <p className="fs-call-held">119 통화는 계속 유지돼요.</p>}</>}</div></>
       }} />
     </JourneyDashboard></VehicleShell>
     <section className="journey-flow-events" aria-label="대표 흐름 결과 시연"><span>결과 시연 · 실제 전화·전송 없음</span>

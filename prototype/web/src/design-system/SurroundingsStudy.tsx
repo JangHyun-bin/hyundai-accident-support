@@ -1,5 +1,6 @@
+import {useReducedMotionPreference} from '@/design-system/motion'
 import {useEffect,useId,useLayoutEffect,useRef,useState,type CSSProperties} from 'react'
-import {motion,useReducedMotion} from 'motion/react'
+import {motion} from 'motion/react'
 import {ArrowLeft,ArrowUpRight,ChevronRight,Expand,Pause,Play,RotateCcw,WifiOff,X} from 'lucide-react'
 import {CareSurface,CareStatus} from '@/components/ui/after-care'
 import {VehicleShell} from '@/components/ui/after-care-layout'
@@ -44,7 +45,7 @@ export function SurroundingsStudy({initialView='vehicle'}:{initialView?:Surround
 }
 
 export function SurroundingsScene({initialView='vehicle',vehicle=vehicleState,onViewChange,studyControls=false,active=true,bounded=false}:{bounded?:boolean;active?:boolean;initialView?:SurroundingsView;vehicle?:VehicleContourState;onViewChange?:(view:SurroundingsView)=>void;studyControls?:boolean}){
-  const id=useId().replaceAll(':',''),reduce=useReducedMotion(),frame=useFlowFrame()
+  const id=useId().replaceAll(':',''),reduce=useReducedMotionPreference(),frame=useFlowFrame()
   const fit=bounded&&frame?.mode!=='document'
   const [view,setView]=useState<SurroundingsView>(initialView),[part,setPart]=useState<VehiclePart|null>(null)
   const focused=view==='vehicle',mode=view==='replay'?'replay':'current',front=view==='front'
