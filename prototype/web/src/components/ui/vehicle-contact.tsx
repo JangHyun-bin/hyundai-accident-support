@@ -20,7 +20,7 @@ export function CareVehicleContact({own,other,geometry,scale,selected,labelId,on
     <g transform={carTransform(other)} data-contact-edge="other" aria-hidden="true"><path className="ac-contact-edge" d={geometry.otherEdge}/></g>
     <g transform={carTransform(own)} data-contact-edge="own" aria-hidden="true"><path className="ac-contact-edge" d={geometry.ownEdge}/><path className="ac-contact-core" d={geometry.ownEdge}/></g>
     <g transform={`translate(${point.x} ${point.y}) scale(${1/scale})`} className="ac-contact-target" data-contact-trigger role="button" tabIndex={0} aria-label="접촉 부위 자세히 보기" aria-expanded={selected} aria-controls={selected?labelId:undefined} onClick={event=>{event.stopPropagation();onToggle()}} onKeyDown={event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();event.stopPropagation();onToggle()}}}>
-      <circle className="ac-contact-hit" cx="8" r="24"/>
+      <circle className="ac-contact-hit" cx="8" r="32"/>
       <circle className="ac-contact-dot" r={selected?3.5:2.2} aria-hidden="true"/>
     </g>
   </motion.g>

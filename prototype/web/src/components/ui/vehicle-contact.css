@@ -6,3 +6,5 @@
 .ac-contact-dot { fill:#ffd5c9; stroke:var(--ac-contact); stroke-width:1.2; pointer-events:none; }
 .ac-contact-target:focus-visible .ac-contact-hit { stroke:var(--ac-focus); }
 .ac-contact-target:hover .ac-contact-dot { fill:var(--ac-text); }
+
+.ac-contact-hit { r:calc(var(--ac-touch) / 2); }

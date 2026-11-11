@@ -9,18 +9,19 @@
 
 .ac-system .ac-action { display:inline-flex; align-items:center; justify-content:center; gap:var(--ac-space-3); min-height:var(--ac-touch); min-width:var(--ac-touch); max-width:100%; border:0; border-radius:var(--ac-radius-control); padding:var(--ac-space-3) var(--ac-space-6); font-size:var(--ac-type-body); line-height:1.4; font-weight:600; text-align:center; background:var(--ac-text); color:var(--ac-ink); transition:background var(--ac-motion-fast) var(--ac-ease),transform var(--ac-motion-fast) var(--ac-ease); }
 .ac-action.ac-secondary { background:var(--ac-control); color:var(--ac-text); font-weight:400; }
-.ac-action:disabled { opacity:.5; cursor:default; }
-.ac-action:not(:disabled):active { transform:scale(.985); }
+.ac-action:disabled { opacity:.4; cursor:default; }
+.ac-action:not(:disabled):active { opacity:.85; }
 .ac-action svg { flex:none; width:22px; height:22px; }
 .ac-status { display:inline-flex; align-items:baseline; gap:var(--ac-space-2); color:var(--ac-muted); }
 .ac-status svg { flex:none; align-self:center; width:1.05em; height:1.05em; }
 .ac-status[data-tone=confirmed] { color:var(--ac-confirmed); }
 .ac-status[data-tone=pending] { color:var(--ac-pending); }
+.ac-status[data-tone=info] { color:var(--ac-info); }
 .ac-status[data-tone=failed] { color:var(--ac-attention); }
 .ac-heading { display:grid; gap:var(--ac-space-3); }
-.ac-heading :is(h1,h2,h3) { font-size:var(--ac-type-title); line-height:1.25; font-weight:400; letter-spacing:-.035em; }
+.ac-heading :is(h1,h2,h3) { font-size:var(--ac-type-title); line-height:1.3; font-weight:600; letter-spacing:0; }
 .ac-heading p { color:var(--ac-muted); font-size:var(--ac-type-supporting); line-height:1.6; }
-.ac-eyebrow { color:var(--ac-muted); font-size:var(--ac-type-label); }
+.ac-eyebrow { color:var(--ac-muted); font-size:var(--ac-type-eyebrow); }
 .ac-spectrum { display:flex; align-items:center; justify-content:center; gap:4px; height:48px; width:100%; }
 .ac-spectrum i { display:block; width:4px; height:var(--ac-bar); max-width:calc(100% / 56); border-radius:var(--ac-radius-small); background:currentColor; animation:ac-spectrum var(--ac-duration) var(--ac-ease) var(--ac-delay) infinite alternate; }
 .ac-spectrum i:nth-child(-n+3),.ac-spectrum i:nth-last-child(-n+3) { opacity:.35; }
@@ -35,9 +36,11 @@
 .ac-guidance-control { display:grid; justify-items:start; gap:var(--ac-space-3); }
 .ac-guidance-control p { color:var(--ac-muted); font-size:var(--ac-type-supporting); }
 
-/* Opt-in material channel for the interaction study; text stays outside the filter. */
+/* Notification changes the background only; text stays outside the filter. */
 .ac-material-idle,.ac-material-illumination { position:absolute; inset:0; border-radius:inherit; }
 .ac-material-idle { background:var(--ac-surface); box-shadow:inset 0 0 0 1px var(--ac-line); }
 .ac-material-illumination { opacity:var(--ac-notify-light,0); filter:saturate(var(--ac-notify-chroma,0)); }
 .ac-material-illumination .rs-material-source>i { transform:translateX(var(--ac-notify-shade,0px)); }
 .ac-surface[data-shaped] .ac-material-idle { clip-path:var(--ac-clip); border-radius:0; }
+
+.ac-status { font-size:var(--ac-type-label); line-height:1.3; }

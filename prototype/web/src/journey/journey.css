@@ -57,8 +57,8 @@
 .journey-review-controls, .journey-product-tools, .journey-review-events { display: flex; align-items: center; flex-wrap: wrap; gap: var(--ac-space-3); margin-block: var(--ac-space-6); font-size: 14px; }
 .journey-review-controls label { display: flex; align-items: center; flex-wrap: wrap; gap: var(--ac-space-3); color: var(--ac-muted); }
 .journey-study :is(.journey-review-controls,.journey-product-tools,.journey-review-events,.journey-save-status) :is(button,select) { display: inline-flex; align-items: center; justify-content: center; gap: var(--ac-space-2); min-height: 48px; max-width: 100%; padding: var(--ac-space-3) var(--ac-space-4); border: 1px solid var(--ac-line); border-radius:var(--ac-radius-small); background: var(--ac-surface); color: var(--ac-text); }
-.journey-study :is(button,select):focus-visible { outline: 2px solid var(--ac-text); outline-offset: 4px; }
-.journey-study button:disabled { opacity: .55; }
+.journey-study :is(button,select):focus-visible { outline: 4px solid var(--ac-focus); outline-offset: 4px; }
+.journey-study button:disabled { opacity: .4; }
 .journey-review-events { border-top: 1px solid var(--ac-line); padding-top: var(--ac-space-6); }
 .journey-review-events > span { width: 100%; color: var(--ac-muted); font-size: 12px; }
 .journey-empty { display: grid; justify-items: center; gap: var(--ac-space-4); padding: 80px var(--ac-space-6); text-align: center; }
@@ -122,3 +122,5 @@
 .ac-task-action>.journey-action { flex:1 1 200px; }
 .journey-embedded { padding:0!important; }
 .journey-input-label { flex-wrap:wrap; }
+
+.journey-study :is(button,select),.journey-surface :is(button,select) { min-height:var(--ac-touch); min-width:var(--ac-touch); }

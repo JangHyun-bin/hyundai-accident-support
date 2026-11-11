@@ -3,7 +3,7 @@ import {expect, test} from '@playwright/test'
 test('catalog exposes actual semantic components and the selected material', async ({page}) => {
   await page.goto('/?study=design-system')
   await expect(page.getByRole('heading', {name:'AFTER / CARE design system', exact:true})).toBeVisible()
-  await expect(page.getByRole('region',{name:'Interactive components'}).locator('[data-care-component="status"]')).toHaveCount(5)
+  await expect(page.getByRole('region',{name:'Interactive components'}).locator('[data-care-component="status"]')).toHaveCount(6)
   await expect(page.locator('[data-care-surface="call"]').first()).toBeVisible()
   await expect(page.locator('[data-care-surface="safety"]').first()).toBeVisible()
   await expect(page.getByRole('region',{name:'Surface components'}).locator('[data-care-surface="call"] feImage[result="grain"]')).toHaveCount(1)
@@ -21,7 +21,7 @@ test('applying a theme updates another tab while preserving named presets and dr
     const themePath='/src/design-system/SurfaceTheme.tsx'
     const {applySurfaceTheme,readAppliedTheme}=await import(themePath)
     const pair=readAppliedTheme().surfaces
-    pair.call.top='#aabbcc'
+    pair.safety.top='#aabbcc'
     if(!applySurfaceTheme(pair).ok)throw new Error('apply failed')
     return raw
   })

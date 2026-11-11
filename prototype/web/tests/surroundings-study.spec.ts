@@ -204,7 +204,7 @@ test('contact annotations fit mobile and enlarged text with a consistent touch t
     await expect.poll(()=>detail.evaluate(node=>{
       const d=node.getBoundingClientRect(),root=node.closest('.ss-visual')!.getBoundingClientRect(),legend=node.parentElement!.querySelector('.ss-scene-key')!.getBoundingClientRect()
       const hit=node.parentElement!.querySelector('.ac-contact-hit')!.getBoundingClientRect()
-      return {inside:d.left>=root.left-1&&d.right<=root.right+1&&d.bottom<=root.bottom+1,overflow:document.documentElement.scrollWidth>innerWidth+1,clipped:node.scrollWidth>node.clientWidth+1,legendOverlap:d.left<legend.right&&legend.left<d.right&&d.top<legend.bottom&&legend.top<d.bottom,touch:Math.abs(hit.width-48)<1&&Math.abs(hit.height-48)<1}
+      return {inside:d.left>=root.left-1&&d.right<=root.right+1&&d.bottom<=root.bottom+1,overflow:document.documentElement.scrollWidth>innerWidth+1,clipped:node.scrollWidth>node.clientWidth+1,legendOverlap:d.left<legend.right&&legend.left<d.right&&d.top<legend.bottom&&legend.top<d.bottom,touch:Math.abs(hit.width-64)<1&&Math.abs(hit.height-64)<1}
     }),{message:`Contact at ${width}px / ${font}px`}).toEqual({inside:true,overflow:false,clipped:false,legendOverlap:false,touch:true})
     await page.getByRole('button',{name:'접촉 설명 닫기'}).click()
     await expect(detail).toHaveCount(0)

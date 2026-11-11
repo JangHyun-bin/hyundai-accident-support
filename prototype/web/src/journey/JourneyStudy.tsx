@@ -224,7 +224,7 @@ export function JourneyStudy({embedded=false}:{embedded?:boolean}) {
     return null
   }
 
-  return <div className={`journey-study journey-theme ac-system${embedded?' journey-embedded':''}`}>
+  return <div data-care-device={device} className={`journey-study journey-theme ac-system${embedded?' journey-embedded':''}`}>
     {!embedded&&<header className="journey-review-heading"><div><p>AFTER / CARE</p><h1>사고 대응 · 전체 여정</h1><span>가상 자료와 명시적 결과로 검토 · 실제 전화·전송·기기 간 동기화 없음</span></div><a href="/?study=design-system">Design system<ArrowRight size={16} /></a></header>}
     <section className="journey-review-controls" aria-label="시연 설정">
       <label>시연 상황<select value={fixture} onChange={e => setFixture(e.target.value)}>{fixtures.cases.map(f => <option key={f.id} value={f.id}>{f.title}</option>)}</select></label>

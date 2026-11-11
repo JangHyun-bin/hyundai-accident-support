@@ -4,10 +4,10 @@ import {responseShapes,type ResponseShapes,type SlotRect} from '@/design-system/
 import {CareSurface} from './after-care'
 import '@/design-system/layout.css'
 
-type ResponseProps={summary:ReactNode;primary:ReactNode;requests:ReactNode;navigation:ReactNode;guidance:ReactNode;action?:ReactNode;primaryTone?:'plain'|'call';interactive?:boolean}
+type ResponseProps={summary:ReactNode;primary:ReactNode;requests:ReactNode;navigation:ReactNode;guidance:ReactNode;action?:ReactNode;primaryTone?:'plain'|'call';interactive?:boolean;notificationKey?:string}
 
 export function VehicleShell({children}:{children:ReactNode}) {
-  return <div className="ac-system ac-vehicle" data-care-component="vehicle-shell">
+  return <div className="ac-system ac-vehicle" data-care-component="vehicle-shell" data-care-device="vehicle">
     <div className="ac-vehicle-status" role="region" aria-label="차량 상태 표시" data-figma-node="28:2041">
       <time dateTime="21:12">오후 9:12</time>
       <span className="ac-vehicle-mode"><span className="ac-vehicle-mode-mark"><img src="/figma/ivi-status-bar/mode-indicator.svg" width="14" height="14" alt=""/></span><span>차분 · 사고 대응 모드</span></span>
@@ -18,7 +18,7 @@ export function VehicleShell({children}:{children:ReactNode}) {
   </div>
 }
 
-export function ResponseLayout({summary,primary,requests,navigation,guidance,action,primaryTone='call',interactive=false}:ResponseProps) {
+export function ResponseLayout({summary,primary,requests,navigation,guidance,action,primaryTone='call',interactive=false,notificationKey}:ResponseProps) {
   const grid=useRef<HTMLDivElement>(null)
   const [shapes,setShapes]=useState<ResponseShapes>({})
   const [ready,setReady]=useState(false)
@@ -73,8 +73,8 @@ export function ResponseLayout({summary,primary,requests,navigation,guidance,act
   },[interactive])
   return <div className="ac-layout-container"><div ref={grid} className="ac-response-grid" data-interactive={interactive||undefined} data-care-layout="response" data-layout-ready={ready} data-split={shapes.primary?'three-cells':'stack'}>
     <CareSurface className="ac-summary" data-care-slot="summary">{summary}</CareSurface>
-    <CareSurface className="ac-primary" interactiveMaterial={interactive} tone={primaryTone} shape={shapes.primary} data-care-slot="primary">{primary}</CareSurface>
-    <CareSurface className="ac-guidance" interactiveMaterial={interactive} tone="safety" shape={shapes.guidance} data-care-slot="guidance">{guidance}</CareSurface>
+    <CareSurface className="ac-primary" notificationKey={notificationKey} interactiveMaterial tone={primaryTone} shape={shapes.primary} data-care-slot="primary">{primary}</CareSurface>
+    <CareSurface className="ac-guidance" notificationKey={notificationKey} interactiveMaterial tone="safety" shape={shapes.guidance} data-care-slot="guidance">{guidance}</CareSurface>
     <CareSurface className="ac-requests" data-care-slot="requests">{requests}</CareSurface>
     <CareSurface className="ac-navigation" tone="map" shape={shapes.navigation} data-care-slot="navigation">{navigation}</CareSurface>
     <div className="ac-layout-action" data-care-slot="action">{action}</div>

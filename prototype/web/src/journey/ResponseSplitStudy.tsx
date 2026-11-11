@@ -30,7 +30,7 @@ function SplitBoard({variant, surfaces, onRecord}: {variant:'A'|'B'; surfaces:Su
     <header className="rps-caption"><div><span>{variant}</span><h2>{descriptions[variant].name}</h2></div><p>{descriptions[variant].text}</p></header>
     <div className="rps-board" ref={host} style={{height:860*scale}}>
       <div className="rps-artboard" style={{transform:`scale(${scale})`}}>
-        <ResponseConceptScreen variant="B2" numeral="solid" surfaces={{call:surfaceStyle(surfaces.call),safety:surfaceStyle(surfaces.safety)}} effects={surfaces} onRecord={onRecord}/>
+        <ResponseConceptScreen variant="B2" numeral="solid" surfaces={{call:surfaceStyle(surfaces.safety),safety:surfaceStyle(surfaces.call)}} effects={{call:surfaces.safety,safety:surfaces.call}} onRecord={onRecord}/>
       </div>
     </div>
   </article>
