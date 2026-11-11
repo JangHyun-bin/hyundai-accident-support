@@ -5,6 +5,21 @@ async function openSurroundings(page:Page){
   await page.getByRole('button',{name:'주변 상황 보기',exact:true}).click()
 }
 
+test('replay timeline labels remain separate with enlarged mobile text',async({page})=>{
+  await page.emulateMedia({reducedMotion:'reduce'})
+  await page.goto('/?study=surroundings&view=replay')
+  const labels=page.locator('.ss-time-labels>span')
+  await expect(labels).toHaveText(['−08초','충격 00초','+06초'])
+  for(const [width,font] of [[1440,16],[393,16],[360,32],[393,32]]){
+    await page.setViewportSize({width,height:852})
+    await page.evaluate(size=>{document.documentElement.style.fontSize=size+'px'},font)
+    await expect.poll(()=>labels.evaluateAll(nodes=>{
+      const rects=nodes.map(node=>node.getBoundingClientRect())
+      return rects.some((a,i)=>rects.slice(i+1).some(b=>a.left<b.right&&b.left<a.right&&a.top<b.bottom&&b.top<a.bottom))
+    }),{message:`Timeline labels at ${width}px / ${font}px`}).toBe(false)
+  }
+})
+
 test('own vehicle is the home view and surroundings has one explicit entry',async({page})=>{
   await page.goto('/?study=surroundings')
   const surface=page.locator('.ss-surface')

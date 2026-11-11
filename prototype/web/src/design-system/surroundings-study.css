@@ -137,6 +137,8 @@
  .ss-header-actions { justify-items:start; }
  .ss-surroundings-nav .ss-modes { margin-left:auto; }
  .ss-transport>span { min-width:5rem; }
+ .ss-time-labels { min-height:3.2em; align-items:flex-start; white-space:nowrap; }
+ .ss-time-labels>span:nth-child(2) { top:1.6em; }
 }
 .ss-study .vcs-heading { margin-bottom:var(--ac-space-4); }
 .ss-study .vcs-heading h1 { margin-top:var(--ac-space-2); font-size:var(--ac-type-section); }
