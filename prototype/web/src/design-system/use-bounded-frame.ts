@@ -1,4 +1,4 @@
-import {useLayoutEffect,useState,type RefObject} from 'react'
+import {useLayoutEffect,useRef,useState,type RefObject} from 'react'
 import type {FlowFrame,FlowFrameInput,FlowMetrics} from './flow-contract'
 
 export function resolveFlowFrame(input:FlowFrameInput):FlowFrame {
@@ -24,16 +24,18 @@ export function resolveFlowFrame(input:FlowFrameInput):FlowFrame {
 
 export function useBoundedFrame(ref:RefObject<HTMLElement|null>,device:'vehicle'|'mobile',previewHeight?:number):FlowFrame|null {
  const [frame,setFrame]=useState<FlowFrame|null>(null)
+ const composing=useRef<HTMLElement|null>(null)
  useLayoutEffect(()=>{
   const host=ref.current
   if(!host)return
-  let alive=true,request=0
+  let alive=true,request=0,deferred=false
   const probe=document.createElement('span')
   probe.setAttribute('aria-hidden','true')
   Object.assign(probe.style,{position:'fixed',visibility:'hidden',pointerEvents:'none',width:'1rem',height:'1rem',overflow:'hidden'})
   host.append(probe)
   const measure=()=>{
-   request=0
+   if(composing.current&&composing.current===document.activeElement){deferred=true;return}
+   deferred=false
    const width=host.getBoundingClientRect().width
    if(!width)return
    const line=(token:string,leading:number)=>{
@@ -45,14 +47,25 @@ export function useBoundedFrame(ref:RefObject<HTMLElement|null>,device:'vehicle'
    const next=resolveFlowFrame({width,height,device,metrics})
    setFrame(previous=>previous?.revision===next.revision?previous:next)
   }
-  const schedule=()=>{if(!request)request=requestAnimationFrame(measure)}
+  const schedule=()=>{window.clearTimeout(request);request=window.setTimeout(()=>{request=0;measure()},120)}
+  const fontReady=()=>{if(alive&&!request)measure()}
+  const compositionStart=(event:Event)=>{
+   const target=event.target
+   if(host.dataset.presentation==='bounded'&&target instanceof HTMLElement&&(target.matches('input,textarea')||target.isContentEditable))composing.current=target
+  }
+  const compositionEnd=(event:Event)=>{
+   if(event.target!==composing.current)return
+   composing.current=null
+   if(deferred&&!request)measure()
+  }
   const observer=new ResizeObserver(schedule)
   observer.observe(host);observer.observe(probe)
   window.addEventListener('resize',schedule);window.visualViewport?.addEventListener('resize',schedule)
-  document.fonts.addEventListener('loadingdone',schedule)
-  document.fonts.ready.then(()=>{if(alive)schedule()})
+  host.addEventListener('compositionstart',compositionStart,true);host.addEventListener('compositionend',compositionEnd,true);host.addEventListener('focusout',compositionEnd,true)
+  document.fonts.addEventListener('loadingdone',fontReady)
+  document.fonts.ready.then(fontReady)
   measure()
-  return()=>{alive=false;cancelAnimationFrame(request);observer.disconnect();probe.remove();window.removeEventListener('resize',schedule);window.visualViewport?.removeEventListener('resize',schedule);document.fonts.removeEventListener('loadingdone',schedule)}
+  return()=>{alive=false;window.clearTimeout(request);observer.disconnect();probe.remove();window.removeEventListener('resize',schedule);window.visualViewport?.removeEventListener('resize',schedule);document.fonts.removeEventListener('loadingdone',fontReady);host.removeEventListener('compositionstart',compositionStart,true);host.removeEventListener('compositionend',compositionEnd,true);host.removeEventListener('focusout',compositionEnd,true)}
  },[ref,device,previewHeight])
  return frame
 }

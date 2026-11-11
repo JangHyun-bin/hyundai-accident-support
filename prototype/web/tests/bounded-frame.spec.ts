@@ -13,8 +13,8 @@ async function fixture(page:Page,{device='vehicle',height=900,font=16}:{device?:
  await page.route('**/bounded-frame-fixture',route=>route.fulfill({contentType:'text/html',body:`<!doctype html><html style="font-size:${font}px"><head><meta charset="utf-8"><style>body{margin:0}#host{width:100%}.test-panes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;height:100%;min-height:0}.test-editor{min-height:0;overflow:auto}.test-header{height:100%}</style></head><body><div id="host"></div><script type="module">
  import RefreshRuntime from '/@react-refresh';RefreshRuntime.injectIntoGlobalHook(window);window.$RefreshReg$=()=>{};window.$RefreshSig$=()=>type=>type;window.__vite_plugin_react_preamble_installed__=true;
  const {default:React}=await import('/node_modules/.vite/deps/react.js');const {default:ReactDOM}=await import('/node_modules/.vite/deps/react-dom_client.js');const {createRoot}=ReactDOM;
- const {VehicleShell}=await import('/src/components/ui/after-care-layout.tsx');const {SurroundingsScene}=await import('/src/design-system/SurroundingsStudy.tsx');import '/src/styles.css';
- const h=React.createElement;createRoot(document.getElementById('host')).render(h(VehicleShell,{presentation:'bounded',device:${JSON.stringify(device)},previewHeight:${height},header:h('div',{className:'test-header'},'사고 대응 진행')},h('div',{className:'test-panes'},h(SurroundingsScene,{bounded:true}),h('div',{className:'test-editor'},h('textarea',{'aria-label':'긴 기록',defaultValue:'기록'}),h('div',{id:'long-content'},'기록')))));
+ const {VehicleShell}=await import('/src/components/ui/after-care-layout.tsx');const {SurroundingsScene}=await import('/src/design-system/SurroundingsStudy.tsx');const {FlowFrameContext}=await import('/src/design-system/flow-contract.ts');import '/src/styles.css';
+ const h=React.createElement;function FrameReadout(){const frame=React.useContext(FlowFrameContext);return h('output',{'data-testid':'frame-revision','data-revision':frame?.revision,'data-width':frame?.width,hidden:true})}createRoot(document.getElementById('host')).render(h(VehicleShell,{presentation:'bounded',device:${JSON.stringify(device)},previewHeight:${height},header:h('div',{className:'test-header'},'사고 대응 진행',h(FrameReadout))},h('div',{className:'test-panes'},h(SurroundingsScene,{bounded:true}),h('div',{className:'test-editor'},h('textarea',{'aria-label':'긴 기록',defaultValue:'기록'}),h('div',{id:'long-content'},'기록')))));
  </script></body></html>`}))
  await page.goto('/bounded-frame-fixture')
  await expect(page.locator('.ac-vehicle')).toHaveAttribute('data-flow-mode',/wide|narrow|mobile|document/)
@@ -103,4 +103,42 @@ for(const [width,height] of [[1440,900],[1920,1080],[2560,1440]])test(`measured 
  const content=await page.locator('.ac-vehicle-content').boundingBox(),scene=await page.locator('.ss-surface').boundingBox()
  expect(Math.abs(content!.height-scene!.height)).toBeLessThanOrEqual(1)
  expect(await page.locator('.ss-part').first().evaluate(node=>getComputedStyle(node).minHeight)).toBe('64px')
+})
+
+
+test('resize bursts commit only the latest environment after settling',async({page})=>{
+ await page.clock.install();await page.setViewportSize({width:1440,height:900});await page.emulateMedia({reducedMotion:'reduce'})
+ await fixture(page);await page.clock.runFor(200)
+ const readout=page.getByTestId('frame-revision'),initial=await readout.getAttribute('data-revision')
+ await readout.evaluate(node=>{
+  const revisions:string[]=[]
+  new MutationObserver(()=>{revisions.push(node.getAttribute('data-revision')!);node.setAttribute('data-commits',String(revisions.length))}).observe(node,{attributes:true,attributeFilter:['data-revision']})
+ })
+ for(const width of [1380,1360,1340]){
+  await page.locator('#host').evaluate((node,width)=>{node.style.width=`${width}px`;window.dispatchEvent(new Event('resize'))},width)
+  await page.clock.runFor(40)
+ }
+ expect(await readout.getAttribute('data-revision')).toBe(initial)
+ await page.clock.runFor(140)
+ await expect(readout).toHaveAttribute('data-width','1340')
+ await expect(readout).toHaveAttribute('data-commits','1')
+})
+
+test('composing editor retains its environment until compositionend commits the latest size',async({page})=>{
+ await page.clock.install();await page.setViewportSize({width:1440,height:900});await page.emulateMedia({reducedMotion:'reduce'})
+ await fixture(page);await page.clock.runFor(200)
+ const readout=page.getByTestId('frame-revision'),initial=await readout.getAttribute('data-revision')
+ const editor=page.getByRole('textbox',{name:'긴 기록'}),element=await editor.elementHandle()
+ await editor.focus();await editor.dispatchEvent('compositionstart',{data:'ㅎ'})
+ await editor.evaluate((node:HTMLTextAreaElement)=>{node.value='마지막 조합 값';node.setSelectionRange(3,5)})
+ for(const width of [1380,1340]){
+  await page.locator('#host').evaluate((node,width)=>{node.style.width=`${width}px`;window.dispatchEvent(new Event('resize'))},width)
+  await page.clock.runFor(180)
+ }
+ expect(await readout.getAttribute('data-revision')).toBe(initial)
+ await editor.dispatchEvent('compositionend',{data:'값'})
+ await expect(readout).toHaveAttribute('data-width','1340')
+ await expect(editor).toBeFocused();await expect(editor).toHaveValue('마지막 조합 값')
+ expect(await element!.evaluate(node=>node===document.querySelector('textarea'))).toBe(true)
+ expect(await editor.evaluate((node:HTMLTextAreaElement)=>[node.selectionStart,node.selectionEnd])).toEqual([3,5])
 })
