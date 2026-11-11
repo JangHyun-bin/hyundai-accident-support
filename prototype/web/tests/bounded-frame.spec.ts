@@ -103,6 +103,14 @@ for(const [width,height] of [[1440,900],[1920,1080],[2560,1440]])test(`measured 
  const content=await page.locator('.ac-vehicle-content').boundingBox(),scene=await page.locator('.ss-surface').boundingBox()
  expect(Math.abs(content!.height-scene!.height)).toBeLessThanOrEqual(1)
  expect(await page.locator('.ss-part').first().evaluate(node=>getComputedStyle(node).minHeight)).toBe('64px')
+ expect(await page.locator('.ss-focus-labels').evaluate(node=>{
+  const bounds=node.getBoundingClientRect(),walker=document.createTreeWalker(node,NodeFilter.SHOW_TEXT)
+  while(walker.nextNode())if(walker.currentNode.textContent?.trim()){
+   const range=document.createRange();range.selectNodeContents(walker.currentNode)
+   for(const r of range.getClientRects())if(r.top<bounds.top-1||r.bottom>bounds.bottom+1)return false
+  }
+  return true
+ })).toBe(true)
 })
 
 
@@ -141,4 +149,34 @@ test('composing editor retains its environment until compositionend commits the 
  await expect(editor).toBeFocused();await expect(editor).toHaveValue('마지막 조합 값')
  expect(await element!.evaluate(node=>node===document.querySelector('textarea'))).toBe(true)
  expect(await editor.evaluate((node:HTMLTextAreaElement)=>[node.selectionStart,node.selectionEnd])).toEqual([3,5])
+})
+
+test('1440 bounded scene shows an unobscured full car and keeps replay controls reachable',async({page})=>{
+ await page.setViewportSize({width:1440,height:900});await page.emulateMedia({reducedMotion:'reduce'})
+ await fixture(page,{height:868})
+ // 실제 Journey의 436px pane에서 supporting 문구와 gap이 차지하는 30.5px 제외.
+ await page.locator('.test-panes').evaluate(node=>{node.style.height='calc(100% - 30.5px)'})
+ const surface=page.locator('.ss-surface'),visual=page.locator('.ss-visual'),car=page.locator('.ss-car-own .ac-contour-body')
+ await expect.poll(async()=>(await car.boundingBox())!.height).toBeGreaterThanOrEqual(120)
+ const start=await visual.boundingBox()
+ const unobscured=await car.evaluate(node=>{
+  const r=node.getBoundingClientRect()
+  return [.1,.5,.9].every(f=>document.elementFromPoint(r.x+r.width/2,r.y+r.height*f)?.closest('.ss-scene'))
+ })
+ expect(unobscured).toBe(true)
+ const part=page.getByRole('button',{name:'비상등 자세히 보기',exact:true})
+ expect((await part.boundingBox())!.y+(await part.boundingBox())!.height).toBeLessThanOrEqual(start!.y+1)
+ await part.click();await expect(page.getByRole('region',{name:'차량 부위 상세'}).getByText('켜짐',{exact:true})).toBeInViewport()
+ await page.getByRole('button',{name:'전체 항목',exact:true}).click();await expect(part).toBeFocused()
+ await page.screenshot({path:'/tmp/hyundai-stable-A-scene-visible-car.png'})
+ await page.getByRole('button',{name:'주변 상황 보기',exact:true}).click();await page.getByRole('button',{name:'사고 재생',exact:true}).click()
+ const play=page.getByRole('button',{name:'사고 재생 시작',exact:true}),footer=page.locator('.ss-playback')
+ const playBox=await play.boundingBox(),footerBox=await footer.boundingBox()
+ expect(playBox!.y+playBox!.height).toBeLessThanOrEqual(footerBox!.y+footerBox!.height+1)
+ await page.getByRole('slider',{name:'사고 시점 이동'}).focus();await page.keyboard.press('End')
+ await expect(page.getByRole('slider',{name:'사고 시점 이동'})).toHaveValue('6')
+ expect(Math.abs((await visual.boundingBox())!.height-start!.height)).toBeLessThanOrEqual(1)
+ await page.getByRole('button',{name:'현재로 돌아가기',exact:true}).click()
+ await expect(surface).toHaveAttribute('data-scene-view','current')
+ expect(Math.abs((await visual.boundingBox())!.height-start!.height)).toBeLessThanOrEqual(1)
 })
