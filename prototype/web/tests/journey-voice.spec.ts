@@ -157,9 +157,22 @@ test('capture stop is repeatable and unsupported MIME releases tracks', async ({
     const path = '/src/journey/voice-capture.ts'
     const { startVoiceCapture } = await import(/* @vite-ignore */ path) as typeof import('../src/journey/voice-capture')
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+    const originalStart = MediaRecorder.prototype.start
+    let encoded!: () => void
+    const firstChunk = new Promise<void>(resolve => { encoded = resolve })
+    MediaRecorder.prototype.start = function (timeslice?: number) {
+      this.addEventListener('dataavailable', event => { if (event.data.size) encoded() })
+      originalStart.call(this, timeslice)
+    }
     let maximum = 0
     const capture = startVoiceCapture(stream, level => { maximum = Math.max(level, maximum) })
-    await new Promise(resolve => setTimeout(resolve, 350))
+    MediaRecorder.prototype.start = originalStart
+    let timeout: ReturnType<typeof setTimeout> | undefined
+    try {
+      await Promise.race([firstChunk, new Promise<never>((_, reject) => {
+        timeout = setTimeout(() => reject(new Error('Audio encoder produced no data within 5 seconds')), 5000)
+      })])
+    } finally { clearTimeout(timeout) }
     const first = await capture.stop()
     const second = await capture.stop()
     const unsupported = await navigator.mediaDevices.getUserMedia({ audio: true })
