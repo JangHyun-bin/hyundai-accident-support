@@ -1,8 +1,8 @@
-import { useEffect, useImperativeHandle, useRef, useState, type Ref } from 'react'
+import { useEffect, useImperativeHandle, useRef, useState, type Ref, type ReactNode } from 'react'
 import { Check, Mic, PencilLine, Square, X } from 'lucide-react'
 import { LIMITS, type AssetWrite, type CaseCommand, type CommitResult, type Evidence, type JourneyCase } from './case'
 import { readAsset } from './case-store'
-import { JourneyAction, JourneyHeading } from './JourneyLayout'
+import { JourneyAction, JourneyEditorLayout } from './JourneyLayout'
 import { startVoiceCapture, type VoiceCapture } from './voice-capture'
 import './voice.css'
 import {stopGuidanceAudio} from '@/audio/useGuidanceAudio'
@@ -10,7 +10,7 @@ import {CareSpectrum} from '@/components/ui/after-care'
 
 type Phase = 'ready' | 'requesting-permission' | 'listening' | 'review' | 'saving' | 'saved' | 'error'
 type PendingClip = { evidence: Evidence; blob: Blob }
-export type VoiceRecordHandle = { finishBeforeLeave: () => Promise<boolean> }
+export type VoiceRecordHandle = { finishBeforeLeave: () => Promise<boolean>; preserveDraft: () => void }
 const sample = { id: 'voice-statement-ko-v1', text: '정차 중 오른쪽에서 충격을 느꼈어요. 정확한 사고 경위는 확인 중이에요.', duration: 8.827625 }
 const clock = (seconds: number) => `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`
 
@@ -35,7 +35,8 @@ function VoiceAudio({ caseId, evidence, blob }: { caseId: string; evidence: Evid
   </div>
 }
 
-export function VoiceRecordPanel({ value, mode, onSave, ref }: {
+export function VoiceRecordPanel({ value, mode, onSave, ref, navigation, footer }: {
+  navigation?:ReactNode;footer?:ReactNode
   value: JourneyCase; mode: 'sample' | 'device'; onSave: (command: CaseCommand, assets: AssetWrite[]) => Promise<CommitResult>; ref?: Ref<VoiceRecordHandle>
 }) {
   const initial = value.statements[0]
@@ -152,7 +153,10 @@ export function VoiceRecordPanel({ value, mode, onSave, ref }: {
     return job
   }
 
-  useImperativeHandle(ref, () => ({ finishBeforeLeave: async () => {
+  useImperativeHandle(ref, () => ({ preserveDraft: () => {
+    const input=section.current?.querySelector('textarea')
+    if(input&&input.value!==text){setText(input.value);dirty.current=true;if(phase==='saved'){setPhase('review');setMessage('')}}
+  }, finishBeforeLeave: async () => {
     section.current?.querySelectorAll('audio').forEach(audio => audio.pause())
     if (capture.current || stopPromise.current) { await finishRecording(); return false }
     if (phase === 'requesting-permission') { cancelRecording(); return false }
@@ -193,31 +197,36 @@ export function VoiceRecordPanel({ value, mode, onSave, ref }: {
     }
   }, [])
 
-  return <section ref={section} className="journey-voice" data-voice-phase={phase} aria-label="음성 사고 기록">
-    <JourneyHeading step="사고 기록" title={phase === 'listening' ? '천천히 말씀해주세요' : editing || pending.length ? '이렇게 기록할까요?' : '기억나는 내용을 남겨주세요'}>
-      {phase === 'listening' ? '확실한 내용만 말해도 돼요.' : '기억과 다른 내용은 저장 전에 고칠 수 있어요.'}
-    </JourneyHeading>
+  return <section ref={section} className="journey-voice journey-editor-panel" data-voice-phase={phase} aria-label="음성 사고 기록">
+    <JourneyEditorLayout step="사고 기록" title={phase === 'listening' ? '천천히 말씀해주세요' : editing || pending.length ? '이렇게 기록할까요?' : '기억나는 내용을 남겨주세요'} description={phase === 'listening' ? '확실한 내용만 말해도 돼요.' : '기억과 다른 내용은 저장 전에 고칠 수 있어요.'} primary={phase==='listening'
+      ? <JourneyAction onClick={() => void finishRecording()} disabled={finishing}><Square aria-hidden="true" />말하기 마치기</JourneyAction>
+      : editing||pending.length
+        ? <JourneyAction disabled={busy || (!text.trim() && !pending.length && !initial) || phase === 'saved'} onClick={() => void save()}><Check aria-hidden="true" />{phase === 'saving' ? '기록 저장 중' : '기록 저장'}</JourneyAction>
+        : <JourneyAction disabled={busy} onClick={() => void start()}><Mic aria-hidden="true" />{phase === 'requesting-permission' ? '음성 기록 준비 중' : '말로 기록하기'}</JourneyAction>}>
+
+    {navigation}
     {phase === 'listening' ? <div className="journey-voice-listening">
       <div className="journey-voice-meter" data-voice-level={level.toFixed(3)} role="img" aria-label="현재 microphone 음량">
         <CareSpectrum levels={Array.from({length:31},(_,index)=>level*Math.sin((index+1)/32*Math.PI))}/>
       </div><p className="journey-voice-clock">{clock(elapsed)}<span> / 2:00</span></p>
-      <JourneyAction onClick={() => void finishRecording()} disabled={finishing}><Square aria-hidden="true" />말하기 마치기</JourneyAction>
       <button className="journey-text-action" disabled={finishing} onClick={cancelRecording}><X aria-hidden="true" />녹음 취소</button>
     </div> : <>
-      {!editing && !pending.length && <div className="journey-voice-start"><Mic aria-hidden="true" /><JourneyAction disabled={busy} onClick={() => void start()}><Mic aria-hidden="true" />{phase === 'requesting-permission' ? '음성 기록 준비 중' : '말로 기록하기'}</JourneyAction></div>}
+      {!editing && !pending.length && <div className="journey-voice-start"><Mic aria-hidden="true" /></div>}
       {persistedAudio.map(e => <VoiceAudio key={e.id} caseId={value.id} evidence={e} />)}
       {pending.map(c => <VoiceAudio key={c.evidence.id} caseId={value.id} evidence={c.evidence} blob={c.blob} />)}
       {editing && <div className="journey-voice-edit"><div className="journey-input-label"><label htmlFor="voice-statement">사고 기록</label><span id="voice-statement-count">{text.length.toLocaleString('ko-KR')} / 5,000</span></div>
         <textarea id="voice-statement" className="journey-textarea" aria-describedby="voice-statement-count" maxLength={LIMITS.statementLength} value={text} disabled={phase === 'saving'}
           placeholder="기억나는 내용을 적어주세요" onChange={event => { setText(event.target.value); dirty.current = true; if (phase === 'saved') { setPhase('review'); setMessage('') } }} />
         <p className="journey-supporting">확인하지 못한 내용은 추측하지 않아도 돼요.</p></div>}
-      {(editing || pending.length > 0) && <div className="journey-voice-actions"><JourneyAction disabled={busy || (!text.trim() && !pending.length && !initial) || phase === 'saved'} onClick={() => void save()}><Check aria-hidden="true" />{phase === 'saving' ? '기록 저장 중' : '기록 저장'}</JourneyAction>
-        <JourneyAction secondary disabled={busy} onClick={() => void start()}><Mic aria-hidden="true" />추가로 말하기</JourneyAction></div>}
+      {(editing || pending.length > 0) && <div className="journey-voice-actions"><JourneyAction secondary disabled={busy} onClick={() => void start()}><Mic aria-hidden="true" />추가로 말하기</JourneyAction></div>}
       {(editing || pending.length > 0) && phase !== 'saved' && <button className="journey-text-action" disabled={busy} onClick={discardDraft}><X aria-hidden="true" />입력 취소</button>}
       {!editing && <button className="journey-text-action" disabled={busy} onClick={() => { setEditing(true); setPhase('review') }}><PencilLine aria-hidden="true" />직접 입력</button>}
       {phase === 'requesting-permission' && <button className="journey-text-action" onClick={cancelRecording}>취소</button>}
     </>}
     {finishing && <p role="status" className="journey-supporting">녹음을 정리하고 있어요.</p>}
     {message && <p role="status" className="journey-voice-message">{message}</p>}
+    {footer}
+    </JourneyEditorLayout>
+
   </section>
 }

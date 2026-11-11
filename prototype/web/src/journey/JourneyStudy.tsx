@@ -77,8 +77,8 @@ export function JourneyStudy({embedded=false}:{embedded?:boolean}) {
   }, [countdownKey, value?.suspended, representative, dispatch])
 
   useEffect(() => {
-    if (representative && !details && (value?.stage === 'record' || value?.stage === 'review')) return
-    const frame = requestAnimationFrame(() => [...document.querySelectorAll<HTMLElement>('[data-case-id] h1')].find(node => node.getClientRects().length)?.focus())
+    if (representative && !details && value?.stage !== 'follow-up') return
+    const frame = requestAnimationFrame(() => [...document.querySelectorAll<HTMLElement>('[data-case-id] h1')].find(node => node.getClientRects().length)?.focus({preventScroll:true}))
     return () => cancelAnimationFrame(frame)
   }, [value?.id, value?.stage, scene?.id, details, recordTab, representative])
 
@@ -90,7 +90,6 @@ export function JourneyStudy({embedded=false}:{embedded?:boolean}) {
     const saved = await journey.start(created)
     if (saved.ok) {
       replaceQuery({ case: saved.value.id, device })
-      if (definition.id === 'complete-journey') requestAnimationFrame(() => document.querySelector('[data-testid=journey-primary]')?.scrollIntoView({ block: 'nearest' }))
     }
     setDetails(false)
   }
@@ -113,6 +112,7 @@ export function JourneyStudy({embedded=false}:{embedded?:boolean}) {
   }
 
   async function navigate(stage: Stage) {
+    if(stage==='response')voicePanel.current?.preserveDraft()
     if (sending || stage !== 'response' && !await prepareToLeave()) return false
     if (stage !== 'response' && !(await journey.flush()).ok) return false
     setDetails(false)
@@ -137,6 +137,7 @@ export function JourneyStudy({embedded=false}:{embedded?:boolean}) {
 
   function risk() {
     if (!value) return
+    voicePanel.current?.preserveDraft()
     const fact = scenarioFor(value.emergency.scenarioId).facts.find(f => f.id === 'risk')
     dispatch({ type: 'observation', observation: { id: 'risk-' + crypto.randomUUID(), kind: 'risk', label: '차량 위험', value: '위험 정보 확인 필요',
       source: 'fixture', observedAt: new Date().toISOString(), confirmation: 'attention', legacyFactId: fact ? 'risk' : null, supersedes: null } })
@@ -219,23 +220,20 @@ export function JourneyStudy({embedded=false}:{embedded?:boolean}) {
 
   function recordWorkspace() {
     if (!value) return null
+    const tabs=<nav className="journey-record-tabs" aria-label="기록 방법">
+      <button aria-pressed={recordTab === 'voice'} onClick={async () => { if (await prepareToLeave()) setRecordTab('voice') }}>말로 남기기</button>
+      <button aria-pressed={recordTab === 'photos'} onClick={async () => { if (await prepareToLeave()) setRecordTab('photos') }}>사진 남기기</button>
+    </nav>
+    const footer=<JourneyRequests value={value}/>
     return <>
-            <nav className="journey-record-tabs" aria-label="기록 방법">
-              <button aria-pressed={recordTab === 'voice'} onClick={async () => { if (await prepareToLeave()) setRecordTab('voice') }}>말로 남기기</button>
-              <button aria-pressed={recordTab === 'photos'} onClick={async () => { if (await prepareToLeave()) setRecordTab('photos') }}>사진 남기기</button>
-            </nav>
-            <div hidden={recordTab !== 'voice'}><VoiceRecordPanel ref={voicePanel} value={value} mode={voiceMode} onSave={journey.save} /></div>
-            <div hidden={recordTab !== 'photos'}><EvidencePanel ref={photoPanel} value={value} onSave={journey.save} onCommand={photoCommand} /></div>
-            <JourneyRequests value={value} />
+      <div hidden={recordTab !== 'voice'} className="journey-editor-holder"><VoiceRecordPanel ref={voicePanel} value={value} mode={voiceMode} onSave={journey.save} navigation={tabs} footer={footer}/></div>
+      <div hidden={recordTab !== 'photos'} className="journey-editor-holder"><EvidencePanel ref={photoPanel} value={value} onSave={journey.save} onCommand={photoCommand} navigation={tabs} footer={footer}/></div>
     </>
   }
 
   function reviewWorkspace() {
     if (!value) return null
-    return <>
-            <JourneyReviewPanel ref={reviewPanel} explicitTransport={representative} value={value} onCommand={dispatch} onApprove={journey.approve} />
-            <JourneyRequests value={value} />
-    </>
+    return <JourneyReviewPanel ref={reviewPanel} explicitTransport={representative} value={value} onCommand={dispatch} onApprove={journey.approve} footer={<JourneyRequests value={value}/>}/>
   }
 
   function content() {
