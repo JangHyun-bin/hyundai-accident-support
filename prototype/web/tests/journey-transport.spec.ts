@@ -73,3 +73,18 @@ test('receipt and call lifecycle are independent and insurance success does not 
   expect(reduceCase(value, { type: 'request-result', ...rescue, status: 'connected' })).toBe(value)
   expect(validateCase(value)).toBe(true)
 })
+
+
+test('failed contact ends that call attempt and later results cannot reopen it', () => {
+  let value = reduceCase(createCase(createSession('SC01'), 'contact-failure', now), { type: 'contact-start', now })
+  const first = value.activeSubmissionIds.rescue!
+  value = reduceCase(value, { type: 'request-result', caseId: value.id, submissionId: first, agency: 'rescue', status: 'failed', externalReceipt: null, now })
+  expect(value.submissions[0].call).toBe('ended')
+  value = reduceCase(value, { type: 'contact-start', now })
+  const current = value.activeSubmissionIds.rescue
+  value = reduceCase(value, { type: 'request-result', caseId: value.id, submissionId: first, agency: 'rescue', status: 'connected', externalReceipt: null, now })
+  expect(value.submissions[0].call).toBe('ended')
+  expect(value.activeSubmissionIds.rescue).toBe(current)
+  expect(value.submissions[1].call).toBe('connecting')
+  expect(validateCase(value)).toBe(true)
+})

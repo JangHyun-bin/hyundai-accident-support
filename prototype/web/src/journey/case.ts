@@ -560,6 +560,7 @@ export function reduceCase(current: JourneyCase, command: CaseCommand): JourneyC
       if (command.caseId !== current.id || !['connection_unknown', 'connected', 'checking', 'unknown', 'received', 'sent', 'failed', 'not_received'].includes(command.status)) return current
       const request = next.submissions.find(s => s.id === command.submissionId && s.agency === command.agency)
       if (!request || request.transport && (request.transport !== 'sent' || !['received', 'unknown', 'not_received'].includes(command.status))) return current
+      if (request.kind === 'contact' && command.status === 'failed') request.call = 'ended'
       if (command.agency === 'rescue' && command.status === 'connected' && request.call !== 'ended') request.call = 'connected'
       if (request.status === 'received' && command.status !== 'received') {
         return command.status === 'connected' && request.call !== current.submissions.find(item => item.id === request.id)?.call ? next : current
