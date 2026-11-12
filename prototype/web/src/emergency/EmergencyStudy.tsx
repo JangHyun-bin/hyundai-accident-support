@@ -52,6 +52,7 @@ export function EmergencyStudy() {
   const [present, setPresent] = useState<'off' | 'showing' | 'covered'>('off')
   const presentTimer = useRef(0)
   const heading = useRef<HTMLHeadingElement>(null)
+  const autoVoiceKey = useRef<string | null>(null)
   const focusAfterChange = useRef<'action' | 'event' | null>(null)
   // React transition commit 전에 이전 countdown이 운전자의 선택을 덮지 않도록 차단.
   const leaving = useRef(false)
@@ -97,8 +98,15 @@ export function EmergencyStudy() {
     if (!scene.auto_contact) return
     remainingMs.current = scene.auto_contact.seconds * 1000
     beep()
-    void audio.play()
   }, [countdownKey])
+
+  // Initial persistence changes the audio owner; autostart only after that result is known.
+  useEffect(() => {
+    if (!scene.auto_contact) { autoVoiceKey.current = null; return }
+    if (persistence?.selection !== selection || paused || present === 'covered' || autoVoiceKey.current === countdownKey) return
+    autoVoiceKey.current = countdownKey
+    void audio.play()
+  }, [countdownKey, persistence, selection, paused, present === 'covered', audio.play])
 
   // 남은 시간은 마감 시각으로 계산한다. 멈추면 남은 ms 를 저장하고, 장면이 바뀌면 timer 를 버린다.
   useEffect(() => {

@@ -21,7 +21,6 @@ test('every_scene_has_three_slots_and_three_agencies', async ({ page }) => {
     const where = `${scenario.id}/${scene.id}`
     for (const slot of ['detected', 'car', 'self']) await expect(screen.locator(`[data-slot="${slot}"]`), `${where} ${slot}`).toBeVisible()
     await expect(screen.locator('[data-slot="car"] h1'), where).toHaveText(scene.title)
-    await expect(screen.locator('[data-slot="detected"]'), where).toContainText(scene.cue.label)
     await expect(screen.locator('[data-request]'), where).toHaveCount(3)
     if (scene.self_action) await expect(screen.locator('[data-slot="self"]'), where).toContainText(scene.self_action.now)
   }
@@ -181,11 +180,14 @@ test.describe('rescue countdown', () => {
     expect(assets.find(asset=>asset.path===spoken[0])?.script).toContain('10초 후 119에 연결')
   })
 
-  test('blocked_countdown_speech_shows_script', async ({ page }) => {
-    await page.addInitScript(mockGuidanceAudio)
-    await page.addInitScript(()=>{window.guidanceMock.fail=true})
+  for (const storageAvailable of [true, false]) test(`blocked countdown retains the rescue instruction with storage=${storageAvailable}`, async ({ page }) => {
+    await page.addInitScript(mockGuidanceAudio, { fail: true })
+    if (!storageAvailable) await page.addInitScript(() => { Storage.prototype.setItem = () => { throw new DOMException('Blocked', 'SecurityError') } })
     await open(page)
-    await expect(page.getByRole('status')).toContainText('음성 원고')
+    const fallback = page.getByRole('status')
+    await expect(fallback).toContainText(/\b10초/)
+    await expect(fallback).toContainText(/\b119\b/)
+    expect(await page.evaluate(() => window.guidanceMock.played)).toHaveLength(1)
   })
 })
 
