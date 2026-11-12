@@ -1,4 +1,4 @@
-import variants from '../audio/emergency-guidance.json'
+import variants from '../audio/emergency-guidance.json' with { type: 'json' }
 import { scenarioFor, type Scene, type Session } from './session'
 
 const insuranceLabels: Record<string, string> = {
