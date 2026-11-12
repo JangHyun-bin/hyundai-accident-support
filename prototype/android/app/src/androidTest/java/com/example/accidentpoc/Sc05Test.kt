@@ -2,6 +2,7 @@ package com.example.accidentpoc
 
 import android.content.Intent
 import android.os.Build
+import android.view.KeyEvent
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assert
@@ -97,7 +98,9 @@ class Sc05Test {
 
     @Test fun eventMovesFocusToCurrentSceneButton() {
         val instrumentation = InstrumentationRegistry.getInstrumentation()
-        instrumentation.setInTouchMode(false)
+        rule.waitUntil { rule.activity.hasWindowFocus() }
+        instrumentation.sendKeyDownUpSync(KeyEvent.KEYCODE_TAB)
+        rule.waitForIdle()
         try {
             rule.onNodeWithTag("action-check_status").performSemanticsAction(SemanticsActions.OnClick)
             rule.onNodeWithTag("event-receipt_unknown").performSemanticsAction(SemanticsActions.OnClick)
