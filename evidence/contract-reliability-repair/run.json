@@ -938,18 +938,226 @@
       "exitStatus": 0,
       "counts": {},
       "logSha256": "e21b8333173b80ff9589c898f91be83201dcb5a00d19777bc6257ef69dc727e9"
+    },
+    {
+      "id": "web-build-review-fix1",
+      "cwd": "prototype/web",
+      "command": [
+        "npm",
+        "run",
+        "check"
+      ],
+      "startedAt": "2026-11-12T19:47:07.610891+00:00",
+      "testedCommit": "2f21772da358ef568a88738115e272f70ab3116e",
+      "output": "evidence/contract-reliability-repair/web/web-build-review-fix1.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T19:47:10.763483+00:00",
+      "seconds": 3.151,
+      "exitStatus": 0,
+      "counts": {},
+      "logSha256": "7fe97e656e212a680e1ef91b64b28448344e6fd296313d0bc4de137f7faf1b06"
+    },
+    {
+      "id": "web-targeted-review-fix1",
+      "cwd": "prototype/web",
+      "command": [
+        "env",
+        "CI=true",
+        "PLAYWRIGHT_OUTPUT_DIR=test-results/repair-review-targeted",
+        "./node_modules/.bin/playwright",
+        "test",
+        "tests/journey-record-reliability.spec.ts",
+        "tests/journey-report.spec.ts"
+      ],
+      "startedAt": "2026-11-12T19:47:10.809348+00:00",
+      "testedCommit": "2f21772da358ef568a88738115e272f70ab3116e",
+      "output": "evidence/contract-reliability-repair/web/web-targeted-review-fix1.txt",
+      "status": "failed",
+      "endedAt": "2026-11-12T19:47:32.157437+00:00",
+      "seconds": 21.347,
+      "exitStatus": 1,
+      "counts": {
+        "failed": 1,
+        "passed": 32
+      },
+      "logSha256": "0a7a5929562cb06e27f48ff9a3d1b907d1d768a84f087192b05c0e5678a6ea75"
+    },
+    {
+      "id": "web-targeted-review-fix2",
+      "cwd": "prototype/web",
+      "command": [
+        "env",
+        "CI=true",
+        "PLAYWRIGHT_OUTPUT_DIR=test-results/repair-review-targeted-fixed",
+        "./node_modules/.bin/playwright",
+        "test",
+        "tests/journey-record-reliability.spec.ts",
+        "tests/journey-report.spec.ts"
+      ],
+      "startedAt": "2026-11-12T19:49:39.073462+00:00",
+      "testedCommit": "2bd7c258187772399bacfe62fdb8b6f3254c642a",
+      "output": "evidence/contract-reliability-repair/web/web-targeted-review-fix2.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T19:49:55.821483+00:00",
+      "seconds": 16.747,
+      "exitStatus": 0,
+      "counts": {
+        "passed": 33
+      },
+      "logSha256": "d4cfed9d8e702977b97cbc079a97e2caa938b813d92e776ea1405601bc7d72f4"
+    },
+    {
+      "id": "web-build-clean-review",
+      "cwd": "/tmp/hyundai-contract-repair/clean/prototype/web",
+      "command": [
+        "npm",
+        "run",
+        "check"
+      ],
+      "startedAt": "2026-11-12T19:51:35.722071+00:00",
+      "testedCommit": "2bd7c258187772399bacfe62fdb8b6f3254c642a",
+      "output": "evidence/contract-reliability-repair/web/web-build-clean-review.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T19:51:38.704949+00:00",
+      "seconds": 2.983,
+      "exitStatus": 0,
+      "counts": {},
+      "logSha256": "b53ca7d89819b1679d75911411e141a0d3e62243ab72ffe258da368141f8fbc6"
+    },
+    {
+      "id": "web-full-review",
+      "cwd": "/tmp/hyundai-contract-repair/clean/prototype/web",
+      "command": [
+        "env",
+        "CI=true",
+        "PLAYWRIGHT_OUTPUT_DIR=test-results/repair-review-full",
+        "./node_modules/.bin/playwright",
+        "test"
+      ],
+      "startedAt": "2026-11-12T19:51:38.741856+00:00",
+      "testedCommit": "2bd7c258187772399bacfe62fdb8b6f3254c642a",
+      "output": "evidence/contract-reliability-repair/web/web-full-review.txt",
+      "status": "failed",
+      "endedAt": "2026-11-12T19:55:22.637848+00:00",
+      "seconds": 223.901,
+      "exitStatus": 1,
+      "counts": {
+        "failed": 13,
+        "passed": 434
+      },
+      "logSha256": "6073b475e77360e8a27ab09c09fee607a134b24ea74d10a289c7779ca0cb8800"
+    },
+    {
+      "id": "evidence-copy-review",
+      "cwd": ".",
+      "command": [
+        "python3",
+        "/tmp/hyundai-contract-repair/collect-artifacts.py",
+        "--append-review"
+      ],
+      "startedAt": "2026-11-12T19:59:37.875636+00:00",
+      "testedCommit": "2bd7c258187772399bacfe62fdb8b6f3254c642a",
+      "output": "evidence/contract-reliability-repair/checks/evidence-copy-review.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T19:59:38.907985+00:00",
+      "seconds": 1.031,
+      "exitStatus": 0,
+      "counts": {},
+      "logSha256": "8739640ec6cf51d25fa78bfcaace4d5f8cca7ca2c4b78975459cd07419d131da"
+    },
+    {
+      "id": "source-inputs-review",
+      "cwd": ".",
+      "command": [
+        "python3",
+        "/tmp/hyundai-contract-repair/finalize-source.py"
+      ],
+      "startedAt": "2026-11-12T19:59:38.946413+00:00",
+      "testedCommit": "2bd7c258187772399bacfe62fdb8b6f3254c642a",
+      "output": "evidence/contract-reliability-repair/checks/source-inputs-review.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T19:59:39.375889+00:00",
+      "seconds": 0.429,
+      "exitStatus": 0,
+      "counts": {},
+      "logSha256": "f46b3c6decc43189b3d42e1a51051a8a5ad6c9a9297051577d3ade08c64efbbe"
+    },
+    {
+      "id": "document-links-review-final",
+      "cwd": ".",
+      "command": [
+        "python3",
+        "/tmp/hyundai-contract-repair/check-doc-links.py",
+        "evidence/contract-reliability-repair/failure-analysis.md"
+      ],
+      "startedAt": "2026-11-12T20:31:22.649877+00:00",
+      "testedCommit": "2bd7c258187772399bacfe62fdb8b6f3254c642a",
+      "output": "evidence/contract-reliability-repair/checks/document-links-review-final.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T20:31:22.692513+00:00",
+      "seconds": 0.042,
+      "exitStatus": 0,
+      "counts": {},
+      "logSha256": "fcb3f4215f5e1ee4d16bb468e0e9d9589cc11d8a034b9b105145f627288ae397"
+    },
+    {
+      "id": "evidence-integrity-review",
+      "cwd": ".",
+      "command": [
+        "python3",
+        "/tmp/hyundai-contract-repair/check-evidence.py"
+      ],
+      "startedAt": "2026-11-12T20:31:22.730398+00:00",
+      "testedCommit": "2bd7c258187772399bacfe62fdb8b6f3254c642a",
+      "output": "evidence/contract-reliability-repair/checks/evidence-integrity-review.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T20:31:23.276635+00:00",
+      "seconds": 0.545,
+      "exitStatus": 0,
+      "counts": {},
+      "logSha256": "c7002fb8adb7cd3ec470b8c44bd1f152a2809bc28bd485febc4a0863bbee4c90"
+    },
+    {
+      "id": "evidence-integrity-review-fix1",
+      "cwd": ".",
+      "command": [
+        "python3",
+        "/tmp/hyundai-contract-repair/check-evidence.py"
+      ],
+      "startedAt": "2026-11-12T20:36:19.952767+00:00",
+      "testedCommit": "2bd7c258187772399bacfe62fdb8b6f3254c642a",
+      "output": "evidence/contract-reliability-repair/checks/evidence-integrity-review-fix1.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T20:36:20.489731+00:00",
+      "seconds": 0.536,
+      "exitStatus": 0,
+      "counts": {},
+      "logSha256": "bd31f60523e15b1c3bb0a5e7e5c548f3789e277909567ab93609ab4618acd643"
     }
   ],
   "limitations": [
     "Required four new JaeGyu assets absent: no usable existing credentials; zero TTS calls.",
-    "Latest full 432/445: all 13 failures are missing required audio assets.",
+    "Latest full 434/447: all 13 failures are missing required audio assets.",
     "Original PR10 trace absent: controlled causal reproduction is not unique attribution of its historical interleaving.",
     "No human listening, physical vehicle, OS IME candidate-window assessment, or new global end-to-end movie.",
     "Early dot reporter did not persist inline-body JSON; final helper writes durable named raw JSON."
   ],
-  "updatedAt": "2026-11-12T19:16:54.247530+00:00",
-  "finalTestedSourceCommit": "e76c9bcd7a91aa6ebc7dd9925e2840dd3e9e1fe5",
+  "updatedAt": "2026-11-12T20:36:20.489772+00:00",
+  "finalTestedSourceCommit": "2bd7c258187772399bacfe62fdb8b6f3254c642a",
   "sourceManifest": "evidence/contract-reliability-repair/source-sha256.json",
   "artifactIndex": "evidence/contract-reliability-repair/artifact-index.json",
-  "mergeAllowed": false
+  "mergeAllowed": false,
+  "latestFullGate": "web-full-review",
+  "latestTargetedGate": "web-targeted-review-fix2",
+  "reviewReports": [
+    "evidence/contract-reliability-repair/review/native-docs.json",
+    "evidence/contract-reliability-repair/review/web-initial.json",
+    "evidence/contract-reliability-repair/review/web-closure.json"
+  ],
+  "pr": {
+    "number": 11,
+    "url": "https://github.com/JangHyun-bin/hyundai-accident-support/pull/11",
+    "draft": true,
+    "mergeAllowed": false
+  }
 }

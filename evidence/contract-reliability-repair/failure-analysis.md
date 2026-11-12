@@ -1,6 +1,6 @@
 # 실패 인과 분석과 원시 증거
 
-최종 제품·검사 입력: `e76c9bcd7a91aa6ebc7dd9925e2840dd3e9e1fe5`. 최신 clean 전체 실행은 **432/445**, 실패 13개는 필수 신규 음성 4개 누락이다. maximum-duration과 영상 복원 경로는 이 병렬 전체 실행에서 통과했다. 전체 gate 성공이나 merge를 주장하지 않는다.
+최종 제품·검사 입력: `2bd7c258187772399bacfe62fdb8b6f3254c642a`. 최신 clean 전체 실행은 **434/447**, 실패 13개는 필수 신규 음성 4개 누락이다. maximum-duration·영상 복원·리뷰 P2 수정 경로는 이 병렬 전체 실행에서 통과했다. 전체 gate 성공이나 merge를 주장하지 않는다.
 
 ## 1. 과거 maximum-duration 실패의 경계
 
@@ -48,12 +48,21 @@ UI 제한은 `Date.now()`와 listening effect의 interval이다. `page.clock.fas
 
 [통제 실패](web/raw/reconstruction-red/journey-reconstruction-jou-67cea-ithout-losing-urgent-drafts/asset-read-commit-boundary.json)는 실제 metadata transaction의 완료 callback 전달을 보류한다. 원래 event·IndexedDB write·MP4 bytes는 대체하지 않는다. native 조회는 처음 `null`; 보류 해제 후 같은 ID가 revision 7의 실제 106,292-byte 전방 영상으로 저장됐는데도 조회는 1회뿐이고 UI는 재생 불가였다. [실패 명령](web/web-reconstruction-causal-red2.txt)이 같은 증상을 재현했다. 앞선 fixture 준비 실패도 `raw/reconstruction-setup`에 그대로 남겼다. 자료/진술 없는 경위서 시연 event는 의도된 no-op여서 보류할 write가 없었으며, 실제 observation write를 쓰도록 fixture를 고쳤다.
 
-수정은 **durable revision이 바뀌면 이전 miss를 무효화**하고 case ID도 cache identity에 포함한다. 이미 읽은 immutable Blob은 다시 읽지 않으며, 저장 대기 중 miss를 영구 파일 실패로 설명하지 않는다. timer retry나 오류 억제가 아니다. [관련 14/14](web/web-reconstruction-fix1.txt), [최신 full](web/web-full-final2.txt), [실제 Chrome native playback](web/manual-clip.json), [실제 화면](web/manual-clip.png)을 보존했다. 수동 screenshot은 재생 관찰보다 나중의 자연 종료 화면이며 timing 증거가 아니다.
+수정은 **durable revision이 바뀌면 이전 miss를 무효화**하고 case ID도 cache identity에 포함한다. 이미 읽은 immutable Blob은 다시 읽지 않으며, 저장 대기 중 miss를 영구 파일 실패로 설명하지 않는다. timer retry나 오류 억제가 아니다. [관련 14/14](web/web-reconstruction-fix1.txt), [영상 수정 직후 full](web/web-full-final2.txt), [실제 Chrome native playback](web/manual-clip.json), [실제 화면](web/manual-clip.png)을 보존했다. 수동 screenshot은 재생 관찰보다 나중의 자연 종료 화면이며 timing 증거가 아니다.
 
 ## 6. 깨끗한 실행과 보존 범위
 
 clean detached checkout에서 별도 `npm ci`를 수행했고 `.audit` 없이 기본 병렬성을 유지했다. normal-motion은 `testInfo.outputPath`의 실제 frame JSON과 screenshot을 남긴다. 초기 build/collection/fixture 오류와 이후 수정 실행을 삭제하지 않았다. 잘못 호출한 `npm run build`는 없는 script 오류이며, 실제 정식 `npm run check` 성공과 구분한다.
 
-[artifact index](artifact-index.json)는 11개 실행의 436개 파일, 원본 output → 영구 경로, 원본/공개 SHA-256을 기록한다. 공개 자료에서는 개인 절대경로와 대응 source-map 경로만 정규화했다. trace source/resource 식별자도 일치하게 갱신하고 ZIP CRC·JSON을 검사했다. binary media와 numeric timing/frame payload는 합성·수정하지 않았다. 405개 파일은 byte-identical 복사다. 원본 로컬 자료는 공개 복사본과 별개로 보존했으며 유일한 근거가 아니다.
+[artifact index](artifact-index.json)는 14개 실행의 557개 파일, 원본 output → 영구 경로, 원본/공개 SHA-256을 기록한다. 공개 자료에서는 개인 절대경로와 대응 source-map 경로만 정규화했다. trace source/resource 식별자도 일치하게 갱신하고 ZIP CRC·JSON을 검사했다. binary media와 numeric timing/frame payload는 합성·수정하지 않았다. 525개 파일은 byte-identical 복사다. 이전 공개 실행 그룹은 덮지 않고 세 review 그룹을 추가했다. 변환 프로그램의 이전 source ref와 새 SHA도 index에 보존한다. 원본 로컬 자료는 공개 복사본과 별개로 남겼으며 유일한 근거가 아니다.
 
 최신 전체 실패 13개는 모두 C05 asset 부재이며 숨기지 않는다. [요구별 상태](requirements.json), [검증 입력 지문](source-sha256.json), [검사별 입력 동일성](source-input-relation.json), [실행 원문](run.json)이 최종 판정 근거다. 독립 review와 PR 상태는 실행 결과 문서에 따로 연결한다.
+
+## 7. 독립 리뷰에서 확인한 두 P2와 closure
+
+[초기 독립 Web 리뷰](review/web-initial.json)는 최신 기록 load 동안의 추가 입력 유실과 report save 동안의 근거 선택 유실을 확인했다. B03/B04/B06/B07을 다시 미검증으로 열고 수정했다.
+
+- **WEB-P2-1:** draft 수집부터 async read/adopt까지 기존 voice/photo/review/submission editor를 inert로 잠그고 finally에서 해제한다. reload button도 중복 입력을 막고 loading을 표시한다. normal runtime에서 실제 readonly transaction 완료 전달을 보류하고 native focus/keyboard 입력이 막히는지 확인했다. 최신 durable 내용과 옛 DOM/IME·report draft 및 원본과 동일한 423,804-byte audio recovery를 함께 검증했다. representative는 같은 workspace nodes를 소비함을 독립 source review로 확인했으며 119/긴급 surface는 잠금 밖이다.
+- **WEB-P2-2:** report의 evidence checkbox를 textarea/action과 같은 saving window에서 잠근다. 실제 write 완료 전달을 보류해 포함된 reference가 disabled임을 관찰하고, reload 뒤 durable `sample-front` reference와 8–16초 range가 유지됨을 확인했다.
+
+[수정 직접 회귀 33/33](web/web-targeted-review-fix2.txt), [원시 자료](web/raw/review-targeted/), [최종 full434/447](web/web-full-review.txt), [독립 closure](review/web-closure.json)를 연결한다. 초기 추가 fixture가 저장 전에 자신의 reference를 제외해 checkbox가 사라진 실패도 `review-targeted-initial`에 남겼다. 최종 fixture는 보고된 포함 상태 경로를 유지하며 disabled assertion을 약화하지 않았다. 두 P2는 닫혔지만 C05/E03 부재나 merge를 승인한 것은 아니다.

@@ -1,6 +1,6 @@
 # Contract Reliability Repair — 병렬 구현·검증·머지 계획
 
-작성일: 2026-11-12. 상태: **구현·통합 검증 실행, 필수 신규 음성 부재로 merge 차단**. `[x]`는 해당 작업의 실제 수행을 뜻하며 모든 gate 통과를 뜻하지 않는다. 최신 full432/445·실패13개를 [실행 결과](../results/2026-11-12-contract-reliability-repair.md)에 보존했다. 아래 미완료 asset/review/PR/merge를 완료로 해석하지 않는다.
+작성일: 2026-11-12. 상태: **독립 P2 closure·Draft PR #11 생성, 필수 신규 음성 부재로 merge 차단**. `[x]`는 해당 작업의 실제 수행을 뜻하며 모든 gate 통과를 뜻하지 않는다. 최신 full434/447·실패13개와 직접 회귀33/33을 [실행 결과](../results/2026-11-12-contract-reliability-repair.md)에 보존했다. 미완료 asset/merge를 완료로 해석하지 않는다.
 
 **Goal:** Android 공유 계약, 기록 신뢰성, 상태별 안내, 검증 재현성, 정본 승계를 [상세 스펙](../specs/2026-11-12-contract-reliability-repair-design.md)의 32개 요구에 맞춰 복구한다.
 
@@ -196,8 +196,8 @@ npm run test:ui -- tests/journey-record-reliability.spec.ts tests/journey-save-r
 - [x] browser에서 첫 저장 실패/복구·진술 conflict·100문장 경계·잘못된 음성 수정 경로와 대표 전체 여정을 실제 조작한다. Screenshot만으로 동작을 판정하지 않는다.
 - [x] 차량 2560×1440·1440×810, mobile393×852·360×800, text100/200%, keyboard·reduced motion에서 수정된 surface를 확인한다. 기존 fixed frame·119 core·draft/caret/scroll을 보존한다.
 - [ ] 새 MP3를 ffmpeg로 decode하고 실제 browser playback·상태 변경 취소를 확인한다. 사람 청취를 수행하지 않았다면 해당 한계는 유지한다.
-- [ ] 코드 작성에 참여하지 않은 reviewer가 실제 변경·32개 요구·테스트·증거·권한 경계를 검토한다. 특정 도구를 썼다는 주장만으로 독립 리뷰를 대신하지 않는다.
-- [ ] unresolved blocker/major/high/P1/P2 correctness·data-loss finding을 해결한다. 수정이 있으면 reviewer closure와 영향 gate를 다시 확인한다. 중요한 미해결을 “후속”으로 넘겨 merge하지 않는다.
+- [x] 코드 작성에 참여하지 않은 reviewer가 실제 변경·32개 요구·테스트·증거·권한 경계를 검토한다. 특정 도구를 썼다는 주장만으로 독립 리뷰를 대신하지 않는다.
+- [x] unresolved blocker/major/high/P1/P2 correctness·data-loss finding을 해결한다. 수정이 있으면 reviewer closure와 영향 gate를 다시 확인한다. 중요한 미해결을 “후속”으로 넘겨 merge하지 않는다.
 
 **전체 gate 실패 시:** failed 상태·원문 evidence를 유지하고 causal fix 이후 관련 gate를 다시 수행한다. maximum-duration 전체 실행 실패는 단독 재실행 성공으로 면제하지 않는다.
 

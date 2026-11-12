@@ -1,0 +1,12 @@
+{
+  "scope": "Diagnostic report only; product/tests and authoritative32-ID mapping unchanged.",
+  "initialReport": "checks/integrity-review-initial.json",
+  "incorrectField": {
+    "requirements": 64
+  },
+  "expectedField": {
+    "requirements": 32
+  },
+  "cause": "Document SHA loop reused expected and shadowed the32-ID set with a64-character SHA. Rename loop hash variable; preserve original report and log.",
+  "correctedReport": "integrity.json"
+}

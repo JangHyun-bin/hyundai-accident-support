@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "scope": "contract-reliability-repair",
-  "updatedAt": "2026-11-12T19:16:54.141276+00:00",
-  "finalTestedSourceCommit": "e76c9bcd7a91aa6ebc7dd9925e2840dd3e9e1fe5",
+  "updatedAt": "2026-11-12T20:16:56.781583+00:00",
+  "finalTestedSourceCommit": "2bd7c258187772399bacfe62fdb8b6f3254c642a",
   "mergeAllowed": false,
   "requirements": {
     "A01": {
@@ -20,7 +20,12 @@
         "allElevenSceneControlsAreReachableAndKeepSimulationNotice",
         "everySharedSceneOpensAndSurvivesRealActivityRecreation"
       ],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/native-docs.json"
+        ],
+        "mergeApproval": false
+      }
     },
     "A02": {
       "status": "verified",
@@ -37,7 +42,12 @@
         "checkingUnknownFailureAndResumeNeverResend",
         "lookupUnknownFailureSuspensionAndResumeKeepOriginalIdentityAndOtherAgencies"
       ],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/native-docs.json"
+        ],
+        "mergeApproval": false
+      }
     },
     "A03": {
       "status": "verified",
@@ -53,7 +63,12 @@
       "tests": [
         "suspendedReceiptAndHandoffStaySuspendedUntilResume"
       ],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/native-docs.json"
+        ],
+        "mergeApproval": false
+      }
     },
     "A04": {
       "status": "verified",
@@ -70,7 +85,12 @@
         "receiptAndFactsSurviveNavigationRecreationAndLateUnknown",
         "receiptArrivalAndHandoffAreIndependentAndMonotonicAcrossLateResults"
       ],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/native-docs.json"
+        ],
+        "mergeApproval": false
+      }
     },
     "A05": {
       "status": "verified",
@@ -88,7 +108,12 @@
         "queuedDuplicateApprovalOnlySubmitsOnce",
         "knownReceiptBlocksApprovalEvenWhenReviewProjectionWasSelected"
       ],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/native-docs.json"
+        ],
+        "mergeApproval": false
+      }
     },
     "A06": {
       "status": "verified",
@@ -105,7 +130,12 @@
         "primaryAndSecondaryHaveSeparateBoundsAndBothWork",
         "font200PercentKeepsActionsAndEverySceneControlReachable"
       ],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/native-docs.json"
+        ],
+        "mergeApproval": false
+      }
     },
     "A07": {
       "status": "verified",
@@ -121,7 +151,12 @@
       "tests": [
         "fullSessionScopeApprovalSuspendedResultsAndSurfaceSurviveRecreation"
       ],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/native-docs.json"
+        ],
+        "mergeApproval": false
+      }
     },
     "A08": {
       "status": "verified",
@@ -140,7 +175,12 @@
         "invalidTargetsAgenciesEffectsAndTypesAreDiagnosed",
         "invalidVersionScenarioAndDuplicateIdsAreRejected"
       ],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/native-docs.json"
+        ],
+        "mergeApproval": false
+      }
     },
     "A09": {
       "status": "verified",
@@ -157,30 +197,41 @@
         "satinShaderCompilesOnSupportedApiAndIsNormalFallbackOnApi28",
         "surfaceToggleKeepsSceneAndUsesApiSpecificCapability"
       ],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/native-docs.json"
+        ],
+        "mergeApproval": false
+      }
     },
     "B01": {
       "status": "verified",
       "checks": [
-        "web-full-final2"
+        "web-full-review"
       ],
       "evidence": [
-        "evidence/contract-reliability-repair/web/web-full-final2.txt",
+        "evidence/contract-reliability-repair/web/web-full-review.txt",
         "evidence/contract-reliability-repair/source-input-relation.json"
       ],
       "note": "First failure -> same-screen retry -> same-case URL reload with actual input; no device-switch workaround.",
       "tests": [
         "tests/journey-record-reliability.spec.ts"
       ],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/web-initial.json",
+          "evidence/contract-reliability-repair/review/web-closure.json"
+        ],
+        "mergeApproval": false
+      }
     },
     "B02": {
       "status": "verified",
       "checks": [
-        "web-full-final2"
+        "web-full-review"
       ],
       "evidence": [
-        "evidence/contract-reliability-repair/web/web-full-final2.txt",
+        "evidence/contract-reliability-repair/web/web-full-review.txt",
         "evidence/contract-reliability-repair/source-input-relation.json"
       ],
       "note": "Common durable URL publication and current-id/epoch guard; failed writes are not success.",
@@ -188,46 +239,72 @@
         "tests/journey-record-reliability.spec.ts",
         "tests/journey-save-recovery.spec.ts"
       ],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/web-initial.json",
+          "evidence/contract-reliability-repair/review/web-closure.json"
+        ],
+        "mergeApproval": false
+      }
     },
     "B03": {
       "status": "verified",
       "checks": [
-        "web-full-final2"
+        "web-full-review",
+        "web-targeted-review-fix2"
       ],
       "evidence": [
-        "evidence/contract-reliability-repair/web/web-full-final2.txt",
-        "evidence/contract-reliability-repair/source-input-relation.json"
+        "evidence/contract-reliability-repair/web/web-full-review.txt",
+        "evidence/contract-reliability-repair/source-input-relation.json",
+        "evidence/contract-reliability-repair/review/web-closure.json",
+        "evidence/contract-reliability-repair/web/raw/review-targeted"
       ],
-      "note": "Two-tab latest-statement reload updates editor/review while preserving prior draft recovery.",
+      "note": "Two-tab latest-statement reload updates editor/review while preserving prior draft recovery. Independent P2 closure at 2bd7c258187772399bacfe62fdb8b6f3254c642a: actual held read/write completion proves native editing is locked while pending and draft/references survive.",
       "tests": [
         "tests/journey-record-reliability.spec.ts"
       ],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/web-initial.json",
+          "evidence/contract-reliability-repair/review/web-closure.json"
+        ],
+        "mergeApproval": false,
+        "closedFinding": "WEB-P2-1"
+      }
     },
     "B04": {
       "status": "verified",
       "checks": [
-        "web-full-final2"
+        "web-full-review",
+        "web-targeted-review-fix2"
       ],
       "evidence": [
-        "evidence/contract-reliability-repair/web/web-full-final2.txt",
-        "evidence/contract-reliability-repair/source-input-relation.json"
+        "evidence/contract-reliability-repair/web/web-full-review.txt",
+        "evidence/contract-reliability-repair/source-input-relation.json",
+        "evidence/contract-reliability-repair/review/web-closure.json",
+        "evidence/contract-reliability-repair/web/raw/review-targeted"
       ],
-      "note": "Dirty text, pending native audio and DOM/IME drafts survive unrelated updates/risk; clean identity/revision sync.",
+      "note": "Dirty text, pending native audio and DOM/IME drafts survive unrelated updates/risk; clean identity/revision sync. Independent P2 closure at 2bd7c258187772399bacfe62fdb8b6f3254c642a: actual held read/write completion proves native editing is locked while pending and draft/references survive.",
       "tests": [
         "tests/journey-record-reliability.spec.ts",
         "tests/journey-voice.spec.ts"
       ],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/web-initial.json",
+          "evidence/contract-reliability-repair/review/web-closure.json"
+        ],
+        "mergeApproval": false,
+        "closedFinding": "WEB-P2-1"
+      }
     },
     "B05": {
       "status": "verified",
       "checks": [
-        "web-full-final2"
+        "web-full-review"
       ],
       "evidence": [
-        "evidence/contract-reliability-repair/web/web-full-final2.txt",
+        "evidence/contract-reliability-repair/web/web-full-review.txt",
         "evidence/contract-reliability-repair/source-input-relation.json"
       ],
       "note": "99->100 success, explicit101 rejection, existing edit/delete/readd covered through actual UI.",
@@ -235,53 +312,79 @@
         "tests/journey-record-reliability.spec.ts",
         "tests/journey-report.spec.ts"
       ],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/web-initial.json",
+          "evidence/contract-reliability-repair/review/web-closure.json"
+        ],
+        "mergeApproval": false
+      }
     },
     "B06": {
       "status": "verified",
       "checks": [
-        "web-full-final2"
+        "web-full-review",
+        "web-targeted-review-fix2"
       ],
       "evidence": [
-        "evidence/contract-reliability-repair/web/web-full-final2.txt",
-        "evidence/contract-reliability-repair/source-input-relation.json"
+        "evidence/contract-reliability-repair/web/web-full-review.txt",
+        "evidence/contract-reliability-repair/source-input-relation.json",
+        "evidence/contract-reliability-repair/review/web-closure.json",
+        "evidence/contract-reliability-repair/web/raw/review-targeted"
       ],
-      "note": "Limits/quota/conflict retain editor drafts; Promise commit outcome controls closing and success feedback.",
+      "note": "Limits/quota/conflict retain editor drafts; Promise commit outcome controls closing and success feedback. Independent P2 closure at 2bd7c258187772399bacfe62fdb8b6f3254c642a: actual held read/write completion proves native editing is locked while pending and draft/references survive.",
       "tests": [
         "tests/journey-record-reliability.spec.ts",
         "tests/journey-report.spec.ts",
         "tests/journey-save-recovery.spec.ts"
       ],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/web-initial.json",
+          "evidence/contract-reliability-repair/review/web-closure.json"
+        ],
+        "mergeApproval": false,
+        "closedFinding": "WEB-P2-2"
+      }
     },
     "B07": {
       "status": "verified",
       "checks": [
-        "web-full-final2",
-        "web-reconstruction-fix1"
+        "web-full-review",
+        "web-reconstruction-fix1",
+        "web-targeted-review-fix2"
       ],
       "evidence": [
-        "evidence/contract-reliability-repair/web/web-full-final2.txt",
+        "evidence/contract-reliability-repair/web/web-full-review.txt",
         "evidence/contract-reliability-repair/source-input-relation.json",
         "evidence/contract-reliability-repair/web/web-reconstruction-fix1.txt",
         "evidence/contract-reliability-repair/web/raw/reconstruction-red/journey-reconstruction-jou-67cea-ithout-losing-urgent-drafts/asset-read-commit-boundary.json",
-        "evidence/contract-reliability-repair/web/raw/reconstruction/journey-reconstruction-jou-67cea-ithout-losing-urgent-drafts/asset-read-commit-boundary.json"
+        "evidence/contract-reliability-repair/web/raw/reconstruction/journey-reconstruction-jou-67cea-ithout-losing-urgent-drafts/asset-read-commit-boundary.json",
+        "evidence/contract-reliability-repair/review/web-closure.json",
+        "evidence/contract-reliability-repair/web/raw/review-targeted"
       ],
-      "note": "Approval/media/routing/revision regressions pass. Read-before-commit null cache was causally reproduced and fixed by durable revision invalidation while retaining successful immutable bytes.",
+      "note": "Approval/media/routing/revision regressions pass. Read-before-commit null cache was causally reproduced and fixed by durable revision invalidation while retaining successful immutable bytes. Independent P2 closure at 2bd7c258187772399bacfe62fdb8b6f3254c642a: actual held read/write completion proves native editing is locked while pending and draft/references survive.",
       "tests": [
         "tests/journey-review-fixes.spec.ts",
         "tests/journey-storage.spec.ts",
         "tests/journey-reconstruction.spec.ts"
       ],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/web-initial.json",
+          "evidence/contract-reliability-repair/review/web-closure.json"
+        ],
+        "mergeApproval": false,
+        "closedFinding": "WEB-P2-2"
+      }
     },
     "C01": {
       "status": "blocked",
       "checks": [
-        "web-full-final2"
+        "web-full-review"
       ],
       "evidence": [
-        "evidence/contract-reliability-repair/web/web-full-final2.txt",
+        "evidence/contract-reliability-repair/web/web-full-review.txt",
         "evidence/contract-reliability-repair/source-input-relation.json",
         "evidence/contract-reliability-repair/audio/missing-assets.json"
       ],
@@ -289,15 +392,21 @@
       "tests": [
         "tests/emergency-guidance-state.spec.ts"
       ],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/web-initial.json",
+          "evidence/contract-reliability-repair/review/web-closure.json"
+        ],
+        "mergeApproval": false
+      }
     },
     "C02": {
       "status": "verified",
       "checks": [
-        "web-full-final2"
+        "web-full-review"
       ],
       "evidence": [
-        "evidence/contract-reliability-repair/web/web-full-final2.txt",
+        "evidence/contract-reliability-repair/web/web-full-review.txt",
         "evidence/contract-reliability-repair/source-input-relation.json",
         "evidence/contract-reliability-repair/web/manual-emergency.json"
       ],
@@ -305,15 +414,21 @@
       "tests": [
         "tests/emergency-guidance-state.spec.ts"
       ],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/web-initial.json",
+          "evidence/contract-reliability-repair/review/web-closure.json"
+        ],
+        "mergeApproval": false
+      }
     },
     "C03": {
       "status": "blocked",
       "checks": [
-        "web-full-final2"
+        "web-full-review"
       ],
       "evidence": [
-        "evidence/contract-reliability-repair/web/web-full-final2.txt",
+        "evidence/contract-reliability-repair/web/web-full-review.txt",
         "evidence/contract-reliability-repair/source-input-relation.json",
         "evidence/contract-reliability-repair/web/web-recorder-states-final.txt",
         "evidence/contract-reliability-repair/audio/missing-assets.json"
@@ -322,15 +437,21 @@
       "tests": [
         "tests/emergency-guidance-state.spec.ts"
       ],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/web-initial.json",
+          "evidence/contract-reliability-repair/review/web-closure.json"
+        ],
+        "mergeApproval": false
+      }
     },
     "C04": {
       "status": "verified",
       "checks": [
-        "web-full-final2"
+        "web-full-review"
       ],
       "evidence": [
-        "evidence/contract-reliability-repair/web/web-full-final2.txt",
+        "evidence/contract-reliability-repair/web/web-full-review.txt",
         "evidence/contract-reliability-repair/source-input-relation.json",
         "evidence/contract-reliability-repair/web/manual-native-autoplay.json"
       ],
@@ -340,16 +461,22 @@
         "tests/emergency-urgent.spec.ts",
         "tests/guidance-audio.spec.ts"
       ],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/web-initial.json",
+          "evidence/contract-reliability-repair/review/web-closure.json"
+        ],
+        "mergeApproval": false
+      }
     },
     "C05": {
       "status": "blocked",
       "checks": [
-        "web-full-final2",
+        "web-full-review",
         "audio-offline"
       ],
       "evidence": [
-        "evidence/contract-reliability-repair/web/web-full-final2.txt",
+        "evidence/contract-reliability-repair/web/web-full-review.txt",
         "evidence/contract-reliability-repair/source-input-relation.json",
         "evidence/contract-reliability-repair/audio/authority.json",
         "evidence/contract-reliability-repair/audio/missing-assets.json",
@@ -358,15 +485,21 @@
       ],
       "note": "68 required scripts,64 real existing assets verified. Four required new assets/sidecars absent; no usable existing credentials; zero TTS HTTP calls. Existing64-only decode is not the full gate.",
       "tests": [],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/web-initial.json",
+          "evidence/contract-reliability-repair/review/web-closure.json"
+        ],
+        "mergeApproval": false
+      }
     },
     "C06": {
       "status": "verified",
       "checks": [
-        "web-full-final2"
+        "web-full-review"
       ],
       "evidence": [
-        "evidence/contract-reliability-repair/web/web-full-final2.txt",
+        "evidence/contract-reliability-repair/web/web-full-review.txt",
         "evidence/contract-reliability-repair/source-input-relation.json",
         "evidence/contract-reliability-repair/web/manual-emergency.json",
         "evidence/contract-reliability-repair/web/manual-native-autoplay.json",
@@ -374,47 +507,67 @@
       ],
       "note": "Request identity/approval/submission/countdown invariants tested. No human listening, paid transcription, new charge or permission expansion claimed.",
       "tests": [],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/web-initial.json",
+          "evidence/contract-reliability-repair/review/web-closure.json"
+        ],
+        "mergeApproval": false
+      }
     },
     "E01": {
       "status": "verified",
       "checks": [
-        "web-full-final2"
+        "web-full-review"
       ],
       "evidence": [
-        "evidence/contract-reliability-repair/web/web-full-final2.txt",
+        "evidence/contract-reliability-repair/web/web-full-review.txt",
         "evidence/contract-reliability-repair/source-input-relation.json",
         "evidence/contract-reliability-repair/artifact-index.json",
-        "evidence/contract-reliability-repair/web/raw/full"
+        "evidence/contract-reliability-repair/web/raw/full",
+        "evidence/contract-reliability-repair/web/raw/review-full"
       ],
       "note": "Independent clean npm ci, no .audit precondition/marker, actual normal-motion raw frames and screenshots retained.",
       "tests": [],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/web-initial.json",
+          "evidence/contract-reliability-repair/review/web-closure.json"
+        ],
+        "mergeApproval": false
+      }
     },
     "E02": {
       "status": "verified",
       "checks": [
-        "web-full-final2",
+        "web-full-review",
         "web-encoder-causal",
         "web-recorder-states-final"
       ],
       "evidence": [
-        "evidence/contract-reliability-repair/web/web-full-final2.txt",
+        "evidence/contract-reliability-repair/web/web-full-review.txt",
         "evidence/contract-reliability-repair/source-input-relation.json",
         "evidence/contract-reliability-repair/failure-analysis.md",
         "evidence/contract-reliability-repair/web/encoder-experiment/result.json",
         "evidence/contract-reliability-repair/web/encoder-experiment/experiment.mjs",
         "evidence/contract-reliability-repair/web/raw/full",
-        "evidence/contract-reliability-repair/web/raw/recorder-states"
+        "evidence/contract-reliability-repair/web/raw/recorder-states",
+        "evidence/contract-reliability-repair/web/raw/review-full"
       ],
       "note": "Controlled actual native encoder comparison reproduces empty/error versus ready/decoded/review causal path. Targeted and default-parallel full pass actual recording contracts. Original PR10 unique interleaving remains unavailable and is not claimed.",
       "tests": [],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/web-initial.json",
+          "evidence/contract-reliability-repair/review/web-closure.json"
+        ],
+        "mergeApproval": false
+      }
     },
     "E03": {
       "status": "unmet",
       "checks": [
-        "web-full-final2",
+        "web-full-review",
         "android-api28-fix1",
         "android-api35-fix1",
         "root-check",
@@ -427,17 +580,24 @@
       ],
       "evidence": [
         "evidence/contract-reliability-repair/run.json",
-        "evidence/contract-reliability-repair/web/web-full-final2.txt",
+        "evidence/contract-reliability-repair/web/web-full-review.txt",
         "evidence/contract-reliability-repair/audio/audio-offline.txt"
       ],
-      "note": "Mandatory full is not green:432/445,13 missing-audio failures. No skipped/flaky/retry/timeout/worker reduction is used to hide it.",
+      "note": "Mandatory full is not green:434/447,13 required-audio failures. No skip/flaky/retry/timeout/worker reduction hides it.",
       "tests": [],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/web-initial.json",
+          "evidence/contract-reliability-repair/review/web-closure.json"
+        ],
+        "mergeApproval": false
+      }
     },
     "E04": {
       "status": "verified",
       "checks": [
-        "evidence-copy"
+        "evidence-copy",
+        "evidence-copy-review"
       ],
       "evidence": [
         "evidence/contract-reliability-repair/artifact-index.json",
@@ -446,23 +606,39 @@
         "evidence/contract-reliability-repair/android",
         "evidence/contract-reliability-repair/audio"
       ],
-      "note": "All436 settled runtime outputs across11 runs are preserved for tracked review checkpoint/PR publication.405 byte-identical copies; explicit path/source-map normalization with both SHA values for changed files. Early missing inline-body JSON is disclosed.",
+      "note": "557 runtime files across14 settled runs preserved,525 byte-identical. Original11 groups are immutable;3 review groups appended. Copier history/original-public hashes retained; declared path-only normalization; early inline-body omission disclosed.",
       "tests": [],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/web-initial.json",
+          "evidence/contract-reliability-repair/review/web-closure.json"
+        ],
+        "mergeApproval": false
+      }
     },
     "E05": {
       "status": "implemented-unverified",
       "checks": [
-        "source-inputs-final"
+        "source-inputs-review"
       ],
       "evidence": [
         "evidence/contract-reliability-repair/source-sha256.json",
         "evidence/contract-reliability-repair/source-input-relation.json",
-        "evidence/contract-reliability-repair/requirements.json"
+        "evidence/contract-reliability-repair/requirements.json",
+        "evidence/contract-reliability-repair/review/native-docs.json",
+        "evidence/contract-reliability-repair/review/web-initial.json",
+        "evidence/contract-reliability-repair/review/web-closure.json",
+        "evidence/contract-reliability-repair/github-pr-created.json"
       ],
-      "note": "410 final inputs match tested checkout. Prior applicable gate inputs and protected base inputs match. Independent review checkpoint and exact published PR head still pending; merge target does not yet exist.",
+      "note": "Final410 inputs match executed candidate; root/native/audio scopes unchanged. Whole review e9a463f plus independent code-delta closure2bd7c25 recorded. Draft PR11 created; final published metadata head observation still pending.",
       "tests": [],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/web-initial.json",
+          "evidence/contract-reliability-repair/review/web-closure.json"
+        ],
+        "mergeApproval": false
+      }
     },
     "D01": {
       "status": "verified",
@@ -474,7 +650,12 @@
       ],
       "note": "Visual contract is explicitly a current-implementation reconstruction with provenance and unavailable original approval, not an invented approved original.",
       "tests": [],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/native-docs.json"
+        ],
+        "mergeApproval": false
+      }
     },
     "D02": {
       "status": "verified",
@@ -485,7 +666,12 @@
       ],
       "note": "Current README/design/source/voice documents distinguish routes, bounded/document layouts, native SC05, local persistence, static guidance and real recorder scripts.",
       "tests": [],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/native-docs.json"
+        ],
+        "mergeApproval": false
+      }
     },
     "D03": {
       "status": "verified",
@@ -496,7 +682,12 @@
       ],
       "note": "Historical PASS, unstarted-plan language, human-listening checkbox and missing Satin link have dated corrections/current successors; old evidence is not relabeled.",
       "tests": [],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/native-docs.json"
+        ],
+        "mergeApproval": false
+      }
     },
     "D04": {
       "status": "verified",
@@ -507,19 +698,29 @@
       ],
       "note": "Original five goals, every enumerated subitem/process/completion criterion are separately mapped. New global movie, physical vehicle and human assessment remain unmet/unverified.",
       "tests": [],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/native-docs.json"
+        ],
+        "mergeApproval": false
+      }
     },
     "D05": {
       "status": "verified",
       "checks": [
-        "document-links"
+        "document-links-review-final"
       ],
       "evidence": [
         "evidence/contract-reliability-repair/document-links.json"
       ],
-      "note": "Nineteen authored/changed documents,149 local links/anchors,zero failures. Historical missing references are disclosed.",
+      "note": "Nineteen authored/changed documents,163 local links/anchors,zero failures at this checkpoint. Historical absences disclosed; final status-only updates are refreshed separately.",
       "tests": [],
-      "reviewClosure": "Independent whole-change review pending; not an approval or merge authorization."
+      "reviewClosure": {
+        "reports": [
+          "evidence/contract-reliability-repair/review/native-docs.json"
+        ],
+        "mergeApproval": false
+      }
     }
   },
   "counts": {

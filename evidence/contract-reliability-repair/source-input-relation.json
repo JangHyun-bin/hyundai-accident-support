@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "createdAt": "2026-11-12T19:05:03.968824+00:00",
-  "finalTestedSourceCommit": "e76c9bcd7a91aa6ebc7dd9925e2840dd3e9e1fe5",
-  "sourceManifestSha256": "f7eea26d542612626219e0e4624bb98deed41a0d85c3e57d3ef8810a4d507931",
+  "createdAt": "2026-11-12T19:59:39.370169+00:00",
+  "finalTestedSourceCommit": "2bd7c258187772399bacfe62fdb8b6f3254c642a",
+  "sourceManifestSha256": "bd915f03442699a5c24cd08864643b2cf22583e1a17706a5e0673bc68cdef27f",
   "sourceFiles": 410,
   "initialCheckpoint": "17a4d50f3f92222ffef36b9d2cf9d19149cf81ec",
   "changedSinceInitial": [
@@ -13,6 +13,7 @@
     "prototype/web/src/emergency/guidance.ts",
     "prototype/web/src/journey/JourneyReviewPanel.tsx",
     "prototype/web/src/journey/JourneyStudy.tsx",
+    "prototype/web/src/journey/ReportPanel.tsx",
     "prototype/web/tests/emergency-guidance-state.spec.ts",
     "prototype/web/tests/emergency-urgent.spec.ts",
     "prototype/web/tests/emergency.spec.ts",
@@ -152,11 +153,11 @@
     },
     {
       "scope": "web",
-      "testedCommit": "e76c9bcd7a91aa6ebc7dd9925e2840dd3e9e1fe5",
+      "testedCommit": "2bd7c258187772399bacfe62fdb8b6f3254c642a",
       "gates": [
-        "web-build-clean-final2",
-        "web-full-final2",
-        "web-reconstruction-fix1"
+        "web-build-clean-review",
+        "web-full-review",
+        "web-targeted-review-fix2"
       ],
       "inputCount": 392,
       "inputPaths": [
@@ -625,5 +626,23 @@
     "differences": [],
     "scopeNote": "ResponseLayoutPreview.tsx is the explicitly authorized C guidance/cue caller, not a preset/token definition; it is not claimed unchanged."
   },
-  "evidenceCommitPolicy": "Later documentation/evidence-only checkpoints are not claimed as executed source. Exact review and PR heads are recorded separately in review reports and permanent PR metadata."
+  "evidenceCommitPolicy": "Later documentation/evidence-only checkpoints are not claimed as executed source. Exact review and PR heads are recorded separately in review reports and permanent PR metadata.",
+  "reviewCoverage": {
+    "wholeChangeBase": "2ed19146d500882fd11211f65b660f91336015eb",
+    "wholeChangeReviewedCheckpoint": "e9a463f66400e9d5f51465336e5069695bd37fb7",
+    "closureReviewedSourceCommit": "2bd7c258187772399bacfe62fdb8b6f3254c642a",
+    "reviewedSourceDeltaPaths": [
+      "prototype/web/src/journey/JourneyStudy.tsx",
+      "prototype/web/src/journey/JourneyReviewPanel.tsx",
+      "prototype/web/src/journey/ReportPanel.tsx",
+      "prototype/web/tests/journey-record-reliability.spec.ts"
+    ],
+    "reports": [
+      "evidence/contract-reliability-repair/review/native-docs.json",
+      "evidence/contract-reliability-repair/review/web-initial.json",
+      "evidence/contract-reliability-repair/review/web-closure.json"
+    ],
+    "remainingImportantCodeFindings": [],
+    "finalMetadataHeadBinding": "Exact final PR head/base and source hash recorded after publication in permanent PR body/comment; no recursive self-commit SHA claim."
+  }
 }

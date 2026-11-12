@@ -8,6 +8,7 @@ import re
 import shutil
 import tempfile
 import zipfile
+import sys
 
 ROOT = Path.cwd()
 CLEAN = Path('/tmp/hyundai-contract-repair/clean')
@@ -26,6 +27,13 @@ RUNS = [
  ('reconstruction', ROOT / 'prototype/web/test-results/repair-reconstruction-fix1', 'web-reconstruction-fix1'),
  ('full', CLEAN / 'prototype/web/test-results/repair-full-final2', 'web-full-final2'),
 ]
+APPEND = '--append-review' in sys.argv[1:]
+if APPEND:
+    RUNS = [
+        ('review-targeted-initial', ROOT / 'prototype/web/test-results/repair-review-targeted', 'web-targeted-review-fix1'),
+        ('review-targeted', ROOT / 'prototype/web/test-results/repair-review-targeted-fixed', 'web-targeted-review-fix2'),
+        ('review-full', CLEAN / 'prototype/web/test-results/repair-review-full', 'web-full-review'),
+    ]
 RULES = [(str(ROOT), '$REPO'), (str(Path.home()), '$HOME')]
 MAP = re.compile(r'data:application/json(?:;charset=[^;,]+)?;base64,([A-Za-z0-9+/=]+)')
 
@@ -116,15 +124,25 @@ def publish_zip(source, destination):
             assert normalize(verify.read(info))[1] == 0
     return total, changes
 
+previous = None
 if DESTINATION.exists():
-    raise SystemExit('Refusing to overwrite published raw evidence')
+    if not APPEND:
+        raise SystemExit('Refusing to overwrite published raw evidence')
+    previous = json.loads((EVIDENCE / 'artifact-index.json').read_text())
+elif APPEND:
+    raise SystemExit('Append requires the preserved initial artifact index')
 commands = {entry['id']: entry for entry in json.loads((EVIDENCE / 'run.json').read_text())['commands']}
-files, runs = [], []
+files = list(previous['files']) if previous else []
+runs = list(previous['runs']) if previous else []
+if previous:
+    for run in runs:
+        run.setdefault('copierSha256', previous['copierSha256'])
 with tempfile.TemporaryDirectory(prefix='contract-evidence-') as temporary:
     stage = Path(temporary) / 'raw'
     stage.mkdir()
     for name, source, gate in RUNS:
         if not source.is_dir(): raise RuntimeError('Missing completed output: ' + name)
+        if (DESTINATION / name).exists(): raise RuntimeError('Refusing to overwrite immutable run: ' + name)
         command = commands[gate]
         if command['status'] not in {'passed', 'failed'}: raise RuntimeError('Run not settled: ' + gate)
         base = '$REPO/' + str(source.relative_to(ROOT)) if source.is_relative_to(ROOT) else '$CLEAN/' + str(source.relative_to(CLEAN))
@@ -142,9 +160,22 @@ with tempfile.TemporaryDirectory(prefix='contract-evidence-') as temporary:
                 entries = []
             public = destination.read_bytes()
             files.append({'run': name, 'originalOutput': base + '/' + str(source_file.relative_to(source)), 'path': 'evidence/contract-reliability-repair/web/raw/' + str(relative), 'originalSha256': sha(original), 'sha256': sha(public), 'bytes': len(public), 'pathRedactions': redactions, 'zipEntryChanges': entries})
-    shutil.copytree(stage, DESTINATION)
+    if APPEND:
+        for group in stage.iterdir():
+            shutil.copytree(group, DESTINATION / group.name)
+    else:
+        shutil.copytree(stage, DESTINATION)
 program = Path(__file__).read_bytes()
+if previous:
+    assert sha((EVIDENCE / 'artifact-copy.py').read_bytes()) == previous['copierSha256'], 'Published copier changed unexpectedly'
 (EVIDENCE / 'artifact-copy.py').write_bytes(program)
 report = {'schemaVersion': 1, 'copiedAt': datetime.datetime.now(datetime.timezone.utc).isoformat(), 'copierSha256': sha(program), 'policy': 'Retain every settled runtime output. Personal absolute repo/home paths and matching embedded JSON source maps are replaced by $REPO/$HOME; Playwright source-path and changed resource identifiers are renamed consistently. Numeric timing/frame payloads and binary media are not synthesized or edited. Original local output is not deleted. Unchanged archives are copied byte-for-byte.', 'legacyInlineAttachments': 'Early dot-reporter runs did not materialize inline-body attachments. Their output is retained as observed, without inventing missing JSON. The final recorder helper writes named raw JSON before attaching.', 'runs': runs, 'files': files}
+history = previous.get('copierHistory', [{'sha256': previous['copierSha256'], 'sourceRef': 'e9a463f66400e9d5f51465336e5069695bd37fb7:evidence/contract-reliability-repair/artifact-copy.py'}]) if previous else []
+history.append({'sha256': sha(program), 'path': 'evidence/contract-reliability-repair/artifact-copy.py', 'mode': '--append-review' if APPEND else 'initial'})
+report['schemaVersion'] = 2
+report['copierHistory'] = history
+report['latestRun'] = 'review-full' if APPEND else 'full'
+for run in report['runs']:
+    run.setdefault('copierSha256', sha(program))
 (EVIDENCE / 'artifact-index.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n')
 print(json.dumps({'runs': len(runs), 'files': len(files), 'bytes': sum(item['bytes'] for item in files), 'pathRedactions': sum(item['pathRedactions'] for item in files), 'exactCopies': sum(item['sha256'] == item['originalSha256'] for item in files)}, indent=2))

@@ -22,10 +22,10 @@
 | 범위 | 요구 | 현재 상태 | 직접 확인/남은 조건 |
 |---|---|---|---|
 | Android 공유 계약 | A01–A09 | verified | 현재 입력과 동일한 native source로 실제 API28/API35 각각41/41. SC05 전체11-state·effect·승인·복수 action·recreation; native SC01–04 UI는 범위 밖 |
-| 기록 신뢰성 | B01–B07 | verified | 실제 Chromium URL·2탭·IME·100/101·복구·승인 회귀. 영상 commit/read 결함의 통제 회귀 포함14/14 및 최신 full 해당 경로 통과 |
+| 기록 신뢰성 | B01–B07 | verified | URL·2탭·IME·100/101·복구·승인 회귀와 영상14/14. 독립 P2 두 건 수정 후33/33·최신 full 해당 경로 통과 및 독립 closure |
 | 상태별 음성 | C01–C06 | blocked | resolver·UI·취소·거절·countdown 회귀 실행. 신규4개/251 codepoint의 실제 MP3 부재; 기존64개 decode만으로 완료 아님 |
-| 재현성·원인·증거 | E01–E05 | implemented-unverified | `.audit` 없는 clean 설치·native encoder 인과 실험·기본5-worker full·원시436개 보존. full432/445는 음성 누락13실패이므로 E03 미충족; review/PR 관계 확정 필요 |
-| 정본·문서 승계 | D01–D05 | verified | 원문 승인 미확보를 명시한 재구성·현재 문서·전역 goal 추적. 작성/변경19문서의 로컬149링크/anchor 검사0실패; 독립 whole-change review는 별도 gate |
+| 재현성·원인·증거 | E01–E05 | implemented-unverified | `.audit` 없는 clean 설치·native encoder 인과 실험·기본5-worker full·원시557개/14실행 보존. full434/447의 음성 누락13실패로 E03 미충족; 정확한 최종 PR head는 별도 원격 관찰 |
+| 정본·문서 승계 | D01–D05 | verified | 원문 승인 미확보를 명시한 재구성·현재 문서·전역 goal 추적. 최종 로컬 링크·anchor와 문서 지문은 [검사 JSON](../../evidence/contract-reliability-repair/document-links.json)에서 추적 |
 
 미충족 사항을 명시한 draft PR은 생성할 수 있다. merge는 32개 요구를 모두 충족한 경우에만 허용하며 현재 merge 완료 증거는 없다.
 
@@ -48,7 +48,7 @@
 | G3.2 차량·통화·map·대피·요청·입력·저장·보험 전달 연결 | JourneyFlow·JourneyStudy·EmergencySurface·panel 모듈 | implemented-unverified. 실제 기관·차량 API 없음 |
 | G3.3 화면별 독립 skin 대신 공용 token/component 사용 | `src/components/ui/after-care*`, catalog/product imports | implemented-unverified |
 | G4.1 repo 전체 화면·상태·분기 inventory와 구현 대조 | `inventory.md`, 공유60-state·journey8-fixture, 이번32개 요구 표 | historical + implemented-unverified. 최신 수치와 실행은 연결했으나 과거 PASS 전체를 최신 통과로 전환하지 않음 |
-| G4.2 대표 flow 검증 뒤 전체 적용 | 최신432/445 full·managed Chrome 기록 저장/거절/영상 관찰, 과거 complete-journey | implemented-unverified. 남은13실패는 실제 음성 누락; 전역 전체 완료 아님 |
+| G4.2 대표 flow 검증 뒤 전체 적용 | 최신434/447 full·managed Chrome 기록 저장/거절/영상 관찰, 과거 complete-journey | implemented-unverified. 남은13실패는 실제 음성 누락; 전역 전체 완료 아님 |
 | G4.3 정상/미확인/대기/실패/재시도/취소/복귀·voice 시작/입력/확인/저장 | Session·JourneyCase·실제 recorder targeted/full·인과 분석 | verified: 이번 prototype 회귀 범위. 과거 실패의 유일한 interleaving이나 실제 외부 시스템 완료를 주장하지 않음 |
 | G4.4 긴 한국어·크기 변화·keyboard·reduced motion·rendering 비용 | 최신 full의 layout/IME/visual·native font100/200 검사, raw frame JSON; 과거 rendering-measurement | implemented-unverified. 실차 GPU·물리 target·OS IME 후보창은 미평가 |
 | G4.5 통화·접수·현장 도착 구별 | 기관별 requests/facts·approval 모델, 실제 native41/41×2와 Web full의 상태 회귀 | verified: prototype 계약. 도착/인계를 발명하지 않고 실제 API와 구별 |
@@ -67,7 +67,7 @@
 | 기존 사용자 변경·preset 보존·기존 공용 구조 우선 | preflight·ownership·source-input-relation의 기준 대비 보호 입력60개 동일 | verified: 원본 board/archive/assets·공유 manifest·보호한 token/preset. 허용된 preview guidance 수정은 별도 표시 |
 | 승인 B 방향·제품 목적을 지키며 불필요한 승인 대기 없이 진행 | 병렬 A/B/C/E + 통합 D, 현행 시각 기준과 원문 승인 미확보 구분 | implemented-unverified. 실행은 진행했으나 새 디자인 승인이나 미확보 원문 승인을 발명하지 않음 |
 | 실제 browser 확인·필요 검증 | 최신 Chromium UI suite·managed Chrome 관찰·실제 Android XML/화면 | implemented-unverified. 명시한 조작 범위는 실행, 전체 gate와 신규 음성은 미충족 |
-| 작업 branch checkpoint·최종 PR·별도 지시 범위 merge | 사용자 query·branch `fix/contract-reliability-repair`, 실행 commit e76c9bc | implemented-unverified: 독립 리뷰/PR 준비 중, merge 금지 |
+| 작업 branch checkpoint·최종 PR·별도 지시 범위 merge | 실행 source2bd7c25·독립 리뷰와 P2 closure·[Draft PR #11](https://github.com/JangHyun-bin/hyundai-accident-support/pull/11) | blocked: PR 생성, merge 미실시. 신규 음성과 전체 gate 미충족으로 merge 금지 |
 | catalog와 제품의 동일 구현 | 공용 import·catalog | implemented-unverified: 현재 gate 필요 |
 | 정의된 전체 scenario 구현·검증 추적 | inventory + 32요구와 별도 전역 표 | implemented-unverified: 과거/현재 scope 분리 |
 | localhost 실제 조작 가능 | managed Chrome으로 진술 저장/reload·SC04 거절·native 영상 재생 관찰 | verified: 관찰 JSON·PNG는 repair 결과 문서에서 연결. 설치만으로 확인한 것이 아님 |

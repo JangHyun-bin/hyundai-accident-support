@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-12T19:22:15.263652+00:00",
+  "repository": "JangHyun-bin/hyundai-accident-support",
+  "policy": {
+    "default_branch": "main",
+    "allow_squash_merge": true,
+    "allow_merge_commit": true,
+    "allow_rebase_merge": true,
+    "archived": false,
+    "permissions": {
+      "admin": true,
+      "maintain": true,
+      "push": true,
+      "triage": true,
+      "pull": true
+    }
+  },
+  "mainSha": "2ed19146d500882fd11211f65b660f91336015eb",
+  "protection": {
+    "exitStatus": 1,
+    "body": {
+      "message": "Branch not protected",
+      "documentation_url": "https://docs.github.com/rest/branches/branch-protection#get-branch-protection",
+      "status": "404"
+    }
+  },
+  "rulesets": {
+    "exitStatus": 0,
+    "body": []
+  },
+  "existingFeatureRef": {
+    "exitStatus": 1,
+    "body": {
+      "message": "Not Found",
+      "documentation_url": "https://docs.github.com/rest/git/refs#get-a-reference",
+      "status": "404"
+    }
+  },
+  "existingOwnedPrs": {
+    "exitStatus": 0,
+    "body": []
+  },
+  "localReviewHead": "e9a463f66400e9d5f51465336e5069695bd37fb7",
+  "mergeAllowed": false,
+  "reason": "Mandatory new audio assets and full gate unmet; draft PR only.",
+  "repositoryLookup": {
+    "endpoint": "repos/JangHyun-bin/hyundai-accident-support",
+    "exitStatus": 0,
+    "observedAt": "2026-11-12T19:24:07.222834+00:00",
+    "correction": "Initial helper used a trailing slash for repository metadata; all other endpoint results are retained, not inferred."
+  }
+}

@@ -1,7 +1,7 @@
 {
-  "schemaVersion": 1,
-  "copiedAt": "2026-11-12T19:00:03.129501+00:00",
-  "copierSha256": "9b92ab35580eb9f9a96113ec324f6f96396cab9d7a652440f9b561ff88d559d5",
+  "schemaVersion": 2,
+  "copiedAt": "2026-11-12T19:59:38.899116+00:00",
+  "copierSha256": "9068d45969428fa66df1e794a18880f08dc310251bd129d63fb28a0cdebf058b",
   "policy": "Retain every settled runtime output. Personal absolute repo/home paths and matching embedded JSON source maps are replaced by $REPO/$HOME; Playwright source-path and changed resource identifiers are renamed consistently. Numeric timing/frame payloads and binary media are not synthesized or edited. Original local output is not deleted. Unchanged archives are copied byte-for-byte.",
   "legacyInlineAttachments": "Early dot-reporter runs did not materialize inline-body attachments. Their output is retained as observed, without inventing missing JSON. The final recorder helper writes named raw JSON before attaching.",
   "runs": [
@@ -10,77 +10,112 @@
       "gate": "web-targeted-fix2",
       "testedCommit": "65518e241aaa1235bd15b1bdd80a1aa55f15abd2",
       "originalOutput": "$REPO/prototype/web/test-results/repair-targeted-fix2",
-      "publicOutput": "evidence/contract-reliability-repair/web/raw/targeted-first"
+      "publicOutput": "evidence/contract-reliability-repair/web/raw/targeted-first",
+      "copierSha256": "9b92ab35580eb9f9a96113ec324f6f96396cab9d7a652440f9b561ff88d559d5"
     },
     {
       "name": "targeted",
       "gate": "web-targeted-fix3",
       "testedCommit": "800a9e34adea14ae49b315ff569bcef3de0bfe35",
       "originalOutput": "$REPO/prototype/web/test-results/repair-targeted-fix3",
-      "publicOutput": "evidence/contract-reliability-repair/web/raw/targeted"
+      "publicOutput": "evidence/contract-reliability-repair/web/raw/targeted",
+      "copierSha256": "9b92ab35580eb9f9a96113ec324f6f96396cab9d7a652440f9b561ff88d559d5"
     },
     {
       "name": "full-initial",
       "gate": "web-full-clean",
       "testedCommit": "2a5dea5e992814a96c5e3cf19595f2691f07eb54",
       "originalOutput": "$CLEAN/prototype/web/test-results/repair-full-clean",
-      "publicOutput": "evidence/contract-reliability-repair/web/raw/full-initial"
+      "publicOutput": "evidence/contract-reliability-repair/web/raw/full-initial",
+      "copierSha256": "9b92ab35580eb9f9a96113ec324f6f96396cab9d7a652440f9b561ff88d559d5"
     },
     {
       "name": "countdown",
       "gate": "web-countdown-fix1",
       "testedCommit": "f47252a401ebcb0993b8a49508864d410bbc4116",
       "originalOutput": "$CLEAN/prototype/web/test-results/repair-countdown-fix1",
-      "publicOutput": "evidence/contract-reliability-repair/web/raw/countdown"
+      "publicOutput": "evidence/contract-reliability-repair/web/raw/countdown",
+      "copierSha256": "9b92ab35580eb9f9a96113ec324f6f96396cab9d7a652440f9b561ff88d559d5"
     },
     {
       "name": "full-before-attachments",
       "gate": "web-full-clean-fix1",
       "testedCommit": "f47252a401ebcb0993b8a49508864d410bbc4116",
       "originalOutput": "$CLEAN/prototype/web/test-results/repair-full-clean-fix1",
-      "publicOutput": "evidence/contract-reliability-repair/web/raw/full-before-attachments"
+      "publicOutput": "evidence/contract-reliability-repair/web/raw/full-before-attachments",
+      "copierSha256": "9b92ab35580eb9f9a96113ec324f6f96396cab9d7a652440f9b561ff88d559d5"
     },
     {
       "name": "recorder-states",
       "gate": "web-recorder-states-final",
       "testedCommit": "e7c34674a6f2cd190a5ee1727080f1db3527f365",
       "originalOutput": "$CLEAN/prototype/web/test-results/repair-recorder-states-final",
-      "publicOutput": "evidence/contract-reliability-repair/web/raw/recorder-states"
+      "publicOutput": "evidence/contract-reliability-repair/web/raw/recorder-states",
+      "copierSha256": "9b92ab35580eb9f9a96113ec324f6f96396cab9d7a652440f9b561ff88d559d5"
     },
     {
       "name": "full-before-clip-fix",
       "gate": "web-full-final",
       "testedCommit": "e7c34674a6f2cd190a5ee1727080f1db3527f365",
       "originalOutput": "$CLEAN/prototype/web/test-results/repair-full-final",
-      "publicOutput": "evidence/contract-reliability-repair/web/raw/full-before-clip-fix"
+      "publicOutput": "evidence/contract-reliability-repair/web/raw/full-before-clip-fix",
+      "copierSha256": "9b92ab35580eb9f9a96113ec324f6f96396cab9d7a652440f9b561ff88d559d5"
     },
     {
       "name": "reconstruction-setup",
       "gate": "web-reconstruction-causal-red",
       "testedCommit": "fdda2d47973525033441ab257ba1cd73f9738894",
       "originalOutput": "$REPO/prototype/web/test-results/repair-reconstruction-causal-red",
-      "publicOutput": "evidence/contract-reliability-repair/web/raw/reconstruction-setup"
+      "publicOutput": "evidence/contract-reliability-repair/web/raw/reconstruction-setup",
+      "copierSha256": "9b92ab35580eb9f9a96113ec324f6f96396cab9d7a652440f9b561ff88d559d5"
     },
     {
       "name": "reconstruction-red",
       "gate": "web-reconstruction-causal-red2",
       "testedCommit": "9732dac7ed9605241a38aa5ef3c54c2d8146098a",
       "originalOutput": "$REPO/prototype/web/test-results/repair-reconstruction-causal-red2",
-      "publicOutput": "evidence/contract-reliability-repair/web/raw/reconstruction-red"
+      "publicOutput": "evidence/contract-reliability-repair/web/raw/reconstruction-red",
+      "copierSha256": "9b92ab35580eb9f9a96113ec324f6f96396cab9d7a652440f9b561ff88d559d5"
     },
     {
       "name": "reconstruction",
       "gate": "web-reconstruction-fix1",
       "testedCommit": "e76c9bcd7a91aa6ebc7dd9925e2840dd3e9e1fe5",
       "originalOutput": "$REPO/prototype/web/test-results/repair-reconstruction-fix1",
-      "publicOutput": "evidence/contract-reliability-repair/web/raw/reconstruction"
+      "publicOutput": "evidence/contract-reliability-repair/web/raw/reconstruction",
+      "copierSha256": "9b92ab35580eb9f9a96113ec324f6f96396cab9d7a652440f9b561ff88d559d5"
     },
     {
       "name": "full",
       "gate": "web-full-final2",
       "testedCommit": "e76c9bcd7a91aa6ebc7dd9925e2840dd3e9e1fe5",
       "originalOutput": "$CLEAN/prototype/web/test-results/repair-full-final2",
-      "publicOutput": "evidence/contract-reliability-repair/web/raw/full"
+      "publicOutput": "evidence/contract-reliability-repair/web/raw/full",
+      "copierSha256": "9b92ab35580eb9f9a96113ec324f6f96396cab9d7a652440f9b561ff88d559d5"
+    },
+    {
+      "name": "review-targeted-initial",
+      "gate": "web-targeted-review-fix1",
+      "testedCommit": "2f21772da358ef568a88738115e272f70ab3116e",
+      "originalOutput": "$REPO/prototype/web/test-results/repair-review-targeted",
+      "publicOutput": "evidence/contract-reliability-repair/web/raw/review-targeted-initial",
+      "copierSha256": "9068d45969428fa66df1e794a18880f08dc310251bd129d63fb28a0cdebf058b"
+    },
+    {
+      "name": "review-targeted",
+      "gate": "web-targeted-review-fix2",
+      "testedCommit": "2bd7c258187772399bacfe62fdb8b6f3254c642a",
+      "originalOutput": "$REPO/prototype/web/test-results/repair-review-targeted-fixed",
+      "publicOutput": "evidence/contract-reliability-repair/web/raw/review-targeted",
+      "copierSha256": "9068d45969428fa66df1e794a18880f08dc310251bd129d63fb28a0cdebf058b"
+    },
+    {
+      "name": "review-full",
+      "gate": "web-full-review",
+      "testedCommit": "2bd7c258187772399bacfe62fdb8b6f3254c642a",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full",
+      "publicOutput": "evidence/contract-reliability-repair/web/raw/review-full",
+      "copierSha256": "9068d45969428fa66df1e794a18880f08dc310251bd129d63fb28a0cdebf058b"
     }
   ],
   "files": [
@@ -5685,6 +5720,1271 @@
       "bytes": 9322,
       "pathRedactions": 0,
       "zipEntryChanges": []
+    },
+    {
+      "run": "review-targeted-initial",
+      "originalOutput": "$REPO/prototype/web/test-results/repair-review-targeted/.last-run.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-targeted-initial/.last-run.json",
+      "originalSha256": "3b0bbb8070c8b5bff5311781cdcddeaa3cf43e2852a43f920853fcb98819156e",
+      "sha256": "3b0bbb8070c8b5bff5311781cdcddeaa3cf43e2852a43f920853fcb98819156e",
+      "bytes": 96,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-targeted-initial",
+      "originalOutput": "$REPO/prototype/web/test-results/repair-review-targeted/journey-record-reliability-97343--and-retain-it-after-reload/error-context.md",
+      "path": "evidence/contract-reliability-repair/web/raw/review-targeted-initial/journey-record-reliability-97343--and-retain-it-after-reload/error-context.md",
+      "originalSha256": "0a0ef41df9540d6e9d2a1720fd006399dcc1c3b20fb102162dc3708bc4b207f7",
+      "sha256": "0a0ef41df9540d6e9d2a1720fd006399dcc1c3b20fb102162dc3708bc4b207f7",
+      "bytes": 14167,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-targeted-initial",
+      "originalOutput": "$REPO/prototype/web/test-results/repair-review-targeted/journey-record-reliability-97343--and-retain-it-after-reload/trace.zip",
+      "path": "evidence/contract-reliability-repair/web/raw/review-targeted-initial/journey-record-reliability-97343--and-retain-it-after-reload/trace.zip",
+      "originalSha256": "2a1df0f8d17e0ed01bd3e8f1827e1bb018372e68afbc4cfde7d3dd874bd7e8b8",
+      "sha256": "9685a06edc59c247587c8def3bd3ed1a3c83e59670d53aa35ed60c8f4141d677",
+      "bytes": 2563590,
+      "pathRedactions": 38,
+      "zipEntryChanges": [
+        {
+          "entry": "src/78bfe79faa4f05f438ea1274634477d56c6f56d4.ts",
+          "publicEntry": "src/cfb5201720b6ab14fab20c4da1d6880a5ad824c1.ts",
+          "pathRedactions": 0,
+          "originalSha256": "547f20cdf91f67148e21ee965b32c1fa8718895317b45b4afbdcdf22396857e8",
+          "sha256": "547f20cdf91f67148e21ee965b32c1fa8718895317b45b4afbdcdf22396857e8"
+        },
+        {
+          "entry": "test.trace",
+          "publicEntry": "test.trace",
+          "pathRedactions": 28,
+          "originalSha256": "d2f30823ccf93c642464e8f267af7b23473d34bca3d09e622079344099690c77",
+          "sha256": "4859ddc873cf7538c2a86c78be5beac5db074030cdb5ee616da9efed3de534ed"
+        },
+        {
+          "entry": "1-trace.trace",
+          "publicEntry": "1-trace.trace",
+          "pathRedactions": 4,
+          "originalSha256": "92569149be5e52d5881129a8de55be9c780dfbcfb8857894f96227116b07ec6a",
+          "sha256": "e82a777fdc29f2ce4da5f61a9de9e73a47331ea7c8911ed4b068a4cd3f2f065f"
+        },
+        {
+          "entry": "1-trace.network",
+          "publicEntry": "1-trace.network",
+          "pathRedactions": 4,
+          "originalSha256": "bf853e03f1edea1c8ce19589f3355502c30c9125369a77fccc4ba1b9d9a218a2",
+          "sha256": "abf7f5632a33f5f7c53b9b8e74e7390ac2e5d1a0b2e0479cdd1a24c7c8dc3da5"
+        },
+        {
+          "entry": "1-trace.stacks",
+          "publicEntry": "1-trace.stacks",
+          "pathRedactions": 1,
+          "originalSha256": "4042cb3c1972404f697c2e4c4bf54188b2d5188e72e58caa6fc39b57c00707a2",
+          "sha256": "57bafb0d8195be189328ba80fe45393335d63b21993d7fe0da4aabf942ba6fdc"
+        },
+        {
+          "entry": "0-trace.stacks",
+          "publicEntry": "0-trace.stacks",
+          "pathRedactions": 1,
+          "originalSha256": "4042cb3c1972404f697c2e4c4bf54188b2d5188e72e58caa6fc39b57c00707a2",
+          "sha256": "57bafb0d8195be189328ba80fe45393335d63b21993d7fe0da4aabf942ba6fdc"
+        }
+      ]
+    },
+    {
+      "run": "review-targeted-initial",
+      "originalOutput": "$REPO/prototype/web/test-results/repair-review-targeted/journey-record-reliability-b1799-d-preserves-the-prior-draft/attachments/reload-report-boundary-d5ab70b3c13054c73a0dd49cfe84002ac37219e4.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-targeted-initial/journey-record-reliability-b1799-d-preserves-the-prior-draft/attachments/reload-report-boundary-d5ab70b3c13054c73a0dd49cfe84002ac37219e4.json",
+      "originalSha256": "154d327d4fa560704e034a9f13193bbe290d75c0934f2d946fd567c1982864d3",
+      "sha256": "154d327d4fa560704e034a9f13193bbe290d75c0934f2d946fd567c1982864d3",
+      "bytes": 975,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-targeted-initial",
+      "originalOutput": "$REPO/prototype/web/test-results/repair-review-targeted/journey-record-reliability-b1799-d-preserves-the-prior-draft/reload-busy-report.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-targeted-initial/journey-record-reliability-b1799-d-preserves-the-prior-draft/reload-busy-report.png",
+      "originalSha256": "002375918a79e019cef77a31fdbb2428a5e06e5fef78c022dc4fe59011bf4407",
+      "sha256": "002375918a79e019cef77a31fdbb2428a5e06e5fef78c022dc4fe59011bf4407",
+      "bytes": 140620,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-targeted-initial",
+      "originalOutput": "$REPO/prototype/web/test-results/repair-review-targeted/journey-record-reliability-b1799-d-preserves-the-prior-draft/reload-report-boundary.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-targeted-initial/journey-record-reliability-b1799-d-preserves-the-prior-draft/reload-report-boundary.json",
+      "originalSha256": "154d327d4fa560704e034a9f13193bbe290d75c0934f2d946fd567c1982864d3",
+      "sha256": "154d327d4fa560704e034a9f13193bbe290d75c0934f2d946fd567c1982864d3",
+      "bytes": 975,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-targeted-initial",
+      "originalOutput": "$REPO/prototype/web/test-results/repair-review-targeted/journey-record-reliability-fa2ff-and-audio-bytes-in-recovery/attachments/reload-voice-boundary-715b8078330b3eb69cb3debdf8def87fed03d0ce.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-targeted-initial/journey-record-reliability-fa2ff-and-audio-bytes-in-recovery/attachments/reload-voice-boundary-715b8078330b3eb69cb3debdf8def87fed03d0ce.json",
+      "originalSha256": "e2855f3fa44e51dc14f1a0a82fd2b6c557238ec4b5a8efe38cfd0dad43a8956b",
+      "sha256": "e2855f3fa44e51dc14f1a0a82fd2b6c557238ec4b5a8efe38cfd0dad43a8956b",
+      "bytes": 765,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-targeted-initial",
+      "originalOutput": "$REPO/prototype/web/test-results/repair-review-targeted/journey-record-reliability-fa2ff-and-audio-bytes-in-recovery/reload-busy-voice.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-targeted-initial/journey-record-reliability-fa2ff-and-audio-bytes-in-recovery/reload-busy-voice.png",
+      "originalSha256": "305c3bb6e594fb5b13197358bdf3a2f537cd41ada85f8375f5d9d99720b55fc7",
+      "sha256": "305c3bb6e594fb5b13197358bdf3a2f537cd41ada85f8375f5d9d99720b55fc7",
+      "bytes": 132158,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-targeted-initial",
+      "originalOutput": "$REPO/prototype/web/test-results/repair-review-targeted/journey-record-reliability-fa2ff-and-audio-bytes-in-recovery/reload-voice-boundary.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-targeted-initial/journey-record-reliability-fa2ff-and-audio-bytes-in-recovery/reload-voice-boundary.json",
+      "originalSha256": "e2855f3fa44e51dc14f1a0a82fd2b6c557238ec4b5a8efe38cfd0dad43a8956b",
+      "sha256": "e2855f3fa44e51dc14f1a0a82fd2b6c557238ec4b5a8efe38cfd0dad43a8956b",
+      "bytes": 765,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-targeted-initial",
+      "originalOutput": "$REPO/prototype/web/test-results/repair-review-targeted/journey-report-representat-3aada--remain-visually-reviewable/screenshots/mobile-evidence-drawer.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-targeted-initial/journey-report-representat-3aada--remain-visually-reviewable/screenshots/mobile-evidence-drawer.png",
+      "originalSha256": "ff5edbe518d0e4d28015415b72afde2cb3a5a578ffaf7dee9dcc0cdc58ffd0d3",
+      "sha256": "ff5edbe518d0e4d28015415b72afde2cb3a5a578ffaf7dee9dcc0cdc58ffd0d3",
+      "bytes": 45131,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-targeted-initial",
+      "originalOutput": "$REPO/prototype/web/test-results/repair-review-targeted/journey-report-representat-3aada--remain-visually-reviewable/screenshots/mobile-report-200.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-targeted-initial/journey-report-representat-3aada--remain-visually-reviewable/screenshots/mobile-report-200.png",
+      "originalSha256": "b9e7e997fdb47df8b6df2341e278486246242d2b791e42652f489ac0d7828680",
+      "sha256": "b9e7e997fdb47df8b6df2341e278486246242d2b791e42652f489ac0d7828680",
+      "bytes": 148238,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-targeted-initial",
+      "originalOutput": "$REPO/prototype/web/test-results/repair-review-targeted/journey-report-representat-3aada--remain-visually-reviewable/screenshots/mobile-report.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-targeted-initial/journey-report-representat-3aada--remain-visually-reviewable/screenshots/mobile-report.png",
+      "originalSha256": "01a4ba0346d0f410a0c77fc8f4b37baa0c3106eab8e241b08a987888efac7277",
+      "sha256": "01a4ba0346d0f410a0c77fc8f4b37baa0c3106eab8e241b08a987888efac7277",
+      "bytes": 80873,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-targeted-initial",
+      "originalOutput": "$REPO/prototype/web/test-results/repair-review-targeted/journey-report-representat-3aada--remain-visually-reviewable/screenshots/vehicle-report.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-targeted-initial/journey-report-representat-3aada--remain-visually-reviewable/screenshots/vehicle-report.png",
+      "originalSha256": "1ea3148ecb60bb1396ee333fe1c2bddfe251a35c59a3c7d8b74c56774b681ca6",
+      "sha256": "1ea3148ecb60bb1396ee333fe1c2bddfe251a35c59a3c7d8b74c56774b681ca6",
+      "bytes": 83631,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-targeted",
+      "originalOutput": "$REPO/prototype/web/test-results/repair-review-targeted-fixed/.last-run.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-targeted/.last-run.json",
+      "originalSha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903",
+      "sha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903",
+      "bytes": 45,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-targeted",
+      "originalOutput": "$REPO/prototype/web/test-results/repair-review-targeted-fixed/journey-record-reliability-97343--and-retain-it-after-reload/attachments/report-reference-save-boundary-de9acaa6ece0345852ac8d07954da536817fc6a2.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-targeted/journey-record-reliability-97343--and-retain-it-after-reload/attachments/report-reference-save-boundary-de9acaa6ece0345852ac8d07954da536817fc6a2.json",
+      "originalSha256": "5fc7bab2c9662283a9b9659b41ffc03ffab347b99ffede50114b9158db45a129",
+      "sha256": "5fc7bab2c9662283a9b9659b41ffc03ffab347b99ffede50114b9158db45a129",
+      "bytes": 430,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-targeted",
+      "originalOutput": "$REPO/prototype/web/test-results/repair-review-targeted-fixed/journey-record-reliability-97343--and-retain-it-after-reload/reference-save-busy.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-targeted/journey-record-reliability-97343--and-retain-it-after-reload/reference-save-busy.png",
+      "originalSha256": "592af290b59316cad7f1944469ce94ee8ad0267903cfa9dab44733a0b384fcf1",
+      "sha256": "592af290b59316cad7f1944469ce94ee8ad0267903cfa9dab44733a0b384fcf1",
+      "bytes": 18533,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-targeted",
+      "originalOutput": "$REPO/prototype/web/test-results/repair-review-targeted-fixed/journey-record-reliability-97343--and-retain-it-after-reload/report-reference-save-boundary.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-targeted/journey-record-reliability-97343--and-retain-it-after-reload/report-reference-save-boundary.json",
+      "originalSha256": "5fc7bab2c9662283a9b9659b41ffc03ffab347b99ffede50114b9158db45a129",
+      "sha256": "5fc7bab2c9662283a9b9659b41ffc03ffab347b99ffede50114b9158db45a129",
+      "bytes": 430,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-targeted",
+      "originalOutput": "$REPO/prototype/web/test-results/repair-review-targeted-fixed/journey-record-reliability-b1799-d-preserves-the-prior-draft/attachments/reload-report-boundary-8e7dbcec82b53fcfb6bb30538762d853a7cfe558.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-targeted/journey-record-reliability-b1799-d-preserves-the-prior-draft/attachments/reload-report-boundary-8e7dbcec82b53fcfb6bb30538762d853a7cfe558.json",
+      "originalSha256": "154d327d4fa560704e034a9f13193bbe290d75c0934f2d946fd567c1982864d3",
+      "sha256": "154d327d4fa560704e034a9f13193bbe290d75c0934f2d946fd567c1982864d3",
+      "bytes": 975,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-targeted",
+      "originalOutput": "$REPO/prototype/web/test-results/repair-review-targeted-fixed/journey-record-reliability-b1799-d-preserves-the-prior-draft/reload-busy-report.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-targeted/journey-record-reliability-b1799-d-preserves-the-prior-draft/reload-busy-report.png",
+      "originalSha256": "afb0235dd4b40abb25d8481fecdd338c0f6dadaa3d2441cb8c68ae1402ae0e86",
+      "sha256": "afb0235dd4b40abb25d8481fecdd338c0f6dadaa3d2441cb8c68ae1402ae0e86",
+      "bytes": 140576,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-targeted",
+      "originalOutput": "$REPO/prototype/web/test-results/repair-review-targeted-fixed/journey-record-reliability-b1799-d-preserves-the-prior-draft/reload-report-boundary.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-targeted/journey-record-reliability-b1799-d-preserves-the-prior-draft/reload-report-boundary.json",
+      "originalSha256": "154d327d4fa560704e034a9f13193bbe290d75c0934f2d946fd567c1982864d3",
+      "sha256": "154d327d4fa560704e034a9f13193bbe290d75c0934f2d946fd567c1982864d3",
+      "bytes": 975,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-targeted",
+      "originalOutput": "$REPO/prototype/web/test-results/repair-review-targeted-fixed/journey-record-reliability-fa2ff-and-audio-bytes-in-recovery/attachments/reload-voice-boundary-cd6e72dfb9e6e89fe9c6dd474cfbe95267a3f00a.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-targeted/journey-record-reliability-fa2ff-and-audio-bytes-in-recovery/attachments/reload-voice-boundary-cd6e72dfb9e6e89fe9c6dd474cfbe95267a3f00a.json",
+      "originalSha256": "e2855f3fa44e51dc14f1a0a82fd2b6c557238ec4b5a8efe38cfd0dad43a8956b",
+      "sha256": "e2855f3fa44e51dc14f1a0a82fd2b6c557238ec4b5a8efe38cfd0dad43a8956b",
+      "bytes": 765,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-targeted",
+      "originalOutput": "$REPO/prototype/web/test-results/repair-review-targeted-fixed/journey-record-reliability-fa2ff-and-audio-bytes-in-recovery/reload-busy-voice.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-targeted/journey-record-reliability-fa2ff-and-audio-bytes-in-recovery/reload-busy-voice.png",
+      "originalSha256": "305c3bb6e594fb5b13197358bdf3a2f537cd41ada85f8375f5d9d99720b55fc7",
+      "sha256": "305c3bb6e594fb5b13197358bdf3a2f537cd41ada85f8375f5d9d99720b55fc7",
+      "bytes": 132158,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-targeted",
+      "originalOutput": "$REPO/prototype/web/test-results/repair-review-targeted-fixed/journey-record-reliability-fa2ff-and-audio-bytes-in-recovery/reload-voice-boundary.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-targeted/journey-record-reliability-fa2ff-and-audio-bytes-in-recovery/reload-voice-boundary.json",
+      "originalSha256": "e2855f3fa44e51dc14f1a0a82fd2b6c557238ec4b5a8efe38cfd0dad43a8956b",
+      "sha256": "e2855f3fa44e51dc14f1a0a82fd2b6c557238ec4b5a8efe38cfd0dad43a8956b",
+      "bytes": 765,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-targeted",
+      "originalOutput": "$REPO/prototype/web/test-results/repair-review-targeted-fixed/journey-report-representat-3aada--remain-visually-reviewable/screenshots/mobile-evidence-drawer.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-targeted/journey-report-representat-3aada--remain-visually-reviewable/screenshots/mobile-evidence-drawer.png",
+      "originalSha256": "ff5edbe518d0e4d28015415b72afde2cb3a5a578ffaf7dee9dcc0cdc58ffd0d3",
+      "sha256": "ff5edbe518d0e4d28015415b72afde2cb3a5a578ffaf7dee9dcc0cdc58ffd0d3",
+      "bytes": 45131,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-targeted",
+      "originalOutput": "$REPO/prototype/web/test-results/repair-review-targeted-fixed/journey-report-representat-3aada--remain-visually-reviewable/screenshots/mobile-report-200.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-targeted/journey-report-representat-3aada--remain-visually-reviewable/screenshots/mobile-report-200.png",
+      "originalSha256": "b9e7e997fdb47df8b6df2341e278486246242d2b791e42652f489ac0d7828680",
+      "sha256": "b9e7e997fdb47df8b6df2341e278486246242d2b791e42652f489ac0d7828680",
+      "bytes": 148238,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-targeted",
+      "originalOutput": "$REPO/prototype/web/test-results/repair-review-targeted-fixed/journey-report-representat-3aada--remain-visually-reviewable/screenshots/mobile-report.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-targeted/journey-report-representat-3aada--remain-visually-reviewable/screenshots/mobile-report.png",
+      "originalSha256": "01a4ba0346d0f410a0c77fc8f4b37baa0c3106eab8e241b08a987888efac7277",
+      "sha256": "01a4ba0346d0f410a0c77fc8f4b37baa0c3106eab8e241b08a987888efac7277",
+      "bytes": 80873,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-targeted",
+      "originalOutput": "$REPO/prototype/web/test-results/repair-review-targeted-fixed/journey-report-representat-3aada--remain-visually-reviewable/screenshots/vehicle-report.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-targeted/journey-report-representat-3aada--remain-visually-reviewable/screenshots/vehicle-report.png",
+      "originalSha256": "1ea3148ecb60bb1396ee333fe1c2bddfe251a35c59a3c7d8b74c56774b681ca6",
+      "sha256": "1ea3148ecb60bb1396ee333fe1c2bddfe251a35c59a3c7d8b74c56774b681ca6",
+      "bytes": 83631,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/.last-run.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/.last-run.json",
+      "originalSha256": "a703eb60145ba74ab93a8c0ed29fa8acbf5aacddc5a3513c0b34c2f1bbf863b4",
+      "sha256": "a703eb60145ba74ab93a8c0ed29fa8acbf5aacddc5a3513c0b34c2f1bbf863b4",
+      "bytes": 684,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/emergency-guidance-state-S-23963-ithout-mutating-the-request/error-context.md",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/emergency-guidance-state-S-23963-ithout-mutating-the-request/error-context.md",
+      "originalSha256": "d17ca02e3b8d2f8a00c6618f721ff11046bc73fbc0200c65386f22919ea74706",
+      "sha256": "d17ca02e3b8d2f8a00c6618f721ff11046bc73fbc0200c65386f22919ea74706",
+      "bytes": 16076,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/emergency-guidance-state-S-23963-ithout-mutating-the-request/trace.zip",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/emergency-guidance-state-S-23963-ithout-mutating-the-request/trace.zip",
+      "originalSha256": "5c01b56a4797c0e1fdacf4558cb997772ff4544457f388099ab55058db3d0438",
+      "sha256": "5c01b56a4797c0e1fdacf4558cb997772ff4544457f388099ab55058db3d0438",
+      "bytes": 4606482,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/emergency-guidance-state-S-41389-ithout-mutating-the-request/error-context.md",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/emergency-guidance-state-S-41389-ithout-mutating-the-request/error-context.md",
+      "originalSha256": "99dbc15358626ee09fd40c807586f8900d98c88e182fc3958ab1e62e36a7ada8",
+      "sha256": "99dbc15358626ee09fd40c807586f8900d98c88e182fc3958ab1e62e36a7ada8",
+      "bytes": 16084,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/emergency-guidance-state-S-41389-ithout-mutating-the-request/trace.zip",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/emergency-guidance-state-S-41389-ithout-mutating-the-request/trace.zip",
+      "originalSha256": "ca935205e9556314bc0f088bfe170a59ff6c605bd58370d876bb5636c617e903",
+      "sha256": "ca935205e9556314bc0f088bfe170a59ff6c605bd58370d876bb5636c617e903",
+      "bytes": 4627039,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/emergency-guidance-state-S-52258-ithout-mutating-the-request/error-context.md",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/emergency-guidance-state-S-52258-ithout-mutating-the-request/error-context.md",
+      "originalSha256": "c57cdc8ec2e0acad566498754776c69101965222412a3b05f129933df91863f2",
+      "sha256": "c57cdc8ec2e0acad566498754776c69101965222412a3b05f129933df91863f2",
+      "bytes": 16055,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/emergency-guidance-state-S-52258-ithout-mutating-the-request/trace.zip",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/emergency-guidance-state-S-52258-ithout-mutating-the-request/trace.zip",
+      "originalSha256": "4f667a82d01c1e49853f25577785f7a35bd224b163e2fdf5e09ef275c733112f",
+      "sha256": "4f667a82d01c1e49853f25577785f7a35bd224b163e2fdf5e09ef275c733112f",
+      "bytes": 4376465,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/emergency-guidance-state-S-69796-ithout-mutating-the-request/error-context.md",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/emergency-guidance-state-S-69796-ithout-mutating-the-request/error-context.md",
+      "originalSha256": "3d58b3012f5b89f0389cf813d10161203fbdf2e2179dc3418b26eefab31c45d1",
+      "sha256": "3d58b3012f5b89f0389cf813d10161203fbdf2e2179dc3418b26eefab31c45d1",
+      "bytes": 16004,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/emergency-guidance-state-S-69796-ithout-mutating-the-request/trace.zip",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/emergency-guidance-state-S-69796-ithout-mutating-the-request/trace.zip",
+      "originalSha256": "9da5daafecc7b25b27719ee215860e2d9e940bc2be634bf889cc7927ac9fb23d",
+      "sha256": "9da5daafecc7b25b27719ee215860e2d9e940bc2be634bf889cc7927ac9fb23d",
+      "bytes": 5128480,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/emergency-guidance-state-S-6f13f-ithout-mutating-the-request/error-context.md",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/emergency-guidance-state-S-6f13f-ithout-mutating-the-request/error-context.md",
+      "originalSha256": "207c3f23eca7daa569baed63a16a25ce91ea23de44ced785b8e5ef11dcfef9d6",
+      "sha256": "207c3f23eca7daa569baed63a16a25ce91ea23de44ced785b8e5ef11dcfef9d6",
+      "bytes": 15934,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/emergency-guidance-state-S-6f13f-ithout-mutating-the-request/trace.zip",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/emergency-guidance-state-S-6f13f-ithout-mutating-the-request/trace.zip",
+      "originalSha256": "4dff2f0b43424ef210ec84421be3df2aaeb719b5dbdb0c3fe82fb60f95322dee",
+      "sha256": "4dff2f0b43424ef210ec84421be3df2aaeb719b5dbdb0c3fe82fb60f95322dee",
+      "bytes": 4412296,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/emergency-guidance-state-S-7709f-ithout-mutating-the-request/error-context.md",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/emergency-guidance-state-S-7709f-ithout-mutating-the-request/error-context.md",
+      "originalSha256": "1cab115738fc55e537fe5d22ca1d0baffcb213f5869037f8fbb479acc1e2d786",
+      "sha256": "1cab115738fc55e537fe5d22ca1d0baffcb213f5869037f8fbb479acc1e2d786",
+      "bytes": 16197,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/emergency-guidance-state-S-7709f-ithout-mutating-the-request/trace.zip",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/emergency-guidance-state-S-7709f-ithout-mutating-the-request/trace.zip",
+      "originalSha256": "a1eea1114324fabff519dd42d45bec3c8efbc2d003dfa6261ae110632ba140ca",
+      "sha256": "a1eea1114324fabff519dd42d45bec3c8efbc2d003dfa6261ae110632ba140ca",
+      "bytes": 4414559,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/emergency-guidance-state-S-878af-ithout-mutating-the-request/error-context.md",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/emergency-guidance-state-S-878af-ithout-mutating-the-request/error-context.md",
+      "originalSha256": "2387b9f29ddee74214736af41f8939986487db57dabfecd4cec717c2e9873045",
+      "sha256": "2387b9f29ddee74214736af41f8939986487db57dabfecd4cec717c2e9873045",
+      "bytes": 15883,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/emergency-guidance-state-S-878af-ithout-mutating-the-request/trace.zip",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/emergency-guidance-state-S-878af-ithout-mutating-the-request/trace.zip",
+      "originalSha256": "c17870c9b12dde244469660df0afb47410fa1057515a9018285c56cd327770e9",
+      "sha256": "c17870c9b12dde244469660df0afb47410fa1057515a9018285c56cd327770e9",
+      "bytes": 5195423,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/emergency-guidance-state-S-d2976-ithout-mutating-the-request/error-context.md",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/emergency-guidance-state-S-d2976-ithout-mutating-the-request/error-context.md",
+      "originalSha256": "0acc098245071db663fb1684e5bba38c4e00f1de90800afda37c8d015c775ad9",
+      "sha256": "0acc098245071db663fb1684e5bba38c4e00f1de90800afda37c8d015c775ad9",
+      "bytes": 15964,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/emergency-guidance-state-S-d2976-ithout-mutating-the-request/trace.zip",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/emergency-guidance-state-S-d2976-ithout-mutating-the-request/trace.zip",
+      "originalSha256": "522507359892b37ea9fe896ec4dc625c7923233ecfcf0b061baf3612b473d871",
+      "sha256": "522507359892b37ea9fe896ec4dc625c7923233ecfcf0b061baf3612b473d871",
+      "bytes": 4498603,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/guidance-audio-actual-runt-14ada-es-and-plays-in-the-browser/error-context.md",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/guidance-audio-actual-runt-14ada-es-and-plays-in-the-browser/error-context.md",
+      "originalSha256": "17631f92cc7542c8caf7c57fb45aa6be97f44ce1109dffbe62494b60a4d5a2a1",
+      "sha256": "17631f92cc7542c8caf7c57fb45aa6be97f44ce1109dffbe62494b60a4d5a2a1",
+      "bytes": 16652,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/guidance-audio-actual-runt-14ada-es-and-plays-in-the-browser/trace.zip",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/guidance-audio-actual-runt-14ada-es-and-plays-in-the-browser/trace.zip",
+      "originalSha256": "d5b9fb1df833644fa04baafa116530960e53675001b9151f4062a5ce73aa0800",
+      "sha256": "d5b9fb1df833644fa04baafa116530960e53675001b9151f4062a5ce73aa0800",
+      "bytes": 3669556,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/guidance-audio-actual-runt-2b27b-es-and-plays-in-the-browser/error-context.md",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/guidance-audio-actual-runt-2b27b-es-and-plays-in-the-browser/error-context.md",
+      "originalSha256": "661ba63eb5523e7ab0c3999496af13421a89ba38186d6125eb838e95c674f711",
+      "sha256": "661ba63eb5523e7ab0c3999496af13421a89ba38186d6125eb838e95c674f711",
+      "bytes": 16611,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/guidance-audio-actual-runt-2b27b-es-and-plays-in-the-browser/trace.zip",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/guidance-audio-actual-runt-2b27b-es-and-plays-in-the-browser/trace.zip",
+      "originalSha256": "e59aa53515149dc4e75a07ec407f4b9cff805087a45df37c1bf2223b03556abe",
+      "sha256": "e59aa53515149dc4e75a07ec407f4b9cff805087a45df37c1bf2223b03556abe",
+      "bytes": 3763175,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/guidance-audio-actual-runt-7f6c6-es-and-plays-in-the-browser/error-context.md",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/guidance-audio-actual-runt-7f6c6-es-and-plays-in-the-browser/error-context.md",
+      "originalSha256": "fbfb004a853f625552143188f9ee99fe0befa6dad228a49d67b05f2b1acd268f",
+      "sha256": "fbfb004a853f625552143188f9ee99fe0befa6dad228a49d67b05f2b1acd268f",
+      "bytes": 16442,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/guidance-audio-actual-runt-7f6c6-es-and-plays-in-the-browser/trace.zip",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/guidance-audio-actual-runt-7f6c6-es-and-plays-in-the-browser/trace.zip",
+      "originalSha256": "56d4e0fa0f7ae6d23048d545a9f8e344043544dd88e1ec51223f4092a7fce058",
+      "sha256": "56d4e0fa0f7ae6d23048d545a9f8e344043544dd88e1ec51223f4092a7fce058",
+      "bytes": 3628295,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/guidance-audio-actual-runt-c1fc4-es-and-plays-in-the-browser/error-context.md",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/guidance-audio-actual-runt-c1fc4-es-and-plays-in-the-browser/error-context.md",
+      "originalSha256": "275d000f23a3ac4a0b9e00d51dd36ca12a699f69415bd4fdcf8b2c136cb2f4d3",
+      "sha256": "275d000f23a3ac4a0b9e00d51dd36ca12a699f69415bd4fdcf8b2c136cb2f4d3",
+      "bytes": 16418,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/guidance-audio-actual-runt-c1fc4-es-and-plays-in-the-browser/trace.zip",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/guidance-audio-actual-runt-c1fc4-es-and-plays-in-the-browser/trace.zip",
+      "originalSha256": "d415f8f4f2728dafdc204235b66669e24595954da96713a03d1d725c8a1d440b",
+      "sha256": "d415f8f4f2728dafdc204235b66669e24595954da96713a03d1d725c8a1d440b",
+      "bytes": 3679009,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/guidance-audio-every-scene-2d637-n-exact-static-speech-asset/error-context.md",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/guidance-audio-every-scene-2d637-n-exact-static-speech-asset/error-context.md",
+      "originalSha256": "0cbafe2d185073c0005022642ac61a87031022df1be359a737907d97e605ac75",
+      "sha256": "0cbafe2d185073c0005022642ac61a87031022df1be359a737907d97e605ac75",
+      "bytes": 23078,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/guidance-audio-every-scene-2d637-n-exact-static-speech-asset/trace.zip",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/guidance-audio-every-scene-2d637-n-exact-static-speech-asset/trace.zip",
+      "originalSha256": "1fd58d66ff4e3a513c92df756725eed7beb1481cd5e80b6906090f27da126033",
+      "sha256": "1fd58d66ff4e3a513c92df756725eed7beb1481cd5e80b6906090f27da126033",
+      "bytes": 3785778,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-follow-up-follow-u-e8f8e-rn-preserves-repair-choices/mobile-follow-up.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-follow-up-follow-u-e8f8e-rn-preserves-repair-choices/mobile-follow-up.png",
+      "originalSha256": "5300349f4c046c7c8b8c0912d8b84f43bbf6d05c905d6b8cfbfb31a4d27499b3",
+      "sha256": "5300349f4c046c7c8b8c0912d8b84f43bbf6d05c905d6b8cfbfb31a4d27499b3",
+      "bytes": 118106,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-follow-up-follow-u-e8f8e-rn-preserves-repair-choices/vehicle-follow-up.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-follow-up-follow-u-e8f8e-rn-preserves-repair-choices/vehicle-follow-up.png",
+      "originalSha256": "da24f919e51f2a5f77cb0244350ea432cb61ea7648a86677b3033ad4552c4be1",
+      "sha256": "da24f919e51f2a5f77cb0244350ea432cb61ea7648a86677b3033ad4552c4be1",
+      "bytes": 85444,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-follow-up-ui-follo-eebfb--mobile-and-vehicle-layouts/mobile-review-200.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-follow-up-ui-follo-eebfb--mobile-and-vehicle-layouts/mobile-review-200.png",
+      "originalSha256": "26dc74a6047daec80d4c6733ed46cd59efc86668be68c1b7472417ebae2cc6c8",
+      "sha256": "26dc74a6047daec80d4c6733ed46cd59efc86668be68c1b7472417ebae2cc6c8",
+      "bytes": 159290,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-follow-up-ui-follo-eebfb--mobile-and-vehicle-layouts/mobile-review.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-follow-up-ui-follo-eebfb--mobile-and-vehicle-layouts/mobile-review.png",
+      "originalSha256": "74e6b6e1a5d73af991c3a541e22a7d17d0989427c7bc227b7c652f1bbf459122",
+      "sha256": "74e6b6e1a5d73af991c3a541e22a7d17d0989427c7bc227b7c652f1bbf459122",
+      "bytes": 88544,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-follow-up-ui-follo-eebfb--mobile-and-vehicle-layouts/mobile-shops.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-follow-up-ui-follo-eebfb--mobile-and-vehicle-layouts/mobile-shops.png",
+      "originalSha256": "0f5243a95b48eb07a2b729ceb6d0427f4a9f1cad738aa56418a65d5a7c8547d8",
+      "sha256": "0f5243a95b48eb07a2b729ceb6d0427f4a9f1cad738aa56418a65d5a7c8547d8",
+      "bytes": 62952,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-follow-up-ui-follo-eebfb--mobile-and-vehicle-layouts/mobile-unavailable.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-follow-up-ui-follo-eebfb--mobile-and-vehicle-layouts/mobile-unavailable.png",
+      "originalSha256": "584ef703e89750207347c6c1d9442442761e2541659032a2af3eb6f7e54e3d77",
+      "sha256": "584ef703e89750207347c6c1d9442442761e2541659032a2af3eb6f7e54e3d77",
+      "bytes": 47698,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-follow-up-ui-follo-eebfb--mobile-and-vehicle-layouts/vehicle-stale.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-follow-up-ui-follo-eebfb--mobile-and-vehicle-layouts/vehicle-stale.png",
+      "originalSha256": "927b4075dcf63d8cbffa6fac6c0fd9e6b1990812c2c64607084123969c610e6a",
+      "sha256": "927b4075dcf63d8cbffa6fac6c0fd9e6b1990812c2c64607084123969c610e6a",
+      "bytes": 78058,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-follow-up-ui-mobil-c40ac-emains-readable-at-200-text/mobile-route-200.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-follow-up-ui-mobil-c40ac-emains-readable-at-200-text/mobile-route-200.png",
+      "originalSha256": "99f581a16076da57d89288d4938af415b4af3e7a7485e068cd904916e926af34",
+      "sha256": "99f581a16076da57d89288d4938af415b4af3e7a7485e068cd904916e926af34",
+      "bytes": 37237,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-reconstruction-jou-67cea-ithout-losing-urgent-drafts/asset-read-commit-boundary.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-reconstruction-jou-67cea-ithout-losing-urgent-drafts/asset-read-commit-boundary.json",
+      "originalSha256": "aad342e67bc82b32b2ffe627b0db6a163525a3e9417ad8ff2ea685ec6fdf9c49",
+      "sha256": "aad342e67bc82b32b2ffe627b0db6a163525a3e9417ad8ff2ea685ec6fdf9c49",
+      "bytes": 12606,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-reconstruction-jou-67cea-ithout-losing-urgent-drafts/attachments/asset-read-commit-boundary-b47103f893e92ae725d59d20156d858f3e8bb7dd.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-reconstruction-jou-67cea-ithout-losing-urgent-drafts/attachments/asset-read-commit-boundary-b47103f893e92ae725d59d20156d858f3e8bb7dd.json",
+      "originalSha256": "aad342e67bc82b32b2ffe627b0db6a163525a3e9417ad8ff2ea685ec6fdf9c49",
+      "sha256": "aad342e67bc82b32b2ffe627b0db6a163525a3e9417ad8ff2ea685ec6fdf9c49",
+      "bytes": 12606,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-reconstruction-rep-28d83--remain-visually-reviewable/mobile-reconstruction.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-reconstruction-rep-28d83--remain-visually-reviewable/mobile-reconstruction.png",
+      "originalSha256": "2522add09897cc71f055dddebb90b01d8188108e346f32197e878e2f92968225",
+      "sha256": "2522add09897cc71f055dddebb90b01d8188108e346f32197e878e2f92968225",
+      "bytes": 73389,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-record-reliability-97343--and-retain-it-after-reload/attachments/report-reference-save-boundary-caac0be297ecab61c803e2d454cc099ef8f43b7d.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-record-reliability-97343--and-retain-it-after-reload/attachments/report-reference-save-boundary-caac0be297ecab61c803e2d454cc099ef8f43b7d.json",
+      "originalSha256": "79910b842c6bbb14b533db18e5f982f4b079dcfcdb9b08132478a34f9befaff5",
+      "sha256": "79910b842c6bbb14b533db18e5f982f4b079dcfcdb9b08132478a34f9befaff5",
+      "bytes": 430,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-record-reliability-97343--and-retain-it-after-reload/reference-save-busy.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-record-reliability-97343--and-retain-it-after-reload/reference-save-busy.png",
+      "originalSha256": "592af290b59316cad7f1944469ce94ee8ad0267903cfa9dab44733a0b384fcf1",
+      "sha256": "592af290b59316cad7f1944469ce94ee8ad0267903cfa9dab44733a0b384fcf1",
+      "bytes": 18533,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-record-reliability-97343--and-retain-it-after-reload/report-reference-save-boundary.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-record-reliability-97343--and-retain-it-after-reload/report-reference-save-boundary.json",
+      "originalSha256": "79910b842c6bbb14b533db18e5f982f4b079dcfcdb9b08132478a34f9befaff5",
+      "sha256": "79910b842c6bbb14b533db18e5f982f4b079dcfcdb9b08132478a34f9befaff5",
+      "bytes": 430,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-record-reliability-b1799-d-preserves-the-prior-draft/attachments/reload-report-boundary-6e0c972b9a5b5232562f587cb1d4df248215cfe0.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-record-reliability-b1799-d-preserves-the-prior-draft/attachments/reload-report-boundary-6e0c972b9a5b5232562f587cb1d4df248215cfe0.json",
+      "originalSha256": "154d327d4fa560704e034a9f13193bbe290d75c0934f2d946fd567c1982864d3",
+      "sha256": "154d327d4fa560704e034a9f13193bbe290d75c0934f2d946fd567c1982864d3",
+      "bytes": 975,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-record-reliability-b1799-d-preserves-the-prior-draft/reload-busy-report.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-record-reliability-b1799-d-preserves-the-prior-draft/reload-busy-report.png",
+      "originalSha256": "afb0235dd4b40abb25d8481fecdd338c0f6dadaa3d2441cb8c68ae1402ae0e86",
+      "sha256": "afb0235dd4b40abb25d8481fecdd338c0f6dadaa3d2441cb8c68ae1402ae0e86",
+      "bytes": 140576,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-record-reliability-b1799-d-preserves-the-prior-draft/reload-report-boundary.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-record-reliability-b1799-d-preserves-the-prior-draft/reload-report-boundary.json",
+      "originalSha256": "154d327d4fa560704e034a9f13193bbe290d75c0934f2d946fd567c1982864d3",
+      "sha256": "154d327d4fa560704e034a9f13193bbe290d75c0934f2d946fd567c1982864d3",
+      "bytes": 975,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-record-reliability-fa2ff-and-audio-bytes-in-recovery/attachments/reload-voice-boundary-8ad8cc5168b7baa4535d48c4610affe33e77e9ec.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-record-reliability-fa2ff-and-audio-bytes-in-recovery/attachments/reload-voice-boundary-8ad8cc5168b7baa4535d48c4610affe33e77e9ec.json",
+      "originalSha256": "e2855f3fa44e51dc14f1a0a82fd2b6c557238ec4b5a8efe38cfd0dad43a8956b",
+      "sha256": "e2855f3fa44e51dc14f1a0a82fd2b6c557238ec4b5a8efe38cfd0dad43a8956b",
+      "bytes": 765,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-record-reliability-fa2ff-and-audio-bytes-in-recovery/reload-busy-voice.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-record-reliability-fa2ff-and-audio-bytes-in-recovery/reload-busy-voice.png",
+      "originalSha256": "305c3bb6e594fb5b13197358bdf3a2f537cd41ada85f8375f5d9d99720b55fc7",
+      "sha256": "305c3bb6e594fb5b13197358bdf3a2f537cd41ada85f8375f5d9d99720b55fc7",
+      "bytes": 132158,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-record-reliability-fa2ff-and-audio-bytes-in-recovery/reload-voice-boundary.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-record-reliability-fa2ff-and-audio-bytes-in-recovery/reload-voice-boundary.json",
+      "originalSha256": "e2855f3fa44e51dc14f1a0a82fd2b6c557238ec4b5a8efe38cfd0dad43a8956b",
+      "sha256": "e2855f3fa44e51dc14f1a0a82fd2b6c557238ec4b5a8efe38cfd0dad43a8956b",
+      "bytes": 765,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-report-representat-3aada--remain-visually-reviewable/screenshots/mobile-evidence-drawer.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-report-representat-3aada--remain-visually-reviewable/screenshots/mobile-evidence-drawer.png",
+      "originalSha256": "ff5edbe518d0e4d28015415b72afde2cb3a5a578ffaf7dee9dcc0cdc58ffd0d3",
+      "sha256": "ff5edbe518d0e4d28015415b72afde2cb3a5a578ffaf7dee9dcc0cdc58ffd0d3",
+      "bytes": 45131,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-report-representat-3aada--remain-visually-reviewable/screenshots/mobile-report-200.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-report-representat-3aada--remain-visually-reviewable/screenshots/mobile-report-200.png",
+      "originalSha256": "b9e7e997fdb47df8b6df2341e278486246242d2b791e42652f489ac0d7828680",
+      "sha256": "b9e7e997fdb47df8b6df2341e278486246242d2b791e42652f489ac0d7828680",
+      "bytes": 148238,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-report-representat-3aada--remain-visually-reviewable/screenshots/mobile-report.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-report-representat-3aada--remain-visually-reviewable/screenshots/mobile-report.png",
+      "originalSha256": "01a4ba0346d0f410a0c77fc8f4b37baa0c3106eab8e241b08a987888efac7277",
+      "sha256": "01a4ba0346d0f410a0c77fc8f4b37baa0c3106eab8e241b08a987888efac7277",
+      "bytes": 80873,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-report-representat-3aada--remain-visually-reviewable/screenshots/vehicle-report.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-report-representat-3aada--remain-visually-reviewable/screenshots/vehicle-report.png",
+      "originalSha256": "1ea3148ecb60bb1396ee333fe1c2bddfe251a35c59a3c7d8b74c56774b681ca6",
+      "sha256": "1ea3148ecb60bb1396ee333fe1c2bddfe251a35c59a3c7d8b74c56774b681ca6",
+      "bytes": 83631,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-submission-submiss-a2aa9-inspectable-visual-evidence/screenshots/mobile-preview.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-submission-submiss-a2aa9-inspectable-visual-evidence/screenshots/mobile-preview.png",
+      "originalSha256": "c25467789aa6e685e56a25607686398097c5f3962315c43b24265a62b234fbf4",
+      "sha256": "c25467789aa6e685e56a25607686398097c5f3962315c43b24265a62b234fbf4",
+      "bytes": 68750,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-submission-submiss-a2aa9-inspectable-visual-evidence/screenshots/mobile-receipt-200.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-submission-submiss-a2aa9-inspectable-visual-evidence/screenshots/mobile-receipt-200.png",
+      "originalSha256": "0dfb34ef968b7e77fea87297481ac0f982a155da3632b340b9bf8d25a8b51475",
+      "sha256": "0dfb34ef968b7e77fea87297481ac0f982a155da3632b340b9bf8d25a8b51475",
+      "bytes": 98939,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-submission-submiss-a2aa9-inspectable-visual-evidence/screenshots/mobile-selection.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-submission-submiss-a2aa9-inspectable-visual-evidence/screenshots/mobile-selection.png",
+      "originalSha256": "c7e4b5175065e66a4d419df4ff5a2fa1a7c09410f3d4a326d4ee44dbf2f85b4f",
+      "sha256": "c7e4b5175065e66a4d419df4ff5a2fa1a7c09410f3d4a326d4ee44dbf2f85b4f",
+      "bytes": 80630,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-visual-mobile-360p-bcde9-argets-and-contrast-at-200-/mobile-360-200.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-visual-mobile-360p-bcde9-argets-and-contrast-at-200-/mobile-360-200.png",
+      "originalSha256": "1b92ebbeb7da6924f3a30e6de12e993ef215d0acd251eab1277ec3bf6e25ebc7",
+      "sha256": "1b92ebbeb7da6924f3a30e6de12e993ef215d0acd251eab1277ec3bf6e25ebc7",
+      "bytes": 139690,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-visual-mobile-360p-bcde9-argets-and-contrast-at-200-/mobile-360-normal.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-visual-mobile-360p-bcde9-argets-and-contrast-at-200-/mobile-360-normal.png",
+      "originalSha256": "379de852fa7586df56d94005fe0555ebee9945105bc7976bcc45095d4f377997",
+      "sha256": "379de852fa7586df56d94005fe0555ebee9945105bc7976bcc45095d4f377997",
+      "bytes": 76929,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-visual-mobile-393p-18079-argets-and-contrast-at-200-/mobile-393-200.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-visual-mobile-393p-18079-argets-and-contrast-at-200-/mobile-393-200.png",
+      "originalSha256": "a1e479d26d71e6fd07a4c01133fd27b7390f04da84767537f394ebe8bb6fd576",
+      "sha256": "a1e479d26d71e6fd07a4c01133fd27b7390f04da84767537f394ebe8bb6fd576",
+      "bytes": 140282,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-visual-mobile-393p-18079-argets-and-contrast-at-200-/mobile-393-normal.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-visual-mobile-393p-18079-argets-and-contrast-at-200-/mobile-393-normal.png",
+      "originalSha256": "b52e9617d94002d863a1edc8e248f177c213523bf40fc9646afaffaf0803f9a6",
+      "sha256": "b52e9617d94002d863a1edc8e248f177c213523bf40fc9646afaffaf0803f9a6",
+      "bytes": 76990,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-visual-unavailable-f82dc-product-implementation-copy/mobile-unavailable.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-visual-unavailable-f82dc-product-implementation-copy/mobile-unavailable.png",
+      "originalSha256": "b5b2747a30ef0f4377f476fe758bc81edc5807afdcc46855fa720cd9f2232420",
+      "sha256": "b5b2747a30ef0f4377f476fe758bc81edc5807afdcc46855fa720cd9f2232420",
+      "bytes": 69719,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-visual-vehicle-144-d1e20-lines-and-readable-contrast/vehicle-1440.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-visual-vehicle-144-d1e20-lines-and-readable-contrast/vehicle-1440.png",
+      "originalSha256": "e69843c5ac091d44fcb43ef10dc20a1b11a7f799e1068d03ee62a895227b8fa6",
+      "sha256": "e69843c5ac091d44fcb43ef10dc20a1b11a7f799e1068d03ee62a895227b8fa6",
+      "bytes": 89136,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-visual-vehicle-256-78801-lines-and-readable-contrast/vehicle-2560.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-visual-vehicle-256-78801-lines-and-readable-contrast/vehicle-2560.png",
+      "originalSha256": "a23aa9deda0b7332087bf1338451efe650fc0d3293b31b60caf204c91df42017",
+      "sha256": "a23aa9deda0b7332087bf1338451efe650fc0d3293b31b60caf204c91df42017",
+      "bytes": 166199,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-voice-maximum-dura-0c714--releases-microphone-tracks/attachments/maximum-duration-recording-ba4adc6e131d2a630fea62bb4dfc7d34c7aa523f.webm",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-voice-maximum-dura-0c714--releases-microphone-tracks/attachments/maximum-duration-recording-ba4adc6e131d2a630fea62bb4dfc7d34c7aa523f.webm",
+      "originalSha256": "0497bf28b9d5d5af8ad125ef3c3de165a441d38454acb3261906761df2e307c0",
+      "sha256": "0497bf28b9d5d5af8ad125ef3c3de165a441d38454acb3261906761df2e307c0",
+      "bytes": 5973,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-voice-maximum-dura-0c714--releases-microphone-tracks/attachments/recorder-timeline-f401c6070a172a8da0af99a5fa499c7bb52ffaeb.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-voice-maximum-dura-0c714--releases-microphone-tracks/attachments/recorder-timeline-f401c6070a172a8da0af99a5fa499c7bb52ffaeb.json",
+      "originalSha256": "e60ba3c0d50139e2e3e50e29a41f7fc152bb30238aea64e146759cf80dba29ed",
+      "sha256": "e60ba3c0d50139e2e3e50e29a41f7fc152bb30238aea64e146759cf80dba29ed",
+      "bytes": 6341,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-voice-maximum-dura-0c714--releases-microphone-tracks/attachments/reviewed-recording-050ed12f116c2da3ce6aa94697d98133ff65775f.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-voice-maximum-dura-0c714--releases-microphone-tracks/attachments/reviewed-recording-050ed12f116c2da3ce6aa94697d98133ff65775f.json",
+      "originalSha256": "1ddb632647b67899653ba573d987af52f41b73474055f8304258fc6229eb7968",
+      "sha256": "1ddb632647b67899653ba573d987af52f41b73474055f8304258fc6229eb7968",
+      "bytes": 217,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-voice-maximum-dura-0c714--releases-microphone-tracks/maximum-duration-recording.webm",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-voice-maximum-dura-0c714--releases-microphone-tracks/maximum-duration-recording.webm",
+      "originalSha256": "0497bf28b9d5d5af8ad125ef3c3de165a441d38454acb3261906761df2e307c0",
+      "sha256": "0497bf28b9d5d5af8ad125ef3c3de165a441d38454acb3261906761df2e307c0",
+      "bytes": 5973,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-voice-maximum-dura-0c714--releases-microphone-tracks/recorder-timeline.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-voice-maximum-dura-0c714--releases-microphone-tracks/recorder-timeline.json",
+      "originalSha256": "e60ba3c0d50139e2e3e50e29a41f7fc152bb30238aea64e146759cf80dba29ed",
+      "sha256": "e60ba3c0d50139e2e3e50e29a41f7fc152bb30238aea64e146759cf80dba29ed",
+      "bytes": 6341,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-voice-maximum-dura-0c714--releases-microphone-tracks/reviewed-recording.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-voice-maximum-dura-0c714--releases-microphone-tracks/reviewed-recording.json",
+      "originalSha256": "1ddb632647b67899653ba573d987af52f41b73474055f8304258fc6229eb7968",
+      "sha256": "1ddb632647b67899653ba573d987af52f41b73474055f8304258fc6229eb7968",
+      "bytes": 217,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-voice-maximum-dura-8c038-the-former-350ms-assumption/attachments/held-source-after-legacy-threshold-9e2de704385288a4a3228a277a70b29e305071c3.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-voice-maximum-dura-8c038-the-former-350ms-assumption/attachments/held-source-after-legacy-threshold-9e2de704385288a4a3228a277a70b29e305071c3.json",
+      "originalSha256": "19477029a194bfc1643dc69e60577c5199b7eb3c6fda52d4e57a720c0903e9d1",
+      "sha256": "19477029a194bfc1643dc69e60577c5199b7eb3c6fda52d4e57a720c0903e9d1",
+      "bytes": 1143,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-voice-maximum-dura-8c038-the-former-350ms-assumption/attachments/maximum-duration-recording-dc559947df8d907df02b1bc84888d656fe966bba.webm",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-voice-maximum-dura-8c038-the-former-350ms-assumption/attachments/maximum-duration-recording-dc559947df8d907df02b1bc84888d656fe966bba.webm",
+      "originalSha256": "c7fc50f9f922ed295e9c7d8453ae800478bbe95bb275c4a7cc4d00988fee9846",
+      "sha256": "c7fc50f9f922ed295e9c7d8453ae800478bbe95bb275c4a7cc4d00988fee9846",
+      "bytes": 2093,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-voice-maximum-dura-8c038-the-former-350ms-assumption/attachments/recorder-timeline-f32e0c872aba6e9c662e20b725c5b300eaa9aa0b.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-voice-maximum-dura-8c038-the-former-350ms-assumption/attachments/recorder-timeline-f32e0c872aba6e9c662e20b725c5b300eaa9aa0b.json",
+      "originalSha256": "7d6beb61713e039c00a3bf05ed60303e2b0a7704170bb974622f0a3552ef3277",
+      "sha256": "7d6beb61713e039c00a3bf05ed60303e2b0a7704170bb974622f0a3552ef3277",
+      "bytes": 3289,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-voice-maximum-dura-8c038-the-former-350ms-assumption/attachments/reviewed-recording-c866235b2fb1882a69520140cb4f5c42ae992e92.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-voice-maximum-dura-8c038-the-former-350ms-assumption/attachments/reviewed-recording-c866235b2fb1882a69520140cb4f5c42ae992e92.json",
+      "originalSha256": "341fe02f6fe31709fc5d841ae825a5c5caec56c2ade2ec3778257b6a01843ca8",
+      "sha256": "341fe02f6fe31709fc5d841ae825a5c5caec56c2ade2ec3778257b6a01843ca8",
+      "bytes": 216,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-voice-maximum-dura-8c038-the-former-350ms-assumption/held-source-after-legacy-threshold.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-voice-maximum-dura-8c038-the-former-350ms-assumption/held-source-after-legacy-threshold.json",
+      "originalSha256": "19477029a194bfc1643dc69e60577c5199b7eb3c6fda52d4e57a720c0903e9d1",
+      "sha256": "19477029a194bfc1643dc69e60577c5199b7eb3c6fda52d4e57a720c0903e9d1",
+      "bytes": 1143,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-voice-maximum-dura-8c038-the-former-350ms-assumption/maximum-duration-recording.webm",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-voice-maximum-dura-8c038-the-former-350ms-assumption/maximum-duration-recording.webm",
+      "originalSha256": "c7fc50f9f922ed295e9c7d8453ae800478bbe95bb275c4a7cc4d00988fee9846",
+      "sha256": "c7fc50f9f922ed295e9c7d8453ae800478bbe95bb275c4a7cc4d00988fee9846",
+      "bytes": 2093,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-voice-maximum-dura-8c038-the-former-350ms-assumption/recorder-timeline.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-voice-maximum-dura-8c038-the-former-350ms-assumption/recorder-timeline.json",
+      "originalSha256": "7d6beb61713e039c00a3bf05ed60303e2b0a7704170bb974622f0a3552ef3277",
+      "sha256": "7d6beb61713e039c00a3bf05ed60303e2b0a7704170bb974622f0a3552ef3277",
+      "bytes": 3289,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/journey-voice-maximum-dura-8c038-the-former-350ms-assumption/reviewed-recording.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/journey-voice-maximum-dura-8c038-the-former-350ms-assumption/reviewed-recording.json",
+      "originalSha256": "341fe02f6fe31709fc5d841ae825a5c5caec56c2ade2ec3778257b6a01843ca8",
+      "sha256": "341fe02f6fe31709fc5d841ae825a5c5caec56c2ade2ec3778257b6a01843ca8",
+      "bytes": 216,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/stable-voronoi-interruptio-4c2bb-est-plan-without-remounting/attachments/delayed-font-5a1941e653886e1349c33e8fc9b88cb5da563900.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/stable-voronoi-interruptio-4c2bb-est-plan-without-remounting/attachments/delayed-font-5a1941e653886e1349c33e8fc9b88cb5da563900.json",
+      "originalSha256": "d8a3898321e509f477e088961d62ab80c07412eb42d0e7532e57f6109d7391d3",
+      "sha256": "d8a3898321e509f477e088961d62ab80c07412eb42d0e7532e57f6109d7391d3",
+      "bytes": 33818,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/stable-voronoi-interruptio-4c2bb-est-plan-without-remounting/attachments/source-context-6ada989874305d5d94cd6470b237384f0522c90e.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/stable-voronoi-interruptio-4c2bb-est-plan-without-remounting/attachments/source-context-6ada989874305d5d94cd6470b237384f0522c90e.json",
+      "originalSha256": "96fedbadedf464dfa721c42835435bb958fbc52301fb5df627238d05b9615de3",
+      "sha256": "96fedbadedf464dfa721c42835435bb958fbc52301fb5df627238d05b9615de3",
+      "bytes": 1268,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/stable-voronoi-interruptio-4c2bb-est-plan-without-remounting/delayed-font.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/stable-voronoi-interruptio-4c2bb-est-plan-without-remounting/delayed-font.json",
+      "originalSha256": "d8a3898321e509f477e088961d62ab80c07412eb42d0e7532e57f6109d7391d3",
+      "sha256": "d8a3898321e509f477e088961d62ab80c07412eb42d0e7532e57f6109d7391d3",
+      "bytes": 33818,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/stable-voronoi-interruptio-4c2bb-est-plan-without-remounting/source-context.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/stable-voronoi-interruptio-4c2bb-est-plan-without-remounting/source-context.json",
+      "originalSha256": "96fedbadedf464dfa721c42835435bb958fbc52301fb5df627238d05b9615de3",
+      "sha256": "96fedbadedf464dfa721c42835435bb958fbc52301fb5df627238d05b9615de3",
+      "bytes": 1268,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/stable-voronoi-interruptio-83395-plan-and-retains-editor-DOM/attachments/resize-frames-c19277f9fca94ff64b9afbd6b6a3dc3090bb2d8c.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/stable-voronoi-interruptio-83395-plan-and-retains-editor-DOM/attachments/resize-frames-c19277f9fca94ff64b9afbd6b6a3dc3090bb2d8c.json",
+      "originalSha256": "66f4a3184cc9bed30b622b64cacf8599f38baf5614077b8fc8511ca6e1a77e74",
+      "sha256": "66f4a3184cc9bed30b622b64cacf8599f38baf5614077b8fc8511ca6e1a77e74",
+      "bytes": 116905,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/stable-voronoi-interruptio-83395-plan-and-retains-editor-DOM/attachments/source-context-71fa6c3279dfd9f0209d408f68c9e294fb04d059.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/stable-voronoi-interruptio-83395-plan-and-retains-editor-DOM/attachments/source-context-71fa6c3279dfd9f0209d408f68c9e294fb04d059.json",
+      "originalSha256": "666629a907e04df09d7bcdf9645f4d52c6d91be261aa8d12d8daec638bb6ebc7",
+      "sha256": "666629a907e04df09d7bcdf9645f4d52c6d91be261aa8d12d8daec638bb6ebc7",
+      "bytes": 1268,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/stable-voronoi-interruptio-83395-plan-and-retains-editor-DOM/resize-frames.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/stable-voronoi-interruptio-83395-plan-and-retains-editor-DOM/resize-frames.json",
+      "originalSha256": "66f4a3184cc9bed30b622b64cacf8599f38baf5614077b8fc8511ca6e1a77e74",
+      "sha256": "66f4a3184cc9bed30b622b64cacf8599f38baf5614077b8fc8511ca6e1a77e74",
+      "bytes": 116905,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/stable-voronoi-interruptio-83395-plan-and-retains-editor-DOM/source-context.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/stable-voronoi-interruptio-83395-plan-and-retains-editor-DOM/source-context.json",
+      "originalSha256": "666629a907e04df09d7bcdf9645f4d52c6d91be261aa8d12d8daec638bb6ebc7",
+      "sha256": "666629a907e04df09d7bcdf9645f4d52c6d91be261aa8d12d8daec638bb6ebc7",
+      "bytes": 1268,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/stable-voronoi-interruptio-9d377-y-without-an-endpoint-reset/attachments/retarget-frames-d3269f98403c867e93800244725eb44a644dafea.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/stable-voronoi-interruptio-9d377-y-without-an-endpoint-reset/attachments/retarget-frames-d3269f98403c867e93800244725eb44a644dafea.json",
+      "originalSha256": "39746275bf435d4a682610d5bfb679b9e752120a0066880c925d18cc4c67bda6",
+      "sha256": "39746275bf435d4a682610d5bfb679b9e752120a0066880c925d18cc4c67bda6",
+      "bytes": 91996,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/stable-voronoi-interruptio-9d377-y-without-an-endpoint-reset/attachments/source-context-823eb6af521a9005663047ddeced8976a83fe975.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/stable-voronoi-interruptio-9d377-y-without-an-endpoint-reset/attachments/source-context-823eb6af521a9005663047ddeced8976a83fe975.json",
+      "originalSha256": "aaedcb8f1dd621534cf2bed81bb4f0cfcb20c66731c082f1db2cd6a0286133ea",
+      "sha256": "aaedcb8f1dd621534cf2bed81bb4f0cfcb20c66731c082f1db2cd6a0286133ea",
+      "bytes": 1268,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/stable-voronoi-interruptio-9d377-y-without-an-endpoint-reset/retarget-frames.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/stable-voronoi-interruptio-9d377-y-without-an-endpoint-reset/retarget-frames.json",
+      "originalSha256": "39746275bf435d4a682610d5bfb679b9e752120a0066880c925d18cc4c67bda6",
+      "sha256": "39746275bf435d4a682610d5bfb679b9e752120a0066880c925d18cc4c67bda6",
+      "bytes": 91996,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/stable-voronoi-interruptio-9d377-y-without-an-endpoint-reset/source-context.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/stable-voronoi-interruptio-9d377-y-without-an-endpoint-reset/source-context.json",
+      "originalSha256": "aaedcb8f1dd621534cf2bed81bb4f0cfcb20c66731c082f1db2cd6a0286133ea",
+      "sha256": "aaedcb8f1dd621534cf2bed81bb4f0cfcb20c66731c082f1db2cd6a0286133ea",
+      "bytes": 1268,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/stable-voronoi-interruptio-fc789-esumes-without-hidden-cells/attachments/driving-frames-e4ea363845b061e1d1c2e520bbc427b0f28d49d6.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/stable-voronoi-interruptio-fc789-esumes-without-hidden-cells/attachments/driving-frames-e4ea363845b061e1d1c2e520bbc427b0f28d49d6.json",
+      "originalSha256": "70771034b9985c1e56005edf48fd1d2b1ddf3684984bcd3924db9930a5fe7a76",
+      "sha256": "70771034b9985c1e56005edf48fd1d2b1ddf3684984bcd3924db9930a5fe7a76",
+      "bytes": 121840,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/stable-voronoi-interruptio-fc789-esumes-without-hidden-cells/attachments/source-context-894127b35ed9ab318ecc62ab7a9659c803db6951.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/stable-voronoi-interruptio-fc789-esumes-without-hidden-cells/attachments/source-context-894127b35ed9ab318ecc62ab7a9659c803db6951.json",
+      "originalSha256": "5a26be379217133a2942c2a3dfc5f4c4d799638a090c613e745479a5760a6283",
+      "sha256": "5a26be379217133a2942c2a3dfc5f4c4d799638a090c613e745479a5760a6283",
+      "bytes": 1268,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/stable-voronoi-interruptio-fc789-esumes-without-hidden-cells/driving-frames.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/stable-voronoi-interruptio-fc789-esumes-without-hidden-cells/driving-frames.json",
+      "originalSha256": "70771034b9985c1e56005edf48fd1d2b1ddf3684984bcd3924db9930a5fe7a76",
+      "sha256": "70771034b9985c1e56005edf48fd1d2b1ddf3684984bcd3924db9930a5fe7a76",
+      "bytes": 121840,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/stable-voronoi-interruptio-fc789-esumes-without-hidden-cells/source-context.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/stable-voronoi-interruptio-fc789-esumes-without-hidden-cells/source-context.json",
+      "originalSha256": "5a26be379217133a2942c2a3dfc5f4c4d799638a090c613e745479a5760a6283",
+      "sha256": "5a26be379217133a2942c2a3dfc5f4c4d799638a090c613e745479a5760a6283",
+      "bytes": 1268,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/stable-voronoi-motion-norm-88baa-the-live-call-text-anchored/attachments/normal-motion-json-acabc49afb04f930bc216ec02ee165cbd4166eda.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/stable-voronoi-motion-norm-88baa-the-live-call-text-anchored/attachments/normal-motion-json-acabc49afb04f930bc216ec02ee165cbd4166eda.json",
+      "originalSha256": "cfbb99640f2a2428f0c0f75936af980238ec636f332aaf8aca30813c48d56e6c",
+      "sha256": "cfbb99640f2a2428f0c0f75936af980238ec636f332aaf8aca30813c48d56e6c",
+      "bytes": 165284,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/stable-voronoi-motion-norm-88baa-the-live-call-text-anchored/stable-voronoi-normal-motion.json",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/stable-voronoi-motion-norm-88baa-the-live-call-text-anchored/stable-voronoi-normal-motion.json",
+      "originalSha256": "cfbb99640f2a2428f0c0f75936af980238ec636f332aaf8aca30813c48d56e6c",
+      "sha256": "cfbb99640f2a2428f0c0f75936af980238ec636f332aaf8aca30813c48d56e6c",
+      "bytes": 165284,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
+    },
+    {
+      "run": "review-full",
+      "originalOutput": "$CLEAN/prototype/web/test-results/repair-review-full/vehicle-status-bar-IVI-sta-5053b-ry-and-original-local-asset/ivi-status-bar.png",
+      "path": "evidence/contract-reliability-repair/web/raw/review-full/vehicle-status-bar-IVI-sta-5053b-ry-and-original-local-asset/ivi-status-bar.png",
+      "originalSha256": "2a8ae451f6155b1e393896d8fe6e15e98eb8f5091bbaf565d7036d92a2a81c26",
+      "sha256": "2a8ae451f6155b1e393896d8fe6e15e98eb8f5091bbaf565d7036d92a2a81c26",
+      "bytes": 9322,
+      "pathRedactions": 0,
+      "zipEntryChanges": []
     }
-  ]
+  ],
+  "copierHistory": [
+    {
+      "sha256": "9b92ab35580eb9f9a96113ec324f6f96396cab9d7a652440f9b561ff88d559d5",
+      "sourceRef": "e9a463f66400e9d5f51465336e5069695bd37fb7:evidence/contract-reliability-repair/artifact-copy.py"
+    },
+    {
+      "sha256": "9068d45969428fa66df1e794a18880f08dc310251bd129d63fb28a0cdebf058b",
+      "path": "evidence/contract-reliability-repair/artifact-copy.py",
+      "mode": "--append-review"
+    }
+  ],
+  "latestRun": "review-full"
 }

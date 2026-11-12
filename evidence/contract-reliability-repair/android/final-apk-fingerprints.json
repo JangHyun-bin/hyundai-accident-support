@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "nativeTestedCommit": "2a5dea5e992814a96c5e3cf19595f2691f07eb54",
-  "finalSourceCommit": "e76c9bcd7a91aa6ebc7dd9925e2840dd3e9e1fe5",
+  "finalSourceCommit": "2bd7c258187772399bacfe62fdb8b6f3254c642a",
   "sourceRelation": "../source-input-relation.json",
   "apks": [
     {

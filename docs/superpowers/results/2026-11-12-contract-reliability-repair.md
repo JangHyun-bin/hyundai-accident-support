@@ -1,11 +1,12 @@
 # Contract reliability repair 실행 결과
 
-상태: **필수 신규 음성 부재로 merge 차단 · 독립 리뷰/PR 준비 중**. raw 실행 시각은 UTC다. 32개 수용 기준과 필수 gate를 모두 충족하기 전에는 merge하지 않는다.
+상태: **필수 신규 음성 부재로 merge 차단 · 독립 리뷰 P2 두 건 closure · Draft PR #11 생성**. raw 실행 시각은 UTC다. 32개 수용 기준과 필수 gate를 모두 충족하기 전에는 merge하지 않는다.
 
 - 실행 지시: [goal query](../plans/2026-11-12-contract-reliability-repair-goal-query.md), [32개 계약](../specs/2026-11-12-contract-reliability-repair-design.md)
 - 기준: `2ed19146d500882fd11211f65b660f91336015eb`; branch: `fix/contract-reliability-repair`
-- 최종 검증 제품·검사 commit: `e76c9bcd7a91aa6ebc7dd9925e2840dd3e9e1fe5`
+- 최종 검증 제품·검사 commit: `2bd7c258187772399bacfe62fdb8b6f3254c642a`
 - [명령·exit·실행 commit](../../../evidence/contract-reliability-repair/run.json), [32개 요구 판정](../../../evidence/contract-reliability-repair/requirements.json)
+- 현재 로컬 preview: [Journey](http://127.0.0.1:5185/?study=journey&device=mobile), [실제 browser 관찰](../../../evidence/contract-reliability-repair/preview.json). 작업 소유 `RepairPreview` 서비스만 사용자 확인용으로 유지한다.
 
 ## 검증 결과
 
@@ -14,12 +15,13 @@
 | root check/model/review/server | 4종 성공: graph13/17, model826, review48/70·5 walkthroughs, server1 | [원문](../../../evidence/contract-reliability-repair/checks/) |
 | 공유 manifest | 12/12 | [원문](../../../evidence/contract-reliability-repair/checks/manifest.txt) |
 | audio generator/recording scripts | 5/5 | [원문](../../../evidence/contract-reliability-repair/audio/audio-script-tests.txt) |
-| clean TypeScript/production build | `npm run check` 성공 | [원문](../../../evidence/contract-reliability-repair/web/web-build-clean-final2.txt) |
-| 최신 clean Web full | **432/445**, 실패13·skip0, 기본5 workers. 실패는 전부 신규 음성4개 누락 | [원문](../../../evidence/contract-reliability-repair/web/web-full-final2.txt) |
+| clean TypeScript/production build | `npm run check` 성공 | [원문](../../../evidence/contract-reliability-repair/web/web-build-clean-review.txt) |
+| 최신 clean Web full | **434/447**, 실패13·skip0, 기본5 workers. 실패는 전부 신규 음성4개 누락 | [원문](../../../evidence/contract-reliability-repair/web/web-full-review.txt) |
+| 리뷰 P2 직접 회귀 | 33/33, 기본5 workers. 지연된 실제 read/write 완료와 편집 잠금·recovery·durable 근거 선택 | [원문](../../../evidence/contract-reliability-repair/web/web-targeted-review-fix2.txt) |
 | 영상 read/commit 회귀 | 14/14; 통제된 실제 저장 경계와 native playback·도식·reload 보존 | [원문](../../../evidence/contract-reliability-repair/web/web-reconstruction-fix1.txt) |
-| Android build | debug·instrumentation APK build 성공 | [원문](../../../evidence/contract-reliability-repair/android/android-build-fix2.txt) |
-| 실제 API28 ARM64 | 41/41, failure/error/skip0, 정상 shader fallback | [XML](../../../evidence/contract-reliability-repair/android/api28-instrumentation.xml), [화면](../../../evidence/contract-reliability-repair/android/api28-suspended.png) |
-| 실제 API35 ARM64 | 41/41, failure/error/skip0, 지원 Satin shader | [XML](../../../evidence/contract-reliability-repair/android/api35-final-instrumentation.xml), [화면](../../../evidence/contract-reliability-repair/android/api35-final-suspended.png) |
+| Android build | debug·instrumentation APK build 성공 | [원문](../../../evidence/contract-reliability-repair/android/android-build-fix2.txt), [두 APK 지문](../../../evidence/contract-reliability-repair/android/final-apk-fingerprints.json) |
+| 실제 API28 ARM64 · emulator-5556 | 41/41, failure/error/skip0, 정상 shader fallback | [XML](../../../evidence/contract-reliability-repair/android/api28-instrumentation.xml), [화면](../../../evidence/contract-reliability-repair/android/api28-suspended.png) |
+| 실제 API35 ARM64 · emulator-5554 | 41/41, failure/error/skip0, 지원 Satin shader | [XML](../../../evidence/contract-reliability-repair/android/api35-final-instrumentation.xml), [화면](../../../evidence/contract-reliability-repair/android/api35-final-suspended.png) |
 | 기존 음성만의 offline decode | 기존64/64 hash·sidecar·duration·ffmpeg decode 성공. 전체 C05 통과가 아님 | [원문](../../../evidence/contract-reliability-repair/audio/audio-existing-decode.txt) |
 | 전체 offline audio 검증 | 필수4개 누락으로 실패 | [원문](../../../evidence/contract-reliability-repair/audio/audio-offline.txt) |
 
@@ -54,11 +56,17 @@ Android UI는 SC05의 11개 state 전체다. SC01–SC04는 parser 지원만 하
 
 ## 원시 증거와 source 관계
 
-[artifact index](../../../evidence/contract-reliability-repair/artifact-index.json)는 11개 실행·436개 파일·402,677,122 bytes를 연결한다. 실패 trace, 원시 frame JSON, 실제 recorder WebM/진단, PNG, Android XML과 audio 검사를 tracked 경로에 보존한다. 개인 절대경로만 명시적으로 정규화하고 원본/공개 SHA를 둘 다 남겼다. 405개 파일은 byte-identical이며 media/numeric frame payload는 바꾸지 않았다. 초기 dot reporter의 inline JSON 미보존도 숨기지 않는다.
+[artifact index](../../../evidence/contract-reliability-repair/artifact-index.json)는 14개 실행·557개 파일·466,100,243 bytes를 연결한다. 실패 trace, 원시 frame JSON, 실제 recorder WebM/진단, PNG를 tracked 경로에 보존하고 Android XML과 audio 검사도 함께 보존한다. 개인 절대경로만 명시적으로 정규화하고 원본/공개 SHA를 둘 다 남겼다. 525개 파일은 byte-identical이며 media/numeric frame payload는 바꾸지 않았다. 초기 dot reporter의 inline JSON 미보존도 숨기지 않는다. 원래 11개 실행을 덮지 않고 review 산출물 3개 그룹을 추가했다. 최대 trace 56.62MiB의 GitHub 권장 크기 경고는 있었으나 push는 성공했으며 새 유료 LFS/CI는 도입하지 않았다.
 
-[source-sha256.json](../../../evidence/contract-reliability-repair/source-sha256.json)의 410개 입력 mapping SHA-256은 `f7eea26d542612626219e0e4624bb98deed41a0d85c3e57d3ef8810a4d507931`이다. [검사별 입력 동일성](../../../evidence/contract-reliability-repair/source-input-relation.json)은 root/manifest·audio scripts·Android의 이전 실행 입력과 최종 입력이 같음을 연결한다. 원본 board/archive/assets·공유 JSON·보호한 preset/token 입력60개는 기준 commit과 동일하다. C guidance caller인 ResponseLayoutPreview 수정은 불변으로 위장하지 않는다.
+[source-sha256.json](../../../evidence/contract-reliability-repair/source-sha256.json)의 410개 입력 mapping SHA-256은 `bd915f03442699a5c24cd08864643b2cf22583e1a17706a5e0673bc68cdef27f`이다. [검사별 입력 동일성](../../../evidence/contract-reliability-repair/source-input-relation.json)은 root/manifest·audio scripts·Android의 이전 실행 입력과 최종 입력이 같음을 연결한다. 원본 board/archive/assets·공유 JSON·보호한 preset/token 입력60개는 기준 commit과 동일하다. C guidance caller인 ResponseLayoutPreview 수정은 불변으로 위장하지 않는다.
 
-증거·문서만 추가한 후속 HEAD는 실행한 제품 commit과 다르다. 독립 review의 정확한 대상과 최종 PR head를 별도로 보존하고 제품 입력이 바뀌면 해당 gate를 다시 연다. 현재 독립 review와 PR은 아직 완료되지 않았고 merge는 금지다.
+증거·문서만 추가한 후속 HEAD는 실행한 제품 commit과 다르다. [A/D 전범위 리뷰](../../../evidence/contract-reliability-repair/review/native-docs.json)와 [B/C/E 전범위 리뷰](../../../evidence/contract-reliability-repair/review/web-initial.json)는 `e9a463f66400e9d5f51465336e5069695bd37fb7`를 대상으로 했다. [P2 수정 독립 closure](../../../evidence/contract-reliability-repair/review/web-closure.json)는 최종 제품 source `2bd7c25`를 검토했다. 두 P2는 닫혔으나 전체 repair의 merge 승인은 아니다. [Draft PR #11](https://github.com/JangHyun-bin/hyundai-accident-support/pull/11)의 본문·영구 관찰 comment에 정확한 최종 head/base·실행 source·지문을 별도로 기록하며 merge/auto-merge는 실행하지 않는다. [생성 시 원격 관찰](../../../evidence/contract-reliability-repair/github-pr-created.json)은 당시 head의 역사 snapshot이지 최종 head라고 위장하지 않는다.
+
+## 독립 리뷰에서 추가로 해결한 경계
+
+최신 기록을 읽는 동안 편집 가능해 snapshot 뒤 입력이 유실되던 경계는 수집/읽기/adopt 전 구간의 editor 잠금으로 닫았다. voice/photo/review/submission의 기존 DOM은 유지하고 native focus/keyboard 입력을 막으며 finally에서 해제한다. 119/긴급 surface는 잠금 밖이다. 경위서 저장 중 근거 checkbox가 바뀌던 경계는 textarea/action과 같은 saving 잠금으로 닫았다.
+
+[실제 지연 I/O 회귀 자료](../../../evidence/contract-reliability-repair/web/raw/review-targeted/)와 최신 full이 해당 경로를 통과했다. dedicated held-load runtime은 normal layout을 사용하고 representative layout은 동일 workspace 배치를 독립 source review로 확인했다. 이 차이를 모든 조합의 수동 실험으로 표현하지 않는다.
 
 ## 전역 목표와 승계
 
