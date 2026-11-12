@@ -44,6 +44,7 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
   const [loadingSamples, setLoadingSamples] = useState(false)
   const [sampleError, setSampleError] = useState('')
   const [navigationNotice, setNavigationNotice] = useState('')
+  const [reloading, setReloading] = useState(false)
   const currentCase = useRef(value)
   currentCase.current = value
   const voicePanel = useRef<VoiceRecordHandle>(null)
@@ -114,9 +115,13 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
   }
 
   async function reloadLatest() {
-    const record = await voicePanel.current?.recoveryDraft()
-    const report = reviewPanel.current?.recoveryCommand()
-    await journey.reload({ commands: [...(record?.commands ?? []), ...(report ? [report] : [])], assets: record?.assets ?? [] })
+    if (reloading) return
+    setReloading(true)
+    try {
+      const record = await voicePanel.current?.recoveryDraft()
+      const report = reviewPanel.current?.recoveryCommand()
+      await journey.reload({ commands: [...(record?.commands ?? []), ...(report ? [report] : [])], assets: record?.assets ?? [] })
+    } finally { setReloading(false) }
   }
 
   async function navigate(stage: Stage) {
@@ -244,14 +249,14 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
     </nav>
     const footer=<JourneyRequests value={value}/>
     return <>
-      <div hidden={recordTab !== 'voice'} className="journey-editor-holder"><VoiceRecordPanel ref={voicePanel} value={value} mode={voiceMode} onSave={journey.save} durable={journey.saveState === 'saved'} reloadVersion={journey.reloadVersion} navigation={tabs} footer={footer}/></div>
-      <div hidden={recordTab !== 'photos'} className="journey-editor-holder"><EvidencePanel ref={photoPanel} value={value} onSave={journey.save} onCommand={photoCommand} navigation={tabs} footer={footer}/></div>
+      <div hidden={recordTab !== 'voice'} inert={reloading} aria-busy={reloading} className="journey-editor-holder"><VoiceRecordPanel ref={voicePanel} value={value} mode={voiceMode} onSave={journey.save} durable={journey.saveState === 'saved'} reloadVersion={journey.reloadVersion} navigation={tabs} footer={footer}/></div>
+      <div hidden={recordTab !== 'photos'} inert={reloading} aria-busy={reloading} className="journey-editor-holder"><EvidencePanel ref={photoPanel} value={value} onSave={journey.save} onCommand={photoCommand} navigation={tabs} footer={footer}/></div>
     </>
   }
 
   function reviewWorkspace() {
     if (!value) return null
-    return <JourneyReviewPanel ref={reviewPanel} explicitTransport={representative} value={value} saving={journey.saveState === 'saving'} onCommand={journey.save} reloadVersion={journey.reloadVersion} onApprove={journey.approve} footer={<JourneyRequests value={value}/>}/>
+    return <JourneyReviewPanel ref={reviewPanel} explicitTransport={representative} value={value} saving={journey.saveState === 'saving'} reloading={reloading} onCommand={journey.save} reloadVersion={journey.reloadVersion} onApprove={journey.approve} footer={<JourneyRequests value={value}/>}/>
   }
 
   function content() {
@@ -346,7 +351,7 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
       <div className="journey-save-status" role="status">{journey.saveState === 'saved' ? '이 기기에 보관됨' : journey.saveState === 'saving' ? '저장 중' :
         journey.saveState === 'conflict' ? '다른 화면에서 기록이 바뀌었어요. 내 입력은 이 화면에 남아 있어요.' : '이 기기에 저장하지 못했어요. 입력 내용은 이 화면에 남아 있어요.'}
         {['unavailable', 'quota', 'invalid'].includes(journey.saveState) && <button onClick={() => void journey.flush()}>저장 다시 시도</button>}
-        {journey.saveState === 'conflict' && <button onClick={() => void reloadLatest()}>최신 기록 불러오기</button>}
+        {journey.saveState === 'conflict' && <button disabled={reloading} onClick={() => void reloadLatest()}>{reloading ? '최신 기록 불러오는 중' : '최신 기록 불러오기'}</button>}
       </div>
       <JourneyRecovery entries={journey.recoveries} current={value} onRestore={dispatch} />
       {voiceState === 'error' && <p role="status">{guidance?.text ? `음성 재생을 사용할 수 없어요. ${guidance.text}` : '음성 재생을 사용할 수 없어요.'}</p>}

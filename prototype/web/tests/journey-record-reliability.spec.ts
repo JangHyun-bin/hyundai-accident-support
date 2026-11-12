@@ -1,5 +1,7 @@
 /// <reference lib="es2024.promise" />
 import { test, expect, type Page } from '@playwright/test'
+import { writeFile } from 'node:fs/promises'
+import type { TestInfo } from '@playwright/test'
 import type ReactModule from 'react'
 import type * as ReactDOMClient from 'react-dom/client'
 import type * as CaseDomain from '../src/journey/case'
@@ -23,6 +25,8 @@ declare global {
     recordCommitWaiting: boolean
     recordInput: HTMLTextAreaElement
     recordReleasePermission: () => void
+    recordStorageWaiting: boolean
+    recordReleaseStorage: () => void
   }
 }
 
@@ -58,6 +62,33 @@ async function blockWrites(page: Page) {
       return original.apply(this, args)
     }
   })
+}
+
+async function holdCaseCompletion(page: Page, mode: 'readonly' | 'readwrite') {
+  await page.evaluate(mode => {
+    window.recordStorageWaiting = false
+    const descriptor = Object.getOwnPropertyDescriptor(IDBTransaction.prototype, 'oncomplete')!
+    const setComplete = descriptor.set!
+    Object.defineProperty(IDBTransaction.prototype, 'oncomplete', { ...descriptor,
+      set(this: IDBTransaction, handler: IDBTransaction['oncomplete']) {
+        if (!handler || this.mode !== mode || !this.objectStoreNames.contains('cases')) {
+          setComplete.call(this, handler); return
+        }
+        Object.defineProperty(IDBTransaction.prototype, 'oncomplete', descriptor)
+        // Delay delivery only: the real transaction and its original completion event finish normally.
+        setComplete.call(this, (event: Event) => {
+          window.recordStorageWaiting = true
+          window.recordReleaseStorage = () => handler.call(this, event)
+        })
+      },
+    })
+  }, mode)
+}
+
+async function attachProof(testInfo: TestInfo, name: string, value: unknown) {
+  const path = testInfo.outputPath(name + '.json')
+  await writeFile(path, JSON.stringify(value, null, 2))
+  await testInfo.attach(name, { path, contentType: 'application/json' })
 }
 
 async function harness(page: Page, kind: 'voice' | 'report', paragraphs = 0, mode: 'sample' | 'device' = 'sample') {
@@ -152,7 +183,7 @@ test('a late commit cannot adopt into a newer open case', async ({ page }) => {
   expect(await page.evaluate(() => window.recordController.saveState)).toBe('saved')
 })
 
-test('two tabs reload the latest statement and review while preserving old text and audio bytes in recovery', async ({ page, context }) => {
+test('two tabs reload the latest statement and review while preserving old text and audio bytes in recovery', async ({ page, context }, testInfo) => {
   await seed(page)
   const other = await context.newPage(); await other.goto(page.url()); await saved(other)
   await statement(page).fill('다른 탭에서 확정한 최신 진술')
@@ -169,7 +200,19 @@ test('two tabs reload the latest statement and review while preserving old text 
     node.dispatchEvent(new CompositionEvent('compositionstart', { bubbles: true, data: '옛' }))
     Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')!.set!.call(node, '조합 중이던 옛 진술과 pending 음성')
   })
-  await button(other, '최신 기록 불러오기').click(); await saved(other)
+  await holdCaseCompletion(other, 'readonly')
+  await button(other, '최신 기록 불러오기').click()
+  await expect.poll(() => other.evaluate(() => window.recordStorageWaiting)).toBe(true)
+  const pendingInput = statement(other)
+  await pendingInput.focus()
+  await other.keyboard.insertText('로딩 중 추가 입력')
+  await expect(pendingInput).not.toBeFocused()
+  const pendingFocus = await pendingInput.evaluate(node => document.activeElement === node)
+  await expect(pendingInput).toHaveValue('조합 중이던 옛 진술과 pending 음성')
+  await expect(button(other, '최신 기록 불러오는 중')).toBeDisabled()
+  await other.screenshot({ path: testInfo.outputPath('reload-busy-voice.png'), fullPage: true })
+  await other.evaluate(() => window.recordReleaseStorage())
+  await saved(other)
   await expect(statement(other)).toHaveValue('다른 탭에서 확정한 최신 진술')
   expect(await statement(other).evaluate(node => node === window.recordInput)).toBe(true)
   await expect(other.locator('.journey-voice audio')).toHaveCount(0)
@@ -180,6 +223,11 @@ test('two tabs reload the latest statement and review while preserving old text 
   const bytes = await media.evaluate(async (node: HTMLAnchorElement) => Array.from(new Uint8Array(await (await fetch(node.href)).arrayBuffer())))
   const source = await other.evaluate(async () => Array.from(new Uint8Array(await (await fetch('/journey-samples/voice-statement-ko-v1.wav')).arrayBuffer())))
   expect(bytes).toEqual(source)
+  await attachProof(testInfo, 'reload-voice-boundary', {
+    pendingEditorCouldReceiveFocus: pendingFocus, latest: await statement(other).inputValue(),
+    recovery: await other.locator('.journey-recovery').innerText(), recoveredAudioBytes: bytes.length,
+    originalAudioBytes: source.length,
+  })
   await button(other, '내용 확인으로').click()
   await button(other, '보낼 내용 확인').click()
   await expect(other.locator('.journey-submission')).toContainText('다른 탭에서 확정한 최신 진술')
@@ -325,4 +373,70 @@ test('incoming state commits cannot close a voice save before its durable comple
   await page.evaluate(() => window.recordReleaseCommit())
   await expect(page.getByText('기록을 저장했어요.', { exact: true })).toBeVisible()
   expect(await page.evaluate(() => window.recordController.value?.statements[0].text)).toBe('저장 중에도 유지할 진술')
+})
+
+test('latest report reload locks edits until adoption and preserves the prior draft', async ({ page, context }, testInfo) => {
+  await seed(page, 'review', 1)
+  const other = await context.newPage(); await other.goto(page.url()); await saved(other)
+  for (const tab of [page, other]) await button(tab, '경위서').click()
+  await page.getByRole('article', { name: '문장 1', exact: true }).getByRole('button', { name: '정정하기', exact: true }).click()
+  await page.getByLabel('문장 내용', { exact: true }).fill('다른 탭에서 확정한 최신 경위서')
+  await button(page, '정정 저장').click(); await saved(page)
+  await other.getByRole('article', { name: '문장 1', exact: true }).getByRole('button', { name: '정정하기', exact: true }).click()
+  const input = other.locator('.journey-report textarea:visible')
+  await input.fill('보존해야 하는 내 경위서 정정')
+  await button(other, '정정 저장').click()
+  await expect(other.locator('.journey-save-status')).toContainText('다른 화면에서 기록이 바뀌었어요')
+  await holdCaseCompletion(other, 'readonly')
+  await button(other, '최신 기록 불러오기').click()
+  await expect.poll(() => other.evaluate(() => window.recordStorageWaiting)).toBe(true)
+  await input.focus(); await other.keyboard.insertText('로딩 중 추가 입력')
+  await expect(input).not.toBeFocused()
+  const pendingFocus = await input.evaluate(node => document.activeElement === node)
+  await expect(input).toHaveValue('보존해야 하는 내 경위서 정정')
+  await expect(button(other, '최신 기록 불러오는 중')).toBeDisabled()
+  await other.screenshot({ path: testInfo.outputPath('reload-busy-report.png'), fullPage: true })
+  await other.evaluate(() => window.recordReleaseStorage())
+  await saved(other)
+  await expect(input).toHaveCount(0)
+  await expect(other.locator('.journey-report')).toContainText('다른 탭에서 확정한 최신 경위서')
+  await other.getByText('내 임시 기록 확인', { exact: true }).click()
+  await expect(other.locator('.journey-recovery')).toContainText('보존해야 하는 내 경위서 정정')
+  await attachProof(testInfo, 'reload-report-boundary', {
+    pendingEditorCouldReceiveFocus: pendingFocus, latest: await other.locator('.journey-report').innerText(),
+    recovery: await other.locator('.journey-recovery').innerText(),
+  })
+})
+
+test('pending report saves freeze the submitted reference choice and retain it after reload', async ({ page }, testInfo) => {
+  await seed(page, 'review')
+  await button(page, '시연 event: 사고 자료 확보').click()
+  await expect(button(page, '시연 event: 사고 자료 확보')).toBeEnabled()
+  await button(page, '시연 event: 경위서 초안').click(); await saved(page)
+  await button(page, '경위서').click()
+  const paragraph = page.getByRole('article', { name: '문장 1', exact: true })
+  await paragraph.getByRole('button', { name: '정정하기', exact: true }).click()
+  await paragraph.getByLabel('문장 내용', { exact: true }).fill('전방 영상을 근거에서 제외한 정정')
+  const reference = paragraph.getByRole('checkbox', { name: '전방 영상 포함', exact: true })
+  await reference.uncheck()
+  await holdCaseCompletion(page, 'readwrite')
+  await button(page, '정정 저장').click()
+  await expect.poll(() => page.evaluate(() => window.recordStorageWaiting)).toBe(true)
+  await expect(reference).toBeDisabled()
+  await expect(reference).not.toBeChecked()
+  const pendingChoice = { included: await reference.isChecked(), disabled: await reference.isDisabled() }
+  await paragraph.screenshot({ path: testInfo.outputPath('reference-save-busy.png') })
+  await page.evaluate(() => window.recordReleaseStorage())
+  await expect(paragraph.getByLabel('문장 내용', { exact: true })).toHaveCount(0)
+  await saved(page)
+  const stored = await page.evaluate(async () => {
+    // IndexedDB and its module must execute in this browser's Vite realm, not the Node runner.
+    const path = '/src/journey/case-store.ts'
+    const { loadCase } = await import(/* @vite-ignore */ path) as typeof CaseStore
+    return (await loadCase(new URL(location.href).searchParams.get('case')!))?.report?.paragraphs[0]
+  })
+  expect(stored).toMatchObject({ text: '전방 영상을 근거에서 제외한 정정', references: [] })
+  await page.reload(); await button(page, '경위서').click()
+  await expect(paragraph).toContainText('전방 영상을 근거에서 제외한 정정')
+  await attachProof(testInfo, 'report-reference-save-boundary', { submittedReferenceIncluded: pendingChoice.included, nativePendingChoiceDisabled: pendingChoice.disabled, stored })
 })

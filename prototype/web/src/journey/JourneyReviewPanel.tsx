@@ -29,7 +29,7 @@ export function StoredClip({ caseId, evidence, revision, saving, range, active =
 }
 
 export type JourneyReviewHandle = { finishBeforeLeave: () => Promise<boolean>; openSubmission: () => void; preserveDraft: () => void; recoveryCommand: () => CaseCommand | null }
-export function JourneyReviewPanel({ value, saving, onCommand, onApprove, reloadVersion = 0, explicitTransport=false, ref, footer }: { footer?:ReactNode; reloadVersion?: number; explicitTransport?: boolean; value: JourneyCase; saving: boolean; onCommand: (command: CaseCommand) => Promise<CommitResult>; onApprove: (input: ApprovalInput, preview: PayloadSnapshot) => Promise<ApprovalCommitResult>; ref?: Ref<JourneyReviewHandle> }) {
+export function JourneyReviewPanel({ value, saving, reloading, onCommand, onApprove, reloadVersion = 0, explicitTransport=false, ref, footer }: { footer?:ReactNode; reloadVersion?: number; explicitTransport?: boolean; value: JourneyCase; saving: boolean; reloading: boolean; onCommand: (command: CaseCommand) => Promise<CommitResult>; onApprove: (input: ApprovalInput, preview: PayloadSnapshot) => Promise<ApprovalCommitResult>; ref?: Ref<JourneyReviewHandle> }) {
   const [tab, setTab] = useState<'clips' | 'diagram' | 'report'>('clips')
   const [diagramDirty, setDiagramDirty] = useState(false)
   const [reportDirty, setReportDirty] = useState(false)
@@ -43,7 +43,7 @@ export function JourneyReviewPanel({ value, saving, onCommand, onApprove, reload
   const clips = value.evidence.filter(item => item.kind === 'video')
   useImperativeHandle(ref, () => ({ preserveDraft: () => { reportPanel.current?.preserveDraft(); submissionPanel.current?.preserveDraft() }, recoveryCommand: () => reportPanel.current?.recoveryCommand() ?? null, finishBeforeLeave: async () => !diagramDirty && !reportDirty && !submissionDirty, openSubmission: () => { if (!diagramDirty && !reportDirty) setSubmission(true) } }), [diagramDirty, reportDirty, submissionDirty])
   return <>
-    <div ref={reviewContent} hidden={submission} className="journey-review-content journey-editor-panel">
+    <div ref={reviewContent} hidden={submission} inert={reloading} aria-busy={reloading} className="journey-review-content journey-editor-panel">
     <JourneyEditorLayout guidanceKey={tab+'/'+submission} step="사고 내용 확인" title="남겨진 자료를 살펴보세요" description={'확인할 수 없는 내용은 그대로 남겨도 돼요.'} primary={<JourneyAction disabled={diagramDirty || reportDirty} onClick={() => setSubmission(true)}>보낼 내용 확인</JourneyAction>}>
 
     <nav className="journey-record-tabs journey-review-tabs" aria-label="확인할 자료">
@@ -68,6 +68,6 @@ export function JourneyReviewPanel({ value, saving, onCommand, onApprove, reload
     </JourneyEditorLayout>
 
     </div>
-    <div ref={submissionContent} hidden={!submission} className="journey-editor-holder"><SubmissionPanel ref={submissionPanel} footer={footer} explicitTransport={explicitTransport} value={value} onApprove={onApprove} onCommand={onCommand} active={submission && value.stage === 'review'} onCancel={() => setSubmission(false)} onDirtyChange={setSubmissionDirty} /></div>
+    <div ref={submissionContent} hidden={!submission} inert={reloading} aria-busy={reloading} className="journey-editor-holder"><SubmissionPanel ref={submissionPanel} footer={footer} explicitTransport={explicitTransport} value={value} onApprove={onApprove} onCommand={onCommand} active={submission && value.stage === 'review'} onCancel={() => setSubmission(false)} onDirtyChange={setSubmissionDirty} /></div>
   </>
 }

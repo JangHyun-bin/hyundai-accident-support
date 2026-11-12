@@ -131,7 +131,7 @@ export function ReportPanel({ value, onCommand, reloadVersion = 0, active = true
       <label htmlFor={`report-edit-${draft.id}`}>문장 내용</label><textarea id={`report-edit-${draft.id}`} autoFocus value={draft.text} readOnly={saving} maxLength={LIMITS.statementLength} onChange={event => setDraft({ ...draft, text: event.target.value })} />
       <span className="journey-supporting">{draft.text.length} / {LIMITS.statementLength}</span>
       {references.map((reference, index) => <label className="journey-report-reference-choice" key={index}>
-        <input type="checkbox" checked={draft.references.some(item => JSON.stringify(item) === JSON.stringify(reference))} onChange={event => setDraft({ ...draft,
+        <input type="checkbox" disabled={saving} checked={draft.references.some(item => JSON.stringify(item) === JSON.stringify(reference))} onChange={event => setDraft({ ...draft,
           references: event.target.checked ? [...draft.references, reference] : draft.references.filter(item => JSON.stringify(item) !== JSON.stringify(reference)),
         })} />
         {value.evidence.find(e => e.id === reference.evidenceId)?.label ?? '확보하지 못한 자료'} 포함
