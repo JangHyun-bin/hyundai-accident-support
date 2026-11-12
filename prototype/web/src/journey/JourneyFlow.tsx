@@ -25,12 +25,8 @@ export function JourneyFlow({ value, device, active, onCommand, onNavigate, onRe
   const flow = useRef<HTMLElement>(null)
   const composing = useRef(false)
   const deferredAction = useRef<(() => void) | null>(null)
+  const revealFromController = useRef(false)
   const [contextVisible,setContextVisible]=useState(false)
-  useEffect(()=>{
-    let alive=true,frame=0
-    if(!previewHeight)document.fonts.ready.then(()=>{if(alive)frame=requestAnimationFrame(()=>flow.current?.querySelector('.ac-vehicle')?.scrollIntoView({block:'start'}))})
-    return()=>{alive=false;cancelAnimationFrame(frame)}
-  },[previewHeight])
   const reduced = !!useReducedMotionPreference()
   const { step: actualStep, layout, request, sending, call } = journeyFlow(value, responseView)
   const rescue = activeRequest(value, 'rescue')
@@ -60,6 +56,7 @@ export function JourneyFlow({ value, device, active, onCommand, onNavigate, onRe
     : step === 6 ? '수신처와 보낼 범위를 직접 확인해요. 실패한 요청은 승인했던 내용 그대로 다시 보내요.' : '확인되지 않은 차량 상태는 미확인으로 유지해요.'
 
   async function next() {
+    revealFromController.current=!!flow.current?.querySelector('.journey-flow-actions button:focus')
     if (inspectingSent) setShowSentReview(false)
     else if (sending) result('sent')
     else if (step === 1) {
@@ -79,6 +76,7 @@ export function JourneyFlow({ value, device, active, onCommand, onNavigate, onRe
     else if (step === 7) await onNavigate('follow-up')
   }
   async function back() {
+    revealFromController.current=!!flow.current?.querySelector('.journey-flow-actions button:focus')
     if(actualStep===7&&!inspectingSent){setShowSentReview(true);onReview();setPendingEditor('review');return}
     setShowSentReview(false)
     setPendingEditor(null)
@@ -98,10 +96,13 @@ export function JourneyFlow({ value, device, active, onCommand, onNavigate, onRe
     const heading = [...editor.querySelectorAll<HTMLElement>('h1')].find(node => node.getClientRects().length && !node.closest('[hidden], [inert]'))
     if (!heading) return
     if (!editor.contains(document.activeElement)) heading.focus({ preventScroll: true })
+    const bounds=heading.getBoundingClientRect()
+    if(revealFromController.current&&pendingEditor!=='response'&&(bounds.top<0||bounds.bottom>innerHeight))heading.scrollIntoView({block:'nearest',inline:'nearest'})
+    revealFromController.current=false
     setPendingEditor(null)
   }
 
-  const header=<div className="journey-flow-header">
+  const controller=<div className="journey-flow-header">
     <ol className="fs-stages" aria-label="사고 대응 진행">{stageLabels.map((label, index) => <li key={label} aria-current={step === index + 1 ? 'step' : undefined} data-done={index + 1 < step}><span>{String(index + 1).padStart(2, '0')}</span>{label}</li>)}</ol>
     <div className="fs-action-bar"><div className="fs-step-copy" aria-live="polite"><span className="fs-step-label">{step} / 7 · {stageLabels[step - 1]}</span><h1 tabIndex={-1}>{title}</h1><p>{support}</p></div><section className="journey-flow-actions" aria-label="여정 조작">
       <CareAction secondary aria-label="이전 단계" disabled={step === 1 || sending} onClick={() => afterComposition(()=>void back())}><ArrowLeft aria-hidden="true" />이전</CareAction>
@@ -117,13 +118,13 @@ export function JourneyFlow({ value, device, active, onCommand, onNavigate, onRe
         </section>
       </div></details>
     </section></div>
-    <div className="journey-flow-risk"><JourneyRiskNotice value={value} onCommand={onCommand}/></div>
   </div>
 
   return <section ref={flow} className="journey-flow" data-testid="journey-flow" data-step={step} data-transfer={request?.transport ?? request?.status ?? 'idle'}
     onCompositionStartCapture={()=>{composing.current=true;if(flow.current)flow.current.dataset.composing='true'}}
     onCompositionEndCapture={()=>{composing.current=false;if(flow.current)flow.current.dataset.composing='false';const action=deferredAction.current;deferredAction.current=null;if(action)queueMicrotask(action)}}>
-    <VehicleShell device={device} presentation="bounded" header={header} previewHeight={previewHeight}><JourneyDashboard contextVisible={contextVisible} onContext={()=>afterComposition(()=>setContextVisible(!contextVisible))}>
+    <VehicleShell device={device} presentation="bounded" controls={controller} previewHeight={previewHeight}><JourneyDashboard contextVisible={contextVisible} onContext={()=>afterComposition(()=>setContextVisible(!contextVisible))}>
+      <div className="journey-flow-risk"><JourneyRiskNotice value={value} onCommand={onCommand}/></div>
       <div className="journey-flow-scene"><SurroundingsScene bounded active={active} vehicle={vehicleContourState(value)} /></div>
       <FlowBoard layout={inspectingSent ? 'review' : layout} notificationKey={[step, call, request?.transport, receipt, checks, arrived, inspectingSent].join('/')} reduced={reduced||!active} readout={false} persistentCells onSettled={revealEditor} renderCell={(id, compact) => {
         if (id === 'emergency') return <><div className="fs-call-core"><div className="fs-cell-label"><span>119 긴급 통화</span><Phone aria-hidden="true" /></div><p>{callLabel}</p><CareStatus tone={rescue?.status === 'received' ? 'confirmed' : 'unknown'}>{rescue?.status === 'received' ? '구호 접수 확인' : '구호 접수 미확인'}</CareStatus></div>{!compact && <div className="fs-call-decoration" aria-hidden="true"><div className="fs-call-number">119</div><CareSpectrum active={call === 'connected'} /></div>}</>

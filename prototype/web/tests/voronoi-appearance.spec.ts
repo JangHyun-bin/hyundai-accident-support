@@ -5,7 +5,7 @@ import type {FlowFrame} from '../src/design-system/flow-contract'
 
 test('wide workspaces retain a visible diagonal partition instead of rectangular columns',()=>{
  for(const [width,height] of [[672,410],[912,680],[1232,1040]]){
-  const frame:FlowFrame={width,height,device:'vehicle',mode:'wide',contentHeight:height,headerHeight:0,statusHeight:0,dockHeight:0,revision:'appearance',reason:'fixture',metrics:{rem:16,bodyLineHeight:27,headingLineHeight:34,callLineHeight:36.68,labelLineHeight:21,touch:64}}
+  const frame:FlowFrame={width,height,device:'vehicle',mode:'wide',contentHeight:height,statusHeight:0,dockHeight:0,revision:'appearance',reason:'fixture',metrics:{rem:16,bodyLineHeight:27,headingLineHeight:34,callLineHeight:36.68,labelLineHeight:21,touch:64}}
   for(const layout of ['detect','evacuate','safe','review','sending'] as const){
    const plan=createFlowPlan(layout,width,height,frame),shape=plan.cells[layoutPriority[layout]].shape!
    const edge=shape.polygon.filter(([x])=>x>width*.4).map(([x])=>x)

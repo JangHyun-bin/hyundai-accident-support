@@ -54,9 +54,9 @@ export function FlowStudy(){
  const locked=state.driving&&state.step!==1
  return <MotionConfig reducedMotion={reduced||state.driving?'always':'user'}><main className="ac-system fs-study" data-testid="flow-study" data-step={state.step} data-transfer={state.transfer} data-quiet={reduced||state.driving}>
   <header className="fs-heading"><div><a href="/?study=design-system"><ArrowLeft size={15}/>AFTER / CARE</a><h1>흐름에 맞춰, 공간도 함께.</h1></div><p>Stage / Layout preview<span>실제 전화·전송 없는 시연</span></p></header>
-  <VehicleShell presentation="bounded" header={<div className="fs-flow-header">  <ol className="fs-stages" aria-label="사고 대응 진행">{stageLabels.map((label,i)=><li key={label} aria-current={state.step===i+1?'step':undefined} data-done={i+1<state.step}><span>{String(i+1).padStart(2,'0')}</span>{label}</li>)}</ol>
+  <VehicleShell presentation="bounded" controls={<div className="fs-flow-header">  <ol className="fs-stages" aria-label="사고 대응 진행">{stageLabels.map((label,i)=><li key={label} aria-current={state.step===i+1?'step':undefined} data-done={i+1<state.step}><span>{String(i+1).padStart(2,'0')}</span>{label}</li>)}</ol>
   <div className="fs-action-bar"><div className="fs-step-copy" aria-live="polite"><span className="fs-step-label">{String(state.step).padStart(2,'0')} / 07 · {stageLabels[state.step-1]}</span><h2>{state.transfer==='failed'?'전송되지 않았어요':sending?'기록을 보내고 있어요':copy.title}</h2><p data-testid="flow-step-support">{state.driving?'주행 중에는 119 통화만 조작할 수 있어요.':state.transfer==='failed'?'작성한 내용은 유지돼요. 다시 보내주세요.':sending?'전송 결과를 기다리고 있어요.':copy.support}</p></div><CareAction data-testid="flow-primary" disabled={locked||sending||(state.step===5&&!state.note.trim())} onClick={act}>{sending?'전송 중':state.transfer==='failed'?'다시 보내기':copy.action}{!sending&&<ArrowRight aria-hidden="true"/>}</CareAction></div>
-<div className="fs-risk-slot"/></div>}>
+</div>}>
 <div className="fs-dashboard" data-context={vehicleOpen?'scene':'workspace'}>
    <CareAction secondary className="fs-context-toggle" aria-pressed={vehicleOpen} onClick={()=>setVehicleOpen(open=>!open)}>{vehicleOpen?'작업으로 돌아가기':'차량 상태 보기'}</CareAction>
    <CareSurface className="fs-vehicle"><CareVehicleContour state={vehicle}/></CareSurface>

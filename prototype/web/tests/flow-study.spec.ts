@@ -97,13 +97,14 @@ test('long review opens at the beginning with enlarged mobile text',async({page}
  await expect(dialog.getByRole('heading')).toBeInViewport()
 })
 
-test('primary action is visible on entry and stays reachable through all seven stages',async({page})=>{
+test('demo action stays outside the display and reachable through all seven stages',async({page})=>{
  await page.emulateMedia({reducedMotion:'reduce'})
  for(const [width,height] of [[1440,900],[1280,720],[393,852]]){
   await page.setViewportSize({width,height});await page.goto('/?study=flow')
   const primary=page.getByTestId('flow-primary')
   for(let step=1;step<=7;step++){
    await expect(page.getByTestId('flow-study')).toHaveAttribute('data-step',String(step),{timeout:6000})
+   await primary.evaluate(node=>node.scrollIntoView({block:'center'}))
    const rect=await primary.boundingBox()
    expect(rect!.y,`stage ${step} at ${width}px`).toBeGreaterThanOrEqual(0)
    expect(rect!.y+rect!.height,`stage ${step} at ${width}px`).toBeLessThanOrEqual(height)
@@ -112,8 +113,8 @@ test('primary action is visible on entry and stays reachable through all seven s
   await page.evaluate(()=>scrollTo(0,document.documentElement.scrollHeight))
   await primary.scrollIntoViewIfNeeded()
   await expect(primary).toBeInViewport({ratio:1})
-  const header=await page.locator('.fs-action-bar').boundingBox(),content=await page.locator('.ac-vehicle-content').boundingBox()
-  expect(header!.y+header!.height,'reserved header must not cover the task').toBeLessThanOrEqual(content!.y)
+  const controller=await page.locator('.fs-action-bar').boundingBox(),display=await page.locator('.ac-vehicle').boundingBox()
+  expect(controller!.y,'demo controls must not occupy the display').toBeGreaterThanOrEqual(display!.y+display!.height)
  }
 })
 

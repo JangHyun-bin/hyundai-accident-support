@@ -7,17 +7,12 @@ export function resolveFlowFrame(input:FlowFrameInput):FlowFrame {
  const padding=mobile||width<=600?12:16
  const statusHeight=mobile?0:Math.max(width<=416?72:48,metrics.labelLineHeight*(width<=416?2:1)+24)
  const dockHeight=mobile?0:Math.max(64,metrics.labelLineHeight+32)
- const progress=Math.max(32,metrics.labelLineHeight+8)
- const copy=metrics.labelLineHeight+metrics.headingLineHeight*(wide?1:2)+metrics.bodyLineHeight*(wide?2:3)+16
- const action=wide?Math.max(2*metrics.touch,copy):copy+2*metrics.touch
- const urgent=Math.max(metrics.touch,2*metrics.bodyLineHeight+16)
- const headerHeight=Math.ceil(progress+action+urgent+16)
- const contentHeight=Math.floor(height-2*padding-(mobile?16:48)-statusHeight-dockHeight-headerHeight)
+ const contentHeight=Math.floor(height-2*padding-(mobile?0:32)-statusHeight-dockHeight)
  // 세 줄 본문과 필수 control을 함께 표시할 수 없는 환경만 document로 전환.
  const callHeight=Math.max(106*metrics.rem/16,metrics.callLineHeight+2*metrics.labelLineHeight+24*metrics.rem/16)
  const minimum=3*metrics.bodyLineHeight+metrics.touch+metrics.headingLineHeight+(wide?48:metrics.touch+callHeight+96)
  const mode=contentHeight<minimum?'document':mobile?'mobile':wide?'wide':'narrow'
- return {...input,mode,contentHeight:mode==='document'?Math.ceil(minimum):contentHeight,headerHeight,statusHeight,dockHeight,
+ return {...input,mode,contentHeight:mode==='document'?Math.ceil(minimum):contentHeight,statusHeight,dockHeight,
   revision:[width,height,device,...Object.values(metrics)].join('/'),
   reason:mode==='document'?'essential-controls-and-three-lines-do-not-fit':mobile?'mobile-device':wide?'two-readable-vehicle-panes':'single-readable-vehicle-pane'}
 }

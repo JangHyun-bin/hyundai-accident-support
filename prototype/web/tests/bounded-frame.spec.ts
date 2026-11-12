@@ -33,7 +33,7 @@ test('frame profile uses only environment and reserves three body lines plus con
  const mobile=await resolve(page,{width:393,height:852,device:'mobile',metrics:{...standard,touch:48}})
  expect(vehicle.mode).toBe('narrow');expect(vehicle.metrics.touch).toBe(64)
  expect(mobile.mode).toBe('mobile');expect(mobile.metrics.touch).toBe(48)
- const shortVehicle=await resolve(page,{width:393,height:852,device:'vehicle',metrics:standard})
+ const shortVehicle=await resolve(page,{width:393,height:600,device:'vehicle',metrics:standard})
  expect(shortVehicle.mode).toBe('document')
  const callHeight=Math.max(106,standard.callLineHeight+2*standard.labelLineHeight+24)
  const required=2*standard.touch+callHeight+96+3*standard.bodyLineHeight+standard.headingLineHeight
@@ -82,7 +82,7 @@ test('bounded shell and scene keep their bounds through long content and every s
 
 test('font and host changes update environment while retaining children',async({page})=>{
  await page.setViewportSize({width:393,height:1080});await page.emulateMedia({reducedMotion:'reduce'})
- await fixture(page,{height:1080})
+ await fixture(page,{height:700})
  const shell=page.locator('.ac-vehicle'),editor=await page.locator('textarea').elementHandle()
  await expect(shell).toHaveAttribute('data-flow-mode','narrow')
  await page.evaluate(()=>{document.documentElement.style.fontSize='32px'})
