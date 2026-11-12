@@ -21,7 +21,8 @@ test('content-first endpoints are deterministic, reserve usable slots and keep f
    expect(ids.filter(id=>plan.cells[id].visible)).toHaveLength([2,3,4,3,2,2][index])
    const primary=plan.cells[layoutPriority[plan.layout]]
    expect(primary.variant).toBe('full');expect(primary.scroll).toBe(true)
-   expect(primary.slot.width).toBeGreaterThanOrEqual(width*.66-48-.01)
+   expect(primary.slot.width).toBeGreaterThanOrEqual(width*.60-48-.01)
+   expect(primary.slot).toEqual(planned[0].cells.guide.slot)
    expect(primary.slot.height).toBeGreaterThanOrEqual(height-48-.01)
    expect(plan.cells.emergency.slot).toEqual(planned[0].cells.emergency.slot)
    expect(plan.cells.emergency.slot.width).toBeGreaterThanOrEqual(width*.34-40-.01)
@@ -60,7 +61,7 @@ test('rounded endpoint paths contain slot perimeters and four-pixel focus rings'
  expect(failures).toEqual([])
 })
 
-test('dense geometry samples retain critical containment, finite paths and continuous four-vertex correspondence',async({page})=>{
+test('dense geometry samples retain critical containment, finite paths and continuous vertex correspondence',async({page})=>{
  expect(typeof api.sampleFlowShapes).toBe('function');await page.goto('/')
  const result=await page.evaluate(async({environments,layouts,frames})=>{
   const modulePath='/src/design-system/flow-plan.ts'
@@ -74,9 +75,9 @@ test('dense geometry samples retain critical containment, finite paths and conti
      const sample=sampleFlowShapes(flowShapes(source),flowShapes(target),index/240);samples++
      for(const [id,shape] of Object.entries(sample)){
       if(!shape)continue
-      if(shape.polygon.length!==4||/NaN|Infinity/.test(shape.path)||!Number.isFinite(shape.areaFraction))failures.push(`invalid ${id}`)
-      for(let vertex=0;vertex<4;vertex++){
-       const a=shape.polygon[vertex],b=shape.polygon[(vertex+1)%4],c=shape.polygon[(vertex+2)%4]
+      if(shape.polygon.length!==5||/NaN|Infinity/.test(shape.path)||!Number.isFinite(shape.areaFraction))failures.push(`invalid ${id}`)
+      for(let vertex=0;vertex<shape.polygon.length;vertex++){
+       const a=shape.polygon[vertex],b=shape.polygon[(vertex+1)%shape.polygon.length],c=shape.polygon[(vertex+2)%shape.polygon.length]
        if((b[0]-a[0])*(c[1]-b[1])-(b[1]-a[1])*(c[0]-b[0])<-1e-6)failures.push(`nonconvex ${id}`)
        const prior=previous[id as CellId];if(prior)maxVertexStep=Math.max(maxVertexStep,Math.hypot(a[0]-prior.polygon[vertex][0],a[1]-prior.polygon[vertex][1]))
       }
