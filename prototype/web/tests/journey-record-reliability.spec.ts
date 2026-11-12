@@ -1,3 +1,4 @@
+/// <reference lib="es2024.promise" />
 import { test, expect, type Page } from '@playwright/test'
 import type ReactModule from 'react'
 import type * as ReactDOMClient from 'react-dom/client'
