@@ -1,0 +1,737 @@
+--------- beginning of system
+01-01 09:00:02.029  1627  1627 I ActivityManager: Memory class: 48
+03-18 05:27:12.025  1627  1627 I ActivityManager: Config changes=20005df8 {1.0 ?mcc?mnc [en_US] ldltr sw901dp w1442dp h901dp 213dpi xlrg land ?uimode ?night -touch -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 0, 0) mAppBounds=Rect(0, 0 - 1920, 1200) mWindowingMode=fullscreen mActivityType=undefined} s.2}
+03-18 05:27:12.025  1627  1627 I ActivityManager: Override config changes=60007dfc {1.0 ?mcc?mnc [en_US] ldltr sw901dp w1442dp h901dp 213dpi xlrg land ?uimode ?night -touch -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 1920, 1200) mAppBounds=Rect(0, 0 - 1920, 1200) mWindowingMode=fullscreen mActivityType=undefined} s.2} for displayId=0
+03-18 05:27:12.029  1627  1627 I ActivityManager: Config changes=20000400 {1.0 ?mcc?mnc [en_US] ldltr sw901dp w1442dp h821dp 213dpi xlrg land ?uimode ?night -touch -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 0, 0) mAppBounds=Rect(0, 0 - 1920, 1125) mWindowingMode=fullscreen mActivityType=undefined} s.3}
+03-18 05:27:12.030  1627  1627 I ActivityManager: Override config changes=20000400 {1.0 ?mcc?mnc [en_US] ldltr sw901dp w1442dp h821dp 213dpi xlrg land ?uimode ?night -touch -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 1920, 1200) mAppBounds=Rect(0, 0 - 1920, 1125) mWindowingMode=fullscreen mActivityType=undefined} s.3} for displayId=0
+03-18 05:27:12.032  1627  1689 I ActivityManager: Config changes=200 {1.0 ?mcc?mnc [en_US] ldltr sw901dp w1442dp h821dp 213dpi xlrg land -touch -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 0, 0) mAppBounds=Rect(0, 0 - 1920, 1125) mWindowingMode=fullscreen mActivityType=undefined} s.4}
+03-18 05:27:12.032  1627  1689 I ActivityManager: Override config changes=200 {1.0 ?mcc?mnc [en_US] ldltr sw901dp w1442dp h821dp 213dpi xlrg land -touch -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 1920, 1200) mAppBounds=Rect(0, 0 - 1920, 1125) mWindowingMode=fullscreen mActivityType=undefined} s.4} for displayId=0
+03-18 05:27:12.061  1627  1708 I ActivityManager: Config changes=8 {1.0 ?mcc?mnc [en_US] ldltr sw901dp w1442dp h821dp 213dpi xlrg land finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 0, 0) mAppBounds=Rect(0, 0 - 1920, 1125) mWindowingMode=fullscreen mActivityType=undefined} s.5}
+03-18 05:27:12.061  1627  1708 I ActivityManager: Override config changes=8 {1.0 ?mcc?mnc [en_US] ldltr sw901dp w1442dp h821dp 213dpi xlrg land finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 1920, 1200) mAppBounds=Rect(0, 0 - 1920, 1125) mWindowingMode=fullscreen mActivityType=undefined} s.5} for displayId=0
+03-18 05:27:12.135  1627  1627 I ActivityManager: System now ready
+03-18 05:27:12.136  1627  1627 W ActivityManager: Too early to start/bind service in system_server: Phase=550 ComponentInfo{com.android.server.telecom/com.android.server.telecom.components.TelecomService}
+03-18 05:27:12.136  1627  1627 W ActivityManager: Too early to start/bind service in system_server: Phase=550 ComponentInfo{com.android.server.telecom/com.android.server.telecom.components.TelecomService}
+03-18 05:27:12.147  1627  1642 I ActivityManager: Force stopping com.android.providers.media appid=10023 user=-1: vold reset
+03-18 05:27:12.166  1627  1627 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.HOME] flg=0x10000100 cmp=com.android.settings/.FallbackHome} from uid 0
+03-18 05:27:12.167  1627  1627 I ActivityManager: Loaded persisted task ids for user 0
+03-18 05:27:12.180  1627  1644 I ActivityManager: Start proc 1773:com.google.android.inputmethod.latin/u0a75 for service com.google.android.inputmethod.latin/com.android.inputmethod.latin.LatinIME
+03-18 05:27:12.199  1627  1644 W ActivityManager: Slow operation: 51ms so far, now at startProcess: done updating battery stats
+03-18 05:27:12.199  1627  1644 W ActivityManager: Slow operation: 51ms so far, now at startProcess: building log message
+03-18 05:27:12.199  1627  1644 I ActivityManager: Start proc 1798:com.android.systemui/u0a40 for service com.android.systemui/.SystemUIService
+03-18 05:27:12.199  1627  1644 W ActivityManager: Slow operation: 51ms so far, now at startProcess: starting to update pids map
+03-18 05:27:12.199  1627  1644 W ActivityManager: Slow operation: 51ms so far, now at startProcess: done updating pids map
+03-18 05:27:12.210  1627  1644 W ActivityManager: Slow operation: 58ms so far, now at startProcess: returned from zygote!
+03-18 05:27:12.210  1627  1644 W ActivityManager: Slow operation: 58ms so far, now at startProcess: done updating battery stats
+03-18 05:27:12.210  1627  1644 W ActivityManager: Slow operation: 58ms so far, now at startProcess: building log message
+03-18 05:27:12.210  1627  1644 I ActivityManager: Start proc 1813:WebViewLoader-arm64-v8a/1037 [android.webkit.WebViewLibraryLoader$RelroFileCreator] for 
+03-18 05:27:12.210  1627  1644 W ActivityManager: Slow operation: 58ms so far, now at startProcess: starting to update pids map
+03-18 05:27:12.210  1627  1644 W ActivityManager: Slow operation: 58ms so far, now at startProcess: done updating pids map
+03-18 05:27:12.220  1627  1644 W ActivityManager: Slow operation: 54ms so far, now at startProcess: returned from zygote!
+03-18 05:27:12.220  1627  1644 W ActivityManager: Slow operation: 54ms so far, now at startProcess: done updating battery stats
+03-18 05:27:12.220  1627  1644 W ActivityManager: Slow operation: 54ms so far, now at startProcess: building log message
+03-18 05:27:12.220  1627  1644 I ActivityManager: Start proc 1836:com.android.phone/1001 for added application com.android.phone
+03-18 05:27:12.220  1627  1644 W ActivityManager: Slow operation: 54ms so far, now at startProcess: starting to update pids map
+03-18 05:27:12.220  1627  1644 W ActivityManager: Slow operation: 54ms so far, now at startProcess: done updating pids map
+03-18 05:27:12.230  1627  1644 W ActivityManager: Slow operation: 60ms so far, now at startProcess: returned from zygote!
+03-18 05:27:12.231  1627  1627 W ActivityManager: Unable to start service Intent { act=android.service.notification.NotificationListenerService cmp=com.google.android.setupwizard/.predeferred.NotificationConsolidatorService } U=0: not found
+03-18 05:27:12.232  1627  1644 W ActivityManager: Slow operation: 61ms so far, now at startProcess: done updating battery stats
+03-18 05:27:12.232  1627  1644 W ActivityManager: Slow operation: 61ms so far, now at startProcess: building log message
+03-18 05:27:12.232  1627  1644 I ActivityManager: Start proc 1852:com.android.settings/1000 for activity com.android.settings/.FallbackHome
+03-18 05:27:12.232  1627  1644 W ActivityManager: Slow operation: 61ms so far, now at startProcess: starting to update pids map
+03-18 05:27:12.232  1627  1644 W ActivityManager: Slow operation: 61ms so far, now at startProcess: done updating pids map
+03-18 05:27:12.243  1627  1644 I ActivityManager: Start proc 1866:com.google.android.ext.services/u0a29 for service com.google.android.ext.services/android.ext.services.notification.Assistant
+03-18 05:27:12.280  1627  1756 I ActivityManager: Process WebViewLoader-arm64-v8a (pid 1813) has died: psvc PER 
+11-13 01:40:15.822  1627  1644 I ActivityManager: Start proc 1963:com.google.android.deskclock/u0a80 for broadcast com.google.android.deskclock/com.android.deskclock.AlarmInitReceiver
+11-13 01:40:15.934  1627  1644 I ActivityManager: Start proc 2015:com.google.android.gms.persistent/u0a24 for broadcast com.google.android.gms/.chimera.GmsIntentOperationService$PersistentTrustedReceiver
+11-13 01:40:15.936  1627  1894 I ActivityManager: Config changes=3 {1.0 310mcc260mnc [en_US] ldltr sw901dp w1442dp h821dp 213dpi xlrg land finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 0, 0) mAppBounds=Rect(0, 0 - 1920, 1125) mWindowingMode=fullscreen mActivityType=undefined} s.6}
+11-13 01:40:15.938  1627  1894 I ActivityManager: Override config changes=3 {1.0 310mcc260mnc [en_US] ldltr sw901dp w1442dp h821dp 213dpi xlrg land finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 1920, 1125) mAppBounds=Rect(0, 0 - 1920, 1125) mWindowingMode=fullscreen mActivityType=undefined} s.6} for displayId=0
+--------- beginning of main
+11-13 01:40:16.064  1627  1644 I ActivityManager: Start proc 2044:com.google.android.dialer/u0a35 for broadcast com.google.android.dialer/com.android.dialer.app.voicemail.LegacyVoicemailNotificationReceiver
+11-13 01:40:16.141  1627  1894 W ActivityManager: Unable to start service Intent { act=com.google.android.gms.icing.LIGHTWEIGHT_INDEX_SERVICE pkg=com.google.android.gms } U=0: not found
+11-13 01:40:16.141  1627  1894 W ActivityManager: Unbind failed: could not find connection for android.os.BinderProxy@7497778
+11-13 01:40:16.166  1627  1756 I ActivityManager: Start proc 2085:android.process.acore/u0a16 for content provider com.android.providers.blockednumber/.BlockedNumberProvider
+11-13 01:40:16.183  1627  1638 W ActivityManager: Unable to start service Intent { act=com.google.android.gms.people.service.START pkg=com.google.android.gms } U=0: not found
+11-13 01:40:16.183  1627  1638 W ActivityManager: Unbind failed: could not find connection for android.os.BinderProxy@20b22bc
+11-13 01:40:16.183  1627  1638 W ActivityManager: Unable to start service Intent { act=com.google.android.gms.telephonyspam.service.START pkg=com.google.android.gms } U=0: not found
+11-13 01:40:16.184  1627  1756 W ActivityManager: Unbind failed: could not find connection for android.os.BinderProxy@cbb4245
+11-13 01:40:16.185  1627  1756 W ActivityManager: Unable to start service Intent { act=com.google.android.gms.people.service.START pkg=com.google.android.gms } U=0: not found
+11-13 01:40:16.185  1627  1756 W ActivityManager: Unbind failed: could not find connection for android.os.BinderProxy@4a6d9a
+11-13 01:40:16.185  1627  1894 W ActivityManager: Unable to start service Intent { act=com.google.android.gms.phenotype.service.START pkg=com.google.android.gms } U=0: not found
+11-13 01:40:16.185  1627  1894 W ActivityManager: Unbind failed: could not find connection for android.os.BinderProxy@c31c6cb
+11-13 01:40:16.193  1627  1756 W ActivityManager: Unable to start service Intent { act=com.google.android.gms.phenotype.service.START pkg=com.google.android.gms } U=0: not found
+11-13 01:40:16.193  1627  1756 W ActivityManager: Unbind failed: could not find connection for android.os.BinderProxy@41b0d54
+11-13 01:40:16.289  1627  1638 W ActivityManager: Unable to start service Intent { act=com.google.android.gms.clearcut.bootcount.service.START cmp=com.google.android.gms/.chimera.PersistentBoundBrokerService } U=0: not found
+11-13 01:40:16.294  1627  1644 I ActivityManager: Start proc 2119:com.android.cellbroadcastreceiver/u0a41 for broadcast com.android.cellbroadcastreceiver/.CellBroadcastReceiver
+11-13 01:40:16.294  1627  1638 W ActivityManager: Unbind failed: could not find connection for android.os.BinderProxy@7532bac
+11-13 01:40:16.576  1627  1650 I ActivityManager: User 0 state changed from BOOTING to RUNNING_LOCKED
+11-13 01:40:16.601  1627  1644 I ActivityManager: Start proc 2153:com.google.android.gms/u0a24 for service com.google.android.gms/.chimera.GmsIntentOperationService
+11-13 01:40:16.785  1627  1648 I ActivityManager: User 0 state changed from RUNNING_LOCKED to RUNNING_UNLOCKING
+11-13 01:40:16.808  1627  1894 I ActivityManager: Start proc 2176:com.google.process.gservices/u0a24 for content provider com.google.android.gsf/.gservices.GservicesProvider
+11-13 01:40:16.816  1627  1642 I ActivityManager: User 0 state changed from RUNNING_UNLOCKING to RUNNING_UNLOCKED
+11-13 01:40:16.817  1627  1642 I ActivityManager: Sending BOOT_COMPLETE user #0
+11-13 01:40:16.824  1627  1895 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.HOME] flg=0x10000100 cmp=com.android.launcher3/.Launcher} from uid 0
+11-13 01:40:16.874  1627  2210 W ActivityManager: Slow operation: 57ms so far, now at startProcess: done updating battery stats
+11-13 01:40:16.874  1627  2210 W ActivityManager: Slow operation: 59ms so far, now at startProcess: building log message
+11-13 01:40:16.875  1627  2210 I ActivityManager: Start proc 2200:com.google.android.googlequicksearchbox:interactor/u0a44 for service com.google.android.googlequicksearchbox/com.google.android.voiceinteraction.GsaVoiceInteractionService
+11-13 01:40:16.875  1627  2210 W ActivityManager: Slow operation: 59ms so far, now at startProcess: starting to update pids map
+11-13 01:40:16.875  1627  2210 W ActivityManager: Slow operation: 59ms so far, now at startProcess: done updating pids map
+11-13 01:40:16.876  1627  1644 W ActivityManager: Slow operation: 60ms so far, now at startProcess: asking zygote to start proc
+11-13 01:40:16.881  1627  1648 I ActivityManager: Loading recents for user 0 into memory.
+11-13 01:40:16.887  1627  1644 W ActivityManager: Slow operation: 70ms so far, now at startProcess: returned from zygote!
+11-13 01:40:16.887  1627  1644 W ActivityManager: Slow operation: 70ms so far, now at startProcess: done updating battery stats
+11-13 01:40:16.887  1627  1644 W ActivityManager: Slow operation: 70ms so far, now at startProcess: building log message
+11-13 01:40:16.887  1627  1644 I ActivityManager: Start proc 2230:com.android.se/1068 for added application com.android.se
+11-13 01:40:16.887  1627  1644 W ActivityManager: Slow operation: 70ms so far, now at startProcess: starting to update pids map
+11-13 01:40:16.887  1627  1644 W ActivityManager: Slow operation: 70ms so far, now at startProcess: done updating pids map
+11-13 01:40:16.887  1627  1644 W ActivityManager: Slow operation: 68ms so far, now at startProcess: asking zygote to start proc
+11-13 01:40:16.898  1627  1644 W ActivityManager: Slow operation: 80ms so far, now at startProcess: returned from zygote!
+11-13 01:40:16.898  1627  1644 W ActivityManager: Slow operation: 80ms so far, now at startProcess: done updating battery stats
+11-13 01:40:16.898  1627  1644 W ActivityManager: Slow operation: 80ms so far, now at startProcess: building log message
+11-13 01:40:16.898  1627  1644 I ActivityManager: Start proc 2238:android.process.media/u0a23 for broadcast com.android.providers.downloads/.DownloadReceiver
+11-13 01:40:16.898  1627  1644 W ActivityManager: Slow operation: 80ms so far, now at startProcess: starting to update pids map
+11-13 01:40:16.898  1627  1644 W ActivityManager: Slow operation: 80ms so far, now at startProcess: done updating pids map
+11-13 01:40:16.898  1627  1644 W ActivityManager: Slow operation: 78ms so far, now at startProcess: asking zygote to start proc
+11-13 01:40:16.909  1627  1644 W ActivityManager: Slow operation: 88ms so far, now at startProcess: returned from zygote!
+11-13 01:40:16.909  1627  1644 W ActivityManager: Slow operation: 88ms so far, now at startProcess: done updating battery stats
+11-13 01:40:16.909  1627  1644 W ActivityManager: Slow operation: 88ms so far, now at startProcess: building log message
+11-13 01:40:16.909  1627  1644 I ActivityManager: Start proc 2248:com.android.smspush/u0a64 for service com.android.smspush/.WapPushManager
+11-13 01:40:16.909  1627  1644 W ActivityManager: Slow operation: 88ms so far, now at startProcess: starting to update pids map
+11-13 01:40:16.909  1627  1644 W ActivityManager: Slow operation: 88ms so far, now at startProcess: done updating pids map
+11-13 01:40:16.919  1627  1644 I ActivityManager: Start proc 2278:com.android.launcher3/u0a42 for activity com.android.launcher3/.Launcher
+11-13 01:40:16.942  1627  1644 W ActivityManager: Slow operation: 69ms so far, now at startProcess: returned from zygote!
+11-13 01:40:16.945  1627  1644 W ActivityManager: Slow operation: 72ms so far, now at startProcess: done updating battery stats
+11-13 01:40:16.945  1627  1644 W ActivityManager: Slow operation: 72ms so far, now at startProcess: building log message
+11-13 01:40:16.945  1627  1644 I ActivityManager: Start proc 2312:com.android.printspooler/u0a54 for service com.android.printspooler/.model.PrintSpoolerService
+11-13 01:40:16.945  1627  1644 W ActivityManager: Slow operation: 72ms so far, now at startProcess: starting to update pids map
+11-13 01:40:16.945  1627  1644 W ActivityManager: Slow operation: 72ms so far, now at startProcess: done updating pids map
+11-13 01:40:16.945  1627  1644 W ActivityManager: Slow operation: 68ms so far, now at startProcess: asking zygote to start proc
+11-13 01:40:16.955  1627  1644 W ActivityManager: Slow operation: 78ms so far, now at startProcess: returned from zygote!
+11-13 01:40:16.955  1627  1644 W ActivityManager: Slow operation: 78ms so far, now at startProcess: done updating battery stats
+11-13 01:40:16.955  1627  1644 W ActivityManager: Slow operation: 79ms so far, now at startProcess: building log message
+11-13 01:40:16.955  1627  1644 I ActivityManager: Start proc 2321:com.google.android.setupwizard/u0a39 for service com.google.android.setupwizard/.predeferred.NotificationConsolidatorService
+11-13 01:40:16.955  1627  1644 W ActivityManager: Slow operation: 79ms so far, now at startProcess: starting to update pids map
+11-13 01:40:16.955  1627  1644 W ActivityManager: Slow operation: 79ms so far, now at startProcess: done updating pids map
+11-13 01:40:17.012  1627  1644 I ActivityManager: Start proc 2364:com.android.keychain/1000 for service com.android.keychain/.KeyChainService
+11-13 01:40:17.026  1627  1644 I ActivityManager: Start proc 2388:com.google.android.apps.photos/u0a83 for broadcast com.google.android.apps.photos/.sdcard.envcache.ExternalStorageStateChangeBroadcastReceiver
+11-13 01:40:17.043  1627  1644 I ActivityManager: Start proc 2396:com.google.android.gm/u0a84 for content provider com.google.android.gm/com.android.exchange.provider.ExchangeDirectoryProvider
+11-13 01:40:17.171  1627  2210 W ActivityManager: Background start not allowed: service Intent { act=com.google.firebase.INSTANCE_ID_EVENT pkg=com.google.android.gm cmp=com.google.android.gm/com.google.firebase.iid.FirebaseInstanceIdService (has extras) } to com.google.android.gm/com.google.firebase.iid.FirebaseInstanceIdService from pid=2396 uid=10084 pkg=com.google.android.gm startFg?=false
+11-13 01:40:17.171  1627  1644 I ActivityManager: Start proc 2451:com.google.android.googlequicksearchbox:search/u0a44 for service com.google.android.googlequicksearchbox/com.google.android.hotword.service.HotwordService
+11-13 01:40:17.218  1627  2210 W ActivityManager: Unable to start service Intent { act=com.android.vending.setup.IPlaySetupServiceV2.BIND pkg=com.android.vending } U=0: not found
+11-13 01:40:17.219  1627  1756 W ActivityManager: Unable to start service Intent { act=com.android.vending.setup.IPlaySetupServiceV2.BIND pkg=com.android.vending } U=0: not found
+11-13 01:40:17.306  1627  1650 I ActivityManager: Displayed com.android.launcher3/.Launcher: +409ms
+11-13 01:40:17.346  1627  1644 I ActivityManager: Start proc 2510:com.google.process.gapps/u0a24 for content provider com.google.android.gsf/.settings.GoogleSettingsProvider
+11-13 01:40:17.599  1627  1644 I ActivityManager: Start proc 2557:com.android.contacts/u0a43 for broadcast com.android.contacts/.interactions.OnBootOrUpgradeReceiver
+11-13 01:40:17.767  1627  1894 W ActivityManager: Unable to start service Intent { cmp=com.google.android.gm/com.android.email.service.AttachmentService } U=0: not found
+11-13 01:40:17.834  1627  1644 I ActivityManager: Start proc 2596:com.google.android.partnersetup/u0a47 for content provider com.google.android.partnersetup/.RlzAppProvider
+11-13 01:40:17.880  1627  1644 I ActivityManager: Start proc 2615:com.android.managedprovisioning/u0a25 for broadcast com.android.managedprovisioning/.preprovisioning.BootReminder
+11-13 01:40:17.943  1627  1644 I ActivityManager: Start proc 2635:com.android.providers.calendar/u0a20 for broadcast com.android.providers.calendar/.CalendarReceiver
+11-13 01:40:18.141  1627  2209 I ActivityManager: Start proc 2685:com.android.traceur/u0a61 for broadcast com.android.traceur/.Receiver
+11-13 01:40:18.163  1627  1644 I ActivityManager: Start proc 2702:com.google.android.apps.maps/u0a79 for broadcast com.google.android.apps.maps/com.google.android.apps.gmm.navigation.service.detection.StartDetectionReceiver
+11-13 01:40:18.319  1627  1756 I ActivityManager: Start proc 2754:com.google.android.apps.messaging/u0a65 for broadcast com.google.android.apps.messaging/.shared.receiver.BootAndPackageReplacedReceiver
+11-13 01:40:18.378  1627  1756 W ActivityManager: Background start not allowed: service Intent { act=com.google.firebase.INSTANCE_ID_EVENT pkg=com.google.android.apps.messaging cmp=com.google.android.apps.messaging/com.google.firebase.iid.FirebaseInstanceIdService (has extras) } to com.google.android.apps.messaging/com.google.firebase.iid.FirebaseInstanceIdService from pid=2754 uid=10065 pkg=com.google.android.apps.messaging startFg?=false
+11-13 01:40:18.393  1627  2030 W ActivityManager: Background start not allowed: service Intent { cmp=com.google.android.apps.messaging/.shared.datamodel.action.ActionExecutorImpl$EmptyService } to com.google.android.apps.messaging/.shared.datamodel.action.ActionExecutorImpl$EmptyService from pid=2754 uid=10065 pkg=com.google.android.apps.messaging startFg?=false
+11-13 01:40:18.395  1627  1756 W ActivityManager: Background start not allowed: service Intent { cmp=com.google.android.apps.messaging/.shared.datamodel.action.ActionExecutorImpl$EmptyService } to com.google.android.apps.messaging/.shared.datamodel.action.ActionExecutorImpl$EmptyService from pid=2754 uid=10065 pkg=com.google.android.apps.messaging startFg?=false
+11-13 01:40:18.398  1627  2209 W ActivityManager: Background start not allowed: service Intent { cmp=com.google.android.apps.messaging/.shared.datamodel.action.ActionExecutorImpl$EmptyService } to com.google.android.apps.messaging/.shared.datamodel.action.ActionExecutorImpl$EmptyService from pid=2754 uid=10065 pkg=com.google.android.apps.messaging startFg?=false
+11-13 01:40:18.409  1627  2209 I ActivityManager: Start proc 2792:com.google.android.apps.messaging:rcs/u0a65 for broadcast com.google.android.apps.messaging/com.google.android.ims.receiver.AutoStartReceiver
+11-13 01:40:18.456  1627  1644 I ActivityManager: Start proc 2818:com.google.android.apps.wallpaper/u0a34 for broadcast com.google.android.apps.wallpaper/.module.GoogleAlarmInitializer
+11-13 01:40:18.504  1627  1644 I ActivityManager: Start proc 2841:com.google.android.calendar/u0a87 for broadcast com.google.android.calendar/.alerts.AlertReceiver
+11-13 01:40:18.538  1627  1756 W ActivityManager: Background start not allowed: service Intent { cmp=com.google.android.apps.messaging/.shared.datamodel.action.ActionExecutorImpl$EmptyService } to com.google.android.apps.messaging/.shared.datamodel.action.ActionExecutorImpl$EmptyService from pid=2754 uid=10065 pkg=com.google.android.apps.messaging startFg?=false
+11-13 01:40:18.748  1627  1644 I ActivityManager: Start proc 2879:com.google.android.configupdater/u0a31 for broadcast com.google.android.configupdater/.MainReceiver
+11-13 01:40:18.937  1627  1644 I ActivityManager: Start proc 2944:com.google.android.ims/u0a30 for broadcast com.google.android.ims/.receivers.BootCompletedReceiver
+11-13 01:40:19.671  1627  1644 I ActivityManager: Start proc 3056:com.google.android.gms.unstable/u0a24 for service com.google.android.gms/.droidguard.DroidGuardService
+11-13 01:40:19.737  1627  2930 W ActivityManager: Unable to start service Intent { act=com.google.android.gms.nearby.discovery:ACTION_INIT_MESSAGES_PATH cmp=com.google.android.gms/.nearby.discovery.service.DiscoveryService } U=0: not found
+11-13 01:40:20.020  1627  1644 I ActivityManager: Start proc 3175:com.google.android.onetimeinitializer/u0a26 for broadcast com.google.android.onetimeinitializer/.OneTimeInitializerReceiver
+11-13 01:40:20.071  1627  1644 I ActivityManager: Start proc 3203:com.google.android.packageinstaller/u0a22 for broadcast com.google.android.packageinstaller/com.android.packageinstaller.TemporaryFileManager
+11-13 01:40:20.081  1627  1644 I ActivityManager: Start proc 3222:com.google.android.gms.ui/u0a24 for service com.google.android.gms/.chimera.UiIntentOperationService
+11-13 01:40:20.123  1627  1644 I ActivityManager: Start proc 3249:com.google.process.gapps/u0a52 for broadcast com.google.android.syncadapters.contacts/.ContactsSyncAdapterBroadcastReceiver
+11-13 01:40:20.146  1627  2219 I ActivityManager: Killing 2364:com.android.keychain/1000 (adj 906): empty #17
+11-13 01:40:20.151  1627  1644 I ActivityManager: Start proc 3279:com.google.android.youtube/u0a76 for broadcast com.google.android.youtube/com.google.android.libraries.youtube.mdx.background.MdxBackgroundScanBootReceiver
+11-13 01:40:20.460  1627  3398 I ActivityManager: Finished processing BOOT_COMPLETED for u0
+11-13 01:40:20.460  1627  3398 I ActivityManager: Killing 2119:com.android.cellbroadcastreceiver/u0a41 (adj 906): empty #17
+11-13 01:40:20.493  1627  1644 I ActivityManager: Start proc 3415:com.android.cellbroadcastreceiver/u0a41 for broadcast com.android.cellbroadcastreceiver/.CellBroadcastReceiver
+11-13 01:40:20.906  1627  1894 I ActivityManager: Killing 2557:com.android.contacts/u0a43 (adj 906): empty #17
+11-13 01:40:21.492  1627  3045 I ActivityManager: Killing 2615:com.android.managedprovisioning/u0a25 (adj 906): empty #17
+11-13 01:40:24.410  1627  3045 W ActivityManager: Background start not allowed: service Intent { cmp=com.google.android.apps.messaging/.shared.datamodel.action.ActionExecutorImpl$EmptyService } to com.google.android.apps.messaging/.shared.datamodel.action.ActionExecutorImpl$EmptyService from pid=2754 uid=10065 pkg=com.google.android.apps.messaging startFg?=false
+11-13 01:40:24.412  1627  3045 W ActivityManager: Background start not allowed: service Intent { cmp=com.google.android.apps.messaging/.shared.datamodel.action.ActionExecutorImpl$EmptyService } to com.google.android.apps.messaging/.shared.datamodel.action.ActionExecutorImpl$EmptyService from pid=2754 uid=10065 pkg=com.google.android.apps.messaging startFg?=false
+11-13 01:40:27.225  1627  3516 W ActivityManager: Background start not allowed: service Intent { cmp=com.google.android.apps.messaging/.shared.datamodel.action.ActionExecutorImpl$EmptyService } to com.google.android.apps.messaging/.shared.datamodel.action.ActionExecutorImpl$EmptyService from pid=2754 uid=10065 pkg=com.google.android.apps.messaging startFg?=false
+11-13 01:40:27.235  1627  1638 W ActivityManager: Background start not allowed: service Intent { cmp=com.google.android.apps.messaging/.shared.datamodel.action.ActionExecutorImpl$EmptyService } to com.google.android.apps.messaging/.shared.datamodel.action.ActionExecutorImpl$EmptyService from pid=2754 uid=10065 pkg=com.google.android.apps.messaging startFg?=false
+11-13 01:40:27.256  1627  3516 I ActivityManager: Killing 2685:com.android.traceur/u0a61 (adj 906): empty #17
+11-13 01:40:27.932  1627  3516 I ActivityManager: Killing 2792:com.google.android.apps.messaging:rcs/u0a65 (adj 906): empty #17
+11-13 01:40:31.145  1627  3516 W ActivityManager: Unable to start service Intent { act=com.android.vending.setup.IPlaySetupServiceV2.BIND pkg=com.android.vending } U=0: not found
+11-13 01:40:31.152  1627  3516 W ActivityManager: Unable to start service Intent { act=com.android.vending.setup.IPlaySetupServiceV2.BIND pkg=com.android.vending } U=0: not found
+11-13 01:40:31.156  1627  1644 I ActivityManager: Start proc 3560:com.google.android.gms:car/u0a24 for service com.google.android.gms/.chimera.CarBoundBrokerService
+11-13 01:40:38.149  1627  1894 I ActivityManager: Killing 2818:com.google.android.apps.wallpaper/u0a34 (adj 906): empty #17
+11-13 01:40:39.004  1627  1894 I ActivityManager: Killing 2879:com.google.android.configupdater/u0a31 (adj 906): empty #17
+11-13 01:40:42.017  1627  1641 I ActivityManager: Killing 3175:com.google.android.onetimeinitializer/u0a26 (adj 906): empty #17
+11-13 01:40:42.020  1627  1641 I ActivityManager: Killing 2238:android.process.media/u0a23 (adj 906): empty #18
+11-13 01:40:42.020  1627  1641 I ActivityManager: Killing 1963:com.google.android.deskclock/u0a80 (adj 906): empty #19
+11-13 01:40:46.050  1627  1644 I ActivityManager: Start proc 3603:com.android.keychain/1000 for service com.android.keychain/.KeyChainService
+11-13 01:40:46.070  1627  1639 I ActivityManager: Killing 3203:com.google.android.packageinstaller/u0a22 (adj 906): empty #17
+11-13 01:40:46.251  1627  1639 I ActivityManager: Killing 3222:com.google.android.gms.ui/u0a24 (adj 906): empty #17
+11-13 01:41:11.742  1627  2210 I ActivityManager: Killing 3249:com.google.process.gapps/u0a52 (adj 906): empty #17
+11-13 01:41:11.742  1627  2210 I ActivityManager: Killing 2596:com.google.android.partnersetup/u0a47 (adj 906): empty #18
+11-13 01:41:17.229  1627  2210 W ActivityManager: Unable to start service Intent { act=com.android.vending.setup.IPlaySetupServiceV2.BIND pkg=com.android.vending } U=0: not found
+11-13 01:41:36.420  1627  1895 I ActivityManager: Start proc 3674:android.process.media/u0a23 for content provider com.android.providers.media/.MediaProvider
+11-13 01:41:37.180  1627  3046 I ActivityManager: Start proc 3716:com.android.defcontainer/u0a12 for service com.android.defcontainer/.DefaultContainerService
+11-13 01:41:37.468  1627  2930 I ActivityManager: Force stopping com.example.accidentpoc appid=10088 user=0: start instr
+11-13 01:41:37.479  1627  2930 I ActivityManager: Start proc 3789:com.example.accidentpoc/u0a88 for added application com.example.accidentpoc
+11-13 01:41:37.865  3789  3811 I TestRunner: run started: 41 tests
+11-13 01:41:37.865  3789  3811 I TestRunner: started: cueGlyphReaches3To1(com.example.accidentpoc.GlyphsTest)
+11-13 01:41:37.910  1627  2930 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/androidx.activity.ComponentActivity} from uid 10088
+11-13 01:41:38.023  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/androidx.activity.ComponentActivity: +95ms
+11-13 01:41:39.206  1627  3596 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:41:39.228  1627  1644 I ActivityManager: Start proc 3829:com.example.accidentpoc.test/u0a89 for activity com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity
+11-13 01:41:39.346  3789  3811 I TestRunner: finished: cueGlyphReaches3To1(com.example.accidentpoc.GlyphsTest)
+11-13 01:41:39.350  3789  3811 I TestRunner: started: heartPulseCutLeavesAGap(com.example.accidentpoc.GlyphsTest)
+11-13 01:41:39.365  1627  3596 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/androidx.activity.ComponentActivity} from uid 10088
+11-13 01:41:39.439  1627  2930 W ActivityManager: Finishing task with all activities already finished
+11-13 01:41:39.439  1627  2930 W ActivityManager: Duplicate finish request for ActivityRecord{41fe5a9 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t4 f}
+11-13 01:41:39.474  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/androidx.activity.ComponentActivity: +84ms (total +257ms)
+11-13 01:41:39.475  1627  3596 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:41:39.623  3789  3811 I TestRunner: finished: heartPulseCutLeavesAGap(com.example.accidentpoc.GlyphsTest)
+11-13 01:41:39.625  3789  3811 I TestRunner: started: handoffKeepsAChannelBetweenPeople(com.example.accidentpoc.GlyphsTest)
+11-13 01:41:39.630  1627  3596 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/androidx.activity.ComponentActivity} from uid 10088
+11-13 01:41:39.680  1627  3596 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:41:39.735  3789  3811 I TestRunner: finished: handoffKeepsAChannelBetweenPeople(com.example.accidentpoc.GlyphsTest)
+11-13 01:41:39.735  3789  3811 I TestRunner: started: everyMappedGlyphBuildsANonEmptyPath(com.example.accidentpoc.GlyphsTest)
+11-13 01:41:39.756  1627  2930 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/androidx.activity.ComponentActivity} from uid 10088
+11-13 01:41:39.796  1627  2930 W ActivityManager: Finishing task with all activities already finished
+11-13 01:41:39.796  1627  2930 W ActivityManager: Duplicate finish request for ActivityRecord{615b5f u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t8 f}
+11-13 01:41:39.869  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/androidx.activity.ComponentActivity: +74ms (total +391ms)
+11-13 01:41:39.903  1627  2614 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:41:40.043  3789  3811 I TestRunner: finished: everyMappedGlyphBuildsANonEmptyPath(com.example.accidentpoc.GlyphsTest)
+11-13 01:41:40.043  3789  3811 I TestRunner: started: brokenShaderIsReportedUnavailable(com.example.accidentpoc.SatinShaderTest)
+11-13 01:41:40.048  3789  3811 I TestRunner: finished: brokenShaderIsReportedUnavailable(com.example.accidentpoc.SatinShaderTest)
+11-13 01:41:40.048  3789  3811 I TestRunner: started: satinShaderCompilesOnSupportedApiAndIsNormalFallbackOnApi28(com.example.accidentpoc.SatinShaderTest)
+11-13 01:41:40.049  3789  3811 I TestRunner: finished: satinShaderCompilesOnSupportedApiAndIsNormalFallbackOnApi28(com.example.accidentpoc.SatinShaderTest)
+11-13 01:41:40.049  3789  3811 I TestRunner: started: invalidSceneExtraFallsBackToInitial(com.example.accidentpoc.Sc05LaunchTest)
+11-13 01:41:40.052  1627  2614 I ActivityManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} from uid 10088
+11-13 01:41:40.558  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +494ms (total +647ms)
+11-13 01:41:40.629  1627  2614 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:41:40.834  3789  3811 I TestRunner: finished: invalidSceneExtraFallsBackToInitial(com.example.accidentpoc.Sc05LaunchTest)
+11-13 01:41:40.835  3789  3811 I TestRunner: started: everySharedSceneOpensAndSurvivesRealActivityRecreation(com.example.accidentpoc.Sc05LaunchTest)
+11-13 01:41:40.842  1627  3596 I ActivityManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} from uid 10088
+11-13 01:41:41.021  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +175ms (total +382ms)
+11-13 01:41:41.305  1627  2614 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:41:41.550  1627  2930 I ActivityManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} from uid 10088
+11-13 01:41:41.675  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +122ms (total +364ms)
+11-13 01:41:41.997  1627  3596 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:41:42.296  1627  3596 I ActivityManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} from uid 10088
+11-13 01:41:42.413  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +96ms (total +401ms)
+11-13 01:41:42.644  1627  2930 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:41:42.927  1627  2930 I ActivityManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} from uid 10088
+11-13 01:41:43.019  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +81ms (total +369ms)
+11-13 01:41:43.301  1627  2930 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:41:43.432  1627  3596 I ActivityManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} from uid 10088
+11-13 01:41:43.566  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +103ms (total +256ms)
+11-13 01:41:43.904  1627  2614 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:41:44.141  1627  3596 I ActivityManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} from uid 10088
+11-13 01:41:44.338  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +181ms (total +421ms)
+11-13 01:41:44.635  1627  3596 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:41:44.848  1627  2614 I ActivityManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} from uid 10088
+11-13 01:41:44.927  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +76ms (total +289ms)
+11-13 01:41:45.192  1627  2614 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:41:45.365  1627  2614 I ActivityManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} from uid 10088
+11-13 01:41:45.451  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +83ms (total +256ms)
+11-13 01:41:45.718  1627  3514 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:41:45.854  1627  2614 I ActivityManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} from uid 10088
+11-13 01:41:45.961  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +102ms (total +236ms)
+11-13 01:41:46.239  1627  2614 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:41:46.453  1627  2614 I ActivityManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} from uid 10088
+11-13 01:41:46.598  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +105ms (total +328ms)
+11-13 01:41:46.807  1627  2614 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:41:46.844  1627  3514 I ActivityManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} from uid 10088
+11-13 01:41:46.853  1627  3596 W ActivityManager: Finishing task with all activities already finished
+11-13 01:41:46.853  1627  3596 W ActivityManager: Duplicate finish request for ActivityRecord{3597975 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t32 f}
+11-13 01:41:46.949  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +79ms (total +130ms)
+11-13 01:41:47.149  1627  1895 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:41:47.343  1627  2614 I ActivityManager: Killing 3279:com.google.android.youtube/u0a76 (adj 906): empty #17
+11-13 01:41:47.393  3789  3811 I TestRunner: finished: everySharedSceneOpensAndSurvivesRealActivityRecreation(com.example.accidentpoc.Sc05LaunchTest)
+11-13 01:41:47.393  3789  3811 I TestRunner: started: primaryAndSecondaryHaveSeparateBoundsAndBothWork(com.example.accidentpoc.Sc05Test)
+11-13 01:41:47.397  1627  3596 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10088
+11-13 01:41:47.549  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +117ms (total +375ms)
+11-13 01:41:47.909  1627  2614 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:41:48.132  3789  3811 I TestRunner: finished: primaryAndSecondaryHaveSeparateBoundsAndBothWork(com.example.accidentpoc.Sc05Test)
+11-13 01:41:48.133  3789  3811 I TestRunner: started: initialSceneShowsEachAgencySeparately(com.example.accidentpoc.Sc05Test)
+11-13 01:41:48.136  1627  3596 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10088
+11-13 01:41:48.225  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +86ms (total +312ms)
+11-13 01:41:48.472  1627  2950 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:41:48.497  3789  3811 I TestRunner: finished: initialSceneShowsEachAgencySeparately(com.example.accidentpoc.Sc05Test)
+11-13 01:41:48.497  3789  3811 I TestRunner: started: removedCopyLeavesNoEmptyText(com.example.accidentpoc.Sc05Test)
+11-13 01:41:48.500  1627  2950 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10088
+11-13 01:41:48.506  1627  1895 W ActivityManager: Finishing task with all activities already finished
+11-13 01:41:48.506  1627  1895 W ActivityManager: Duplicate finish request for ActivityRecord{8347674 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t38 f}
+11-13 01:41:48.611  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +85ms (total +136ms)
+11-13 01:41:48.663  1627  1895 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:41:48.771  1627  1650 I ActivityManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity: +71ms
+11-13 01:41:48.828  3789  3811 I TestRunner: finished: removedCopyLeavesNoEmptyText(com.example.accidentpoc.Sc05Test)
+11-13 01:41:48.829  3789  3811 I TestRunner: started: actionMovesFocusToNewTitle(com.example.accidentpoc.Sc05Test)
+11-13 01:41:48.831  1627  2614 W ActivityManager: Finishing task with all activities already finished
+11-13 01:41:48.831  1627  2614 W ActivityManager: Duplicate finish request for ActivityRecord{5db0715 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t40 f}
+11-13 01:41:48.831  1627  1895 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10088
+11-13 01:41:48.944  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +74ms
+11-13 01:41:49.145  1627  3514 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:41:49.404  3789  3811 I TestRunner: finished: actionMovesFocusToNewTitle(com.example.accidentpoc.Sc05Test)
+11-13 01:41:49.404  3789  3811 I TestRunner: started: font200PercentKeepsActionsAndEverySceneControlReachable(com.example.accidentpoc.Sc05Test)
+11-13 01:41:49.415  1627  2614 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10088
+11-13 01:41:49.541  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +88ms (total +358ms)
+11-13 01:41:49.605  1627  1642 I ActivityManager: Config changes=40000000 {2.0 310mcc260mnc [en_US] ldltr sw901dp w1442dp h821dp 213dpi xlrg land finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 0, 0) mAppBounds=Rect(0, 0 - 1920, 1125) mWindowingMode=fullscreen mActivityType=undefined} s.7}
+11-13 01:41:49.606  1627  1642 I ActivityManager: Override config changes=40000000 {2.0 310mcc260mnc [en_US] ldltr sw901dp w1442dp h821dp 213dpi xlrg land finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 1920, 1125) mAppBounds=Rect(0, 0 - 1920, 1125) mWindowingMode=fullscreen mActivityType=undefined} s.7} for displayId=0
+11-13 01:41:49.720  1627  3516 I ActivityManager: Process com.android.launcher3 (pid 2278) has died: prcp TOP 
+11-13 01:41:49.726  1627  1650 W ActivityManager: setHasOverlayUi called on unknown pid: 2278
+11-13 01:41:52.169  1627  1642 I ActivityManager: Config changes=40000000 {1.0 310mcc260mnc [en_US] ldltr sw901dp w1442dp h821dp 213dpi xlrg land finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 0, 0) mAppBounds=Rect(0, 0 - 1920, 1125) mWindowingMode=fullscreen mActivityType=undefined} s.8}
+11-13 01:41:52.169  1627  1642 I ActivityManager: Override config changes=40000000 {1.0 310mcc260mnc [en_US] ldltr sw901dp w1442dp h821dp 213dpi xlrg land finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 1920, 1125) mAppBounds=Rect(0, 0 - 1920, 1125) mWindowingMode=fullscreen mActivityType=undefined} s.8} for displayId=0
+11-13 01:41:52.318  1627  3929 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:41:52.374  1627  1650 I ActivityManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity: +53ms
+11-13 01:41:52.398  1627  1644 I ActivityManager: Start proc 3940:com.android.launcher3/u0a42 for activity com.android.launcher3/.Launcher
+11-13 01:41:52.399  3789  3811 I TestRunner: finished: font200PercentKeepsActionsAndEverySceneControlReachable(com.example.accidentpoc.Sc05Test)
+11-13 01:41:52.401  3789  3811 I TestRunner: started: allElevenSceneControlsAreReachableAndKeepSimulationNotice(com.example.accidentpoc.Sc05Test)
+11-13 01:41:52.407  1627  3929 W ActivityManager: Finishing task with all activities already finished
+11-13 01:41:52.407  1627  3929 W ActivityManager: Duplicate finish request for ActivityRecord{cd7896 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t44 f}
+11-13 01:41:52.407  1627  3596 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10088
+11-13 01:41:52.514  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +104ms (total +129ms)
+11-13 01:41:54.358  1627  3215 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:41:54.554  1627  1650 I ActivityManager: Displayed com.android.launcher3/.Launcher: +2s149ms (total +172ms)
+11-13 01:41:54.586  3789  3811 I TestRunner: finished: allElevenSceneControlsAreReachableAndKeepSimulationNotice(com.example.accidentpoc.Sc05Test)
+11-13 01:41:54.587  3789  3811 I TestRunner: started: queuedDuplicateApprovalOnlySubmitsOnce(com.example.accidentpoc.Sc05Test)
+11-13 01:41:54.601  1627  1639 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10088
+11-13 01:41:54.837  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +233ms
+11-13 01:41:55.435  1627  1756 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:41:55.586  3789  3811 I TestRunner: finished: queuedDuplicateApprovalOnlySubmitsOnce(com.example.accidentpoc.Sc05Test)
+11-13 01:41:55.588  3789  3811 I TestRunner: started: suspendedReceiptAndHandoffStaySuspendedUntilResume(com.example.accidentpoc.Sc05Test)
+11-13 01:41:55.589  1627  3044 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10088
+11-13 01:41:55.731  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +101ms (total +291ms)
+11-13 01:41:56.741  1627  1756 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:41:56.903  3789  3811 I TestRunner: finished: suspendedReceiptAndHandoffStaySuspendedUntilResume(com.example.accidentpoc.Sc05Test)
+11-13 01:41:56.905  3789  3811 I TestRunner: started: sc05DrawsMappedGlyphsAndMarks(com.example.accidentpoc.Sc05Test)
+11-13 01:41:56.915  1627  2218 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10088
+11-13 01:41:57.037  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +109ms (total +269ms)
+11-13 01:41:57.343  1627  2218 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:41:57.641  3789  3811 I TestRunner: finished: sc05DrawsMappedGlyphsAndMarks(com.example.accidentpoc.Sc05Test)
+11-13 01:41:57.641  3789  3811 I TestRunner: started: scopeValidationCancelApprovalAndFailedReapprovalUseRealControls(com.example.accidentpoc.Sc05Test)
+11-13 01:41:57.643  1627  2221 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10088
+11-13 01:41:57.809  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +140ms (total +444ms)
+11-13 01:42:00.160  1627  3218 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:42:00.291  3789  3811 I TestRunner: finished: scopeValidationCancelApprovalAndFailedReapprovalUseRealControls(com.example.accidentpoc.Sc05Test)
+11-13 01:42:00.292  3789  3811 I TestRunner: started: checkingUnknownFailureAndResumeNeverResend(com.example.accidentpoc.Sc05Test)
+11-13 01:42:00.307  1627  3218 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10088
+11-13 01:42:00.430  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +120ms (total +267ms)
+11-13 01:42:01.528  1627  1697 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:42:01.735  3789  3811 I TestRunner: finished: checkingUnknownFailureAndResumeNeverResend(com.example.accidentpoc.Sc05Test)
+11-13 01:42:01.744  3789  3811 I TestRunner: started: surfaceToggleKeepsSceneAndUsesApiSpecificCapability(com.example.accidentpoc.Sc05Test)
+11-13 01:42:01.753  1627  3218 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10088
+11-13 01:42:02.020  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +166ms (total +454ms)
+11-13 01:42:02.491  1627  3218 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:42:02.739  3789  3811 I TestRunner: finished: surfaceToggleKeepsSceneAndUsesApiSpecificCapability(com.example.accidentpoc.Sc05Test)
+11-13 01:42:02.739  3789  3811 I TestRunner: started: koreanTextWrapsOnlyBetweenWordsAcrossAllScenes(com.example.accidentpoc.Sc05Test)
+11-13 01:42:02.743  1627  1697 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10088
+11-13 01:42:02.842  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +85ms (total +344ms)
+11-13 01:42:04.182  1627  2030 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:42:04.381  3789  3811 I TestRunner: finished: koreanTextWrapsOnlyBetweenWordsAcrossAllScenes(com.example.accidentpoc.Sc05Test)
+11-13 01:42:04.381  3789  3811 I TestRunner: started: receiptAndFactsSurviveNavigationRecreationAndLateUnknown(com.example.accidentpoc.Sc05Test)
+11-13 01:42:04.395  1627  1895 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10088
+11-13 01:42:04.516  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +103ms (total +290ms)
+11-13 01:42:06.019  1627  1895 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:42:06.150  3789  3811 I TestRunner: finished: receiptAndFactsSurviveNavigationRecreationAndLateUnknown(com.example.accidentpoc.Sc05Test)
+11-13 01:42:06.151  3789  3811 I TestRunner: started: eventMovesFocusToCurrentSceneButton(com.example.accidentpoc.Sc05Test)
+11-13 01:42:06.158  1627  3218 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10088
+11-13 01:42:06.284  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +116ms (total +262ms)
+11-13 01:42:06.509  1627  4024 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:42:06.792  3789  3811 E TestRunner: failed: eventMovesFocusToCurrentSceneButton(com.example.accidentpoc.Sc05Test)
+11-13 01:42:06.793  3789  3811 E TestRunner: ----- begin exception -----
+11-13 01:42:06.793  3789  3811 E TestRunner: java.lang.AssertionError: Failed to assert the following: (Focused = 'true')
+11-13 01:42:06.793  3789  3811 E TestRunner: Semantics of the node:
+11-13 01:42:06.793  3789  3811 E TestRunner: Node #5589 at (l=21.0, t=1056.0, r=138.0, b=1120.0)px, Tag: 'scene-initial'
+11-13 01:42:06.793  3789  3811 E TestRunner: Focused = 'false'
+11-13 01:42:06.793  3789  3811 E TestRunner: Role = 'Button'
+11-13 01:42:06.793  3789  3811 E TestRunner: Selected = 'true'
+11-13 01:42:06.793  3789  3811 E TestRunner: Text = '[접수 미확인]'
+11-13 01:42:06.793  3789  3811 E TestRunner: Actions = [ClearTextSubstitution, GetTextLayoutResult, OnClick, RequestFocus, SetTextSubstitution, ShowTextSubstitution]
+11-13 01:42:06.793  3789  3811 E TestRunner: MergeDescendants = 'true'
+11-13 01:42:06.793  3789  3811 E TestRunner: Has 10 siblings
+11-13 01:42:06.793  3789  3811 E TestRunner: Selector used: (TestTag = 'scene-initial')
+11-13 01:42:06.793  3789  3811 E TestRunner: 
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at androidx.compose.ui.test.AssertionsKt.assert(Assertions.kt:264)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at androidx.compose.ui.test.AssertionsKt.assert$default(Assertions.kt:254)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at androidx.compose.ui.test.AssertionsKt.assertIsFocused(Assertions.kt:117)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at com.example.accidentpoc.Sc05Test.eventMovesFocusToCurrentSceneButton(Sc05Test.kt:104)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at java.lang.reflect.Method.invoke(Native Method)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$testWithDisposal$1.evaluate(AndroidComposeTestRule.android.kt:306)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at org.junit.rules.ExternalResource$1.evaluate(ExternalResource.java:54)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$1$evaluate$1.invokeSuspend(AndroidComposeTestRule.android.kt:318)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$1$evaluate$1.invoke(Unknown Source:8)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$1$evaluate$1.invoke(Unknown Source:4)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1$1$1$1.invokeSuspend(ComposeUiTest.android.kt:569)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1$1$1$1.invoke(Unknown Source:8)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1$1$1$1.invoke(Unknown Source:2)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at androidx.compose.ui.test.EspressoLink.withStrategy(EspressoLink.android.kt:69)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1.invokeSuspend(ComposeUiTest.android.kt:566)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1.invoke(Unknown Source:8)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at androidx.compose.ui.test.AndroidComposeUiTestEnvironment$runTest$1$1.invoke(Unknown Source:4)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt$runTest$2$1$1.invokeSuspend(TestBuilders.kt:316)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:104)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at kotlinx.coroutines.test.TestDispatcher.processEvent$kotlinx_coroutines_test(TestDispatcher.kt:24)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at kotlinx.coroutines.test.TestCoroutineScheduler.tryRunNextTaskUnless$kotlinx_coroutines_test(TestCoroutineScheduler.kt:99)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt$runTest$2$1$workRunner$1.invokeSuspend(TestBuilders.kt:322)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:104)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:277)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:95)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:69)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source:1)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:48)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source:1)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at kotlinx.coroutines.test.TestBuildersJvmKt.createTestResult(TestBuildersJvm.kt:10)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:310)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at kotlinx.coroutines.test.TestBuildersKt.runTest-8Mi8wO0(Unknown Source:1)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:168)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at kotlinx.coroutines.test.TestBuildersKt.runTest-8Mi8wO0(Unknown Source:1)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at androidx.compose.ui.test.AndroidComposeUiTestEnvironment.runTest(ComposeUiTest.android.kt:549)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at androidx.compose.ui.test.junit4.AndroidComposeTestRule$apply$1.evaluate(AndroidComposeTestRule.android.kt:318)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at org.junit.runners.Suite.runChild(Suite.java:128)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at org.junit.runners.Suite.runChild(Suite.java:27)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at org.junit.runner.JUnitCore.run(JUnitCore.java:115)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at androidx.test.internal.runner.TestExecutor.execute(TestExecutor.java:68)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at androidx.test.internal.runner.TestExecutor.execute(TestExecutor.java:59)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at androidx.test.runner.AndroidJUnitRunner.onStart(AndroidJUnitRunner.java:463)
+11-13 01:42:06.793  3789  3811 E TestRunner: 	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2145)
+11-13 01:42:06.793  3789  3811 E TestRunner: ----- end exception -----
+11-13 01:42:06.793  3789  3811 I TestRunner: finished: eventMovesFocusToCurrentSceneButton(com.example.accidentpoc.Sc05Test)
+11-13 01:42:06.793  3789  3811 I TestRunner: started: fullSessionScopeApprovalSuspendedResultsAndSurfaceSurviveRecreation(com.example.accidentpoc.Sc05Test)
+11-13 01:42:06.796  1627  3044 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10088
+11-13 01:42:06.907  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +95ms (total +369ms)
+11-13 01:42:08.889  1627  3044 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10088
+11-13 01:42:09.051  3789  3811 I TestRunner: finished: fullSessionScopeApprovalSuspendedResultsAndSurfaceSurviveRecreation(com.example.accidentpoc.Sc05Test)
+11-13 01:42:09.052  3789  3811 I TestRunner: started: glyphGridMappingsAndStatusMarksAreValidated(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:42:09.056  3789  3811 I TestRunner: finished: glyphGridMappingsAndStatusMarksAreValidated(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:42:09.057  3789  3811 I TestRunner: started: allSharedScenariosParseWithoutClaimingProductUiSupport(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:42:09.067  3789  3811 I TestRunner: finished: allSharedScenariosParseWithoutClaimingProductUiSupport(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:42:09.071  3789  3811 I TestRunner: started: effectsAgencySecondaryAndPanelsSurviveLoading(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:42:09.073  3789  3811 I TestRunner: finished: effectsAgencySecondaryAndPanelsSurviveLoading(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:42:09.073  3789  3811 I TestRunner: started: invalidOverrideReferencesStatusesFieldsAndStringTypesAreRejected(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:42:09.107  3789  3811 I TestRunner: finished: invalidOverrideReferencesStatusesFieldsAndStringTypesAreRejected(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:42:09.108  3789  3811 I TestRunner: started: invalidTargetsAgenciesEffectsAndTypesAreDiagnosed(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:42:09.140  3789  3811 I TestRunner: finished: invalidTargetsAgenciesEffectsAndTypesAreDiagnosed(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:42:09.142  3789  3811 I TestRunner: started: validFactOverridesArePreservedIncludingNonVisibleFacts(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:42:09.153  3789  3811 I TestRunner: finished: validFactOverridesArePreservedIncludingNonVisibleFacts(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:42:09.154  3789  3811 I TestRunner: started: invalidVersionScenarioAndDuplicateIdsAreRejected(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:42:09.173  3789  3811 I TestRunner: finished: invalidVersionScenarioAndDuplicateIdsAreRejected(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:42:09.174  3789  3811 I TestRunner: started: receiveAndHandoffWhileSuspendedUpdateSessionWithoutLeavingOrResending(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:42:09.177  3789  3811 I TestRunner: finished: receiveAndHandoffWhileSuspendedUpdateSessionWithoutLeavingOrResending(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:42:09.183  3789  3811 I TestRunner: started: invalidSavedSessionCannotReplaceTheAuthoritativeState(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:42:09.185  3789  3811 I TestRunner: finished: invalidSavedSessionCannotReplaceTheAuthoritativeState(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:42:09.187  3789  3811 I TestRunner: started: receiptArrivalAndHandoffAreIndependentAndMonotonicAcrossLateResults(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:42:09.189  3789  3811 I TestRunner: finished: receiptArrivalAndHandoffAreIndependentAndMonotonicAcrossLateResults(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:42:09.189  3789  3811 I TestRunner: started: explicitApprovalFreezesSnapshotAndFailedRetryNeedsNewApproval(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:42:09.191  3789  3811 I TestRunner: finished: explicitApprovalFreezesSnapshotAndFailedRetryNeedsNewApproval(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:42:09.191  3789  3811 I TestRunner: started: reviewCancelEmptyScopeAndMissingRecordCannotSubmit(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:42:09.193  3789  3811 I TestRunner: finished: reviewCancelEmptyScopeAndMissingRecordCannotSubmit(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:42:09.203  3789  3811 I TestRunner: started: lookupUnknownFailureSuspensionAndResumeKeepOriginalIdentityAndOtherAgencies(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:42:09.205  3789  3811 I TestRunner: finished: lookupUnknownFailureSuspensionAndResumeKeepOriginalIdentityAndOtherAgencies(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:42:09.206  3789  3811 I TestRunner: started: handoffSelfTargetAppliesWithoutInventingArrivalOrVehicleReceipt(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:42:09.207  3789  3811 I TestRunner: finished: handoffSelfTargetAppliesWithoutInventingArrivalOrVehicleReceipt(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:42:09.208  3789  3811 I TestRunner: started: directHandoffFixtureDoesNotInventArrivalAndResumePreservesOrigin(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:42:09.209  3789  3811 I TestRunner: finished: directHandoffFixtureDoesNotInventArrivalAndResumePreservesOrigin(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:42:09.211  3789  3811 I TestRunner: started: fullSessionSerializationPreservesEveryFieldForAllElevenScenes(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:42:09.219  3789  3811 I TestRunner: finished: fullSessionSerializationPreservesEveryFieldForAllElevenScenes(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:42:09.220  3789  3811 I TestRunner: started: knownReceiptBlocksApprovalEvenWhenReviewProjectionWasSelected(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:42:09.221  3789  3811 I TestRunner: finished: knownReceiptBlocksApprovalEvenWhenReviewProjectionWasSelected(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:42:09.222  3789  3811 I TestRunner: run finished: 41 tests, 1 failed, 0 ignored
+11-13 01:42:09.226  1627  2030 I ActivityManager: Force stopping com.example.accidentpoc appid=10088 user=0: finished inst
+11-13 01:42:09.226  1627  2030 I ActivityManager: Killing 3789:com.example.accidentpoc/u0a88 (adj 0): stop com.example.accidentpoc
+11-13 01:42:09.288  1627  1650 W ActivityManager: setHasOverlayUi called on unknown pid: 3789
+11-13 01:42:09.594  1627  1642 I ActivityManager: Force stopping com.example.accidentpoc appid=10088 user=-1: deletePackageX
+11-13 01:42:09.648  1627  1666 I ActivityManager: Force stopping com.example.accidentpoc appid=10088 user=0: pkg removed
+11-13 01:42:09.670  1627  1644 I ActivityManager: Start proc 4059:com.android.documentsui/u0a27 for broadcast com.android.documentsui/.PackageReceiver
+11-13 01:42:09.698  1627  1642 I ActivityManager: Force stopping com.example.accidentpoc.test appid=10089 user=-1: deletePackageX
+11-13 01:42:09.698  1627  1642 I ActivityManager: Killing 3829:com.example.accidentpoc.test/u0a89 (adj 900): stop com.example.accidentpoc.test
+11-13 01:42:09.708  1627  1650 W ActivityManager: setHasOverlayUi called on unknown pid: 3829
+11-13 01:42:09.759  1627  1644 I ActivityManager: Start proc 4103:com.android.externalstorage/u0a28 for content provider com.android.externalstorage/.ExternalStorageProvider
+11-13 01:42:09.762  1627  3215 W ActivityManager: Unable to start service Intent { act=com.android.vending.developergroupidinfo.IDeveloperGroupIdInfoService.BIND cmp=com.android.vending/com.google.android.finsky.developergroupidinfo.DeveloperGroupIdInfoService } U=0: not found
+11-13 01:42:09.767  1627  1666 I ActivityManager: Force stopping com.example.accidentpoc.test appid=10089 user=0: pkg removed
+11-13 01:42:09.832  1627  3218 W ActivityManager: Unable to start service Intent { act=com.android.vending.developergroupidinfo.IDeveloperGroupIdInfoService.BIND cmp=com.android.vending/com.google.android.finsky.developergroupidinfo.DeveloperGroupIdInfoService } U=0: not found
+11-13 01:42:09.843  1627  1644 I ActivityManager: Start proc 4138:com.android.mtp/u0a23 for content provider com.android.mtp/.MtpDocumentsProvider
+11-13 01:42:09.843  1627  3218 I ActivityManager: Killing 1852:com.android.settings/1000 (adj 906): empty #17
+11-13 01:42:09.871  1627  1650 W ActivityManager: setHasOverlayUi called on unknown pid: 1852
+11-13 01:42:13.294  1627  3215 I ActivityManager: Killing 3415:com.android.cellbroadcastreceiver/u0a41 (adj 906): empty #17
+11-13 01:42:17.234  1627  1639 W ActivityManager: Unable to start service Intent { act=com.android.vending.setup.IPlaySetupServiceV2.BIND pkg=com.android.vending } U=0: not found
+11-13 01:42:18.448  1627  1639 W ActivityManager: Background start not allowed: service Intent { cmp=com.google.android.apps.messaging/.shared.datamodel.action.ActionExecutorImpl$EmptyService } to com.google.android.apps.messaging/.shared.datamodel.action.ActionExecutorImpl$EmptyService from pid=2754 uid=10065 pkg=com.google.android.apps.messaging startFg?=false
+11-13 01:42:18.454  1627  1702 W ActivityManager: Unable to start service Intent { act=com.google.android.gms.drive.ApiService.RESET_AFTER_BOOT flg=0x4 cmp=com.google.android.gms/.drive.api.ApiService (has extras) } U=0: not found
+11-13 01:42:18.461  1627  1639 W ActivityManager: Background start not allowed: service Intent { cmp=com.google.android.apps.messaging/.shared.datamodel.action.ActionExecutorImpl$EmptyService } to com.google.android.apps.messaging/.shared.datamodel.action.ActionExecutorImpl$EmptyService from pid=2754 uid=10065 pkg=com.google.android.apps.messaging startFg?=false
+11-13 01:42:26.812  1627  1639 I ActivityManager: Killing 2312:com.android.printspooler/u0a54 (adj 906): empty #17
+11-13 01:42:26.816  1627  1639 I ActivityManager: Killing 2388:com.google.android.apps.photos/u0a83 (adj 906): empty #18
+11-13 01:43:00.007  1627  1627 I ActivityManager: Killing 2702:com.google.android.apps.maps/u0a79 (adj 906): empty #17
+11-13 01:43:17.241  1627  3633 W ActivityManager: Unable to start service Intent { act=com.android.vending.setup.IPlaySetupServiceV2.BIND pkg=com.android.vending } U=0: not found
+11-13 01:44:17.247  1627  1639 W ActivityManager: Unable to start service Intent { act=com.android.vending.setup.IPlaySetupServiceV2.BIND pkg=com.android.vending } U=0: not found
+11-13 01:45:17.253  1627  1639 W ActivityManager: Unable to start service Intent { act=com.android.vending.setup.IPlaySetupServiceV2.BIND pkg=com.android.vending } U=0: not found
+11-13 01:46:17.259  1627  1639 W ActivityManager: Unable to start service Intent { act=com.android.vending.setup.IPlaySetupServiceV2.BIND pkg=com.android.vending } U=0: not found
+11-13 01:47:00.012  1627  1627 I ActivityManager: Killing 2396:com.google.android.gm/u0a84 (adj 906): empty #17
+11-13 01:47:17.274  1627  1639 W ActivityManager: Unable to start service Intent { act=com.android.vending.setup.IPlaySetupServiceV2.BIND pkg=com.android.vending } U=0: not found
+11-13 01:48:17.280  1627  2219 W ActivityManager: Unable to start service Intent { act=com.android.vending.setup.IPlaySetupServiceV2.BIND pkg=com.android.vending } U=0: not found
+11-13 01:48:40.426  1627  1638 I ActivityManager: Force stopping com.example.accidentpoc appid=10090 user=0: start instr
+11-13 01:48:40.436  1627  1644 I ActivityManager: Start proc 4334:com.example.accidentpoc/u0a90 for added application com.example.accidentpoc
+11-13 01:48:40.744  4334  4354 I TestRunner: run started: 1 tests
+11-13 01:48:40.744  4334  4354 I TestRunner: started: eventMovesFocusToCurrentSceneButton(com.example.accidentpoc.Sc05Test)
+11-13 01:48:40.782  1627  1638 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10090
+11-13 01:48:41.284  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +492ms (total +6m32s392ms)
+11-13 01:48:41.590  1627  3514 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10090
+11-13 01:48:41.611  1627  1644 I ActivityManager: Start proc 4374:com.example.accidentpoc.test/u0a91 for activity com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity
+11-13 01:48:41.741  4334  4354 I TestRunner: finished: eventMovesFocusToCurrentSceneButton(com.example.accidentpoc.Sc05Test)
+11-13 01:48:41.747  4334  4354 I TestRunner: run finished: 1 tests, 0 failed, 0 ignored
+11-13 01:48:41.750  1627  3633 I ActivityManager: Force stopping com.example.accidentpoc appid=10090 user=0: finished inst
+11-13 01:48:41.750  1627  3633 I ActivityManager: Killing 4334:com.example.accidentpoc/u0a90 (adj 0): stop com.example.accidentpoc
+11-13 01:48:41.798  1627  1650 W ActivityManager: setHasOverlayUi called on unknown pid: 4334
+11-13 01:48:42.003  1627  1642 I ActivityManager: Force stopping com.example.accidentpoc appid=10090 user=-1: deletePackageX
+11-13 01:48:42.065  1627  1666 I ActivityManager: Force stopping com.example.accidentpoc appid=10090 user=0: pkg removed
+11-13 01:48:42.091  1627  2210 W ActivityManager: Unable to start service Intent { act=com.android.vending.developergroupidinfo.IDeveloperGroupIdInfoService.BIND cmp=com.android.vending/com.google.android.finsky.developergroupidinfo.DeveloperGroupIdInfoService } U=0: not found
+11-13 01:48:42.106  1627  1642 I ActivityManager: Force stopping com.example.accidentpoc.test appid=10091 user=-1: deletePackageX
+11-13 01:48:42.106  1627  1642 I ActivityManager: Killing 4374:com.example.accidentpoc.test/u0a91 (adj 900): stop com.example.accidentpoc.test
+11-13 01:48:42.178  1627  1650 W ActivityManager: setHasOverlayUi called on unknown pid: 4374
+11-13 01:48:42.194  1627  1666 I ActivityManager: Force stopping com.example.accidentpoc.test appid=10091 user=0: pkg removed
+11-13 01:48:42.220  1627  1756 W ActivityManager: Unable to start service Intent { act=com.android.vending.developergroupidinfo.IDeveloperGroupIdInfoService.BIND cmp=com.android.vending/com.google.android.finsky.developergroupidinfo.DeveloperGroupIdInfoService } U=0: not found
+11-13 01:48:44.728  1627  1756 I ActivityManager: Force stopping com.example.accidentpoc appid=10092 user=0: start instr
+11-13 01:48:44.739  1627  1644 I ActivityManager: Start proc 4508:com.example.accidentpoc/u0a92 for added application com.example.accidentpoc
+11-13 01:48:45.120  4508  4528 I TestRunner: run started: 41 tests
+11-13 01:48:45.121  4508  4528 I TestRunner: started: cueGlyphReaches3To1(com.example.accidentpoc.GlyphsTest)
+11-13 01:48:45.190  1627  4024 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/androidx.activity.ComponentActivity} from uid 10092
+11-13 01:48:45.435  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/androidx.activity.ComponentActivity: +176ms (total +3s769ms)
+11-13 01:48:45.820  1627  1756 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:48:45.834  1627  1644 I ActivityManager: Start proc 4548:com.example.accidentpoc.test/u0a93 for activity com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity
+11-13 01:48:45.990  4508  4528 I TestRunner: finished: cueGlyphReaches3To1(com.example.accidentpoc.GlyphsTest)
+11-13 01:48:45.991  4508  4528 I TestRunner: started: heartPulseCutLeavesAGap(com.example.accidentpoc.GlyphsTest)
+11-13 01:48:46.003  1627  3516 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/androidx.activity.ComponentActivity} from uid 10092
+11-13 01:48:46.080  1627  1756 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:48:46.099  4508  4528 I TestRunner: finished: heartPulseCutLeavesAGap(com.example.accidentpoc.GlyphsTest)
+11-13 01:48:46.099  4508  4528 I TestRunner: started: handoffKeepsAChannelBetweenPeople(com.example.accidentpoc.GlyphsTest)
+11-13 01:48:46.103  1627  1756 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/androidx.activity.ComponentActivity} from uid 10092
+11-13 01:48:46.129  1627  1756 W ActivityManager: Finishing task with all activities already finished
+11-13 01:48:46.129  1627  1756 W ActivityManager: Duplicate finish request for ActivityRecord{f4f312c u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t72 f}
+11-13 01:48:46.221  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/androidx.activity.ComponentActivity: +84ms (total +396ms)
+11-13 01:48:46.223  1627  3514 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:48:46.372  4508  4528 I TestRunner: finished: handoffKeepsAChannelBetweenPeople(com.example.accidentpoc.GlyphsTest)
+11-13 01:48:46.373  4508  4528 I TestRunner: started: everyMappedGlyphBuildsANonEmptyPath(com.example.accidentpoc.GlyphsTest)
+11-13 01:48:46.380  1627  3514 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/androidx.activity.ComponentActivity} from uid 10092
+11-13 01:48:46.435  1627  3215 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:48:46.484  4508  4528 I TestRunner: finished: everyMappedGlyphBuildsANonEmptyPath(com.example.accidentpoc.GlyphsTest)
+11-13 01:48:46.484  4508  4528 I TestRunner: started: brokenShaderIsReportedUnavailable(com.example.accidentpoc.SatinShaderTest)
+11-13 01:48:46.496  4508  4528 I TestRunner: finished: brokenShaderIsReportedUnavailable(com.example.accidentpoc.SatinShaderTest)
+11-13 01:48:46.498  4508  4528 I TestRunner: started: satinShaderCompilesOnSupportedApiAndIsNormalFallbackOnApi28(com.example.accidentpoc.SatinShaderTest)
+11-13 01:48:46.499  4508  4528 I TestRunner: finished: satinShaderCompilesOnSupportedApiAndIsNormalFallbackOnApi28(com.example.accidentpoc.SatinShaderTest)
+11-13 01:48:46.500  4508  4528 I TestRunner: started: invalidSceneExtraFallsBackToInitial(com.example.accidentpoc.Sc05LaunchTest)
+11-13 01:48:46.503  1627  1756 I ActivityManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} from uid 10092
+11-13 01:48:46.528  1627  3215 W ActivityManager: Finishing task with all activities already finished
+11-13 01:48:46.528  1627  3215 W ActivityManager: Duplicate finish request for ActivityRecord{be2de80 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t76 f}
+11-13 01:48:46.783  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +265ms (total +548ms)
+11-13 01:48:46.834  1627  3514 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:48:47.167  4508  4528 I TestRunner: finished: invalidSceneExtraFallsBackToInitial(com.example.accidentpoc.Sc05LaunchTest)
+11-13 01:48:47.170  4508  4528 I TestRunner: started: everySharedSceneOpensAndSurvivesRealActivityRecreation(com.example.accidentpoc.Sc05LaunchTest)
+11-13 01:48:47.177  1627  3215 I ActivityManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} from uid 10092
+11-13 01:48:47.320  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +140ms (total +477ms)
+11-13 01:48:47.620  1627  1895 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:48:47.819  1627  1756 I ActivityManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} from uid 10092
+11-13 01:48:47.945  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +124ms (total +320ms)
+11-13 01:48:48.282  1627  1895 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:48:48.499  1627  3215 I ActivityManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} from uid 10092
+11-13 01:48:48.620  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +97ms (total +291ms)
+11-13 01:48:48.859  1627  1756 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:48:49.072  1627  1895 I ActivityManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} from uid 10092
+11-13 01:48:49.180  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +101ms (total +314ms)
+11-13 01:48:49.423  1627  3215 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:48:49.620  1627  3215 I ActivityManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} from uid 10092
+11-13 01:48:49.736  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +106ms (total +301ms)
+11-13 01:48:50.029  1627  1895 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:48:50.210  1627  3516 I ActivityManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} from uid 10092
+11-13 01:48:50.305  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +86ms (total +268ms)
+11-13 01:48:50.669  1627  4024 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:48:50.882  1627  4024 I ActivityManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} from uid 10092
+11-13 01:48:50.968  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +77ms (total +289ms)
+11-13 01:48:51.247  1627  4024 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:48:51.500  1627  3516 I ActivityManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} from uid 10092
+11-13 01:48:51.618  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +88ms (total +342ms)
+11-13 01:48:51.848  1627  1756 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:48:51.917  1627  1895 I ActivityManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} from uid 10092
+11-13 01:48:51.935  1627  1895 W ActivityManager: Finishing task with all activities already finished
+11-13 01:48:51.935  1627  1895 W ActivityManager: Duplicate finish request for ActivityRecord{3060e25 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t94 f}
+11-13 01:48:52.071  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +145ms (total +215ms)
+11-13 01:48:52.244  1627  3516 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:48:52.403  1627  4024 I ActivityManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} from uid 10092
+11-13 01:48:52.511  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +105ms (total +263ms)
+11-13 01:48:52.757  1627  2030 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:48:53.015  1627  3514 I ActivityManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} from uid 10092
+11-13 01:48:53.118  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +90ms (total +341ms)
+11-13 01:48:53.422  1627  1895 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:48:53.639  4508  4528 I TestRunner: finished: everySharedSceneOpensAndSurvivesRealActivityRecreation(com.example.accidentpoc.Sc05LaunchTest)
+11-13 01:48:53.640  4508  4528 I TestRunner: started: primaryAndSecondaryHaveSeparateBoundsAndBothWork(com.example.accidentpoc.Sc05Test)
+11-13 01:48:53.643  1627  4024 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10092
+11-13 01:48:53.735  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +90ms (total +307ms)
+11-13 01:48:54.171  1627  1756 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:48:54.389  4508  4528 I TestRunner: finished: primaryAndSecondaryHaveSeparateBoundsAndBothWork(com.example.accidentpoc.Sc05Test)
+11-13 01:48:54.389  4508  4528 I TestRunner: started: initialSceneShowsEachAgencySeparately(com.example.accidentpoc.Sc05Test)
+11-13 01:48:54.392  1627  2219 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10092
+11-13 01:48:54.513  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +96ms (total +316ms)
+11-13 01:48:54.768  1627  1756 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:48:54.994  4508  4528 I TestRunner: finished: initialSceneShowsEachAgencySeparately(com.example.accidentpoc.Sc05Test)
+11-13 01:48:54.995  4508  4528 I TestRunner: started: removedCopyLeavesNoEmptyText(com.example.accidentpoc.Sc05Test)
+11-13 01:48:54.997  1627  1756 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10092
+11-13 01:48:55.118  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +90ms (total +318ms)
+11-13 01:48:55.164  1627  2219 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:48:55.353  1627  1650 I ActivityManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity: +161ms
+11-13 01:48:55.416  4508  4528 I TestRunner: finished: removedCopyLeavesNoEmptyText(com.example.accidentpoc.Sc05Test)
+11-13 01:48:55.419  4508  4528 I TestRunner: started: actionMovesFocusToNewTitle(com.example.accidentpoc.Sc05Test)
+11-13 01:48:55.423  1627  3516 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10092
+11-13 01:48:55.529  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +97ms
+11-13 01:48:55.775  1627  4024 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:48:56.034  4508  4528 I TestRunner: finished: actionMovesFocusToNewTitle(com.example.accidentpoc.Sc05Test)
+11-13 01:48:56.035  4508  4528 I TestRunner: started: font200PercentKeepsActionsAndEverySceneControlReachable(com.example.accidentpoc.Sc05Test)
+11-13 01:48:56.040  1627  4024 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10092
+11-13 01:48:56.122  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +79ms (total +334ms)
+11-13 01:48:56.240  1627  1642 I ActivityManager: Config changes=40000000 {2.0 310mcc260mnc [en_US] ldltr sw901dp w1442dp h821dp 213dpi xlrg land finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 0, 0) mAppBounds=Rect(0, 0 - 1920, 1125) mWindowingMode=fullscreen mActivityType=undefined} s.9}
+11-13 01:48:56.240  1627  1642 I ActivityManager: Override config changes=40000000 {2.0 310mcc260mnc [en_US] ldltr sw901dp w1442dp h821dp 213dpi xlrg land finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 1920, 1125) mAppBounds=Rect(0, 0 - 1920, 1125) mWindowingMode=fullscreen mActivityType=undefined} s.9} for displayId=0
+11-13 01:48:56.357  1627  3936 I ActivityManager: Process com.android.launcher3 (pid 3940) has died: prcp TOP 
+11-13 01:48:56.363  1627  1650 W ActivityManager: setHasOverlayUi called on unknown pid: 3940
+11-13 01:48:58.903  1627  1642 I ActivityManager: Config changes=40000000 {1.0 310mcc260mnc [en_US] ldltr sw901dp w1442dp h821dp 213dpi xlrg land finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 0, 0) mAppBounds=Rect(0, 0 - 1920, 1125) mWindowingMode=fullscreen mActivityType=undefined} s.10}
+11-13 01:48:58.903  1627  1642 I ActivityManager: Override config changes=40000000 {1.0 310mcc260mnc [en_US] ldltr sw901dp w1442dp h821dp 213dpi xlrg land finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 1920, 1125) mAppBounds=Rect(0, 0 - 1920, 1125) mWindowingMode=fullscreen mActivityType=undefined} s.10} for displayId=0
+11-13 01:48:59.044  1627  4024 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:48:59.098  1627  1650 I ActivityManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity: +51ms
+11-13 01:48:59.119  4508  4528 I TestRunner: finished: font200PercentKeepsActionsAndEverySceneControlReachable(com.example.accidentpoc.Sc05Test)
+11-13 01:48:59.119  4508  4528 I TestRunner: started: allElevenSceneControlsAreReachableAndKeepSimulationNotice(com.example.accidentpoc.Sc05Test)
+11-13 01:48:59.125  1627  2219 W ActivityManager: Finishing task with all activities already finished
+11-13 01:48:59.125  1627  2219 W ActivityManager: Duplicate finish request for ActivityRecord{637fe09 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t110 f}
+11-13 01:48:59.125  1627  3045 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10092
+11-13 01:48:59.134  1627  1644 I ActivityManager: Start proc 4663:com.android.launcher3/u0a42 for activity com.android.launcher3/.Launcher
+11-13 01:48:59.231  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +96ms (total +112ms)
+11-13 01:49:01.198  1627  1894 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:49:01.414  1627  1650 I ActivityManager: Displayed com.android.launcher3/.Launcher: +2s271ms (total +186ms)
+11-13 01:49:01.462  4508  4528 I TestRunner: finished: allElevenSceneControlsAreReachableAndKeepSimulationNotice(com.example.accidentpoc.Sc05Test)
+11-13 01:49:01.462  4508  4528 I TestRunner: started: queuedDuplicateApprovalOnlySubmitsOnce(com.example.accidentpoc.Sc05Test)
+11-13 01:49:01.464  1627  3218 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10092
+11-13 01:49:01.656  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +169ms
+11-13 01:49:02.273  1627  1894 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:49:02.415  4508  4528 I TestRunner: finished: queuedDuplicateApprovalOnlySubmitsOnce(com.example.accidentpoc.Sc05Test)
+11-13 01:49:02.415  4508  4528 I TestRunner: started: suspendedReceiptAndHandoffStaySuspendedUntilResume(com.example.accidentpoc.Sc05Test)
+11-13 01:49:02.420  1627  2221 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10092
+11-13 01:49:02.551  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +122ms (total +275ms)
+11-13 01:49:03.520  1627  2219 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:49:03.691  4508  4528 I TestRunner: finished: suspendedReceiptAndHandoffStaySuspendedUntilResume(com.example.accidentpoc.Sc05Test)
+11-13 01:49:03.693  4508  4528 I TestRunner: started: sc05DrawsMappedGlyphsAndMarks(com.example.accidentpoc.Sc05Test)
+11-13 01:49:03.697  1627  3045 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10092
+11-13 01:49:03.971  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +218ms (total +441ms)
+11-13 01:49:04.299  1627  3596 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:49:04.589  4508  4528 I TestRunner: finished: sc05DrawsMappedGlyphsAndMarks(com.example.accidentpoc.Sc05Test)
+11-13 01:49:04.589  4508  4528 I TestRunner: started: scopeValidationCancelApprovalAndFailedReapprovalUseRealControls(com.example.accidentpoc.Sc05Test)
+11-13 01:49:04.593  1627  3596 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10092
+11-13 01:49:04.687  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +85ms (total +378ms)
+11-13 01:49:07.240  1627  3045 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:49:07.372  4508  4528 I TestRunner: finished: scopeValidationCancelApprovalAndFailedReapprovalUseRealControls(com.example.accidentpoc.Sc05Test)
+11-13 01:49:07.376  4508  4528 I TestRunner: started: checkingUnknownFailureAndResumeNeverResend(com.example.accidentpoc.Sc05Test)
+11-13 01:49:07.381  1627  2219 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10092
+11-13 01:49:07.488  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +91ms (total +240ms)
+11-13 01:49:08.517  1627  3596 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:49:08.704  4508  4528 I TestRunner: finished: checkingUnknownFailureAndResumeNeverResend(com.example.accidentpoc.Sc05Test)
+11-13 01:49:08.704  4508  4528 I TestRunner: started: surfaceToggleKeepsSceneAndUsesApiSpecificCapability(com.example.accidentpoc.Sc05Test)
+11-13 01:49:08.735  1627  3596 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10092
+11-13 01:49:08.998  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +226ms (total +475ms)
+11-13 01:49:09.547  1627  2218 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:49:09.784  4508  4528 I TestRunner: finished: surfaceToggleKeepsSceneAndUsesApiSpecificCapability(com.example.accidentpoc.Sc05Test)
+11-13 01:49:09.784  4508  4528 I TestRunner: started: koreanTextWrapsOnlyBetweenWordsAcrossAllScenes(com.example.accidentpoc.Sc05Test)
+11-13 01:49:09.794  1627  2218 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10092
+11-13 01:49:09.853  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +55ms (total +303ms)
+11-13 01:49:11.286  1627  2218 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:49:11.451  4508  4528 I TestRunner: finished: koreanTextWrapsOnlyBetweenWordsAcrossAllScenes(com.example.accidentpoc.Sc05Test)
+11-13 01:49:11.451  4508  4528 I TestRunner: started: receiptAndFactsSurviveNavigationRecreationAndLateUnknown(com.example.accidentpoc.Sc05Test)
+11-13 01:49:11.453  1627  3596 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10092
+11-13 01:49:11.568  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +112ms (total +252ms)
+11-13 01:49:13.154  1627  3596 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:49:13.283  4508  4528 I TestRunner: finished: receiptAndFactsSurviveNavigationRecreationAndLateUnknown(com.example.accidentpoc.Sc05Test)
+11-13 01:49:13.284  4508  4528 I TestRunner: started: eventMovesFocusToCurrentSceneButton(com.example.accidentpoc.Sc05Test)
+11-13 01:49:13.287  1627  2218 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10092
+11-13 01:49:13.404  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +90ms (total +248ms)
+11-13 01:49:13.678  1627  2219 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:49:13.892  4508  4528 I TestRunner: finished: eventMovesFocusToCurrentSceneButton(com.example.accidentpoc.Sc05Test)
+11-13 01:49:13.893  4508  4528 I TestRunner: started: fullSessionScopeApprovalSuspendedResultsAndSurfaceSurviveRecreation(com.example.accidentpoc.Sc05Test)
+11-13 01:49:13.895  1627  2219 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} from uid 10092
+11-13 01:49:14.039  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +94ms (total +304ms)
+11-13 01:49:16.008  1627  3045 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} from uid 10092
+11-13 01:49:16.111  4508  4528 I TestRunner: finished: fullSessionScopeApprovalSuspendedResultsAndSurfaceSurviveRecreation(com.example.accidentpoc.Sc05Test)
+11-13 01:49:16.112  4508  4528 I TestRunner: started: glyphGridMappingsAndStatusMarksAreValidated(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:49:16.121  4508  4528 I TestRunner: finished: glyphGridMappingsAndStatusMarksAreValidated(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:49:16.122  4508  4528 I TestRunner: started: allSharedScenariosParseWithoutClaimingProductUiSupport(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:49:16.129  4508  4528 I TestRunner: finished: allSharedScenariosParseWithoutClaimingProductUiSupport(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:49:16.134  4508  4528 I TestRunner: started: effectsAgencySecondaryAndPanelsSurviveLoading(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:49:16.140  4508  4528 I TestRunner: finished: effectsAgencySecondaryAndPanelsSurviveLoading(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:49:16.141  4508  4528 I TestRunner: started: invalidOverrideReferencesStatusesFieldsAndStringTypesAreRejected(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:49:16.161  4508  4528 I TestRunner: finished: invalidOverrideReferencesStatusesFieldsAndStringTypesAreRejected(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:49:16.169  4508  4528 I TestRunner: started: invalidTargetsAgenciesEffectsAndTypesAreDiagnosed(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:49:16.187  4508  4528 I TestRunner: finished: invalidTargetsAgenciesEffectsAndTypesAreDiagnosed(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:49:16.191  4508  4528 I TestRunner: started: validFactOverridesArePreservedIncludingNonVisibleFacts(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:49:16.194  4508  4528 I TestRunner: finished: validFactOverridesArePreservedIncludingNonVisibleFacts(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:49:16.194  4508  4528 I TestRunner: started: invalidVersionScenarioAndDuplicateIdsAreRejected(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:49:16.215  4508  4528 I TestRunner: finished: invalidVersionScenarioAndDuplicateIdsAreRejected(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:49:16.216  4508  4528 I TestRunner: started: receiveAndHandoffWhileSuspendedUpdateSessionWithoutLeavingOrResending(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:49:16.222  4508  4528 I TestRunner: finished: receiveAndHandoffWhileSuspendedUpdateSessionWithoutLeavingOrResending(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:49:16.223  4508  4528 I TestRunner: started: invalidSavedSessionCannotReplaceTheAuthoritativeState(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:49:16.225  4508  4528 I TestRunner: finished: invalidSavedSessionCannotReplaceTheAuthoritativeState(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:49:16.227  4508  4528 I TestRunner: started: receiptArrivalAndHandoffAreIndependentAndMonotonicAcrossLateResults(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:49:16.228  4508  4528 I TestRunner: finished: receiptArrivalAndHandoffAreIndependentAndMonotonicAcrossLateResults(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:49:16.229  4508  4528 I TestRunner: started: explicitApprovalFreezesSnapshotAndFailedRetryNeedsNewApproval(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:49:16.230  4508  4528 I TestRunner: finished: explicitApprovalFreezesSnapshotAndFailedRetryNeedsNewApproval(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:49:16.231  4508  4528 I TestRunner: started: reviewCancelEmptyScopeAndMissingRecordCannotSubmit(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:49:16.233  4508  4528 I TestRunner: finished: reviewCancelEmptyScopeAndMissingRecordCannotSubmit(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:49:16.233  4508  4528 I TestRunner: started: lookupUnknownFailureSuspensionAndResumeKeepOriginalIdentityAndOtherAgencies(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:49:16.236  4508  4528 I TestRunner: finished: lookupUnknownFailureSuspensionAndResumeKeepOriginalIdentityAndOtherAgencies(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:49:16.244  4508  4528 I TestRunner: started: handoffSelfTargetAppliesWithoutInventingArrivalOrVehicleReceipt(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:49:16.246  4508  4528 I TestRunner: finished: handoffSelfTargetAppliesWithoutInventingArrivalOrVehicleReceipt(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:49:16.246  4508  4528 I TestRunner: started: directHandoffFixtureDoesNotInventArrivalAndResumePreservesOrigin(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:49:16.248  4508  4528 I TestRunner: finished: directHandoffFixtureDoesNotInventArrivalAndResumePreservesOrigin(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:49:16.248  4508  4528 I TestRunner: started: fullSessionSerializationPreservesEveryFieldForAllElevenScenes(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:49:16.250  4508  4528 I TestRunner: finished: fullSessionSerializationPreservesEveryFieldForAllElevenScenes(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:49:16.251  4508  4528 I TestRunner: started: knownReceiptBlocksApprovalEvenWhenReviewProjectionWasSelected(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:49:16.256  4508  4528 I TestRunner: finished: knownReceiptBlocksApprovalEvenWhenReviewProjectionWasSelected(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:49:16.258  4508  4528 I TestRunner: run finished: 41 tests, 0 failed, 0 ignored
+11-13 01:49:16.264  1627  2218 I ActivityManager: Force stopping com.example.accidentpoc appid=10092 user=0: finished inst
+11-13 01:49:16.264  1627  2218 I ActivityManager: Killing 4508:com.example.accidentpoc/u0a92 (adj 0): stop com.example.accidentpoc
+11-13 01:49:16.312  1627  1650 W ActivityManager: setHasOverlayUi called on unknown pid: 4508
+11-13 01:49:16.641  1627  1642 I ActivityManager: Force stopping com.example.accidentpoc appid=10092 user=-1: deletePackageX
+11-13 01:49:16.695  1627  1666 I ActivityManager: Force stopping com.example.accidentpoc appid=10092 user=0: pkg removed
+11-13 01:49:16.735  1627  1642 I ActivityManager: Force stopping com.example.accidentpoc.test appid=10093 user=-1: deletePackageX
+11-13 01:49:16.735  1627  1642 I ActivityManager: Killing 4548:com.example.accidentpoc.test/u0a93 (adj 900): stop com.example.accidentpoc.test
+11-13 01:49:16.769  1627  1650 W ActivityManager: setHasOverlayUi called on unknown pid: 4548
+11-13 01:49:16.789  1627  3046 W ActivityManager: Unable to start service Intent { act=com.android.vending.developergroupidinfo.IDeveloperGroupIdInfoService.BIND cmp=com.android.vending/com.google.android.finsky.developergroupidinfo.DeveloperGroupIdInfoService } U=0: not found
+11-13 01:49:16.796  1627  1666 I ActivityManager: Force stopping com.example.accidentpoc.test appid=10093 user=0: pkg removed
+11-13 01:49:16.814  1627  1894 W ActivityManager: Unable to start service Intent { act=com.android.vending.developergroupidinfo.IDeveloperGroupIdInfoService.BIND cmp=com.android.vending/com.google.android.finsky.developergroupidinfo.DeveloperGroupIdInfoService } U=0: not found
+11-13 01:49:17.285  1627  1894 W ActivityManager: Unable to start service Intent { act=com.android.vending.setup.IPlaySetupServiceV2.BIND pkg=com.android.vending } U=0: not found
+11-13 01:50:16.642  1627  1644 I ActivityManager: Start proc 4805:com.google.android.apps.photos/u0a83 for service com.google.android.apps.photos/.actionqueue.OnlineActionJobsService
+11-13 01:50:17.291  1627  1894 W ActivityManager: Unable to start service Intent { act=com.android.vending.setup.IPlaySetupServiceV2.BIND pkg=com.android.vending } U=0: not found
+11-13 01:50:36.839  1627  4031 I ActivityManager: Killing 2510:com.google.process.gapps/u0a24 (adj 906): empty #17
+11-13 01:51:17.303  1627  1894 W ActivityManager: Unable to start service Intent { act=com.android.vending.setup.IPlaySetupServiceV2.BIND pkg=com.android.vending } U=0: not found
+11-13 01:52:17.307  1627  1894 W ActivityManager: Unable to start service Intent { act=com.android.vending.setup.IPlaySetupServiceV2.BIND pkg=com.android.vending } U=0: not found
+11-13 01:53:17.312  1627  4031 W ActivityManager: Unable to start service Intent { act=com.android.vending.setup.IPlaySetupServiceV2.BIND pkg=com.android.vending } U=0: not found
+11-13 01:53:47.547  1627  3514 I ActivityManager: Force stopping com.example.accidentpoc appid=10094 user=0: from pid 4868
+11-13 01:53:47.809  1627  3514 I ActivityManager: START u0 {flg=0x10000000 cmp=com.example.accidentpoc/.MainActivity (has extras)} from uid 2000
+11-13 01:53:47.844  1627  1644 I ActivityManager: Start proc 4892:com.example.accidentpoc/u0a94 for activity com.example.accidentpoc/.MainActivity
+11-13 01:53:48.462  1627  1650 I ActivityManager: Displayed com.example.accidentpoc/.MainActivity: +639ms (total +4m32s450ms)

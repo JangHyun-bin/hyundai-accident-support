@@ -1,0 +1,3 @@
+Previous HEAD position was 65518e2 test: declare guidance JSON import attributes for Node runner
+HEAD is now at 2a5dea5 test: establish native keyboard input before focus transitions
+AUDIT_DIRECTORIES_ABSENT=true

@@ -1,0 +1,351 @@
+COMMAND ["npm", "run", "test:ui"]
+CWD /tmp/hyundai-contract-repair/clean/prototype/web
+TESTED_COMMIT 2a5dea5e992814a96c5e3cf19595f2691f07eb54
+
+> accident-support-design-poc@0.1.0 test:ui
+> playwright test
+
+[WebServer] (node:11671) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 424 tests using 5 workers
+(node:11687) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11684) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11688) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11686) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11685) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·································································FF·(node:12198) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:12197) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+············
+···········F(node:12480) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·····························[WebServer] 2:12:55 AM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+[WebServer] 2:12:55 AM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+F·(node:12724) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·[WebServer] 2:12:58 AM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+·[WebServer] 2:12:59 AM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+[WebServer] 2:13:00 AM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+···[WebServer] 2:13:01 AM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+[WebServer] 2:13:01 AM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+·[WebServer] 2:13:02 AM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+·····[WebServer] 2:13:02 AM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+·······[WebServer] 2:13:06 AM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+···F(node:12864) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+FF(node:12870) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:12876) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+F(node:12881) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 2:13:11 AM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+F(node:12928) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+···········
+················································································
+················································································
+············································[WebServer] 2:14:49 AM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+··························[WebServer] 2:15:11 AM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+·[WebServer] 2:15:12 AM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+·········
+··········(node:14390) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:14401) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:14400) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:14399) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:14405) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+··············
+
+  1) tests/emergency-guidance-state.spec.ts:113:46 › SC04 support selects every insurance state without mutating the request 
+
+    Error: C05 requires the exact real asset for this reachable guidance
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+      132 |     }, source)
+      133 |     await expect(surface(page)).toContainText(expected.text)
+    > 134 |     expect(expected.path, 'C05 requires the exact real asset for this reachable guidance').toBeDefined()
+          |                                                                                            ^
+      135 |     const before = await page.evaluate(() => JSON.stringify(window.guidanceSession))
+      136 |     await touch(page, '음성 안내 듣기')
+      137 |     expect(await page.evaluate(() => window.guidanceCalls.at(-1)!.src)).toBe(expected.path)
+        at /private/tmp/hyundai-contract-repair/clean/prototype/web/tests/emergency-guidance-state.spec.ts:134:92
+
+    Error Context: test-results/repair-full-clean/emergency-guidance-state-S-0b357-ithout-mutating-the-request/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-full-clean/emergency-guidance-state-S-0b357-ithout-mutating-the-request/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-full-clean/emergency-guidance-state-S-0b357-ithout-mutating-the-request/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/emergency-guidance-state.spec.ts:113:46 › SC04 paused selects every insurance state without mutating the request 
+
+    Error: C05 requires the exact real asset for this reachable guidance
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+      132 |     }, source)
+      133 |     await expect(surface(page)).toContainText(expected.text)
+    > 134 |     expect(expected.path, 'C05 requires the exact real asset for this reachable guidance').toBeDefined()
+          |                                                                                            ^
+      135 |     const before = await page.evaluate(() => JSON.stringify(window.guidanceSession))
+      136 |     await touch(page, '음성 안내 듣기')
+      137 |     expect(await page.evaluate(() => window.guidanceCalls.at(-1)!.src)).toBe(expected.path)
+        at /private/tmp/hyundai-contract-repair/clean/prototype/web/tests/emergency-guidance-state.spec.ts:134:92
+
+    Error Context: test-results/repair-full-clean/emergency-guidance-state-S-dfe74-ithout-mutating-the-request/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-full-clean/emergency-guidance-state-S-dfe74-ithout-mutating-the-request/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-full-clean/emergency-guidance-state-S-dfe74-ithout-mutating-the-request/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/emergency-urgent.spec.ts:17:1 › every_scene_has_three_slots_and_three_agencies ──────────
+
+    Error: SC04/deferred
+
+    expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('region', { name: '시각 중심 사고 대응' }).locator('[data-slot="detected"]')
+    Expected substring: "전송 보류"
+    Received string:    "사고 기록 · 보류 유지 · 보내지 않음음성 안내 듣기사고 기록초안 있음전송 승인승인 전"
+    Timeout: 5000ms
+
+    Call log:
+      - SC04/deferred getByRole('region', { name: '시각 중심 사고 대응' }).locator('[data-slot="detected"]') with timeout 5000ms
+      - waiting for getByRole('region', { name: '시각 중심 사고 대응' }).locator('[data-slot="detected"]')
+        14 × locator resolved to <div data-slot="detected">…</div>
+           - unexpected value "사고 기록 · 보류 유지 · 보내지 않음음성 안내 듣기사고 기록초안 있음전송 승인승인 전"
+
+
+      22 |     for (const slot of ['detected', 'car', 'self']) await expect(screen.locator(`[data-slot="${slot}"]`), `${where} ${slot}`).toBeVisible()
+      23 |     await expect(screen.locator('[data-slot="car"] h1'), where).toHaveText(scene.title)
+    > 24 |     await expect(screen.locator('[data-slot="detected"]'), where).toContainText(scene.cue.label)
+         |                                                                   ^
+      25 |     await expect(screen.locator('[data-request]'), where).toHaveCount(3)
+      26 |     if (scene.self_action) await expect(screen.locator('[data-slot="self"]'), where).toContainText(scene.self_action.now)
+      27 |   }
+        at /private/tmp/hyundai-contract-repair/clean/prototype/web/tests/emergency-urgent.spec.ts:24:67
+
+    Error Context: test-results/repair-full-clean/emergency-urgent-every-sce-d876f-ee-slots-and-three-agencies/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-full-clean/emergency-urgent-every-sce-d876f-ee-slots-and-three-agencies/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-full-clean/emergency-urgent-every-sce-d876f-ee-slots-and-three-agencies/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) tests/emergency-urgent.spec.ts:184:3 › rescue countdown › blocked_countdown_speech_shows_script 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('status')
+    Expected substring: "음성 원고"
+    Received string:    ""
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" getByRole('status') with timeout 5000ms
+      - waiting for getByRole('status')
+        13 × locator resolved to <div role="status" class="emergency-voice-status"></div>
+           - unexpected value ""
+
+
+      186 |     await page.addInitScript(()=>{window.guidanceMock.fail=true})
+      187 |     await open(page)
+    > 188 |     await expect(page.getByRole('status')).toContainText('음성 원고')
+          |                                            ^
+      189 |   })
+      190 | })
+      191 |
+        at /private/tmp/hyundai-contract-repair/clean/prototype/web/tests/emergency-urgent.spec.ts:188:44
+
+    Error Context: test-results/repair-full-clean/emergency-urgent-rescue-co-b4c52-untdown-speech-shows-script/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-full-clean/emergency-urgent-rescue-co-b4c52-untdown-speech-shows-script/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-full-clean/emergency-urgent-rescue-co-b4c52-untdown-speech-shows-script/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) tests/guidance-audio.spec.ts:45:1 › every scene, journey and runtime script has an exact static speech asset 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 6
+
+    - Array []
+    + Array [
+    +   "기록을 이 기기에 저장하지 못했어요. 입력한 내용은 현재 화면에만 남아 있어요. 화면을 닫으면 사라져요.",
+    +   "전송을 보류했어요. 기록을 이 기기에 저장하지 못해 현재 화면에만 남아 있어요. 구호·차량 지원은 계속 진행돼요.",
+    +   "보험 접수는 아직 확인되지 않았어요. 전송과 접수는 별도로 확인해요. 구호·차량 지원은 계속 진행돼요.",
+    +   "보험 접수가 되지 않은 것을 확인했어요. 다시 보내려면 전송 범위를 확인하고 새로 승인해 주세요. 구호·차량 지원은 계속 진행돼요.",
+    + ]
+
+      52 |   const scripts=[...manifest.scenarios.flatMap((s:any)=>s.states.map((state:any)=>state.voice)),...Object.values(journey),...Object.values(variants)]
+      53 |   return scripts.filter(text=>!guidanceAsset(text))
+    > 54 |  });expect(result).toEqual([])
+         |                    ^
+      55 | })
+      56 |
+      57 | test('call spectrum pauses while the document is hidden',async({page})=>{
+        at /private/tmp/hyundai-contract-repair/clean/prototype/web/tests/guidance-audio.spec.ts:54:20
+
+    Error Context: test-results/repair-full-clean/guidance-audio-every-scene-2d637-n-exact-static-speech-asset/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-full-clean/guidance-audio-every-scene-2d637-n-exact-static-speech-asset/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-full-clean/guidance-audio-every-scene-2d637-n-exact-static-speech-asset/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) tests/guidance-audio.spec.ts:73:57 › actual runtime asset record_storage_failed has exact hashes and plays in the browser 
+
+    Error: Required real JaeGyu asset missing for record_storage_failed
+
+    expect(received).not.toBeNull()
+
+    Received: null
+
+       98 |   return {scriptHash:asset.scriptHash,actualScriptHash:await digest(new TextEncoder().encode(text)),audioHash:asset.audioHash,actualAudioHash:await digest(await response.arrayBuffer()),duration:asset.duration}
+       99 |  },text)
+    > 100 |  expect(asset,`Required real JaeGyu asset missing for ${id}`).not.toBeNull()
+          |                                                                   ^
+      101 |  expect(asset!.actualScriptHash).toBe(asset!.scriptHash);expect(asset!.actualAudioHash).toBe(asset!.audioHash)
+      102 |  expect(asset!.duration).toBeGreaterThan(0)
+      103 |  await page.getByRole('button',{name:'음성 안내 듣기',exact:true}).click()
+        at /private/tmp/hyundai-contract-repair/clean/prototype/web/tests/guidance-audio.spec.ts:100:67
+
+    Error Context: test-results/repair-full-clean/guidance-audio-actual-runt-7f6c6-es-and-plays-in-the-browser/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-full-clean/guidance-audio-actual-runt-7f6c6-es-and-plays-in-the-browser/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-full-clean/guidance-audio-actual-runt-7f6c6-es-and-plays-in-the-browser/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7) tests/guidance-audio.spec.ts:73:57 › actual runtime asset deferred_storage_failed has exact hashes and plays in the browser 
+
+    Error: Required real JaeGyu asset missing for deferred_storage_failed
+
+    expect(received).not.toBeNull()
+
+    Received: null
+
+       98 |   return {scriptHash:asset.scriptHash,actualScriptHash:await digest(new TextEncoder().encode(text)),audioHash:asset.audioHash,actualAudioHash:await digest(await response.arrayBuffer()),duration:asset.duration}
+       99 |  },text)
+    > 100 |  expect(asset,`Required real JaeGyu asset missing for ${id}`).not.toBeNull()
+          |                                                                   ^
+      101 |  expect(asset!.actualScriptHash).toBe(asset!.scriptHash);expect(asset!.actualAudioHash).toBe(asset!.audioHash)
+      102 |  expect(asset!.duration).toBeGreaterThan(0)
+      103 |  await page.getByRole('button',{name:'음성 안내 듣기',exact:true}).click()
+        at /private/tmp/hyundai-contract-repair/clean/prototype/web/tests/guidance-audio.spec.ts:100:67
+
+    Error Context: test-results/repair-full-clean/guidance-audio-actual-runt-c1fc4-es-and-plays-in-the-browser/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-full-clean/guidance-audio-actual-runt-c1fc4-es-and-plays-in-the-browser/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-full-clean/guidance-audio-actual-runt-c1fc4-es-and-plays-in-the-browser/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  8) tests/guidance-audio.spec.ts:73:57 › actual runtime asset insurance_unconfirmed has exact hashes and plays in the browser 
+
+    Error: Required real JaeGyu asset missing for insurance_unconfirmed
+
+    expect(received).not.toBeNull()
+
+    Received: null
+
+       98 |   return {scriptHash:asset.scriptHash,actualScriptHash:await digest(new TextEncoder().encode(text)),audioHash:asset.audioHash,actualAudioHash:await digest(await response.arrayBuffer()),duration:asset.duration}
+       99 |  },text)
+    > 100 |  expect(asset,`Required real JaeGyu asset missing for ${id}`).not.toBeNull()
+          |                                                                   ^
+      101 |  expect(asset!.actualScriptHash).toBe(asset!.scriptHash);expect(asset!.actualAudioHash).toBe(asset!.audioHash)
+      102 |  expect(asset!.duration).toBeGreaterThan(0)
+      103 |  await page.getByRole('button',{name:'음성 안내 듣기',exact:true}).click()
+        at /private/tmp/hyundai-contract-repair/clean/prototype/web/tests/guidance-audio.spec.ts:100:67
+
+    Error Context: test-results/repair-full-clean/guidance-audio-actual-runt-2b27b-es-and-plays-in-the-browser/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-full-clean/guidance-audio-actual-runt-2b27b-es-and-plays-in-the-browser/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-full-clean/guidance-audio-actual-runt-2b27b-es-and-plays-in-the-browser/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  9) tests/guidance-audio.spec.ts:73:57 › actual runtime asset insurance_not_received has exact hashes and plays in the browser 
+
+    Error: Required real JaeGyu asset missing for insurance_not_received
+
+    expect(received).not.toBeNull()
+
+    Received: null
+
+       98 |   return {scriptHash:asset.scriptHash,actualScriptHash:await digest(new TextEncoder().encode(text)),audioHash:asset.audioHash,actualAudioHash:await digest(await response.arrayBuffer()),duration:asset.duration}
+       99 |  },text)
+    > 100 |  expect(asset,`Required real JaeGyu asset missing for ${id}`).not.toBeNull()
+          |                                                                   ^
+      101 |  expect(asset!.actualScriptHash).toBe(asset!.scriptHash);expect(asset!.actualAudioHash).toBe(asset!.audioHash)
+      102 |  expect(asset!.duration).toBeGreaterThan(0)
+      103 |  await page.getByRole('button',{name:'음성 안내 듣기',exact:true}).click()
+        at /private/tmp/hyundai-contract-repair/clean/prototype/web/tests/guidance-audio.spec.ts:100:67
+
+    Error Context: test-results/repair-full-clean/guidance-audio-actual-runt-14ada-es-and-plays-in-the-browser/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-full-clean/guidance-audio-actual-runt-14ada-es-and-plays-in-the-browser/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-full-clean/guidance-audio-actual-runt-14ada-es-and-plays-in-the-browser/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  9 failed
+    tests/emergency-guidance-state.spec.ts:113:46 › SC04 support selects every insurance state without mutating the request 
+    tests/emergency-guidance-state.spec.ts:113:46 › SC04 paused selects every insurance state without mutating the request 
+    tests/emergency-urgent.spec.ts:17:1 › every_scene_has_three_slots_and_three_agencies ───────────
+    tests/emergency-urgent.spec.ts:184:3 › rescue countdown › blocked_countdown_speech_shows_script 
+    tests/guidance-audio.spec.ts:45:1 › every scene, journey and runtime script has an exact static speech asset 
+    tests/guidance-audio.spec.ts:73:57 › actual runtime asset record_storage_failed has exact hashes and plays in the browser 
+    tests/guidance-audio.spec.ts:73:57 › actual runtime asset deferred_storage_failed has exact hashes and plays in the browser 
+    tests/guidance-audio.spec.ts:73:57 › actual runtime asset insurance_unconfirmed has exact hashes and plays in the browser 
+    tests/guidance-audio.spec.ts:73:57 › actual runtime asset insurance_not_received has exact hashes and plays in the browser 
+  415 passed (4.2m)
+
+EXIT_STATUS 1

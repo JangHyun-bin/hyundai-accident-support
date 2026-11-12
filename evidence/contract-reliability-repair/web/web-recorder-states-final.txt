@@ -1,0 +1,267 @@
+COMMAND ["npm", "run", "test:ui", "--", "tests/journey-voice.spec.ts", "tests/emergency-guidance-state.spec.ts"]
+CWD /tmp/hyundai-contract-repair/clean/prototype/web
+TESTED_COMMIT e7c34674a6f2cd190a5ee1727080f1db3527f365
+
+> accident-support-design-poc@0.1.0 test:ui
+> playwright test tests/journey-voice.spec.ts tests/emergency-guidance-state.spec.ts
+
+[WebServer] (node:32843) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 49 tests using 5 workers
+(node:32847) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:32846) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:32845) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:32844) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:32848) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+··········F(node:32983) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·FFF(node:32991) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:33002) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:33003) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+······F·FF(node:33082) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:33086) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:33087) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+F(node:33089) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·······················
+
+  1) tests/emergency-guidance-state.spec.ts:119:109 › SC04 support/unknown keeps the actual decision without mutating the request 
+
+    Error: C05 requires the exact real asset for this reachable guidance
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+      137 |   else await expect(page.getByRole('status')).toContainText(expected.text)
+      138 |   expect(await page.evaluate(() => JSON.stringify(window.guidanceSession))).toBe(before)
+    > 139 |   expect(expected.path, 'C05 requires the exact real asset for this reachable guidance').toBeDefined()
+          |                                                                                          ^
+      140 | })
+      141 |
+      142 | test('same-scene request changes stop audio, reject stale completion and use the latest script', async ({ page }) => {
+        at /private/tmp/hyundai-contract-repair/clean/prototype/web/tests/emergency-guidance-state.spec.ts:139:90
+
+    Error Context: test-results/repair-recorder-states-final/emergency-guidance-state-S-69796-ithout-mutating-the-request/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-recorder-states-final/emergency-guidance-state-S-69796-ithout-mutating-the-request/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-recorder-states-final/emergency-guidance-state-S-69796-ithout-mutating-the-request/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/emergency-guidance-state.spec.ts:119:109 › SC04 support/not_received keeps the actual decision without mutating the request 
+
+    Error: C05 requires the exact real asset for this reachable guidance
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+      137 |   else await expect(page.getByRole('status')).toContainText(expected.text)
+      138 |   expect(await page.evaluate(() => JSON.stringify(window.guidanceSession))).toBe(before)
+    > 139 |   expect(expected.path, 'C05 requires the exact real asset for this reachable guidance').toBeDefined()
+          |                                                                                          ^
+      140 | })
+      141 |
+      142 | test('same-scene request changes stop audio, reject stale completion and use the latest script', async ({ page }) => {
+        at /private/tmp/hyundai-contract-repair/clean/prototype/web/tests/emergency-guidance-state.spec.ts:139:90
+
+    Error Context: test-results/repair-recorder-states-final/emergency-guidance-state-S-41389-ithout-mutating-the-request/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-recorder-states-final/emergency-guidance-state-S-41389-ithout-mutating-the-request/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-recorder-states-final/emergency-guidance-state-S-41389-ithout-mutating-the-request/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/emergency-guidance-state.spec.ts:119:109 › SC04 support/connected keeps the actual decision without mutating the request 
+
+    Error: C05 requires the exact real asset for this reachable guidance
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+      137 |   else await expect(page.getByRole('status')).toContainText(expected.text)
+      138 |   expect(await page.evaluate(() => JSON.stringify(window.guidanceSession))).toBe(before)
+    > 139 |   expect(expected.path, 'C05 requires the exact real asset for this reachable guidance').toBeDefined()
+          |                                                                                          ^
+      140 | })
+      141 |
+      142 | test('same-scene request changes stop audio, reject stale completion and use the latest script', async ({ page }) => {
+        at /private/tmp/hyundai-contract-repair/clean/prototype/web/tests/emergency-guidance-state.spec.ts:139:90
+
+    Error Context: test-results/repair-recorder-states-final/emergency-guidance-state-S-7709f-ithout-mutating-the-request/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-recorder-states-final/emergency-guidance-state-S-7709f-ithout-mutating-the-request/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-recorder-states-final/emergency-guidance-state-S-7709f-ithout-mutating-the-request/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) tests/emergency-guidance-state.spec.ts:119:109 › SC04 support/connection_unknown keeps the actual decision without mutating the request 
+
+    Error: C05 requires the exact real asset for this reachable guidance
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+      137 |   else await expect(page.getByRole('status')).toContainText(expected.text)
+      138 |   expect(await page.evaluate(() => JSON.stringify(window.guidanceSession))).toBe(before)
+    > 139 |   expect(expected.path, 'C05 requires the exact real asset for this reachable guidance').toBeDefined()
+          |                                                                                          ^
+      140 | })
+      141 |
+      142 | test('same-scene request changes stop audio, reject stale completion and use the latest script', async ({ page }) => {
+        at /private/tmp/hyundai-contract-repair/clean/prototype/web/tests/emergency-guidance-state.spec.ts:139:90
+
+    Error Context: test-results/repair-recorder-states-final/emergency-guidance-state-S-52258-ithout-mutating-the-request/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-recorder-states-final/emergency-guidance-state-S-52258-ithout-mutating-the-request/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-recorder-states-final/emergency-guidance-state-S-52258-ithout-mutating-the-request/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) tests/emergency-guidance-state.spec.ts:119:109 › SC04 paused/unknown keeps the actual decision without mutating the request 
+
+    Error: C05 requires the exact real asset for this reachable guidance
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+      137 |   else await expect(page.getByRole('status')).toContainText(expected.text)
+      138 |   expect(await page.evaluate(() => JSON.stringify(window.guidanceSession))).toBe(before)
+    > 139 |   expect(expected.path, 'C05 requires the exact real asset for this reachable guidance').toBeDefined()
+          |                                                                                          ^
+      140 | })
+      141 |
+      142 | test('same-scene request changes stop audio, reject stale completion and use the latest script', async ({ page }) => {
+        at /private/tmp/hyundai-contract-repair/clean/prototype/web/tests/emergency-guidance-state.spec.ts:139:90
+
+    Error Context: test-results/repair-recorder-states-final/emergency-guidance-state-S-878af-ithout-mutating-the-request/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-recorder-states-final/emergency-guidance-state-S-878af-ithout-mutating-the-request/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-recorder-states-final/emergency-guidance-state-S-878af-ithout-mutating-the-request/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) tests/emergency-guidance-state.spec.ts:119:109 › SC04 paused/not_received keeps the actual decision without mutating the request 
+
+    Error: C05 requires the exact real asset for this reachable guidance
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+      137 |   else await expect(page.getByRole('status')).toContainText(expected.text)
+      138 |   expect(await page.evaluate(() => JSON.stringify(window.guidanceSession))).toBe(before)
+    > 139 |   expect(expected.path, 'C05 requires the exact real asset for this reachable guidance').toBeDefined()
+          |                                                                                          ^
+      140 | })
+      141 |
+      142 | test('same-scene request changes stop audio, reject stale completion and use the latest script', async ({ page }) => {
+        at /private/tmp/hyundai-contract-repair/clean/prototype/web/tests/emergency-guidance-state.spec.ts:139:90
+
+    Error Context: test-results/repair-recorder-states-final/emergency-guidance-state-S-d2976-ithout-mutating-the-request/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-recorder-states-final/emergency-guidance-state-S-d2976-ithout-mutating-the-request/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-recorder-states-final/emergency-guidance-state-S-d2976-ithout-mutating-the-request/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7) tests/emergency-guidance-state.spec.ts:119:109 › SC04 paused/connected keeps the actual decision without mutating the request 
+
+    Error: C05 requires the exact real asset for this reachable guidance
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+      137 |   else await expect(page.getByRole('status')).toContainText(expected.text)
+      138 |   expect(await page.evaluate(() => JSON.stringify(window.guidanceSession))).toBe(before)
+    > 139 |   expect(expected.path, 'C05 requires the exact real asset for this reachable guidance').toBeDefined()
+          |                                                                                          ^
+      140 | })
+      141 |
+      142 | test('same-scene request changes stop audio, reject stale completion and use the latest script', async ({ page }) => {
+        at /private/tmp/hyundai-contract-repair/clean/prototype/web/tests/emergency-guidance-state.spec.ts:139:90
+
+    Error Context: test-results/repair-recorder-states-final/emergency-guidance-state-S-23963-ithout-mutating-the-request/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-recorder-states-final/emergency-guidance-state-S-23963-ithout-mutating-the-request/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-recorder-states-final/emergency-guidance-state-S-23963-ithout-mutating-the-request/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  8) tests/emergency-guidance-state.spec.ts:119:109 › SC04 paused/connection_unknown keeps the actual decision without mutating the request 
+
+    Error: C05 requires the exact real asset for this reachable guidance
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+      137 |   else await expect(page.getByRole('status')).toContainText(expected.text)
+      138 |   expect(await page.evaluate(() => JSON.stringify(window.guidanceSession))).toBe(before)
+    > 139 |   expect(expected.path, 'C05 requires the exact real asset for this reachable guidance').toBeDefined()
+          |                                                                                          ^
+      140 | })
+      141 |
+      142 | test('same-scene request changes stop audio, reject stale completion and use the latest script', async ({ page }) => {
+        at /private/tmp/hyundai-contract-repair/clean/prototype/web/tests/emergency-guidance-state.spec.ts:139:90
+
+    Error Context: test-results/repair-recorder-states-final/emergency-guidance-state-S-6f13f-ithout-mutating-the-request/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-recorder-states-final/emergency-guidance-state-S-6f13f-ithout-mutating-the-request/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-recorder-states-final/emergency-guidance-state-S-6f13f-ithout-mutating-the-request/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  8 failed
+    tests/emergency-guidance-state.spec.ts:119:109 › SC04 support/unknown keeps the actual decision without mutating the request 
+    tests/emergency-guidance-state.spec.ts:119:109 › SC04 support/not_received keeps the actual decision without mutating the request 
+    tests/emergency-guidance-state.spec.ts:119:109 › SC04 support/connected keeps the actual decision without mutating the request 
+    tests/emergency-guidance-state.spec.ts:119:109 › SC04 support/connection_unknown keeps the actual decision without mutating the request 
+    tests/emergency-guidance-state.spec.ts:119:109 › SC04 paused/unknown keeps the actual decision without mutating the request 
+    tests/emergency-guidance-state.spec.ts:119:109 › SC04 paused/not_received keeps the actual decision without mutating the request 
+    tests/emergency-guidance-state.spec.ts:119:109 › SC04 paused/connected keeps the actual decision without mutating the request 
+    tests/emergency-guidance-state.spec.ts:119:109 › SC04 paused/connection_unknown keeps the actual decision without mutating the request 
+  41 passed (28.9s)
+
+EXIT_STATUS 1

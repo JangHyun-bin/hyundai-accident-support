@@ -1,0 +1,246 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "e7c34674a6f2cd190a5ee1727080f1db3527f365",
+  "browser": "installed Chrome, omp-owned profile",
+  "argv": [
+    "--autoplay-policy=document-user-activation-required"
+  ],
+  "audioMock": false,
+  "initialObservation": {
+    "url": "http://127.0.0.1:5173/?study=emergency&scenario=SC03&scene=initial",
+    "title": "사고 대응 지원 · Design review",
+    "viewport": {
+      "width": 1600,
+      "height": 1050,
+      "deviceScaleFactor": 1
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "width": 1600,
+      "height": 1050,
+      "scrollWidth": 1585,
+      "scrollHeight": 1539
+    },
+    "elements": [
+      {
+        "id": 1,
+        "role": "link",
+        "name": "AFTER / CARE Emergency storyboard",
+        "states": []
+      },
+      {
+        "id": 2,
+        "role": "link",
+        "name": "Design system",
+        "states": []
+      },
+      {
+        "id": 3,
+        "role": "link",
+        "name": "이전 design 비교",
+        "states": []
+      },
+      {
+        "id": 4,
+        "role": "button",
+        "name": "현재 장면 spec",
+        "states": [
+          "expanded=false"
+        ]
+      },
+      {
+        "id": 5,
+        "role": "button",
+        "name": "부상 있음",
+        "states": [
+          "pressed=false"
+        ]
+      },
+      {
+        "id": 6,
+        "role": "button",
+        "name": "차량 이동 불가",
+        "states": [
+          "pressed=false"
+        ]
+      },
+      {
+        "id": 7,
+        "role": "button",
+        "name": "응답 미확인",
+        "states": [
+          "pressed=true"
+        ]
+      },
+      {
+        "id": 8,
+        "role": "button",
+        "name": "전송 보류·거절",
+        "states": [
+          "pressed=false"
+        ]
+      },
+      {
+        "id": 9,
+        "role": "button",
+        "name": "접수 미확인",
+        "states": [
+          "pressed=false"
+        ]
+      },
+      {
+        "id": 10,
+        "role": "button",
+        "name": "3초 보기",
+        "states": []
+      },
+      {
+        "id": 11,
+        "role": "button",
+        "name": "시연 일시 중단",
+        "states": []
+      },
+      {
+        "id": 12,
+        "role": "button",
+        "name": "음성 안내 듣기",
+        "states": []
+      },
+      {
+        "id": 13,
+        "role": "button",
+        "name": "지금 연결",
+        "states": []
+      },
+      {
+        "id": 14,
+        "role": "button",
+        "name": "취소",
+        "states": []
+      },
+      {
+        "id": 15,
+        "role": "button",
+        "name": "응답 대기 현재",
+        "states": [
+          "pressed=true"
+        ]
+      },
+      {
+        "id": 16,
+        "role": "button",
+        "name": "응답 없음",
+        "states": [
+          "pressed=false"
+        ]
+      },
+      {
+        "id": 17,
+        "role": "button",
+        "name": "연결 중",
+        "states": [
+          "pressed=false"
+        ]
+      },
+      {
+        "id": 18,
+        "role": "button",
+        "name": "연결 취소",
+        "states": [
+          "pressed=false"
+        ]
+      },
+      {
+        "id": 19,
+        "role": "button",
+        "name": "119 통화 연결됨",
+        "states": [
+          "pressed=false"
+        ]
+      },
+      {
+        "id": 20,
+        "role": "button",
+        "name": "119 연결을 다시 시도하세요",
+        "states": [
+          "pressed=false"
+        ]
+      },
+      {
+        "id": 21,
+        "role": "button",
+        "name": "구호 접수가 확인됐어요",
+        "states": [
+          "pressed=false"
+        ]
+      },
+      {
+        "id": 22,
+        "role": "button",
+        "name": "구호 인계가 확인됐어요",
+        "states": [
+          "pressed=false"
+        ]
+      },
+      {
+        "id": 23,
+        "role": "button",
+        "name": "119 통화 연결됨",
+        "states": [
+          "pressed=false"
+        ]
+      },
+      {
+        "id": 24,
+        "role": "button",
+        "name": "구호 접수가 확인됐어요",
+        "states": [
+          "pressed=false"
+        ]
+      },
+      {
+        "id": 25,
+        "role": "button",
+        "name": "119 연결을 다시 시도하세요",
+        "states": [
+          "pressed=false"
+        ]
+      },
+      {
+        "id": 26,
+        "role": "button",
+        "name": "무응답 인계",
+        "states": [
+          "pressed=false"
+        ]
+      },
+      {
+        "id": 27,
+        "role": "button",
+        "name": "시연 event: 응답 없음 (즉시)",
+        "states": []
+      },
+      {
+        "id": 28,
+        "role": "button",
+        "name": "시연 event: 차량 위험 감지",
+        "states": []
+      }
+    ]
+  },
+  "result": {
+    "scene": "initial",
+    "countdown": "9",
+    "fallback": "음성 재생을 사용할 수 없어요. 음성 원고: 응답이 없으면 10초 후 119에 연결합니다. 응답할 수 있다면 지금 연결하거나 취소를 선택하세요.",
+    "userActivation": {
+      "isActive": true,
+      "hasBeenActive": true
+    }
+  },
+  "errors": {
+    "entries": [],
+    "nextSeq": 3,
+    "dropped": 0
+  }
+}

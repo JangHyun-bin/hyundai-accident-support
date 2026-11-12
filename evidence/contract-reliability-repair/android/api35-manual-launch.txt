@@ -1,0 +1,4 @@
+Stopping: com.example.accidentpoc
+Starting: Intent { cmp=com.example.accidentpoc/.MainActivity (has extras) }
+Error type 3
+Error: Activity class {com.example.accidentpoc/com.example.accidentpoc.MainActivity} does not exist.

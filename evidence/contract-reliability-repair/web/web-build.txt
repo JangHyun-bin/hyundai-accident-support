@@ -1,0 +1,10 @@
+COMMAND ["npm", "run", "check"]
+CWD prototype/web
+TESTED_COMMIT 17a4d50f3f92222ffef36b9d2cf9d19149cf81ec
+
+> accident-support-design-poc@0.1.0 check
+> tsc --noEmit && vite build
+
+tests/journey-record-reliability.spec.ts(238,32): error TS2550: Property 'withResolvers' does not exist on type 'PromiseConstructor'. Do you need to change your target library? Try changing the 'lib' compiler option to 'es2024' or later.
+
+EXIT_STATUS 2

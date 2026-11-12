@@ -1,0 +1,6 @@
+COMMAND ["node", "test-model.mjs"]
+CWD .
+TESTED_COMMIT 17a4d50f3f92222ffef36b9d2cf9d19149cf81ec
+PASS · 826 objects · section movement · connector integrity · safe import · text round-trip
+
+EXIT_STATUS 0

@@ -1,0 +1,12 @@
+{
+  "mime": "audio/webm;codecs=opus",
+  "nativeDuration": "Infinity",
+  "decoded": {
+    "duration": 0.42,
+    "frames": 20160,
+    "channels": 2,
+    "sampleRate": 48000
+  },
+  "decodeError": null,
+  "bytes": 6939
+}

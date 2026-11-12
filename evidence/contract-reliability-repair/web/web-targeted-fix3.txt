@@ -1,0 +1,245 @@
+COMMAND ["npm", "run", "test:ui", "--", "tests/journey-record-reliability.spec.ts", "tests/journey-save-recovery.spec.ts", "tests/journey-review-fixes.spec.ts", "tests/journey-report.spec.ts", "tests/journey-voice.spec.ts", "tests/emergency-guidance-state.spec.ts", "tests/emergency-complete.spec.ts", "tests/guidance-audio.spec.ts", "tests/stable-voronoi-motion.spec.ts"]
+CWD prototype/web
+TESTED_COMMIT 800a9e34adea14ae49b315ff569bcef3de0bfe35
+
+> accident-support-design-poc@0.1.0 test:ui
+> playwright test tests/journey-record-reliability.spec.ts tests/journey-save-recovery.spec.ts tests/journey-review-fixes.spec.ts tests/journey-report.spec.ts tests/journey-voice.spec.ts tests/emergency-guidance-state.spec.ts tests/emergency-complete.spec.ts tests/guidance-audio.spec.ts tests/stable-voronoi-motion.spec.ts
+
+[WebServer] (node:97521) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 105 tests using 5 workers
+(node:97531) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:97529) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:97528) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:97532) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:97530) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·················F·F(node:97732) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·(node:97748) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+······F(node:97819) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·FFF(node:97846) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:97847) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:97851) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+···F··(node:97922) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+··········································
+·························
+
+  1) tests/emergency-guidance-state.spec.ts:113:46 › SC04 support selects every insurance state without mutating the request 
+
+    Error: C05 requires the exact real asset for this reachable guidance
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+      132 |     }, source)
+      133 |     await expect(surface(page)).toContainText(expected.text)
+    > 134 |     expect(expected.path, 'C05 requires the exact real asset for this reachable guidance').toBeDefined()
+          |                                                                                            ^
+      135 |     const before = await page.evaluate(() => JSON.stringify(window.guidanceSession))
+      136 |     await touch(page, '음성 안내 듣기')
+      137 |     expect(await page.evaluate(() => window.guidanceCalls.at(-1)!.src)).toBe(expected.path)
+        at $REPO/prototype/web/tests/emergency-guidance-state.spec.ts:134:92
+
+    Error Context: test-results/repair-targeted-fix3/emergency-guidance-state-S-0b357-ithout-mutating-the-request/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-targeted-fix3/emergency-guidance-state-S-0b357-ithout-mutating-the-request/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-targeted-fix3/emergency-guidance-state-S-0b357-ithout-mutating-the-request/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/emergency-guidance-state.spec.ts:113:46 › SC04 paused selects every insurance state without mutating the request 
+
+    Error: C05 requires the exact real asset for this reachable guidance
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+      132 |     }, source)
+      133 |     await expect(surface(page)).toContainText(expected.text)
+    > 134 |     expect(expected.path, 'C05 requires the exact real asset for this reachable guidance').toBeDefined()
+          |                                                                                            ^
+      135 |     const before = await page.evaluate(() => JSON.stringify(window.guidanceSession))
+      136 |     await touch(page, '음성 안내 듣기')
+      137 |     expect(await page.evaluate(() => window.guidanceCalls.at(-1)!.src)).toBe(expected.path)
+        at $REPO/prototype/web/tests/emergency-guidance-state.spec.ts:134:92
+
+    Error Context: test-results/repair-targeted-fix3/emergency-guidance-state-S-dfe74-ithout-mutating-the-request/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-targeted-fix3/emergency-guidance-state-S-dfe74-ithout-mutating-the-request/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-targeted-fix3/emergency-guidance-state-S-dfe74-ithout-mutating-the-request/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/guidance-audio.spec.ts:45:1 › every scene, journey and runtime script has an exact static speech asset 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 6
+
+    - Array []
+    + Array [
+    +   "기록을 이 기기에 저장하지 못했어요. 입력한 내용은 현재 화면에만 남아 있어요. 화면을 닫으면 사라져요.",
+    +   "전송을 보류했어요. 기록을 이 기기에 저장하지 못해 현재 화면에만 남아 있어요. 구호·차량 지원은 계속 진행돼요.",
+    +   "보험 접수는 아직 확인되지 않았어요. 전송과 접수는 별도로 확인해요. 구호·차량 지원은 계속 진행돼요.",
+    +   "보험 접수가 되지 않은 것을 확인했어요. 다시 보내려면 전송 범위를 확인하고 새로 승인해 주세요. 구호·차량 지원은 계속 진행돼요.",
+    + ]
+
+      52 |   const scripts=[...manifest.scenarios.flatMap((s:any)=>s.states.map((state:any)=>state.voice)),...Object.values(journey),...Object.values(variants)]
+      53 |   return scripts.filter(text=>!guidanceAsset(text))
+    > 54 |  });expect(result).toEqual([])
+         |                    ^
+      55 | })
+      56 |
+      57 | test('call spectrum pauses while the document is hidden',async({page})=>{
+        at $REPO/prototype/web/tests/guidance-audio.spec.ts:54:20
+
+    Error Context: test-results/repair-targeted-fix3/guidance-audio-every-scene-2d637-n-exact-static-speech-asset/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-targeted-fix3/guidance-audio-every-scene-2d637-n-exact-static-speech-asset/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-targeted-fix3/guidance-audio-every-scene-2d637-n-exact-static-speech-asset/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) tests/guidance-audio.spec.ts:73:57 › actual runtime asset record_storage_failed has exact hashes and plays in the browser 
+
+    Error: Required real JaeGyu asset missing for record_storage_failed
+
+    expect(received).not.toBeNull()
+
+    Received: null
+
+       98 |   return {scriptHash:asset.scriptHash,actualScriptHash:await digest(new TextEncoder().encode(text)),audioHash:asset.audioHash,actualAudioHash:await digest(await response.arrayBuffer()),duration:asset.duration}
+       99 |  },text)
+    > 100 |  expect(asset,`Required real JaeGyu asset missing for ${id}`).not.toBeNull()
+          |                                                                   ^
+      101 |  expect(asset!.actualScriptHash).toBe(asset!.scriptHash);expect(asset!.actualAudioHash).toBe(asset!.audioHash)
+      102 |  expect(asset!.duration).toBeGreaterThan(0)
+      103 |  await page.getByRole('button',{name:'음성 안내 듣기',exact:true}).click()
+        at $REPO/prototype/web/tests/guidance-audio.spec.ts:100:67
+
+    Error Context: test-results/repair-targeted-fix3/guidance-audio-actual-runt-7f6c6-es-and-plays-in-the-browser/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-targeted-fix3/guidance-audio-actual-runt-7f6c6-es-and-plays-in-the-browser/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-targeted-fix3/guidance-audio-actual-runt-7f6c6-es-and-plays-in-the-browser/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) tests/guidance-audio.spec.ts:73:57 › actual runtime asset deferred_storage_failed has exact hashes and plays in the browser 
+
+    Error: Required real JaeGyu asset missing for deferred_storage_failed
+
+    expect(received).not.toBeNull()
+
+    Received: null
+
+       98 |   return {scriptHash:asset.scriptHash,actualScriptHash:await digest(new TextEncoder().encode(text)),audioHash:asset.audioHash,actualAudioHash:await digest(await response.arrayBuffer()),duration:asset.duration}
+       99 |  },text)
+    > 100 |  expect(asset,`Required real JaeGyu asset missing for ${id}`).not.toBeNull()
+          |                                                                   ^
+      101 |  expect(asset!.actualScriptHash).toBe(asset!.scriptHash);expect(asset!.actualAudioHash).toBe(asset!.audioHash)
+      102 |  expect(asset!.duration).toBeGreaterThan(0)
+      103 |  await page.getByRole('button',{name:'음성 안내 듣기',exact:true}).click()
+        at $REPO/prototype/web/tests/guidance-audio.spec.ts:100:67
+
+    Error Context: test-results/repair-targeted-fix3/guidance-audio-actual-runt-c1fc4-es-and-plays-in-the-browser/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-targeted-fix3/guidance-audio-actual-runt-c1fc4-es-and-plays-in-the-browser/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-targeted-fix3/guidance-audio-actual-runt-c1fc4-es-and-plays-in-the-browser/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) tests/guidance-audio.spec.ts:73:57 › actual runtime asset insurance_unconfirmed has exact hashes and plays in the browser 
+
+    Error: Required real JaeGyu asset missing for insurance_unconfirmed
+
+    expect(received).not.toBeNull()
+
+    Received: null
+
+       98 |   return {scriptHash:asset.scriptHash,actualScriptHash:await digest(new TextEncoder().encode(text)),audioHash:asset.audioHash,actualAudioHash:await digest(await response.arrayBuffer()),duration:asset.duration}
+       99 |  },text)
+    > 100 |  expect(asset,`Required real JaeGyu asset missing for ${id}`).not.toBeNull()
+          |                                                                   ^
+      101 |  expect(asset!.actualScriptHash).toBe(asset!.scriptHash);expect(asset!.actualAudioHash).toBe(asset!.audioHash)
+      102 |  expect(asset!.duration).toBeGreaterThan(0)
+      103 |  await page.getByRole('button',{name:'음성 안내 듣기',exact:true}).click()
+        at $REPO/prototype/web/tests/guidance-audio.spec.ts:100:67
+
+    Error Context: test-results/repair-targeted-fix3/guidance-audio-actual-runt-2b27b-es-and-plays-in-the-browser/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-targeted-fix3/guidance-audio-actual-runt-2b27b-es-and-plays-in-the-browser/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-targeted-fix3/guidance-audio-actual-runt-2b27b-es-and-plays-in-the-browser/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7) tests/guidance-audio.spec.ts:73:57 › actual runtime asset insurance_not_received has exact hashes and plays in the browser 
+
+    Error: Required real JaeGyu asset missing for insurance_not_received
+
+    expect(received).not.toBeNull()
+
+    Received: null
+
+       98 |   return {scriptHash:asset.scriptHash,actualScriptHash:await digest(new TextEncoder().encode(text)),audioHash:asset.audioHash,actualAudioHash:await digest(await response.arrayBuffer()),duration:asset.duration}
+       99 |  },text)
+    > 100 |  expect(asset,`Required real JaeGyu asset missing for ${id}`).not.toBeNull()
+          |                                                                   ^
+      101 |  expect(asset!.actualScriptHash).toBe(asset!.scriptHash);expect(asset!.actualAudioHash).toBe(asset!.audioHash)
+      102 |  expect(asset!.duration).toBeGreaterThan(0)
+      103 |  await page.getByRole('button',{name:'음성 안내 듣기',exact:true}).click()
+        at $REPO/prototype/web/tests/guidance-audio.spec.ts:100:67
+
+    Error Context: test-results/repair-targeted-fix3/guidance-audio-actual-runt-14ada-es-and-plays-in-the-browser/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-targeted-fix3/guidance-audio-actual-runt-14ada-es-and-plays-in-the-browser/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-targeted-fix3/guidance-audio-actual-runt-14ada-es-and-plays-in-the-browser/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7 failed
+    tests/emergency-guidance-state.spec.ts:113:46 › SC04 support selects every insurance state without mutating the request 
+    tests/emergency-guidance-state.spec.ts:113:46 › SC04 paused selects every insurance state without mutating the request 
+    tests/guidance-audio.spec.ts:45:1 › every scene, journey and runtime script has an exact static speech asset 
+    tests/guidance-audio.spec.ts:73:57 › actual runtime asset record_storage_failed has exact hashes and plays in the browser 
+    tests/guidance-audio.spec.ts:73:57 › actual runtime asset deferred_storage_failed has exact hashes and plays in the browser 
+    tests/guidance-audio.spec.ts:73:57 › actual runtime asset insurance_unconfirmed has exact hashes and plays in the browser 
+    tests/guidance-audio.spec.ts:73:57 › actual runtime asset insurance_not_received has exact hashes and plays in the browser 
+  98 passed (1.1m)
+
+EXIT_STATUS 1

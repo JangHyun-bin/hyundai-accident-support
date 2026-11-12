@@ -1,0 +1,126 @@
+{
+  "ui": {
+    "phase": "review",
+    "message": "음성은 남겼어요. 내용을 직접 입력할 수 있어요.",
+    "clips": 1
+  },
+  "events": [
+    {
+      "kind": "phase-change",
+      "realMilliseconds": 1433.8999999761581,
+      "applicationMilliseconds": 1794506173645,
+      "phase": "requesting-permission",
+      "visibility": "visible"
+    },
+    {
+      "kind": "phase-change",
+      "realMilliseconds": 1456.1000000238419,
+      "applicationMilliseconds": 1794506173668,
+      "phase": "listening",
+      "visibility": "visible"
+    },
+    {
+      "kind": "encoded-audio-ready",
+      "realMilliseconds": 2068.600000023842,
+      "applicationMilliseconds": 1794506174627,
+      "phase": "listening",
+      "visibility": "visible"
+    },
+    {
+      "kind": "before-maximum-duration",
+      "realMilliseconds": 2075.8000000715256,
+      "applicationMilliseconds": 1794506174634,
+      "phase": "listening",
+      "visibility": "visible"
+    },
+    {
+      "kind": "phase-change",
+      "realMilliseconds": 2107.2000000476837,
+      "applicationMilliseconds": 1794506294755,
+      "phase": "review",
+      "visibility": "visible"
+    }
+  ],
+  "sources": [
+    {
+      "state": "closed",
+      "seconds": 0.18666666666666668
+    }
+  ],
+  "recordings": [
+    {
+      "mime": "audio/webm;codecs=opus",
+      "state": "inactive",
+      "stopCalls": 1,
+      "chunks": [
+        {
+          "bytes": 1,
+          "mime": "audio/webm;codecs=opus"
+        },
+        {
+          "bytes": 3058,
+          "mime": "audio/webm;codecs=opus"
+        }
+      ],
+      "tracks": [
+        {
+          "kind": "audio",
+          "readyState": "ended",
+          "muted": false
+        }
+      ],
+      "events": [
+        {
+          "kind": "start-call",
+          "realMilliseconds": 1453.3000000715256,
+          "applicationMilliseconds": 1794506173665,
+          "phase": "requesting-permission",
+          "visibility": "visible",
+          "state": "inactive"
+        },
+        {
+          "kind": "start",
+          "realMilliseconds": 1975.7000000476837,
+          "applicationMilliseconds": 1794506174534,
+          "phase": "listening",
+          "visibility": "visible",
+          "state": "recording"
+        },
+        {
+          "kind": "dataavailable",
+          "realMilliseconds": 1975.8999999761581,
+          "applicationMilliseconds": 1794506174534,
+          "phase": "listening",
+          "visibility": "visible",
+          "bytes": 1,
+          "state": "recording"
+        },
+        {
+          "kind": "stop-call",
+          "realMilliseconds": 2100.5,
+          "applicationMilliseconds": 1794506294751,
+          "phase": "listening",
+          "visibility": "visible",
+          "state": "recording"
+        },
+        {
+          "kind": "dataavailable",
+          "realMilliseconds": 2102.7000000476837,
+          "applicationMilliseconds": 1794506294751,
+          "phase": "listening",
+          "visibility": "visible",
+          "bytes": 3058,
+          "state": "inactive"
+        },
+        {
+          "kind": "stop",
+          "realMilliseconds": 2103,
+          "applicationMilliseconds": 1794506294751,
+          "phase": "listening",
+          "visibility": "visible",
+          "state": "inactive"
+        }
+      ]
+    }
+  ]
+}

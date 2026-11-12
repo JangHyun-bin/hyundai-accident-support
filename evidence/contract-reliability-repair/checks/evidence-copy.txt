@@ -1,0 +1,12 @@
+COMMAND ["python3", "/tmp/hyundai-contract-repair/collect-artifacts.py"]
+CWD .
+TESTED_COMMIT e76c9bcd7a91aa6ebc7dd9925e2840dd3e9e1fe5
+{
+  "runs": 11,
+  "files": 436,
+  "bytes": 402677122,
+  "pathRedactions": 813,
+  "exactCopies": 405
+}
+
+EXIT_STATUS 0

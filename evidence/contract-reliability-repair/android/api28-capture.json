@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-11-12T16:53:52.272130+00:00",
+  "serial": "emulator-5556",
+  "api": 28,
+  "sourceCommit": "2a5dea5e992814a96c5e3cf19595f2691f07eb54",
+  "apkSha256": "beccb66315b2dcd27fdef48c9f24f653bc853c0fc60110dacea4014eacd3a0f4",
+  "fixtureLaunch": {
+    "activity": "com.example.accidentpoc/.MainActivity",
+    "scene": "suspended"
+  },
+  "actions": [
+    {
+      "action": "Dismiss OS full-screen tutorial through its visible button",
+      "text": "GOT IT",
+      "package": "android",
+      "bounds": "[1043,235][1160,299]"
+    }
+  ],
+  "image": "api28-suspended.png",
+  "imageSha256": "6eb0dfc0527bbf33d0f580783a7a6bad7595d6d7687c6011f5e339ced039e2ba",
+  "hierarchy": "api28-suspended-ui.xml",
+  "hierarchySha256": "dcc8fa7080b0e7428c59547f9edd599bb832abf2b0356980f049bbb2cd4164c8",
+  "limit": "Screenshot is a fixture launch, not proof of a manual transition trace. UI transitions and recreation are covered by the separately preserved instrumentation XML."
+}

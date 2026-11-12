@@ -1,0 +1,52 @@
+COMMAND ["env", "CI=true", "PLAYWRIGHT_OUTPUT_DIR=test-results/repair-reconstruction-causal-red2", "./node_modules/.bin/playwright", "test", "tests/journey-reconstruction.spec.ts", "--grep", "journey integration restores clips"]
+CWD prototype/web
+TESTED_COMMIT 9732dac7ed9605241a38aa5ef3c54c2d8146098a
+[WebServer] (node:54757) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+(node:54765) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+F
+
+  1) tests/journey-reconstruction.spec.ts:197:1 › journey integration restores clips and edited diagrams after reload without losing urgent drafts 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('button', { name: '전방 영상 재생', exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('button', { name: '전방 영상 재생', exact: true }) with timeout 5000ms
+      - waiting for getByRole('button', { name: '전방 영상 재생', exact: true })
+
+
+      239 |   try {
+      240 |     const play = page.getByRole('button', { name: '전방 영상 재생', exact: true })
+    > 241 |     await expect(play).toBeVisible()
+          |                        ^
+      242 |     await play.click()
+      243 |     await expect.poll(() => page.locator('video').evaluate((node: HTMLVideoElement) => node.currentTime)).toBeGreaterThan(0)
+      244 |   } finally {
+        at $REPO/prototype/web/tests/journey-reconstruction.spec.ts:241:24
+
+    attachment #1: asset-read-commit-boundary (application/json) ───────────────────────────────────
+    test-results/repair-reconstruction-causal-red2/journey-reconstruction-jou-67cea-ithout-losing-urgent-drafts/attachments/asset-read-commit-boundary-b8879b90a2a2f0b12e6eb23589f60fc377966589.json
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/repair-reconstruction-causal-red2/journey-reconstruction-jou-67cea-ithout-losing-urgent-drafts/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-reconstruction-causal-red2/journey-reconstruction-jou-67cea-ithout-losing-urgent-drafts/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-reconstruction-causal-red2/journey-reconstruction-jou-67cea-ithout-losing-urgent-drafts/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/journey-reconstruction.spec.ts:197:1 › journey integration restores clips and edited diagrams after reload without losing urgent drafts 
+
+EXIT_STATUS 1

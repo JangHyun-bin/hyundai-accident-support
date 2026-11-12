@@ -1,0 +1,13 @@
+COMMAND ["npm", "run", "test:ui", "--", "tests/journey-record-reliability.spec.ts", "tests/journey-save-recovery.spec.ts", "tests/journey-review-fixes.spec.ts", "tests/journey-report.spec.ts", "tests/journey-voice.spec.ts", "tests/emergency-guidance-state.spec.ts", "tests/emergency-complete.spec.ts", "tests/guidance-audio.spec.ts", "tests/stable-voronoi-motion.spec.ts"]
+CWD prototype/web
+TESTED_COMMIT edc0da297b4cd211acfa2ad6b9c8f5cc55e757f5
+
+> accident-support-design-poc@0.1.0 test:ui
+> playwright test tests/journey-record-reliability.spec.ts tests/journey-save-recovery.spec.ts tests/journey-review-fixes.spec.ts tests/journey-report.spec.ts tests/journey-voice.spec.ts tests/emergency-guidance-state.spec.ts tests/emergency-complete.spec.ts tests/guidance-audio.spec.ts tests/stable-voronoi-motion.spec.ts
+
+
+Error: http://127.0.0.1:5173 is already used, make sure that nothing is running on the port/url or set reuseExistingServer:true in config.webServer.
+
+
+
+EXIT_STATUS 1

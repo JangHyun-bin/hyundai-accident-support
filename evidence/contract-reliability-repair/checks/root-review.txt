@@ -1,0 +1,6 @@
+COMMAND ["node", "test-review.mjs"]
+CWD .
+TESTED_COMMIT 17a4d50f3f92222ffef36b9d2cf9d19149cf81ec
+PASS · 48 nodes · 70 native connectors · 5 existing-path walkthroughs · source unchanged · stale review detection
+
+EXIT_STATUS 0

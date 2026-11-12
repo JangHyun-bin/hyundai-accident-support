@@ -1,0 +1,436 @@
+{
+  "before": {
+    "stored": {
+      "schemaVersion": 1,
+      "id": "fd0b5881-c377-4b26-a9ee-840289ec8353",
+      "revision": 4,
+      "createdAt": "2026-11-12T18:48:35.652Z",
+      "updatedAt": "2026-11-12T18:48:36.446Z",
+      "emergency": {
+        "version": 1,
+        "scenarioId": "SC01",
+        "sceneId": "connected",
+        "requests": {
+          "rescue": "connected",
+          "vehicle": "not_sent",
+          "insurance": "not_sent"
+        },
+        "facts": {},
+        "record": "",
+        "savedRecord": "",
+        "scope": [
+          "사고 위치",
+          "차량 상태"
+        ],
+        "approvedScope": [],
+        "approvedRecord": "",
+        "draftApproved": false,
+        "requestId": null,
+        "submissions": 0,
+        "returnTo": "connected",
+        "suspendedFrom": null
+      },
+      "stage": "review",
+      "returnStage": "record",
+      "suspended": false,
+      "fixtureId": "partial-evidence",
+      "navigation": null,
+      "activeSubmissionIds": {
+        "rescue": "fd0b5881-c377-4b26-a9ee-840289ec8353:imported:rescue",
+        "vehicle": null,
+        "insurance": null
+      },
+      "submissions": [
+        {
+          "id": "fd0b5881-c377-4b26-a9ee-840289ec8353:imported:rescue",
+          "kind": "imported",
+          "agency": "rescue",
+          "recipient": null,
+          "approvedAt": null,
+          "payload": null,
+          "status": "connected",
+          "externalReceipt": null
+        }
+      ],
+      "observations": [
+        {
+          "id": "imported-fact:road",
+          "kind": "road",
+          "label": "도로",
+          "value": "고속도로",
+          "source": "fixture",
+          "observedAt": null,
+          "confirmation": "confirmed",
+          "legacyFactId": "road",
+          "supersedes": null
+        },
+        {
+          "id": "imported-fact:mobility",
+          "kind": "mobility",
+          "label": "차량 이동",
+          "value": "가능",
+          "source": "fixture",
+          "observedAt": null,
+          "confirmation": "confirmed",
+          "legacyFactId": "mobility",
+          "supersedes": null
+        },
+        {
+          "id": "imported-fact:driver",
+          "kind": "driver",
+          "label": "운전자 조작",
+          "value": "미확인",
+          "source": "fixture",
+          "observedAt": null,
+          "confirmation": "unknown",
+          "legacyFactId": "driver",
+          "supersedes": null
+        },
+        {
+          "id": "imported-fact:route",
+          "kind": "route",
+          "label": "이동 경로",
+          "value": "미확인",
+          "source": "fixture",
+          "observedAt": null,
+          "confirmation": "unknown",
+          "legacyFactId": "route",
+          "supersedes": null
+        },
+        {
+          "id": "imported-fact:arrival",
+          "kind": "arrival",
+          "label": "현장 도착",
+          "value": "미확인",
+          "source": "fixture",
+          "observedAt": null,
+          "confirmation": "unknown",
+          "legacyFactId": "arrival",
+          "supersedes": null
+        },
+        {
+          "id": "imported-fact:handoff",
+          "kind": "handoff",
+          "label": "구호 인계",
+          "value": "미확인",
+          "source": "fixture",
+          "observedAt": null,
+          "confirmation": "unknown",
+          "legacyFactId": "handoff",
+          "supersedes": null
+        },
+        {
+          "id": "impact-direction-e6da3d41-7022-49dc-a5d7-5c12a1db9e00",
+          "kind": "impact-direction",
+          "label": "충격 방향",
+          "value": "우측 전방",
+          "source": "fixture",
+          "observedAt": "2026-11-12T18:48:36.432Z",
+          "confirmation": "confirmed",
+          "legacyFactId": null,
+          "supersedes": null
+        },
+        {
+          "id": "impact-strength-4d4eaaac-2d8d-41bd-a697-b2946f7251af",
+          "kind": "impact-strength",
+          "label": "충격 세기",
+          "value": "0.4 G",
+          "source": "fixture",
+          "observedAt": "2026-11-12T18:48:36.432Z",
+          "confirmation": "confirmed",
+          "legacyFactId": null,
+          "supersedes": null
+        },
+        {
+          "id": "collision-time-306600cf-739f-4fb3-b1e3-9ffb49821ce7",
+          "kind": "collision-time",
+          "label": "감지 시각",
+          "value": "오후 9:12",
+          "source": "fixture",
+          "observedAt": "2026-11-12T18:48:36.432Z",
+          "confirmation": "confirmed",
+          "legacyFactId": null,
+          "supersedes": null
+        }
+      ],
+      "safetyActions": [],
+      "evidence": [],
+      "evidenceHistory": [],
+      "statements": [],
+      "statementHistory": [],
+      "diagram": null,
+      "diagramHistory": [],
+      "report": null,
+      "reportHistory": [],
+      "pendingReport": null,
+      "contentRevision": 3,
+      "shares": [],
+      "followUp": {
+        "requestRevision": 0,
+        "routeRequest": null,
+        "rentalRequest": null,
+        "shopId": null,
+        "repairItems": [],
+        "route": "idle",
+        "rental": "idle",
+        "source": "fixture",
+        "updatedAt": null
+      }
+    },
+    "reads": [
+      {
+        "id": "5a8a2c6d-cbf8-4217-bdbf-a2ae963d8562",
+        "bytes": null
+      }
+    ]
+  },
+  "after": {
+    "stored": {
+      "schemaVersion": 1,
+      "id": "fd0b5881-c377-4b26-a9ee-840289ec8353",
+      "revision": 7,
+      "createdAt": "2026-11-12T18:48:35.652Z",
+      "updatedAt": "2026-11-12T18:48:36.659Z",
+      "emergency": {
+        "version": 1,
+        "scenarioId": "SC01",
+        "sceneId": "connected",
+        "requests": {
+          "rescue": "connected",
+          "vehicle": "not_sent",
+          "insurance": "not_sent"
+        },
+        "facts": {},
+        "record": "",
+        "savedRecord": "",
+        "scope": [
+          "사고 위치",
+          "차량 상태"
+        ],
+        "approvedScope": [],
+        "approvedRecord": "",
+        "draftApproved": false,
+        "requestId": null,
+        "submissions": 0,
+        "returnTo": "connected",
+        "suspendedFrom": null
+      },
+      "stage": "review",
+      "returnStage": "record",
+      "suspended": false,
+      "fixtureId": "partial-evidence",
+      "navigation": null,
+      "activeSubmissionIds": {
+        "rescue": "fd0b5881-c377-4b26-a9ee-840289ec8353:imported:rescue",
+        "vehicle": null,
+        "insurance": null
+      },
+      "submissions": [
+        {
+          "id": "fd0b5881-c377-4b26-a9ee-840289ec8353:imported:rescue",
+          "kind": "imported",
+          "agency": "rescue",
+          "recipient": null,
+          "approvedAt": null,
+          "payload": null,
+          "status": "connected",
+          "externalReceipt": null
+        }
+      ],
+      "observations": [
+        {
+          "id": "imported-fact:road",
+          "kind": "road",
+          "label": "도로",
+          "value": "고속도로",
+          "source": "fixture",
+          "observedAt": null,
+          "confirmation": "confirmed",
+          "legacyFactId": "road",
+          "supersedes": null
+        },
+        {
+          "id": "imported-fact:mobility",
+          "kind": "mobility",
+          "label": "차량 이동",
+          "value": "가능",
+          "source": "fixture",
+          "observedAt": null,
+          "confirmation": "confirmed",
+          "legacyFactId": "mobility",
+          "supersedes": null
+        },
+        {
+          "id": "imported-fact:driver",
+          "kind": "driver",
+          "label": "운전자 조작",
+          "value": "미확인",
+          "source": "fixture",
+          "observedAt": null,
+          "confirmation": "unknown",
+          "legacyFactId": "driver",
+          "supersedes": null
+        },
+        {
+          "id": "imported-fact:route",
+          "kind": "route",
+          "label": "이동 경로",
+          "value": "미확인",
+          "source": "fixture",
+          "observedAt": null,
+          "confirmation": "unknown",
+          "legacyFactId": "route",
+          "supersedes": null
+        },
+        {
+          "id": "imported-fact:arrival",
+          "kind": "arrival",
+          "label": "현장 도착",
+          "value": "미확인",
+          "source": "fixture",
+          "observedAt": null,
+          "confirmation": "unknown",
+          "legacyFactId": "arrival",
+          "supersedes": null
+        },
+        {
+          "id": "imported-fact:handoff",
+          "kind": "handoff",
+          "label": "구호 인계",
+          "value": "미확인",
+          "source": "fixture",
+          "observedAt": null,
+          "confirmation": "unknown",
+          "legacyFactId": "handoff",
+          "supersedes": null
+        },
+        {
+          "id": "impact-direction-e6da3d41-7022-49dc-a5d7-5c12a1db9e00",
+          "kind": "impact-direction",
+          "label": "충격 방향",
+          "value": "우측 전방",
+          "source": "fixture",
+          "observedAt": "2026-11-12T18:48:36.432Z",
+          "confirmation": "confirmed",
+          "legacyFactId": null,
+          "supersedes": null
+        },
+        {
+          "id": "impact-strength-4d4eaaac-2d8d-41bd-a697-b2946f7251af",
+          "kind": "impact-strength",
+          "label": "충격 세기",
+          "value": "0.4 G",
+          "source": "fixture",
+          "observedAt": "2026-11-12T18:48:36.432Z",
+          "confirmation": "confirmed",
+          "legacyFactId": null,
+          "supersedes": null
+        },
+        {
+          "id": "collision-time-306600cf-739f-4fb3-b1e3-9ffb49821ce7",
+          "kind": "collision-time",
+          "label": "감지 시각",
+          "value": "오후 9:12",
+          "source": "fixture",
+          "observedAt": "2026-11-12T18:48:36.432Z",
+          "confirmation": "confirmed",
+          "legacyFactId": null,
+          "supersedes": null
+        }
+      ],
+      "safetyActions": [],
+      "evidence": [
+        {
+          "id": "sample-front",
+          "label": "전방 영상",
+          "kind": "video",
+          "revision": 1,
+          "origin": "sample",
+          "assetId": "5a8a2c6d-cbf8-4217-bdbf-a2ae963d8562",
+          "availability": "available",
+          "captureTarget": null,
+          "metadata": {
+            "mime": "video/mp4",
+            "bytes": 106292,
+            "duration": 20,
+            "eventTime": 11,
+            "capturedAt": "2026-11-10T09:12:00.000Z",
+            "sourceLabel": "합성 전방 영상"
+          }
+        },
+        {
+          "id": "sample-rear",
+          "label": "후방 영상",
+          "kind": "video",
+          "revision": 1,
+          "origin": "sample",
+          "assetId": null,
+          "availability": "unavailable",
+          "captureTarget": null,
+          "metadata": {
+            "mime": "",
+            "bytes": 0,
+            "duration": null,
+            "eventTime": null,
+            "capturedAt": "2026-11-10T09:12:00.000Z",
+            "sourceLabel": "합성 후방 영상"
+          }
+        }
+      ],
+      "evidenceHistory": [],
+      "statements": [],
+      "statementHistory": [],
+      "diagram": {
+        "revision": 1,
+        "origin": "fixture",
+        "road": "straight",
+        "confirmedRevision": null,
+        "vehicles": [
+          {
+            "id": "own",
+            "position": {
+              "x": 0.42,
+              "y": 0.62
+            },
+            "heading": 0
+          },
+          {
+            "id": "other",
+            "position": {
+              "x": 0.62,
+              "y": 0.43
+            },
+            "heading": 340
+          }
+        ],
+        "contact": {
+          "x": 0.53,
+          "y": 0.52
+        }
+      },
+      "diagramHistory": [],
+      "report": null,
+      "reportHistory": [],
+      "pendingReport": null,
+      "contentRevision": 6,
+      "shares": [],
+      "followUp": {
+        "requestRevision": 0,
+        "routeRequest": null,
+        "rentalRequest": null,
+        "shopId": null,
+        "repairItems": [],
+        "route": "idle",
+        "rental": "idle",
+        "source": "fixture",
+        "updatedAt": null
+      }
+    },
+    "reads": [
+      {
+        "id": "5a8a2c6d-cbf8-4217-bdbf-a2ae963d8562",
+        "bytes": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,955 @@
+{
+  "schemaVersion": 1,
+  "startedAt": "2026-11-12T16:05:20.419951+00:00",
+  "baseCommit": "2ed19146d500882fd11211f65b660f91336015eb",
+  "branch": "fix/contract-reliability-repair",
+  "os": "macOS-26.6.2-arm64-arm-64bit",
+  "architecture": "arm64",
+  "outputNormalization": "Literal repository/home absolute paths replaced by $REPO/$HOME; ANSI retained in text and removed only for result count extraction.",
+  "commands": [
+    {
+      "id": "root-check",
+      "cwd": ".",
+      "command": [
+        "node",
+        "check.mjs"
+      ],
+      "startedAt": "2026-11-12T16:05:20.442997+00:00",
+      "testedCommit": "17a4d50f3f92222ffef36b9d2cf9d19149cf81ec",
+      "output": "evidence/contract-reliability-repair/checks/root-check.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T16:05:20.591682+00:00",
+      "seconds": 0.148,
+      "exitStatus": 0,
+      "counts": {
+        "nodes": 13,
+        "edges": 17
+      },
+      "logSha256": "975d8a32fa342cdb6fd9b2a683897df56b56cd1a0c93dbff714a33a17d772138",
+      "countsRecoveredFromRawLog": true
+    },
+    {
+      "id": "root-model",
+      "cwd": ".",
+      "command": [
+        "node",
+        "test-model.mjs"
+      ],
+      "startedAt": "2026-11-12T16:05:20.633694+00:00",
+      "testedCommit": "17a4d50f3f92222ffef36b9d2cf9d19149cf81ec",
+      "output": "evidence/contract-reliability-repair/checks/root-model.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T16:05:20.739788+00:00",
+      "seconds": 0.106,
+      "exitStatus": 0,
+      "counts": {
+        "objects": 826
+      },
+      "logSha256": "a7ab6f3edc8117e0e83ad77a9c1cf65a04e477075bf42cacaf743c3efea1223c",
+      "countsRecoveredFromRawLog": true
+    },
+    {
+      "id": "root-review",
+      "cwd": ".",
+      "command": [
+        "node",
+        "test-review.mjs"
+      ],
+      "startedAt": "2026-11-12T16:05:20.782125+00:00",
+      "testedCommit": "17a4d50f3f92222ffef36b9d2cf9d19149cf81ec",
+      "output": "evidence/contract-reliability-repair/checks/root-review.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T16:05:20.851292+00:00",
+      "seconds": 0.069,
+      "exitStatus": 0,
+      "counts": {
+        "nodes": 48,
+        "connectors": 70,
+        "walkthroughs": 5
+      },
+      "logSha256": "7cfe55face3ef8ab909590bbcf9f41eecea9686ee7d22df8404f98189eb6d6d9",
+      "countsRecoveredFromRawLog": true
+    },
+    {
+      "id": "root-server",
+      "cwd": ".",
+      "command": [
+        "python3",
+        "test-server.py"
+      ],
+      "startedAt": "2026-11-12T16:05:20.892558+00:00",
+      "testedCommit": "17a4d50f3f92222ffef36b9d2cf9d19149cf81ec",
+      "output": "evidence/contract-reliability-repair/checks/root-server.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T16:05:21.811606+00:00",
+      "seconds": 0.919,
+      "exitStatus": 0,
+      "counts": {
+        "tests": 1,
+        "passed": 1
+      },
+      "logSha256": "f8b606383de59eb7f24f9f32cb5dfaaf269f2f4f0fe2dac47479ff8b03c87907",
+      "countsRecoveredFromRawLog": true
+    },
+    {
+      "id": "manifest",
+      "cwd": ".",
+      "command": [
+        "node",
+        "--test",
+        "specs/emergency-experience/manifest.test.mjs"
+      ],
+      "startedAt": "2026-11-12T16:05:21.877137+00:00",
+      "testedCommit": "17a4d50f3f92222ffef36b9d2cf9d19149cf81ec",
+      "output": "evidence/contract-reliability-repair/checks/manifest.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T16:05:21.953909+00:00",
+      "seconds": 0.076,
+      "exitStatus": 0,
+      "counts": {
+        "tap_tests": 12,
+        "tap_pass": 12,
+        "tap_fail": 0,
+        "tap_cancelled": 0,
+        "tap_skipped": 0,
+        "tap_todo": 0
+      },
+      "logSha256": "5d3cb85895e807483a466a0908b17587ee86d3d45b152cbad89014970e79078c",
+      "countsRecoveredFromRawLog": true
+    },
+    {
+      "id": "audio-script-tests",
+      "cwd": ".",
+      "command": [
+        "node",
+        "--test",
+        "prototype/web/scripts/generate-guidance-audio.test.mjs",
+        "prototype/web/scripts/guidance-recording.test.mjs"
+      ],
+      "startedAt": "2026-11-12T16:05:21.995434+00:00",
+      "testedCommit": "17a4d50f3f92222ffef36b9d2cf9d19149cf81ec",
+      "output": "evidence/contract-reliability-repair/audio/audio-script-tests.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T16:05:22.089679+00:00",
+      "seconds": 0.094,
+      "exitStatus": 0,
+      "counts": {
+        "tap_tests": 5,
+        "tap_pass": 5,
+        "tap_fail": 0,
+        "tap_cancelled": 0,
+        "tap_skipped": 0,
+        "tap_todo": 0
+      },
+      "logSha256": "621a5e21a240e6227bad9a2e2a90f6c4518add8450888131c026221231572e12",
+      "countsRecoveredFromRawLog": true
+    },
+    {
+      "id": "web-build",
+      "cwd": "prototype/web",
+      "command": [
+        "npm",
+        "run",
+        "check"
+      ],
+      "startedAt": "2026-11-12T16:05:22.130065+00:00",
+      "testedCommit": "17a4d50f3f92222ffef36b9d2cf9d19149cf81ec",
+      "output": "evidence/contract-reliability-repair/web/web-build.txt",
+      "status": "failed",
+      "endedAt": "2026-11-12T16:05:27.344824+00:00",
+      "seconds": 5.214,
+      "exitStatus": 2,
+      "counts": {},
+      "logSha256": "c462245fa5d8be1dadd96b39a9dcc8ff74a12d1b62f6f20461b94510af4e5c3b"
+    },
+    {
+      "id": "web-build-fix1",
+      "cwd": "prototype/web",
+      "command": [
+        "npm",
+        "run",
+        "check"
+      ],
+      "startedAt": "2026-11-12T16:08:46.460438+00:00",
+      "testedCommit": "edc0da297b4cd211acfa2ad6b9c8f5cc55e757f5",
+      "output": "evidence/contract-reliability-repair/web/web-build-fix1.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T16:08:49.633199+00:00",
+      "seconds": 3.172,
+      "exitStatus": 0,
+      "counts": {},
+      "logSha256": "5d4d518417b0e41e0141cb163919fbf8c5e762a4bf35bc585afef2fea58a9833"
+    },
+    {
+      "id": "web-targeted",
+      "cwd": "prototype/web",
+      "command": [
+        "npm",
+        "run",
+        "test:ui",
+        "--",
+        "tests/journey-record-reliability.spec.ts",
+        "tests/journey-save-recovery.spec.ts",
+        "tests/journey-review-fixes.spec.ts",
+        "tests/journey-report.spec.ts",
+        "tests/journey-voice.spec.ts",
+        "tests/emergency-guidance-state.spec.ts",
+        "tests/emergency-complete.spec.ts",
+        "tests/guidance-audio.spec.ts",
+        "tests/stable-voronoi-motion.spec.ts"
+      ],
+      "startedAt": "2026-11-12T16:08:49.674515+00:00",
+      "testedCommit": "edc0da297b4cd211acfa2ad6b9c8f5cc55e757f5",
+      "output": "evidence/contract-reliability-repair/web/web-targeted.txt",
+      "status": "failed",
+      "endedAt": "2026-11-12T16:08:50.720281+00:00",
+      "seconds": 1.045,
+      "exitStatus": 1,
+      "counts": {},
+      "logSha256": "96c523e540cd9a0b2bc7d5e0e4d9970644963b020a11deaab4a1f1c05a30fa72"
+    },
+    {
+      "id": "android-build",
+      "cwd": "prototype/android",
+      "command": [
+        "./gradlew",
+        "assembleDebug",
+        "assembleDebugAndroidTest"
+      ],
+      "startedAt": "2026-11-12T16:10:34.464390+00:00",
+      "testedCommit": "edc0da297b4cd211acfa2ad6b9c8f5cc55e757f5",
+      "output": "evidence/contract-reliability-repair/android/android-build.txt",
+      "status": "failed",
+      "endedAt": "2026-11-12T16:11:30.533585+00:00",
+      "seconds": 56.068,
+      "exitStatus": 1,
+      "counts": {},
+      "logSha256": "d3e58b77499fd1f6f7d35c5ec4a297d21fd3313eeafe296a7a3c330bf2d0fe93"
+    },
+    {
+      "id": "android-build-fix1",
+      "cwd": "prototype/android",
+      "command": [
+        "./gradlew",
+        "assembleDebug",
+        "assembleDebugAndroidTest"
+      ],
+      "startedAt": "2026-11-12T16:13:02.755720+00:00",
+      "testedCommit": "6a4e9cd30ad2c52b9b91a29d5e9c4797ccc63e27",
+      "output": "evidence/contract-reliability-repair/android/android-build-fix1.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T16:13:04.857479+00:00",
+      "seconds": 2.101,
+      "exitStatus": 0,
+      "counts": {},
+      "logSha256": "0321eb00ecf9ea98d0749a77f9b80f38a0d8c17121d8fa610749a27273001d79"
+    },
+    {
+      "id": "android-api35",
+      "cwd": "prototype/android",
+      "command": [
+        "./gradlew",
+        "connectedDebugAndroidTest"
+      ],
+      "startedAt": "2026-11-12T16:13:04.924089+00:00",
+      "testedCommit": "6a4e9cd30ad2c52b9b91a29d5e9c4797ccc63e27",
+      "output": "evidence/contract-reliability-repair/android/android-api35.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T16:14:16.469795+00:00",
+      "seconds": 71.544,
+      "exitStatus": 0,
+      "counts": {},
+      "logSha256": "ecef6f0e972d29ad7d301744ed9df9e061c4302b9718ec79963654b70dd3c6e7"
+    },
+    {
+      "id": "web-targeted-ci",
+      "cwd": "prototype/web",
+      "command": [
+        "npm",
+        "run",
+        "test:ui",
+        "--",
+        "tests/journey-record-reliability.spec.ts",
+        "tests/journey-save-recovery.spec.ts",
+        "tests/journey-review-fixes.spec.ts",
+        "tests/journey-report.spec.ts",
+        "tests/journey-voice.spec.ts",
+        "tests/emergency-guidance-state.spec.ts",
+        "tests/emergency-complete.spec.ts",
+        "tests/guidance-audio.spec.ts",
+        "tests/stable-voronoi-motion.spec.ts"
+      ],
+      "startedAt": "2026-11-12T16:18:36.933418+00:00",
+      "testedCommit": "6a4e9cd30ad2c52b9b91a29d5e9c4797ccc63e27",
+      "output": "evidence/contract-reliability-repair/web/web-targeted-ci.txt",
+      "status": "failed",
+      "endedAt": "2026-11-12T16:18:38.154829+00:00",
+      "seconds": 1.216,
+      "exitStatus": 1,
+      "counts": {},
+      "logSha256": "6d092be6815277ca5c5178c861bd7b88fd7a92b3341fad1b852b02d5bcc55991"
+    },
+    {
+      "id": "web-build-fix2",
+      "cwd": "prototype/web",
+      "command": [
+        "npm",
+        "run",
+        "check"
+      ],
+      "startedAt": "2026-11-12T16:22:08.204110+00:00",
+      "testedCommit": "c74da0631a5b0a3e895cad061c15ca0cf815fbf8",
+      "output": "evidence/contract-reliability-repair/web/web-build-fix2.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T16:22:11.296657+00:00",
+      "seconds": 3.092,
+      "exitStatus": 0,
+      "counts": {},
+      "logSha256": "055879178f9d3f473af5b5a9359b6f85752f6d925c6b7182fc8873da68e311a7"
+    },
+    {
+      "id": "web-targeted-fix1",
+      "cwd": "prototype/web",
+      "command": [
+        "npm",
+        "run",
+        "test:ui",
+        "--",
+        "tests/journey-record-reliability.spec.ts",
+        "tests/journey-save-recovery.spec.ts",
+        "tests/journey-review-fixes.spec.ts",
+        "tests/journey-report.spec.ts",
+        "tests/journey-voice.spec.ts",
+        "tests/emergency-guidance-state.spec.ts",
+        "tests/emergency-complete.spec.ts",
+        "tests/guidance-audio.spec.ts",
+        "tests/stable-voronoi-motion.spec.ts"
+      ],
+      "startedAt": "2026-11-12T16:22:11.336013+00:00",
+      "testedCommit": "c74da0631a5b0a3e895cad061c15ca0cf815fbf8",
+      "output": "evidence/contract-reliability-repair/web/web-targeted-fix1.txt",
+      "status": "failed",
+      "endedAt": "2026-11-12T16:22:12.135698+00:00",
+      "seconds": 0.799,
+      "exitStatus": 1,
+      "counts": {},
+      "logSha256": "69eaf003869695fa80e81ae3d7f54fca2224b196db301784e1b5f35038c2ca14"
+    },
+    {
+      "id": "web-build-fix3",
+      "cwd": "prototype/web",
+      "command": [
+        "npm",
+        "run",
+        "check"
+      ],
+      "startedAt": "2026-11-12T16:23:40.781933+00:00",
+      "testedCommit": "65518e241aaa1235bd15b1bdd80a1aa55f15abd2",
+      "output": "evidence/contract-reliability-repair/web/web-build-fix3.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T16:23:43.882692+00:00",
+      "seconds": 3.1,
+      "exitStatus": 0,
+      "counts": {},
+      "logSha256": "7dc9b85a3a98a0f38153ffd59153e7ce917ed0d0a36d7b12db86b4bd9956c1f0"
+    },
+    {
+      "id": "web-targeted-fix2",
+      "cwd": "prototype/web",
+      "command": [
+        "npm",
+        "run",
+        "test:ui",
+        "--",
+        "tests/journey-record-reliability.spec.ts",
+        "tests/journey-save-recovery.spec.ts",
+        "tests/journey-review-fixes.spec.ts",
+        "tests/journey-report.spec.ts",
+        "tests/journey-voice.spec.ts",
+        "tests/emergency-guidance-state.spec.ts",
+        "tests/emergency-complete.spec.ts",
+        "tests/guidance-audio.spec.ts",
+        "tests/stable-voronoi-motion.spec.ts"
+      ],
+      "startedAt": "2026-11-12T16:23:43.951329+00:00",
+      "testedCommit": "65518e241aaa1235bd15b1bdd80a1aa55f15abd2",
+      "output": "evidence/contract-reliability-repair/web/web-targeted-fix2.txt",
+      "status": "failed",
+      "endedAt": "2026-11-12T16:25:26.873225+00:00",
+      "seconds": 102.921,
+      "exitStatus": 1,
+      "counts": {
+        "failed": 22,
+        "passed": 83
+      },
+      "logSha256": "f306d912a283a0d72732580a01580e972938e73bbaa22e5241dab5945d4ae937"
+    },
+    {
+      "id": "web-build-fix4",
+      "cwd": "prototype/web",
+      "command": [
+        "npm",
+        "run",
+        "check"
+      ],
+      "startedAt": "2026-11-12T16:34:01.218230+00:00",
+      "testedCommit": "800a9e34adea14ae49b315ff569bcef3de0bfe35",
+      "output": "evidence/contract-reliability-repair/web/web-build-fix4.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T16:34:04.389652+00:00",
+      "seconds": 3.171,
+      "exitStatus": 0,
+      "counts": {},
+      "logSha256": "970615471f3a83b46b71896a675d7dc40a056a72508891c93cbeb4d645f921d1"
+    },
+    {
+      "id": "web-targeted-fix3",
+      "cwd": "prototype/web",
+      "command": [
+        "npm",
+        "run",
+        "test:ui",
+        "--",
+        "tests/journey-record-reliability.spec.ts",
+        "tests/journey-save-recovery.spec.ts",
+        "tests/journey-review-fixes.spec.ts",
+        "tests/journey-report.spec.ts",
+        "tests/journey-voice.spec.ts",
+        "tests/emergency-guidance-state.spec.ts",
+        "tests/emergency-complete.spec.ts",
+        "tests/guidance-audio.spec.ts",
+        "tests/stable-voronoi-motion.spec.ts"
+      ],
+      "startedAt": "2026-11-12T16:34:04.430171+00:00",
+      "testedCommit": "800a9e34adea14ae49b315ff569bcef3de0bfe35",
+      "output": "evidence/contract-reliability-repair/web/web-targeted-fix3.txt",
+      "status": "failed",
+      "endedAt": "2026-11-12T16:35:11.924290+00:00",
+      "seconds": 67.493,
+      "exitStatus": 1,
+      "counts": {
+        "failed": 7,
+        "passed": 98
+      },
+      "logSha256": "9812d14bce570d53436b18b8e17fcfc573d7852d64665bc08be93b129c51a6a8"
+    },
+    {
+      "id": "android-api28",
+      "cwd": "prototype/android",
+      "command": [
+        "./gradlew",
+        "connectedDebugAndroidTest"
+      ],
+      "startedAt": "2026-11-12T16:41:34.389742+00:00",
+      "testedCommit": "800a9e34adea14ae49b315ff569bcef3de0bfe35",
+      "output": "evidence/contract-reliability-repair/android/android-api28.txt",
+      "status": "failed",
+      "endedAt": "2026-11-12T16:42:10.589041+00:00",
+      "seconds": 36.199,
+      "exitStatus": 1,
+      "counts": {},
+      "logSha256": "50044c438ceb5defb79333e5061997152569302dc975aee53b9bb40cd5526d13"
+    },
+    {
+      "id": "android-build-fix2",
+      "cwd": "prototype/android",
+      "command": [
+        "./gradlew",
+        "assembleDebug",
+        "assembleDebugAndroidTest"
+      ],
+      "startedAt": "2026-11-12T16:48:35.766058+00:00",
+      "testedCommit": "2a5dea5e992814a96c5e3cf19595f2691f07eb54",
+      "output": "evidence/contract-reliability-repair/android/android-build-fix2.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T16:48:38.234527+00:00",
+      "seconds": 2.468,
+      "exitStatus": 0,
+      "counts": {},
+      "logSha256": "6c247474cfc6a97ba9c3af46e3404208898e8e987699568f6c4bd84fe09ef3a5"
+    },
+    {
+      "id": "android-api28-focus-fix1",
+      "cwd": "prototype/android",
+      "command": [
+        "./gradlew",
+        "connectedDebugAndroidTest",
+        "-Pandroid.testInstrumentationRunnerArguments.class=com.example.accidentpoc.Sc05Test#eventMovesFocusToCurrentSceneButton"
+      ],
+      "startedAt": "2026-11-12T16:48:38.276854+00:00",
+      "testedCommit": "2a5dea5e992814a96c5e3cf19595f2691f07eb54",
+      "output": "evidence/contract-reliability-repair/android/android-api28-focus-fix1.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T16:48:42.900022+00:00",
+      "seconds": 4.623,
+      "exitStatus": 0,
+      "counts": {},
+      "logSha256": "e66c4266c104dc3af988b993db318e68da757abfdf21ebb2a9f722246863d729"
+    },
+    {
+      "id": "android-api28-fix1",
+      "cwd": "prototype/android",
+      "command": [
+        "./gradlew",
+        "connectedDebugAndroidTest"
+      ],
+      "startedAt": "2026-11-12T16:48:42.957007+00:00",
+      "testedCommit": "2a5dea5e992814a96c5e3cf19595f2691f07eb54",
+      "output": "evidence/contract-reliability-repair/android/android-api28-fix1.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T16:49:17.599659+00:00",
+      "seconds": 34.642,
+      "exitStatus": 0,
+      "counts": {},
+      "logSha256": "30305b1263d9f5c265f848800a2c1a45454e7043b8f5390fd57f0a9f59b031ed"
+    },
+    {
+      "id": "android-api35-fix1",
+      "cwd": "prototype/android",
+      "command": [
+        "./gradlew",
+        "connectedDebugAndroidTest"
+      ],
+      "startedAt": "2026-11-12T16:56:00.858229+00:00",
+      "testedCommit": "2a5dea5e992814a96c5e3cf19595f2691f07eb54",
+      "output": "evidence/contract-reliability-repair/android/android-api35-fix1.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T16:57:10.073473+00:00",
+      "seconds": 69.214,
+      "exitStatus": 0,
+      "counts": {},
+      "logSha256": "c3e2f8340bbdc19734c3fc313d906e87b491d3b04d511c508ac66488244668fc"
+    },
+    {
+      "id": "web-encoder-causal",
+      "cwd": "prototype/web",
+      "command": [
+        "node",
+        "--experimental-strip-types",
+        "/tmp/hyundai-contract-repair/encoder-experiment.mjs"
+      ],
+      "startedAt": "2026-11-12T16:58:26.740537+00:00",
+      "testedCommit": "2a5dea5e992814a96c5e3cf19595f2691f07eb54",
+      "output": "evidence/contract-reliability-repair/web/web-encoder-causal.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T16:58:33.655017+00:00",
+      "seconds": 6.913,
+      "exitStatus": 0,
+      "counts": {},
+      "logSha256": "1f722c7d5331e9fa4bc8d7067fa530ad299206f9461bb2ed371cc48a22cacc8a"
+    },
+    {
+      "id": "web-build-clean",
+      "cwd": "/tmp/hyundai-contract-repair/clean/prototype/web",
+      "command": [
+        "npm",
+        "run",
+        "check"
+      ],
+      "startedAt": "2026-11-12T17:11:12.419459+00:00",
+      "testedCommit": "2a5dea5e992814a96c5e3cf19595f2691f07eb54",
+      "output": "evidence/contract-reliability-repair/web/web-build-clean.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T17:11:17.629415+00:00",
+      "seconds": 5.209,
+      "exitStatus": 0,
+      "counts": {},
+      "logSha256": "f03686e00056949f62b16dc19a9456610c804e8915406d7b50df4073f3b0c5a6"
+    },
+    {
+      "id": "web-full-clean",
+      "cwd": "/tmp/hyundai-contract-repair/clean/prototype/web",
+      "command": [
+        "npm",
+        "run",
+        "test:ui"
+      ],
+      "startedAt": "2026-11-12T17:11:17.669493+00:00",
+      "testedCommit": "2a5dea5e992814a96c5e3cf19595f2691f07eb54",
+      "output": "evidence/contract-reliability-repair/web/web-full-clean.txt",
+      "status": "failed",
+      "endedAt": "2026-11-12T17:15:32.437957+00:00",
+      "seconds": 254.767,
+      "exitStatus": 1,
+      "counts": {
+        "failed": 9,
+        "passed": 415
+      },
+      "logSha256": "347bf3b11ea53cdb74d4316ded6fa688fab1bda804e03a01d1eb5788be9ba1cd"
+    },
+    {
+      "id": "audio-offline",
+      "cwd": "prototype/web",
+      "command": [
+        "node",
+        "scripts/verify-guidance-audio.mjs"
+      ],
+      "startedAt": "2026-11-12T17:15:32.543910+00:00",
+      "testedCommit": "2a5dea5e992814a96c5e3cf19595f2691f07eb54",
+      "output": "evidence/contract-reliability-repair/audio/audio-offline.txt",
+      "status": "failed",
+      "endedAt": "2026-11-12T17:15:32.578496+00:00",
+      "seconds": 0.034,
+      "exitStatus": 1,
+      "counts": {},
+      "logSha256": "23e0c261477ddfe15b749af3102b9f760d4555a56eb9f94a3ceadc19806e3d0a"
+    },
+    {
+      "id": "audio-existing-decode",
+      "cwd": "prototype/web",
+      "command": [
+        "node",
+        "--input-type=module",
+        "-e",
+        "import {readFile} from \"node:fs/promises\"; import {collectGuidanceScripts} from \"./scripts/generate-guidance-audio.mjs\"; import {verifyGuidanceAssets} from \"./scripts/verify-guidance-audio.mjs\"; const json=async path=>JSON.parse(await readFile(path,\"utf8\")); const scripts=collectGuidanceScripts(await json(\"../../specs/emergency-experience/scenarios.json\"),await json(\"src/audio/journey-guidance.json\"),await json(\"src/audio/emergency-guidance.json\")); const assets=await json(\"src/audio/assets.json\"),texts=new Set(assets.map(asset=>asset.script)); const missing=[...scripts.keys()].filter(text=>!texts.has(text)); const clips=await verifyGuidanceAssets(new Map([...scripts].filter(([text])=>texts.has(text))),assets); console.log(JSON.stringify({scope:\"Existing assets only; this does not satisfy C05 or replace the strict full-manifest gate\",expectedScripts:scripts.size,existingDecoded:clips.length,missing,clips},null,2));"
+      ],
+      "startedAt": "2026-11-12T17:15:32.626893+00:00",
+      "testedCommit": "2a5dea5e992814a96c5e3cf19595f2691f07eb54",
+      "output": "evidence/contract-reliability-repair/audio/audio-existing-decode.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T17:15:35.356030+00:00",
+      "seconds": 2.729,
+      "exitStatus": 0,
+      "counts": {},
+      "logSha256": "a867ad52e11b82ebacf897f11b1c68d73fc1ec9c671264e855e260ea08d7f243"
+    },
+    {
+      "id": "web-build-clean-fix1",
+      "cwd": "/tmp/hyundai-contract-repair/clean/prototype/web",
+      "command": [
+        "npm",
+        "run",
+        "check"
+      ],
+      "startedAt": "2026-11-12T17:36:54.759525+00:00",
+      "testedCommit": "f47252a401ebcb0993b8a49508864d410bbc4116",
+      "output": "evidence/contract-reliability-repair/web/web-build-clean-fix1.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T17:36:57.824530+00:00",
+      "seconds": 3.064,
+      "exitStatus": 0,
+      "counts": {},
+      "logSha256": "0ce67d77e3f985f1e6304023603bf87956681466ce374127c207aaf19c8ba0c0"
+    },
+    {
+      "id": "web-countdown-fix1",
+      "cwd": "/tmp/hyundai-contract-repair/clean/prototype/web",
+      "command": [
+        "npm",
+        "run",
+        "test:ui",
+        "--",
+        "tests/emergency-urgent.spec.ts",
+        "tests/emergency.spec.ts"
+      ],
+      "startedAt": "2026-11-12T17:36:57.862644+00:00",
+      "testedCommit": "f47252a401ebcb0993b8a49508864d410bbc4116",
+      "output": "evidence/contract-reliability-repair/web/web-countdown-fix1.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T17:37:27.484663+00:00",
+      "seconds": 29.621,
+      "exitStatus": 0,
+      "counts": {
+        "passed": 28
+      },
+      "logSha256": "d7e2e2610a7f7e7fe92833d5badcbf35557756a20503c450ce214ff0f8e95a96"
+    },
+    {
+      "id": "web-full-clean-fix1",
+      "cwd": "/tmp/hyundai-contract-repair/clean/prototype/web",
+      "command": [
+        "npm",
+        "run",
+        "test:ui"
+      ],
+      "startedAt": "2026-11-12T17:37:27.531633+00:00",
+      "testedCommit": "f47252a401ebcb0993b8a49508864d410bbc4116",
+      "output": "evidence/contract-reliability-repair/web/web-full-clean-fix1.txt",
+      "status": "failed",
+      "endedAt": "2026-11-12T17:41:03.799194+00:00",
+      "seconds": 216.265,
+      "exitStatus": 1,
+      "counts": {
+        "failed": 7,
+        "passed": 418
+      },
+      "logSha256": "22645fff6e94cb441fb52849cc6063b7e93bceb1251758cba23880bb61e1732d"
+    },
+    {
+      "id": "web-build-clean-fix2",
+      "cwd": "/tmp/hyundai-contract-repair/clean/prototype/web",
+      "command": [
+        "npm",
+        "run",
+        "check"
+      ],
+      "startedAt": "2026-11-12T17:55:47.894218+00:00",
+      "testedCommit": "e7c34674a6f2cd190a5ee1727080f1db3527f365",
+      "output": "evidence/contract-reliability-repair/web/web-build-clean-fix2.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T17:55:50.911037+00:00",
+      "seconds": 3.016,
+      "exitStatus": 0,
+      "counts": {},
+      "logSha256": "442c02d73249507b84ef54e739759b61899380cb260e2a086621df771ec103e5"
+    },
+    {
+      "id": "web-recorder-states-final",
+      "cwd": "/tmp/hyundai-contract-repair/clean/prototype/web",
+      "command": [
+        "npm",
+        "run",
+        "test:ui",
+        "--",
+        "tests/journey-voice.spec.ts",
+        "tests/emergency-guidance-state.spec.ts"
+      ],
+      "startedAt": "2026-11-12T17:55:50.947894+00:00",
+      "testedCommit": "e7c34674a6f2cd190a5ee1727080f1db3527f365",
+      "output": "evidence/contract-reliability-repair/web/web-recorder-states-final.txt",
+      "status": "failed",
+      "endedAt": "2026-11-12T17:56:20.191711+00:00",
+      "seconds": 29.243,
+      "exitStatus": 1,
+      "counts": {
+        "failed": 8,
+        "passed": 41
+      },
+      "logSha256": "a7d0368765f178a2f7d8dabd5dd2bcd179dfa0c664bf9bfd17a323a37c0bff85"
+    },
+    {
+      "id": "web-full-final",
+      "cwd": "/tmp/hyundai-contract-repair/clean/prototype/web",
+      "command": [
+        "npm",
+        "run",
+        "test:ui"
+      ],
+      "startedAt": "2026-11-12T18:12:49.111874+00:00",
+      "testedCommit": "e7c34674a6f2cd190a5ee1727080f1db3527f365",
+      "output": "evidence/contract-reliability-repair/web/web-full-final.txt",
+      "status": "failed",
+      "endedAt": "2026-11-12T18:16:41.184185+00:00",
+      "seconds": 232.329,
+      "exitStatus": 1,
+      "counts": {
+        "failed": 14,
+        "passed": 431
+      },
+      "logSha256": "44c67fadbc39593d7cf2c42aa4b1adac9b4faac044aee55403357026d384949b"
+    },
+    {
+      "id": "web-reconstruction-causal-red",
+      "cwd": "prototype/web",
+      "command": [
+        "env",
+        "CI=true",
+        "PLAYWRIGHT_OUTPUT_DIR=test-results/repair-reconstruction-causal-red",
+        "./node_modules/.bin/playwright",
+        "test",
+        "tests/journey-reconstruction.spec.ts",
+        "--grep",
+        "journey integration restores clips"
+      ],
+      "startedAt": "2026-11-12T18:47:19.578096+00:00",
+      "testedCommit": "fdda2d47973525033441ab257ba1cd73f9738894",
+      "output": "evidence/contract-reliability-repair/web/web-reconstruction-causal-red.txt",
+      "status": "failed",
+      "endedAt": "2026-11-12T18:47:28.057576+00:00",
+      "seconds": 8.479,
+      "exitStatus": 1,
+      "counts": {
+        "failed": 1
+      },
+      "logSha256": "f9968678b476a05d48f0707abcf663c09ab9f42532a0ed7b213a61b8da8884b5"
+    },
+    {
+      "id": "web-reconstruction-causal-red2",
+      "cwd": "prototype/web",
+      "command": [
+        "env",
+        "CI=true",
+        "PLAYWRIGHT_OUTPUT_DIR=test-results/repair-reconstruction-causal-red2",
+        "./node_modules/.bin/playwright",
+        "test",
+        "tests/journey-reconstruction.spec.ts",
+        "--grep",
+        "journey integration restores clips"
+      ],
+      "startedAt": "2026-11-12T18:48:33.860713+00:00",
+      "testedCommit": "9732dac7ed9605241a38aa5ef3c54c2d8146098a",
+      "output": "evidence/contract-reliability-repair/web/web-reconstruction-causal-red2.txt",
+      "status": "failed",
+      "endedAt": "2026-11-12T18:48:42.012895+00:00",
+      "seconds": 8.151,
+      "exitStatus": 1,
+      "counts": {
+        "failed": 1
+      },
+      "logSha256": "b1f662faa7b8a947df46f2a54eac849abc36342075e4798f5d5e1b52cfbfd92c"
+    },
+    {
+      "id": "web-reconstruction-fix1",
+      "cwd": "prototype/web",
+      "command": [
+        "env",
+        "CI=true",
+        "PLAYWRIGHT_OUTPUT_DIR=test-results/repair-reconstruction-fix1",
+        "./node_modules/.bin/playwright",
+        "test",
+        "tests/journey-reconstruction.spec.ts"
+      ],
+      "startedAt": "2026-11-12T18:49:50.977488+00:00",
+      "testedCommit": "e76c9bcd7a91aa6ebc7dd9925e2840dd3e9e1fe5",
+      "output": "evidence/contract-reliability-repair/web/web-reconstruction-fix1.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T18:50:00.347573+00:00",
+      "seconds": 9.369,
+      "exitStatus": 0,
+      "counts": {
+        "passed": 14
+      },
+      "logSha256": "938a0a233cfa4e30fea206411622e44c4b119c6cf66fa1e96aacb6c9914c9650"
+    },
+    {
+      "id": "web-build-clean-final",
+      "cwd": "/tmp/hyundai-contract-repair/clean/prototype/web",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startedAt": "2026-11-12T18:50:27.499813+00:00",
+      "testedCommit": "e76c9bcd7a91aa6ebc7dd9925e2840dd3e9e1fe5",
+      "output": "evidence/contract-reliability-repair/web/web-build-clean-final.txt",
+      "status": "failed",
+      "endedAt": "2026-11-12T18:50:27.583012+00:00",
+      "seconds": 0.083,
+      "exitStatus": 1,
+      "counts": {},
+      "logSha256": "3dff6cb400a3f512ac60809ff685a5ad1fbf1dda0d2728adb0ecfeee9a60fe8b"
+    },
+    {
+      "id": "web-build-clean-final2",
+      "cwd": "/tmp/hyundai-contract-repair/clean/prototype/web",
+      "command": [
+        "npm",
+        "run",
+        "check"
+      ],
+      "startedAt": "2026-11-12T18:51:20.198040+00:00",
+      "testedCommit": "e76c9bcd7a91aa6ebc7dd9925e2840dd3e9e1fe5",
+      "output": "evidence/contract-reliability-repair/web/web-build-clean-final2.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T18:51:23.116238+00:00",
+      "seconds": 2.917,
+      "exitStatus": 0,
+      "counts": {},
+      "logSha256": "befe39d01457575cac6a6f686d1e0c812b8dbad62acbbdcc1575707319a3bc8b"
+    },
+    {
+      "id": "web-full-final2",
+      "cwd": "/tmp/hyundai-contract-repair/clean/prototype/web",
+      "command": [
+        "env",
+        "CI=true",
+        "PLAYWRIGHT_OUTPUT_DIR=test-results/repair-full-final2",
+        "./node_modules/.bin/playwright",
+        "test"
+      ],
+      "startedAt": "2026-11-12T18:51:23.153675+00:00",
+      "testedCommit": "e76c9bcd7a91aa6ebc7dd9925e2840dd3e9e1fe5",
+      "output": "evidence/contract-reliability-repair/web/web-full-final2.txt",
+      "status": "failed",
+      "endedAt": "2026-11-12T18:55:14.825305+00:00",
+      "seconds": 231.667,
+      "exitStatus": 1,
+      "counts": {
+        "failed": 13,
+        "passed": 432
+      },
+      "logSha256": "202b5124b515674a6e09ba73aeebc6d308fe08803551723f37ef4411b112ce5a"
+    },
+    {
+      "id": "evidence-copy",
+      "cwd": ".",
+      "command": [
+        "python3",
+        "/tmp/hyundai-contract-repair/collect-artifacts.py"
+      ],
+      "startedAt": "2026-11-12T18:59:53.487072+00:00",
+      "testedCommit": "e76c9bcd7a91aa6ebc7dd9925e2840dd3e9e1fe5",
+      "output": "evidence/contract-reliability-repair/checks/evidence-copy.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T19:00:03.140120+00:00",
+      "seconds": 9.652,
+      "exitStatus": 0,
+      "counts": {},
+      "logSha256": "eb3592ba9f9ce7b288f7c65060010e5d718dfc8157bd574f33d839db0b2d0218"
+    },
+    {
+      "id": "source-inputs",
+      "cwd": ".",
+      "command": [
+        "python3",
+        "/tmp/hyundai-contract-repair/finalize-source.py"
+      ],
+      "startedAt": "2026-11-12T19:04:09.895976+00:00",
+      "testedCommit": "e76c9bcd7a91aa6ebc7dd9925e2840dd3e9e1fe5",
+      "output": "evidence/contract-reliability-repair/checks/source-inputs.txt",
+      "status": "failed",
+      "endedAt": "2026-11-12T19:04:10.312924+00:00",
+      "seconds": 0.416,
+      "exitStatus": 1,
+      "counts": {},
+      "logSha256": "2a036907c3a068a85a6bee5578c800eba80ba96227e3f559c45f8001bbb530c5"
+    },
+    {
+      "id": "source-inputs-final",
+      "cwd": ".",
+      "command": [
+        "python3",
+        "/tmp/hyundai-contract-repair/finalize-source.py"
+      ],
+      "startedAt": "2026-11-12T19:05:03.698940+00:00",
+      "testedCommit": "e76c9bcd7a91aa6ebc7dd9925e2840dd3e9e1fe5",
+      "output": "evidence/contract-reliability-repair/checks/source-inputs-final.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T19:05:03.975368+00:00",
+      "seconds": 0.276,
+      "exitStatus": 0,
+      "counts": {},
+      "logSha256": "ba2f3c3758143d212b6300bdd4481257be617dd1bff522ac66e7b2b3321578ab"
+    },
+    {
+      "id": "document-links",
+      "cwd": ".",
+      "command": [
+        "python3",
+        "/tmp/hyundai-contract-repair/check-doc-links.py",
+        "evidence/contract-reliability-repair/failure-analysis.md"
+      ],
+      "startedAt": "2026-11-12T19:16:54.209365+00:00",
+      "testedCommit": "e76c9bcd7a91aa6ebc7dd9925e2840dd3e9e1fe5",
+      "output": "evidence/contract-reliability-repair/checks/document-links.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T19:16:54.247483+00:00",
+      "seconds": 0.037,
+      "exitStatus": 0,
+      "counts": {},
+      "logSha256": "e21b8333173b80ff9589c898f91be83201dcb5a00d19777bc6257ef69dc727e9"
+    }
+  ],
+  "limitations": [
+    "Required four new JaeGyu assets absent: no usable existing credentials; zero TTS calls.",
+    "Latest full 432/445: all 13 failures are missing required audio assets.",
+    "Original PR10 trace absent: controlled causal reproduction is not unique attribution of its historical interleaving.",
+    "No human listening, physical vehicle, OS IME candidate-window assessment, or new global end-to-end movie.",
+    "Early dot reporter did not persist inline-body JSON; final helper writes durable named raw JSON."
+  ],
+  "updatedAt": "2026-11-12T19:16:54.247530+00:00",
+  "finalTestedSourceCommit": "e76c9bcd7a91aa6ebc7dd9925e2840dd3e9e1fe5",
+  "sourceManifest": "evidence/contract-reliability-repair/source-sha256.json",
+  "artifactIndex": "evidence/contract-reliability-repair/artifact-index.json",
+  "mergeAllowed": false
+}
