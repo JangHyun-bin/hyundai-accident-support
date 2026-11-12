@@ -30,6 +30,13 @@ export function FlowBoard({layout:target,notificationKey,reduced,driving=false,r
  const callback=useRef(onSettled);callback.current=onSettled
  const revision=`${frame.revision}/${size.width}/${size.height}`
  useLayoutEffect(()=>{
+  const element=host.current!
+  if(element.closest('[data-composing=true]')||element.clientWidth<=0||element.clientHeight<=0)return
+  // 환경 commit과 같은 paint에서 slot·material 크기를 맞춤.
+  measured.current=true
+  setSize(old=>old.width===element.clientWidth&&old.height===element.clientHeight?old:{width:element.clientWidth,height:element.clientHeight})
+ },[frame.revision])
+ useLayoutEffect(()=>{
   const element=host.current!;let raf:ReturnType<typeof setTimeout>|undefined
   const measure=()=>{clearTimeout(raf);raf=setTimeout(()=>{
    if(element.clientWidth<=0||element.clientHeight<=0||element.closest('[data-composing=true]'))return

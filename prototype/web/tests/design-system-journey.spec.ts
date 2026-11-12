@@ -1,3 +1,4 @@
+import {journeyControl} from './helpers/journey-controls'
 import {expect,test} from '@playwright/test'
 import fixtures from '../../../specs/emergency-experience/journey-fixtures.json' with {type:'json'}
 
@@ -12,13 +13,13 @@ for(const fixture of fixtures.cases)test(`${fixture.id}: task screens use common
   await page.emulateMedia({reducedMotion:'reduce'})
   await page.goto('/?study=journey&fixture='+fixture.id)
   await page.getByRole('button',{name:'이 상황으로 시작',exact:true}).click()
-  await page.getByRole('button',{name:'차량 상태 보기',exact:true}).click()
+  await (await journeyControl(page,'차량 상태 보기')).click()
   await expect(page.locator('[data-care-layout=task]:visible')).toBeVisible()
   await expect(page.getByRole('heading',{name:'차량에서 확인한 내용',exact:true})).toBeVisible()
   await page.getByRole('button',{name:'대응 화면으로',exact:true}).click()
-  await page.getByRole('button',{name:'후속 처리 보기',exact:true}).click()
+  await (await journeyControl(page,'후속 처리 보기')).click()
   await expect(page.locator('[data-care-layout=task]:visible')).toBeVisible()
-  await page.getByRole('button',{name:'긴급 대응 보기',exact:true}).click()
+  await (await journeyControl(page,'긴급 대응 보기')).click()
   if(fixture.id==='complete-journey'){
     await expect(page.getByTestId('journey-flow')).toBeVisible()
     await expect(page.getByRole('list',{name:'사고 대응 진행'}).getByRole('listitem')).toHaveCount(7)
@@ -46,7 +47,7 @@ test('vehicle workspace keeps its action reachable while long content scrolls',a
   await page.setViewportSize({width:1600,height:900})
   await page.goto('/?study=journey&fixture=partial-evidence')
   await page.getByRole('button',{name:'이 상황으로 시작',exact:true}).click()
-  await page.getByRole('button',{name:'차량 상태 보기',exact:true}).click()
+  await (await journeyControl(page,'차량 상태 보기')).click()
   const body=page.getByRole('region',{name:'작업 내용',exact:true}).filter({visible:true})
   await expect(body).toBeVisible()
   expect(await body.evaluate(n=>n.scrollHeight>n.clientHeight)).toBe(true)

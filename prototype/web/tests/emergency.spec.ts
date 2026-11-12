@@ -9,7 +9,7 @@ test('injury_action_preserves_movement_unknowns_and_separates_connection_from_re
   await expect(screen.getByRole('heading', { name: '119 연결 중' })).toBeFocused()
   await expect(screen.locator('[data-fact="driver"]')).toContainText('미확인')
   await expect(screen.locator('[data-fact="route"]')).toContainText('미확인')
-  await page.getByRole('button', { name: '시연 event: 통화 연결 확인' }).click()
+  await page.getByRole('button', { name: /^(?:다음 · )?시연 event: 통화 연결 확인$/ }).click()
   await expect(screen.getByRole('heading', { name: '119 통화 연결됨' })).toBeVisible()
   await expect(screen.locator('[data-request="rescue"]')).toContainText('접수 미확인')
   await expect(screen.getByRole('button', { name: /운전|이동하기|출발/ })).toHaveCount(0)
@@ -59,7 +59,7 @@ test('invalid_scenario_and_scene_fall_back_and_spec_stays_inspectable_on_mobile'
 
 test('external_event_keeps_keyboard_focus_in_scene_controls', async ({ page }) => {
   await page.goto('/?study=emergency&scenario=SC01&scene=contact_unknown')
-  const event = page.getByRole('button', { name: '시연 event: 통화 연결 확인' })
+  const event = page.getByRole('button', { name: /^(?:다음 · )?시연 event: 통화 연결 확인$/ })
   await event.focus()
   await event.press('Enter')
   await expect(page.getByRole('navigation', { name: '장면 선택' }).getByRole('button', { name: /통화 연결/ })).toBeFocused()

@@ -8,7 +8,7 @@ test('normal motion keeps vehicle boundaries and the live call text anchored',as
  await page.getByRole('button',{name:'이 상황으로 시작',exact:true}).click()
  await page.evaluate(()=>document.fonts.ready)
  await page.getByTestId('journey-primary').click()
- await page.getByRole('button',{name:'시연 event: 통화 연결 확인',exact:true}).click()
+ await page.getByRole('button',{name: /^(?:다음 · )?시연 event: 통화 연결 확인$/,exact:true}).click()
  await page.evaluate(()=>{
   const samples:unknown[]=[]
   const state={samples,stop:false};Object.assign(window,{motionAudit:state})
@@ -44,7 +44,7 @@ test('normal motion keeps vehicle boundaries and the live call text anchored',as
 
 test('editors wait for a full slot and decorative numerals never cross a moving surface',async({page})=>{
  await page.setViewportSize({width:1920,height:1080});await page.emulateMedia({reducedMotion:'no-preference'});await page.goto('/')
- await page.getByRole('button',{name:'이 상황으로 시작',exact:true}).click();await page.getByTestId('journey-primary').click();await page.getByRole('button',{name:'시연 event: 통화 연결 확인',exact:true}).click()
+ await page.getByRole('button',{name:'이 상황으로 시작',exact:true}).click();await page.getByTestId('journey-primary').click();await page.getByRole('button',{name: /^(?:다음 · )?시연 event: 통화 연결 확인$/,exact:true}).click()
  await page.evaluate(()=>{
   const state={stop:false,frames:0,violations:[] as string[]};Object.assign(window,{slotAudit:state});const canvas=document.createElement('canvas').getContext('2d')!
   function sample(){
@@ -74,7 +74,7 @@ test('editors wait for a full slot and decorative numerals never cross a moving 
 
 for(const study of ['','?study=flow'])test(`live reduced-motion preference stops ${study||'Journey'} immediately`,async({page})=>{
  await page.emulateMedia({reducedMotion:'no-preference'});await page.goto('/'+study)
- if(!study){await page.getByRole('button',{name:'이 상황으로 시작',exact:true}).click();await page.getByTestId('journey-primary').click();await page.getByRole('button',{name:'시연 event: 통화 연결 확인',exact:true}).click()}
+ if(!study){await page.getByRole('button',{name:'이 상황으로 시작',exact:true}).click();await page.getByTestId('journey-primary').click();await page.getByRole('button',{name: /^(?:다음 · )?시연 event: 통화 연결 확인$/,exact:true}).click()}
  else await page.getByTestId('flow-primary').click()
  await page.getByTestId(study?'flow-primary':'journey-primary').click()
  await expect(page.getByTestId('flow-board')).toHaveAttribute('data-moving','true')

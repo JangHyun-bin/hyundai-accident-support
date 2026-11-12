@@ -9,7 +9,7 @@ test('recording keeps the same vehicle frame as emergency response',async({page}
  const shell=page.locator('.ac-vehicle:visible')
  const start=await shell.boundingBox()
  await page.getByTestId('journey-primary').click()
- await page.getByRole('button',{name:'시연 event: 통화 연결 확인',exact:true}).click()
+ await page.getByRole('button',{name: /^(?:다음 · )?시연 event: 통화 연결 확인$/,exact:true}).click()
  for(let i=0;i<3;i++)await page.getByTestId('journey-primary').click()
  await expect(page.getByTestId('journey-flow')).toHaveAttribute('data-step','5')
  await page.getByRole('button',{name:'직접 입력',exact:true}).click()

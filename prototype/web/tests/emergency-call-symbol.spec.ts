@@ -6,7 +6,7 @@ test('phone_symbol_follows_confirmed_call_state_without_a_ribbon', async ({ page
   const spectrum = page.locator('.ac-spectrum')
   await expect(symbol).toHaveCount(0)
   await expect(spectrum).toHaveCount(0)
-  await page.getByRole('button', { name: '시연 event: 통화 연결 확인', exact: true }).click()
+  await page.getByRole('button', { name: /^(?:다음 · )?시연 event: 통화 연결 확인$/, exact: true }).click()
   await expect(symbol.locator('svg')).toBeVisible()
   await expect(page.getByRole('heading', { name: '119 통화 연결됨', exact: true })).toBeVisible()
   await expect(page.locator('[data-slot="car"] canvas')).toHaveCount(0)

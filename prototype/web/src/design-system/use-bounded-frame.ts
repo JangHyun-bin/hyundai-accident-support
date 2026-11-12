@@ -43,7 +43,7 @@ export function useBoundedFrame(ref:RefObject<HTMLElement|null>,device:'vehicle'
     return parseFloat(getComputedStyle(probe).lineHeight)
    }
    const metrics:FlowMetrics={rem:parseFloat(getComputedStyle(document.documentElement).fontSize),bodyLineHeight:line('--ac-type-body',1.31),headingLineHeight:line('--ac-type-guide',1.22),callLineHeight:line('--ac-type-call',1.31),labelLineHeight:line('--ac-type-label',1.31),touch:device==='mobile'?48:64}
-   const height=previewHeight??Math.max(0,(window.visualViewport?.height??window.innerHeight)-32)
+   const height=previewHeight??(device==='vehicle'&&width>=78*metrics.rem+48?width*9/16:Math.max(0,(window.visualViewport?.height??window.innerHeight)-32))
    const next=resolveFlowFrame({width,height,device,metrics})
    setFrame(previous=>previous?.revision===next.revision?previous:next)
   }

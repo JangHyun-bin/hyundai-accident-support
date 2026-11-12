@@ -13,7 +13,7 @@ export function VehicleShell({children,device='vehicle',presentation,header,prev
   const measured=useBoundedFrame(host,device,previewHeight),frame=presentation==='bounded'?measured:null
   const progress=frame?Math.max(32,frame.metrics.labelLineHeight+8):0,urgent=frame?Math.max(frame.metrics.touch,2*frame.metrics.bodyLineHeight+16):0
   const style=frame?{'--flow-stage-height':`${frame.height}px`,'--flow-content-height':`${frame.contentHeight}px`,'--flow-header-height':`${frame.headerHeight}px`,'--flow-status-height':`${frame.statusHeight}px`,'--flow-dock-height':`${frame.dockHeight}px`,'--flow-progress-height':`${progress}px`,'--flow-action-height':`${frame.headerHeight-progress-urgent-16}px`,'--flow-urgent-height':`${urgent}px`} as CSSProperties:undefined
-  return <FlowFrameContext.Provider value={frame}><div ref={host} className="ac-system ac-vehicle" data-care-component="vehicle-shell" data-care-device={device} data-presentation={presentation} data-flow-mode={frame?.mode} data-flow-reason={frame?.reason} style={style}>
+  return <FlowFrameContext.Provider value={frame}><div ref={host} className="ac-system ac-vehicle" data-care-component="vehicle-shell" data-care-device={device} data-presentation={presentation} data-flow-mode={frame?.mode} data-flow-reason={frame?.reason} data-flow-font-size={frame?.metrics.rem} style={style}>
     <div className="ac-vehicle-status" role="region" aria-label="차량 상태 표시" data-figma-node="28:2041">
       <time dateTime="21:12">오후 9:12</time>
       <span className="ac-vehicle-mode"><span className="ac-vehicle-mode-mark"><img src="/figma/ivi-status-bar/mode-indicator.svg" width="14" height="14" alt=""/></span><span>차분 · 사고 대응 모드</span></span>
