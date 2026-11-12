@@ -416,14 +416,13 @@ test('pending report saves freeze the submitted reference choice and retain it a
   await button(page, '경위서').click()
   const paragraph = page.getByRole('article', { name: '문장 1', exact: true })
   await paragraph.getByRole('button', { name: '정정하기', exact: true }).click()
-  await paragraph.getByLabel('문장 내용', { exact: true }).fill('전방 영상을 근거에서 제외한 정정')
+  await paragraph.getByLabel('문장 내용', { exact: true }).fill('전방 영상 근거를 포함한 정정')
   const reference = paragraph.getByRole('checkbox', { name: '전방 영상 포함', exact: true })
-  await reference.uncheck()
   await holdCaseCompletion(page, 'readwrite')
   await button(page, '정정 저장').click()
   await expect.poll(() => page.evaluate(() => window.recordStorageWaiting)).toBe(true)
   await expect(reference).toBeDisabled()
-  await expect(reference).not.toBeChecked()
+  await expect(reference).toBeChecked()
   const pendingChoice = { included: await reference.isChecked(), disabled: await reference.isDisabled() }
   await paragraph.screenshot({ path: testInfo.outputPath('reference-save-busy.png') })
   await page.evaluate(() => window.recordReleaseStorage())
@@ -435,8 +434,8 @@ test('pending report saves freeze the submitted reference choice and retain it a
     const { loadCase } = await import(/* @vite-ignore */ path) as typeof CaseStore
     return (await loadCase(new URL(location.href).searchParams.get('case')!))?.report?.paragraphs[0]
   })
-  expect(stored).toMatchObject({ text: '전방 영상을 근거에서 제외한 정정', references: [] })
+  expect(stored).toMatchObject({ text: '전방 영상 근거를 포함한 정정', references: [{ evidenceId: 'sample-front', evidenceRevision: 1, start: 8, end: 16 }] })
   await page.reload(); await button(page, '경위서').click()
-  await expect(paragraph).toContainText('전방 영상을 근거에서 제외한 정정')
+  await expect(paragraph).toContainText('전방 영상 근거를 포함한 정정')
   await attachProof(testInfo, 'report-reference-save-boundary', { submittedReferenceIncluded: pendingChoice.included, nativePendingChoiceDisabled: pendingChoice.disabled, stored })
 })
