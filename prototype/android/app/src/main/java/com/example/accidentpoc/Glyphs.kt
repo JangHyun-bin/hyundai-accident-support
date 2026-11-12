@@ -64,14 +64,23 @@ internal class GlyphBook(
     fun cue(symbol: String) = names.getValue("cue").getValue(symbol)
     fun fact(id: String) = names.getValue("facts").getValue(id)
     fun action(id: String) = names.getValue("actions").let { it[id] ?: it.getValue("default") }
+    fun validate(story: Scenario) {
+        require(story.scenes.all { it.cueSymbol in names.getValue("cue") }) { "glyphs.json: unknown scenario cue" }
+        require(story.visibleFacts.all { it in names.getValue("facts") }) { "glyphs.json: unknown visible fact" }
+        require(story.statuses.values.all { it.second in marks }) { "glyphs.json: unknown request tone" }
+    }
 }
 
 internal val LocalGlyphs = staticCompositionLocalOf<GlyphBook> { error("GlyphBook not provided") }
 
-internal fun loadGlyphs(context: Context): GlyphBook {
-    val root = JSONObject(context.assets.open("glyphs.json").bufferedReader().use { it.readText() })
+internal fun loadGlyphs(context: Context): GlyphBook = parseGlyphs(
+    context.assets.open("glyphs.json").bufferedReader().use { it.readText() }
+)
+
+internal fun parseGlyphs(source: String): GlyphBook {
+    val root = JSONObject(source)
+    require(root.get("grid") == 48) { "glyphs.json: unsupported grid" }
     fun color(value: String) = android.graphics.Color.parseColor(value)
-    fun JSONObject.keyList() = keys().asSequence().toList()
     fun stops(array: JSONArray) = List(array.length()) { array.getJSONArray(it).let { stop -> color(stop.getString(0)) to stop.getDouble(1).toFloat() } }
     fun effect(item: JSONObject) = Effect(item.getDouble("dy").toFloat(), item.optDouble("blur", 0.0).toFloat(), item.getDouble("opacity").toFloat())
     val glyphs = root.getJSONObject("glyphs").let { all ->
@@ -82,7 +91,7 @@ internal fun loadGlyphs(context: Context): GlyphBook {
     }
     val marks = root.getJSONObject("marks").let { all ->
         all.keyList().associateWith { tone ->
-            all.getJSONObject(tone).run { Mark(getString("shape"), getJSONArray("face").let { face -> List(face.length()) { color(face.getString(it)) } }, color(getString("edge")), getString("symbol"), color(getString("ink"))) }
+            all.getJSONObject(tone).run { Mark(text("shape"), getJSONArray("face").let { face -> List(face.length()) { color(face.getString(it)) } }, color(text("edge")), text("symbol"), color(text("ink"))) }
         }
     }
     val material = root.getJSONObject("material")
@@ -93,7 +102,11 @@ internal fun loadGlyphs(context: Context): GlyphBook {
         }
     }
     val plate = material.getJSONObject("plate")
-    val names = listOf("cue", "facts", "actions").associateWith { group -> root.getJSONObject(group).let { map -> map.keyList().associateWith(map::getString) } }
+    val names = listOf("cue", "facts", "actions", "self").associateWith { group ->
+        root.getJSONObject(group).let { map -> map.keyList().associateWith(map::text) }
+    }
+    require(names.values.all { map -> map.values.all { it in glyphs } } && "default" in names.getValue("actions")) { "glyphs.json: unknown glyph mapping" }
+    require(marks.keys == factStatuses && marks.values.all { it.symbol in glyphs && (it.shape == "disc" || it.shape in glyphs) }) { "glyphs.json: invalid status mark" }
     return GlyphBook(glyphs, names, marks, stops(plate.getJSONArray("stops")), plate.getDouble("angle").toFloat(), depths)
 }
 

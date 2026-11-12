@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "scope": "contract-reliability-repair",
+  "requirements": {
+    "A01": {
+      "status": "pending",
+      "evidence": []
+    },
+    "A02": {
+      "status": "pending",
+      "evidence": []
+    },
+    "A03": {
+      "status": "pending",
+      "evidence": []
+    },
+    "A04": {
+      "status": "pending",
+      "evidence": []
+    },
+    "A05": {
+      "status": "pending",
+      "evidence": []
+    },
+    "A06": {
+      "status": "pending",
+      "evidence": []
+    },
+    "A07": {
+      "status": "pending",
+      "evidence": []
+    },
+    "A08": {
+      "status": "pending",
+      "evidence": []
+    },
+    "A09": {
+      "status": "pending",
+      "evidence": []
+    },
+    "B01": {
+      "status": "pending",
+      "evidence": []
+    },
+    "B02": {
+      "status": "pending",
+      "evidence": []
+    },
+    "B03": {
+      "status": "pending",
+      "evidence": []
+    },
+    "B04": {
+      "status": "pending",
+      "evidence": []
+    },
+    "B05": {
+      "status": "pending",
+      "evidence": []
+    },
+    "B06": {
+      "status": "pending",
+      "evidence": []
+    },
+    "B07": {
+      "status": "pending",
+      "evidence": []
+    },
+    "C01": {
+      "status": "pending",
+      "evidence": []
+    },
+    "C02": {
+      "status": "pending",
+      "evidence": []
+    },
+    "C03": {
+      "status": "pending",
+      "evidence": []
+    },
+    "C04": {
+      "status": "pending",
+      "evidence": []
+    },
+    "C05": {
+      "status": "pending",
+      "evidence": []
+    },
+    "C06": {
+      "status": "pending",
+      "evidence": []
+    },
+    "E01": {
+      "status": "pending",
+      "evidence": []
+    },
+    "E02": {
+      "status": "pending",
+      "evidence": []
+    },
+    "E03": {
+      "status": "pending",
+      "evidence": []
+    },
+    "E04": {
+      "status": "pending",
+      "evidence": []
+    },
+    "E05": {
+      "status": "pending",
+      "evidence": []
+    },
+    "D01": {
+      "status": "pending",
+      "evidence": []
+    },
+    "D02": {
+      "status": "pending",
+      "evidence": []
+    },
+    "D03": {
+      "status": "pending",
+      "evidence": []
+    },
+    "D04": {
+      "status": "pending",
+      "evidence": []
+    },
+    "D05": {
+      "status": "pending",
+      "evidence": []
+    }
+  }
+}

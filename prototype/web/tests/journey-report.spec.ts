@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 import { createSession } from '../src/emergency/session'
-import { createCase, reduceCase, type Evidence, type Report, type JourneyCase } from '../src/journey/case'
+import { createCase, reduceCase, validateCase, LIMITS, type Evidence, type Report, type JourneyCase } from '../src/journey/case'
 
 const now = '2026-11-10T09:12:00.000Z'
 const clip: Evidence = { id: 'front', label: '전방 영상', kind: 'video', revision: 1, origin: 'sample', assetId: 'front-asset',
@@ -291,4 +291,25 @@ test('an urgent event dismisses the evidence drawer and pauses its media', async
   expect(await page.locator('video').evaluateAll(nodes => nodes.every(node => node instanceof HTMLVideoElement && node.paused))).toBe(true)
   await page.getByRole('button', { name: '내용 확인으로 돌아가기', exact: true }).click()
   await expect(page.getByRole('button', { name: '근거 보기', exact: true })).toBeVisible()
+})
+
+test('the shared paragraph limit rejects 101 without changing history and keeps edits and removals valid', () => {
+  let value = fresh()
+  for (let index = 0; index < LIMITS.reportParagraphs - 1; index++) {
+    value = reduceCase(value, { type: 'paragraph-edit', id: `boundary-${index}`, text: `문장 ${index + 1}`, references: [] })
+  }
+  expect(value.report?.paragraphs).toHaveLength(99)
+  const hundred = reduceCase(value, { type: 'paragraph-edit', id: 'boundary-100', text: '100번째 문장', references: [] })
+  expect(hundred.report?.paragraphs).toHaveLength(LIMITS.reportParagraphs)
+  expect(validateCase(hundred)).toBe(true)
+  expect(reduceCase(hundred, { type: 'paragraph-edit', id: 'boundary-101', text: '101번째 문장', references: [] })).toBe(hundred)
+  const invalid = structuredClone(hundred)
+  invalid.report!.paragraphs.push({ ...invalid.report!.paragraphs[0], id: 'boundary-101' })
+  expect(validateCase(invalid)).toBe(false)
+  const edited = reduceCase(hundred, { type: 'paragraph-edit', id: 'boundary-100', text: '100번째 정정', references: [] })
+  expect(edited.report?.paragraphs.at(-1)).toMatchObject({ text: '100번째 정정', revision: 2 })
+  const removed = reduceCase(edited, { type: 'paragraph-remove', id: 'boundary-100' })
+  const replaced = reduceCase(removed, { type: 'paragraph-edit', id: 'boundary-101', text: '삭제 후 다시 추가', references: [] })
+  expect(replaced.report?.paragraphs).toHaveLength(LIMITS.reportParagraphs)
+  expect(validateCase(replaced)).toBe(true)
 })

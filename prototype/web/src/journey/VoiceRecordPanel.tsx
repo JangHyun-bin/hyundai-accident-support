@@ -4,13 +4,14 @@ import { LIMITS, type AssetWrite, type CaseCommand, type CommitResult, type Evid
 import { readAsset } from './case-store'
 import { JourneyAction, JourneyEditorLayout } from './JourneyLayout'
 import { startVoiceCapture, type VoiceCapture } from './voice-capture'
+import type { LocalRecoveryDraft } from './useJourneyCase'
 import './voice.css'
 import {stopGuidanceAudio} from '@/audio/useGuidanceAudio'
 import {CareSpectrum} from '@/components/ui/after-care'
 
 type Phase = 'ready' | 'requesting-permission' | 'listening' | 'review' | 'saving' | 'saved' | 'error'
 type PendingClip = { evidence: Evidence; blob: Blob }
-export type VoiceRecordHandle = { finishBeforeLeave: () => Promise<boolean>; preserveDraft: () => void }
+export type VoiceRecordHandle = { finishBeforeLeave: () => Promise<boolean>; preserveDraft: () => void; recoveryDraft: () => Promise<LocalRecoveryDraft> }
 const sample = { id: 'voice-statement-ko-v1', text: '정차 중 오른쪽에서 충격을 느꼈어요. 정확한 사고 경위는 확인 중이에요.', duration: 8.827625 }
 const clock = (seconds: number) => `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`
 
@@ -35,13 +36,13 @@ function VoiceAudio({ caseId, evidence, blob }: { caseId: string; evidence: Evid
   </div>
 }
 
-export function VoiceRecordPanel({ value, mode, onSave, ref, navigation, footer }: {
+export function VoiceRecordPanel({ value, mode, onSave, durable, reloadVersion = 0, ref, navigation, footer }: {
   navigation?:ReactNode;footer?:ReactNode
-  value: JourneyCase; mode: 'sample' | 'device'; onSave: (command: CaseCommand, assets: AssetWrite[]) => Promise<CommitResult>; ref?: Ref<VoiceRecordHandle>
+  value: JourneyCase; mode: 'sample' | 'device'; onSave: (command: CaseCommand, assets: AssetWrite[]) => Promise<CommitResult>; durable: boolean; reloadVersion?: number; ref?: Ref<VoiceRecordHandle>
 }) {
   const initial = value.statements[0]
   const [text, setText] = useState(initial?.text ?? '')
-  const [phase, setPhase] = useState<Phase>(initial ? 'review' : 'ready')
+  const [phase, setPhase] = useState<Phase>(initial ? durable && initial.confirmedRevision === initial.revision ? 'saved' : 'review' : 'ready')
   const [editing, setEditing] = useState(!!initial)
   const [pending, setPending] = useState<PendingClip[]>([])
   const [message, setMessage] = useState('')
@@ -56,15 +57,41 @@ export function VoiceRecordPanel({ value, mode, onSave, ref, navigation, footer 
   const savePromise = useRef<Promise<boolean> | null>(null)
   const section = useRef<HTMLElement>(null)
   const mounted = useRef(true)
+  const composing = useRef(false)
+  const pendingRef = useRef(pending)
+  const textRef = useRef(text)
+  pendingRef.current = pending
+  textRef.current = text
+  const statementKey = `${value.id}/${initial?.id ?? ''}/${initial?.revision ?? 0}/${initial?.confirmedRevision ?? ''}`
+  const adoptedStatement = useRef(statementKey)
+  const adoptedReload = useRef(reloadVersion)
   const persistedAudio = value.evidence.filter(e => e.kind === 'audio' && !pending.some(p => p.evidence.id === e.id))
+  const editorText = composing.current ? section.current?.querySelector('textarea')?.value ?? text : text
   const busy = phase === 'saving' || phase === 'requesting-permission' || finishing
+  useEffect(() => {
+    const explicitReload = adoptedReload.current !== reloadVersion
+    if (!explicitReload && adoptedStatement.current === statementKey) return
+    const input = section.current?.querySelector('textarea')
+    if (!explicitReload && input && input.value !== textRef.current) {
+      textRef.current = input.value; setText(input.value); dirty.current = true
+    }
+    if (!explicitReload && (!durable || dirty.current || pendingRef.current.length || composing.current || capture.current || stopPromise.current || savePromise.current || phase === 'requesting-permission' || phase === 'saving')) return
+    if (explicitReload) composing.current = false
+    adoptedStatement.current = statementKey; adoptedReload.current = reloadVersion
+    textRef.current = initial?.text ?? ''
+    setText(textRef.current); setEditing(!!initial)
+    setPending([]); pendingRef.current = []; dirty.current = false
+    setPhase(initial ? initial.confirmedRevision === initial.revision ? 'saved' : 'review' : 'ready')
+    setMessage('')
+  }, [statementKey, reloadVersion, durable, phase])
 
   function addClip(blob: Blob, duration: number, origin: 'user' | 'sample') {
     const id = crypto.randomUUID()
     const evidence: Evidence = { id, label: origin === 'sample' ? '음성 기록 예시' : '직접 남긴 음성', kind: 'audio', revision: 1, origin,
       assetId: crypto.randomUUID(), availability: 'available', captureTarget: null,
       metadata: { mime: blob.type, bytes: blob.size, duration, capturedAt: new Date().toISOString(), sourceLabel: origin === 'sample' ? sample.id : '직접 녹음' } }
-    setPending(clips => [...clips, { evidence, blob }]); dirty.current = true
+    const clips = [...pendingRef.current, { evidence, blob }]
+    pendingRef.current = clips; setPending(clips); dirty.current = true
   }
 
   function finishRecording() {
@@ -96,7 +123,7 @@ export function VoiceRecordPanel({ value, mode, onSave, ref, navigation, footer 
     if (busy) return
     section.current?.querySelectorAll('audio').forEach(audio => audio.pause())
     setText(value.statements[0]?.text ?? '')
-    setPending([]); dirty.current = false
+    setPending([]); pendingRef.current = []; dirty.current = false
     setEditing(!!value.statements[0]); setMessage('')
     setPhase(value.statements[0] ? 'review' : 'ready')
   }
@@ -145,7 +172,9 @@ export function VoiceRecordPanel({ value, mode, onSave, ref, navigation, footer 
     setPhase('saving'); setMessage('')
     const job = onSave({ type: 'voice-save', evidence: clips.map(c => c.evidence), statement }, clips.map(c => ({ id: c.evidence.assetId!, caseId: value.id, blob: c.blob }))).then(result => {
       if (!result.ok) { setPhase('error'); setMessage('저장하지 못했어요. 음성과 입력 내용은 이 화면에 남아 있어요.'); return false }
-      dirty.current = false; setPending([]); setPhase('saved'); setMessage('기록을 저장했어요.')
+      const savedStatement = result.value.statements[0]
+      adoptedStatement.current = `${result.value.id}/${savedStatement?.id ?? ''}/${savedStatement?.revision ?? 0}/${savedStatement?.confirmedRevision ?? ''}`
+      dirty.current = false; pendingRef.current = []; setPending([]); setPhase('saved'); setMessage('기록을 저장했어요.')
       return true
     }).catch(() => { setPhase('error'); setMessage('저장하지 못했어요. 음성과 입력 내용은 이 화면에 남아 있어요.'); return false })
       .finally(() => { savePromise.current = null })
@@ -153,9 +182,27 @@ export function VoiceRecordPanel({ value, mode, onSave, ref, navigation, footer 
     return job
   }
 
-  useImperativeHandle(ref, () => ({ preserveDraft: () => {
-    const input=section.current?.querySelector('textarea')
-    if(input&&input.value!==text){setText(input.value);dirty.current=true;if(phase==='saved'){setPhase('review');setMessage('')}}
+  function preserveDraft() {
+    const input = section.current?.querySelector('textarea')
+    if (input && input.value !== textRef.current) {
+      textRef.current = input.value; setText(input.value); dirty.current = true
+      if (phase === 'saved') { setPhase('review'); setMessage('') }
+    }
+  }
+  useImperativeHandle(ref, () => ({ preserveDraft, recoveryDraft: async () => {
+    preserveDraft()
+    if (phase === 'requesting-permission') cancelRecording()
+    if (capture.current || stopPromise.current) await finishRecording()
+    if (savePromise.current) await savePromise.current
+    preserveDraft()
+    if (!dirty.current && !pendingRef.current.length) return { commands: [], assets: [] }
+    const clips = pendingRef.current
+    const audioEvidenceIds = [...new Set([...(initial?.audioEvidenceIds ?? []), ...clips.map(clip => clip.evidence.id)])]
+    return {
+      commands: [{ type: 'voice-save', evidence: clips.map(clip => clip.evidence),
+        statement: { id: initial?.id ?? 'primary-statement', text: textRef.current, audioEvidenceIds } }],
+      assets: clips.map(clip => ({ id: clip.evidence.assetId!, caseId: value.id, blob: clip.blob })),
+    }
   }, finishBeforeLeave: async () => {
     section.current?.querySelectorAll('audio').forEach(audio => audio.pause())
     if (capture.current || stopPromise.current) { await finishRecording(); return false }
@@ -215,8 +262,9 @@ export function VoiceRecordPanel({ value, mode, onSave, ref, navigation, footer 
       {persistedAudio.map(e => <VoiceAudio key={e.id} caseId={value.id} evidence={e} />)}
       {pending.map(c => <VoiceAudio key={c.evidence.id} caseId={value.id} evidence={c.evidence} blob={c.blob} />)}
       {editing && <div className="journey-voice-edit"><div className="journey-input-label"><label htmlFor="voice-statement">사고 기록</label><span id="voice-statement-count">{text.length.toLocaleString('ko-KR')} / 5,000</span></div>
-        <textarea id="voice-statement" className="journey-textarea" aria-describedby="voice-statement-count" maxLength={LIMITS.statementLength} value={text} disabled={phase === 'saving'}
-          placeholder="기억나는 내용을 적어주세요" onChange={event => { setText(event.target.value); dirty.current = true; if (phase === 'saved') { setPhase('review'); setMessage('') } }} />
+        <textarea id="voice-statement" className="journey-textarea" aria-describedby="voice-statement-count" maxLength={LIMITS.statementLength} value={editorText} disabled={phase === 'saving'}
+          placeholder="기억나는 내용을 적어주세요" onCompositionStart={() => { composing.current = true; dirty.current = true }} onCompositionEnd={event => { composing.current = false; textRef.current = event.currentTarget.value; setText(event.currentTarget.value) }}
+          onChange={event => { textRef.current = event.target.value; setText(event.target.value); dirty.current = true; if (phase === 'saved') { setPhase('review'); setMessage('') } }} />
         <p className="journey-supporting">확인하지 못한 내용은 추측하지 않아도 돼요.</p></div>}
       {(editing || pending.length > 0) && <div className="journey-voice-actions"><JourneyAction secondary disabled={busy} onClick={() => void start()}><Mic aria-hidden="true" />추가로 말하기</JourneyAction></div>}
       {(editing || pending.length > 0) && phase !== 'saved' && <button className="journey-text-action" disabled={busy} onClick={discardDraft}><X aria-hidden="true" />입력 취소</button>}

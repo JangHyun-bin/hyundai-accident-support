@@ -89,7 +89,7 @@ function reference(v: unknown) {
 function report(v: unknown) {
   return object(v) && positive(v.revision) && integer(v.basedOnRevision) &&
     list(v.paragraphs, p => object(p) && id(p.id) && text(p.text, 5000) &&
-      oneOf(p.kind, ['observation', 'statement', 'inference', 'unknown']) && list(p.references, reference, 100) && versionConfirmed(p), 100) &&
+      oneOf(p.kind, ['observation', 'statement', 'inference', 'unknown']) && list(p.references, reference, 100) && versionConfirmed(p), LIMITS.reportParagraphs) &&
     uniqueIds(v.paragraphs)
 }
 function payload(v: unknown) {

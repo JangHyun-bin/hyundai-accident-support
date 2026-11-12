@@ -88,6 +88,8 @@
 - [x] Connect shared motion and audio to all flow states; synchronize phase/spectrum without misleading audio claims.
 - [x] Run audio+motion suites and rendering measurements; commit asset/code checkpoint.
 
+2026-11-13 증거 정정: Task 5의 `listen to representative generated speech` 완료 체크는 사람 청취 완료 근거가 아니다. 보존된 `evidence/design-system/audio-verification.json`과 inventory는 자동 전사·decode·browser 재생만 기록하고 사람 청취는 미실시라고 명시한다. 생성·연결과 사람 청취를 분리하며, Task 6 및 전역 goal의 실제 충족 상태는 `specs/after-care-system/completion.md`에서 추적한다.
+
 ### Task 6: 전체 범위 검증·영상·PR
 
 **Files:** Update `scripts/record-journey-flow.mjs`, `scripts/record-emergency-flow.mjs`; create `evidence/design-system/` reports and `specs/after-care-system/completion.md`.

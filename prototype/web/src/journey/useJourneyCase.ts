@@ -1,17 +1,29 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { commitCase, loadCase } from './case-store'
 import { openEvidence } from './evidence-media'
-import { makeSubmission, makeShare, preparePayload, reduceCase, type ApprovalInput, type ApprovalCommitResult, type PayloadSnapshot, type AssetWrite, type CaseCommand, type CommitResult, type JourneyCase } from './case'
+import { LIMITS, makeSubmission, makeShare, preparePayload, reduceCase, type ApprovalInput, type ApprovalCommitResult, type PayloadSnapshot, type AssetWrite, type CaseCommand, type CommitResult, type JourneyCase } from './case'
 
 type SaveState = 'saved' | 'saving' | 'conflict' | 'unavailable' | 'quota' | 'invalid'
-export type Recovery = { value: JourneyCase; assets: AssetWrite[] }
+export type LocalRecoveryDraft = { commands: CaseCommand[]; assets: AssetWrite[] }
+export type Recovery = { value: JourneyCase; assets: AssetWrite[]; commands: CaseCommand[] }
+export type JourneyCaseController = {
+  value: JourneyCase | null; loading: boolean; missing: boolean; saveState: SaveState
+  recoveries: Recovery[]; reloadVersion: number
+  dispatch: (command: CaseCommand) => void
+  save: (command: CaseCommand, assets?: AssetWrite[]) => Promise<CommitResult>
+  approve: (input: ApprovalInput, preview: PayloadSnapshot) => Promise<ApprovalCommitResult>
+  flush: () => Promise<CommitResult>
+  start: (record: JourneyCase) => Promise<CommitResult>
+  reload: (draft?: LocalRecoveryDraft) => Promise<void>
+}
 
-export function useJourneyCase(initialId: string | null) {
+export function useJourneyCase(initialId: string | null): JourneyCaseController {
   const [value, setValue] = useState<JourneyCase | null>(null)
   const [loading, setLoading] = useState(!!initialId)
   const [missing, setMissing] = useState(false)
   const [saveState, setSaveState] = useState<SaveState>('saved')
   const [recoveries, setRecoveries] = useState<Recovery[]>([])
+  const [reloadVersion, setReloadVersion] = useState(0)
   const current = useRef<JourneyCase | null>(null)
   const persistedRevision = useRef<number | null>(null)
   const queue = useRef<Promise<void>>(Promise.resolve())
@@ -19,6 +31,7 @@ export function useJourneyCase(initialId: string | null) {
   const change = useRef(0)
   const savedChange = useRef(0)
   const conflicted = useRef(false)
+  const epoch = useRef(0)
 
   useEffect(() => {
     const warn = (event: BeforeUnloadEvent) => {
@@ -30,13 +43,14 @@ export function useJourneyCase(initialId: string | null) {
   }, [recoveries])
 
   const adopt = useCallback((record: JourneyCase) => {
+    epoch.current += 1
     current.current = record
     persistedRevision.current = record.revision || null
     change.current = 0
     savedChange.current = record.revision ? 0 : -1
     conflicted.current = false
     pendingAssets.current.clear()
-    setValue(record); setMissing(false); setSaveState('saved')
+    setValue(record); setMissing(false); setSaveState(record.revision ? 'saved' : 'saving')
   }, [])
 
   useEffect(() => {
@@ -52,16 +66,19 @@ export function useJourneyCase(initialId: string | null) {
   }, [initialId, adopt])
 
   const flush = useCallback((): Promise<CommitResult> => {
+    const requestedEpoch = epoch.current
     const job = queue.current.then(async (): Promise<CommitResult> => {
+      if (epoch.current !== requestedEpoch) return { ok: false, reason: 'conflict', draft: current.current! }
       const snapshot = current.current
       if (!snapshot) throw new Error('No incident is open')
       if (conflicted.current) return { ok: false, reason: 'conflict', draft: snapshot }
       if (change.current === savedChange.current && snapshot.revision > 0) return { ok: true, value: snapshot }
       const generation = change.current
+      const generationEpoch = epoch.current
       const writes = [...pendingAssets.current.values()]
       setSaveState('saving')
       const result = await commitCase(snapshot, persistedRevision.current, writes)
-      if (current.current?.id !== snapshot.id) return result
+      if (epoch.current !== generationEpoch || current.current?.id !== snapshot.id) return result
       if (result.ok) {
         persistedRevision.current = result.value.revision
         savedChange.current = generation
@@ -85,7 +102,12 @@ export function useJourneyCase(initialId: string | null) {
   const save = useCallback((command: CaseCommand, assets: AssetWrite[] = []): Promise<CommitResult> => {
     const previous = current.current
     if (!previous) return Promise.reject(new Error('No incident is open'))
+    const saveEpoch = epoch.current
     const next = reduceCase(previous, command)
+    if (next === previous && command.type === 'paragraph-edit') {
+      const full = !previous.report?.paragraphs.some(p => p.id === command.id) && (previous.report?.paragraphs.length ?? 0) >= LIMITS.reportParagraphs
+      return Promise.resolve({ ok: false, reason: 'invalid', rejection: full ? 'paragraph-limit' : 'invalid-command', draft: previous })
+    }
     if (next === previous && assets.length && !assets.every(asset => pendingAssets.current.get(asset.id)?.blob === asset.blob)) {
       return Promise.resolve({ ok: false, reason: 'invalid', draft: previous })
     }
@@ -96,7 +118,7 @@ export function useJourneyCase(initialId: string | null) {
       setValue(next); setSaveState('saving')
     }
     return flush().then(result => {
-      if (result.ok || (!assets.length && command.type !== 'voice-save') || current.current?.id !== previous.id) return result
+      if (result.ok || epoch.current !== saveEpoch || (!assets.length && command.type !== 'voice-save') || current.current?.id !== previous.id) return result
       // Media 실패는 해당 편집만 복원. 그동안 들어온 긴급 상태와 다른 편집은 유지.
       const latest = current.current
       const restored = { ...latest }
@@ -117,11 +139,12 @@ export function useJourneyCase(initialId: string | null) {
 
   const approve = useCallback(async (input: ApprovalInput, preview: PayloadSnapshot): Promise<ApprovalCommitResult> => {
     const caseId = current.current?.id
+    const approvalEpoch = epoch.current
     const saved = await flush()
     if (!saved.ok) return saved
     const job = queue.current.then(async (): Promise<ApprovalCommitResult> => {
       const source = current.current!
-      if (source.id !== caseId) return { ok: false, reason: 'unreviewed-content' }
+      if (epoch.current !== approvalEpoch || source.id !== caseId) return { ok: false, reason: 'unreviewed-content' }
       if (conflicted.current) return { ok: false, reason: 'conflict', draft: source }
       const selected = preparePayload(source, input.selection)
       if (!selected.ok) return selected
@@ -136,7 +159,7 @@ export function useJourneyCase(initialId: string | null) {
         }
       } catch { return { ok: false, reason: 'missing-evidence' } }
       const latest = current.current!
-      if (latest.id !== source.id) return { ok: false, reason: 'unreviewed-content' }
+      if (epoch.current !== approvalEpoch || latest.id !== source.id) return { ok: false, reason: 'unreviewed-content' }
       const payload = preparePayload(latest, input.selection)
       if (!payload.ok) return payload
       if (JSON.stringify(payload.value) !== JSON.stringify(preview)) return { ok: false, reason: 'unreviewed-content' }
@@ -146,6 +169,7 @@ export function useJourneyCase(initialId: string | null) {
       const writes = [...pendingAssets.current.values()]
       setSaveState('saving')
       const result = await commitCase(approval.value, persistedRevision.current, writes)
+      if (epoch.current !== approvalEpoch || current.current?.id !== caseId) return { ok: false, reason: 'unreviewed-content' }
       if (!result.ok) {
         conflicted.current = result.reason === 'conflict'
         setSaveState(result.reason)
@@ -182,13 +206,23 @@ export function useJourneyCase(initialId: string | null) {
     return flush()
   }, [adopt, flush])
 
-  const reload = useCallback(async () => {
-    if (!current.current) return
-    const recovery = { value: structuredClone(current.current), assets: [...pendingAssets.current.values()] }
-    const latest = await loadCase(current.current.id)
-    if (latest) { setRecoveries(previous => [...previous, recovery]); adopt(latest) }
-    else setMissing(true)
+  const reload = useCallback(async (draft: LocalRecoveryDraft = { commands: [], assets: [] }) => {
+    const source = current.current
+    if (!source) return
+    const reloadEpoch = epoch.current
+    const latest = await loadCase(source.id)
+    if (epoch.current !== reloadEpoch || current.current?.id !== source.id) return
+    if (latest) {
+      const commands = draft.commands
+      const recovery = {
+        value: commands.reduce(reduceCase, structuredClone(current.current)),
+        assets: [...pendingAssets.current.values(), ...draft.assets],
+        commands,
+      }
+      setRecoveries(previous => [...previous, recovery]); adopt(latest)
+      setReloadVersion(previous => previous + 1)
+    } else setMissing(true)
   }, [adopt])
 
-  return { value, loading, missing, saveState, recoveries, dispatch, save, approve, flush, start, reload }
+  return { value, loading, missing, saveState, recoveries, reloadVersion, dispatch, save, approve, flush, start, reload }
 }

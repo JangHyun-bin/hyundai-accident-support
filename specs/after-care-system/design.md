@@ -1,47 +1,55 @@
 # AFTER / CARE 전역 design system
 
-승인 근거: B″ surface·solid 119·flat icon과 B / Three cells 선택. 사용자가 승인한 전체 범위는 `goal.md`, 화면·상태 목록은 `inventory.md`.
+2026-11-13 현행화. B″ surface·solid119·flat icon과 B/Three cells의 선택은 과거 결정 기록이다. 사용자 목표는 [goal](goal.md), 구현·과거 증거·미완료 범위는 [completion](completion.md)에서 추적한다. 이 문서가 개별 수치의 사용자 승인이나 실차 적합성을 새로 주장하지 않는다.
 
-## 원칙과 기준값
+## 정본과 승계
 
-- 사고 후 사용자의 다음 행동이 첫 정보. 확인된 사실과 미확인을 구별하며 통화 연결·접수·도착을 서로 다른 상태로 표현.
-- Font: repo의 local Asta 400/600/700. 가독성을 위한 일반 본문 17px, 보조 15px, label 13px, section 22px, title 28–48px, 통화 숫자 96–120px. Mobile은 rem으로 text 확대 허용.
-- 바탕 `#09090c`, 기본 surface `#18181c`, control `#303037`, 본문 `#f4f4f8`, 보조 `#b6b6bf`, line `#37373f`. Confirmed `#a7e3bf`, pending `#e8d797`, attention/failed `#ffb39c`. 색과 icon·문구를 함께 사용.
-- Voice surface는 승인된 blue 계열, guidance는 copper 계열. Unknown map은 위치를 암시하는 점 없이 중립 surface. Form·목록·기록은 평평한 중립 surface.
-- Spacing: 4/8/12/16/24/32/40/48/64. Card gap 16px, 주요 영역 여백 24–32px, 외곽 radius 32px, card radius 28px, control 16px, touch target 최소 48px.
-- Material 기본: grain 12%, size .8px, clumping 12%, tone 75%, seed 303; CA 1px, angle 0°. Text·icon은 filter 밖. Source shape를 먼저 clip하고 filter output의 fringe는 보존.
-- Motion: 빠른 feedback 160ms, 상태 전환 240ms, layout 전환 360ms. `cubic-bezier(.22,1,.36,1)`. Reduced motion에서 지속 animation과 이동 제거. Critical 상태는 animation이 끝나기 전에 접근 가능.
+- 현재 token: `prototype/web/src/design-system/tokens.css`.
+- Layout·입력 보존: [stable spec](../../docs/superpowers/specs/2026-11-12-stable-voronoi-layout-design.md).
+- 실제 display·외부 조작기: [Pleos display 기준](../../docs/design-system/pleos-display-and-controls.md).
+- 색·font·touch·material 출처: [현행 시각 기준](../../docs/superpowers/specs/2026-11-12-figma-visual-contract.md). 원래 승인 원문을 확보하지 못한 재구성이다.
+- 전체 상태 정본: `specs/emergency-experience/scenarios.json`, `journey-fixtures.json`, JourneyCase 도메인.
+
+초기 design의 body17/label13·일괄touch48, blue call/copper guidance, 내용에 따른 외곽 자연 확장 설명은 아래 최신 token·semantic mapping·bounded/document 정책으로 승계된다. 이 정정은 코드의 token·preset 값을 변경하는 migration이 아니다.
+
+## 원칙과 현재 기준
+
+- 다음 행동을 먼저 제시하고 확인·미확인·실패를 문구·icon·색으로 함께 표현한다. 통화 연결·전송·접수·도착·인계는 별개다.
+- Local Asta400/600/700. 기본 body1.125rem·supporting .9375rem·label .875rem, 1800/2400px의 이산 rem profile과 사용자200% 확대를 유지한다. 일반 기준은18/15/14 CSS px이며 공식 물리 크기 token으로 해석하지 않는다.
+- background `#09090c`, surface `#18181c`, control `#303037`, text `#f4f4f8`, muted `#b6b6bf`, line `#37373f`; confirmed `#a7e3bf`, pending `#f2a541`, attention `#ffb39c`. 실제 값은 token source가 정본이다.
+- Render semantic call은 copper, safety/guide는 blue-violet. `response-surface-study-v1`의 과거 call/safety slot 값은 그대로 보관하고 `semanticSurfaces()`에서 역할을 연결한다.
+- Space4/8/12/16/24/32/40/48/56/64, shell32·card28·control16px radius. Vehicle64·명시적 mobile48 CSS px target, focus4px·offset4px.
+- Studio finish는 grain12%, size .8px, clumping12%, tone75%, seed303; CA1px·angle0. Text/icon을 material filter 밖에 유지하고 source shape clip과 fringe를 구분한다.
+- 공용 feedback160/state240/layout360ms. Flow material morph1200/calm1600/fade360ms는 별도 계층이다. Reduced motion과 숨겨진 spectrum 정지를 유지하며 critical 정보는 animation 완료를 기다리지 않는다.
 
 ## Layout 체계
 
-1. Response / Three cells: 차량 요약과 요청 현황을 기준점으로 두고, 통화·map·안내가 공유 접점에서 연결. 경계 4°, normal gap 16px, corner 28px. 접점 이동은 폭에 비례하되 최대 48px. 글자는 수평, slanted edge의 안쪽에 64px 여유 확보.
-2. Task / Workspace: 기록·검토·전송·차량 상세의 긴 내용은 중립 작업 surface에 배치. 차량에서는 맥락과 map을 함께 보이며, 내용 길이에 따라 자연스럽게 늘거나 명시적 content scrolling 사용.
-3. Compact / Mobile: 한 column의 자연스러운 읽기 순서. 실제 viewport와 200% text에 대응. 차량 화면을 통째로 축소해 mobile 제품 UI를 대신하지 않음.
+1. **Response / Three cells:** 상황·기관 상태·차량 행동·사용자 행동을 공용 component로 구성한다. 이전 고정1232×1152 flat canvas의 pixel 규칙과 현재 responsive document flow를 혼동하지 않는다.
+2. **Task / Workspace:** 기록·영상·도식·경위서·승인·상세의 실제 editor를 유지한다. 정상 wide 환경은 content-first slot과 내부 body scroll, 좁거나 큰 text 환경은 document profile을 사용한다.
+3. **대표 Flow:** 환경에서 host 높이/profile을 결정하고 editor slot을 먼저 예약한다. Surface만 움직이고 content width·variant는 필요한 경계에서 전환한다. 모든 shape를 수학적 Voronoi라고 주장하지 않는다.
+4. **Vehicle display:** 최대2560×1440·16:9 안에는 status·작업 pane·dock만 포함한다. 단계·이전/다음·시연 설정은 display 밖 sibling이며 열림 여부가 display 크기를 바꾸지 않는다. Mobile/200% text에16:9를 강제하지 않는다.
 
-기하학은 background shape만 제어하며 내용은 일반 document flow에 유지. ResizeObserver는 layout 결과를 읽어 shared boundary를 갱신. 미확인·오류·긴 문구가 shape 밖으로 밀리지 않도록 실제 text bounds 검증.
+DOM·draft·caret·scroll·미디어·IME의 마지막 관찰값을 보존하고119 core를 고정한다. 매 frame text 최대 rectangle 선택·글자 stretch·4000ms 강제 대기·content 위 sticky action으로 가리는 방식을 사용하지 않는다. OS IME 내부의 아직 노출되지 않은 후보 복원을 보장하지 않는다.
 
-## 공용 구조
+## 공용 구현과 preset
 
-- `src/design-system/tokens.css`: 시각·motion token 정본.
-- `src/design-system/surfaces.ts`: 기존 surface type·validation·preset read/write와 승인된 기본 finish. 기존 import 경로는 호환 re-export로 유지.
-- `src/design-system/SurfaceTheme.tsx`: 제품에 적용된 theme의 read/validate/save와 React context. 기존 editor draft와 다른 storage key 사용. Preview provider로 catalog/editor/제품의 동일 component에 다른 preset 주입.
-- `src/components/ui/after-care.tsx`: Surface, Button, Status, Heading, Spectrum, input 기본 표현. 기존 domain status는 adapter로 전달.
-- `src/components/ui/after-care-layout.tsx`: responsive VehicleShell, ResponseLayout, TaskLayout. Product와 catalog가 이 구현을 공유.
-- `src/design-system/DesignSystemCatalog.tsx`: token, component 상태, layout 및 실제 emergency/journey component preview.
-- `src/emergency/EmergencySurface.tsx`, `src/journey/JourneyLayout.tsx`: domain state·event를 공용 UI에 연결. 저장·승인·외부 결과 reducer는 기존 구현 유지.
+- `src/components/ui/after-care.tsx`, `after-care-layout.tsx`: 실제 제품·catalog가 공유하는 Surface/Action/Status/Spectrum·VehicleShell/TaskLayout/ResponseLayout.
+- `src/design-system/DesignSystemCatalog.tsx`: 별도 mock이 아닌 실제 component preview.
+- `src/design-system/SurfaceTheme.tsx`, `surfaces.ts`: validate·preset·제품 theme·같은 tab custom event/다른 tab storage event.
+- `src/emergency/EmergencySurface.tsx`, `src/journey/JourneyLayout.tsx`, `JourneyFlow.tsx`: 도메인을 공용 UI에 연결한다.
 
-Catalog가 별도의 mock component 모음이 되는 접근은 제외. 기존 전체 frontend 위에 CSS skin만 덧붙이는 접근도 제외. 공용 primitive와 layout으로 단계별 이동하는 방식 채택.
+위 `src/`는 `prototype/web/src/` 기준이다. 단순 CSS skin이나 두 번째 component convention을 추가하지 않는다.
 
-## Preset과 제품 적용
+C·C_02와 draft는 기존 storage에 보존한다. 제품 적용은 별도 `after-care-theme-v1`에 명시적으로 저장한다. 오류 preset은 조용히 덮어쓰지 않고 오류·복구 선택을 제공한다. 이번 repair는 저장 key/schema나 preset을 재설계하지 않는다.
 
-`response-surface-study-v1`의 C·C_02와 draft는 기존 의미 그대로 유지. 승인된 제품 theme는 `after-care-theme-v1`에 따로 저장. Editor의 명시적 적용 동작으로만 제품 theme 변경. 같은 tab 및 다른 tab의 적용 결과를 제품·catalog가 구독. 잘못된 storage는 덮어쓰지 않으며 오류와 복구 선택 표시.
+## 안내·입력·시연 경계
 
-## 범위와 검증
+안내는 JaeGyu 사전 생성 MP3와 원고/hash metadata를 사용한다. 기본 scene 원고 외 실제 persistence·기관 상태를 반영한 resolver가 필요하다. API key는 repo/frontend에 넣지 않는다. 파일 부재는 정확한 원고·오류로 표시하되 필수 asset 없는 feature를 완료라고 하지 않는다.
 
-현재 functional 제품은 전체 journey와 emergency 검토 환경. Root는 전체 journey로 연결. 기존 focus/context·tools·response alternative는 과거 design 증거로 분리 보존. Catalog와 editor도 전역 공용 구현을 사용.
+사용자 마이크 녹음·실제 amplitude meter와 안내/통화 시연 spectrum은 다르다. 실제 STT·119 audio·기관 전송·차량 센서는 구현하지 않는다. 승인 snapshot·request identity·미확인/접수 semantics·IndexedDB 원자 저장은 presentation보다 우선한다.
 
-5 scenario·60 state, 8 journey fixture와 기록·영상·diagram·경위서·전송·후속 처리 전체 분기 적용. 기존 domain 검증에 새 design system/preset/layout/voice 검증 추가. Desktop 1440/1600/2560, mobile 360/393, 200% text, keyboard, reduced motion, contrast, overflow, 실제 browser screenshot, rendering 측정.
+## 검증과 완료
 
-재규 음성은 provider의 실제 생성 결과와 원고 hash를 manifest로 연결. API key는 frontend·repository에 포함하지 않음. 재생 실패·취소·화면 전환 시 겹침 방지. Code 검증 후 전체 흐름 및 주요 분기 영상을 생성하고 source commit·timeline·오디오 provenance 기록.
+기본 route는 전체 Journey, Emergency는5 scenario·60 state, Journey는8 fixture다. Catalog·editor·제품의 실제 import와 상태 전이를 대조한다. 긴 한국어·vehicle/mobile·200% text·keyboard·reduced motion·정상/실패/중단/복구를 실제 browser에서 확인한다.
 
-결과의 판단 근거: catalog와 제품의 공용 import, 전 상태 inventory의 실행 결과, 사용자 조작 E2E, screenshot·영상, PR의 diff와 required checks. 녹색 test만으로 시각 품질 완료를 주장하지 않음.
+과거 PASS·자동 전사·desktop rendering 수치를 현재 full gate·사람 청취·실차60fps로 승계하지 않는다. 전역 공통 음성 포함 최종 영상·사람 음성 평가·실차/AAOS 검증과 이번 repair의32개 수용 기준은 [completion](completion.md)에서 별개로 기록한다.

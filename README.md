@@ -2,7 +2,14 @@
 
 Figma 없이 원본 아이디어와 E2E flow를 확인·편집·저장하는 작업 공간이다. 현재 정본은 `project.json`이다.
 
-## 열기
+## 현재 앱과 정본
+
+- Web 기본 진입은 전체 여정 `/` 또는 `?study=journey`다. `?study=emergency`는 공유 JSON의 긴급 상황 storyboard이며 [실행·저장·시연 경계](prototype/web/README.md)를 따른다.
+- 공용 디자인 시스템은 catalog·제품이 같은 구현을 사용한다. 최신 display·조작 기준은 [Pleos display 문서](docs/design-system/pleos-display-and-controls.md), 누락 원문의 출처 정리는 [현행 시각 기준](docs/superpowers/specs/2026-11-12-figma-visual-contract.md)을 따른다. 후자는 사용자 승인 원문을 복원한 문서가 아니다.
+- [계약·신뢰성 복구 계획](docs/superpowers/plans/2026-11-12-contract-reliability-repair.md)은 Android·기록·안내·검증·문서 승계를 다룬다. 과거 PASS와 현재 실행 결과, 전체 디자인·영상 목표의 완료 여부를 구별한다.
+- 아래 Python editor는 원본 board 편집용이다. React 앱과 다른 실행 경로이며 `project.json` 저장은 Web 사고 기록 저장과 무관하다.
+
+## Local board 열기
 
 `Open Local Board.command`를 실행하고 **http://127.0.0.1:8765** 를 연다. Python 3.9 이상과 Node.js 22 이상이 필요하다. 추가 package 설치와 Figma sign-in은 필요하지 않다.
 
@@ -31,7 +38,7 @@ Undo/redo는 최대 25개 변경을 보관하며 page를 새로 열면 사라진
 | Image | 원본 bytes 18개와 SHA-256 |
 | 원형 | 공식 API의 전체 JSON, 두 page SVG, 복제 section SVG |
 | Comments | API 응답 0개 |
-| 과거 version history | 미확보. 현재 credential에 `file_versions:read` 권한이 없음 |
+| 과거 version history | 미확보. 이관 당시 credential에 `file_versions:read` 권한이 없었음 |
 | `.jam` | Save local copy를 실행했으나 내려받은 file은 검증하지 못함 |
 
 통합 page의 140개 object는 모두 원본 SVG 조각으로 표시한다. 원본 page는 686개 중 576개에 원본 SVG 조각을 대응했다. 복제 section의 110개는 API SVG의 node ID가 없어 raw geometry와 text로 다시 표시한다. 해당 section의 정확한 원형은 `assets/duplicate-26-549.svg`에 별도로 보존한다. 모든 826개 object의 원본 속성과 text는 JSON 대조를 통과했다.
@@ -66,9 +73,9 @@ Editor의 **검수 표시**로 분류를 표시하고 node를 선택하면 근�
 
 [Anti-UI-slop 조사](docs/research/anti-slop-stack.md)에는 design critique·art direction·reference 추출·component·browser 검증·Compose token 공유의 후보와 적용 범위를 정리하였다. [보완 source 조사](docs/research/anti-slop-tools-scout.md)는 추출·검증 도구의 실제 구현과 license를 확인한 기록이다.
 
-현재 검토 대상은 **[상황 spec + 시각 중심 storyboard](specs/emergency-experience/principles.md)**다. SC01–SC05 전체 5개 scenario, 60개 장면을 하나의 JSON manifest에서 읽는다. 차량 지원·기록·전송 승인·거절·보류·중단·복원까지 실행 가능한 Web prototype으로 구현했다. [검증 기록](prototype/web/evidence/emergency-complete/README.md)에 test와 화면 근거를 모았다. 실행 방법은 [web prototype README](prototype/web/README.md), 선행 네 도구 적용안은 [적용 기록](docs/reviews/design-tools/README.md)을 따른다. 긴급 상황에서의 이해도와 차량 실기 검증은 아직 수행하지 않았다.
+현재 Web 기본 검토 대상은 **전체 여정**이며 [상황 spec](specs/emergency-experience/principles.md)의 SC01–SC05 60개 장면도 `?study=emergency`에서 제공한다. 차량 지원·기록·전송 승인·거절·보류·중단·복원은 local 상태이며 실제 기관 연계가 아니다. [기존 검증 기록](prototype/web/evidence/emergency-complete/README.md)은 해당 시점의 증거로 보존한다. 현재 실행 방법은 [Web README](prototype/web/README.md), 선행 네 도구 적용안은 [역사 기록](docs/reviews/design-tools/README.md)을 따른다. 긴급 상황 이해도와 실차 검증은 미실시다.
 
-Native 재현으로 SC05 · 접수 미확인의 세 장면과 C · Satin을 Kotlin + Compose로 옮겼다. 실행 방법은 [Android PoC](prototype/android/README.md), web과의 비교는 [검토 기록](docs/reviews/cult-design-poc.md#task-3--compose-재현-2026-11-07)에 있다.
+Native에는 Kotlin + Compose SC05 PoC가 있다. 과거 세 장면·C Satin 재현과 21개 검사 결과는 당시의 기록이며 현재 공유 manifest 호환성의 증거가 아니다. 현행 구현·실행 범위는 [Android README](prototype/android/README.md), 복구 수용 기준은 [계약 스펙](docs/superpowers/specs/2026-11-12-contract-reliability-repair-design.md)을 따른다.
 
 ## Git과 확인
 

@@ -2,12 +2,12 @@ import { useEffect, useImperativeHandle, useRef, useState, type Ref } from 'reac
 import { FileText, X } from 'lucide-react'
 import { JourneyAction, JourneyStatus } from './JourneyLayout'
 import { ClipPlayer } from './ClipPlayer'
-import { evidenceForReference, LIMITS, type CaseCommand, type Evidence, type EvidenceReference, type JourneyCase, type ReportParagraph } from './case'
+import { evidenceForReference, LIMITS, type CaseCommand, type CommitResult, type Evidence, type EvidenceReference, type JourneyCase, type ReportParagraph } from './case'
 import { openEvidence } from './evidence-media'
 import './report.css'
 
 const kinds = { observation: '자료 관측', statement: '사용자 진술', inference: '추정', unknown: '미확인' }
-type Draft = { id: string; text: string; references: EvidenceReference[] }
+type Draft = { id: string; text: string; references: EvidenceReference[]; isNew: boolean }
 
 export function EvidenceView({ caseId, evidence, reference, onFailure }: { caseId: string; evidence: Evidence | null; reference: EvidenceReference; onFailure: () => void }) {
   const [media, setMedia] = useState<{ blob: Blob; url: string } | null>(null)
@@ -41,15 +41,18 @@ export function EvidenceView({ caseId, evidence, reference, onFailure }: { caseI
   </section>
 }
 
-export type ReportPanelHandle = { preserveDraft: () => void }
-export function ReportPanel({ value, onCommand, active = true, onDirtyChange, ref }: {
-  value: JourneyCase; onCommand: (command: CaseCommand) => void; active?: boolean; onDirtyChange?: (dirty: boolean) => void
+export type ReportPanelHandle = { preserveDraft: () => void; recoveryCommand: () => CaseCommand | null }
+export function ReportPanel({ value, onCommand, reloadVersion = 0, active = true, onDirtyChange, ref }: {
+  value: JourneyCase; onCommand: (command: CaseCommand) => Promise<CommitResult>; reloadVersion?: number; active?: boolean; onDirtyChange?: (dirty: boolean) => void
   ref?: Ref<ReportPanelHandle>
 }) {
   const [draft, setDraft] = useState<Draft | null>(null)
   const [drawer, setDrawer] = useState<string | null>(null)
   const [checking, setChecking] = useState<string | null>(null)
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const [saving, setSaving] = useState(false)
+  const [message, setMessage] = useState('')
+  const savingDraft = useRef(false)
   const panel = useRef<HTMLElement>(null)
   const dialog = useRef<HTMLDialogElement>(null)
   const trigger = useRef<HTMLButtonElement | null>(null)
@@ -58,10 +61,16 @@ export function ReportPanel({ value, onCommand, active = true, onDirtyChange, re
   const paragraphs = value.report?.paragraphs ?? []
   const selected = paragraphs.find(p => p.id === drawer)
   const dirty = draft !== null
+  function recoveryCommand(): Extract<CaseCommand, { type: 'paragraph-edit' }> | null {
+    if (!draft) return null
+    const text = panel.current?.querySelector('textarea')?.value ?? draft.text
+    return { type: 'paragraph-edit', id: draft.id, references: draft.references, text }
+  }
   useImperativeHandle(ref, () => ({ preserveDraft: () => {
-    const input = panel.current?.querySelector('textarea')
-    if (draft && input && input.value !== draft.text) setDraft({ ...draft, text: input.value })
-  } }))
+    const command = recoveryCommand()
+    if (command?.type === 'paragraph-edit' && draft && command.text !== draft.text) setDraft({ ...draft, text: command.text })
+  }, recoveryCommand }))
+  useEffect(() => { setDraft(null); setMessage('') }, [reloadVersion])
   useEffect(() => { onDirtyChange?.(dirty) }, [dirty, onDirtyChange])
   useEffect(() => {
     if (!dirty) return
@@ -94,11 +103,32 @@ export function ReportPanel({ value, onCommand, active = true, onDirtyChange, re
     } catch { if (current.current.id === source.id) failed(paragraph) }
     finally { setChecking(null) }
   }
+  async function saveDraft() {
+    const command = recoveryCommand()
+    if (!command || savingDraft.current) return
+    savingDraft.current = true; setSaving(true); setMessage('')
+    try {
+      const result = await onCommand(command)
+      if (!result.ok) {
+        setMessage(result.rejection === 'paragraph-limit'
+          ? `경위서는 ${LIMITS.reportParagraphs}문장까지 남길 수 있어요. 기존 문장을 수정하거나 제외해주세요.`
+          : result.rejection ? '문장을 저장할 수 없어요. 입력 내용을 확인해주세요.'
+          : '저장하지 못했어요. 정정 내용은 이 화면에 남아 있어요.')
+        panel.current?.querySelector('textarea')?.focus({ preventScroll: true })
+        return
+      }
+      panel.current?.focus(); setDraft(null)
+      setErrors(previous => { const next = { ...previous }; delete next[command.id]; return next })
+    } catch {
+      setMessage('저장하지 못했어요. 정정 내용은 이 화면에 남아 있어요.')
+      panel.current?.querySelector('textarea')?.focus({ preventScroll: true })
+    } finally { savingDraft.current = false; setSaving(false) }
+  }
   function editor() {
     if (!draft) return null
     const references = paragraphs.find(p => p.id === draft.id)?.references ?? []
     return <div className="journey-report-editor">
-      <label htmlFor={`report-edit-${draft.id}`}>문장 내용</label><textarea id={`report-edit-${draft.id}`} autoFocus value={draft.text} maxLength={LIMITS.statementLength} onChange={event => setDraft({ ...draft, text: event.target.value })} />
+      <label htmlFor={`report-edit-${draft.id}`}>문장 내용</label><textarea id={`report-edit-${draft.id}`} autoFocus value={draft.text} readOnly={saving} maxLength={LIMITS.statementLength} onChange={event => setDraft({ ...draft, text: event.target.value })} />
       <span className="journey-supporting">{draft.text.length} / {LIMITS.statementLength}</span>
       {references.map((reference, index) => <label className="journey-report-reference-choice" key={index}>
         <input type="checkbox" checked={draft.references.some(item => JSON.stringify(item) === JSON.stringify(reference))} onChange={event => setDraft({ ...draft,
@@ -106,19 +136,16 @@ export function ReportPanel({ value, onCommand, active = true, onDirtyChange, re
         })} />
         {value.evidence.find(e => e.id === reference.evidenceId)?.label ?? '확보하지 못한 자료'} 포함
       </label>)}
-      <JourneyAction disabled={!draft.text.trim()} onClick={() => {
-        panel.current?.focus()
-        onCommand({ type: 'paragraph-edit', ...draft })
-        setErrors(previous => { const next = { ...previous }; delete next[draft.id]; return next })
-        setDraft(null)
-      }}>정정 저장</JourneyAction>
-      <JourneyAction secondary onClick={() => { panel.current?.focus(); setDraft(null) }}>정정 취소</JourneyAction>
+      {message && <p role="status" className="journey-report-error">{message}</p>}
+      <JourneyAction disabled={saving || !draft.text.trim()} onClick={() => void saveDraft()}>{saving ? '정정 저장 중' : '정정 저장'}</JourneyAction>
+      <JourneyAction secondary disabled={saving} onClick={() => { panel.current?.focus(); setDraft(null); setMessage('') }}>정정 취소</JourneyAction>
     </div>
   }
   return <section ref={panel} tabIndex={-1} className="journey-report" aria-label="경위서 검토">
     <header className="journey-report-heading"><FileText aria-hidden="true" /><div><h2>내용을 한 문장씩 확인해주세요</h2><p className="journey-supporting">추정과 미확인은 확인한 뒤에도 그대로 표시돼요.</p></div></header>
     {!paragraphs.length && <p className="journey-supporting">아직 작성된 경위서가 없어요.</p>}
     {paragraphs.map((paragraph, index) => {
+      if (draft?.isNew && draft.id === paragraph.id) return null
       const broken = paragraph.references.some(reference => !evidenceForReference(value, reference))
       const original = value.reportHistory.flatMap(report => report.paragraphs).find(p => p.id === paragraph.id)
       const corrected = original && original.text !== paragraph.text
@@ -133,15 +160,16 @@ export function ReportPanel({ value, onCommand, active = true, onDirtyChange, re
           {(broken || errors[paragraph.id]) && <p className="journey-report-error" role="status">근거를 열 수 없어요</p>}
           <div className="journey-report-tools">
             {paragraph.references.length > 0 && <button type="button" onClick={event => { trigger.current = event.currentTarget; setDrawer(paragraph.id) }}>근거 보기</button>}
-            <button type="button" disabled={dirty || checking !== null} onClick={() => setDraft({ id: paragraph.id, text: paragraph.text, references: structuredClone(paragraph.references) })}>정정하기</button>
+            <button type="button" disabled={dirty || checking !== null} onClick={() => { setMessage(''); setDraft({ id: paragraph.id, text: paragraph.text, references: structuredClone(paragraph.references), isNew: false }) }}>정정하기</button>
             <button type="button" disabled={dirty || checking !== null} onClick={() => { panel.current?.focus(); onCommand({ type: 'paragraph-remove', id: paragraph.id }) }}>문장 제외</button>
           </div>
           {paragraph.confirmedRevision !== paragraph.revision && <JourneyAction secondary disabled={dirty || checking !== null || broken} onClick={event => { event.currentTarget.closest('article')?.focus(); void confirm(paragraph) }}>{checking === paragraph.id ? '근거 확인 중' : '문장 확인'}</JourneyAction>}
         </>}
       </article>
     })}
-    {draft && !paragraphs.some(p => p.id === draft.id) && editor()}
-    <JourneyAction secondary disabled={dirty || checking !== null} onClick={() => setDraft({ id: crypto.randomUUID(), text: '', references: [] })}>문장 추가</JourneyAction>
+    {draft && (draft.isNew || !paragraphs.some(p => p.id === draft.id)) && editor()}
+    <p className="journey-supporting" role="status">경위서 {paragraphs.length} / {LIMITS.reportParagraphs}문장{paragraphs.length >= LIMITS.reportParagraphs ? ' · 문장 추가 한도에 도달했어요. 기존 문장은 수정하거나 제외할 수 있어요.' : ''}</p>
+    <JourneyAction secondary disabled={dirty || checking !== null || paragraphs.length >= LIMITS.reportParagraphs} onClick={() => { setMessage(''); setDraft({ id: crypto.randomUUID(), text: '', references: [], isNew: true }) }}>문장 추가</JourneyAction>
     {value.pendingReport && <details className="journey-report-candidate"><summary>새 초안 비교</summary>
       <p className="journey-supporting">현재 내용은 교체하기 전까지 유지돼요. 교체한 뒤에는 다시 확인해주세요.</p>
       {value.pendingReport.basedOnRevision !== value.contentRevision && <p role="status">최근 정정 내용이 반영되지 않은 초안이에요.</p>}

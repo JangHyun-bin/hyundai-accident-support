@@ -52,6 +52,8 @@ test('SC04 refusal and defer persist, scope edits require explicit new consent',
   await page.reload(); await at(page, 'paused')
   await expect(status(page, 'rescue')).toHaveText('접수 확인')
   await expect(status(page, 'insurance')).toHaveText('전송 거절')
+  await expect(root(page)).toContainText('보험사에 보내지 않았어요')
+  await expect(root(page)).not.toContainText('전송을 보류했어요')
   await touch(page, '남은 지원 확인'); await touch(page, '보험사 전송 다시 검토')
   await page.getByLabel('사고 위치', { exact: true }).uncheck()
   await touch(page, '나중에 보내기'); await at(page, 'deferred')
@@ -138,6 +140,8 @@ test('empty scope and record blocked; malformed and unavailable storage handled'
   await page.locator('#accident-record').fill('현재 화면의 기록')
   await touch(page, '기록 저장')
   await expect(root(page).getByRole('heading', { name: '기기에 저장하지 못했어요' })).toBeVisible()
+  await expect(root(page)).toContainText('입력한 내용은 현재 화면에만 남아 있어요')
+  await expect(root(page)).not.toContainText('기록은 이 기기에 보관돼요')
   await expect(root(page)).toContainText('현재 화면에서만 유지')
 })
 

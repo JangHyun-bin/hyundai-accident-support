@@ -38,7 +38,7 @@
   - 흑백으로 보아도 상태 symbol과 label이 남아야 한다.
 - 반복 점멸과 장식 entrance는 쓰지 않는다. 빛은 위에서 오는 방향으로 고정하며 움직이지 않는다.
 - Icon grid는 Pleos의 48 dp다.
-- Icon은 `기존 flat` / `C · Satin` 전환과 무관하게 같다. [`emergency-satin.spec.ts`](../../../prototype/web/tests/emergency-satin.spec.ts)는 표면을 전환해도 글자·색·크기가 같은지 검사한다.
+- Icon은 `기존 flat` / `C · Satin` 전환과 무관하게 같다. 당시 `prototype/web/tests/emergency-satin.spec.ts`가 이 계약을 검사했다. 2026-11-13 정정: 해당 검사는 현재 checkout에 없으며 이 설명은 과거 Satin 검토의 기록이다. 삭제된 파일을 현행 검사 링크로 제공하지 않는다.
 - Compose의 minSdk는 28이다. Icon 렌더는 `RuntimeShader`(API 33+)에 의존하지 않는다. Satin이 꺼진 기기에서도 icon은 같은 모습이어야 한다.
 
 ## Glyph set

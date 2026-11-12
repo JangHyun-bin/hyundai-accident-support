@@ -1,0 +1,34 @@
+{
+  "requests": 4,
+  "codepoints": 251,
+  "scripts": [
+    {
+      "script": "기록을 이 기기에 저장하지 못했어요. 입력한 내용은 현재 화면에만 남아 있어요. 화면을 닫으면 사라져요.",
+      "scriptHash": "36ca20f656f0891f525f5b711cfe798a22a547ee2a5a64a6c911363e4a881a51",
+      "sources": [
+        "emergency/record_storage_failed"
+      ]
+    },
+    {
+      "script": "전송을 보류했어요. 기록을 이 기기에 저장하지 못해 현재 화면에만 남아 있어요. 구호·차량 지원은 계속 진행돼요.",
+      "scriptHash": "278195afdab09552a8d8fc628f8ace05fce9d2fb399b2c836d51dd43e5c6c278",
+      "sources": [
+        "emergency/deferred_storage_failed"
+      ]
+    },
+    {
+      "script": "보험 접수는 아직 확인되지 않았어요. 전송과 접수는 별도로 확인해요. 구호·차량 지원은 계속 진행돼요.",
+      "scriptHash": "e5d2c3f92537a8cf95c9f5c91e587a15a27876076ae52e48117ea1562ba5376b",
+      "sources": [
+        "emergency/insurance_unconfirmed"
+      ]
+    },
+    {
+      "script": "보험 접수가 되지 않은 것을 확인했어요. 다시 보내려면 전송 범위를 확인하고 새로 승인해 주세요. 구호·차량 지원은 계속 진행돼요.",
+      "scriptHash": "45526d30601473677e2143b2644838ba5cab7935f007e00a90b7ea36ef24a483",
+      "sources": [
+        "emergency/insurance_not_received"
+      ]
+    }
+  ]
+}

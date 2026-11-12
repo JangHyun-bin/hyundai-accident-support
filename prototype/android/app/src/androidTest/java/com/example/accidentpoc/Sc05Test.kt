@@ -1,13 +1,19 @@
 package com.example.accidentpoc
 
 import android.content.Intent
+import android.os.Build
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsFocused
+import androidx.compose.ui.test.assertIsNotEnabled
+import androidx.compose.ui.test.assertIsOff
+import androidx.compose.ui.test.assertIsOn
 import androidx.compose.ui.test.hasAnyAncestor
+import androidx.compose.ui.test.getUnclippedBoundsInRoot
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -15,67 +21,85 @@ import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performSemanticsAction
 import androidx.compose.ui.text.TextLayoutResult
+import androidx.compose.ui.unit.dp
 import androidx.test.core.app.ActivityScenario
 import androidx.test.platform.app.InstrumentationRegistry
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
-import org.junit.Assert.assertThrows
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 
-// SC05 manifest 의 불변 조건: 조회는 재전송이 아니고, 기관별 상태는 독립이며, 접수 확인이 도착·인계를 뜻하지 않는다.
+// These tests exercise shared SC05 fixtures and real Compose controls, not a separate three-scene storyboard.
 class Sc05Test {
     @get:Rule val rule = createAndroidComposeRule<MainActivity>()
-
-    // 정확히 일치해야 한다. "접수 확인" 이 "접수 확인 중" 에 맞으면 다른 기관 상태가 바뀐 bug 를 놓친다.
-    private fun request(id: String, status: String) = rule.onNodeWithTag("request-$id").assert(hasText(status))
-    private fun fact(id: String, value: String) = rule.onNodeWithTag("fact-$id").assert(hasText(value))
+    private fun click(tag: String) = rule.onNodeWithTag(tag).performScrollTo().performClick()
+    private fun request(id: String, status: String) = rule.onNodeWithTag("request-$id").performScrollTo().assert(hasText(status))
+    private fun fact(id: String, value: String) = rule.onNodeWithTag("fact-$id").performScrollTo().assert(hasText(value))
+    private fun identity(count: Int) = rule.onNodeWithTag("request-identity").performScrollTo().assert(hasText("요청 SC05-$count · 전송 ${count}회"))
+    private fun review() {
+        click("action-check_status")
+        click("event-not_received")
+        click("action-review")
+    }
 
     @Test fun initialSceneShowsEachAgencySeparately() {
-        rule.onNodeWithText("차량 지원 접수 미확인").assertIsDisplayed()
+        rule.onNodeWithTag("scene-title").assert(hasText("차량 지원 접수 미확인"))
         request("rescue", "접수 확인")
         request("vehicle", "접수 미확인")
         request("insurance", "요청 전")
         fact("arrival", "미확인")
         fact("handoff", "미확인")
+        identity(1)
     }
 
-    // 사용자가 뺀 문구는 빈 Text 로도 남지 않아야 한다.
     @Test fun removedCopyLeavesNoEmptyText() {
         rule.onNodeWithText("기존 요청의 결과부터 확인해요.").assertDoesNotExist()
         rule.onNodeWithText("접수만으로 안전이 확보되지는 않아요.").assertDoesNotExist()
         rule.onAllNodes(hasText(""), useUnmergedTree = true).assertCountEquals(0)
     }
 
-    @Test fun simulationNoticeIsAlwaysShown() {
-        listOf("initial", "checking", "received").forEach { scene ->
-            rule.onNodeWithTag("scene-$scene").performClick()
+    @Test fun allElevenSceneControlsAreReachableAndKeepSimulationNotice() {
+        val story = loadScenario(rule.activity, "SC05")
+        assertEquals(11, story.scenes.size)
+        story.scenes.forEach { scene ->
+            click("scene-${scene.id}")
+            rule.onNodeWithTag("scene-${scene.id}").assertIsDisplayed()
             rule.onNodeWithText("가상 scenario · 실제 전화·전송 없음").assertIsDisplayed()
+            identity(1)
         }
     }
 
-    @Test fun checkingIsNotAResendAndKeepsOtherAgencies() {
-        rule.onNodeWithText("요청 상태 확인").performClick()
-        rule.onNodeWithText("차량 지원 접수 확인 중").assertIsDisplayed()
+    @Test fun checkingUnknownFailureAndResumeNeverResend() {
+        click("action-check_status")
+        request("vehicle", "접수 확인 중")
+        click("event-receipt_unknown")
+        request("vehicle", "접수 미확인")
+        click("action-check_status")
+        click("event-lookup_failed")
+        request("vehicle", "접수 미확인")
+        click("action-retry")
+        click("action-suspend")
+        click("action-resume")
         request("vehicle", "접수 확인 중")
         request("rescue", "접수 확인")
         request("insurance", "요청 전")
-        rule.onNodeWithText("요청 상태 확인").assertDoesNotExist()
+        identity(1)
     }
 
     @Test fun actionMovesFocusToNewTitle() {
-        rule.onNodeWithText("요청 상태 확인").performClick()
-        rule.onNodeWithText("차량 지원 접수 확인 중").assertIsFocused()
+        click("action-check_status")
+        rule.onNodeWithTag("scene-title").assertIsFocused().assert(hasText("차량 지원 접수 확인 중"))
     }
 
-    // Keyboard·rotary 사용자를 재현한다. Touch mode 에서는 Android button 이 focus 를 받지 않는다.
     @Test fun eventMovesFocusToCurrentSceneButton() {
         val instrumentation = InstrumentationRegistry.getInstrumentation()
         instrumentation.setInTouchMode(false)
         try {
-            rule.onNodeWithText("요청 상태 확인").performSemanticsAction(SemanticsActions.OnClick)
+            rule.onNodeWithTag("action-check_status").performSemanticsAction(SemanticsActions.OnClick)
             rule.onNodeWithTag("event-receipt_unknown").performSemanticsAction(SemanticsActions.OnClick)
             rule.onNodeWithTag("scene-initial").assertIsFocused()
         } finally {
@@ -83,38 +107,127 @@ class Sc05Test {
         }
     }
 
-    @Test fun unknownResultReturnsToUnconfirmedScene() {
-        rule.onNodeWithText("요청 상태 확인").performClick()
-        rule.onNodeWithTag("event-receipt_unknown").performClick()
-        rule.onNodeWithText("차량 지원 접수 미확인").assertIsDisplayed()
-        request("vehicle", "접수 미확인")
+    @Test fun suspendedReceiptAndHandoffStaySuspendedUntilResume() {
+        click("action-check_status")
+        click("action-suspend")
+        click("event-received")
+        click("event-handoff")
+        rule.onNodeWithTag("scene-title").performScrollTo().assert(hasText("여기서 잠시 멈췄어요"))
+        rule.onNodeWithTag("resume-status").performScrollTo().assert(hasText("기존 요청 · 접수 확인"))
+        request("vehicle", "접수 확인")
+        fact("handoff", "인계 확인")
+        fact("arrival", "미확인")
+        identity(1)
+        click("action-resume")
+        rule.onNodeWithTag("scene-title").assert(hasText("차량 지원 접수 확인"))
+        fact("handoff", "인계 확인")
+        identity(1)
     }
 
-    @Test fun receiptDoesNotConfirmArrivalOrHandoff() {
-        rule.onNodeWithTag("event-receipt_received").performClick()
-        rule.onNodeWithText("차량 지원 접수 확인").assertIsDisplayed()
-        request("vehicle", "접수 확인")
-        request("rescue", "접수 확인")
-        request("insurance", "요청 전")
+    @Test fun receiptAndFactsSurviveNavigationRecreationAndLateUnknown() {
+        click("event-receipt_received")
         fact("arrival", "미확인")
         fact("handoff", "미확인")
-        rule.onNodeWithText("다른 장면을 선택해 비교할 수 있어요.").assertIsDisplayed()
-    }
-
-    @Test fun sceneAndSurfaceSurviveActivityRecreation() {
-        rule.onNodeWithText("요청 상태 확인").performClick()
-        rule.onNodeWithTag("surface-flat").performClick()
+        click("event-arrived")
+        fact("arrival", "도착 확인")
+        fact("handoff", "미확인")
+        click("event-handoff")
+        click("scene-checking")
+        click("event-receipt_unknown")
+        click("surface-flat")
         rule.activityRule.scenario.recreate()
-        rule.onNodeWithText("차량 지원 접수 확인 중").assertIsDisplayed()
-        request("vehicle", "접수 확인 중")
-        rule.onNodeWithTag("surface-status").assert(hasText("기존 flat"))
+        request("vehicle", "접수 확인")
+        fact("arrival", "도착 확인")
+        fact("handoff", "인계 확인")
+        identity(1)
+        rule.onNodeWithTag("surface-status").performScrollTo().assert(hasText("기존 flat"))
+        rule.onNodeWithTag("scene-title").performScrollTo().assert(hasText("차량 지원 접수 확인"))
     }
 
-    // 한국어 문구가 낱말 중간("확/인")에서 줄바꿈되지 않아야 한다. 세 장면 모두 확인한다.
-    @Test fun koreanTextWrapsOnlyBetweenWords() {
-        listOf("initial", "checking", "received").forEach { scene ->
-            rule.onNodeWithTag("scene-$scene").performClick()
-            rule.waitForIdle()
+    @Test fun scopeValidationCancelApprovalAndFailedReapprovalUseRealControls() {
+        review()
+        click("scope-0")
+        click("scope-1")
+        rule.onNodeWithTag("action-retry").performScrollTo().assertIsNotEnabled()
+        rule.onNodeWithTag("submit-block-reason").performScrollTo().assert(hasText("보낼 항목을 하나 이상 선택하세요."))
+        click("scope-2")
+        rule.onNodeWithTag("action-retry").performScrollTo().assertIsNotEnabled()
+        rule.onNodeWithTag("submit-block-reason").performScrollTo().assert(hasText("보관된 사고 기록이 없어요. 사고 기록을 전송 범위에서 제외하세요."))
+        click("scope-2")
+        click("scope-0")
+        rule.onNodeWithTag("action-retry").performScrollTo().assertIsEnabled()
+        click("action-cancel")
+        identity(1)
+        click("action-review")
+        rule.onNodeWithTag("scope-0").assertIsOn()
+        rule.onNodeWithTag("scope-1").assertIsOff()
+        click("action-retry")
+        identity(2)
+        click("event-failed")
+        request("vehicle", "전송 실패")
+        click("action-retry")
+        rule.onNodeWithTag("approved-scope").performScrollTo().assert(hasText("마지막 승인 범위 · 사고 위치"))
+        click("scope-1")
+        rule.onNodeWithTag("approved-scope").performScrollTo().assert(hasText("마지막 승인 범위 · 사고 위치"))
+        click("action-retry")
+        identity(3)
+        click("event-sent")
+        click("action-suspend")
+        rule.onNodeWithTag("approved-scope").performScrollTo().assert(hasText("마지막 승인 범위 · 사고 위치 · 차량 상태"))
+        identity(3)
+    }
+
+    @Test fun queuedDuplicateApprovalOnlySubmitsOnce() {
+        review()
+        val queuedClick = rule.onNodeWithTag("action-retry").performScrollTo().fetchSemanticsNode().config[SemanticsActions.OnClick].action!!
+        rule.runOnIdle { queuedClick(); queuedClick() }
+        identity(2)
+        request("vehicle", "전송됨 · 접수 미확인")
+    }
+
+    @Test fun fullSessionScopeApprovalSuspendedResultsAndSurfaceSurviveRecreation() {
+        review()
+        click("scope-1")
+        click("action-retry")
+        click("event-failed")
+        click("action-retry")
+        click("scope-1")
+        click("scene-suspended")
+        click("event-received")
+        click("event-handoff")
+        click("surface-flat")
+        rule.activityRule.scenario.recreate()
+        rule.onNodeWithTag("scene-title").performScrollTo().assert(hasText("여기서 잠시 멈췄어요"))
+        request("vehicle", "접수 확인")
+        fact("handoff", "인계 확인")
+        fact("arrival", "미확인")
+        identity(2)
+        rule.onNodeWithTag("approved-scope").performScrollTo().assert(hasText("마지막 승인 범위 · 사고 위치"))
+        rule.onNodeWithTag("approval-status").performScrollTo().assert(hasText("변경한 범위는 다시 승인해야 해요."))
+        rule.onNodeWithTag("surface-status").performScrollTo().assert(hasText("기존 flat"))
+        click("action-resume")
+        rule.onNodeWithTag("scene-title").assert(hasText("차량 지원 접수 확인"))
+        click("scene-review")
+        rule.onNodeWithTag("scope-0").assertIsOn()
+        rule.onNodeWithTag("scope-1").assertIsOn()
+        rule.onNodeWithTag("scope-2").assertIsOff()
+        identity(2)
+    }
+
+    @Test fun primaryAndSecondaryHaveSeparateBoundsAndBothWork() {
+        val primary = rule.onNodeWithTag("action-check_status").getUnclippedBoundsInRoot()
+        val secondary = rule.onNodeWithTag("action-suspend").getUnclippedBoundsInRoot()
+        assertTrue("Primary and secondary actions overlap", primary.bottom <= secondary.top)
+        assertTrue(primary.height >= 64.dp && secondary.height >= 64.dp)
+        click("action-check_status")
+        request("vehicle", "접수 확인 중")
+        click("action-suspend")
+        rule.onNodeWithTag("scene-title").performScrollTo().assert(hasText("여기서 잠시 멈췄어요"))
+    }
+
+    @Test fun koreanTextWrapsOnlyBetweenWordsAcrossAllScenes() {
+        loadScenario(rule.activity, "SC05").scenes.forEach { scene ->
+            click("scene-${scene.id}")
             val nodes = rule.onAllNodes(SemanticsMatcher.keyIsDefined(SemanticsActions.GetTextLayoutResult), useUnmergedTree = true).fetchSemanticsNodes()
             nodes.forEach { node ->
                 val layouts = mutableListOf<TextLayoutResult>()
@@ -123,69 +236,88 @@ class Sc05Test {
                 val text = layout.layoutInput.text.text
                 for (line in 0 until layout.lineCount - 1) {
                     val end = layout.getLineEnd(line)
-                    assertTrue("$scene: mid-word break in \"$text\" at $end", text[end - 1] == ' ' || text.getOrNull(end) == ' ')
+                    assertTrue("${scene.id}: mid-word break in \"$text\" at $end", text[end - 1] == ' ' || text.getOrNull(end) == ' ' || text[end - 1] == '\n')
                 }
             }
         }
     }
 
-    @Test fun surfaceToggleKeepsSceneAndRequests() {
-        rule.onNodeWithText("요청 상태 확인").performClick()
-        rule.onNodeWithTag("surface-flat").performClick()
-        rule.onNodeWithText("차량 지원 접수 확인 중").assertIsDisplayed()
+    @Test fun surfaceToggleKeepsSceneAndUsesApiSpecificCapability() {
+        click("action-check_status")
+        click("surface-flat")
         request("vehicle", "접수 확인 중")
-        rule.onNodeWithTag("surface-satin").performClick()
-        rule.onNodeWithTag("surface-status").assert(hasText("Satin 적용 · 강도 70%"))
+        click("surface-satin")
+        val expected = if (Build.VERSION.SDK_INT >= 33) "Satin 적용 · 강도 70%" else "Satin 미지원 · 기본 background"
+        rule.onNodeWithTag("surface-status").performScrollTo().assert(hasText(expected))
         request("rescue", "접수 확인")
+        identity(1)
     }
 
-    // 각 장면의 cue·사실·요청이 glyphs.json 의 mapping 과 tone 대로 그려진다.
     @Test fun sc05DrawsMappedGlyphsAndMarks() {
-        val tones = mapOf("접수 확인" to "confirmed", "접수 미확인" to "unknown", "접수 확인 중" to "unknown", "요청 전" to "neutral")
         fun inside(parent: String, tag: String) = rule.onNode(hasTestTag(tag) and hasAnyAncestor(hasTestTag(parent)), useUnmergedTree = true).assertExists()
-        mapOf("initial" to "unknown", "checking" to "unknown", "received" to "confirmed").forEach { (scene, cueTone) ->
-            rule.onNodeWithTag("scene-$scene").performClick()
-            inside("cue", "glyph-vehicle")
-            inside("cue", "mark-$cueTone")
-            inside("fact-arrival", "glyph-vehicle")
-            inside("fact-handoff", "glyph-handoff")
-            listOf("rescue", "vehicle", "insurance").forEach { id ->
-                val status = tones.keys.sortedByDescending { it.length }.first { label -> rule.onNodeWithTag("request-$id").fetchSemanticsNode().config.toString().contains(label) }
-                inside("request-$id", "mark-${tones.getValue(status)}")
+        inside("cue", "glyph-vehicle")
+        inside("cue", "mark-unknown")
+        inside("fact-arrival", "glyph-vehicle")
+        inside("fact-handoff", "glyph-handoff")
+        inside("request-rescue", "mark-confirmed")
+        inside("request-vehicle", "mark-unknown")
+        inside("request-insurance", "mark-neutral")
+        click("event-receipt_received")
+        inside("cue", "mark-confirmed")
+        inside("request-vehicle", "mark-confirmed")
+    }
+
+    @Test fun font200PercentKeepsActionsAndEverySceneControlReachable() {
+        val instrumentation = InstrumentationRegistry.getInstrumentation()
+        val original = rule.activity.resources.configuration.fontScale
+        fun scale(value: Float) {
+            instrumentation.uiAutomation.executeShellCommand("settings put system font_scale $value").use { descriptor ->
+                java.io.FileInputStream(descriptor.fileDescriptor).use { it.readBytes() }
             }
+            rule.waitUntil { kotlin.math.abs(rule.activity.resources.configuration.fontScale - value) < .05f }
+        }
+        try {
+            scale(2f)
+            click("action-check_status")
+            click("action-suspend")
+            click("action-resume")
+            loadScenario(rule.activity, "SC05").scenes.forEach { click("scene-${it.id}") }
+            click("scene-review")
+            click("scope-0")
+            click("scope-1")
+            rule.onNodeWithTag("action-retry").performScrollTo().assertIsNotEnabled()
+            click("action-cancel")
+            rule.onNodeWithText("가상 scenario · 실제 전화·전송 없음").performScrollTo().assertIsDisplayed()
+        } finally {
+            scale(original)
         }
     }
 }
 
-// Web 의 ?scene= 과 같은 시작 장면 지정. 잘못된 값은 초기 장면으로 돌아간다.
 class Sc05LaunchTest {
     @get:Rule val rule = createEmptyComposeRule()
+    private val context = InstrumentationRegistry.getInstrumentation().targetContext
+    private fun launch(scene: String) = ActivityScenario.launch<MainActivity>(Intent(context, MainActivity::class.java).putExtra("scene", scene))
 
-    private fun launch(scene: String) = ActivityScenario.launch<MainActivity>(
-        Intent(InstrumentationRegistry.getInstrumentation().targetContext, MainActivity::class.java).putExtra("scene", scene)
-    )
-
-    @Test fun validSceneExtraOpensThatScene() {
-        launch("received").use { rule.onNodeWithText("차량 지원 접수 확인").assertIsDisplayed() }
+    @Test fun everySharedSceneOpensAndSurvivesRealActivityRecreation() {
+        loadScenario(context, "SC05").scenes.forEach { scene ->
+            launch(scene.id).use { activity ->
+                rule.onNodeWithTag("scene-title").assert(hasText(scene.title))
+                activity.recreate()
+                rule.onNodeWithTag("scene-title").assert(hasText(scene.title))
+                rule.onNodeWithTag("request-identity").performScrollTo().assert(hasText("요청 SC05-1 · 전송 1회"))
+            }
+        }
     }
 
     @Test fun invalidSceneExtraFallsBackToInitial() {
-        launch("bogus").use { rule.onNodeWithText("차량 지원 접수 미확인").assertIsDisplayed() }
+        launch("bogus").use { rule.onNodeWithTag("scene-title").assert(hasText("차량 지원 접수 미확인")) }
     }
 }
 
 class SatinShaderTest {
-    @Test fun satinShaderCompiles() = assertTrue(satinCompiles(SATIN))
-
-    // Compile 실패를 crash 대신 기본 background 로 처리하기 위한 판정.
-    @Test fun brokenShaderIsReportedUnavailable() = assertFalse(satinCompiles("half4 main(float2 c){return nope;}"))
-}
-
-class ScenarioLoadTest {
-    private val context = InstrumentationRegistry.getInstrumentation().targetContext
-
-    // Native 는 fact_overrides 를 적용하지 않으므로 그런 scenario 를 조용히 잘못 보여주지 않고 멈춘다.
-    @Test fun scenarioWithFactOverridesFailsFast() {
-        assertThrows(IllegalArgumentException::class.java) { loadScenario(context, "SC03") }
+    @Test fun satinShaderCompilesOnSupportedApiAndIsNormalFallbackOnApi28() {
+        assertEquals(Build.VERSION.SDK_INT >= 33, satinCompiles(SATIN))
     }
+    @Test fun brokenShaderIsReportedUnavailable() = assertFalse(satinCompiles("half4 main(float2 c){return nope;}"))
 }

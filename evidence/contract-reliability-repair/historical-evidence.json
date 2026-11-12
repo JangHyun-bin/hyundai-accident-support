@@ -1,0 +1,41 @@
+{
+  "sourceManifest": "prototype/web/evidence/emergency-complete/source-sha256.json",
+  "purpose": "Historical evidence is not current verification. Compared before worker changes settle; not a product gate.",
+  "entries": [
+    {
+      "path": "specs/emergency-experience/scenarios.json",
+      "recordedHash": "fca9e26498ad7ca98f07da5f89ec66dc505802f47d87f655440b7baae89fc57d",
+      "matchesCurrent": false
+    },
+    {
+      "path": "specs/emergency-experience/glyphs.json",
+      "recordedHash": "310e428e7c1595874c966eeb482e4fb0f1613f0707f459075ff62fb8362490a6",
+      "matchesCurrent": true
+    },
+    {
+      "path": "prototype/web/src/emergency/session.ts",
+      "recordedHash": "25855c9e80cb1205747ed4e2370ef6a2abe3026c446fd94d5ff3a31c3075cfa6",
+      "matchesCurrent": false
+    },
+    {
+      "path": "prototype/web/src/emergency/WorkflowPanel.tsx",
+      "recordedHash": "2c2314cd96eef11f779afc6d9e9674dfc2b79a467c077f2fd134dbdd7f0a5a5d",
+      "matchesCurrent": false
+    },
+    {
+      "path": "prototype/web/src/emergency/EmergencyStudy.tsx",
+      "recordedHash": "b2df8bfd318a7b4945d35dfdc057d124a4e3b7ed95f5fa0b6b2f607a9704c4ff",
+      "matchesCurrent": false
+    },
+    {
+      "path": "prototype/web/src/emergency/emergency.css",
+      "recordedHash": "edb3ae6f69ac611ae166de25b609454279ebe61c57a9d7dce236b712367fc3cd",
+      "matchesCurrent": true
+    },
+    {
+      "path": "prototype/web/scripts/record-emergency-flow.mjs",
+      "recordedHash": "00876f3c10bfc9529f2d2273affef8609c7a183d6595515ec7b8a87b5b129643",
+      "matchesCurrent": false
+    }
+  ]
+}

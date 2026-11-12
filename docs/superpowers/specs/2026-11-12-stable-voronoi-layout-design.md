@@ -9,7 +9,7 @@
 ## 1. 근거와 적용 우선순위
 
 - 현재 구현 기준: `feat/journey-visual-integration`, `9a3b81e`. 직전 전체 검증 351/351 통과는 기능·저장·기본 가독성의 근거이며, 이번 motion 품질의 합격 근거로 재사용하지 않음.
-- [승인된 시각 기준](2026-11-12-figma-visual-contract.md): 색 역할, font, typography, touch target, 사용자 text 확대, material 보존의 정본.
+- [당시 참조한 시각 기준](2026-11-12-figma-visual-contract.md): 원래 문서는 색·font·type·touch·material의 “승인된 정본”으로 참조됐으나 원문은 확보하지 못했다. 2026-11-13 해당 경로를 **출처가 있는 현행 구현 기준**으로 재구성했다. 사용자 승인 원문 복원이나 새로운 세부 승인으로 간주하지 않는다.
 - [기존 단계·layout spec](2026-11-11-stage-layout-preview-design.md): Global 7단계, checklist, 통화·전송·접수 구분의 정본.
 - Figma 근거는 저장 snapshot `2026-11-11T12:47:35Z`. 이번 문서는 live Figma 대조 결과가 아님.
 - 본 문서 승인 시 기존 spec의 **매 frame 최대 content rectangle 선택, 내용 overflow에 따른 board 전체 stack 전환, 내용 위에 겹치는 sticky action bar, 사용자 작업을 기다리게 하는 geometry 시작 간격4000ms**를 대체. 기존 색·domain 상태·저장 규칙은 대체하지 않음.
