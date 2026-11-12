@@ -18,13 +18,13 @@ test.afterEach(async({page},info)=>{
 const click=async(page:Page,testId:string)=>page.getByTestId(testId).evaluate((node:HTMLButtonElement)=>node.click())
 const back=async(page:Page)=>page.getByRole('button',{name:'이전 단계',exact:true}).evaluate((node:HTMLButtonElement)=>node.click())
 async function frames(page:Page,count:number){
- return page.evaluate(count=>new Promise<{geometry:number[];path:string;visible:{id:string;opacity:number;inert:boolean}[];criticalOpacity:number;time:number}[]>(resolve=>{
-  const samples:{geometry:number[];path:string;visible:{id:string;opacity:number;inert:boolean}[];criticalOpacity:number;time:number}[]=[]
+ return page.evaluate(count=>new Promise<{geometry:number[];path:string;paths:string;visible:{id:string;opacity:number;inert:boolean}[];criticalOpacity:number;time:number}[]>(resolve=>{
+  const samples:{geometry:number[];path:string;paths:string;visible:{id:string;opacity:number;inert:boolean}[];criticalOpacity:number;time:number}[]=[]
   const sample=()=>{
    const board=document.querySelector<HTMLElement>('[data-testid=flow-board]')!,material=board.querySelector<HTMLElement>('[data-cell=emergency] .ac-material-frame')!,core=board.querySelector<HTMLElement>('.fs-call-core')!
    const left=parseFloat(material.style.left),top=parseFloat(material.style.top),path=material.dataset.shapePath!,numbers=(path.match(/-?\d+(?:\.\d+)?/g)??[]).map(Number)
    const opacity=(node:HTMLElement)=>{let value=1;for(let e:HTMLElement|null=node;e&&e!==board;e=e.parentElement)value*=Number(getComputedStyle(e).opacity);return value}
-   samples.push({geometry:numbers.map((n,index)=>n+(index%2?top:left)),path,criticalOpacity:opacity(core),visible:[...board.querySelectorAll<HTMLElement>('[data-cell-visible=true] .fs-cell-body')].map(body=>({id:body.closest<HTMLElement>('[data-cell]')!.dataset.cell!,opacity:opacity(body),inert:body.inert})),time:performance.now()})
+   samples.push({geometry:numbers.map((n,index)=>n+(index%2?top:left)),path,paths:[...board.querySelectorAll<HTMLElement>('.ac-material-frame')].map(node=>node.dataset.shapePath).join('/'),criticalOpacity:opacity(core),visible:[...board.querySelectorAll<HTMLElement>('[data-cell-visible=true] .fs-cell-body')].map(body=>({id:body.closest<HTMLElement>('[data-cell]')!.dataset.cell!,opacity:opacity(body),inert:body.inert})),time:performance.now()})
    if(samples.length<count)requestAnimationFrame(sample);else resolve(samples)
   };requestAnimationFrame(sample)
  }),count)
@@ -47,7 +47,7 @@ test('rapid NEXT and BACK retarget from the displayed geometry without an endpoi
  await click(page,'flow-primary');await click(page,'flow-primary')
  await expect(page.getByTestId('flow-board')).toHaveAttribute('data-moving','true')
  const outbound=await frames(page,42),current=outbound.at(-1)!
- expect(new Set(outbound.map(sample=>sample.path)).size).toBeGreaterThanOrEqual(10)
+ expect(new Set(outbound.map(sample=>sample.paths)).size).toBeGreaterThanOrEqual(10)
  expect(difference(initial.geometry,current.geometry)).toBeGreaterThan(20)
  const retarget=await page.evaluate(()=>new Promise<{before:number[];after:number[]}>(resolve=>requestAnimationFrame(()=>{
   const geometry=()=>{const material=document.querySelector<HTMLElement>('[data-cell=emergency] .ac-material-frame')!,left=parseFloat(material.style.left),top=parseFloat(material.style.top);return material.dataset.shapePath!.match(/-?\d+(?:\.\d+)?/g)!.map(Number).map((n,index)=>n+(index%2?top:left))}
@@ -65,12 +65,12 @@ test('rapid NEXT and BACK retarget from the displayed geometry without an endpoi
 test('driving during a morph keeps readable content and resumes without hidden cells',async({page},info)=>{
  await study(page);await click(page,'flow-primary');await click(page,'flow-primary')
  const moving=await frames(page,42)
- expect(new Set(moving.map(sample=>sample.path)).size).toBeGreaterThanOrEqual(10)
+ expect(new Set(moving.map(sample=>sample.paths)).size).toBeGreaterThanOrEqual(10)
  await page.getByRole('checkbox',{name:'주행 중 시연',exact:true}).evaluate((node:HTMLInputElement)=>node.click())
  await expect(page.getByTestId('flow-primary')).toBeDisabled()
  await expect(page.getByRole('button',{name:'통화 종료 시연',exact:true})).toBeEnabled()
  const paused=await frames(page,14)
- expect(new Set(paused.slice(2).map(sample=>sample.path)).size).toBe(1)
+ expect(new Set(paused.slice(2).map(sample=>sample.paths)).size).toBe(1)
  expect.soft(paused.at(-1)!.visible.every(body=>body.opacity>=.999&&!body.inert),'paused task content must remain readable').toBe(true)
  expect(Math.min(...paused.map(sample=>sample.criticalOpacity))).toBeGreaterThanOrEqual(.999)
  await page.getByRole('checkbox',{name:'주행 중 시연',exact:true}).evaluate((node:HTMLInputElement)=>node.click())
@@ -87,7 +87,7 @@ test('resize during the real Journey review morph commits a valid plan and retai
  await input.fill(note);const original=await input.elementHandle(),scene=await page.locator('.journey-flow-scene .ss-surface').elementHandle()
  await page.getByRole('button',{name:'기록 저장',exact:true}).click();await click(page,'journey-primary')
  const moving=await frames(page,42)
- expect(new Set(moving.map(sample=>sample.path)).size).toBeGreaterThanOrEqual(10)
+ expect(new Set(moving.map(sample=>sample.paths)).size).toBeGreaterThanOrEqual(10)
  await page.setViewportSize({width:1920,height:1080});await settle(page,'review')
  expect(await original!.evaluate((node:HTMLTextAreaElement)=>({connected:node.isConnected,value:node.value}))).toEqual({connected:true,value:note})
  expect(await scene!.evaluate(node=>node.isConnected)).toBe(true)

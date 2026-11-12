@@ -1,5 +1,5 @@
 import type {FlowFrame,FlowPlan,FlowShape,FlowShapeFrame} from './flow-contract'
-import {flowCells,insidePolygon,layoutPriority,layoutWeights,type CellId} from './flow-geometry'
+import {insidePolygon,layoutPriority,layoutWeights,type CellId} from './flow-geometry'
 import type {FlowLayout} from './flow-study-model'
 import {insetEdges,roundedPath,type Point,type SlotRect} from './split-geometry'
 
@@ -8,6 +8,8 @@ const emptySlot:SlotRect={left:0,top:0,width:0,height:0}
 const inset=8,padding=24,focusRing=4
 function area(polygon:Point[]):number{return Math.abs(polygon.reduce((sum,p,i)=>{const q=polygon[(i+1)%polygon.length];return sum+p[0]*q[1]-q[0]*p[1]},0))/2}
 function shapeFor(polygon:Point[],boardArea:number):FlowShape{
+ // 오른쪽 접점을 모든 cell에 유지해 사각형과 오각형 사이에도 vertex 대응 보존.
+ if(polygon.length===4)polygon=[polygon[0],polygon[1],[(polygon[1][0]+polygon[2][0])/2,(polygon[1][1]+polygon[2][1])/2],polygon[2],polygon[3]]
  const left=Math.min(...polygon.map(p=>p[0])),top=Math.min(...polygon.map(p=>p[1]))
  const bounds={left,top,width:Math.max(...polygon.map(p=>p[0]))-left,height:Math.max(...polygon.map(p=>p[1]))-top}
  return {polygon,bounds,path:roundedPath(polygon.map(([x,y])=>[x-left,y-top]),24),areaFraction:area(polygon)/boardArea}
@@ -33,13 +35,13 @@ export function createFlowPlan(layout:FlowLayout,width:number,height:number,fram
  const callHeight=Math.max(106*scale,frame.metrics.callLineHeight+2*frame.metrics.labelLineHeight+24*scale)
  const callTop=height-callHeight-2*padding,polygons:Partial<Record<CellId,Point[]>>={}
  if(frame.mode==='wide'){
-  const split=width*.66,tilt={detect:6,evacuate:4,safe:2,review:5,sending:3,calm:3}[layout]
-  const leftAt=(y:number)=>split+tilt*(1-y/height)
+  const split=width*.60,joint=height*.5,tip=split+width*.095
   const summaries=ids.filter(id=>id!==primary&&id!=='emergency'&&layoutWeights[layout][id]>=0)
-  polygons[primary]=[[0,0],[leftAt(0),0],[split,height],[0,height]]
+  const leftAt=(y:number)=>summaries.length?split+(tip-split)*(y<=joint?y/joint:(height-y)/(height-joint)):split+width*.10*(1-y/height)
+  polygons[primary]=summaries.length?[[0,0],[split,0],[tip,joint],[split,height],[0,height]]:[[0,0],[leftAt(0),0],[split,height],[0,height]]
   cells[primary].slot={left:padding,top:padding,width:split-2*padding,height:height-2*padding}
-  cells.emergency.slot={left:split+16,top:height-padding-callHeight,width:width-split-40,height:callHeight}
-  const boundaries=summaries.length?Array.from({length:summaries.length+1},(_,index)=>({left:(callTop-4)*index/summaries.length,right:(callTop-4)*index/summaries.length-(index?8:0)})):[]
+  cells.emergency.slot={left:width*.66+16,top:height-padding-callHeight,width:width*.34-40,height:callHeight}
+  const boundaries=summaries.length?Array.from({length:summaries.length+1},(_,index)=>({left:joint*index/summaries.length,right:(joint-Math.min(24,height*.02))*index/summaries.length})):[]
   summaries.forEach((id,index)=>{
    const top=boundaries[index],bottom=boundaries[index+1]
    polygons[id]=[[leftAt(top.left),top.left],[width,top.right],[width,bottom.right],[leftAt(bottom.left),bottom.left]]
@@ -54,12 +56,13 @@ export function createFlowPlan(layout:FlowLayout,width:number,height:number,fram
   cells[primary].slot={left:padding,top:padding,width:width-2*padding,height:callTop-2*padding}
   cells.emergency.slot={left:padding,top:height-padding-callHeight,width:width-2*padding,height:callHeight}
  }
- // 기존 power diagram을 먼저 평가하되 측정한 workspace와 고정 119 core가 들어갈 때만 사용.
- const candidate=frame.mode==='wide'?flowCells(layout,width,height).map(cell=>({...cell,...shapeFor(cell.polygon,width*height)})):[]
- const useCandidate=candidate.length===Object.values(polygons).length&&candidate.every(cell=>polygons[cell.id]&&cell.polygon.length===4&&containsSlot(cell,cells[cell.id].slot))
  for(const id of ids){
   const polygon=polygons[id];if(!polygon)continue
-  const shape=useCandidate?candidate.find(cell=>cell.id===id)!:shapeFor(insetEdges(polygon,polygon.map(()=>inset)),width*height)
+  const distances=polygon.map((p,index)=>{
+   const q=polygon[(index+1)%polygon.length]
+   return p[0]===q[0]&&(p[0]===0||p[0]===width)||p[1]===q[1]&&(p[1]===0||p[1]===height)?0:inset
+  })
+  const shape=shapeFor(insetEdges(polygon,distances),width*height)
   cells[id]={...cells[id],shape,visible:true,variant:id===primary?'full':'summary',scroll:id===primary}
  }
  const emergency=cells.emergency,number=(frame.metrics.callLineHeight/scale>=50?141:80)*scale
@@ -81,7 +84,7 @@ export function sampleFlowShapes(from:FlowShapeFrame,to:FlowShapeFrame,progress:
  return Object.fromEntries(ids.map(id=>{
   const source=from[id],target=to[id]
   if(!source&&!target)return [id,null]
-  const existing=(source??target)!,center:Point=[existing.polygon.reduce((sum,p)=>sum+p[0],0)/4,existing.polygon.reduce((sum,p)=>sum+p[1],0)/4]
+  const existing=(source??target)!,center:Point=[existing.polygon.reduce((sum,p)=>sum+p[0],0)/existing.polygon.length,existing.polygon.reduce((sum,p)=>sum+p[1],0)/existing.polygon.length]
   // 역할이 좌우로 바뀌면 119 core를 가로지르지 않도록 위쪽을 거쳐 이동.
   const direction=source&&target&&id!=='emergency'?Math.sign(target.bounds.left-source.bounds.left):0
   const early=1-(1-t)**4,late=t**4,tx=direction>0?late:direction<0?early:t,ty=direction>0?early:direction<0?late:t
