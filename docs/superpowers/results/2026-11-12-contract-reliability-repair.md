@@ -71,3 +71,5 @@ Android UI는 SC05의 11개 state 전체다. SC01–SC04는 parser 지원만 하
 ## 전역 목표와 승계
 
 [completion.md](../../../specs/after-care-system/completion.md)는 원래 goal의 각 항목과 repair32개를 분리한다. 누락 시각 계약은 [현행 구현 기준 재구성](../specs/2026-11-12-figma-visual-contract.md)이며 승인 원문 복원본이 아니다. 과거 PASS·영상·청취 체크를 최신 성공으로 재사용하지 않는다. 신규 전체 E2E 영상, 사람 청취, 실차 평가와 제품화 의사결정은 여전히 미완료다.
+
+[최종 문서·증거 독립 closure](../../../evidence/contract-reliability-repair/review/native-docs-closure.json)는 후보 `3e1b9f2`의 D05·원시 보존·source 연속성을 확인했다. 이후 status-only 문서 지문은 다시 검사하고 최종 게시 head/base·410개 동일 입력·32개 판정을 영구 PR 본문/comment로 연결한다. 이는 C01/C03/C05·E03의 미충족을 면제하거나 merge를 승인하지 않는다.

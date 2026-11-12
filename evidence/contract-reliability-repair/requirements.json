@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "scope": "contract-reliability-repair",
-  "updatedAt": "2026-11-12T20:16:56.781583+00:00",
+  "updatedAt": "2026-11-12T20:56:40.488679+00:00",
   "finalTestedSourceCommit": "2bd7c258187772399bacfe62fdb8b6f3254c642a",
   "mergeAllowed": false,
   "requirements": {
@@ -617,9 +617,10 @@
       }
     },
     "E05": {
-      "status": "implemented-unverified",
+      "status": "verified",
       "checks": [
-        "source-inputs-review"
+        "source-inputs-review",
+        "evidence-integrity-final"
       ],
       "evidence": [
         "evidence/contract-reliability-repair/source-sha256.json",
@@ -628,14 +629,18 @@
         "evidence/contract-reliability-repair/review/native-docs.json",
         "evidence/contract-reliability-repair/review/web-initial.json",
         "evidence/contract-reliability-repair/review/web-closure.json",
-        "evidence/contract-reliability-repair/github-pr-created.json"
+        "evidence/contract-reliability-repair/github-pr-created.json",
+        "evidence/contract-reliability-repair/review/native-docs-closure.json",
+        "evidence/contract-reliability-repair/github-pr-review-head.json",
+        "evidence/contract-reliability-repair/integrity.json"
       ],
-      "note": "Final410 inputs match executed candidate; root/native/audio scopes unchanged. Whole review e9a463f plus independent code-delta closure2bd7c25 recorded. Draft PR11 created; final published metadata head observation still pending.",
+      "note": "Traceability, not merge authorization: executed source2bd7c25, whole review e9a463f, Web closure2bd7c25, metadata closure3e1b9f2,410 unchanged inputs. Final publication handoff requires permanent PR11 body/comment binding of exact published metadata head/base and metadata-only successor scope; no recursive self-SHA claim. C01/C03/C05 remain blocked; E03 remains unmet.",
       "tests": [],
       "reviewClosure": {
         "reports": [
           "evidence/contract-reliability-repair/review/web-initial.json",
-          "evidence/contract-reliability-repair/review/web-closure.json"
+          "evidence/contract-reliability-repair/review/web-closure.json",
+          "evidence/contract-reliability-repair/review/native-docs-closure.json"
         ],
         "mergeApproval": false
       }
@@ -708,25 +713,25 @@
     "D05": {
       "status": "verified",
       "checks": [
-        "document-links-review-final"
+        "document-links-final"
       ],
       "evidence": [
         "evidence/contract-reliability-repair/document-links.json"
       ],
-      "note": "Nineteen authored/changed documents,163 local links/anchors,zero failures at this checkpoint. Historical absences disclosed; final status-only updates are refreshed separately.",
+      "note": "Nineteen authored/changed documents; final status-only document bytes and local links/anchors refreshed in document-links.json. Historical absences and approval limits disclosed.",
       "tests": [],
       "reviewClosure": {
         "reports": [
-          "evidence/contract-reliability-repair/review/native-docs.json"
+          "evidence/contract-reliability-repair/review/native-docs.json",
+          "evidence/contract-reliability-repair/review/native-docs-closure.json"
         ],
         "mergeApproval": false
       }
     }
   },
   "counts": {
-    "verified": 27,
+    "verified": 28,
     "blocked": 3,
-    "unmet": 1,
-    "implemented-unverified": 1
+    "unmet": 1
   }
 }

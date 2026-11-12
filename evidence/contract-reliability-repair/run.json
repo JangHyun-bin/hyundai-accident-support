@@ -1133,6 +1133,41 @@
       "exitStatus": 0,
       "counts": {},
       "logSha256": "bd31f60523e15b1c3bb0a5e7e5c548f3789e277909567ab93609ab4618acd643"
+    },
+    {
+      "id": "document-links-final",
+      "cwd": ".",
+      "command": [
+        "python3",
+        "/tmp/hyundai-contract-repair/check-doc-links.py",
+        "evidence/contract-reliability-repair/failure-analysis.md"
+      ],
+      "startedAt": "2026-11-12T20:57:27.834223+00:00",
+      "testedCommit": "3e1b9f2da033b9f1ae7b2caa545fac2d632ab492",
+      "output": "evidence/contract-reliability-repair/checks/document-links-final.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T20:57:27.870029+00:00",
+      "seconds": 0.035,
+      "exitStatus": 0,
+      "counts": {},
+      "logSha256": "28f15b8d173e4f51ae3159f69d33898b607f198e4052c7c0903bfbbd31b8c9c0"
+    },
+    {
+      "id": "evidence-integrity-final",
+      "cwd": ".",
+      "command": [
+        "python3",
+        "/tmp/hyundai-contract-repair/check-evidence.py"
+      ],
+      "startedAt": "2026-11-12T20:57:27.906285+00:00",
+      "testedCommit": "3e1b9f2da033b9f1ae7b2caa545fac2d632ab492",
+      "output": "evidence/contract-reliability-repair/checks/evidence-integrity-final.txt",
+      "status": "passed",
+      "endedAt": "2026-11-12T20:57:24.578364+00:00",
+      "seconds": 0.571,
+      "exitStatus": 0,
+      "counts": {},
+      "logSha256": "dbb2469a05c820f896a79288d82de5b3912e496f6c01f3c1f6030e032e97b666"
     }
   ],
   "limitations": [
@@ -1142,7 +1177,7 @@
     "No human listening, physical vehicle, OS IME candidate-window assessment, or new global end-to-end movie.",
     "Early dot reporter did not persist inline-body JSON; final helper writes durable named raw JSON."
   ],
-  "updatedAt": "2026-11-12T20:36:20.489772+00:00",
+  "updatedAt": "2026-11-12T20:57:24.578423+00:00",
   "finalTestedSourceCommit": "2bd7c258187772399bacfe62fdb8b6f3254c642a",
   "sourceManifest": "evidence/contract-reliability-repair/source-sha256.json",
   "artifactIndex": "evidence/contract-reliability-repair/artifact-index.json",
@@ -1152,12 +1187,14 @@
   "reviewReports": [
     "evidence/contract-reliability-repair/review/native-docs.json",
     "evidence/contract-reliability-repair/review/web-initial.json",
-    "evidence/contract-reliability-repair/review/web-closure.json"
+    "evidence/contract-reliability-repair/review/web-closure.json",
+    "evidence/contract-reliability-repair/review/native-docs-closure.json"
   ],
   "pr": {
     "number": 11,
     "url": "https://github.com/JangHyun-bin/hyundai-accident-support/pull/11",
     "draft": true,
-    "mergeAllowed": false
+    "mergeAllowed": false,
+    "finalHeadBinding": "Permanent PR11 body/comment after final metadata-only publication; exact final head deliberately external to avoid recursive SHA."
   }
 }

@@ -640,9 +640,12 @@
     "reports": [
       "evidence/contract-reliability-repair/review/native-docs.json",
       "evidence/contract-reliability-repair/review/web-initial.json",
-      "evidence/contract-reliability-repair/review/web-closure.json"
+      "evidence/contract-reliability-repair/review/web-closure.json",
+      "evidence/contract-reliability-repair/review/native-docs-closure.json"
     ],
     "remainingImportantCodeFindings": [],
-    "finalMetadataHeadBinding": "Exact final PR head/base and source hash recorded after publication in permanent PR body/comment; no recursive self-commit SHA claim."
+    "finalMetadataHeadBinding": "Exact final PR head/base and source hash recorded after publication in permanent PR body/comment; no recursive self-commit SHA claim.",
+    "metadataClosureReviewedCheckpoint": "3e1b9f2da033b9f1ae7b2caa545fac2d632ab492",
+    "publicationHandoffCondition": "After metadata-only commit/push: inspect actual GitHub commit paths and PR/base/head/policy; publish exact final SHA, reviewed checkpoints,410-input digest,all32 outcomes and pinned reports in permanent PR body/comment. Do not hand off before this binding exists."
   }
 }

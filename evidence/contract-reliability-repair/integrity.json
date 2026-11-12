@@ -1,22 +1,21 @@
 {
   "schemaVersion": 1,
-  "observedAt": "2026-11-12T20:36:20.486405+00:00",
+  "observedAt": "2026-11-12T20:57:24.574605+00:00",
   "sourceCommit": "2bd7c258187772399bacfe62fdb8b6f3254c642a",
   "sourceManifestSha256": "bd915f03442699a5c24cd08864643b2cf22583e1a17706a5e0673bc68cdef27f",
-  "jsonFilesParsed": 224,
+  "jsonFilesParsed": 229,
   "runtimeArtifactsVerified": 557,
   "runtimeRuns": 14,
   "runtimeBytes": 466100243,
   "exactCopies": 525,
   "requirements": 32,
   "requirementStates": {
-    "verified": 27,
+    "verified": 28,
     "blocked": 3,
-    "unmet": 1,
-    "implemented-unverified": 1
+    "unmet": 1
   },
   "documentCount": 19,
-  "localLinks": 163,
+  "localLinks": 164,
   "documentFailures": 0,
   "native": {
     "28": {

@@ -24,7 +24,7 @@
 | Android 공유 계약 | A01–A09 | verified | 현재 입력과 동일한 native source로 실제 API28/API35 각각41/41. SC05 전체11-state·effect·승인·복수 action·recreation; native SC01–04 UI는 범위 밖 |
 | 기록 신뢰성 | B01–B07 | verified | URL·2탭·IME·100/101·복구·승인 회귀와 영상14/14. 독립 P2 두 건 수정 후33/33·최신 full 해당 경로 통과 및 독립 closure |
 | 상태별 음성 | C01–C06 | blocked | resolver·UI·취소·거절·countdown 회귀 실행. 신규4개/251 codepoint의 실제 MP3 부재; 기존64개 decode만으로 완료 아님 |
-| 재현성·원인·증거 | E01–E05 | implemented-unverified | `.audit` 없는 clean 설치·native encoder 인과 실험·기본5-worker full·원시557개/14실행 보존. full434/447의 음성 누락13실패로 E03 미충족; 정확한 최종 PR head는 별도 원격 관찰 |
+| 재현성·원인·증거 | E01–E05 | unmet | `.audit` 없는 clean 설치·native encoder 인과 실험·원시557개/14실행·입력/review/PR 연속성 확보. full434/447의 음성 누락13실패로 E03 미충족; 정확한 최종 head는 영구 PR 본문/comment에서 추적 |
 | 정본·문서 승계 | D01–D05 | verified | 원문 승인 미확보를 명시한 재구성·현재 문서·전역 goal 추적. 최종 로컬 링크·anchor와 문서 지문은 [검사 JSON](../../evidence/contract-reliability-repair/document-links.json)에서 추적 |
 
 미충족 사항을 명시한 draft PR은 생성할 수 있다. merge는 32개 요구를 모두 충족한 경우에만 허용하며 현재 merge 완료 증거는 없다.

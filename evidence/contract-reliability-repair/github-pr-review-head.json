@@ -1,0 +1,48 @@
+{
+  "autoMergeRequest": null,
+  "baseRefName": "main",
+  "baseRefOid": "2ed19146d500882fd11211f65b660f91336015eb",
+  "headRefName": "fix/contract-reliability-repair",
+  "headRefOid": "3e1b9f2da033b9f1ae7b2caa545fac2d632ab492",
+  "isDraft": true,
+  "mergeCommit": null,
+  "mergeStateStatus": "CLEAN",
+  "mergeable": "MERGEABLE",
+  "mergedAt": null,
+  "number": 11,
+  "reviewDecision": "",
+  "reviews": [],
+  "state": "OPEN",
+  "statusCheckRollup": [],
+  "url": "https://github.com/JangHyun-bin/hyundai-accident-support/pull/11",
+  "observedAt": "2026-11-12T20:38:55.851168+00:00",
+  "currentPolicy": {
+    "repository": {
+      "default_branch": "main",
+      "allow_squash_merge": true,
+      "allow_merge_commit": true,
+      "allow_rebase_merge": true,
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "push": true,
+        "triage": true,
+        "pull": true
+      }
+    },
+    "protection": {
+      "exitStatus": 1,
+      "body": {
+        "message": "Branch not protected",
+        "documentation_url": "https://docs.github.com/rest/branches/branch-protection#get-branch-protection",
+        "status": "404"
+      }
+    },
+    "rulesets": {
+      "exitStatus": 0,
+      "body": []
+    }
+  },
+  "mergeAllowed": false,
+  "localGateReason": "C01/C03/C05 blocked; E03 unmet. Required check count zero is not gate success."
+}

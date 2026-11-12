@@ -207,22 +207,22 @@ npm run test:ui -- tests/journey-record-reliability.spec.ts tests/journey-save-r
 - [x] 미래 result `docs/superpowers/results/2026-11-12-contract-reliability-repair.md`에 변경 범위·원인·명령·결과·검증 환경·source/asset 지문·제약을 기록한다.
 - [x] `evidence/contract-reliability-repair/`에 raw 결과·frame JSON·screenshots·Android XML·audio decode·requirements mapping을 보존한다. `.audit`·`/tmp`·Downloads-only 링크를 제거한다.
 - [ ] 각 A/B/C/E/D ID의 구현·회귀·실행 증거·review closure가 연결됐는지 검토한다. 총 32개 모두 충족해야 repair 완료다.
-- [ ] 문서 링크·JSON parse·evidence 경로·기록한 수치를 narrow script로 확인하고 throwaway script는 삭제한다. 미래 산출물 계약과 실제 증거 링크를 구분한다.
+- [x] 문서 링크·JSON parse·evidence 경로·기록한 수치를 narrow script로 확인하고 throwaway script는 삭제한다. 미래 산출물 계약과 실제 증거 링크를 구분한다.
 - [x] evidence/문서만 final commit했다면 tested commit과 final HEAD의 구분, 검증 입력의 동일 지문을 기록한다. 제품·test·config·asset을 바꿨다면 관련 gate를 다시 열고 검증한다.
 
 ## 12. S5 — PR·자율 머지
 
 실행 query가 명시적으로 허용한 경우에만 수행한다. 현재 계획 작성에서는 PR을 만들거나 push하지 않는다.
 
-- [ ] 통합 담당 하나가 작업 산출물만 stage·checkpoint commit·push한다. 사용자 무관 파일·비밀·개인 데이터·임시 output을 포함하지 않는다.
-- [ ] `main` 대상 PR을 생성하거나 이 작업 소유 PR만 갱신한다. 제목·본문에 다섯 범위, 32개 요구 closure, 실제 검사 결과, tested commit·final head·증거, 전역 goal의 남은 한계를 적는다.
-- [ ] PR 변경이 계획 범위인지 검토하고 unresolved review·required checks·서버 mergeability를 확인한다. 검사 개수 0 또는 required check 없음은 로컬 gate 통과를 의미하지 않는다.
-- [ ] 원격 base/head가 바뀌지 않았는지 확인한다. base가 전진했으면 변경의 통합 영향을 판단하고 관련 gate·review를 갱신한다. 충돌을 사용자 변경 삭제로 해소하지 않는다.
-- [ ] 최종 runtime/test/config/asset 지문이 검증 집합과 일치하는지 확인하고 PR의 정확한 head SHA를 잡는다.
-- [ ] 서버에서 요구하는 타인 approval·정책을 충족한다. 자신의 AI review 기록을 GitHub required approval로 위장하거나 admin bypass하지 않는다.
+- [x] 통합 담당 하나가 작업 산출물만 stage·checkpoint commit·push한다. 사용자 무관 파일·비밀·개인 데이터·임시 output을 포함하지 않는다.
+- [x] `main` 대상 PR을 생성하거나 이 작업 소유 PR만 갱신한다. 제목·본문에 다섯 범위, 32개 요구 closure, 실제 검사 결과, tested commit·final head·증거, 전역 goal의 남은 한계를 적는다.
+- [x] PR 변경이 계획 범위인지 검토하고 unresolved review·required checks·서버 mergeability를 확인한다. 검사 개수 0 또는 required check 없음은 로컬 gate 통과를 의미하지 않는다.
+- [x] 원격 base/head가 바뀌지 않았는지 확인한다. base가 전진했으면 변경의 통합 영향을 판단하고 관련 gate·review를 갱신한다. 충돌을 사용자 변경 삭제로 해소하지 않는다.
+- [x] 최종 runtime/test/config/asset 지문이 검증 집합과 일치하는지 확인하고 PR의 정확한 head SHA를 잡는다.
+- [x] 서버에서 요구하는 타인 approval·정책을 충족한다. 자신의 AI review 기록을 GitHub required approval로 위장하거나 admin bypass하지 않는다.
 - [ ] 허용되면 `gh pr merge`의 `--squash --match-head-commit` 보호로 merge한다. squash가 서버 정책으로 금지된 경우 허용된 일반 merge만 사용하고 이유를 남긴다. head 변경 시 실패를 무시하지 않는다.
 - [ ] GitHub에서 PR merged 상태·base/main·merge commit SHA를 확인한다. auto-merge 예약만 하고 완료라고 하지 않는다. main 직접 push·강제 merge 금지.
-- [ ] 로컬 main을 억지로 checkout/reset하지 않는다. 사용자 파일·서버·emulator를 유지하고 자기 임시 자원만 정리한다.
+- [x] 로컬 main을 억지로 checkout/reset하지 않는다. 사용자 파일·서버·emulator를 유지하고 자기 임시 자원만 정리한다.
 
 ### Merge 차단 조건
 
