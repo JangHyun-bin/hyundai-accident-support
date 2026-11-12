@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test'
-import variants from '../src/audio/emergency-guidance.json'
+import variants from '../src/audio/emergency-guidance.json' with { type: 'json' }
 import type { Session } from '../src/emergency/session'
 import type * as ReactRuntime from './react-runtime'
 import type * as SessionModule from '../src/emergency/session'

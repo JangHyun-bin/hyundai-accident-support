@@ -1,5 +1,5 @@
 import {expect,test} from '@playwright/test'
-import emergencyGuidance from '../src/audio/emergency-guidance.json'
+import emergencyGuidance from '../src/audio/emergency-guidance.json' with { type: 'json' }
 
 declare global {interface Window { audioCalls:{src:string;paused:boolean;ended:boolean;fail:boolean}[]; audioFails:boolean; finishAudio:()=>void }}
 function fakeAudio(){
