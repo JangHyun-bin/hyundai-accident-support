@@ -251,7 +251,7 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
 
   function reviewWorkspace() {
     if (!value) return null
-    return <JourneyReviewPanel ref={reviewPanel} explicitTransport={representative} value={value} onCommand={journey.save} reloadVersion={journey.reloadVersion} onApprove={journey.approve} footer={<JourneyRequests value={value}/>}/>
+    return <JourneyReviewPanel ref={reviewPanel} explicitTransport={representative} value={value} saving={journey.saveState === 'saving'} onCommand={journey.save} reloadVersion={journey.reloadVersion} onApprove={journey.approve} footer={<JourneyRequests value={value}/>}/>
   }
 
   function content() {

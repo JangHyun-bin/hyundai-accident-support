@@ -7,20 +7,29 @@ import { DiagramEditor } from './DiagramEditor'
 import { readAsset } from './case-store'
 import type { ApprovalInput, ApprovalCommitResult, CommitResult, PayloadSnapshot, CaseCommand, Evidence, JourneyCase } from './case'
 
-export function StoredClip({ caseId, evidence, range, active = true }: { caseId: string; evidence: Evidence; range?: { start: number; end: number }; active?: boolean }) {
-  const [media, setMedia] = useState<{ id: string | null; blob: Blob | null } | null>(null)
+export function StoredClip({ caseId, evidence, revision, saving, range, active = true }: { caseId: string; evidence: Evidence; revision: number; saving: boolean; range?: { start: number; end: number }; active?: boolean }) {
+  const [media, setMedia] = useState<{ caseId: string; id: string | null; revision: number; blob: Blob | null } | null>(null)
   useEffect(() => {
+    // Metadata can render before its atomic asset commit. A miss belongs to that durable revision,
+    // not permanently to the asset ID; successfully loaded immutable bytes remain cached.
+    if (media?.caseId === caseId && media.id === evidence.assetId &&
+      (!evidence.assetId || media.blob || media.revision === revision)) return
     let cancelled = false
-    if (!evidence.assetId) { setMedia({ id: null, blob: null }); return }
-    void readAsset(caseId, evidence.assetId).then(blob => { if (!cancelled) setMedia({ id: evidence.assetId, blob }) })
+    if (!evidence.assetId) { setMedia({ caseId, id: null, revision, blob: null }); return }
+    void readAsset(caseId, evidence.assetId).then(blob => {
+      if (!cancelled) setMedia({ caseId, id: evidence.assetId, revision, blob })
+    })
     return () => { cancelled = true }
-  }, [caseId, evidence.assetId])
-  if (evidence.assetId && media?.id !== evidence.assetId) return <p role="status">영상을 불러오고 있어요.</p>
-  return <ClipPlayer evidence={evidence} blob={media?.blob ?? null} range={range} active={active} />
+  }, [caseId, evidence.assetId, revision, media])
+  const current = media?.caseId === caseId && media.id === evidence.assetId ? media : null
+  if (evidence.assetId && (!current || !current.blob && (saving || current.revision !== revision))) {
+    return <p role="status">{saving ? '영상을 보관하고 있어요.' : '영상을 불러오고 있어요.'}</p>
+  }
+  return <ClipPlayer evidence={evidence} blob={current?.blob ?? null} range={range} active={active} />
 }
 
 export type JourneyReviewHandle = { finishBeforeLeave: () => Promise<boolean>; openSubmission: () => void; preserveDraft: () => void; recoveryCommand: () => CaseCommand | null }
-export function JourneyReviewPanel({ value, onCommand, onApprove, reloadVersion = 0, explicitTransport=false, ref, footer }: { footer?:ReactNode; reloadVersion?: number; explicitTransport?: boolean; value: JourneyCase; onCommand: (command: CaseCommand) => Promise<CommitResult>; onApprove: (input: ApprovalInput, preview: PayloadSnapshot) => Promise<ApprovalCommitResult>; ref?: Ref<JourneyReviewHandle> }) {
+export function JourneyReviewPanel({ value, saving, onCommand, onApprove, reloadVersion = 0, explicitTransport=false, ref, footer }: { footer?:ReactNode; reloadVersion?: number; explicitTransport?: boolean; value: JourneyCase; saving: boolean; onCommand: (command: CaseCommand) => Promise<CommitResult>; onApprove: (input: ApprovalInput, preview: PayloadSnapshot) => Promise<ApprovalCommitResult>; ref?: Ref<JourneyReviewHandle> }) {
   const [tab, setTab] = useState<'clips' | 'diagram' | 'report'>('clips')
   const [diagramDirty, setDiagramDirty] = useState(false)
   const [reportDirty, setReportDirty] = useState(false)
@@ -43,7 +52,7 @@ export function JourneyReviewPanel({ value, onCommand, onApprove, reloadVersion 
       <button aria-pressed={tab === 'report'} onClick={() => setTab('report')}>경위서</button>
     </nav>
     <div hidden={tab !== 'clips'} className="journey-review-clips">
-      {clips.length ? clips.map(item => <StoredClip key={item.id} caseId={value.id} evidence={item} active={!submission && value.stage === 'review' && tab === 'clips'} />)
+      {clips.length ? clips.map(item => <StoredClip key={item.id} caseId={value.id} evidence={item} revision={value.revision} saving={saving} active={!submission && value.stage === 'review' && tab === 'clips'} />)
         : <p className="journey-supporting">제공된 영상이 없어요. 남긴 기록으로 계속 확인할 수 있어요.</p>}
     </div>
     <div hidden={tab !== 'diagram'}>
