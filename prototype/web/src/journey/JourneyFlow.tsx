@@ -14,8 +14,8 @@ import type { CaseCommand, Device, JourneyCase, Stage } from './case'
 import '@/design-system/flow-study.css'
 import './journey-flow.css'
 
-export function JourneyFlow({ value, device, active, onCommand, onNavigate, onReview, recordWorkspace, reviewWorkspace, previewHeight }: {
-  recordWorkspace:ReactNode;reviewWorkspace:ReactNode;previewHeight?:number;
+export function JourneyFlow({ value, device, active, onCommand, onNavigate, onReview, recordWorkspace, reviewWorkspace, previewHeight, controls }: {
+  recordWorkspace:ReactNode;reviewWorkspace:ReactNode;previewHeight?:number;controls?:ReactNode;
   value: JourneyCase; device: Device; active:boolean; onCommand: (command: CaseCommand) => void
   onNavigate: (stage: Stage) => Promise<boolean>; onReview: () => void
 }) {
@@ -32,13 +32,14 @@ export function JourneyFlow({ value, device, active, onCommand, onNavigate, onRe
     return()=>{alive=false;cancelAnimationFrame(frame)}
   },[previewHeight])
   const reduced = !!useReducedMotionPreference()
-  const { step, layout, request, sending, call } = journeyFlow(value, responseView)
+  const { step: actualStep, layout, request, sending, call } = journeyFlow(value, responseView)
   const rescue = activeRequest(value, 'rescue')
   const checks = safetyChecklist.filter(item => safetyConfirmed(value, item.id)).length
   const arrived = safetyConfirmed(value, 'safe-arrival')
   const readyToSend = request?.transport === 'approved' || request?.transport === 'failed'
   const receipt = request?.status === 'received'
-  const inspectingSent = step === 7 && showSentReview
+  const inspectingSent = actualStep === 7 && showSentReview
+  const step = inspectingSent ? 6 : actualStep
   const reviewVisible = step === 6 && !sending || inspectingSent
   useEffect(() => {
     setPendingEditor(active ? value.stage === 'record' ? 'record' : reviewVisible ? 'review' : 'response' : null)
@@ -50,18 +51,21 @@ export function JourneyFlow({ value, device, active, onCommand, onNavigate, onRe
   }, [active, value.stage, reviewVisible, step])
   const callLabel = { idle: '연결 전', connecting: '연결 확인 중', connected: '통화 연결됨', ended: '통화 종료' }[call]
   const titles = ['차량 상태를 확인하고 119에 연결하세요', '119의 안내를 들어주세요', '안전한 곳으로 이동하세요', '안전한 곳에서 기록을 남겨요', '기억나는 내용을 남겨주세요', '보험사에 보낼 내용을 확인하세요', '기록 전송을 완료했어요']
-  const action = sending ? '전송 중' : step === 1 ? call === 'connecting' ? '연결 확인 기다리는 중' : call === 'idle' ? '119 연결 요청' : '통화 상태 확인'
+  const action = inspectingSent ? '완료 화면으로' : sending ? '시연: 보험사 전송 완료' : step === 1 ? call === 'connecting' ? '시연: 통화 연결 확인' : call === 'idle' ? '119 연결 요청' : '통화 상태 확인'
     : step === 2 ? '대피 안내 보기' : step === 3 ? '안전한 곳에 도착했어요' : step === 4 ? '기록 시작'
     : step === 5 ? '내용 확인으로' : step === 6 ? request?.transport === 'failed' ? '승인한 내용 다시 보내기' : readyToSend ? '승인한 내용 전송 시작' : '수신처와 보낼 범위 확인' : '후속 처리로'
-  const title = step === 2 && call === 'ended' ? '통화가 종료됐어요' : sending ? '승인한 기록을 보내고 있어요' : request?.transport === 'failed' && step === 6 ? '전송되지 않았어요' : titles[step - 1]
+  const title = inspectingSent ? '전송한 내용을 확인하세요' : step === 2 && call === 'ended' ? '통화가 종료됐어요' : sending ? '승인한 기록을 보내고 있어요' : request?.transport === 'failed' && step === 6 ? '전송되지 않았어요' : titles[step - 1]
   const support = sending ? '전송 결과를 기다리는 동안 기록과 통화는 유지돼요.' : step === 7 ? receipt ? '보험사 접수가 확인됐어요.' : '전송 완료 · 보험사 접수 미확인'
     : step === 3 ? `안전 checklist ${checks}/4 · 도착 확인은 별도예요.` : step === 5 ? '말·사진·직접 입력으로 남긴 기록을 확인할 수 있어요.'
     : step === 6 ? '수신처와 보낼 범위를 직접 확인해요. 실패한 요청은 승인했던 내용 그대로 다시 보내요.' : '확인되지 않은 차량 상태는 미확인으로 유지해요.'
 
   async function next() {
-    if (step === 1) {
+    if (inspectingSent) setShowSentReview(false)
+    else if (sending) result('sent')
+    else if (step === 1) {
       if (call === 'idle') onCommand({ type: 'contact-start', now: new Date().toISOString() })
-      else if (call !== 'connecting') setResponseView(2)
+      else if (call === 'connecting' && rescue) onCommand({ type:'request-result',caseId:value.id,agency:'rescue',submissionId:rescue.id,status:'connected',externalReceipt:null,now:new Date().toISOString() })
+      else setResponseView(2)
     } else if (step === 2) setResponseView(3)
     else if (step === 3) {
       onCommand({ type: 'safety-action', action: { id: 'safe-arrival', label: '안전한 곳 도착', status: 'user-confirmed', source: 'user', confirmedAt: new Date().toISOString() } })
@@ -75,6 +79,7 @@ export function JourneyFlow({ value, device, active, onCommand, onNavigate, onRe
     else if (step === 7) await onNavigate('follow-up')
   }
   async function back() {
+    if(actualStep===7&&!inspectingSent){setShowSentReview(true);onReview();setPendingEditor('review');return}
     setShowSentReview(false)
     setPendingEditor(null)
     if (step > 5) await onNavigate('record')
@@ -98,11 +103,20 @@ export function JourneyFlow({ value, device, active, onCommand, onNavigate, onRe
 
   const header=<div className="journey-flow-header">
     <ol className="fs-stages" aria-label="사고 대응 진행">{stageLabels.map((label, index) => <li key={label} aria-current={step === index + 1 ? 'step' : undefined} data-done={index + 1 < step}><span>{String(index + 1).padStart(2, '0')}</span>{label}</li>)}</ol>
-    <div className="fs-action-bar"><div className="fs-step-copy" aria-live="polite"><span className="fs-step-label">{step} / 7 · {stageLabels[step - 1]}</span><h1 tabIndex={-1}>{title}</h1><p>{support}</p></div><div className="journey-flow-actions">
-      <CareAction data-testid="journey-primary" disabled={sending || step === 1 && call === 'connecting' || step === 5 && !hasJourneyRecord(value)} onClick={() => afterComposition(()=>void next())}>{action}<ArrowRight aria-hidden="true" /></CareAction>
-      <CareAction secondary aria-label="이전 단계" disabled={step === 1 || sending} onClick={() => afterComposition(()=>void back())}><ArrowLeft aria-hidden="true" />{step >= 6 ? '기록으로 돌아가기' : '이전'}</CareAction>
-      {step === 7 && <CareAction secondary onClick={() => { setShowSentReview(!showSentReview); if (!showSentReview) { onReview(); setPendingEditor('review') } }}>{inspectingSent ? '완료 화면으로' : '전송 내역과 공유 보기'}</CareAction>}
-    </div></div>
+    <div className="fs-action-bar"><div className="fs-step-copy" aria-live="polite"><span className="fs-step-label">{step} / 7 · {stageLabels[step - 1]}</span><h1 tabIndex={-1}>{title}</h1><p>{support}</p></div><section className="journey-flow-actions" aria-label="여정 조작">
+      <CareAction secondary aria-label="이전 단계" disabled={step === 1 || sending} onClick={() => afterComposition(()=>void back())}><ArrowLeft aria-hidden="true" />이전</CareAction>
+      <CareAction data-testid="journey-primary" aria-label={sending?'다음 · 시연 event: 보험사 전송 완료':step===1&&call==='connecting'?'다음 · 시연 event: 통화 연결 확인':'다음 단계'} aria-describedby="journey-next-action" disabled={step === 5 && !hasJourneyRecord(value)} onClick={() => afterComposition(()=>void next())}>다음<ArrowRight aria-hidden="true" /></CareAction>
+      <span id="journey-next-action" className="journey-next-action">{step===5&&!hasJourneyRecord(value)?'기록을 저장하면 다음으로 진행':action}</span>
+      <details className="journey-flow-options" onKeyDown={event=>{if(event.key==='Escape'){event.currentTarget.open=false;event.currentTarget.querySelector('summary')?.focus()}}}><summary>시연 설정</summary><div className="journey-flow-options-panel" onClick={event=>{if(event.target instanceof Element&&event.target.closest('button')){const focused=event.currentTarget.contains(document.activeElement),details=event.currentTarget.closest('details')!;details.open=false;if(focused)details.querySelector('summary')?.focus({preventScroll:true})}}}>
+        <p className="journey-display-reference">Connect Standard · 2560 × 1440 · 16:9</p>
+        {controls}
+        <section className="journey-flow-events" aria-label="대표 흐름 결과 시연"><span>결과 시연 · 실제 전화·전송 없음</span><span>주변 경로·사고 재생은 합성 시연. 저장된 사고 영상과 별개예요.</span>
+          {rescue && (call === 'connecting' || call === 'connected') && <button aria-label="시연 event: 통화 종료 확인" onClick={() => onCommand({ type: 'call-end', caseId:value.id, submissionId:rescue.id, now: new Date().toISOString() })}>통화 종료 확인</button>}
+          {sending && <button aria-label="시연 event: 보험사 전송 실패" onClick={() => result('failed')}>보험사 전송 실패</button>}
+          {actualStep === 7 && <button onClick={() => { setShowSentReview(!showSentReview); if (!showSentReview) { onReview(); setPendingEditor('review') } }}>{inspectingSent ? '완료 화면으로' : '전송 내역과 공유 보기'}</button>}
+        </section>
+      </div></details>
+    </section></div>
     <div className="journey-flow-risk"><JourneyRiskNotice value={value} onCommand={onCommand}/></div>
   </div>
 
@@ -118,12 +132,7 @@ export function JourneyFlow({ value, device, active, onCommand, onNavigate, onRe
         return <><div id="journey-review-editor" className="journey-flow-workspace" data-flow-content hidden={!reviewVisible||compact}>{reviewWorkspace}</div><div hidden={reviewVisible&&!compact}><div className="fs-cell-label"><Send aria-hidden="true" /><span>보험사 전달</span></div>{compact ? <p className="journey-cell-summary">{step===7?'전송 완료':request?.transport==='failed'?'전송 실패':sending?'전송 중':'전송 전'}</p> : <h2>{step === 7 ? '전송을 완료했어요' : request?.transport === 'failed' ? '기록은 그대로 있어요' : sending ? '기록을 보내고 있어요' : '보낼 내용을 확인해요'}</h2>}<CareStatus tone={receipt ? 'confirmed' : 'unknown'}>{receipt ? '보험사 접수 확인' : '보험사 접수 미확인'}</CareStatus>{!compact && <><p className="fs-cell-muted">{request?.recipient ?? '수신처와 보낼 범위를 직접 선택해주세요.'}</p><p className="fs-cell-muted">{request?.payload?.statements.map(item => item.text).join('\n') ?? ''}</p>{step === 7 && call === 'connected' && <p className="fs-call-held">119 통화는 계속 유지돼요.</p>}</>}</div></>
       }} />
     </JourneyDashboard></VehicleShell>
-    <section className="journey-flow-events" aria-label="대표 흐름 결과 시연"><span>결과 시연 · 실제 전화·전송 없음</span>
-      <span>주변 경로·사고 재생은 합성 시연. 저장된 사고 영상과 별개예요.</span>
-      {rescue && call === 'connecting' && <CareAction secondary aria-label="시연 event: 통화 연결 확인" onClick={() => onCommand({ type: 'request-result', caseId: value.id, agency: 'rescue', submissionId: rescue.id, status: 'connected', externalReceipt: null, now: new Date().toISOString() })}>통화 연결 확인</CareAction>}
-      {rescue && (call === 'connected' || call === 'connecting') && <CareAction secondary aria-label="시연 event: 통화 종료 확인" onClick={() => onCommand({ type: 'call-end', caseId: value.id, submissionId: rescue.id, now: new Date().toISOString() })}>통화 종료 확인</CareAction>}
-      {sending && <><CareAction secondary aria-label="시연 event: 보험사 전송 완료" onClick={() => result('sent')}>보험사 전송 완료</CareAction><CareAction secondary aria-label="시연 event: 보험사 전송 실패" onClick={() => result('failed')}>보험사 전송 실패</CareAction></>}
-    </section>
+
   </section>
 }
 

@@ -1,3 +1,4 @@
+import {journeyControl} from './helpers/journey-controls'
 import {test,expect,type Page} from '@playwright/test'
 
 async function record(page:Page){
@@ -5,12 +6,12 @@ async function record(page:Page){
  await page.goto('/')
  await page.getByRole('button',{name:'이 상황으로 시작',exact:true}).click()
  await page.getByTestId('journey-primary').click()
- await page.getByRole('button',{name:'시연 event: 통화 연결 확인',exact:true}).click()
+ await page.getByRole('button',{name: /^(?:다음 · )?시연 event: 통화 연결 확인$/,exact:true}).click()
  for(let i=0;i<3;i++)await page.getByTestId('journey-primary').click()
  await expect(page.getByTestId('journey-flow')).toHaveAttribute('data-step','5')
  await page.getByRole('button',{name:'직접 입력',exact:true}).click()
 }
-const clickWithoutScroll=async(page:Page,name:string)=>page.getByRole('button',{name,exact:true}).evaluate((node:HTMLButtonElement)=>node.click())
+const clickWithoutScroll=async(page:Page,name:string)=>(await journeyControl(page,name,true)).evaluate((node:HTMLButtonElement)=>node.click())
 
 test('bounded shell reserves progress, task actions and urgent facts together',async({page})=>{
  await record(page)

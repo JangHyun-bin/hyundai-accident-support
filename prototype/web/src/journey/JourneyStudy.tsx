@@ -264,19 +264,54 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
     return null
   }
 
-  return <div data-care-device={device} className={`journey-study journey-theme ac-system${embedded?' journey-embedded':''}`}>
-    {!embedded&&<header className="journey-review-heading"><div><p>AFTER / CARE</p><h1>사고 대응 · 전체 여정</h1><span>가상 자료와 명시적 결과로 검토 · 실제 전화·전송·기기 간 동기화 없음</span></div><a href="/?study=design-system">Design system<ArrowRight size={16} /></a></header>}
+  const flowActive=representative&&!details&&value.stage!=='follow-up'
+  const controls=<>
     <section className="journey-review-controls" aria-label="시연 설정">
       <label>시연 상황<select value={fixture} onChange={e => setFixture(e.target.value)}>{fixtures.cases.map(f => <option key={f.id} value={f.id}>{f.title}</option>)}</select></label>
       <button onClick={() => void begin()} disabled={journey.loading}>{value ? '새 시연 시작' : '이 상황으로 시작'}</button>
       {value && <button onClick={() => void switchDevice()}>{device === 'vehicle' ? <Smartphone size={16} /> : <CarFront size={16} />}{device === 'vehicle' ? 'Mobile 보기' : '차량 보기'}</button>}
       <label>음성 입력<select value={voiceMode} onChange={async event => { const mode = event.target.value as 'device' | 'sample'; if (await prepareToLeave(true)) setVoiceMode(mode) }}><option value="device">이 기기 microphone</option><option value="sample">준비된 음성 sample</option></select></label>
     </section>
+    {value&&<>
+      <div className="journey-product-tools">
+        <button onClick={() => void navigate('response')}>긴급 대응 보기</button>
+        {value.stage !== 'follow-up' && <button onClick={() => void navigate('follow-up')}>후속 처리 보기</button>}
+        <button onClick={async () => { if (await prepareToLeave()) setDetails(true) }}>차량 상태 보기</button>
+        {value.stage === 'response' && value.returnStage === 'record' && <button onClick={() => dispatch({ type: 'navigate', stage: 'record' })}>기록으로 돌아가기</button>}
+        {value.stage === 'response' && value.returnStage === 'review' && <button onClick={() => dispatch({ type: 'navigate', stage: 'review' })}>내용 확인으로 돌아가기</button>}
+        {value.stage === 'response' && value.returnStage === 'follow-up' && <button onClick={() => dispatch({ type: 'navigate', stage: 'follow-up' })}>후속 처리로 돌아가기</button>}
+        {value.suspended && <button onClick={() => dispatch({ type: 'resume' })}>이어서 확인하기</button>}
+      </div>
+      <section className="journey-review-events" aria-label="외부 결과 시연">
+        <span>외부 결과 시연</span>
+        <label htmlFor="journey-directory">정비소 정보</label><select id="journey-directory" value={directoryState} onChange={event => { const state = event.target.value as FollowUpDirectoryState; setDirectoryState(state); replaceQuery({ directory: state }) }}>
+          <option value="ready">안내 있음</option><option value="stale">오래된 안내</option><option value="empty">제공된 목록 없음</option><option value="failed">조회 실패</option>
+        </select>
+        {value.followUp.rentalRequest && <><button aria-label="시연 event: 대차 가능 확인" onClick={() => followUpResult('rental', 'eligible')}>대차 가능 확인</button><button aria-label="시연 event: 대차 불가 확인" onClick={() => followUpResult('rental', 'ineligible')}>대차 불가 확인</button><button aria-label="시연 event: 대차 결과 미확인" onClick={() => followUpResult('rental', 'unknown')}>대차 결과 미확인</button></>}
+        {value.followUp.routeRequest && <button aria-label="시연 event: 경로 확인 실패" onClick={() => followUpResult('route', 'unavailable')}>경로 확인 실패</button>}
+        <button aria-label="시연 event: 차량 감지 자료" onClick={vehicleData}>차량 감지 자료</button>
+        <button aria-label="시연 event: 사고 자료 확보" disabled={loadingSamples} onClick={() => void sampleEvidence()}>{loadingSamples ? '자료 보관 중' : '사고 자료 확보'}</button>
+        <button aria-label="시연 event: 경위서 초안" onClick={sampleReport}>경위서 초안</button>
+        <button aria-label="시연 event: 비상등 작동 확인" onClick={() => dispatch({ type: 'safety-action', action: { id: 'hazard', label: '비상등', status: 'device-confirmed', source: 'fixture', confirmedAt: new Date().toISOString() } })}>비상등 작동 확인</button>
+        <button aria-label="시연 event: 안내 지점 자료" onClick={() => dispatch({ type: 'navigation-data', value: { source: 'fixture', vehicle: { x: .4, y: .7 }, destination: { x: .7, y: .7 }, distanceMeters: 15, updatedAt: new Date().toISOString() } })}>안내 지점 자료</button>
+        <button aria-label="시연 event: 위험 정보" onClick={risk}>위험 정보</button>
+        {value.activeSubmissionIds.rescue && <>{!representative&&<button aria-label="시연 event: 통화 연결 확인" onClick={() => result('rescue', 'connected')}>통화 연결 확인</button>}<button aria-label="시연 event: 구호 접수 확인" onClick={() => result('rescue', 'received')}>구호 접수 확인</button></>}
+        {value.activeSubmissionIds.insurance && <><button disabled={!insuranceResultReady} aria-label="시연 event: 보험사 접수 확인" onClick={() => result('insurance', 'received')}>보험사 접수 확인</button><button disabled={!insuranceResultReady} aria-label="시연 event: 보험사 접수번호 확인" onClick={() => result('insurance', 'received', { number: 'AC-20261110-001', receivedAt: new Date().toISOString(), agencyName: value.submissions.find(item => item.id === value.activeSubmissionIds.insurance)?.recipient ?? '보험사', next: '담당자의 안내를 기다려주세요.' })}>보험사 접수번호 확인</button><button disabled={!insuranceResultReady} aria-label="시연 event: 보험사 결과 미확인" onClick={() => result('insurance', 'unknown')}>보험사 결과 미확인</button>{!representative&&<button aria-label="시연 event: 보험사 전송 실패" onClick={() => result('insurance', 'failed')}>보험사 전송 실패</button>}</>}
+        {value.activeSubmissionIds.vehicle && <><button aria-label="시연 event: 차량 지원 접수 확인" onClick={() => result('vehicle', 'received')}>차량 지원 접수 확인</button><button aria-label="시연 event: 차량 지원 미접수 확인" onClick={() => result('vehicle', 'not_received')}>차량 지원 미접수 확인</button></>}
+        {value.shares.length > 0 && <><button aria-label="시연 event: 상대방 공유 확인" onClick={() => dispatch({ type: 'share-result', caseId: value.id, shareId: value.shares.at(-1)!.id, status: 'confirmed' })}>상대방 공유 확인</button><button aria-label="시연 event: 상대방 공유 실패" onClick={() => dispatch({ type: 'share-result', caseId: value.id, shareId: value.shares.at(-1)!.id, status: 'failed' })}>상대방 공유 실패</button></>}
+      </section>
+    </>}
+  </>
+
+  return <div data-care-device={device} className={`journey-study journey-theme ac-system${embedded?' journey-embedded':''}`}>
+    {!embedded&&<header className="journey-review-heading"><div><p>AFTER / CARE</p><h1>사고 대응 · 전체 여정</h1><span>가상 자료와 명시적 결과로 검토 · 실제 전화·전송·기기 간 동기화 없음</span></div><a href="/?study=design-system">Design system<ArrowRight size={16} /></a></header>}
+
+    {!flowActive&&<div className="journey-controls-standalone">{controls}</div>}
     {journey.loading && <p role="status">기록을 불러오고 있어요.</p>}
     {journey.missing && !value && <section className="journey-empty"><h2>이 기기에서 기록을 찾지 못했어요</h2><p>다른 기기의 기록은 자동으로 이어지지 않아요.</p></section>}
     {value && <>
       <section ref={representative?undefined:motionRef} data-care-motion-key={contextKey} data-case-id={value.id} data-journey-stage={value.stage}>
-        {representative&&<div hidden={details||value.stage==='follow-up'}><JourneyFlow previewHeight={previewHeight} key={value.id} value={value} device={device} active={!details&&value.stage!=='follow-up'} onCommand={dispatch} onNavigate={navigate} recordWorkspace={recordWorkspace()} reviewWorkspace={reviewWorkspace()} onReview={()=>reviewPanel.current?.openSubmission()}/></div>}
+        {representative&&<div hidden={details||value.stage==='follow-up'}><JourneyFlow controls={flowActive?controls:null} previewHeight={previewHeight} key={value.id} value={value} device={device} active={!details&&value.stage!=='follow-up'} onCommand={dispatch} onNavigate={navigate} recordWorkspace={recordWorkspace()} reviewWorkspace={reviewWorkspace()} onReview={()=>reviewPanel.current?.openSubmission()}/></div>}
         {content()}
         {!representative&&<div id="journey-record-editor" key={value.id} hidden={value.stage !== 'record' || details}>
           <JourneyLayout device={device} navigation={renderNavigation(value)} summary={<JourneySummary value={value} />}
@@ -299,15 +334,7 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
           </JourneyLayout>
         </div>
       </section>
-      <div className="journey-product-tools">
-        <button onClick={() => void navigate('response')}>긴급 대응 보기</button>
-        {value.stage !== 'follow-up' && <button onClick={() => void navigate('follow-up')}>후속 처리 보기</button>}
-        <button onClick={async () => { if (await prepareToLeave()) setDetails(true) }}>차량 상태 보기</button>
-        {value.stage === 'response' && value.returnStage === 'record' && <button onClick={() => dispatch({ type: 'navigate', stage: 'record' })}>기록으로 돌아가기</button>}
-        {value.stage === 'response' && value.returnStage === 'review' && <button onClick={() => dispatch({ type: 'navigate', stage: 'review' })}>내용 확인으로 돌아가기</button>}
-        {value.stage === 'response' && value.returnStage === 'follow-up' && <button onClick={() => dispatch({ type: 'navigate', stage: 'follow-up' })}>후속 처리로 돌아가기</button>}
-        {value.suspended && <button onClick={() => dispatch({ type: 'resume' })}>이어서 확인하기</button>}
-      </div>
+
       <div className="journey-save-status" role="status">{journey.saveState === 'saved' ? '이 기기에 보관됨' : journey.saveState === 'saving' ? '저장 중' :
         journey.saveState === 'conflict' ? '다른 화면에서 기록이 바뀌었어요. 내 입력은 이 화면에 남아 있어요.' : '이 기기에 저장하지 못했어요. 입력 내용은 이 화면에 남아 있어요.'}
         {['unavailable', 'quota', 'invalid'].includes(journey.saveState) && <button onClick={() => void journey.flush()}>저장 다시 시도</button>}
@@ -317,24 +344,7 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
       {voiceState === 'error' && <p role="status">음성 재생을 사용할 수 없어요. {scene?.voice}</p>}
       {sampleError && <p role="status">{sampleError}</p>}
       {navigationNotice && <p role="status">{navigationNotice}</p>}
-      <section className="journey-review-events" aria-label="외부 결과 시연">
-        <span>외부 결과 시연</span>
-        <label htmlFor="journey-directory">정비소 정보</label><select id="journey-directory" value={directoryState} onChange={event => { const state = event.target.value as FollowUpDirectoryState; setDirectoryState(state); replaceQuery({ directory: state }) }}>
-          <option value="ready">안내 있음</option><option value="stale">오래된 안내</option><option value="empty">제공된 목록 없음</option><option value="failed">조회 실패</option>
-        </select>
-        {value.followUp.rentalRequest && <><button aria-label="시연 event: 대차 가능 확인" onClick={() => followUpResult('rental', 'eligible')}>대차 가능 확인</button><button aria-label="시연 event: 대차 불가 확인" onClick={() => followUpResult('rental', 'ineligible')}>대차 불가 확인</button><button aria-label="시연 event: 대차 결과 미확인" onClick={() => followUpResult('rental', 'unknown')}>대차 결과 미확인</button></>}
-        {value.followUp.routeRequest && <button aria-label="시연 event: 경로 확인 실패" onClick={() => followUpResult('route', 'unavailable')}>경로 확인 실패</button>}
-        <button aria-label="시연 event: 차량 감지 자료" onClick={vehicleData}>차량 감지 자료</button>
-        <button aria-label="시연 event: 사고 자료 확보" disabled={loadingSamples} onClick={() => void sampleEvidence()}>{loadingSamples ? '자료 보관 중' : '사고 자료 확보'}</button>
-        <button aria-label="시연 event: 경위서 초안" onClick={sampleReport}>경위서 초안</button>
-        <button aria-label="시연 event: 비상등 작동 확인" onClick={() => dispatch({ type: 'safety-action', action: { id: 'hazard', label: '비상등', status: 'device-confirmed', source: 'fixture', confirmedAt: new Date().toISOString() } })}>비상등 작동 확인</button>
-        <button aria-label="시연 event: 안내 지점 자료" onClick={() => dispatch({ type: 'navigation-data', value: { source: 'fixture', vehicle: { x: .4, y: .7 }, destination: { x: .7, y: .7 }, distanceMeters: 15, updatedAt: new Date().toISOString() } })}>안내 지점 자료</button>
-        <button aria-label="시연 event: 위험 정보" onClick={risk}>위험 정보</button>
-        {value.activeSubmissionIds.rescue && <>{!representative&&<button aria-label="시연 event: 통화 연결 확인" onClick={() => result('rescue', 'connected')}>통화 연결 확인</button>}<button aria-label="시연 event: 구호 접수 확인" onClick={() => result('rescue', 'received')}>구호 접수 확인</button></>}
-        {value.activeSubmissionIds.insurance && <><button disabled={!insuranceResultReady} aria-label="시연 event: 보험사 접수 확인" onClick={() => result('insurance', 'received')}>보험사 접수 확인</button><button disabled={!insuranceResultReady} aria-label="시연 event: 보험사 접수번호 확인" onClick={() => result('insurance', 'received', { number: 'AC-20261110-001', receivedAt: new Date().toISOString(), agencyName: value.submissions.find(item => item.id === value.activeSubmissionIds.insurance)?.recipient ?? '보험사', next: '담당자의 안내를 기다려주세요.' })}>보험사 접수번호 확인</button><button disabled={!insuranceResultReady} aria-label="시연 event: 보험사 결과 미확인" onClick={() => result('insurance', 'unknown')}>보험사 결과 미확인</button>{!representative&&<button aria-label="시연 event: 보험사 전송 실패" onClick={() => result('insurance', 'failed')}>보험사 전송 실패</button>}</>}
-        {value.activeSubmissionIds.vehicle && <><button aria-label="시연 event: 차량 지원 접수 확인" onClick={() => result('vehicle', 'received')}>차량 지원 접수 확인</button><button aria-label="시연 event: 차량 지원 미접수 확인" onClick={() => result('vehicle', 'not_received')}>차량 지원 미접수 확인</button></>}
-        {value.shares.length > 0 && <><button aria-label="시연 event: 상대방 공유 확인" onClick={() => dispatch({ type: 'share-result', caseId: value.id, shareId: value.shares.at(-1)!.id, status: 'confirmed' })}>상대방 공유 확인</button><button aria-label="시연 event: 상대방 공유 실패" onClick={() => dispatch({ type: 'share-result', caseId: value.id, shareId: value.shares.at(-1)!.id, status: 'failed' })}>상대방 공유 실패</button></>}
-      </section>
+
     </>}
     {!value && !journey.loading && !journey.missing && <div className="journey-empty"><Mic aria-hidden="true" /><h2>상황을 선택해 여정을 시작하세요</h2><p>기록은 이 browser에만 보관돼요.</p></div>}
   </div>

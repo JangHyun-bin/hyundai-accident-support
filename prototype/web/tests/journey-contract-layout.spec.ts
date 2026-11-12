@@ -12,7 +12,8 @@ async function contained(element:Locator,container:Locator) {
 async function environment(page:Page,font:number,width:number,device:string) {
   await page.evaluate(()=>document.fonts.ready)
   const board=page.getByTestId('flow-board'),shell=page.locator('.journey-flow [data-care-component=vehicle-shell]')
-  await expect(board).toHaveAttribute('data-profile',font===32?'document':device==='vehicle'&&width>=1440?'wide':/^(wide|narrow|mobile|document)$/)
+  await expect(shell).toHaveAttribute('data-flow-font-size',String(font))
+  await expect(board).toHaveAttribute('data-profile',font===32&&!(device==='vehicle'&&width===2560)?'document':device==='vehicle'&&width>=1440?'wide':/^(wide|narrow|mobile|document)$/)
   const profile=(await board.getAttribute('data-profile'))!
   await expect(shell).toHaveAttribute('data-flow-mode',profile)
   await expect(shell).toHaveAttribute('data-flow-reason',/\S+/)
@@ -68,7 +69,7 @@ for (const [width, device] of [[2560, 'vehicle'], [1920, 'vehicle'], [1440, 'veh
     const primary = page.getByTestId('journey-primary')
     await expect(primary).toBeInViewport({ratio:1})
     await primary.click()
-    await page.getByRole('button', { name: '시연 event: 통화 연결 확인', exact: true }).click()
+    await page.getByRole('button', { name: /^(?:다음 · )?시연 event: 통화 연결 확인$/, exact: true }).click()
     await primary.click()
     await expect(flow).toHaveAttribute('data-step', '3')
     for (const font of [16, 32]) {
@@ -107,7 +108,7 @@ for (const [width, device, font] of [[2560, 'vehicle', 16], [2560, 'vehicle', 32
     await page.getByRole('button', { name: '이 상황으로 시작', exact: true }).click()
     const primary = page.getByTestId('journey-primary')
     await primary.click()
-    await page.getByRole('button', { name: '시연 event: 통화 연결 확인', exact: true }).click()
+    await page.getByRole('button', { name: /^(?:다음 · )?시연 event: 통화 연결 확인$/, exact: true }).click()
     for (let index = 0; index < 3; index++) await primary.click()
     await expect(page.getByTestId('journey-flow')).toHaveAttribute('data-step', '5')
     await page.evaluate(size => { document.documentElement.style.fontSize = `${size}px` }, font)
