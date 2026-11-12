@@ -12,7 +12,7 @@ import type { JourneyCaseController } from '../src/journey/useJourneyCase'
 
 const button = (page: Page, name: string) => page.getByRole('button', { name, exact: true })
 const saved = (page: Page) => expect(page.locator('.journey-save-status')).toHaveText('이 기기에 보관됨')
-const statement = (page: Page) => page.getByRole('textbox', { name: '사고 기록', exact: true })
+const statement = (page: Page) => page.locator('.journey-voice textarea:visible')
 
 declare global {
   interface Window {
@@ -97,7 +97,7 @@ for (const existing of [false, true]) test(`first durable retry publishes the cu
   const previous = existing ? await seed(page) : null
   if (!existing) await page.goto('/?study=journey&fixture=partial-evidence&device=mobile&keep=retained')
   else await page.evaluate(() => { const url = new URL(location.href); url.searchParams.set('keep', 'retained'); history.replaceState(null, '', url) })
-  await page.getByLabel('시연 상황', { exact: true }).selectOption('partial-evidence')
+  await page.getByRole('combobox', { name: '시연 상황', exact: true }).selectOption('partial-evidence')
   await blockWrites(page)
   await button(page, existing ? '새 시연 시작' : '이 상황으로 시작').click()
   await expect(page.locator('.journey-save-status')).toContainText('이 기기에 저장하지 못했어요')
@@ -157,7 +157,7 @@ test('two tabs reload the latest statement and review while preserving old text 
   const other = await context.newPage(); await other.goto(page.url()); await saved(other)
   await statement(page).fill('다른 탭에서 확정한 최신 진술')
   await button(page, '기록 저장').click(); await saved(page)
-  await other.getByLabel('음성 입력', { exact: true }).selectOption('sample')
+  await other.getByRole('combobox', { name: '음성 입력', exact: true }).selectOption('sample')
   await button(other, '추가로 말하기').click()
   await expect(other.locator('.journey-voice audio')).toHaveCount(1)
   await statement(other).fill('내 화면의 오래된 진술과 pending 음성')

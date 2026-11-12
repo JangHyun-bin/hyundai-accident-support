@@ -30,7 +30,7 @@ function playback() {
   window.guidanceEnd = index => instances[index].dispatchEvent(new Event('ended'))
   Object.defineProperty(window, 'Audio', { value: Playback })
 }
-const surface = (page: Page) => page.locator('.emergency-screen')
+const surface = (page: Page) => page.locator('.emergency-screen:visible')
 const touch = (page: Page, name: string) => surface(page).getByRole('button', { name, exact: true }).click()
 async function currentScript(page: Page) {
   await page.getByRole('button', { name: '현재 장면 spec', exact: true }).click()

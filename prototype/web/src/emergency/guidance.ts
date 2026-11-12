@@ -16,6 +16,7 @@ export function resolveGuidance(session: Session, scene: Scene, persistent: bool
   let text = scene.voice
   let instruction = scene.instruction
   let title = scene.title
+  let cueLabel = scene.cue.label
   const recordStorageLabel = persistent ? '이 기기에 보관된 기록' : '기기 저장 실패 · 현재 화면에서만 유지'
   const insuranceStatus = session.requests.insurance
   const insuranceLabel = insuranceLabels[insuranceStatus]
@@ -27,6 +28,7 @@ export function resolveGuidance(session: Session, scene: Scene, persistent: bool
     if (!persistent) title = '기기에 저장하지 못했어요'
   }
   if (session.scenarioId === 'SC04' && ['support', 'paused', 'deferred'].includes(scene.id)) {
+    cueLabel = insuranceLabel
     const sourceScene = insuranceScenes[insuranceStatus]
     if (sourceScene) text = scenarioFor('SC04').states.find(state => state.id === sourceScene)!.voice
     if (['unknown', 'connected', 'connection_unknown'].includes(insuranceStatus)) text = variants.insurance_unconfirmed
@@ -37,5 +39,5 @@ export function resolveGuidance(session: Session, scene: Scene, persistent: bool
   }
   // Persistence and request changes invalidate playback even when their selected script is identical.
   const contextKey = JSON.stringify([session.scenarioId, scene.id, persistent, session.requests, text])
-  return { text, contextKey, title, instruction, recordStorageLabel, insuranceLabel }
+  return { text, contextKey, title, instruction, cueLabel, recordStorageLabel, insuranceLabel }
 }

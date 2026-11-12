@@ -18,7 +18,7 @@ export function ResponseLayoutPreview({layout='response',long=false,scenarioId='
   const scenario=scenarioFor(scenarioId),scene=sceneFor(selection)
   const guidance=resolveGuidance(selection,scene,true)
   const audio=useGuidanceAudio({text:guidance.text,key:guidance.contextKey+'/'+layout})
-  const summary=<CareSituation title={`${scenario.presentation.detected} · ${scene.cue.label}`} action={<GuidanceButton state={audio.state} onClick={audio.toggle}/>} facts={scenario.facts.filter(f=>scenario.presentation.visible_facts.includes(f.id)).map(f=>({...f,...selection.facts[f.id],tone:'unknown' as CareTone}))}/>
+  const summary=<CareSituation title={`${scenario.presentation.detected} · ${guidance.cueLabel}`} action={<GuidanceButton state={audio.state} onClick={audio.toggle}/>} facts={scenario.facts.filter(f=>scenario.presentation.visible_facts.includes(f.id)).map(f=>({...f,...selection.facts[f.id],tone:'unknown' as CareTone}))}/>
   const navigation=<CareUnknownMap description={long?'현재 위치와 이동 경로가 아직 확인되지 않았어요. 확인된 정보가 도착하면 안내를 이어갈게요.':undefined}/>
   const action=<CareAction secondary onClick={()=>setMessage('전체 흐름에서 말로 기록하기를 시작할 수 있어요.')}><ArrowRight aria-hidden="true"/>기억나는 내용 남기기</CareAction>
   return <>
