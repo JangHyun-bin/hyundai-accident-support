@@ -49,6 +49,16 @@ for(const width of [1440,1920,2560])test(`Connect Standard frame keeps 16:9 at $
  const before=(await shell.boundingBox())!
  expect(before.width).toBe(width)
  if(width===2560)expect(before.height).toBe(1440)
+ await expect(shell.getByRole('region',{name:'여정 조작'})).toHaveCount(0)
+ await expect(shell.locator('.fs-stages,.fs-step-copy,.journey-flow-options')).toHaveCount(0)
+ const controller=(await page.locator('.journey-flow-header').boundingBox())!
+ expect(controller.y).toBeGreaterThanOrEqual(before.y+before.height)
+ const status=(await shell.locator('.ac-vehicle-status').boundingBox())!
+ const content=(await shell.locator('.ac-vehicle-content').boundingBox())!
+ const dock=(await shell.locator('.ac-vehicle-dock').boundingBox())!
+ expect(content.y-status.y-status.height).toBeCloseTo(16,0)
+ expect(dock.y-content.y-content.height).toBeCloseTo(16,0)
+ expect(before.y+await page.evaluate(()=>scrollY)).toBeCloseTo(0,0)
  await page.getByTestId('journey-primary').click()
  await page.getByTestId('journey-primary').click()
  await page.getByTestId('journey-primary').click()

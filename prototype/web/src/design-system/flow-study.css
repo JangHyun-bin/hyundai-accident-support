@@ -122,10 +122,9 @@
 .fs-breath { animation:fs-breathe 4s cubic-bezier(.65,0,.35,1) infinite; }
 @keyframes fs-breathe { 50% { transform:scale(1.045); } }
 .fs-board[data-quiet=true] .fs-breath { animation:none; }
-.ac-vehicle[data-flow-mode] .fs-action-bar { position:relative; inset:auto; margin:0; }
-.ac-vehicle[data-flow-mode] .fs-stages { margin:0; }
-.fs-risk-slot { min-height:64px; }
-.fs-flow-header { height:100%; display:grid; grid-template-rows:var(--flow-progress-height) var(--flow-action-height) var(--flow-urgent-height); gap:8px; min-width:0; }
+.ac-display-controls .fs-action-bar { position:relative; inset:auto; margin:0; }
+.ac-display-controls .fs-stages { margin:0; }
+.fs-flow-header { display:grid; gap:var(--ac-space-4); min-width:0; }
 .fs-flow-header .fs-stages { flex-wrap:nowrap; }
 .fs-flow-header .fs-stages li { min-height:0; }
 .fs-flow-header .fs-action-bar { padding:8px 16px; align-items:center; min-height:0; }
@@ -142,10 +141,10 @@
 .fs-study .ac-vehicle:not([data-flow-mode=wide]) .fs-vehicle { display:none; position:absolute; inset:calc(var(--ac-touch) + 8px) 0 calc(var(--flow-call-reserve) + 8px); z-index:2; }
 .fs-study .ac-vehicle:not([data-flow-mode=wide]) [data-context=scene] .fs-vehicle { display:flex; }
 .fs-study .ac-vehicle:not([data-flow-mode=wide]) [data-context=scene] .fs-cell:not([data-cell=emergency]) .fs-cell-body { visibility:hidden; }
-.fs-study .ac-vehicle[data-flow-mode=document] .fs-dashboard { height:var(--flow-content-height); }
-.fs-study .ac-vehicle:not([data-flow-mode=wide]) .fs-flow-header .fs-stages { display:flex; overflow-x:auto; gap:8px; padding:0; }
-.fs-study .ac-vehicle:not([data-flow-mode=wide]) .fs-flow-header .fs-stages li { flex:none; flex-direction:row; }
-.fs-study .ac-vehicle:not([data-flow-mode=wide]) .fs-action-bar { flex-direction:column; align-items:stretch; padding:8px 0; }
+.fs-study .ac-vehicle[data-flow-mode=document] .fs-dashboard { height:auto; min-height:var(--flow-content-height); grid-template-rows:var(--ac-touch) auto; }
+.fs-study .ac-display-controls:not([data-flow-mode=wide]) .fs-flow-header .fs-stages { display:flex; overflow-x:auto; gap:8px; padding:0; }
+.fs-study .ac-display-controls:not([data-flow-mode=wide]) .fs-flow-header .fs-stages li { flex:none; flex-direction:row; }
+.fs-study .ac-display-controls:not([data-flow-mode=wide]) .fs-action-bar { flex-direction:column; align-items:stretch; padding:8px 0; }
 .fs-board .fs-summary-status { font-size:var(--ac-type-label); line-height:1.5; }
 .fs-board[data-profile=document] { display:grid; height:auto; gap:var(--ac-space-4); }
 .fs-board[data-profile=document] .fs-cell { position:relative; inset:auto; height:auto; min-height:0; padding:24px; border-radius:var(--ac-radius-card); }

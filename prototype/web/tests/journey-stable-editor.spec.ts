@@ -13,11 +13,13 @@ async function record(page:Page){
 }
 const clickWithoutScroll=async(page:Page,name:string)=>(await journeyControl(page,name,true)).evaluate((node:HTMLButtonElement)=>node.click())
 
-test('bounded shell reserves progress, task actions and urgent facts together',async({page})=>{
+test('display keeps urgent facts while demo progress and actions stay outside',async({page})=>{
  await record(page)
  const shell=page.locator('.journey-flow [data-care-component=vehicle-shell]')
- await expect(shell.getByRole('list',{name:'사고 대응 진행'})).toBeVisible()
- await expect(shell.getByTestId('journey-primary')).toBeVisible()
+ const controls=page.locator('.journey-flow .ac-display-controls')
+ await expect(controls.getByRole('list',{name:'사고 대응 진행'})).toBeVisible()
+ await expect(controls.getByTestId('journey-primary')).toBeVisible()
+ await expect(shell.getByTestId('journey-primary')).toHaveCount(0)
  await clickWithoutScroll(page,'시연 event: 위험 정보')
  await expect(shell.getByRole('alert')).toContainText('위험 정보 확인 필요')
  await expect(shell.getByRole('button',{name:'위험 안내 확인',exact:true})).toBeVisible()
@@ -77,7 +79,7 @@ test('narrow context keeps the same scene, draft and immediate call facts',async
  expect(await sceneNode!.evaluate(node=>node.isConnected)).toBe(true)
 })
 
-test('step focus never scrolls the document and status updates retain input focus',async({page})=>{
+test('background updates preserve document scroll and editor focus',async({page})=>{
  await record(page)
  const input=page.getByRole('textbox',{name:'사고 기록',exact:true})
  await input.fill('작성 중인 기록')

@@ -8,21 +8,19 @@ import '@/design-system/layout.css'
 
 type ResponseProps={summary:ReactNode;primary:ReactNode;requests:ReactNode;navigation:ReactNode;guidance:ReactNode;action?:ReactNode;primaryTone?:'plain'|'call';interactive?:boolean;notificationKey?:string}
 
-export function VehicleShell({children,device='vehicle',presentation,header,previewHeight}:{children:ReactNode;device?:'vehicle'|'mobile';presentation?:'bounded';header?:ReactNode;previewHeight?:number}) {
+export function VehicleShell({children,device='vehicle',presentation,controls,previewHeight}:{children:ReactNode;device?:'vehicle'|'mobile';presentation?:'bounded';controls?:ReactNode;previewHeight?:number}) {
   const host=useRef<HTMLDivElement>(null)
   const measured=useBoundedFrame(host,device,previewHeight),frame=presentation==='bounded'?measured:null
-  const progress=frame?Math.max(32,frame.metrics.labelLineHeight+8):0,urgent=frame?Math.max(frame.metrics.touch,2*frame.metrics.bodyLineHeight+16):0
-  const style=frame?{'--flow-stage-height':`${frame.height}px`,'--flow-content-height':`${frame.contentHeight}px`,'--flow-header-height':`${frame.headerHeight}px`,'--flow-status-height':`${frame.statusHeight}px`,'--flow-dock-height':`${frame.dockHeight}px`,'--flow-progress-height':`${progress}px`,'--flow-action-height':`${frame.headerHeight-progress-urgent-16}px`,'--flow-urgent-height':`${urgent}px`} as CSSProperties:undefined
+  const style=frame?{'--flow-stage-height':`${frame.height}px`,'--flow-content-height':`${frame.contentHeight}px`,'--flow-status-height':`${frame.statusHeight}px`,'--flow-dock-height':`${frame.dockHeight}px`} as CSSProperties:undefined
   return <FlowFrameContext.Provider value={frame}><div ref={host} className="ac-system ac-vehicle" data-care-component="vehicle-shell" data-care-device={device} data-presentation={presentation} data-flow-mode={frame?.mode} data-flow-reason={frame?.reason} data-flow-font-size={frame?.metrics.rem} style={style}>
     <div className="ac-vehicle-status" role="region" aria-label="차량 상태 표시" data-figma-node="28:2041">
       <time dateTime="21:12">오후 9:12</time>
       <span className="ac-vehicle-mode"><span className="ac-vehicle-mode-mark"><img src="/figma/ivi-status-bar/mode-indicator.svg" width="14" height="14" alt=""/></span><span>차분 · 사고 대응 모드</span></span>
       <span className="ac-vehicle-connectivity" aria-label="5G, 외부 온도 18°C">{'5G   18°C'}</span>
     </div>
-    {presentation==='bounded'&&<div className="ac-vehicle-header">{header}</div>}
     <div className="ac-vehicle-content">{children}</div>
     <div className="ac-vehicle-dock" aria-hidden="true"><span><Fan/>22.5°</span><span><House/><Navigation/><i/><Phone/></span><span>22.5°</span></div>
-  </div></FlowFrameContext.Provider>
+  </div>{controls&&<div className="ac-system ac-display-controls" data-flow-mode={frame?.mode}>{controls}</div>}</FlowFrameContext.Provider>
 }
 
 export function ResponseLayout({summary,primary,requests,navigation,guidance,action,primaryTone='call',interactive=false,notificationKey}:ResponseProps) {

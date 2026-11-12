@@ -9,7 +9,7 @@ const api=implementation as Partial<PlanAPI>
 const layouts:FlowLayout[]=['detect','evacuate','safe','review','sending','calm']
 const ids:CellId[]=['guide','record','insurer','emergency']
 const environments=[[672,410],[672,500],[912,680],[1232,1040]]
-const frame=(width:number,height:number,mode:FlowFrame['mode']='wide',scale=1):FlowFrame=>({width,height,mode,device:mode==='mobile'?'mobile':'vehicle',contentHeight:height,headerHeight:0,statusHeight:0,dockHeight:0,revision:`${width}:${height}:${mode}:${scale}`,reason:'test fixture',metrics:{rem:16*scale,bodyLineHeight:27*scale,headingLineHeight:34*scale,callLineHeight:(mode==='wide'&&width>=1200?52.4:mode==='wide'&&width>=900?47.16:36.68)*scale,labelLineHeight:(mode==='wide'&&width>=1200?36:mode==='wide'&&width>=900?27:21)*scale,touch:(mode==='mobile'?48:64)*scale}})
+const frame=(width:number,height:number,mode:FlowFrame['mode']='wide',scale=1):FlowFrame=>({width,height,mode,device:mode==='mobile'?'mobile':'vehicle',contentHeight:height,statusHeight:0,dockHeight:0,revision:`${width}:${height}:${mode}:${scale}`,reason:'test fixture',metrics:{rem:16*scale,bodyLineHeight:27*scale,headingLineHeight:34*scale,callLineHeight:(mode==='wide'&&width>=1200?52.4:mode==='wide'&&width>=900?47.16:36.68)*scale,labelLineHeight:(mode==='wide'&&width>=1200?36:mode==='wide'&&width>=900?27:21)*scale,touch:(mode==='mobile'?48:64)*scale}})
 function plans(width:number,height:number,mode:FlowFrame['mode']='wide',scale=1){expect(typeof api.createFlowPlan).toBe('function');return layouts.map(layout=>api.createFlowPlan!(layout,width,height,frame(width,height,mode,scale)))}
 
 test('content-first endpoints are deterministic, reserve usable slots and keep four identities',()=>{

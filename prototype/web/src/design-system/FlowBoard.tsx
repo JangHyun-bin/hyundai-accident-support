@@ -12,7 +12,7 @@ gsap.registerPlugin(CustomEase)
 const breathEase=CustomEase.create('flow-breath','.65,0,.35,1')
 const ids:CellId[]=['guide','record','insurer','emergency']
 const titles:Record<CellId,string>={guide:'안전 확보',record:'사고 기록',insurer:'보험사 전달',emergency:'긴급 통화'}
-const initialFrame:FlowFrame={width:680,height:800,device:'vehicle',mode:'narrow',contentHeight:600,headerHeight:0,statusHeight:0,dockHeight:0,revision:'initial',reason:'initial measurement',metrics:{rem:16,bodyLineHeight:23.58,headingLineHeight:36.4,callLineHeight:35,labelLineHeight:21,touch:64}}
+const initialFrame:FlowFrame={width:680,height:800,device:'vehicle',mode:'narrow',contentHeight:600,statusHeight:0,dockHeight:0,revision:'initial',reason:'initial measurement',metrics:{rem:16,bodyLineHeight:23.58,headingLineHeight:36.4,callLineHeight:35,labelLineHeight:21,touch:64}}
 const emptyShape={left:0,top:0,width:1,height:1,path:'M0 0 Z'}
 const sameSlot=(a:FlowPlan['cells'][CellId],b:FlowPlan['cells'][CellId])=>a.visible&&b.visible&&a.variant===b.variant&&(['left','top','width','height'] as const).every(key=>Math.abs(a.slot[key]-b.slot[key])<.01)
 
@@ -56,12 +56,12 @@ export function FlowBoard({layout:target,notificationKey,reduced,driving=false,r
  },[])
  function paint(shapes:FlowShapeFrame){
   current.current=shapes
-  if(frame.mode==='document')return
   for(const id of ids){
    const surface=host.current?.querySelector<HTMLElement>(`[data-cell="${id}"]`)
    const background=surface?.querySelector<HTMLElement>('.ac-material-frame'),shape=shapes[id]
    if(!background)continue
-   background.style.visibility=shape?'visible':'hidden'
+   background.style.display=frame.mode==='document'||shape?'':'none'
+   if(frame.mode==='document')continue
    if(!shape)continue
    const {bounds,path}=shape
    Object.assign(background.style,{left:`${bounds.left}px`,top:`${bounds.top}px`,width:`${bounds.width}px`,height:`${bounds.height}px`})

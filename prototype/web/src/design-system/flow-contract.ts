@@ -6,7 +6,7 @@ import type {Point,SlotRect} from './split-geometry'
 export type FlowMode='wide'|'narrow'|'mobile'|'document'
 export type FlowMetrics={rem:number;bodyLineHeight:number;headingLineHeight:number;callLineHeight:number;labelLineHeight:number;touch:number}
 export type FlowFrameInput={width:number;height:number;device:'vehicle'|'mobile';metrics:FlowMetrics}
-export type FlowFrame=FlowFrameInput&{mode:FlowMode;contentHeight:number;headerHeight:number;statusHeight:number;dockHeight:number;revision:string;reason:string}
+export type FlowFrame=FlowFrameInput&{mode:FlowMode;contentHeight:number;statusHeight:number;dockHeight:number;revision:string;reason:string}
 export const FlowFrameContext=createContext<FlowFrame|null>(null)
 export const useFlowFrame=()=>useContext(FlowFrameContext)
 

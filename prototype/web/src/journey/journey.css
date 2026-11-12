@@ -124,3 +124,5 @@
 .journey-input-label { flex-wrap:wrap; }
 
 .journey-study :is(button,select),.journey-surface :is(button,select) { min-height:var(--ac-touch); min-width:var(--ac-touch); }
+
+.journey-study[data-flow-active=true] { padding:0; }
