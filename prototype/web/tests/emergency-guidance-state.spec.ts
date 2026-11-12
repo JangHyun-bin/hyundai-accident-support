@@ -110,33 +110,33 @@ for (const decision of ['보내지 않기', '나중에 보내기']) test(`SC04 $
   }
 })
 
-for (const sceneId of ['support', 'paused']) test(`SC04 ${sceneId} selects every insurance state without mutating the request`, async ({ page }) => {
+const insuranceGuidanceStates = [
+  ['declined', '거절 유지', 'declined'], ['deferred', '보류 유지', 'deferred'], ['not_sent', '요청 전', 'declined'],
+  ['sent', '전송됨', 'sent'], ['unknown', '접수 미확인', 'insurance_unconfirmed'], ['checking', '접수 확인 중', 'checking'],
+  ['received', '접수 확인', 'received'], ['failed', '전송 실패', 'failed'], ['not_received', '미접수 확인', 'insurance_not_received'],
+  ['connected', '통화 연결', 'insurance_unconfirmed'], ['connection_unknown', '연결 미확인', 'insurance_unconfirmed'],
+]
+for (const sceneId of ['support', 'paused']) for (const [status, label, source] of insuranceGuidanceStates) test(`SC04 ${sceneId}/${status} keeps the actual decision without mutating the request`, async ({ page }) => {
   await mount(page, sceneId)
-  const cases = [
-    ['declined', '거절 유지', 'declined'], ['deferred', '보류 유지', 'deferred'], ['not_sent', '요청 전', 'declined'],
-    ['sent', '전송됨', 'sent'], ['unknown', '접수 미확인', 'insurance_unconfirmed'], ['checking', '접수 확인 중', 'checking'],
-    ['received', '접수 확인', 'received'], ['failed', '전송 실패', 'failed'], ['not_received', '미접수 확인', 'insurance_not_received'],
-    ['connected', '통화 연결', 'insurance_unconfirmed'], ['connection_unknown', '연결 미확인', 'insurance_unconfirmed'],
-  ]
-  for (const [status, label, source] of cases) {
-    await page.evaluate(insurance => window.guidancePatch({ insurance }), status)
-    await expect(surface(page).locator('[data-workflow="support"]')).toContainText(label)
-    if (status === 'failed') await expect(surface(page).locator('[data-workflow="support"]')).not.toContainText('접수되지 않음')
-    const expected = await page.evaluate(async source => {
-      // Browser-side lookup must share Vite's manifest and runtime-variant JSON.
-      const path = '/src/emergency/session.ts', audioPath = '/src/audio/manifest.ts', variantsPath = '/src/audio/emergency-guidance.json'
-      const { scenarioFor } = await import(path); const { guidanceAsset } = await import(audioPath)
-      const variants = (await import(variantsPath)).default
-      const text = variants[source] ?? scenarioFor('SC04').states.find((state: { id: string }) => state.id === source)!.voice
-      return { text, path: guidanceAsset(text)?.path }
-    }, source)
-    await expect(surface(page)).toContainText(expected.text)
-    expect(expected.path, 'C05 requires the exact real asset for this reachable guidance').toBeDefined()
-    const before = await page.evaluate(() => JSON.stringify(window.guidanceSession))
-    await touch(page, '음성 안내 듣기')
-    expect(await page.evaluate(() => window.guidanceCalls.at(-1)!.src)).toBe(expected.path)
-    expect(await page.evaluate(() => JSON.stringify(window.guidanceSession))).toBe(before)
-  }
+  await page.evaluate(insurance => window.guidancePatch({ insurance }), status)
+  await expect(surface(page).locator('[data-workflow="support"]')).toContainText(label)
+  await expect(surface(page).locator('[data-slot="detected"]')).toContainText(label)
+  if (status === 'failed') await expect(surface(page).locator('[data-workflow="support"]')).not.toContainText('접수되지 않음')
+  const expected = await page.evaluate(async source => {
+    // Static Node imports cannot enter this callback; load the actual Vite/browser module instances.
+    const path = '/src/emergency/session.ts', audioPath = '/src/audio/manifest.ts', variantsPath = '/src/audio/emergency-guidance.json'
+    const { scenarioFor } = await import(path); const { guidanceAsset } = await import(audioPath)
+    const variants = (await import(variantsPath)).default
+    const text = variants[source] ?? scenarioFor('SC04').states.find((state: { id: string }) => state.id === source)!.voice
+    return { text, path: guidanceAsset(text)?.path }
+  }, source)
+  await expect(surface(page)).toContainText(expected.text)
+  const before = await page.evaluate(() => JSON.stringify(window.guidanceSession))
+  await touch(page, '음성 안내 듣기')
+  if (expected.path) expect(await page.evaluate(() => window.guidanceCalls.at(-1)!.src)).toBe(expected.path)
+  else await expect(page.getByRole('status')).toContainText(expected.text)
+  expect(await page.evaluate(() => JSON.stringify(window.guidanceSession))).toBe(before)
+  expect(expected.path, 'C05 requires the exact real asset for this reachable guidance').toBeDefined()
 })
 
 test('same-scene request changes stop audio, reject stale completion and use the latest script', async ({ page }) => {

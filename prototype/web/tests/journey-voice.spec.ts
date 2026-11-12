@@ -210,9 +210,7 @@ test('maximum duration waits for native audio when the source is held beyond the
       tracksLive: window.voiceTestTracks.every(track => track.readyState === 'live'),
     }), sourceTime)
     expect(held).toEqual({ sourceSuspended: true, sourceDidNotAdvance: true, recording: 'recording', tracksLive: true })
-    await testInfo.attach('held-source-after-legacy-threshold', {
-      body: JSON.stringify(await page.evaluate(() => window.voiceRecorderProbe.snapshot()), null, 2), contentType: 'application/json',
-    })
+    await attachRecorderDiagnostics(page, testInfo, 'held-source-after-legacy-threshold')
     await page.evaluate(() => window.voiceRecorderProbe.contexts[0].resume())
     await waitForRecorderData(page)
     await page.evaluate(() => window.voiceRecorderProbe.mark('before-maximum-duration'))

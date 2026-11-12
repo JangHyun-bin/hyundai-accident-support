@@ -92,12 +92,12 @@ export async function waitForRecorderData(page: Page, recording = 0, chunks = 1)
   await page.evaluate(() => window.voiceRecorderProbe.mark('encoded-audio-ready'))
 }
 
-export async function attachRecorderDiagnostics(page: Page, testInfo: TestInfo) {
+export async function attachRecorderDiagnostics(page: Page, testInfo: TestInfo, name = 'recorder-timeline') {
   if (page.isClosed()) return
   const snapshot = await page.evaluate(() => window.voiceRecorderProbe.snapshot())
-  const path = testInfo.outputPath('recorder-timeline.json')
+  const path = testInfo.outputPath(`${name}.json`)
   await writeFile(path, JSON.stringify(snapshot, null, 2))
-  await testInfo.attach('recorder-timeline', { path, contentType: 'application/json' })
+  await testInfo.attach(name, { path, contentType: 'application/json' })
 }
 
 export async function attachReviewedRecording(page: Page, testInfo: TestInfo) {
@@ -118,7 +118,9 @@ export async function attachReviewedRecording(page: Page, testInfo: TestInfo) {
   await writeFile(path, new Uint8Array(reviewed.bytes))
   await testInfo.attach('maximum-duration-recording', { path, contentType: reviewed.mime })
   const { bytes, ...metadata } = reviewed
-  await testInfo.attach('reviewed-recording', { body: JSON.stringify({ ...metadata, bytes: bytes.length }, null, 2), contentType: 'application/json' })
+  const metadataPath = testInfo.outputPath('reviewed-recording.json')
+  await writeFile(metadataPath, JSON.stringify({ ...metadata, bytes: bytes.length }, null, 2) + '\n')
+  await testInfo.attach('reviewed-recording', { path: metadataPath, contentType: 'application/json' })
   if (!reviewed.decoded) throw new Error(`Native recording could not be decoded: ${reviewed.decodeError}`)
   return { mime: reviewed.mime, nativeDuration: reviewed.nativeDuration, bytes: bytes.length, decoded: reviewed.decoded }
 }
