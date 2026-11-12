@@ -1,12 +1,14 @@
 import { test, expect, type Page } from '@playwright/test'
+import { writeFile } from 'node:fs/promises'
 import type { Diagram, Evidence } from '../src/journey/case'
+import type * as CaseStore from '../src/journey/case-store'
 
 const original: Diagram = { revision: 1, origin: 'fixture', road: 'straight', vehicles: [
   { id: 'own', position: { x: .35, y: .65 }, heading: 0 },
   { id: 'other', position: { x: .65, y: .4 }, heading: 340 },
 ], contact: { x: .48, y: .48 }, confirmedRevision: 1 }
 
-declare global { interface Window { reconstructionResult: Diagram | null; reconstructionRerender: (value: Diagram) => void; reconstructionSetClipActive: (active: boolean) => void; reconstructionDirty: boolean } }
+declare global { interface Window { reconstructionResult: Diagram | null; reconstructionRerender: (value: Diagram) => void; reconstructionSetClipActive: (active: boolean) => void; reconstructionDirty: boolean; releaseHeldCaseCommit?: () => void; reconstructionAssetReads: { id: string; bytes: number | null }[] } }
 
 async function mount(page: Page, input: { diagram?: Diagram; original?: Diagram; readOnly?: boolean; clips?: { evidence: Evidence; path?: string; corrupt?: boolean; range?: { start: number; end: number } }[] }) {
   await page.goto('/?study=journey-catalog')
@@ -192,16 +194,63 @@ test('representative mobile diagram and clip remain visually reviewable', async 
   await page.screenshot({ path: testInfo.outputPath('mobile-reconstruction.png'), fullPage: true })
 })
 
-test('journey integration restores clips and edited diagrams after reload without losing urgent drafts', async ({ page }) => {
+test('journey integration restores clips and edited diagrams after reload without losing urgent drafts', async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 393, height: 852 })
   await page.goto('/?study=journey&fixture=partial-evidence&device=mobile')
   await page.getByRole('button', { name: '이 상황으로 시작', exact: true }).click()
-  await page.getByRole('button', { name: '시연 event: 사고 자료 확보', exact: true }).click()
   await expect(page.getByText('이 기기에 보관됨', { exact: true })).toBeVisible()
   await page.getByRole('button', { name: '사고 기록 남기기', exact: true }).click()
   await page.getByRole('button', { name: '내용 확인으로', exact: true }).click()
-  await page.getByRole('button', { name: '전방 영상 재생', exact: true }).click()
-  await expect.poll(() => page.locator('video').evaluate((node: HTMLVideoElement) => node.currentTime)).toBeGreaterThan(0)
+  await page.evaluate(() => {
+    window.reconstructionAssetReads = []
+    const get = IDBObjectStore.prototype.get
+    IDBObjectStore.prototype.get = function (query) {
+      const request = get.call(this, query)
+      if (this.name === 'assets') request.addEventListener('success', () => {
+        window.reconstructionAssetReads.push({ id: String(query), bytes: request.result?.blob?.size ?? null })
+      })
+      return request
+    }
+    const descriptor = Object.getOwnPropertyDescriptor(IDBTransaction.prototype, 'oncomplete')!
+    const setComplete = descriptor.set!
+    Object.defineProperty(IDBTransaction.prototype, 'oncomplete', { ...descriptor,
+      set(this: IDBTransaction, handler: IDBTransaction['oncomplete']) {
+        if (!handler || this.mode !== 'readwrite' || !this.objectStoreNames.contains('cases')) {
+          setComplete.call(this, handler); return
+        }
+        Object.defineProperty(IDBTransaction.prototype, 'oncomplete', descriptor)
+        // Hold delivery of a real completed metadata commit, not its native event or media bytes.
+        setComplete.call(this, (event: Event) => { window.releaseHeldCaseCommit = () => handler.call(this, event) })
+      },
+    })
+  })
+  await page.getByRole('button', { name: '시연 event: 경위서 초안', exact: true }).click()
+  await expect.poll(() => page.evaluate(() => !!window.releaseHeldCaseCommit)).toBe(true)
+  await page.getByRole('button', { name: '시연 event: 사고 자료 확보', exact: true }).click()
+  await expect.poll(() => page.evaluate(() => window.reconstructionAssetReads.some(read => read.bytes === null))).toBe(true)
+  const before = await page.evaluate(async () => {
+    // Resolve browser-owned IndexedDB through Vite, not the Node runner realm.
+    const path = '/src/journey/case-store.ts'
+    const { loadCase } = await import(/* @vite-ignore */ path) as typeof CaseStore
+    return { stored: await loadCase(new URL(location.href).searchParams.get('case')!), reads: [...window.reconstructionAssetReads] }
+  })
+  expect(before.stored?.evidence).toEqual([])
+  await page.evaluate(() => { window.releaseHeldCaseCommit!(); delete window.releaseHeldCaseCommit })
+  try {
+    const play = page.getByRole('button', { name: '전방 영상 재생', exact: true })
+    await expect(play).toBeVisible()
+    await play.click()
+    await expect.poll(() => page.locator('video').evaluate((node: HTMLVideoElement) => node.currentTime)).toBeGreaterThan(0)
+  } finally {
+    const after = await page.evaluate(async () => {
+      const path = '/src/journey/case-store.ts'
+      const { loadCase } = await import(/* @vite-ignore */ path) as typeof CaseStore
+      return { stored: await loadCase(new URL(location.href).searchParams.get('case')!), reads: window.reconstructionAssetReads }
+    })
+    const path = testInfo.outputPath('asset-read-commit-boundary.json')
+    await writeFile(path, JSON.stringify({ before, after }, null, 2))
+    await testInfo.attach('asset-read-commit-boundary', { path, contentType: 'application/json' })
+  }
   await page.getByRole('button', { name: '사고 도식', exact: true }).click()
   await page.getByRole('button', { name: '오른쪽으로 이동', exact: true }).click()
   const edited = await page.getByRole('button', { name: '내 차량 위치', exact: true }).getAttribute('transform')
