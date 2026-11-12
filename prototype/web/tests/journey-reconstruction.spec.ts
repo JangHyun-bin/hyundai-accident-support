@@ -224,7 +224,7 @@ test('journey integration restores clips and edited diagrams after reload withou
       },
     })
   })
-  await page.getByRole('button', { name: '시연 event: 경위서 초안', exact: true }).click()
+  await page.getByRole('button', { name: '시연 event: 차량 감지 자료', exact: true }).click()
   await expect.poll(() => page.evaluate(() => !!window.releaseHeldCaseCommit)).toBe(true)
   await page.getByRole('button', { name: '시연 event: 사고 자료 확보', exact: true }).click()
   await expect.poll(() => page.evaluate(() => window.reconstructionAssetReads.some(read => read.bytes === null))).toBe(true)
