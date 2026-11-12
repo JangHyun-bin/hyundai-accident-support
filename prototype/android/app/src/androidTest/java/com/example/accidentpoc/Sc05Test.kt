@@ -218,7 +218,7 @@ class Sc05Test {
         val primary = rule.onNodeWithTag("action-check_status").getUnclippedBoundsInRoot()
         val secondary = rule.onNodeWithTag("action-suspend").getUnclippedBoundsInRoot()
         assertTrue("Primary and secondary actions overlap", primary.bottom <= secondary.top)
-        assertTrue(primary.height >= 64.dp && secondary.height >= 64.dp)
+        assertTrue(primary.bottom - primary.top >= 64.dp && secondary.bottom - secondary.top >= 64.dp)
         click("action-check_status")
         request("vehicle", "접수 확인 중")
         click("action-suspend")
