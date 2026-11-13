@@ -1,0 +1,31 @@
+{
+  "recordedAt": "2026-11-12T16:01:28.240171+00:00",
+  "renderer": "SwiftShader software",
+  "emulatorVersion": "37.2.13",
+  "javaVersion": "25.0.2",
+  "gradleVersion": "9.6.0",
+  "devices": {
+    "35": {
+      "serial": "emulator-5554",
+      "api": "35",
+      "release": "15",
+      "abi": "arm64-v8a",
+      "buildFingerprint": "google/sdk_gphone16k_arm64/emu64a16k:15/AE3A.240806.043/12960925:userdebug/dev-keys",
+      "display": "Physical size: 1920x1200",
+      "density": "Physical density: 213",
+      "fontScale": "1.0",
+      "instrumentation": "not run"
+    },
+    "28": {
+      "serial": "emulator-5556",
+      "api": "28",
+      "release": "9",
+      "abi": "arm64-v8a",
+      "buildFingerprint": "Android/sdk_gphone_arm64/generic_arm64:9/PSR1.210301.009.B6/9767327:userdebug/dev-keys",
+      "display": "Physical size: 1920x1200",
+      "density": "Physical density: 213",
+      "fontScale": "null",
+      "instrumentation": "not run"
+    }
+  }
+}

@@ -8,6 +8,7 @@ import {ResponseLayout} from '@/components/ui/after-care-layout'
 import {CareConnectedCall,CareGuidance,CareRequests,CareSituation,CareUnknownMap} from '@/components/ui/response-content'
 import {manifest,scenarioFor,sceneFor,type Session,type Edge} from './session'
 import {WorkflowPanel} from './WorkflowPanel'
+import {resolveGuidance} from './guidance'
 import './emergency-system.css'
 
 export function careTone(tone:string):CareTone {
@@ -31,14 +32,14 @@ export function EmergencySurface({selection,paused,present,voiceState,storageAva
   const actions=(edges:Edge[])=>edges.map(edge=><CareAction key={edge.id} secondary={edge.secondary} disabled={(edge.effect==='submit'&&!selection.scope.length)||(edge.effect==='save_record'&&!selection.record.trim())} onClick={()=>onAction(edge)}>{edge.label}</CareAction>)
   const carActions=scene.actions.filter(a=>a.slot!=='self')
   const recordActions=carActions.filter(a=>a.to==='record')
-  const title=!storageAvailable&&scene.id==='record_saved'?'기기에 저장하지 못했어요':scene.title
+  const guidance=resolveGuidance(selection,scene,storageAvailable)
   const callTone=callConnected||!!scene.auto_contact||(['SC01','SC03'].includes(scenario.id)&&scene.phase==='progress')
   return <section ref={motionRef} data-care-motion-key={motionKey} className="emergency-screen ac-emergency ac-system" data-surface-status="flat" data-scenario={scenario.id} data-scene={scene.id} data-request-count={selection.submissions} aria-label="시각 중심 사고 대응" inert={paused||present==='covered'}>
     <ResponseLayout notificationKey={motionKey} primaryTone={callTone?'call':'plain'}
-      summary={<div data-slot="detected"><CareSituation title={`${scenario.presentation.detected} · ${scene.cue.label}`} action={<GuidanceButton state={voiceState} onClick={onVoice}/>} facts={facts.filter(f=>scenario.presentation.visible_facts.includes(f.id)||(f.id==='risk'&&f.status==='attention')).map(f=>({...f,tone:careTone(f.status)}))}>{notice}</CareSituation></div>}
+      summary={<div data-slot="detected"><CareSituation title={`${scenario.presentation.detected} · ${guidance.cueLabel}`} action={<GuidanceButton state={voiceState} onClick={onVoice}/>} facts={facts.filter(f=>scenario.presentation.visible_facts.includes(f.id)||(f.id==='risk'&&f.status==='attention')).map(f=>({...f,tone:careTone(f.status)}))}>{notice}</CareSituation></div>}
       primary={<div className="ac-emergency-primary" data-slot="car" data-urgent={scene.auto_contact?true:undefined} aria-live="polite">
         {scene.auto_contact&&<div className="ac-countdown" key={countdownKey} data-countdown={secondsLeft} aria-hidden="true"><NumberFlow value={secondsLeft}/></div>}
-        {callConnected?<CareConnectedCall title={title} headingRef={heading} active={!paused&&present!=='covered'}/>:<header className="ac-heading">{scene.step&&<span className="ac-eyebrow">{scene.step}</span>}<h1 ref={heading} tabIndex={-1}>{title}</h1>{scene.auto_contact?<p>응답이 없으면 자동 연결</p>:scene.instruction&&scene.panel!=='scope'&&<p>{scene.instruction}</p>}</header>}
+        {callConnected?<CareConnectedCall title={guidance.title} headingRef={heading} active={!paused&&present!=='covered'}/>:<header className="ac-heading">{scene.step&&<span className="ac-eyebrow">{scene.step}</span>}<h1 ref={heading} tabIndex={-1}>{guidance.title}</h1>{scene.auto_contact?<p>응답이 없으면 자동 연결</p>:guidance.instruction&&scene.panel!=='scope'&&<p>{guidance.instruction}</p>}</header>}
         <WorkflowPanel scene={scene} session={selection} persistent={storageAvailable} onChange={onEditDraft}/>
         <div className="ac-emergency-actions">{actions(carActions.filter(a=>a.to!=='record'))}{scene.auto_contact&&<CareAction secondary onClick={onCancel}>취소</CareAction>}</div>
       </div>}

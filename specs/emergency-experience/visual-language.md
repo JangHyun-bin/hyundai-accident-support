@@ -1,6 +1,16 @@
 # 시각 표현과 interaction 규칙
 
-## 공통 기반
+## 현행 기준과 역사 범위 · 2026-11-13
+
+아래의 2026-11-08 fixed canvas·두 flat box·React ViewTransition·browser TTS 설명은 당시 시안 기록이다. 현재 UI의 위치·크기·motion 계약으로 그대로 사용하지 않는다.
+
+- 현재 Journey·Emergency·catalog는 공용 CareSurface·token·responsive layout을 사용한다. Wide display·외부 시연 도구·document 예외는 [현재 display 기준](../../docs/design-system/pleos-display-and-controls.md), typography·touch·palette·material은 [현행 시각 기준](../../docs/superpowers/specs/2026-11-12-figma-visual-contract.md)을 따른다. 후자는 승인 원문을 복원한 문서가 아니다.
+- 공용 state motion은240ms, Flow material morph는 별도1200/1600ms 규칙이다. 글자 자체를 stretch하지 않고 editor DOM·draft·caret·scroll과119 core를 유지한다. Reduced motion을 보존한다.
+- 안내는 사전 생성 JaeGyu MP3이며 기본 scene 원고와 실제 persistence·기관 상태를 반영한 runtime 원고를 구분한다. 정확한 asset이 없으면 오류와 원고를 제공하며 다른 의미의 음성을 재생하지 않는다.
+- Emergency의 같은 scene URL reload·scene 없는 scenario 진입은 versioned localStorage 복원을 시도한다. 다른 scene 직접 선택은 fixture 진입이다. Journey는 별도 IndexedDB case/media를 저장한다. 실제 기관 요청이나 기기 간 sync는 아니다.
+- indicator의 “뜻하지 않는 것”과 기관별 독립 상태 원칙은 계속 유지한다. 아래 역사적 pixel 값·통화 icon 크기·bar 수는 현재 component 수치의 근거가 아니다.
+
+## 2026-11-08 시안의 공통 기반 · 역사 기록
 
 Asta와 Pleos dark basic scale을 사용한다. Browser의 검토 UI는 좁은 폭에서도 조작할 수 있어야 한다. 차량 canvas는 비율을 유지해 축소하며 원래 크기 보기를 제공한다.
 

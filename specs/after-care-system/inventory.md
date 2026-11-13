@@ -2,7 +2,13 @@
 
 정본: `specs/emergency-experience/scenarios.json`, `journey-fixtures.json`, `prototype/web/src/main.tsx`.
 
-## Emergency — 5 scenario / 60 state
+## 현재 검증과 역사 표의 구분 · 2026-11-13
+
+아래60-state/8-fixture 표의 PASS와 공통 motion·음성 수치는 **전역화 당시의 적용·검증 기록**이다. 현재 branch 전체 통과·현재 자산 수·각 state의 최신 screenshot을 의미하지 않는다.
+
+현행 구현·repair32개 요구·전역 goal의 미충족 상태는 [completion](completion.md), 현재 실행 상태는 [requirements](../../evidence/contract-reliability-repair/requirements.json)에서 구분한다. 기존64개 MP3와 새 상태별 필수 원고의 완성 여부도 별개다. source/hash·실제 실행 결과 없이 PASS를 자동 승계하지 않는다.
+
+## Emergency — 5 scenario / 60 state · 역사 적용표
 
 | Scenario | State | Title | Verification |
 |---|---|---|---|
@@ -67,7 +73,7 @@
 | SC05 | `arrived` | 차량 지원이 현장에 도착했어요 | shared UI + state/geometry + desktop/mobile capture PASS |
 | SC05 | `handoff` | 구호 인계가 확인됐어요 | shared UI + state/geometry + desktop/mobile capture PASS |
 
-## Journey — 8 fixture
+## Journey — 8 fixture · 역사 적용표
 
 | Fixture | 범위 | Verification |
 |---|---|---|

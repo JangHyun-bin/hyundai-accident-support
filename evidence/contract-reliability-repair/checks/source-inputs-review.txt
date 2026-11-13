@@ -1,0 +1,79 @@
+COMMAND ["python3", "/tmp/hyundai-contract-repair/finalize-source.py"]
+CWD .
+TESTED_COMMIT 2bd7c258187772399bacfe62fdb8b6f3254c642a
+{
+  "files": 410,
+  "manifestSha256": "bd915f03442699a5c24cd08864643b2cf22583e1a17706a5e0673bc68cdef27f",
+  "changedSinceInitial": [
+    "prototype/android/app/src/androidTest/java/com/example/accidentpoc/Sc05Test.kt",
+    "prototype/web/src/design-system/ResponseLayoutPreview.tsx",
+    "prototype/web/src/emergency/EmergencyStudy.tsx",
+    "prototype/web/src/emergency/EmergencySurface.tsx",
+    "prototype/web/src/emergency/guidance.ts",
+    "prototype/web/src/journey/JourneyReviewPanel.tsx",
+    "prototype/web/src/journey/JourneyStudy.tsx",
+    "prototype/web/src/journey/ReportPanel.tsx",
+    "prototype/web/tests/emergency-guidance-state.spec.ts",
+    "prototype/web/tests/emergency-urgent.spec.ts",
+    "prototype/web/tests/emergency.spec.ts",
+    "prototype/web/tests/guidance-audio.spec.ts",
+    "prototype/web/tests/guidance-mock.ts",
+    "prototype/web/tests/helpers/voice-recorder.ts",
+    "prototype/web/tests/journey-reconstruction.spec.ts",
+    "prototype/web/tests/journey-record-reliability.spec.ts",
+    "prototype/web/tests/journey-voice.spec.ts"
+  ],
+  "relations": [
+    {
+      "scope": "root-and-manifest",
+      "testedCommit": "17a4d50f3f92222ffef36b9d2cf9d19149cf81ec",
+      "gates": [
+        "root-check",
+        "root-model",
+        "root-review",
+        "root-server",
+        "manifest"
+      ],
+      "inputCount": 53,
+      "differencesFromFinal": [],
+      "identical": true
+    },
+    {
+      "scope": "audio-script-tests",
+      "testedCommit": "17a4d50f3f92222ffef36b9d2cf9d19149cf81ec",
+      "gates": [
+        "audio-script-tests"
+      ],
+      "inputCount": 11,
+      "differencesFromFinal": [],
+      "identical": true
+    },
+    {
+      "scope": "android",
+      "testedCommit": "2a5dea5e992814a96c5e3cf19595f2691f07eb54",
+      "gates": [
+        "android-build-fix2",
+        "android-api28-fix1",
+        "android-api35-fix1"
+      ],
+      "inputCount": 20,
+      "differencesFromFinal": [],
+      "identical": true
+    },
+    {
+      "scope": "web",
+      "testedCommit": "2bd7c258187772399bacfe62fdb8b6f3254c642a",
+      "gates": [
+        "web-build-clean-review",
+        "web-full-review",
+        "web-targeted-review-fix2"
+      ],
+      "inputCount": 392,
+      "differencesFromFinal": [],
+      "identical": true
+    }
+  ],
+  "protectedInputCount": 60
+}
+
+EXIT_STATUS 0

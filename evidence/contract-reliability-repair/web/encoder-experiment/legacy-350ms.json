@@ -1,0 +1,167 @@
+{
+  "strategy": "legacy-350ms",
+  "before": {
+    "ui": {
+      "phase": "listening",
+      "message": null,
+      "clips": 0
+    },
+    "events": [
+      {
+        "kind": "phase-change",
+        "realMilliseconds": 1402.2999999523163,
+        "applicationMilliseconds": 1794502709679,
+        "phase": "requesting-permission",
+        "visibility": "visible"
+      },
+      {
+        "kind": "phase-change",
+        "realMilliseconds": 2838.2000000476837,
+        "applicationMilliseconds": 1794502711115,
+        "phase": "listening",
+        "visibility": "visible"
+      }
+    ],
+    "sources": [
+      {
+        "state": "suspended",
+        "seconds": 0
+      }
+    ],
+    "recordings": [
+      {
+        "mime": "audio/webm;codecs=opus",
+        "state": "recording",
+        "stopCalls": 0,
+        "chunks": [],
+        "tracks": [
+          {
+            "kind": "audio",
+            "readyState": "live",
+            "muted": false
+          }
+        ],
+        "events": [
+          {
+            "kind": "start-call",
+            "realMilliseconds": 2835.2000000476837,
+            "applicationMilliseconds": 1794502711112,
+            "phase": "requesting-permission",
+            "visibility": "visible",
+            "state": "inactive"
+          }
+        ]
+      }
+    ]
+  },
+  "after": {
+    "ui": {
+      "phase": "error",
+      "message": "이번 음성을 남기지 못했어요. 이전 기록은 그대로 있어요.",
+      "clips": 0
+    },
+    "events": [
+      {
+        "kind": "phase-change",
+        "realMilliseconds": 1402.2999999523163,
+        "applicationMilliseconds": 1794502709679,
+        "phase": "requesting-permission",
+        "visibility": "visible"
+      },
+      {
+        "kind": "phase-change",
+        "realMilliseconds": 2838.2000000476837,
+        "applicationMilliseconds": 1794502711115,
+        "phase": "listening",
+        "visibility": "visible"
+      },
+      {
+        "kind": "before-maximum-duration",
+        "realMilliseconds": 3218.7000000476837,
+        "applicationMilliseconds": 1794502711840,
+        "phase": "listening",
+        "visibility": "visible"
+      },
+      {
+        "kind": "phase-change",
+        "realMilliseconds": 3227.7999999523163,
+        "applicationMilliseconds": 1794502831942,
+        "phase": "error",
+        "visibility": "visible"
+      }
+    ],
+    "sources": [
+      {
+        "state": "closed",
+        "seconds": 0
+      }
+    ],
+    "recordings": [
+      {
+        "mime": "audio/webm;codecs=opus",
+        "state": "inactive",
+        "stopCalls": 1,
+        "chunks": [],
+        "tracks": [
+          {
+            "kind": "audio",
+            "readyState": "ended",
+            "muted": false
+          }
+        ],
+        "events": [
+          {
+            "kind": "start-call",
+            "realMilliseconds": 2835.2000000476837,
+            "applicationMilliseconds": 1794502711112,
+            "phase": "requesting-permission",
+            "visibility": "visible",
+            "state": "inactive"
+          },
+          {
+            "kind": "stop-call",
+            "realMilliseconds": 3222.100000023842,
+            "applicationMilliseconds": 1794502831940,
+            "phase": "listening",
+            "visibility": "visible",
+            "state": "recording"
+          },
+          {
+            "kind": "start",
+            "realMilliseconds": 3224.2999999523163,
+            "applicationMilliseconds": 1794502831940,
+            "phase": "listening",
+            "visibility": "visible",
+            "state": "inactive"
+          },
+          {
+            "kind": "dataavailable",
+            "realMilliseconds": 3224.7999999523163,
+            "applicationMilliseconds": 1794502831940,
+            "phase": "listening",
+            "visibility": "visible",
+            "bytes": 0,
+            "state": "inactive"
+          },
+          {
+            "kind": "stop",
+            "realMilliseconds": 3225.100000023842,
+            "applicationMilliseconds": 1794502831940,
+            "phase": "listening",
+            "visibility": "visible",
+            "state": "inactive"
+          }
+        ]
+      }
+    ]
+  },
+  "saveVisible": false,
+  "saveEnabled": false,
+  "recording": {
+    "bytes": 0,
+    "mime": "audio/webm;codecs=opus",
+    "decoded": null,
+    "decodeError": null
+  },
+  "visibleText": "AFTER / CARE\n\n사고 대응 · 전체 여정\n가상 자료와 명시적 결과로 검토 · 실제 전화·전송·기기 간 동기화 없음\nDesign system\n시연 상황\n사고 대응부터 후속 처리까지\n응답 없음과 늦은 응답\n차량 이동 불가\n자료 없이 이어가기\n일부 자료만 확보\n보험사 전송 거절 유지\n중단 중 접수 결과 도착\n과거 요청의 늦은 결과\n새 시연 시작\n차량 보기\n음성 입력\n이 기기 microphone\n준비된 음성 sample\n긴급 대응 보기\n후속 처리 보기\n차량 상태 보기\n외부 결과 시연\n정비소 정보\n안내 있음\n오래된 안내\n제공된 목록 없음\n조회 실패\n차량 감지 자료\n사고 자료 확보\n경위서 초안\n비상등 작동 확인\n안내 지점 자료\n위험 정보\n통화 연결 확인\n구호 접수 확인\n충돌 감지\n운전자 조작\n미확인\n차량 이동\n가능\n이동 경로\n미확인\n사고 기록\n기억나는 내용을 남겨주세요\n\n기억과 다른 내용은 저장 전에 고칠 수 있어요.\n\n음성 안내 듣기\n말로 남기기\n사진 남기기\n직접 입력\n\n이번 음성을 남기지 못했어요. 이전 기록은 그대로 있어요.\n\n구호\n통화 연결\n·\n접수 미확인\n차량 지원\n요청 전\n보험사\n요청 전\n말로 기록하기\n내용 확인으로\n이 기기에 보관됨"
+}

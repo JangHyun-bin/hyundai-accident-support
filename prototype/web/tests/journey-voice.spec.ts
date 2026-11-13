@@ -1,11 +1,14 @@
 import { test, expect, type Page } from '@playwright/test'
+import { attachRecorderDiagnostics, attachReviewedRecording, observeVoiceRecorder, waitForRecorderData } from './helpers/voice-recorder'
+import type * as CaseStore from '../src/journey/case-store'
 
 declare global {
   interface Window { voiceTestTracks: MediaStreamTrack[]; voiceTestDenied: boolean; voiceTestSpeechCancelled: boolean; voiceTestRestoreSave: () => void; voiceTestPermission: () => void }
 }
 
-async function fakeMicrophone(page: Page, denied = false) {
-  await page.addInitScript(({ denied }) => {
+async function fakeMicrophone(page: Page, denied = false, { holdAudio = false }: { holdAudio?: boolean } = {}) {
+  await observeVoiceRecorder(page)
+  await page.addInitScript(({ denied, holdAudio }) => {
     window.voiceTestTracks = []
     window.voiceTestDenied = denied
     window.voiceTestSpeechCancelled = false
@@ -14,6 +17,7 @@ async function fakeMicrophone(page: Page, denied = false) {
     navigator.mediaDevices.getUserMedia = async () => {
       if (window.voiceTestDenied) throw new DOMException('denied', 'NotAllowedError')
       const context = new AudioContext()
+      if (holdAudio) await context.suspend()
       const oscillator = context.createOscillator()
       const gain = context.createGain()
       gain.gain.value = .2
@@ -22,11 +26,13 @@ async function fakeMicrophone(page: Page, denied = false) {
       oscillator.start()
       const track = destination.stream.getAudioTracks()[0]
       const stop = track.stop.bind(track)
-      track.stop = () => { stop(); oscillator.stop(); void context.close() }
+      track.stop = () => { if (track.readyState === 'ended') return; stop(); oscillator.stop(); void context.close() }
+      window.voiceRecorderProbe.contexts.push(context)
+      if (!holdAudio) await context.resume()
       window.voiceTestTracks.push(track)
       return destination.stream
     }
-  }, { denied })
+  }, { denied, holdAudio })
 }
 
 async function begin(page: Page) {
@@ -59,6 +65,7 @@ test('real recording cancels speech, meters audio, stops tracks and never invent
   await page.getByRole('button', { name: '말로 기록하기', exact: true }).click()
   await expect(page.getByRole('button', { name: '말하기 마치기', exact: true })).toBeVisible()
   await expect.poll(() => page.locator('[data-voice-level]').getAttribute('data-voice-level').then(Number)).toBeGreaterThan(0)
+  await waitForRecorderData(page)
   await page.getByRole('button', { name: '말하기 마치기', exact: true }).click()
   await expect(page.getByText('음성은 남겼어요. 내용을 직접 입력할 수 있어요.', { exact: true })).toBeVisible()
   await expect(page.getByRole('textbox', { name: '사고 기록', exact: true })).toHaveValue('')
@@ -75,7 +82,7 @@ test('actual MediaRecorder WebM can be reviewed and approved without trusting it
   await begin(page)
   await page.getByRole('button', { name: '말로 기록하기', exact: true }).click()
   await expect(page.getByRole('button', { name: '말하기 마치기', exact: true })).toBeVisible()
-  await page.waitForTimeout(1100)
+  await waitForRecorderData(page, 0, 2)
   await page.getByRole('button', { name: '말하기 마치기', exact: true }).click()
   await page.getByRole('button', { name: '기록 저장', exact: true }).click()
   await expect(page.getByText('기록을 저장했어요.', { exact: true })).toBeVisible()
@@ -124,6 +131,7 @@ test('urgent interruption stops recording without blocking response or discardin
   await page.getByRole('button', { name: '말로 기록하기', exact: true }).click()
   await expect(page.getByRole('button', { name: '말하기 마치기', exact: true })).toBeVisible()
   await expect.poll(() => page.locator('[data-voice-level]').getAttribute('data-voice-level').then(Number)).toBeGreaterThan(0)
+  await waitForRecorderData(page)
   await page.getByRole('button', { name: '시연 event: 위험 정보', exact: true }).click()
   await expect(page.locator('[data-journey-stage]')).toHaveAttribute('data-journey-stage', 'response', { timeout: 400 })
   await expect.poll(() => page.evaluate(() => window.voiceTestTracks.every(t => t.readyState === 'ended'))).toBe(true)
@@ -132,22 +140,91 @@ test('urgent interruption stops recording without blocking response or discardin
   await expect(page.getByRole('button', { name: '기록 저장', exact: true })).toBeEnabled()
 })
 
-test('maximum duration stops at review and pagehide releases microphone tracks', async ({ page }) => {
+test('maximum duration stops at review and pagehide releases microphone tracks', async ({ page }, testInfo) => {
   await fakeMicrophone(page)
   await begin(page)
-  await page.clock.install()
-  await page.getByRole('button', { name: '말로 기록하기', exact: true }).click()
-  await expect(page.getByRole('button', { name: '말하기 마치기', exact: true })).toBeVisible()
-  // MediaRecorder encoder는 Playwright clock과 별도로 실제 audio frame을 받음.
-  await page.waitForTimeout(350)
-  await page.clock.fastForward(120100)
-  await expect(page.getByRole('button', { name: '기록 저장', exact: true })).toBeEnabled()
-  await expect(page.getByText('기록을 저장했어요.', { exact: true })).toHaveCount(0)
-  expect(await page.evaluate(() => window.voiceTestTracks.every(t => t.readyState === 'ended'))).toBe(true)
-  await page.getByRole('button', { name: '추가로 말하기', exact: true }).click()
-  await expect(page.getByRole('button', { name: '말하기 마치기', exact: true })).toBeVisible()
-  await page.evaluate(() => window.dispatchEvent(new Event('pagehide')))
-  await expect.poll(() => page.evaluate(() => window.voiceTestTracks.every(t => t.readyState === 'ended'))).toBe(true)
+  try {
+    await page.clock.install()
+    await page.getByRole('button', { name: '말로 기록하기', exact: true }).click()
+    await expect(page.locator('[data-voice-phase]')).toHaveAttribute('data-voice-phase', 'listening')
+    // Advancing application timers cannot produce native AudioContext/MediaRecorder frames.
+    await waitForRecorderData(page)
+    await page.evaluate(() => window.voiceRecorderProbe.mark('before-maximum-duration'))
+    await page.clock.fastForward(120100)
+    await expect(page.locator('[data-voice-phase]')).toHaveAttribute('data-voice-phase', 'review')
+    await expect(page.getByRole('button', { name: '기록 저장', exact: true })).toBeEnabled()
+    await expect(page.getByText('기록을 저장했어요.', { exact: true })).toHaveCount(0)
+    await expect(page.locator('.journey-voice audio')).toHaveCount(1)
+    expect(await page.evaluate(() => window.voiceTestTracks.every(track => track.readyState === 'ended'))).toBe(true)
+    const reviewed = await attachReviewedRecording(page, testInfo)
+    expect(reviewed.bytes).toBeGreaterThan(0)
+    expect(reviewed.decoded.frames).toBeGreaterThan(0)
+    expect(reviewed.decoded.duration).toBeGreaterThan(0)
+    const completed = await page.evaluate(() => {
+      const recording = window.voiceRecorderProbe.recordings[0]
+      return { stopCalls: recording.stopCalls, events: recording.events.map(event => ({ kind: event.kind, bytes: event.bytes })) }
+    })
+    expect(completed.stopCalls, 'timer stop and finished callback must share one native stop').toBe(1)
+    const firstAudio = completed.events.findIndex(event => event.kind === 'dataavailable' && (event.bytes ?? 0) > 0)
+    const stop = completed.events.findIndex(event => event.kind === 'stop-call')
+    expect(firstAudio).toBeGreaterThanOrEqual(0)
+    expect(stop).toBeGreaterThan(firstAudio)
+    expect(completed.events.at(-1)?.kind).toBe('stop')
+    const durableAudio = await page.evaluate(async () => {
+      // Import in the browser to inspect this page's IndexedDB rather than the runner's environment.
+      const path = '/src/journey/case-store.ts'
+      const { loadCase } = await import(/* @vite-ignore */ path) as typeof CaseStore
+      const value = (await loadCase(new URL(location.href).searchParams.get('case')!))!
+      return value.evidence.filter(evidence => evidence.kind === 'audio').length
+    })
+    expect(durableAudio, 'maximum duration must retain a draft, not automatically save it').toBe(0)
+    await page.getByRole('button', { name: '추가로 말하기', exact: true }).click()
+    await expect(page.locator('[data-voice-phase]')).toHaveAttribute('data-voice-phase', 'listening')
+    await waitForRecorderData(page, 1)
+    await page.evaluate(() => window.dispatchEvent(new Event('pagehide')))
+    await expect(page.locator('[data-voice-phase]')).toHaveAttribute('data-voice-phase', 'review')
+    await expect.poll(() => page.evaluate(() => window.voiceTestTracks.every(track => track.readyState === 'ended'))).toBe(true)
+    await expect(page.locator('.journey-voice audio')).toHaveCount(2)
+    await expect(page.getByText('기록을 저장했어요.', { exact: true })).toHaveCount(0)
+  } finally {
+    await attachRecorderDiagnostics(page, testInfo)
+  }
+})
+
+test('maximum duration waits for native audio when the source is held beyond the former 350ms assumption', async ({ page }, testInfo) => {
+  await fakeMicrophone(page, false, { holdAudio: true })
+  await begin(page)
+  try {
+    await page.clock.install()
+    await page.getByRole('button', { name: '말로 기록하기', exact: true }).click()
+    await expect(page.locator('[data-voice-phase]')).toHaveAttribute('data-voice-phase', 'listening')
+    const sourceTime = await page.evaluate(() => window.voiceRecorderProbe.contexts[0].currentTime)
+    // Reproduce only the former assumption's threshold while a real source is deliberately suspended.
+    // This is not a readiness wait: only resuming the source and observing encoded data permits the stop below.
+    await page.waitForTimeout(350)
+    await page.clock.fastForward(350)
+    const held = await page.evaluate(initialTime => ({
+      sourceSuspended: window.voiceRecorderProbe.contexts[0].state === 'suspended',
+      sourceDidNotAdvance: window.voiceRecorderProbe.contexts[0].currentTime === initialTime,
+      recording: window.voiceRecorderProbe.recordings[0].recorder.state,
+      tracksLive: window.voiceTestTracks.every(track => track.readyState === 'live'),
+    }), sourceTime)
+    expect(held).toEqual({ sourceSuspended: true, sourceDidNotAdvance: true, recording: 'recording', tracksLive: true })
+    await attachRecorderDiagnostics(page, testInfo, 'held-source-after-legacy-threshold')
+    await page.evaluate(() => window.voiceRecorderProbe.contexts[0].resume())
+    await waitForRecorderData(page)
+    await page.evaluate(() => window.voiceRecorderProbe.mark('before-maximum-duration'))
+    await page.clock.fastForward(120100)
+    await expect(page.locator('[data-voice-phase]')).toHaveAttribute('data-voice-phase', 'review')
+    await expect(page.getByRole('button', { name: '기록 저장', exact: true })).toBeEnabled()
+    const reviewed = await attachReviewedRecording(page, testInfo)
+    expect(reviewed.bytes).toBeGreaterThan(0)
+    expect(reviewed.decoded.frames).toBeGreaterThan(0)
+    expect(await page.evaluate(() => window.voiceTestTracks.every(track => track.readyState === 'ended'))).toBe(true)
+    await expect(page.getByText('기록을 저장했어요.', { exact: true })).toHaveCount(0)
+  } finally {
+    await attachRecorderDiagnostics(page, testInfo)
+  }
 })
 
 test('capture stop is repeatable and unsupported MIME releases tracks', async ({ page }) => {
@@ -205,6 +282,7 @@ test('failed save keeps audio and text through urgent response and can retry onc
   await begin(page)
   await page.getByRole('button', { name: '말로 기록하기', exact: true }).click()
   await expect.poll(() => page.locator('[data-voice-level]').getAttribute('data-voice-level').then(Number)).toBeGreaterThan(0)
+  await waitForRecorderData(page)
   await page.getByRole('button', { name: '말하기 마치기', exact: true }).click()
   await expect(page.getByRole('textbox', { name: '사고 기록', exact: true })).toBeVisible()
   await page.getByRole('textbox', { name: '사고 기록', exact: true }).fill('충격을 느꼈지만 정확한 방향은 몰라요.')
@@ -269,7 +347,7 @@ test('microphone ending unexpectedly exits listening and retains captured audio'
   await begin(page)
   await page.getByRole('button', { name: '말로 기록하기', exact: true }).click()
   await expect.poll(() => page.locator('[data-voice-level]').getAttribute('data-voice-level').then(Number)).toBeGreaterThan(0)
-  await page.waitForTimeout(350)
+  await waitForRecorderData(page)
   await page.evaluate(() => window.voiceTestTracks.forEach(track => track.stop()))
   await expect(page.getByRole('button', { name: '말하기 마치기', exact: true })).toHaveCount(0)
   await expect(page.locator('.journey-voice audio')).toHaveCount(1)
@@ -301,6 +379,7 @@ test('pending audio save does not delay urgent response or restore the earlier s
   await begin(page)
   await page.getByRole('button', { name: '말로 기록하기', exact: true }).click()
   await expect.poll(() => page.locator('[data-voice-level]').getAttribute('data-voice-level').then(Number)).toBeGreaterThan(0)
+  await waitForRecorderData(page)
   await page.getByRole('button', { name: '말하기 마치기', exact: true }).click()
   await expect(page.getByRole('textbox', { name: '사고 기록', exact: true })).toBeVisible()
   await page.getByRole('textbox', { name: '사고 기록', exact: true }).fill('정차한 상태였어요.')

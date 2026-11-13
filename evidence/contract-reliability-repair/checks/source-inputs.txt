@@ -1,0 +1,9 @@
+COMMAND ["python3", "/tmp/hyundai-contract-repair/finalize-source.py"]
+CWD .
+TESTED_COMMIT e76c9bcd7a91aa6ebc7dd9925e2840dd3e9e1fe5
+Traceback (most recent call last):
+  File "/tmp/hyundai-contract-repair/finalize-source.py", line 59, in <module>
+    assert not protected_changes, protected_changes
+AssertionError: ['prototype/web/src/design-system/ResponseLayoutPreview.tsx']
+
+EXIT_STATUS 1

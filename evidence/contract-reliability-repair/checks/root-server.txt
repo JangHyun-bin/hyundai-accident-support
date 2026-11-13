@@ -1,0 +1,10 @@
+COMMAND ["python3", "test-server.py"]
+CWD .
+TESTED_COMMIT 17a4d50f3f92222ffef36b9d2cf9d19149cf81ec
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.829s
+
+OK
+
+EXIT_STATUS 0

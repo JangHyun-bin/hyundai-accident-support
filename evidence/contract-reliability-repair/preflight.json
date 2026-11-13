@@ -1,0 +1,45 @@
+{
+  "recordedAt": "2026-11-12T15:55:07.579028+00:00",
+  "baseCommit": "2ed19146d500882fd11211f65b660f91336015eb",
+  "branch": "fix/contract-reliability-repair",
+  "github": {
+    "defaultBranch": "main",
+    "branchProtection": false,
+    "activeRulesets": [],
+    "openPullRequests": []
+  },
+  "voice": {
+    "credentialFilePresent": false,
+    "credentialEnvironmentPresent": false,
+    "ttsHttpRequests": 0,
+    "newAssetsPrepared": false,
+    "browserSessionAttempt": "Existing browser relay had no connected extension; no authenticated voice account was reached; no TTS request made."
+  },
+  "visualContractHistory": {
+    "retainedOriginalFound": false,
+    "method": "git log --all -- docs/superpowers/specs/2026-11-12-figma-visual-contract.md returned no entries",
+    "reconstruction": "docs/superpowers/specs/2026-11-12-figma-visual-contract.md"
+  },
+  "android": {
+    "sdkInstalled": true,
+    "emulatorVersion": "37.2.13",
+    "hostArchitecture": "arm64",
+    "imagesInstalled": [
+      "android-28/google_apis/arm64-v8a",
+      "android-35/google_apis_ps16k/arm64-v8a"
+    ],
+    "java": "OpenJDK25.0.2",
+    "nativeInstrumentation": "not run",
+    "nativeToolArchive": "emulator-darwin_aarch64-16740729.zip",
+    "nativeToolArchiveSha1": "6c5e61b873e11c7d1d08683bea089f762baee070",
+    "api35Boot": "Boot completed in 18651 ms",
+    "api35Serial": "emulator-5554",
+    "renderer": "SwiftShader (software)",
+    "instrumentation": "not run"
+  },
+  "host": {
+    "os": "macOS-26.6.2-arm64-arm-64bit",
+    "architecture": "arm64",
+    "memoryBytes": 17179869184
+  }
+}

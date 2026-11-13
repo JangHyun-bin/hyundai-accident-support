@@ -1,0 +1,10 @@
+COMMAND ["npm", "run", "build"]
+CWD /tmp/hyundai-contract-repair/clean/prototype/web
+TESTED_COMMIT e76c9bcd7a91aa6ebc7dd9925e2840dd3e9e1fe5
+npm error Missing script: "build"
+npm error
+npm error To see a list of scripts, run:
+npm error   npm run
+npm error A complete log of this run can be found in: /tmp/npm-cache/_logs/2026-11-12T18_50_27_546Z-debug-0.log
+
+EXIT_STATUS 1

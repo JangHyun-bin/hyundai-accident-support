@@ -1,0 +1,1391 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-13T00:51:37.223935+00:00",
+  "check": "User-exception metadata finalization, functions.eval Python",
+  "documentSha256": {
+    "README.md": "ff324d35fe74101c5a7a14e02821cfe02788dd7da666935482727910bff024ac",
+    "prototype/web/README.md": "035cea5e6bc2f44e96634af4d8464c9f794073c913ac63cdcbc04124c5f14010",
+    "prototype/android/README.md": "b29c7a4e7b1673a8e4dcdf8147588a291e82a48d2c529b00116042561b589440",
+    "prototype/web/SOURCES.md": "623a76800ed0ecdfff62f78651098531b60dfb007746763b3d80c56f4a63163c",
+    "specs/after-care-system/design.md": "18c1f23499f5ea37b2013a81f44d95e5e0971ca19bc41ae3daa3512d95daa111",
+    "specs/after-care-system/inventory.md": "a449d76d3aef5159f5656716c3df9fd0fcd185489f6aa35a4d838e88e2616505",
+    "specs/after-care-system/completion.md": "3481e40bb39332add29d15ed64940c2d1bcc971a01df11848ce24e6862fb8ebb",
+    "specs/emergency-experience/voice-selection.md": "9bf22f50fe8a5615bea578e2cebb90b7764c1d1faea3257f569f9718296b57da",
+    "specs/emergency-experience/visual-language.md": "9af44fe1cf00fe21f8c47ac39833aeb0c2f32412d75068758ab70ad1bfc13728",
+    "docs/superpowers/specs/2026-11-08-engraved-pictograms-design.md": "0c3c698954a402ab399499c438a3e063f2061f8ebe5018689478fe95876597ed",
+    "docs/superpowers/specs/2026-11-12-stable-voronoi-layout-design.md": "36371992e2f5d9b960ecb8c29c35ed7d2c41d9df978846412033e9f8b3ab00a8",
+    "docs/superpowers/plans/2026-11-09-full-journey.md": "50110cd13610f073ed0bf91c358734111d8f8436c1bb96b148c29adde20eca1c",
+    "docs/superpowers/plans/2026-11-10-after-care-system.md": "7f57e84a840809add7e808125f97a606ac335e470f91ad658e96f93c0e207db4",
+    "docs/superpowers/specs/2026-11-12-contract-reliability-repair-design.md": "c117f233b096250fd4d5629a6f5cc25b58dca375c629c1f88f8e77ef41debc9a",
+    "docs/superpowers/plans/2026-11-12-contract-reliability-repair.md": "bd0823fa06fb94ec5d19627565a2cd57953b0dec7045f6793de6d0f43705b71d",
+    "docs/superpowers/plans/2026-11-12-contract-reliability-repair-goal-query.md": "d13c92ba758291fa36221f4567d5f06a9a3d91c0bcb47c085723fb8586495270",
+    "docs/superpowers/specs/2026-11-12-figma-visual-contract.md": "6d7d34cfe5a815eb5fafc3711bf408ab67b57bc4b8f4338d1b243a60f76e4a70",
+    "docs/superpowers/results/2026-11-12-contract-reliability-repair.md": "be9a5af127e217d6cff1182acb6fb6511252f3e4cc75771df87b521a906473d0",
+    "evidence/contract-reliability-repair/failure-analysis.md": "d683142c6a083924e1619bd8bec955cb6c5df59ee861632c99a9dcd0ca036642"
+  },
+  "checkedDocuments": 19,
+  "localLinks": 170,
+  "failures": 0,
+  "checks": [
+    {
+      "source": "README.md",
+      "line": 7,
+      "href": "prototype/web/README.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "README.md",
+      "line": 8,
+      "href": "docs/design-system/pleos-display-and-controls.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "README.md",
+      "line": 8,
+      "href": "docs/superpowers/specs/2026-11-12-figma-visual-contract.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "README.md",
+      "line": 9,
+      "href": "docs/superpowers/plans/2026-11-12-contract-reliability-repair.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "README.md",
+      "line": 10,
+      "href": "specs/after-care-system/completion.md#6-pr-11-한정-merge-예외",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "README.md",
+      "line": 63,
+      "href": "docs/reviews/flow-review-v1.2.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "README.md",
+      "line": 71,
+      "href": "docs/research/pleos-foundation.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "README.md",
+      "line": 71,
+      "href": "docs/research/aaos-foundation.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "README.md",
+      "line": 71,
+      "href": "docs/research/component-shortlist.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "README.md",
+      "line": 71,
+      "href": "docs/research/design-direction.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "README.md",
+      "line": 73,
+      "href": "docs/superpowers/plans/2026-11-05-cult-design-poc.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "README.md",
+      "line": 73,
+      "href": "prototype/web/README.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "README.md",
+      "line": 73,
+      "href": "docs/reviews/cult-design-poc.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "README.md",
+      "line": 75,
+      "href": "docs/research/anti-slop-stack.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "README.md",
+      "line": 75,
+      "href": "docs/research/anti-slop-tools-scout.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "README.md",
+      "line": 77,
+      "href": "specs/emergency-experience/principles.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "README.md",
+      "line": 77,
+      "href": "prototype/web/evidence/emergency-complete/README.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "README.md",
+      "line": 77,
+      "href": "prototype/web/README.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "README.md",
+      "line": 77,
+      "href": "docs/reviews/design-tools/README.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "README.md",
+      "line": 79,
+      "href": "prototype/android/README.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "README.md",
+      "line": 79,
+      "href": "docs/superpowers/specs/2026-11-12-contract-reliability-repair-design.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "prototype/web/README.md",
+      "line": 5,
+      "href": "../../specs/after-care-system/completion.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "prototype/web/README.md",
+      "line": 5,
+      "href": "../../evidence/contract-reliability-repair/requirements.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "prototype/web/README.md",
+      "line": 37,
+      "href": "../../specs/emergency-experience/scenarios.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "prototype/web/README.md",
+      "line": 64,
+      "href": "../../docs/design-system/pleos-display-and-controls.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "prototype/web/README.md",
+      "line": 64,
+      "href": "../../docs/superpowers/specs/2026-11-12-figma-visual-contract.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "prototype/web/README.md",
+      "line": 106,
+      "href": "SOURCES.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "prototype/web/README.md",
+      "line": 106,
+      "href": "../../specs/after-care-system/goal.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "prototype/web/README.md",
+      "line": 106,
+      "href": "../../specs/after-care-system/completion.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "prototype/android/README.md",
+      "line": 5,
+      "href": "../../evidence/contract-reliability-repair/requirements.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "prototype/android/README.md",
+      "line": 5,
+      "href": "../../specs/after-care-system/completion.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "prototype/android/README.md",
+      "line": 45,
+      "href": "../../specs/emergency-experience/scenarios.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "prototype/android/README.md",
+      "line": 45,
+      "href": "../../specs/emergency-experience/glyphs.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "prototype/web/SOURCES.md",
+      "line": 3,
+      "href": "third-party/source-manifest.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "prototype/web/SOURCES.md",
+      "line": 7,
+      "href": "third-party/cult-ui-LICENSE.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "prototype/web/SOURCES.md",
+      "line": 8,
+      "href": "third-party/cult-ui-LICENSE.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "prototype/web/SOURCES.md",
+      "line": 9,
+      "href": "third-party/motion-primitives-LICENCE.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "prototype/web/SOURCES.md",
+      "line": 10,
+      "href": "third-party/shadcn-ui-LICENSE.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "prototype/web/SOURCES.md",
+      "line": 11,
+      "href": "third-party/asta-sans-OFL.txt",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "prototype/web/SOURCES.md",
+      "line": 21,
+      "href": "../../docs/superpowers/specs/2026-11-12-figma-visual-contract.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "prototype/web/SOURCES.md",
+      "line": 23,
+      "href": "../../specs/emergency-experience/voice-selection.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "specs/after-care-system/design.md",
+      "line": 3,
+      "href": "goal.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "specs/after-care-system/design.md",
+      "line": 3,
+      "href": "completion.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "specs/after-care-system/design.md",
+      "line": 8,
+      "href": "../../docs/superpowers/specs/2026-11-12-stable-voronoi-layout-design.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "specs/after-care-system/design.md",
+      "line": 9,
+      "href": "../../docs/design-system/pleos-display-and-controls.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "specs/after-care-system/design.md",
+      "line": 10,
+      "href": "../../docs/superpowers/specs/2026-11-12-figma-visual-contract.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "specs/after-care-system/design.md",
+      "line": 55,
+      "href": "completion.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "specs/after-care-system/inventory.md",
+      "line": 9,
+      "href": "completion.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "specs/after-care-system/inventory.md",
+      "line": 9,
+      "href": "../../evidence/contract-reliability-repair/requirements.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "specs/after-care-system/completion.md",
+      "line": 5,
+      "href": "goal.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "specs/after-care-system/completion.md",
+      "line": 6,
+      "href": "design.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "specs/after-care-system/completion.md",
+      "line": 6,
+      "href": "../../docs/superpowers/specs/2026-11-12-figma-visual-contract.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "specs/after-care-system/completion.md",
+      "line": 7,
+      "href": "../../docs/superpowers/specs/2026-11-12-contract-reliability-repair-design.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "specs/after-care-system/completion.md",
+      "line": 7,
+      "href": "../../docs/superpowers/plans/2026-11-12-contract-reliability-repair.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "specs/after-care-system/completion.md",
+      "line": 8,
+      "href": "../../docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "specs/after-care-system/completion.md",
+      "line": 8,
+      "href": "../../evidence/contract-reliability-repair/requirements.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "specs/after-care-system/completion.md",
+      "line": 8,
+      "href": "../../evidence/contract-reliability-repair/source-input-relation.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "specs/after-care-system/completion.md",
+      "line": 8,
+      "href": "../../evidence/contract-reliability-repair/artifact-index.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "specs/after-care-system/completion.md",
+      "line": 28,
+      "href": "../../evidence/contract-reliability-repair/document-links.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "specs/after-care-system/completion.md",
+      "line": 30,
+      "href": "#6-pr-11-한정-merge-예외",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "specs/after-care-system/completion.md",
+      "line": 101,
+      "href": "../../evidence/contract-reliability-repair/audio/missing-assets.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "specs/after-care-system/completion.md",
+      "line": 112,
+      "href": "../../evidence/contract-reliability-repair/merge-exception.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "specs/emergency-experience/voice-selection.md",
+      "line": 37,
+      "href": "../after-care-system/completion.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "specs/emergency-experience/visual-language.md",
+      "line": 7,
+      "href": "../../docs/design-system/pleos-display-and-controls.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "specs/emergency-experience/visual-language.md",
+      "line": 7,
+      "href": "../../docs/superpowers/specs/2026-11-12-figma-visual-contract.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "specs/emergency-experience/visual-language.md",
+      "line": 19,
+      "href": "../../docs/research/pleos-foundation.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "specs/emergency-experience/visual-language.md",
+      "line": 62,
+      "href": "../../docs/superpowers/specs/2026-11-08-urgent-three-slot-design.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/specs/2026-11-08-engraved-pictograms-design.md",
+      "line": 3,
+      "href": "2026-11-08-engraved-pictograms/mockup-v2.html",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/specs/2026-11-08-engraved-pictograms-design.md",
+      "line": 3,
+      "href": "2026-11-08-engraved-pictograms/mockup-v2.jpg",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/specs/2026-11-08-engraved-pictograms-design.md",
+      "line": 9,
+      "href": "2026-11-08-engraved-pictograms/directions.jpg",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/specs/2026-11-08-engraved-pictograms-design.md",
+      "line": 34,
+      "href": "../../../specs/emergency-experience/visual-language.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/specs/2026-11-08-engraved-pictograms-design.md",
+      "line": 79,
+      "href": "2026-11-08-engraved-pictograms/mockup-v2.html",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/specs/2026-11-12-stable-voronoi-layout-design.md",
+      "line": 12,
+      "href": "2026-11-12-figma-visual-contract.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/specs/2026-11-12-stable-voronoi-layout-design.md",
+      "line": 13,
+      "href": "2026-11-11-stage-layout-preview-design.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/plans/2026-11-09-full-journey.md",
+      "line": 11,
+      "href": "../specs/2026-11-09-full-journey-design.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/specs/2026-11-12-contract-reliability-repair-design.md",
+      "line": 5,
+      "href": "../plans/2026-11-12-contract-reliability-repair.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/specs/2026-11-12-contract-reliability-repair-design.md",
+      "line": 6,
+      "href": "../plans/2026-11-12-contract-reliability-repair-goal-query.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/specs/2026-11-12-contract-reliability-repair-design.md",
+      "line": 7,
+      "href": "../../../specs/after-care-system/goal.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/specs/2026-11-12-contract-reliability-repair-design.md",
+      "line": 41,
+      "href": "../../design-system/pleos-display-and-controls.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/specs/2026-11-12-contract-reliability-repair-design.md",
+      "line": 42,
+      "href": "2026-11-12-stable-voronoi-layout-design.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/plans/2026-11-12-contract-reliability-repair.md",
+      "line": 3,
+      "href": "../results/2026-11-12-contract-reliability-repair.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/plans/2026-11-12-contract-reliability-repair.md",
+      "line": 5,
+      "href": "../specs/2026-11-12-contract-reliability-repair-design.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/plans/2026-11-12-contract-reliability-repair.md",
+      "line": 7,
+      "href": "2026-11-12-contract-reliability-repair-goal-query.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/plans/2026-11-12-contract-reliability-repair.md",
+      "line": 239,
+      "href": "../../../specs/after-care-system/completion.md#6-pr-11-한정-merge-예외",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/plans/2026-11-12-contract-reliability-repair-goal-query.md",
+      "line": 5,
+      "href": "../specs/2026-11-12-contract-reliability-repair-design.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/plans/2026-11-12-contract-reliability-repair-goal-query.md",
+      "line": 6,
+      "href": "2026-11-12-contract-reliability-repair.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/specs/2026-11-12-figma-visual-contract.md",
+      "line": 7,
+      "href": "../../design-system/pleos-display-and-controls.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/specs/2026-11-12-figma-visual-contract.md",
+      "line": 8,
+      "href": "2026-11-12-stable-voronoi-layout-design.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/specs/2026-11-12-figma-visual-contract.md",
+      "line": 9,
+      "href": "2026-11-11-stage-layout-preview-design.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/specs/2026-11-12-figma-visual-contract.md",
+      "line": 10,
+      "href": "../../../prototype/web/src/design-system/tokens.css",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/specs/2026-11-12-figma-visual-contract.md",
+      "line": 10,
+      "href": "../../../prototype/web/src/design-system/surfaces.ts",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/specs/2026-11-12-figma-visual-contract.md",
+      "line": 10,
+      "href": "../../../prototype/web/src/design-system/flow-plan.ts",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/specs/2026-11-12-figma-visual-contract.md",
+      "line": 11,
+      "href": "../../design-system/figma-design-system-analysis.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/specs/2026-11-12-figma-visual-contract.md",
+      "line": 11,
+      "href": "../../design-system/figma-design-system.snapshot.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/specs/2026-11-12-figma-visual-contract.md",
+      "line": 33,
+      "href": "../../../specs/after-care-system/design.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/specs/2026-11-12-figma-visual-contract.md",
+      "line": 34,
+      "href": "../../../specs/emergency-experience/visual-language.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/specs/2026-11-12-figma-visual-contract.md",
+      "line": 39,
+      "href": "../plans/2026-11-12-contract-reliability-repair.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 3,
+      "href": "../../../specs/after-care-system/completion.md#6-pr-11-한정-merge-예외",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 5,
+      "href": "../plans/2026-11-12-contract-reliability-repair-goal-query.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 5,
+      "href": "../specs/2026-11-12-contract-reliability-repair-design.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 8,
+      "href": "../../../evidence/contract-reliability-repair/run.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 8,
+      "href": "../../../evidence/contract-reliability-repair/requirements.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 9,
+      "href": "../../../evidence/contract-reliability-repair/preview.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 15,
+      "href": "../../../evidence/contract-reliability-repair/checks/",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 16,
+      "href": "../../../evidence/contract-reliability-repair/checks/manifest.txt",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 17,
+      "href": "../../../evidence/contract-reliability-repair/audio/audio-script-tests.txt",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 18,
+      "href": "../../../evidence/contract-reliability-repair/web/web-build-clean-review.txt",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 19,
+      "href": "../../../evidence/contract-reliability-repair/web/web-full-review.txt",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 20,
+      "href": "../../../evidence/contract-reliability-repair/web/web-targeted-review-fix2.txt",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 21,
+      "href": "../../../evidence/contract-reliability-repair/web/web-reconstruction-fix1.txt",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 22,
+      "href": "../../../evidence/contract-reliability-repair/android/android-build-fix2.txt",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 22,
+      "href": "../../../evidence/contract-reliability-repair/android/final-apk-fingerprints.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 23,
+      "href": "../../../evidence/contract-reliability-repair/android/api28-instrumentation.xml",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 23,
+      "href": "../../../evidence/contract-reliability-repair/android/api28-suspended.png",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 24,
+      "href": "../../../evidence/contract-reliability-repair/android/api35-final-instrumentation.xml",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 24,
+      "href": "../../../evidence/contract-reliability-repair/android/api35-final-suspended.png",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 25,
+      "href": "../../../evidence/contract-reliability-repair/audio/audio-existing-decode.txt",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 26,
+      "href": "../../../evidence/contract-reliability-repair/audio/audio-offline.txt",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 30,
+      "href": "../../../evidence/contract-reliability-repair/preflight.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 30,
+      "href": "../../../evidence/contract-reliability-repair/android/environment.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 40,
+      "href": "../../../evidence/contract-reliability-repair/failure-analysis.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 44,
+      "href": "../../../evidence/contract-reliability-repair/web/manual-browser.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 45,
+      "href": "../../../evidence/contract-reliability-repair/web/manual-emergency.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 46,
+      "href": "../../../evidence/contract-reliability-repair/web/manual-native-autoplay.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 47,
+      "href": "../../../evidence/contract-reliability-repair/web/manual-clip.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 47,
+      "href": "../../../evidence/contract-reliability-repair/web/manual-clip.png",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 55,
+      "href": "../../../evidence/contract-reliability-repair/audio/authority.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 55,
+      "href": "../../../evidence/contract-reliability-repair/audio/missing-assets.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 59,
+      "href": "../../../evidence/contract-reliability-repair/artifact-index.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 61,
+      "href": "../../../evidence/contract-reliability-repair/source-sha256.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 61,
+      "href": "../../../evidence/contract-reliability-repair/source-input-relation.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 63,
+      "href": "../../../evidence/contract-reliability-repair/review/native-docs.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 63,
+      "href": "../../../evidence/contract-reliability-repair/review/web-initial.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 63,
+      "href": "../../../evidence/contract-reliability-repair/review/web-closure.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 63,
+      "href": "../../../evidence/contract-reliability-repair/github-pr-created.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 69,
+      "href": "../../../evidence/contract-reliability-repair/web/raw/review-targeted/",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 73,
+      "href": "../../../specs/after-care-system/completion.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 73,
+      "href": "../specs/2026-11-12-figma-visual-contract.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 75,
+      "href": "../../../evidence/contract-reliability-repair/review/native-docs-closure.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "evidence/contract-reliability-repair/failure-analysis.md",
+      "line": 7,
+      "href": "../../docs/design-system/pleos-display-and-controls.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "evidence/contract-reliability-repair/failure-analysis.md",
+      "line": 7,
+      "href": "historical-pr10.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "evidence/contract-reliability-repair/failure-analysis.md",
+      "line": 7,
+      "href": "historical-evidence.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "evidence/contract-reliability-repair/failure-analysis.md",
+      "line": 15,
+      "href": "web/encoder-experiment/experiment.mjs",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "evidence/contract-reliability-repair/failure-analysis.md",
+      "line": 15,
+      "href": "web/encoder-experiment/result.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "evidence/contract-reliability-repair/failure-analysis.md",
+      "line": 15,
+      "href": "web/web-encoder-causal.txt",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "evidence/contract-reliability-repair/failure-analysis.md",
+      "line": 26,
+      "href": "../../prototype/web/tests/helpers/voice-recorder.ts",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "evidence/contract-reliability-repair/failure-analysis.md",
+      "line": 35,
+      "href": "web/raw/full/",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "evidence/contract-reliability-repair/failure-analysis.md",
+      "line": 35,
+      "href": "web/raw/recorder-states/",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "evidence/contract-reliability-repair/failure-analysis.md",
+      "line": 35,
+      "href": "artifact-index.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "evidence/contract-reliability-repair/failure-analysis.md",
+      "line": 41,
+      "href": "web/web-countdown-fix1.txt",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "evidence/contract-reliability-repair/failure-analysis.md",
+      "line": 41,
+      "href": "web/manual-native-autoplay.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "evidence/contract-reliability-repair/failure-analysis.md",
+      "line": 41,
+      "href": "web/manual-native-autoplay-fallback.png",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "evidence/contract-reliability-repair/failure-analysis.md",
+      "line": 45,
+      "href": "web/web-full-final.txt",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "evidence/contract-reliability-repair/failure-analysis.md",
+      "line": 45,
+      "href": "web/raw/full-before-clip-fix/journey-reconstruction-jou-67cea-ithout-losing-urgent-drafts/trace.zip",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "evidence/contract-reliability-repair/failure-analysis.md",
+      "line": 49,
+      "href": "web/raw/reconstruction-red/journey-reconstruction-jou-67cea-ithout-losing-urgent-drafts/asset-read-commit-boundary.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "evidence/contract-reliability-repair/failure-analysis.md",
+      "line": 49,
+      "href": "web/web-reconstruction-causal-red2.txt",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "evidence/contract-reliability-repair/failure-analysis.md",
+      "line": 51,
+      "href": "web/web-reconstruction-fix1.txt",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "evidence/contract-reliability-repair/failure-analysis.md",
+      "line": 51,
+      "href": "web/web-full-final2.txt",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "evidence/contract-reliability-repair/failure-analysis.md",
+      "line": 51,
+      "href": "web/manual-clip.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "evidence/contract-reliability-repair/failure-analysis.md",
+      "line": 51,
+      "href": "web/manual-clip.png",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "evidence/contract-reliability-repair/failure-analysis.md",
+      "line": 57,
+      "href": "artifact-index.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "evidence/contract-reliability-repair/failure-analysis.md",
+      "line": 59,
+      "href": "requirements.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "evidence/contract-reliability-repair/failure-analysis.md",
+      "line": 59,
+      "href": "source-sha256.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "evidence/contract-reliability-repair/failure-analysis.md",
+      "line": 59,
+      "href": "source-input-relation.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "evidence/contract-reliability-repair/failure-analysis.md",
+      "line": 59,
+      "href": "run.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "evidence/contract-reliability-repair/failure-analysis.md",
+      "line": 63,
+      "href": "review/web-initial.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "evidence/contract-reliability-repair/failure-analysis.md",
+      "line": 68,
+      "href": "web/web-targeted-review-fix2.txt",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "evidence/contract-reliability-repair/failure-analysis.md",
+      "line": 68,
+      "href": "web/raw/review-targeted/",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "evidence/contract-reliability-repair/failure-analysis.md",
+      "line": 68,
+      "href": "web/web-full-review.txt",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "evidence/contract-reliability-repair/failure-analysis.md",
+      "line": 68,
+      "href": "review/web-closure.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    }
+  ]
+}

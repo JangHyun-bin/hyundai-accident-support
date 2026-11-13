@@ -1,0 +1,19 @@
+{
+  "submittedReferenceIncluded": true,
+  "nativePendingChoiceDisabled": true,
+  "stored": {
+    "id": "1b061f7b-9f47-4a84-8205-f3c965b1a48d",
+    "text": "전방 영상 근거를 포함한 정정",
+    "kind": "observation",
+    "references": [
+      {
+        "evidenceId": "sample-front",
+        "evidenceRevision": 1,
+        "start": 8,
+        "end": 16
+      }
+    ],
+    "revision": 2,
+    "confirmedRevision": null
+  }
+}

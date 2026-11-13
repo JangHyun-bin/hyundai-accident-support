@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-12T20:57:27.791369+00:00",
+  "deletedOwnedThrowaways": [
+    "publish-pr.py",
+    "finalize-source.py",
+    "collect-artifacts.py",
+    "requirements.py",
+    "encoder-experiment.mjs",
+    "capture-native.py"
+  ],
+  "temporarilyRetainedForFinalMetadataGates": [
+    "run-gate.py",
+    "check-doc-links.py",
+    "check-evidence.py"
+  ],
+  "finalCleanupPolicy": "Remove these remaining3 after final metadata gates. Publisher code retained only in current host kernel for post-push body update. Final external PR binding records actual cleanup.",
+  "retainedOriginalRaw": "Root and clean-worktree test-results retained; no original evidence deletion.",
+  "retainedPurposefulRuntime": "RepairPreview at127.0.0.1:5185; proof browsers/emulators previously closed.",
+  "permanentPrograms": [
+    "evidence/contract-reliability-repair/artifact-copy.py",
+    "evidence/contract-reliability-repair/web/encoder-experiment/experiment.mjs"
+  ],
+  "mergeAllowed": false
+}

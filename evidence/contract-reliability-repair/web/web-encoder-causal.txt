@@ -1,0 +1,44 @@
+COMMAND ["node", "--experimental-strip-types", "/tmp/hyundai-contract-repair/encoder-experiment.mjs"]
+CWD prototype/web
+TESTED_COMMIT 2a5dea5e992814a96c5e3cf19595f2691f07eb54
+{
+  "causalMechanismReproduced": true,
+  "node": "v25.0.0",
+  "browser": "157.0.8103.78",
+  "programSha256": "32ece0bf8a5c4555bda3c2b5170d1f2a92d5b884bf0fa28e316f12005dd8c641",
+  "results": [
+    {
+      "strategy": "legacy-350ms",
+      "phase": "error",
+      "message": "이번 음성을 남기지 못했어요. 이전 기록은 그대로 있어요.",
+      "saveVisible": false,
+      "saveEnabled": false,
+      "recording": {
+        "bytes": 0,
+        "mime": "audio/webm;codecs=opus",
+        "decoded": null,
+        "decodeError": null
+      }
+    },
+    {
+      "strategy": "native-readiness",
+      "phase": "review",
+      "message": "음성은 남겼어요. 내용을 직접 입력할 수 있어요.",
+      "saveVisible": true,
+      "saveEnabled": true,
+      "recording": {
+        "bytes": 1127,
+        "mime": "audio/webm;codecs=opus",
+        "decoded": {
+          "frames": 2880,
+          "duration": 0.06,
+          "sampleRate": 48000,
+          "channels": 2
+        },
+        "decodeError": null
+      }
+    }
+  ]
+}
+
+EXIT_STATUS 0

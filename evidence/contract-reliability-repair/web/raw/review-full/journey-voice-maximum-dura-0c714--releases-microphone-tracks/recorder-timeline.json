@@ -1,0 +1,239 @@
+{
+  "ui": {
+    "phase": "review",
+    "message": "음성은 남겼어요. 내용을 직접 입력할 수 있어요.",
+    "clips": 2
+  },
+  "events": [
+    {
+      "kind": "phase-change",
+      "realMilliseconds": 1517.3999999761581,
+      "applicationMilliseconds": 1794513279598,
+      "phase": "requesting-permission",
+      "visibility": "visible"
+    },
+    {
+      "kind": "phase-change",
+      "realMilliseconds": 1546.8000000715256,
+      "applicationMilliseconds": 1794513279627,
+      "phase": "listening",
+      "visibility": "visible"
+    },
+    {
+      "kind": "encoded-audio-ready",
+      "realMilliseconds": 1934.2000000476837,
+      "applicationMilliseconds": 1794513280015,
+      "phase": "listening",
+      "visibility": "visible"
+    },
+    {
+      "kind": "before-maximum-duration",
+      "realMilliseconds": 1936.2000000476837,
+      "applicationMilliseconds": 1794513280017,
+      "phase": "listening",
+      "visibility": "visible"
+    },
+    {
+      "kind": "phase-change",
+      "realMilliseconds": 1941.2000000476837,
+      "applicationMilliseconds": 1794513400120,
+      "phase": "review",
+      "visibility": "visible"
+    },
+    {
+      "kind": "phase-change",
+      "realMilliseconds": 2127.899999976158,
+      "applicationMilliseconds": 1794513400306,
+      "phase": "requesting-permission",
+      "visibility": "visible"
+    },
+    {
+      "kind": "phase-change",
+      "realMilliseconds": 2134.600000023842,
+      "applicationMilliseconds": 1794513400313,
+      "phase": "listening",
+      "visibility": "visible"
+    },
+    {
+      "kind": "encoded-audio-ready",
+      "realMilliseconds": 2546.8000000715256,
+      "applicationMilliseconds": 1794513400725,
+      "phase": "listening",
+      "visibility": "visible"
+    },
+    {
+      "kind": "pagehide",
+      "realMilliseconds": 2557.899999976158,
+      "applicationMilliseconds": 1794513400736,
+      "phase": "listening",
+      "visibility": "visible"
+    },
+    {
+      "kind": "phase-change",
+      "realMilliseconds": 2562.600000023842,
+      "applicationMilliseconds": 1794513400741,
+      "phase": "review",
+      "visibility": "visible"
+    }
+  ],
+  "sources": [
+    {
+      "state": "closed",
+      "seconds": 0.39466666666666667
+    },
+    {
+      "state": "closed",
+      "seconds": 0.432
+    }
+  ],
+  "recordings": [
+    {
+      "mime": "audio/webm;codecs=opus",
+      "state": "inactive",
+      "stopCalls": 1,
+      "chunks": [
+        {
+          "bytes": 4026,
+          "mime": "audio/webm;codecs=opus"
+        },
+        {
+          "bytes": 1947,
+          "mime": "audio/webm;codecs=opus"
+        }
+      ],
+      "tracks": [
+        {
+          "kind": "audio",
+          "readyState": "ended",
+          "muted": false
+        }
+      ],
+      "events": [
+        {
+          "kind": "start-call",
+          "realMilliseconds": 1545,
+          "applicationMilliseconds": 1794513279625,
+          "phase": "requesting-permission",
+          "visibility": "visible",
+          "state": "inactive"
+        },
+        {
+          "kind": "start",
+          "realMilliseconds": 1609.7000000476837,
+          "applicationMilliseconds": 1794513279690,
+          "phase": "listening",
+          "visibility": "visible",
+          "state": "recording"
+        },
+        {
+          "kind": "dataavailable",
+          "realMilliseconds": 1847.7000000476837,
+          "applicationMilliseconds": 1794513279928,
+          "phase": "listening",
+          "visibility": "visible",
+          "bytes": 4026,
+          "state": "recording"
+        },
+        {
+          "kind": "stop-call",
+          "realMilliseconds": 1938.3999999761581,
+          "applicationMilliseconds": 1794513400117,
+          "phase": "listening",
+          "visibility": "visible",
+          "state": "recording"
+        },
+        {
+          "kind": "dataavailable",
+          "realMilliseconds": 1938.7000000476837,
+          "applicationMilliseconds": 1794513400117,
+          "phase": "listening",
+          "visibility": "visible",
+          "bytes": 1947,
+          "state": "inactive"
+        },
+        {
+          "kind": "stop",
+          "realMilliseconds": 1939,
+          "applicationMilliseconds": 1794513400117,
+          "phase": "listening",
+          "visibility": "visible",
+          "state": "inactive"
+        }
+      ]
+    },
+    {
+      "mime": "audio/webm;codecs=opus",
+      "state": "inactive",
+      "stopCalls": 1,
+      "chunks": [
+        {
+          "bytes": 4026,
+          "mime": "audio/webm;codecs=opus"
+        },
+        {
+          "bytes": 2913,
+          "mime": "audio/webm;codecs=opus"
+        }
+      ],
+      "tracks": [
+        {
+          "kind": "audio",
+          "readyState": "ended",
+          "muted": false
+        }
+      ],
+      "events": [
+        {
+          "kind": "start-call",
+          "realMilliseconds": 2131.399999976158,
+          "applicationMilliseconds": 1794513400310,
+          "phase": "requesting-permission",
+          "visibility": "visible",
+          "state": "inactive"
+        },
+        {
+          "kind": "start",
+          "realMilliseconds": 2189.8000000715256,
+          "applicationMilliseconds": 1794513400368,
+          "phase": "listening",
+          "visibility": "visible",
+          "state": "recording"
+        },
+        {
+          "kind": "dataavailable",
+          "realMilliseconds": 2429.100000023842,
+          "applicationMilliseconds": 1794513400608,
+          "phase": "listening",
+          "visibility": "visible",
+          "bytes": 4026,
+          "state": "recording"
+        },
+        {
+          "kind": "stop-call",
+          "realMilliseconds": 2558,
+          "applicationMilliseconds": 1794513400736,
+          "phase": "listening",
+          "visibility": "visible",
+          "state": "recording"
+        },
+        {
+          "kind": "dataavailable",
+          "realMilliseconds": 2558.600000023842,
+          "applicationMilliseconds": 1794513400737,
+          "phase": "listening",
+          "visibility": "visible",
+          "bytes": 2913,
+          "state": "inactive"
+        },
+        {
+          "kind": "stop",
+          "realMilliseconds": 2558.899999976158,
+          "applicationMilliseconds": 1794513400737,
+          "phase": "listening",
+          "visibility": "visible",
+          "state": "inactive"
+        }
+      ]
+    }
+  ]
+}

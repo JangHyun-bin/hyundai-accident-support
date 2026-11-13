@@ -1,0 +1,21 @@
+COMMAND ["env", "CI=true", "PLAYWRIGHT_OUTPUT_DIR=test-results/repair-reconstruction-fix1", "./node_modules/.bin/playwright", "test", "tests/journey-reconstruction.spec.ts"]
+CWD prototype/web
+TESTED_COMMIT e76c9bcd7a91aa6ebc7dd9925e2840dd3e9e1fe5
+[WebServer] (node:55251) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 14 tests using 5 workers
+(node:55253) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:55255) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:55252) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:55254) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:55256) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+··············
+  14 passed (9.1s)
+
+EXIT_STATUS 0

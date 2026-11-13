@@ -1,0 +1,257 @@
+{
+  "schemaVersion": 1,
+  "browser": "installed Chrome, omp-owned profile, no Audio mock",
+  "input": "synthetic SC04 fixture",
+  "events": [
+    {
+      "at": "2026-11-12T17:01:54.922Z",
+      "action": "Reject sending through actual UI",
+      "url": "http://127.0.0.1:5173/?study=emergency&scenario=SC04&scene=declined",
+      "text": "사고 기록 · 전송 거절\n음성 안내 듣기\n사고 기록\n초안 있음\n전송 승인\n전송 거절\n보험사에 보내지 않았어요\n\n승인 없이는 전송하지 않아요. 다른 지원은 유지돼요.\n\n전송 다시 검토\n다른 지원 확인\n안전한 곳에서 기다리세요\n구호\n접수 확인\n차량 지원\n접수 확인\n보험사\n전송 거절\n위치 확인 중\n\n아직 안내 지점이 확인되지 않았어요."
+    },
+    {
+      "at": "2026-11-12T17:05:02.310Z",
+      "action": "다른 지원 확인",
+      "url": "http://127.0.0.1:5173/?study=emergency&scenario=SC04&scene=support",
+      "text": "사고 기록 · 거절 유지 · 보내지 않음\n음성 안내 듣기\n사고 기록\n초안 있음\n전송 승인\n전송 거절\n다른 지원은 계속 진행돼요\n\n보험사에 보내지 않았어요. 승인 없이는 전송하지 않아요. 다른 지원은 유지돼요.\n\n구호·차량 지원\n접수 확인 · 도착은 별도 확인\n보험사 전송\n거절 유지 · 보내지 않음\n보험사 전송 다시 검토\n나중에 이어하기\n안전한 곳에서 기다리세요\n구호\n접수 확인\n차량 지원\n접수 확인\n보험사\n전송 거절\n위치 확인 중\n\n아직 안내 지점이 확인되지 않았어요."
+    },
+    {
+      "at": "2026-11-12T17:05:02.491Z",
+      "action": "나중에 이어하기",
+      "url": "http://127.0.0.1:5173/?study=emergency&scenario=SC04&scene=paused",
+      "text": "사고 기록 · 거절 유지 · 보내지 않음\n음성 안내 듣기\n사고 기록\n초안 있음\n전송 승인\n전송 거절\n남은 일을 보관했어요\n\n보험사에 보내지 않았어요. 승인 없이는 전송하지 않아요. 다른 지원은 유지돼요.\n\n구호·차량 지원\n접수 확인 · 도착은 별도 확인\n보험사 전송\n거절 유지 · 보내지 않음\n남은 지원 확인\n안전한 곳에서 기다리세요\n구호\n접수 확인\n차량 지원\n접수 확인\n보험사\n전송 거절\n위치 확인 중\n\n아직 안내 지점이 확인되지 않았어요."
+    },
+    {
+      "at": "2026-11-12T17:05:03.056Z",
+      "action": "Play actual existing declined MP3 through UI",
+      "observation": {
+        "url": "http://127.0.0.1:5173/?study=emergency&scenario=SC04&scene=paused",
+        "title": "사고 대응 지원 · Design review",
+        "viewport": {
+          "width": 1600,
+          "height": 1050,
+          "deviceScaleFactor": 1
+        },
+        "scroll": {
+          "x": 0,
+          "y": 0,
+          "width": 1600,
+          "height": 1050,
+          "scrollWidth": 1585,
+          "scrollHeight": 1508
+        },
+        "elements": [
+          {
+            "id": 1,
+            "role": "link",
+            "name": "AFTER / CARE Emergency storyboard",
+            "states": []
+          },
+          {
+            "id": 2,
+            "role": "link",
+            "name": "Design system",
+            "states": []
+          },
+          {
+            "id": 3,
+            "role": "link",
+            "name": "이전 design 비교",
+            "states": []
+          },
+          {
+            "id": 4,
+            "role": "button",
+            "name": "현재 장면 spec",
+            "states": [
+              "expanded=false"
+            ]
+          },
+          {
+            "id": 5,
+            "role": "button",
+            "name": "부상 있음",
+            "states": [
+              "pressed=false"
+            ]
+          },
+          {
+            "id": 6,
+            "role": "button",
+            "name": "차량 이동 불가",
+            "states": [
+              "pressed=false"
+            ]
+          },
+          {
+            "id": 7,
+            "role": "button",
+            "name": "응답 미확인",
+            "states": [
+              "pressed=false"
+            ]
+          },
+          {
+            "id": 8,
+            "role": "button",
+            "name": "전송 보류·거절",
+            "states": [
+              "pressed=true"
+            ]
+          },
+          {
+            "id": 9,
+            "role": "button",
+            "name": "접수 미확인",
+            "states": [
+              "pressed=false"
+            ]
+          },
+          {
+            "id": 10,
+            "role": "button",
+            "name": "3초 보기",
+            "states": []
+          },
+          {
+            "id": 11,
+            "role": "button",
+            "name": "시연 일시 중단",
+            "states": []
+          },
+          {
+            "id": 12,
+            "role": "button",
+            "name": "음성 안내 중지",
+            "states": [
+              "focused"
+            ]
+          },
+          {
+            "id": 13,
+            "role": "button",
+            "name": "남은 지원 확인",
+            "states": []
+          },
+          {
+            "id": 14,
+            "role": "button",
+            "name": "기록 확인",
+            "states": [
+              "pressed=false"
+            ]
+          },
+          {
+            "id": 15,
+            "role": "button",
+            "name": "기록 정정",
+            "states": [
+              "pressed=false"
+            ]
+          },
+          {
+            "id": 16,
+            "role": "button",
+            "name": "전송 범위",
+            "states": [
+              "pressed=false"
+            ]
+          },
+          {
+            "id": 17,
+            "role": "button",
+            "name": "전송 보류",
+            "states": [
+              "pressed=false"
+            ]
+          },
+          {
+            "id": 18,
+            "role": "button",
+            "name": "전송 거절",
+            "states": [
+              "pressed=false"
+            ]
+          },
+          {
+            "id": 19,
+            "role": "button",
+            "name": "전송 중",
+            "states": [
+              "pressed=false"
+            ]
+          },
+          {
+            "id": 20,
+            "role": "button",
+            "name": "전송 실패",
+            "states": [
+              "pressed=false"
+            ]
+          },
+          {
+            "id": 21,
+            "role": "button",
+            "name": "접수 미확인",
+            "states": [
+              "pressed=false"
+            ]
+          },
+          {
+            "id": 22,
+            "role": "button",
+            "name": "결과 조회",
+            "states": [
+              "pressed=false"
+            ]
+          },
+          {
+            "id": 23,
+            "role": "button",
+            "name": "보험 접수",
+            "states": [
+              "pressed=false"
+            ]
+          },
+          {
+            "id": 24,
+            "role": "button",
+            "name": "남은 지원",
+            "states": [
+              "pressed=false"
+            ]
+          },
+          {
+            "id": 25,
+            "role": "button",
+            "name": "보관 후 중단 현재",
+            "states": [
+              "pressed=true"
+            ]
+          }
+        ]
+      },
+      "resources": [
+        {
+          "url": "http://127.0.0.1:5173/guidance-audio/c9473ed9a8fc3ec4.mp3",
+          "transferSize": 147673,
+          "encodedBodySize": 147373,
+          "duration": 7.100000023841858,
+          "responseStatus": 206
+        }
+      ]
+    }
+  ],
+  "stored": {
+    "sceneId": "paused",
+    "requests": {
+      "rescue": "received",
+      "vehicle": "received",
+      "insurance": "declined"
+    },
+    "requestId": null,
+    "submissions": 0,
+    "approvedScope": []
+  },
+  "limit": "Software playback state and local resource loading observed; no human-listening claim. Missing four runtime assets remain unverified."
+}

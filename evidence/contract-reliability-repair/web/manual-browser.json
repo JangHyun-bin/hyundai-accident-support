@@ -1,0 +1,587 @@
+{
+  "schemaVersion": 1,
+  "input": "synthetic only",
+  "browser": "installed Google Chrome, omp-owned profile",
+  "viewport": {
+    "width": 1280,
+    "height": 800
+  },
+  "events": [
+    {
+      "at": "2026-11-12T16:11:42.474Z",
+      "action": "Start full Journey through launcher",
+      "observation": {
+        "url": "http://127.0.0.1:5173/?case=a029f0c1-5b5a-4ee4-8452-a38d102fae2c",
+        "title": "사고 대응 지원 · Design review",
+        "viewport": {
+          "width": 1280,
+          "height": 800,
+          "deviceScaleFactor": 1
+        },
+        "scroll": {
+          "x": 0,
+          "y": 0,
+          "width": 1280,
+          "height": 800,
+          "scrollWidth": 1265,
+          "scrollHeight": 1129
+        },
+        "elements": [
+          {
+            "id": 1,
+            "role": "button",
+            "name": "차량 주변 보기",
+            "states": [
+              "pressed=false"
+            ]
+          },
+          {
+            "id": 2,
+            "role": "heading",
+            "name": "차량 상태를 확인하고 119에 연결하세요",
+            "states": [
+              "focused"
+            ]
+          },
+          {
+            "id": 3,
+            "role": "button",
+            "name": "이전 단계",
+            "states": [
+              "disabled"
+            ]
+          },
+          {
+            "id": 4,
+            "role": "button",
+            "name": "다음 단계",
+            "description": "119 연결 요청",
+            "states": []
+          },
+          {
+            "id": 5,
+            "role": "DisclosureTriangle",
+            "name": "시연 설정 +",
+            "states": [
+              "expanded=false"
+            ]
+          }
+        ]
+      },
+      "text": "오후 9:12\n차분 · 사고 대응 모드\n5G   18°C\n차량 주변 보기\n안전 확보\n0 / 4\n먼저, 안전을 확인하세요\n\n119의 안내를 듣고 주변 상황을 살펴주세요.\n\n119 긴급 통화\n\n연결 전\n\n구호 접수 미확인\n22.5°\n22.5°\n01\n감지\n02\n119 연결\n03\n대피 안내\n04\n안전 확보\n05\n기록\n06\n보험사 전달\n07\n완료\n1 / 7 · 감지\n차량 상태를 확인하고 119에 연결하세요\n\n확인되지 않은 차량 상태는 미확인으로 유지해요.\n\n이전\n다음\n119 연결 요청\n시연 설정\n이 기기에 보관됨"
+    },
+    {
+      "at": "2026-11-12T16:13:02.601Z",
+      "action": "Click 다음 · 시연 event: 통화 연결 확인",
+      "observation": {
+        "url": "http://127.0.0.1:5173/?case=a029f0c1-5b5a-4ee4-8452-a38d102fae2c",
+        "title": "사고 대응 지원 · Design review",
+        "viewport": {
+          "width": 1280,
+          "height": 800,
+          "deviceScaleFactor": 1
+        },
+        "scroll": {
+          "x": 0,
+          "y": 329,
+          "width": 1280,
+          "height": 800,
+          "scrollWidth": 1265,
+          "scrollHeight": 1129
+        },
+        "elements": [
+          {
+            "id": 1,
+            "role": "button",
+            "name": "차량 주변 보기",
+            "states": [
+              "pressed=false"
+            ]
+          },
+          {
+            "id": 2,
+            "role": "button",
+            "name": "이전 단계",
+            "states": [
+              "disabled"
+            ]
+          },
+          {
+            "id": 3,
+            "role": "button",
+            "name": "다음 · 시연 event: 통화 연결 확인",
+            "description": "시연: 통화 연결 확인",
+            "states": [
+              "focused"
+            ]
+          },
+          {
+            "id": 4,
+            "role": "DisclosureTriangle",
+            "name": "시연 설정 +",
+            "states": [
+              "expanded=false"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "at": "2026-11-12T16:13:43.084Z",
+      "action": "Click 다음 단계",
+      "observation": {
+        "url": "http://127.0.0.1:5173/?case=a029f0c1-5b5a-4ee4-8452-a38d102fae2c",
+        "title": "사고 대응 지원 · Design review",
+        "viewport": {
+          "width": 1280,
+          "height": 800,
+          "deviceScaleFactor": 1
+        },
+        "scroll": {
+          "x": 0,
+          "y": 329,
+          "width": 1280,
+          "height": 800,
+          "scrollWidth": 1265,
+          "scrollHeight": 1129
+        },
+        "elements": [
+          {
+            "id": 1,
+            "role": "button",
+            "name": "차량 주변 보기",
+            "states": [
+              "pressed=false"
+            ]
+          },
+          {
+            "id": 2,
+            "role": "checkbox",
+            "name": "비상등 확인",
+            "states": [
+              "checked=false"
+            ]
+          },
+          {
+            "id": 3,
+            "role": "checkbox",
+            "name": "트렁크 상태 확인",
+            "states": [
+              "checked=false"
+            ]
+          },
+          {
+            "id": 4,
+            "role": "checkbox",
+            "name": "대피 경로 확인",
+            "states": [
+              "checked=false"
+            ]
+          },
+          {
+            "id": 5,
+            "role": "checkbox",
+            "name": "스마트폰에서 이어가기",
+            "states": [
+              "checked=false"
+            ]
+          },
+          {
+            "id": 6,
+            "role": "heading",
+            "name": "안전한 곳으로 이동하세요",
+            "states": [
+              "focused"
+            ]
+          },
+          {
+            "id": 7,
+            "role": "button",
+            "name": "이전 단계",
+            "states": []
+          },
+          {
+            "id": 8,
+            "role": "button",
+            "name": "다음 단계",
+            "description": "안전한 곳에 도착했어요",
+            "states": []
+          },
+          {
+            "id": 9,
+            "role": "DisclosureTriangle",
+            "name": "시연 설정 +",
+            "states": [
+              "expanded=false"
+            ]
+          }
+        ]
+      },
+      "text": "오후 9:12\n차분 · 사고 대응 모드\n5G   18°C\n차량 주변 보기\n안전 확보\n0 / 4\n안전한 곳으로 이동하세요\n비상등 확인\n트렁크 상태 확인\n대피 경로 확인\n스마트폰에서 이어가기\n\n119의 안내를 듣고 주변 상황을 살펴주세요.\n\n119 긴급 통화\n\n통화 연결됨\n\n구호 접수 미확인\n22.5°\n22.5°\n01\n감지\n02\n119 연결\n03\n대피 안내\n04\n안전 확보\n05\n기록\n06\n보험사 전달\n07\n완료\n3 / 7 · 대피 안내\n안전한 곳으로 이동하세요\n\n안전 checklist 0/4 · 도착 확인은 별도예요.\n\n이전\n다음\n안전한 곳에 도착했어요\n시연 설정\n이 기기에 보관됨"
+    },
+    {
+      "at": "2026-11-12T16:13:43.424Z",
+      "action": "Click 다음 단계",
+      "observation": {
+        "url": "http://127.0.0.1:5173/?case=a029f0c1-5b5a-4ee4-8452-a38d102fae2c",
+        "title": "사고 대응 지원 · Design review",
+        "viewport": {
+          "width": 1280,
+          "height": 800,
+          "deviceScaleFactor": 1
+        },
+        "scroll": {
+          "x": 0,
+          "y": 329,
+          "width": 1280,
+          "height": 800,
+          "scrollWidth": 1265,
+          "scrollHeight": 1129
+        },
+        "elements": [
+          {
+            "id": 1,
+            "role": "button",
+            "name": "차량 주변 보기",
+            "states": [
+              "pressed=false"
+            ]
+          },
+          {
+            "id": 2,
+            "role": "heading",
+            "name": "안전한 곳에서 기록을 남겨요",
+            "states": [
+              "focused"
+            ]
+          },
+          {
+            "id": 3,
+            "role": "button",
+            "name": "이전 단계",
+            "states": []
+          },
+          {
+            "id": 4,
+            "role": "button",
+            "name": "다음 단계",
+            "description": "기록 시작",
+            "states": []
+          },
+          {
+            "id": 5,
+            "role": "DisclosureTriangle",
+            "name": "시연 설정 +",
+            "states": [
+              "expanded=false"
+            ]
+          }
+        ]
+      },
+      "text": "오후 9:12\n차분 · 사고 대응 모드\n5G   18°C\n차량 주변 보기\n사고 기록\n기억나는 내용부터\n\n0개 이야기 · 0개 자료\n\n아직 남긴 기록이 없어요.\n\n119 긴급 통화\n\n통화 연결됨\n\n구호 접수 미확인\n22.5°\n22.5°\n01\n감지\n02\n119 연결\n03\n대피 안내\n04\n안전 확보\n05\n기록\n06\n보험사 전달\n07\n완료\n4 / 7 · 안전 확보\n안전한 곳에서 기록을 남겨요\n\n확인되지 않은 차량 상태는 미확인으로 유지해요.\n\n이전\n다음\n기록 시작\n시연 설정\n이 기기에 보관됨"
+    },
+    {
+      "at": "2026-11-12T16:13:56.596Z",
+      "action": "Open record stage",
+      "observation": {
+        "url": "http://127.0.0.1:5173/?case=a029f0c1-5b5a-4ee4-8452-a38d102fae2c",
+        "title": "사고 대응 지원 · Design review",
+        "viewport": {
+          "width": 1280,
+          "height": 800,
+          "deviceScaleFactor": 1
+        },
+        "scroll": {
+          "x": 0,
+          "y": 209,
+          "width": 1280,
+          "height": 800,
+          "scrollWidth": 1265,
+          "scrollHeight": 1129
+        },
+        "elements": [
+          {
+            "id": 1,
+            "role": "button",
+            "name": "차량 주변 보기",
+            "states": [
+              "pressed=false"
+            ]
+          },
+          {
+            "id": 2,
+            "role": "heading",
+            "name": "기억나는 내용을 남겨주세요",
+            "states": [
+              "focused"
+            ]
+          },
+          {
+            "id": 3,
+            "role": "button",
+            "name": "음성 안내 듣기",
+            "states": []
+          },
+          {
+            "id": 4,
+            "role": "button",
+            "name": "말로 남기기",
+            "states": [
+              "pressed=true"
+            ]
+          },
+          {
+            "id": 5,
+            "role": "button",
+            "name": "사진 남기기",
+            "states": [
+              "pressed=false"
+            ]
+          },
+          {
+            "id": 6,
+            "role": "button",
+            "name": "직접 입력",
+            "states": []
+          },
+          {
+            "id": 7,
+            "role": "button",
+            "name": "말로 기록하기",
+            "states": []
+          },
+          {
+            "id": 8,
+            "role": "button",
+            "name": "이전 단계",
+            "states": []
+          },
+          {
+            "id": 9,
+            "role": "button",
+            "name": "다음 단계",
+            "description": "기록을 저장하면 다음으로 진행",
+            "states": [
+              "disabled"
+            ]
+          },
+          {
+            "id": 10,
+            "role": "DisclosureTriangle",
+            "name": "시연 설정 +",
+            "states": [
+              "expanded=false"
+            ]
+          }
+        ]
+      },
+      "text": "오후 9:12\n차분 · 사고 대응 모드\n5G   18°C\n차량 주변 보기\n사고 기록\n기억나는 내용을 남겨주세요\n\n기억과 다른 내용은 저장 전에 고칠 수 있어요.\n\n음성 안내 듣기\n말로 남기기\n사진 남기기\n직접 입력\n구호\n통화 연결\n·\n접수 미확인\n차량 지원\n요청 전\n보험사\n요청 전\n말로 기록하기\n119 긴급 통화\n\n통화 연결됨\n\n구호 접수 미확인\n22.5°\n22.5°\n01\n감지\n02\n119 연결\n03\n대피 안내\n04\n안전 확보\n05\n기록\n06\n보험사 전달\n07\n완료\n5 / 7 · 기록\n기억나는 내용을 남겨주세요\n\n말·사진·직접 입력으로 남긴 기록을 확인할 수 있어요.\n\n이전\n다음\n기록을 저장하면 다음으로 진행\n시연 설정\n이 기기에 보관됨"
+    },
+    {
+      "at": "2026-11-12T16:14:59.724Z",
+      "action": "Save synthetic statement through editor",
+      "observation": {
+        "url": "http://127.0.0.1:5173/?case=a029f0c1-5b5a-4ee4-8452-a38d102fae2c",
+        "title": "사고 대응 지원 · Design review",
+        "viewport": {
+          "width": 1280,
+          "height": 800,
+          "deviceScaleFactor": 1
+        },
+        "scroll": {
+          "x": 0,
+          "y": 62,
+          "width": 1280,
+          "height": 800,
+          "scrollWidth": 1265,
+          "scrollHeight": 1129
+        },
+        "elements": [
+          {
+            "id": 1,
+            "role": "button",
+            "name": "차량 주변 보기",
+            "states": [
+              "pressed=false"
+            ]
+          },
+          {
+            "id": 2,
+            "role": "button",
+            "name": "음성 안내 듣기",
+            "states": []
+          },
+          {
+            "id": 3,
+            "role": "button",
+            "name": "말로 남기기",
+            "states": [
+              "pressed=true"
+            ]
+          },
+          {
+            "id": 4,
+            "role": "button",
+            "name": "사진 남기기",
+            "states": [
+              "pressed=false"
+            ]
+          },
+          {
+            "id": 5,
+            "role": "textbox",
+            "name": "사고 기록",
+            "value": "검증용 합성 진술: 정차 중 오른쪽에서 충격을 느꼈어요. 정확한 경위는 확인 중이에요.",
+            "description": "48 / 5,000",
+            "states": [
+              "multiline"
+            ]
+          },
+          {
+            "id": 6,
+            "role": "button",
+            "name": "추가로 말하기",
+            "states": []
+          },
+          {
+            "id": 7,
+            "role": "button",
+            "name": "기록 저장",
+            "states": [
+              "disabled"
+            ]
+          },
+          {
+            "id": 8,
+            "role": "button",
+            "name": "이전 단계",
+            "states": []
+          },
+          {
+            "id": 9,
+            "role": "button",
+            "name": "다음 단계",
+            "description": "내용 확인으로",
+            "states": []
+          },
+          {
+            "id": 10,
+            "role": "DisclosureTriangle",
+            "name": "시연 설정 +",
+            "states": [
+              "expanded=false"
+            ]
+          }
+        ]
+      },
+      "text": "오후 9:12\n차분 · 사고 대응 모드\n5G   18°C\n차량 주변 보기\n사고 기록\n이렇게 기록할까요?\n\n기억과 다른 내용은 저장 전에 고칠 수 있어요.\n\n음성 안내 듣기\n말로 남기기\n사진 남기기\n사고 기록\n48 / 5,000\n\n확인하지 못한 내용은 추측하지 않아도 돼요.\n\n추가로 말하기\n\n기록을 저장했어요.\n\n구호\n통화 연결\n·\n접수 미확인\n차량 지원\n요청 전\n보험사\n요청 전\n기록 저장\n119 긴급 통화\n\n통화 연결됨\n\n구호 접수 미확인\n22.5°\n22.5°\n01\n감지\n02\n119 연결\n03\n대피 안내\n04\n안전 확보\n05\n기록\n06\n보험사 전달\n07\n완료\n5 / 7 · 기록\n기억나는 내용을 남겨주세요\n\n말·사진·직접 입력으로 남긴 기록을 확인할 수 있어요.\n\n이전\n다음\n내용 확인으로\n시연 설정\n이 기기에 보관됨"
+    },
+    {
+      "at": "2026-11-12T16:15:57.313Z",
+      "action": "Reload durable case URL",
+      "observation": {
+        "url": "http://127.0.0.1:5173/?case=a029f0c1-5b5a-4ee4-8452-a38d102fae2c",
+        "title": "사고 대응 지원 · Design review",
+        "viewport": {
+          "width": 1280,
+          "height": 800,
+          "deviceScaleFactor": 1
+        },
+        "scroll": {
+          "x": 0,
+          "y": 0,
+          "width": 1280,
+          "height": 800,
+          "scrollWidth": 1265,
+          "scrollHeight": 1114
+        },
+        "elements": [
+          {
+            "id": 1,
+            "role": "button",
+            "name": "차량 주변 보기",
+            "states": [
+              "pressed=false"
+            ]
+          },
+          {
+            "id": 2,
+            "role": "heading",
+            "name": "이렇게 기록할까요?",
+            "states": [
+              "focused"
+            ]
+          },
+          {
+            "id": 3,
+            "role": "button",
+            "name": "음성 안내 듣기",
+            "states": []
+          },
+          {
+            "id": 4,
+            "role": "button",
+            "name": "말로 남기기",
+            "states": [
+              "pressed=true"
+            ]
+          },
+          {
+            "id": 5,
+            "role": "button",
+            "name": "사진 남기기",
+            "states": [
+              "pressed=false"
+            ]
+          },
+          {
+            "id": 6,
+            "role": "textbox",
+            "name": "사고 기록",
+            "value": "검증용 합성 진술: 정차 중 오른쪽에서 충격을 느꼈어요. 정확한 경위는 확인 중이에요.",
+            "description": "48 / 5,000",
+            "states": [
+              "multiline"
+            ]
+          },
+          {
+            "id": 7,
+            "role": "button",
+            "name": "추가로 말하기",
+            "states": []
+          },
+          {
+            "id": 8,
+            "role": "button",
+            "name": "기록 저장",
+            "states": [
+              "disabled"
+            ]
+          },
+          {
+            "id": 9,
+            "role": "button",
+            "name": "이전 단계",
+            "states": []
+          },
+          {
+            "id": 10,
+            "role": "button",
+            "name": "다음 단계",
+            "description": "내용 확인으로",
+            "states": []
+          },
+          {
+            "id": 11,
+            "role": "DisclosureTriangle",
+            "name": "시연 설정 +",
+            "states": [
+              "expanded=false"
+            ]
+          }
+        ]
+      },
+      "text": "오후 9:12\n차분 · 사고 대응 모드\n5G   18°C\n차량 주변 보기\n사고 기록\n이렇게 기록할까요?\n\n기억과 다른 내용은 저장 전에 고칠 수 있어요.\n\n음성 안내 듣기\n말로 남기기\n사진 남기기\n사고 기록\n48 / 5,000\n\n확인하지 못한 내용은 추측하지 않아도 돼요.\n\n추가로 말하기\n구호\n통화 연결\n·\n접수 미확인\n차량 지원\n요청 전\n보험사\n요청 전\n기록 저장\n119 긴급 통화\n\n통화 연결됨\n\n구호 접수 미확인\n22.5°\n22.5°\n01\n감지\n02\n119 연결\n03\n대피 안내\n04\n안전 확보\n05\n기록\n06\n보험사 전달\n07\n완료\n5 / 7 · 기록\n기억나는 내용을 남겨주세요\n\n말·사진·직접 입력으로 남긴 기록을 확인할 수 있어요.\n\n이전\n다음\n내용 확인으로\n시연 설정\n이 기기에 보관됨"
+    }
+  ]
+}

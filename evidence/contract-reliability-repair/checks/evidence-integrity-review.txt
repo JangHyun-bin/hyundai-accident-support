@@ -1,0 +1,45 @@
+COMMAND ["python3", "/tmp/hyundai-contract-repair/check-evidence.py"]
+CWD .
+TESTED_COMMIT 2bd7c258187772399bacfe62fdb8b6f3254c642a
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-12T20:31:23.273145+00:00",
+  "sourceCommit": "2bd7c258187772399bacfe62fdb8b6f3254c642a",
+  "sourceManifestSha256": "bd915f03442699a5c24cd08864643b2cf22583e1a17706a5e0673bc68cdef27f",
+  "jsonFilesParsed": 221,
+  "runtimeArtifactsVerified": 557,
+  "runtimeRuns": 14,
+  "runtimeBytes": 466100243,
+  "exactCopies": 525,
+  "requirements": 64,
+  "requirementStates": {
+    "verified": 27,
+    "blocked": 3,
+    "unmet": 1,
+    "implemented-unverified": 1
+  },
+  "documentCount": 19,
+  "localLinks": 163,
+  "documentFailures": 0,
+  "native": {
+    "28": {
+      "serial": "emulator-5556",
+      "tests": 41,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "35": {
+      "serial": "emulator-5554",
+      "tests": 41,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "cleanAuditAbsentAfterFinalFull": true,
+  "remainingImportantCodeFindings": 0,
+  "mergeAllowed": false
+}
+
+EXIT_STATUS 0

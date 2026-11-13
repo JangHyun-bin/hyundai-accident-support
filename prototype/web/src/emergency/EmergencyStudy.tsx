@@ -4,6 +4,7 @@ import {VehicleShell} from '@/components/ui/after-care-layout'
 import { EmergencySurface } from './EmergencySurface'
 import { manifest, createSession, restoreSession, saveSession, transition, updateDraft, type Edge } from './session'
 import {useGuidanceAudio} from '@/audio/useGuidanceAudio'
+import {resolveGuidance} from './guidance'
 import './emergency.css'
 
 function readSelection() {
@@ -43,13 +44,15 @@ export function EmergencyStudy() {
   const [selection, setSelection] = useState(readSelection)
   const [resetKey, setResetKey] = useState(0)
   const countdownKey = `${selection.scenarioId}/${selection.sceneId}/${resetKey}`
-  const [storageAvailable, setStorageAvailable] = useState(true)
+  const [persistence, setPersistence] = useState<{ selection: typeof selection; available: boolean } | null>(null)
+  const storageAvailable = persistence?.selection === selection && persistence.available
   const [paused, setPaused] = useState(false)
   const [showSpec, setShowSpec] = useState(false)
   // 3초 보기: 검토 UI 를 숨기고 차량 화면만 3초 보여 준 뒤 가린다. 가린 동안 countdown 은 멈춘다.
   const [present, setPresent] = useState<'off' | 'showing' | 'covered'>('off')
   const presentTimer = useRef(0)
   const heading = useRef<HTMLHeadingElement>(null)
+  const autoVoiceKey = useRef<string | null>(null)
   const focusAfterChange = useRef<'action' | 'event' | null>(null)
   // React transition commit 전에 이전 countdown이 운전자의 선택을 덮지 않도록 차단.
   const leaving = useRef(false)
@@ -61,13 +64,14 @@ export function EmergencyStudy() {
   const scenario = manifest.scenarios.find(item => item.id === selection.scenarioId)!
   const sceneIndex = scenario.states.findIndex(item => item.id === selection.sceneId)
   const scene = scenario.states[sceneIndex]
-  const audio=useGuidanceAudio({text:scene.voice,key:countdownKey+'/'+paused+'/'+(present==='covered')})
+  const guidance=resolveGuidance(selection,scene,storageAvailable)
+  const audio=useGuidanceAudio({text:guidance.text,key:guidance.contextKey+'/'+resetKey+'/'+paused+'/'+(present==='covered')})
   const voiceState=audio.state
   const facts = scenario.facts.map(fact => ({ ...fact, ...Object.entries(selection.facts).find(([id]) => id === fact.id)?.[1] }))
   const requests = scenario.requests.map(request => ({ ...request, status: Object.entries(selection.requests).find(([id]) => id === request.id)?.[1] ?? request.status }))
   const callConnected = scene.title === '119 통화 연결됨'
   const secondsLeft = countdown.for === countdownKey ? countdown.seconds : scene.auto_contact?.seconds ?? 0
-  useEffect(() => { setStorageAvailable(saveSession(selection)) }, [selection])
+  useLayoutEffect(() => { setPersistence({ selection, available: saveSession(selection) }) }, [selection])
 
 
   useEffect(() => {
@@ -94,8 +98,15 @@ export function EmergencyStudy() {
     if (!scene.auto_contact) return
     remainingMs.current = scene.auto_contact.seconds * 1000
     beep()
-    void audio.play()
   }, [countdownKey])
+
+  // Initial persistence changes the audio owner; autostart only after that result is known.
+  useEffect(() => {
+    if (!scene.auto_contact) { autoVoiceKey.current = null; return }
+    if (persistence?.selection !== selection || paused || present === 'covered' || autoVoiceKey.current === countdownKey) return
+    autoVoiceKey.current = countdownKey
+    void audio.play()
+  }, [countdownKey, persistence, selection, paused, present === 'covered', audio.play])
 
   // 남은 시간은 마감 시각으로 계산한다. 멈추면 남은 ms 를 저장하고, 장면이 바뀌면 timer 를 버린다.
   useEffect(() => {
@@ -156,7 +167,7 @@ export function EmergencyStudy() {
     focusAfterChange.current = source
     leaving.current = true
     // Persist the accepted action before an animation or immediate reload can interrupt it.
-    setStorageAvailable(saveSession(next))
+    setPersistence({ selection: next, available: saveSession(next) })
     const url = new URL(location.href)
     url.searchParams.set('scene', next.sceneId)
     history.replaceState(null, '', url)
@@ -181,14 +192,14 @@ export function EmergencyStudy() {
       </VehicleShell>
       {present === 'covered' && <div className="emergency-cover" data-cover><button className="emergency-review-button" onClick={showForThreeSeconds}>다시 3초</button><button className="emergency-review-button" onClick={closePresentation}>닫기</button></div>}
     </div>
-    {!storageAvailable && <p role="alert" className="emergency-storage-warning">이 browser에서 기록을 보관할 수 없어요. 화면을 닫으면 진행 내용이 사라져요.</p>}
-    <div className="emergency-voice-status" role="status">{voiceState === 'error' ? `음성 재생을 사용할 수 없어요. 음성 원고: ${scene.voice}` : voiceState === 'speaking' ? '현재 장면의 음성 안내를 재생하고 있어요.' : ''}</div>
+    {!storageAvailable && <p role="alert" className="emergency-storage-warning">이번 진행 내용을 이 browser에 보관할 수 없어요. 저장되지 않은 입력은 화면을 닫으면 사라져요.</p>}
+    <div className="emergency-voice-status" role="status">{voiceState === 'error' ? `음성 재생을 사용할 수 없어요. 음성 원고: ${guidance.text}` : voiceState === 'speaking' ? '현재 장면의 음성 안내를 재생하고 있어요.' : ''}</div>
     {paused && <p className="emergency-pause-note">시연 일시 중단 · 현재 장면과 요청 상태를 유지하고 있어요.</p>}
     <div className="emergency-storyboard-controls">
       <nav aria-label="장면 선택" className="emergency-scene-list">{scenario.states.map(state => <button key={state.id} ref={state.id === scene.id ? activeSceneButton : undefined} aria-pressed={state.id === scene.id} disabled={paused} onClick={() => goToScene(state.id)}><ReviewMark status={state.cue.status} size={22} /><span>{state.label}</span>{state.id === scene.id && <span className="emergency-current">현재</span>}</button>)}</nav>
       <div className="emergency-events"><span>외부 결과 시연</span>{scene.events.length ? scene.events.map(event => <button className="emergency-review-button" key={event.id} aria-label={`시연 event: ${event.label}`} disabled={paused} onClick={() => act(event, 'event')}>{event.label}<ArrowRight size={15} aria-hidden="true" /></button>) : <p>다른 장면을 선택해 비교할 수 있어요.</p>}</div>
     </div>
-    {showSpec && <section id="emergency-spec" className="emergency-spec" aria-label="현재 장면 spec"><div><h2>{scenario.id} / {scene.label}</h2><p>Source nodes: {scenario.source_nodes.join(' · ')}<br />미결정: {scenario.open_decisions.join(' · ')}<br />뒤로 둔 정보: {scene.deferred.join(' · ')}</p><h3>음성 원고</h3><p>{scene.voice}</p><h3>안전 안내 ({manifest.safety_guidance.status})</h3><p>{manifest.safety_guidance.source}</p><p>Symbol은 정보 종류를 나타내며 실제 위치나 신체 부위를 재현하지 않습니다.</p></div><pre>{JSON.stringify({ simulation_only: true, data_source: manifest.data_source, scenario: scenario.id, scene, facts, requests, presentation: scenario.presentation }, null, 2)}</pre></section>}
+    {showSpec && <section id="emergency-spec" className="emergency-spec" aria-label="현재 장면 spec"><div><h2>{scenario.id} / {scene.label}</h2><p>Source nodes: {scenario.source_nodes.join(' · ')}<br />미결정: {scenario.open_decisions.join(' · ')}<br />뒤로 둔 정보: {scene.deferred.join(' · ')}</p><h3>음성 원고</h3><p>{guidance.text}</p><h3>안전 안내 ({manifest.safety_guidance.status})</h3><p>{manifest.safety_guidance.source}</p><p>Symbol은 정보 종류를 나타내며 실제 위치나 신체 부위를 재현하지 않습니다.</p></div><pre>{JSON.stringify({ simulation_only: true, data_source: manifest.data_source, scenario: scenario.id, scene, guidance, facts, requests, presentation: scenario.presentation }, null, 2)}</pre></section>}
     <footer className="emergency-review-footer"><span>Spec v{manifest.version} · {manifest.scenarios.length} scenarios / {manifest.scenarios.reduce((total, item) => total + item.states.length, 0)} scenes</span><span>이해도 평가 전 · 실제 차량 동작 미검증</span></footer>
   </main>
 }

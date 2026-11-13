@@ -66,8 +66,7 @@ test('external_event_keeps_keyboard_focus_in_scene_controls', async ({ page }) =
 })
 
 test('voice_failure_keeps_script_visible_and_scene_change_cancels_old_speech', async ({ page }) => {
-  await page.addInitScript(mockGuidanceAudio)
-  await page.addInitScript(()=>{window.guidanceMock.fail=true})
+  await page.addInitScript(mockGuidanceAudio, { fail: true })
   await page.goto('/?study=emergency&scenario=SC05')
   await page.getByRole('button', { name: '음성 안내 듣기' }).click()
   await expect(page.getByRole('status')).toContainText('음성 원고')

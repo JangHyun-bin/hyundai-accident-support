@@ -1,0 +1,78 @@
+COMMAND ["python3", "/tmp/hyundai-contract-repair/finalize-source.py"]
+CWD .
+TESTED_COMMIT e76c9bcd7a91aa6ebc7dd9925e2840dd3e9e1fe5
+{
+  "files": 410,
+  "manifestSha256": "f7eea26d542612626219e0e4624bb98deed41a0d85c3e57d3ef8810a4d507931",
+  "changedSinceInitial": [
+    "prototype/android/app/src/androidTest/java/com/example/accidentpoc/Sc05Test.kt",
+    "prototype/web/src/design-system/ResponseLayoutPreview.tsx",
+    "prototype/web/src/emergency/EmergencyStudy.tsx",
+    "prototype/web/src/emergency/EmergencySurface.tsx",
+    "prototype/web/src/emergency/guidance.ts",
+    "prototype/web/src/journey/JourneyReviewPanel.tsx",
+    "prototype/web/src/journey/JourneyStudy.tsx",
+    "prototype/web/tests/emergency-guidance-state.spec.ts",
+    "prototype/web/tests/emergency-urgent.spec.ts",
+    "prototype/web/tests/emergency.spec.ts",
+    "prototype/web/tests/guidance-audio.spec.ts",
+    "prototype/web/tests/guidance-mock.ts",
+    "prototype/web/tests/helpers/voice-recorder.ts",
+    "prototype/web/tests/journey-reconstruction.spec.ts",
+    "prototype/web/tests/journey-record-reliability.spec.ts",
+    "prototype/web/tests/journey-voice.spec.ts"
+  ],
+  "relations": [
+    {
+      "scope": "root-and-manifest",
+      "testedCommit": "17a4d50f3f92222ffef36b9d2cf9d19149cf81ec",
+      "gates": [
+        "root-check",
+        "root-model",
+        "root-review",
+        "root-server",
+        "manifest"
+      ],
+      "inputCount": 53,
+      "differencesFromFinal": [],
+      "identical": true
+    },
+    {
+      "scope": "audio-script-tests",
+      "testedCommit": "17a4d50f3f92222ffef36b9d2cf9d19149cf81ec",
+      "gates": [
+        "audio-script-tests"
+      ],
+      "inputCount": 11,
+      "differencesFromFinal": [],
+      "identical": true
+    },
+    {
+      "scope": "android",
+      "testedCommit": "2a5dea5e992814a96c5e3cf19595f2691f07eb54",
+      "gates": [
+        "android-build-fix2",
+        "android-api28-fix1",
+        "android-api35-fix1"
+      ],
+      "inputCount": 20,
+      "differencesFromFinal": [],
+      "identical": true
+    },
+    {
+      "scope": "web",
+      "testedCommit": "e76c9bcd7a91aa6ebc7dd9925e2840dd3e9e1fe5",
+      "gates": [
+        "web-build-clean-final2",
+        "web-full-final2",
+        "web-reconstruction-fix1"
+      ],
+      "inputCount": 392,
+      "differencesFromFinal": [],
+      "identical": true
+    }
+  ],
+  "protectedInputCount": 60
+}
+
+EXIT_STATUS 0

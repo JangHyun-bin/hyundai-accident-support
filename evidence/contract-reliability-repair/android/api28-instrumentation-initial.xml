@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuites tests="41" failures="1" errors="0" skipped="0" time="0.000" timestamp="2026-11-12T16:42:09" hostname="localhost">
+  <testsuite name="com.example.accidentpoc.GlyphsTest" tests="4" failures="0" errors="0" skipped="0" time="2.142" timestamp="2026-11-12T16:42:09" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5556" />
+    </properties>
+    <testcase name="cueGlyphReaches3To1" classname="com.example.accidentpoc.GlyphsTest" time="1.458" />
+    <testcase name="heartPulseCutLeavesAGap" classname="com.example.accidentpoc.GlyphsTest" time="0.271" />
+    <testcase name="handoffKeepsAChannelBetweenPeople" classname="com.example.accidentpoc.GlyphsTest" time="0.110" />
+    <testcase name="everyMappedGlyphBuildsANonEmptyPath" classname="com.example.accidentpoc.GlyphsTest" time="0.303" />
+  </testsuite>
+  <testsuite name="com.example.accidentpoc.SatinShaderTest" tests="2" failures="0" errors="0" skipped="0" time="0.005" timestamp="2026-11-12T16:42:09" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5556" />
+    </properties>
+    <testcase name="brokenShaderIsReportedUnavailable" classname="com.example.accidentpoc.SatinShaderTest" time="0.005" />
+    <testcase name="satinShaderCompilesOnSupportedApiAndIsNormalFallbackOnApi28" classname="com.example.accidentpoc.SatinShaderTest" time="0.000" />
+  </testsuite>
+  <testsuite name="com.example.accidentpoc.Sc05LaunchTest" tests="2" failures="0" errors="0" skipped="0" time="7.345" timestamp="2026-11-12T16:42:09" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5556" />
+    </properties>
+    <testcase name="invalidSceneExtraFallsBackToInitial" classname="com.example.accidentpoc.Sc05LaunchTest" time="0.787" />
+    <testcase name="everySharedSceneOpensAndSurvivesRealActivityRecreation" classname="com.example.accidentpoc.Sc05LaunchTest" time="6.558" />
+  </testsuite>
+  <testsuite name="com.example.accidentpoc.Sc05Test" tests="16" failures="1" errors="0" skipped="0" time="21.625" timestamp="2026-11-12T16:42:09" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5556" />
+    </properties>
+    <testcase name="primaryAndSecondaryHaveSeparateBoundsAndBothWork" classname="com.example.accidentpoc.Sc05Test" time="0.738" />
+    <testcase name="initialSceneShowsEachAgencySeparately" classname="com.example.accidentpoc.Sc05Test" time="0.369" />
+    <testcase name="removedCopyLeavesNoEmptyText" classname="com.example.accidentpoc.Sc05Test" time="0.327" />
+    <testcase name="actionMovesFocusToNewTitle" classname="com.example.accidentpoc.Sc05Test" time="0.574" />
+    <testcase name="font200PercentKeepsActionsAndEverySceneControlReachable" classname="com.example.accidentpoc.Sc05Test" time="2.997" />
+    <testcase name="allElevenSceneControlsAreReachableAndKeepSimulationNotice" classname="com.example.accidentpoc.Sc05Test" time="2.183" />
+    <testcase name="queuedDuplicateApprovalOnlySubmitsOnce" classname="com.example.accidentpoc.Sc05Test" time="1.001" />
+    <testcase name="suspendedReceiptAndHandoffStaySuspendedUntilResume" classname="com.example.accidentpoc.Sc05Test" time="1.308" />
+    <testcase name="sc05DrawsMappedGlyphsAndMarks" classname="com.example.accidentpoc.Sc05Test" time="0.725" />
+    <testcase name="scopeValidationCancelApprovalAndFailedReapprovalUseRealControls" classname="com.example.accidentpoc.Sc05Test" time="2.651" />
+    <testcase name="checkingUnknownFailureAndResumeNeverResend" classname="com.example.accidentpoc.Sc05Test" time="1.448" />
+    <testcase name="surfaceToggleKeepsSceneAndUsesApiSpecificCapability" classname="com.example.accidentpoc.Sc05Test" time="0.996" />
+    <testcase name="koreanTextWrapsOnlyBetweenWordsAcrossAllScenes" classname="com.example.accidentpoc.Sc05Test" time="1.644" />
+    <testcase name="receiptAndFactsSurviveNavigationRecreationAndLateUnknown" classname="com.example.accidentpoc.Sc05Test" time="1.758" />
+    <testcase name="eventMovesFocusToCurrentSceneButton" classname="com.example.accidentpoc.Sc05Test" time="0.643">
+      <failure>java.lang.AssertionError: Failed to assert the following: (Focused = 'true')
+Semantics of the node:
+Node #5589 at (l=21.0, t=1056.0, r=138.0, b=1120.0)px, Tag: 'scene-initial'
+Focused = 'false'
+Role = 'Button'
+Selected = 'true'
+Text = '[접수 미확인]'
+Actions = [ClearTextSubstitution, GetTextLayoutResult, OnClick, RequestFocus, SetTextSubstitution, ShowTextSubstitution]
+MergeDescendants = 'true'
+Has 10 siblings
+Selector used: (TestTag = 'scene-initial')
+
+	at androidx.compose.ui.test.AssertionsKt.assert(Assertions.kt:264)
+	at androidx.compose.ui.test.AssertionsKt.assert$default(Assertions.kt:254)
+	at androidx.compose.ui.test.AssertionsKt.assertIsFocused(Assertions.kt:117)
+	at com.example.accidentpoc.Sc05Test.eventMovesFocusToCurrentSceneButton(Sc05Test.kt:104)
+</failure>
+    </testcase>
+    <testcase name="fullSessionScopeApprovalSuspendedResultsAndSurfaceSurviveRecreation" classname="com.example.accidentpoc.Sc05Test" time="2.263" />
+  </testsuite>
+  <testsuite name="com.example.accidentpoc.ScenarioLoadTest" tests="7" failures="0" errors="0" skipped="0" time="0.106" timestamp="2026-11-12T16:42:09" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5556" />
+    </properties>
+    <testcase name="glyphGridMappingsAndStatusMarksAreValidated" classname="com.example.accidentpoc.ScenarioLoadTest" time="0.000" />
+    <testcase name="allSharedScenariosParseWithoutClaimingProductUiSupport" classname="com.example.accidentpoc.ScenarioLoadTest" time="0.010" />
+    <testcase name="effectsAgencySecondaryAndPanelsSurviveLoading" classname="com.example.accidentpoc.ScenarioLoadTest" time="0.002" />
+    <testcase name="invalidOverrideReferencesStatusesFieldsAndStringTypesAreRejected" classname="com.example.accidentpoc.ScenarioLoadTest" time="0.034" />
+    <testcase name="invalidTargetsAgenciesEffectsAndTypesAreDiagnosed" classname="com.example.accidentpoc.ScenarioLoadTest" time="0.033" />
+    <testcase name="validFactOverridesArePreservedIncludingNonVisibleFacts" classname="com.example.accidentpoc.ScenarioLoadTest" time="0.008" />
+    <testcase name="invalidVersionScenarioAndDuplicateIdsAreRejected" classname="com.example.accidentpoc.ScenarioLoadTest" time="0.019" />
+  </testsuite>
+  <testsuite name="com.example.accidentpoc.ScenarioSessionTest" tests="10" failures="0" errors="0" skipped="0" time="0.032" timestamp="2026-11-12T16:42:09" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5556" />
+    </properties>
+    <testcase name="receiveAndHandoffWhileSuspendedUpdateSessionWithoutLeavingOrResending" classname="com.example.accidentpoc.ScenarioSessionTest" time="0.007" />
+    <testcase name="invalidSavedSessionCannotReplaceTheAuthoritativeState" classname="com.example.accidentpoc.ScenarioSessionTest" time="0.001" />
+    <testcase name="receiptArrivalAndHandoffAreIndependentAndMonotonicAcrossLateResults" classname="com.example.accidentpoc.ScenarioSessionTest" time="0.001" />
+    <testcase name="explicitApprovalFreezesSnapshotAndFailedRetryNeedsNewApproval" classname="com.example.accidentpoc.ScenarioSessionTest" time="0.002" />
+    <testcase name="reviewCancelEmptyScopeAndMissingRecordCannotSubmit" classname="com.example.accidentpoc.ScenarioSessionTest" time="0.012" />
+    <testcase name="lookupUnknownFailureSuspensionAndResumeKeepOriginalIdentityAndOtherAgencies" classname="com.example.accidentpoc.ScenarioSessionTest" time="0.002" />
+    <testcase name="handoffSelfTargetAppliesWithoutInventingArrivalOrVehicleReceipt" classname="com.example.accidentpoc.ScenarioSessionTest" time="0.001" />
+    <testcase name="directHandoffFixtureDoesNotInventArrivalAndResumePreservesOrigin" classname="com.example.accidentpoc.ScenarioSessionTest" time="0.001" />
+    <testcase name="fullSessionSerializationPreservesEveryFieldForAllElevenScenes" classname="com.example.accidentpoc.ScenarioSessionTest" time="0.004" />
+    <testcase name="knownReceiptBlocksApprovalEvenWhenReviewProjectionWasSelected" classname="com.example.accidentpoc.ScenarioSessionTest" time="0.001" />
+  </testsuite>
+</testsuites>

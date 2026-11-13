@@ -1,0 +1,21 @@
+COMMAND ["env", "CI=true", "PLAYWRIGHT_OUTPUT_DIR=test-results/repair-review-targeted-fixed", "./node_modules/.bin/playwright", "test", "tests/journey-record-reliability.spec.ts", "tests/journey-report.spec.ts"]
+CWD prototype/web
+TESTED_COMMIT 2bd7c258187772399bacfe62fdb8b6f3254c642a
+[WebServer] (node:78261) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 33 tests using 5 workers
+(node:78266) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:78262) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:78263) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:78265) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:78264) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·································
+  33 passed (16.5s)
+
+EXIT_STATUS 0

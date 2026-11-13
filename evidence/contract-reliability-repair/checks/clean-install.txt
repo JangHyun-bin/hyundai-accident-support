@@ -1,0 +1,5 @@
+Preparing worktree (detached HEAD 65518e2)
+HEAD is now at 65518e2 test: declare guidance JSON import attributes for Node runner
+AUDIT_DIRECTORIES_ABSENT=true
+
+added 69 packages in 1s

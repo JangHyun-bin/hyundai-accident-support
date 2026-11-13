@@ -11,7 +11,7 @@ export type Confirmation = 'neutral' | 'confirmed' | 'unknown' | 'attention'
 export type Availability = 'pending' | 'available' | 'failed' | 'unavailable' | 'skipped'
 export type EvidenceKind = 'photo' | 'audio' | 'video'
 export type CaptureTarget = 'scene' | 'own-car' | 'other-car' | 'plate' | 'road-marks' | 'signals'
-export const LIMITS = { photoBytes: 15 * 1024 * 1024, photoCount: 12, caseBytes: 150 * 1024 * 1024, voiceSeconds: 120, statementLength: 5000 } as const
+export const LIMITS = { photoBytes: 15 * 1024 * 1024, photoCount: 12, caseBytes: 150 * 1024 * 1024, voiceSeconds: 120, statementLength: 5000, reportParagraphs: 100 } as const
 export const captureTargets: { id: CaptureTarget; label: string }[] = [
   { id: 'scene', label: '현장 전체' }, { id: 'own-car', label: '내 차량' }, { id: 'other-car', label: '상대 차량' },
   { id: 'plate', label: '번호판' }, { id: 'road-marks', label: '바닥 흔적' }, { id: 'signals', label: '신호등' },
@@ -96,7 +96,7 @@ export type CaseCommand =
   | ({ type: 'follow-up-result'; caseId: string; shopId: string | null; requestId: string; source: Source; updatedAt: string } &
       ({ kind: 'route'; status: 'guiding' | 'unavailable' } | { kind: 'rental'; status: 'eligible' | 'ineligible' | 'unknown' }))
 export type AssetWrite = { id: string; caseId: string; blob: Blob }
-export type CommitResult = { ok: true; value: JourneyCase } | { ok: false; reason: 'conflict' | 'unavailable' | 'quota' | 'invalid'; draft: JourneyCase }
+export type CommitResult = { ok: true; value: JourneyCase } | { ok: false; reason: 'conflict' | 'unavailable' | 'quota' | 'invalid'; rejection?: 'paragraph-limit' | 'invalid-command'; draft: JourneyCase }
 export type ApprovalResult = { ok: true; value: JourneyCase } | { ok: false; reason: 'recipient' | 'empty-selection' | 'missing-evidence' | 'unreviewed-content' | 'retry-not-allowed' }
 
 export type ApprovalInput = { recipient: string; selection: PayloadSelection; id: string; now: string } &
@@ -396,6 +396,7 @@ export function reduceCase(current: JourneyCase, command: CaseCommand): JourneyC
       break
     case 'paragraph-edit': {
       if (command.text.length > LIMITS.statementLength) return current
+      if (!current.report?.paragraphs.some(p => p.id === command.id) && (current.report?.paragraphs.length ?? 0) >= LIMITS.reportParagraphs) return current
       if (!next.report) next.report = { revision: 0, basedOnRevision: current.contentRevision, paragraphs: [] }
       else next.reportHistory.push(structuredClone(next.report))
       const index = next.report.paragraphs.findIndex(p => p.id === command.id)

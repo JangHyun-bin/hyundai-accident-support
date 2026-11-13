@@ -1,0 +1,8 @@
+Stopping: com.example.accidentpoc
+Starting: Intent { cmp=com.example.accidentpoc/.MainActivity (has extras) }
+Status: ok
+Activity: com.example.accidentpoc/.MainActivity
+ThisTime: 639
+TotalTime: 272450
+WaitTime: 654
+Complete

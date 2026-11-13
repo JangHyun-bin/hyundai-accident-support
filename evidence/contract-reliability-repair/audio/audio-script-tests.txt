@@ -1,0 +1,18 @@
+COMMAND ["node", "--test", "prototype/web/scripts/generate-guidance-audio.test.mjs", "prototype/web/scripts/guidance-recording.test.mjs"]
+CWD .
+TESTED_COMMIT 17a4d50f3f92222ffef36b9d2cf9d19149cf81ec
+✔ curl sends exact UTF-8 JSON without shell/config interpolation (20.25325ms)
+✔ asset collection includes all scene, journey and runtime scripts with exact source identity (1.355666ms)
+✔ local verification rejects missing runtime assets and mismatched script hashes without credentials (0.608375ms)
+✔ recorded playback is clipped to both trim and stop without moving its audio content (0.324083ms)
+✔ unapproved paths and failed zero-length playback are omitted (0.245208ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 67.938
+
+EXIT_STATUS 0

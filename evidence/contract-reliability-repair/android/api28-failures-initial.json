@@ -1,0 +1,22 @@
+{
+  "counts": {
+    "tests": "41",
+    "failures": "1",
+    "errors": "0",
+    "skipped": "0",
+    "time": "0.000",
+    "timestamp": "2026-11-12T16:42:09",
+    "hostname": "localhost"
+  },
+  "failures": [
+    {
+      "case": {
+        "name": "eventMovesFocusToCurrentSceneButton",
+        "classname": "com.example.accidentpoc.Sc05Test",
+        "time": "0.643"
+      },
+      "failure": {},
+      "stack": "java.lang.AssertionError: Failed to assert the following: (Focused = 'true')\nSemantics of the node:\nNode #5589 at (l=21.0, t=1056.0, r=138.0, b=1120.0)px, Tag: 'scene-initial'\nFocused = 'false'\nRole = 'Button'\nSelected = 'true'\nText = '[접수 미확인]'\nActions = [ClearTextSubstitution, GetTextLayoutResult, OnClick, RequestFocus, SetTextSubstitution, ShowTextSubstitution]\nMergeDescendants = 'true'\nHas 10 siblings\nSelector used: (TestTag = 'scene-initial')\n\n\tat androidx.compose.ui.test.AssertionsKt.assert(Assertions.kt:264)\n\tat androidx.compose.ui.test.AssertionsKt.assert$default(Assertions.kt:254)\n\tat androidx.compose.ui.test.AssertionsKt.assertIsFocused(Assertions.kt:117)\n\tat com.example.accidentpoc.Sc05Test.eventMovesFocusToCurrentSceneButton(Sc05Test.kt:104)\n"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "start": {
+    "time": "2026-11-12T18:54:41.586Z",
+    "sources": {
+      "/src/design-system/FlowBoard.tsx": "4221cacf1cbff74a0b3795db137ff420e24c6b323892ad075510dd8395e70338",
+      "/src/design-system/FlowStudy.tsx": "bd8a840856925ee9a0f4a20ad5f55aedaa271ccb949597ae2731f7beb92ebe27",
+      "/src/journey/JourneyFlow.tsx": "58aec5e7e743b0ea57c5f83c46a9a476ff0931689188ceb0b3a612436a07f5a4",
+      "/src/design-system/flow-study.css": "cb84dd7dd01190941e5279e202ca59869eb2bd29e614bb13e3dce0e6a5c27fc4",
+      "/src/journey/journey-flow.css": "bfe9b1a3b4ffe9d1c085a050685da7f4b27195d0019fe9831e1290f862a7b199"
+    }
+  },
+  "end": {
+    "time": "2026-11-12T18:54:45.734Z",
+    "sources": {
+      "/src/design-system/FlowBoard.tsx": "4221cacf1cbff74a0b3795db137ff420e24c6b323892ad075510dd8395e70338",
+      "/src/design-system/FlowStudy.tsx": "bd8a840856925ee9a0f4a20ad5f55aedaa271ccb949597ae2731f7beb92ebe27",
+      "/src/journey/JourneyFlow.tsx": "58aec5e7e743b0ea57c5f83c46a9a476ff0931689188ceb0b3a612436a07f5a4",
+      "/src/design-system/flow-study.css": "cb84dd7dd01190941e5279e202ca59869eb2bd29e614bb13e3dce0e6a5c27fc4",
+      "/src/journey/journey-flow.css": "bfe9b1a3b4ffe9d1c085a050685da7f4b27195d0019fe9831e1290f862a7b199"
+    }
+  },
+  "changed": false
+}

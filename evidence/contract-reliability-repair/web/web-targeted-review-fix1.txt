@@ -1,0 +1,57 @@
+COMMAND ["env", "CI=true", "PLAYWRIGHT_OUTPUT_DIR=test-results/repair-review-targeted", "./node_modules/.bin/playwright", "test", "tests/journey-record-reliability.spec.ts", "tests/journey-report.spec.ts"]
+CWD prototype/web
+TESTED_COMMIT 2f21772da358ef568a88738115e272f70ab3116e
+[WebServer] (node:77225) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 33 tests using 5 workers
+(node:77245) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:77247) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:77248) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:77249) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:77246) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·····························F···
+
+  1) tests/journey-record-reliability.spec.ts:411:1 › pending report saves freeze the submitted reference choice and retain it after reload 
+
+    Error: expect(locator).toBeDisabled() failed
+
+    Locator: getByRole('article', { name: '문장 1', exact: true }).getByRole('checkbox', { name: '전방 영상 포함', exact: true })
+    Expected: disabled
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeDisabled" getByRole('article', { name: '문장 1', exact: true }).getByRole('checkbox', { name: '전방 영상 포함', exact: true }) with timeout 5000ms
+      - waiting for getByRole('article', { name: '문장 1', exact: true }).getByRole('checkbox', { name: '전방 영상 포함', exact: true })
+
+
+      423 |   await button(page, '정정 저장').click()
+      424 |   await expect.poll(() => page.evaluate(() => window.recordStorageWaiting)).toBe(true)
+    > 425 |   await expect(reference).toBeDisabled()
+          |                           ^
+      426 |   await expect(reference).not.toBeChecked()
+      427 |   const pendingChoice = { included: await reference.isChecked(), disabled: await reference.isDisabled() }
+      428 |   await paragraph.screenshot({ path: testInfo.outputPath('reference-save-busy.png') })
+        at $REPO/prototype/web/tests/journey-record-reliability.spec.ts:425:27
+
+    Error Context: test-results/repair-review-targeted/journey-record-reliability-97343--and-retain-it-after-reload/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-review-targeted/journey-record-reliability-97343--and-retain-it-after-reload/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-review-targeted/journey-record-reliability-97343--and-retain-it-after-reload/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/journey-record-reliability.spec.ts:411:1 › pending report saves freeze the submitted reference choice and retain it after reload 
+  32 passed (21.1s)
+
+EXIT_STATUS 1

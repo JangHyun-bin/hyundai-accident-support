@@ -1,82 +1,80 @@
 # 사고 대응 Compose PoC
 
-긴급 storyboard의 SC05 · 접수 미확인을 Kotlin + Compose로 재현한 임시 prototype이다. 접수 미확인·결과 조회·접수 확인의 세 장면과 C · Satin 재질을 [web preview](../web/README.md)와 같은 구성으로 보여준다. 실제 전화·전송·차량 신호·기관 연계는 없다.
+SC05 접수 미확인을 Kotlin + Compose로 검토하는 local prototype이다. 실제 전화·기관 전송·차량 신호·AAOS 연계는 없다. Web 최신 외형 전체를 이식한 앱도 아니다.
 
-## 실행
+현재 repair의 지원 계약은 공유 manifest의 **SC05 11개 state**와 누적 요청·사실·승인·중단 상태다. 구현·실제 API별 통과 여부는 [32개 요구 상태](../../evidence/contract-reliability-repair/requirements.json)와 [전역 완료 추적](../../specs/after-care-system/completion.md)을 따른다. 과거 세 장면·21개 검사·Satin screenshot은 현재 실행 증거가 아니다.
 
-Android Studio에 포함된 JDK를 사용한다. 별도 Java 설치는 필요하지 않다.
+## 도구와 build
+
+프로젝트는 AGP9.4.1·Gradle9.6.0 wrapper·Compose compiler2.3.21, compile/target SDK35·min SDK28을 선언한다. 호환 JDK와 Android SDK가 필요하다. Android Studio에 포함된 JBR을 사용할 수 있으나 해당 앱 경로가 항상 존재한다고 가정하지 않는다.
+
+현재 repair 환경에는 OpenJDK25.0.2·Gradle9.6.0·SDK35·Build Tools36.0.0·platform-tools·ARM64 emulator37.2.13을 준비했다. 도구 설치/버전 확인과 앱 build·instrumentation 통과는 별개다.
 
 ```sh
 cd prototype/android
-export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
-./gradlew assembleDebug
+export JAVA_HOME="$(/usr/libexec/java_home)"
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+export ANDROID_SDK_ROOT="$ANDROID_HOME"
+./gradlew assembleDebug assembleDebugAndroidTest
 ```
 
-검토용 emulator는 `accident-support-poc`다. Android 35 `google_apis_ps16k` arm64 image, 1920 × 1200 px, 213 dpi이며 약 1440 × 900 dp가 된다. 없으면 아래와 같이 만든다.
+SDK는 official command-line tools로 설치할 수 있다. ARM64 Mac에서는 emulator archive도 aarch64여야 한다. x86_64 도구의 Rosetta 동작을 native emulator 검증으로 대신하지 않는다. 최신 Android CLI의 package 경로는 slash 형식, legacy sdkmanager/avdmanager는 semicolon 형식이다. 설치된 CLI의 help를 확인하며 사용자 기존 도구를 강제 교체하지 않는다.
+
+## 실제 검토 기기
+
+이번 repair에서 준비한 AVD:
+
+| AVD | system image | serial | 목적 |
+|---|---|---|---|
+| `accident-repair-api35` | API35 `google_apis_ps16k/arm64-v8a` | emulator-5554 | 지원 shader·전체 계약·font scale |
+| `accident-repair-api28` | API28 `google_apis/arm64-v8a` | emulator-5556 | minSdk 실제 실행·Satin 정상 fallback |
+
+각1920×1200px·213dpi·가로 방향이며 약1440×900dp의 검토 환경이다. 실제 Pleos dp·물리 display 규격이라고 주장하지 않는다. Boot 확인은 앱 검증이 아니다. 환경과 실제 결과는 `evidence/contract-reliability-repair/android/`에 별도로 보존한다.
+
+두 emulator가 실행 중이면 serial을 명시한다.
 
 ```sh
-SDK=~/Library/Android/sdk
-echo no | $SDK/cmdline-tools/latest/bin/avdmanager create avd -n accident-support-poc \
-  -k "system-images;android-35;google_apis_ps16k;arm64-v8a" -d medium_tablet
-# ~/.android/avd/accident-support-poc.avd/config.ini
-#   hw.lcd.width=1920  hw.lcd.height=1200  hw.lcd.density=213
-#   hw.initialOrientation=landscape  hw.gpu.enabled=yes
-$SDK/emulator/emulator -avd accident-support-poc -port 5554
-ANDROID_SERIAL=emulator-5554 ./gradlew installDebug
+ANDROID_SERIAL=emulator-5554 ./gradlew connectedDebugAndroidTest
+ANDROID_SERIAL=emulator-5556 ./gradlew connectedDebugAndroidTest
 ```
 
-시작 장면은 web의 `?scene=`과 같이 지정할 수 있다. 값은 `initial`·`checking`·`received`이며 잘못된 값은 `initial`로 돌아간다. 실행 중인 app에는 적용되지 않으므로 `-S`로 app을 다시 시작한다.
+새 AVD를 준비할 때 사용 가능한 device profile·system image와 이름 충돌을 먼저 확인한다. 기존 사용자 AVD를 삭제하거나 덮어쓰지 않는다.
+
+## SC05 공유 계약
+
+정본은 [`scenarios.json`](../../specs/emergency-experience/scenarios.json)과 [`glyphs.json`](../../specs/emergency-experience/glyphs.json)이다. 현재 build는 해당 specs 디렉터리를 assets source로 연결한다.
+
+복구 대상 state는 `initial`, `checking`, `received`, `suspended`, `lookup_failed`, `not_received`, `review`, `sending`, `send_failed`, `arrived`, `handoff`다. `scene` extra는 명시적인 fixture 진입이며 잘못된 값은 initial로 돌아간다.
 
 ```sh
 adb -s emulator-5554 shell am start -S -n com.example.accidentpoc/.MainActivity --es scene checking
 ```
 
-## 구성
+실행 중 activity의 extra만 바꾸는 명령으로 현재 세션이 갱신된다고 가정하지 않는다.
 
-- 장면별 문구·상태는 [`scenarios.json`](../../specs/emergency-experience/scenarios.json)을 build가 assets로 포함하여 실행 시 읽는다. App 이름 `사고 대응`, `지원 현황`, `연결 · 접수 · 도착은 별도 확인`은 web과 같이 code에 둔다.
-- 화면 아래 90 dp의 시연 control은 차량 화면 밖의 검토 영역이다. `가상 scenario · 실제 전화·전송 없음`을 항상 표시하고, 장면 선택, 외부 결과 시연, `기존 flat / C · Satin` 전환을 제공한다. 전환해도 장면과 요청 상태는 유지된다. 검토 도구이므로 font scale을 따르지 않는다.
-- 주 행동 뒤에는 새 제목으로, 외부 event로 button이 사라지면 현재 장면 button으로 focus를 옮긴다. Keyboard·rotary 조작 기준이며 touch mode에서는 Android button이 focus를 받지 않는다. 제목 변경은 TalkBack에 live region으로 알린다.
-- C · Satin은 web의 GLSL shader를 AGSL `RuntimeShader`로 옮겼다. 강도는 web 기본값인 70%로 고정했다. Android 13 미만이거나 shader compile에 실패하면 기본 background로 표시하고 control에 그 사실을 표시한다.
-- 크기 수치는 web 검토 canvas(1440 × 810 CSS px)와 같은 dp 값이다. Emulator 폭을 1440 dp로 정했기 때문에 같은 값이 되었으며, Pleos 화면 크기나 dp 기준을 주장하지 않는다.
-- 한국어 문구는 어절 단위로 줄을 바꾼다(Android 13 이상의 phrase line break).
-- Pictogram은 web과 같은 [`glyphs.json`](../../specs/emergency-experience/glyphs.json)의 각인 glyph를 assets로 읽어 그린다. 금속 plate 위에 안쪽 그림자·lip·위쪽 edge로 새긴 효과를 Canvas로 만들며, 상태 표식도 같은 file의 정의를 쓴다. Font는 Pleos 공개 typography에서 안내하는 Asta Sans이며 출처와 license는 [42dot/Asta-Sans](https://github.com/42dot/Asta-Sans)와 `third-party/asta-sans/OFL.txt`를 참조한다.
+핵심 계약:
 
-## 확인
+- fact/request override·effect·agency·secondary action을 읽고 지원 version·참조·status를 검증한다. override 일괄 거부 guard만 삭제하는 방식은 사용하지 않는다.
+- 장면 기본값이 아니라 누적 세션이 requests·facts·scope·기록·승인 snapshot·requestId·전송 횟수·중단 위치의 정본이다.
+- 조회·중단·재개·중단 중 접수/인계 수신은 재전송이 아니다. 확인된 접수·인계는 늦은 미확인 결과로 되돌리지 않는다.
+- 미접수/전송 실패 확인 후 scope를 검토하고 명시적으로 새 승인한 경우만 새 요청을 만든다. 빈 scope·필요 기록 부재·중복 click을 구분한다.
+- primary·secondary 행동을 겹치지 않게 배치하고11개 장면·외부 결과 control에 접근 가능하게 한다. 시연 control은 제품 영역 밖이다.
+- activity recreation에서 sceneId뿐 아니라 전체 세션·scope·승인·재질을 보존한다. title/live region·keyboard focus·큰 한국어 text 접근성을 유지한다.
 
-```sh
-ANDROID_SERIAL=emulator-5554 ./gradlew connectedDebugAndroidTest
-```
+C Satin은 AGSL RuntimeShader의 과거 비교 표현이다. API33 미만 또는 shader compile 실패는 정상 background fallback이며, 이를 지원 API의 검사 실패로 취급하지 않는다. glyph는 공유 geometry를 Canvas로 그리며 shader 지원과 독립적이다.
 
-`ANDROID_SERIAL`이 없으면 연결된 모든 기기에서 실행된다. 21개 검사는 다음을 확인한다.
+## Browser preview bridge
 
-- 구호·차량 지원·보험의 상태가 서로 독립적으로 표시된다. 상태 문구는 정확히 비교한다(`접수 확인`과 `접수 확인 중`을 구별).
-- 결과 조회는 재전송이 아니며 다른 기관의 상태를 바꾸지 않는다.
-- 결과 미확인 event는 접수 미확인 장면으로 돌아간다.
-- 차량 지원 접수 확인 후에도 현장 도착·구호 인계는 미확인이다.
-- 세 장면 모두에서 가상 시연 표시가 보인다.
-- 주 행동 뒤 제목으로, 외부 event 뒤 현재 장면 button으로 focus가 이동한다.
-- Font scale 변경 등으로 activity가 다시 만들어져도 장면과 재질 선택을 유지한다.
-- 재질을 전환해도 장면과 요청 상태가 유지된다.
-- 세 장면의 한국어 문구가 낱말 중간에서 줄바꿈되지 않는다.
-- 시작 장면 지정과 잘못된 값의 fallback.
-- Satin shader가 compile되고, compile 실패는 사용 불가로 판정된다.
-- 아직 지원하지 않는 `fact_overrides`가 있는 scenario는 읽지 않고 멈춘다.
-- Mapping된 glyph가 모두 비어 있지 않은 path로 만들어지고, 심장 박동·구호 인계 glyph의 잘라낸 틈이 남는다. 세 장면이 mapping된 glyph와 상태 표식을 그린다.
-- 차량 cue glyph의 면과 주변 plate의 대비가 3:1 이상이다. 측정 정의는 web과 같다(면은 흰색, plate는 검은색으로 다시 그린 image로 pixel을 나누고 그림자 띠를 포함).
-
-`evidence/sc05/`에는 font scale 1.0·1.3·2.0에서 세 장면의 emulator 화면을 기록했다. Font scale 2.0에서도 21개 검사가 통과했다(2026-11-08). 각인 pictogram 이전의 15개 검사는 font scale 1.3·2.0과 animation 꺼짐 상태에서 통과했다.
-
-Local browser에서 emulator를 조작하려면 위 emulator와 app을 실행한 뒤 아래 명령을 실행하고 <http://127.0.0.1:8766/>을 연다. 화면 갱신 주기가 900 ms이므로 motion 확인에는 사용하지 않는다.
+고정 emulator·foreground 앱의 screenshot과 tap을 browser에서 볼 수 있는 개발용 bridge다.
 
 ```sh
 python3 prototype/android/preview-server.py
 ```
 
-## 한계
+이 명령은 repo root 기준이다. <http://127.0.0.1:8766/>을 열며 기본 bridge serial은 emulator-5554다. 약900ms 정지 화면 갱신이므로 motion·latency 검증 도구가 아니다. 임의 device·원격 공개 제어 API로 사용하지 않는다.
 
-- Android Back을 누르면 activity가 종료되고, launcher intent로 다시 열면 fixture의 초기 장면으로 시작한다(emulator에서 확인). 진행 상태 보존은 미결정 사항 D04이므로 구현하지 않았다.
-- SC01·SC03은 `fact_overrides`를 사용하므로 아직 옮기지 않았다.
-- 음성 안내는 구현하지 않았다. 차량 audio focus와 함께 후속 native 검증 대상이다.
-- Native 화면에는 motion이 없다. Web도 SC05에서는 값이 변하지 않는 사실 영역만 전환한다.
-- Pleos 차량, AAOS UX restriction, 실제 display의 시야각·밝기·가독성은 검증하지 않았다.
-- 이전 3단계 화면과 `preview.png`·`preview-status.png`는 commit `27d5f50`의 이력에 있다.
+## 역사 증거와 남은 한계
+
+`evidence/sc05/`의9개 screenshot과2026-11-08의21개 통과 기록은 당시 세 장면·Satin·font scale 결과다. 이후 공유 manifest 확장으로 시작 guard가 충돌했던 사실을 현재 repaired source·실제 API28/API35 결과와 구분한다.
+
+SC01–SC04 제품 UI, 영구 DB·Back 종료 뒤의 세션 복구, 실제 요청 재접속, native 음성·audio focus·motion 전면 이식, 실차·AAOS UX restriction·밝기·시야각·물리 target 적합성은 이 repair 범위 밖이다. Web/local prototype의 동작이 기관 정책 D01–D05나 안전 문구 승인을 뜻하지 않는다.

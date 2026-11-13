@@ -1,0 +1,288 @@
+--------- beginning of system
+11-13 00:54:17.856   560   560 I ActivityTaskManager: Config changes=10008000 {1.0 ?mcc0mnc [en_US] ldltr sw901dp w1442dp h901dp 213dpi xlrg land finger -keyb/h/h -nav/h winConfig={ mBounds=Rect(0, 0 - 1920, 1200) mAppBounds=Rect(0, 0 - 1920, 1200) mMaxBounds=Rect(0, 0 - 1920, 1200) mDisplayRotation=ROTATION_0 mWindowingMode=fullscreen mActivityType=undefined mAlwaysOnTop=undefined mRotation=ROTATION_0} s.6 fontWeightAdjustment=0}
+11-13 00:54:18.113   560   560 W ActivityTaskManager: callingPackage for (uid=-1, pid=0) has no WPC
+11-13 00:54:18.118   560   560 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.HOME] flg=0x10000100 cmp=com.android.settings/.FallbackHome (has extras)} with LAUNCH_MULTIPLE from uid 0 (BAL_ALLOW_ALLOWLISTED_UID) result code=0
+--------- beginning of main
+11-13 00:54:18.355   560   580 I ActivityTaskManager: Displayed com.android.settings/.FallbackHome for user 0: +194ms
+11-13 00:54:18.733   560   580 I ActivityTaskManager: Config changes=80000000 {1.0 ?mcc0mnc [en_US] ldltr sw901dp w1442dp h901dp 213dpi xlrg land finger -keyb/h/h -nav/h winConfig={ mBounds=Rect(0, 0 - 1920, 1200) mAppBounds=Rect(0, 0 - 1920, 1200) mMaxBounds=Rect(0, 0 - 1920, 1200) mDisplayRotation=ROTATION_0 mWindowingMode=fullscreen mActivityType=undefined mAlwaysOnTop=undefined mRotation=ROTATION_0} as.2 s.8 fontWeightAdjustment=0}
+11-13 00:54:19.095   560   581 I ActivityTaskManager: Config changes=20 {1.0 ?mcc0mnc [en_US] ldltr sw901dp w1442dp h901dp 213dpi xlrg land finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 1920, 1200) mAppBounds=Rect(0, 0 - 1920, 1200) mMaxBounds=Rect(0, 0 - 1920, 1200) mDisplayRotation=ROTATION_0 mWindowingMode=fullscreen mActivityType=undefined mAlwaysOnTop=undefined mRotation=ROTATION_0} as.2 s.20 fontWeightAdjustment=0}
+11-13 00:54:19.280   560   580 I ActivityTaskManager: Restoring recents for user 0
+11-13 00:54:19.322   560   577 W ActivityTaskManager: callingPackage for (uid=-1, pid=0) has no WPC
+11-13 00:54:19.328   560   577 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.HOME] flg=0x10000100 cmp=com.google.android.googlesdksetup/.DefaultActivity (has extras)} with LAUNCH_MULTIPLE from uid 0 (BAL_ALLOW_ALLOWLISTED_UID) result code=0
+11-13 00:54:20.114   560  1277 W ActivityTaskManager: callingPackage for (uid=-1, pid=0) has no WPC
+11-13 00:54:20.118   560  1277 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.HOME] flg=0x10000100 cmp=com.google.android.apps.nexuslauncher/.NexusLauncherActivity (has extras)} with LAUNCH_SINGLE_TASK from uid 0 (BAL_ALLOW_ALLOWLISTED_UID) result code=0
+11-13 00:54:20.735   560   621 I ActivityTaskManager: Config changes=3 {1.0 310mcc260mnc [en_US] ldltr sw901dp w1442dp h901dp 213dpi xlrg land finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 1920, 1200) mAppBounds=Rect(0, 0 - 1920, 1200) mMaxBounds=Rect(0, 0 - 1920, 1200) mDisplayRotation=ROTATION_0 mWindowingMode=fullscreen mActivityType=undefined mAlwaysOnTop=undefined mRotation=ROTATION_0} as.2 s.36 fontWeightAdjustment=0}
+11-13 00:54:22.422   560   580 I ActivityTaskManager: Displayed com.google.android.apps.nexuslauncher/.NexusLauncherActivity for user 0: +2s114ms
+11-13 01:13:10.777  4799  4814 I TestRunner: run started: 41 tests
+11-13 01:13:10.777  4799  4814 I TestRunner: started: cueGlyphReaches3To1(com.example.accidentpoc.GlyphsTest)
+11-13 01:13:10.856   560  1814 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/androidx.activity.ComponentActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:13:11.340   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/androidx.activity.ComponentActivity for user 0: +493ms
+11-13 01:13:11.892   560  1814 I ActivityTaskManager: Activity reported stop, but no longer stopping: ActivityRecord{47ee5b u0 com.google.android.apps.nexuslauncher/.NexusLauncherActivity t7} STOPPED
+11-13 01:13:12.535   560  1814 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:13:12.980  4799  4814 I TestRunner: finished: cueGlyphReaches3To1(com.example.accidentpoc.GlyphsTest)
+11-13 01:13:13.001  4799  4814 I TestRunner: started: heartPulseCutLeavesAGap(com.example.accidentpoc.GlyphsTest)
+11-13 01:13:13.019   560  3124 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:13:13.019   560  3124 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{9014ed6 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t9 f}}
+11-13 01:13:13.024   560  1814 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/androidx.activity.ComponentActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:13:13.591   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/androidx.activity.ComponentActivity for user 0: +530ms
+11-13 01:13:13.938   560  3124 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:13:14.092   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +168ms
+11-13 01:13:14.205  4799  4814 I TestRunner: finished: heartPulseCutLeavesAGap(com.example.accidentpoc.GlyphsTest)
+11-13 01:13:14.206  4799  4814 I TestRunner: started: handoffKeepsAChannelBetweenPeople(com.example.accidentpoc.GlyphsTest)
+11-13 01:13:14.220   560  1855 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/androidx.activity.ComponentActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:13:14.229   560  1814 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:13:14.233   560  1814 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{e8fc98a u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t11 f}}
+11-13 01:13:14.433   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/androidx.activity.ComponentActivity for user 0: +204ms
+11-13 01:13:14.758   560  3124 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:13:14.828   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +74ms
+11-13 01:13:14.962  4799  4814 I TestRunner: finished: handoffKeepsAChannelBetweenPeople(com.example.accidentpoc.GlyphsTest)
+11-13 01:13:14.964  4799  4814 I TestRunner: started: everyMappedGlyphBuildsANonEmptyPath(com.example.accidentpoc.GlyphsTest)
+11-13 01:13:14.971   560  1855 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:13:14.971   560  1855 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{2781b26 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t13 f}}
+11-13 01:13:14.987   560  1855 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/androidx.activity.ComponentActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:13:15.261   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/androidx.activity.ComponentActivity for user 0: +131ms
+11-13 01:13:15.619   560  1893 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:13:15.711   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +91ms
+11-13 01:13:15.878  4799  4814 I TestRunner: finished: everyMappedGlyphBuildsANonEmptyPath(com.example.accidentpoc.GlyphsTest)
+11-13 01:13:15.904  4799  4814 I TestRunner: started: brokenShaderIsReportedUnavailable(com.example.accidentpoc.SatinShaderTest)
+11-13 01:13:15.909  4799  4814 I TestRunner: finished: brokenShaderIsReportedUnavailable(com.example.accidentpoc.SatinShaderTest)
+11-13 01:13:15.910  4799  4814 I TestRunner: started: satinShaderCompilesOnSupportedApiAndIsNormalFallbackOnApi28(com.example.accidentpoc.SatinShaderTest)
+11-13 01:13:15.911  4799  4814 I TestRunner: finished: satinShaderCompilesOnSupportedApiAndIsNormalFallbackOnApi28(com.example.accidentpoc.SatinShaderTest)
+11-13 01:13:15.911  4799  4814 I TestRunner: started: invalidSceneExtraFallsBackToInitial(com.example.accidentpoc.Sc05LaunchTest)
+11-13 01:13:15.968   560  1893 I ActivityTaskManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:13:15.969   560  1019 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:13:15.969   560  1019 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{99d1cb8 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t15 f}}
+11-13 01:13:16.716   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +703ms
+11-13 01:13:17.528   560  3124 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:13:17.593   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +71ms
+11-13 01:13:17.775  4799  4814 I TestRunner: finished: invalidSceneExtraFallsBackToInitial(com.example.accidentpoc.Sc05LaunchTest)
+11-13 01:13:17.776  4799  4814 I TestRunner: started: everySharedSceneOpensAndSurvivesRealActivityRecreation(com.example.accidentpoc.Sc05LaunchTest)
+11-13 01:13:17.823   560  1855 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:13:17.826   560  1855 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{75899e3 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t17 f}}
+11-13 01:13:17.853   560  1814 I ActivityTaskManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:13:18.421   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +224ms
+11-13 01:13:19.079   560  1814 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:13:19.257   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +181ms
+11-13 01:13:19.396   560  1855 I ActivityTaskManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:13:19.396   560  1019 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:13:19.396   560  1019 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{73e67c0 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t19 f}}
+11-13 01:13:19.825   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +427ms
+11-13 01:13:20.689   560  1855 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:13:20.857   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +170ms
+11-13 01:13:20.995   560  1814 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:13:20.996   560  1814 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{1475893 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t21 f}}
+11-13 01:13:21.005   560  1816 I ActivityTaskManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:13:21.295   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +294ms
+11-13 01:13:22.192   560  1816 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:13:22.466   560  1819 I ActivityTaskManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:13:22.467   560  3124 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:13:22.467   560  3124 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{d2250e5 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t23 f}}
+11-13 01:13:22.785   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +311ms
+11-13 01:13:23.651   560  1893 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:13:23.908   560  3124 I ActivityTaskManager: Add Task{2d063b3 #24 type=standard A=10207:com.example.accidentpoc} to hidden list because adding Task{c37ea4c #26 type=standard A=10207:com.example.accidentpoc}
+11-13 01:13:23.910   560  3124 I ActivityTaskManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:13:23.917   560  1816 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:13:23.917   560  1816 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{1a2af53 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t25 f}}
+11-13 01:13:24.239   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +343ms
+11-13 01:13:25.007   560  1819 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:13:25.141   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +137ms
+11-13 01:13:25.339   560  1819 I ActivityTaskManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:13:25.339   560  3124 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:13:25.339   560  3124 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{b78b76c u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t27 f}}
+11-13 01:13:25.735   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +419ms
+11-13 01:13:26.558   560  3124 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:13:26.650   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +114ms
+11-13 01:13:26.851   560  1893 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:13:26.851   560  1893 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{990697f u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t29 f}}
+11-13 01:13:26.856   560  1814 I ActivityTaskManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:13:27.193   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +323ms
+11-13 01:13:27.975   560  3124 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:13:28.070   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +100ms
+11-13 01:13:28.331   560  1893 I ActivityTaskManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:13:28.332   560  1855 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:13:28.332   560  1855 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{d04c1f5 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t31 f}}
+11-13 01:13:28.704   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +274ms
+11-13 01:13:29.587   560  1893 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:13:29.663   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +77ms
+11-13 01:13:29.900   560  3124 I ActivityTaskManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:13:29.905   560  1816 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:13:29.906   560  1816 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{670890c u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t33 f}}
+11-13 01:13:30.313   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +280ms
+11-13 01:13:31.051   560  1816 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:13:31.192   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +140ms
+11-13 01:13:31.325   560  3124 I ActivityTaskManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:13:31.325   560  1855 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:13:31.325   560  1855 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{65d66c0 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t35 f}}
+11-13 01:13:31.649   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +321ms
+11-13 01:13:32.437   560  1855 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:13:32.567   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +131ms
+11-13 01:13:32.693   560  1893 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:13:32.693   560  1893 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{963dfb3 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t37 f}}
+11-13 01:13:32.701   560  1855 I ActivityTaskManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:13:33.138   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +331ms
+11-13 01:13:33.892   560  3124 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:13:34.513  4799  4814 I TestRunner: finished: everySharedSceneOpensAndSurvivesRealActivityRecreation(com.example.accidentpoc.Sc05LaunchTest)
+11-13 01:13:34.518  4799  4814 I TestRunner: started: primaryAndSecondaryHaveSeparateBoundsAndBothWork(com.example.accidentpoc.Sc05Test)
+11-13 01:13:34.528   560  1893 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:13:34.694   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +137ms
+11-13 01:13:35.078   560  3124 W ActivityTaskManager: takeTaskSnapshot: taskId=39 not found or not visible
+11-13 01:13:35.673   560  3124 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:13:35.846   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +177ms
+11-13 01:13:35.989  4799  4814 I TestRunner: finished: primaryAndSecondaryHaveSeparateBoundsAndBothWork(com.example.accidentpoc.Sc05Test)
+11-13 01:13:35.994  4799  4814 I TestRunner: started: initialSceneShowsEachAgencySeparately(com.example.accidentpoc.Sc05Test)
+11-13 01:13:36.012   560  1893 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:13:36.032   560  1855 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:13:36.032   560  1855 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{504ae94 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t41 f}}
+11-13 01:13:36.363   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +350ms
+11-13 01:13:37.135   560  1855 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:13:37.234   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +101ms
+11-13 01:13:37.410  4799  4814 I TestRunner: finished: initialSceneShowsEachAgencySeparately(com.example.accidentpoc.Sc05Test)
+11-13 01:13:37.414  4799  4814 I TestRunner: started: removedCopyLeavesNoEmptyText(com.example.accidentpoc.Sc05Test)
+11-13 01:13:37.427   560  1855 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:13:37.427   560  1019 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:13:37.427   560  1019 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{75689ba u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t43 f}}
+11-13 01:13:37.799   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +320ms
+11-13 01:13:38.413   560   577 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:13:38.602   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +194ms
+11-13 01:13:38.776  4799  4814 I TestRunner: finished: removedCopyLeavesNoEmptyText(com.example.accidentpoc.Sc05Test)
+11-13 01:13:38.778  4799  4814 I TestRunner: started: actionMovesFocusToNewTitle(com.example.accidentpoc.Sc05Test)
+11-13 01:13:38.806   560  1855 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:13:38.807   560  3124 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:13:38.807   560  3124 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{9c119db u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t45 f}}
+11-13 01:13:39.138   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +309ms
+11-13 01:13:39.922   560  1818 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:13:40.169   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +244ms
+11-13 01:13:40.306  4799  4814 I TestRunner: finished: actionMovesFocusToNewTitle(com.example.accidentpoc.Sc05Test)
+11-13 01:13:40.306  4799  4814 I TestRunner: started: font200PercentKeepsActionsAndEverySceneControlReachable(com.example.accidentpoc.Sc05Test)
+11-13 01:13:40.309   560  3124 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:13:40.309   560  3124 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{c91ebca u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t47 f}}
+11-13 01:13:40.311   560  1019 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:13:40.657   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +327ms
+11-13 01:13:41.456   560   583 I ActivityTaskManager: Config changes=40000000 {2.0 310mcc260mnc [en_US] ldltr sw901dp w1442dp h901dp 213dpi xlrg land finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 1920, 1200) mAppBounds=Rect(0, 0 - 1920, 1200) mMaxBounds=Rect(0, 0 - 1920, 1200) mDisplayRotation=ROTATION_0 mWindowingMode=fullscreen mActivityType=undefined mAlwaysOnTop=undefined mRotation=ROTATION_0} as.2 s.67 fontWeightAdjustment=0}
+11-13 01:13:45.145   560   583 I ActivityTaskManager: Config changes=40000000 {1.0 310mcc260mnc [en_US] ldltr sw901dp w1442dp h901dp 213dpi xlrg land finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 1920, 1200) mAppBounds=Rect(0, 0 - 1920, 1200) mMaxBounds=Rect(0, 0 - 1920, 1200) mDisplayRotation=ROTATION_0 mWindowingMode=fullscreen mActivityType=undefined mAlwaysOnTop=undefined mRotation=ROTATION_0} as.2 s.102 fontWeightAdjustment=0}
+11-13 01:13:45.369   560  1019 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:13:45.823  4799  4814 I TestRunner: finished: font200PercentKeepsActionsAndEverySceneControlReachable(com.example.accidentpoc.Sc05Test)
+11-13 01:13:45.829  4799  4814 I TestRunner: started: allElevenSceneControlsAreReachableAndKeepSimulationNotice(com.example.accidentpoc.Sc05Test)
+11-13 01:13:45.848   560  1855 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:13:46.150   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +309ms
+11-13 01:13:46.397   560  1019 W ActivityTaskManager: takeTaskSnapshot: taskId=49 not found or not visible
+11-13 01:13:48.501   560  1855 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:13:48.785  4799  4814 I TestRunner: finished: allElevenSceneControlsAreReachableAndKeepSimulationNotice(com.example.accidentpoc.Sc05Test)
+11-13 01:13:48.788  4799  4814 I TestRunner: started: queuedDuplicateApprovalOnlySubmitsOnce(com.example.accidentpoc.Sc05Test)
+11-13 01:13:48.821   560  1019 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:13:48.821   560  1019 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{6406b9a u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t51 f}}
+11-13 01:13:48.828   560  1277 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:13:49.110   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +285ms
+11-13 01:13:50.479   560   620 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:13:50.582   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +101ms
+11-13 01:13:50.694  4799  4814 I TestRunner: finished: queuedDuplicateApprovalOnlySubmitsOnce(com.example.accidentpoc.Sc05Test)
+11-13 01:13:50.694  4799  4814 I TestRunner: started: suspendedReceiptAndHandoffStaySuspendedUntilResume(com.example.accidentpoc.Sc05Test)
+11-13 01:13:50.719   560   620 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:13:50.719   560  1855 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:13:50.719   560  1855 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{889534 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t53 f}}
+11-13 01:13:51.023   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +199ms
+11-13 01:13:52.653   560  1816 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:13:52.776   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +116ms
+11-13 01:13:53.015  4799  4814 I TestRunner: finished: suspendedReceiptAndHandoffStaySuspendedUntilResume(com.example.accidentpoc.Sc05Test)
+11-13 01:13:53.033  4799  4814 I TestRunner: started: sc05DrawsMappedGlyphsAndMarks(com.example.accidentpoc.Sc05Test)
+11-13 01:13:53.044   560  1277 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:13:53.044   560  1277 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{6a34468 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t55 f}}
+11-13 01:13:53.056   560  1277 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:13:53.449   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +396ms
+11-13 01:13:54.293   560  1816 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:13:54.448   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +163ms
+11-13 01:13:54.591  4799  4814 I TestRunner: finished: sc05DrawsMappedGlyphsAndMarks(com.example.accidentpoc.Sc05Test)
+11-13 01:13:54.592  4799  4814 I TestRunner: started: scopeValidationCancelApprovalAndFailedReapprovalUseRealControls(com.example.accidentpoc.Sc05Test)
+11-13 01:13:54.595   560  1019 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:13:54.595   560  1019 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{8fcfbbf u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t57 f}}
+11-13 01:13:54.603   560  1855 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:13:55.094   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +314ms
+11-13 01:13:58.879   560  1019 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:13:58.968   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +119ms
+11-13 01:13:59.129  4799  4814 I TestRunner: finished: scopeValidationCancelApprovalAndFailedReapprovalUseRealControls(com.example.accidentpoc.Sc05Test)
+11-13 01:13:59.135  4799  4814 I TestRunner: started: checkingUnknownFailureAndResumeNeverResend(com.example.accidentpoc.Sc05Test)
+11-13 01:13:59.151   560  1816 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:13:59.151   560  1855 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:13:59.151   560  1855 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{63428b1 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t59 f}}
+11-13 01:13:59.446   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +301ms
+11-13 01:14:01.550   560  1855 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:14:01.622   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +74ms
+11-13 01:14:01.823  4799  4814 I TestRunner: finished: checkingUnknownFailureAndResumeNeverResend(com.example.accidentpoc.Sc05Test)
+11-13 01:14:01.824  4799  4814 I TestRunner: started: surfaceToggleKeepsSceneAndUsesApiSpecificCapability(com.example.accidentpoc.Sc05Test)
+11-13 01:14:01.852   560  1277 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:14:01.852   560  3124 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:14:01.852   560  3124 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{f44ce77 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t61 f}}
+11-13 01:14:02.211   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +362ms
+11-13 01:14:03.369   560  3124 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:14:03.671  4799  4814 I TestRunner: finished: surfaceToggleKeepsSceneAndUsesApiSpecificCapability(com.example.accidentpoc.Sc05Test)
+11-13 01:14:03.672  4799  4814 I TestRunner: started: koreanTextWrapsOnlyBetweenWordsAcrossAllScenes(com.example.accidentpoc.Sc05Test)
+11-13 01:14:03.691   560  1277 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:14:03.692   560  1818 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:14:03.692   560  1818 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{c49decf u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t63 f}}
+11-13 01:14:03.898   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +218ms
+11-13 01:14:06.216   560  1277 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:14:06.360   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +136ms
+11-13 01:14:06.513  4799  4814 I TestRunner: finished: koreanTextWrapsOnlyBetweenWordsAcrossAllScenes(com.example.accidentpoc.Sc05Test)
+11-13 01:14:06.514  4799  4814 I TestRunner: started: receiptAndFactsSurviveNavigationRecreationAndLateUnknown(com.example.accidentpoc.Sc05Test)
+11-13 01:14:06.524   560  1019 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:14:06.526   560  1819 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:14:06.526   560  1819 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{d2b2c35 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t65 f}}
+11-13 01:14:06.942   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +391ms
+11-13 01:14:08.816   560  1798 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:14:08.883   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +66ms
+11-13 01:14:09.105  4799  4814 I TestRunner: finished: receiptAndFactsSurviveNavigationRecreationAndLateUnknown(com.example.accidentpoc.Sc05Test)
+11-13 01:14:09.110  4799  4814 I TestRunner: started: eventMovesFocusToCurrentSceneButton(com.example.accidentpoc.Sc05Test)
+11-13 01:14:09.119   560  1798 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:14:09.119   560  1816 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:14:09.120   560  1816 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{e3dbbd9 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t67 f}}
+11-13 01:14:09.434   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +316ms
+11-13 01:14:10.394   560  1798 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:14:10.636   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +287ms
+11-13 01:14:10.763  4799  4814 I TestRunner: finished: eventMovesFocusToCurrentSceneButton(com.example.accidentpoc.Sc05Test)
+11-13 01:14:10.763  4799  4814 I TestRunner: started: fullSessionScopeApprovalSuspendedResultsAndSurfaceSurviveRecreation(com.example.accidentpoc.Sc05Test)
+11-13 01:14:10.768   560  1277 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:14:10.771   560  1019 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:14:10.771   560  1019 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{c1dbcf5 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t69 f}}
+11-13 01:14:11.032   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +266ms
+11-13 01:14:14.284   560  1893 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10207 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:14:14.353   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +70ms
+11-13 01:14:14.498  4799  4814 I TestRunner: finished: fullSessionScopeApprovalSuspendedResultsAndSurfaceSurviveRecreation(com.example.accidentpoc.Sc05Test)
+11-13 01:14:14.505  4799  4814 I TestRunner: started: glyphGridMappingsAndStatusMarksAreValidated(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:14:14.524  4799  4814 I TestRunner: finished: glyphGridMappingsAndStatusMarksAreValidated(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:14:14.525  4799  4814 I TestRunner: started: allSharedScenariosParseWithoutClaimingProductUiSupport(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:14:14.541  4799  4814 I TestRunner: finished: allSharedScenariosParseWithoutClaimingProductUiSupport(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:14:14.543  4799  4814 I TestRunner: started: effectsAgencySecondaryAndPanelsSurviveLoading(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:14:14.547  4799  4814 I TestRunner: finished: effectsAgencySecondaryAndPanelsSurviveLoading(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:14:14.547  4799  4814 I TestRunner: started: invalidOverrideReferencesStatusesFieldsAndStringTypesAreRejected(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:14:14.638  4799  4814 I TestRunner: finished: invalidOverrideReferencesStatusesFieldsAndStringTypesAreRejected(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:14:14.639  4799  4814 I TestRunner: started: invalidTargetsAgenciesEffectsAndTypesAreDiagnosed(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:14:14.701  4799  4814 I TestRunner: finished: invalidTargetsAgenciesEffectsAndTypesAreDiagnosed(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:14:14.702  4799  4814 I TestRunner: started: validFactOverridesArePreservedIncludingNonVisibleFacts(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:14:14.714  4799  4814 I TestRunner: finished: validFactOverridesArePreservedIncludingNonVisibleFacts(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:14:14.714  4799  4814 I TestRunner: started: invalidVersionScenarioAndDuplicateIdsAreRejected(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:14:14.788  4799  4814 I TestRunner: finished: invalidVersionScenarioAndDuplicateIdsAreRejected(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:14:14.791  4799  4814 I TestRunner: started: receiveAndHandoffWhileSuspendedUpdateSessionWithoutLeavingOrResending(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:14:14.797  4799  4814 I TestRunner: finished: receiveAndHandoffWhileSuspendedUpdateSessionWithoutLeavingOrResending(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:14:14.802  4799  4814 I TestRunner: started: invalidSavedSessionCannotReplaceTheAuthoritativeState(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:14:14.809  4799  4814 I TestRunner: finished: invalidSavedSessionCannotReplaceTheAuthoritativeState(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:14:14.813  4799  4814 I TestRunner: started: receiptArrivalAndHandoffAreIndependentAndMonotonicAcrossLateResults(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:14:14.815  4799  4814 I TestRunner: finished: receiptArrivalAndHandoffAreIndependentAndMonotonicAcrossLateResults(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:14:14.817  4799  4814 I TestRunner: started: explicitApprovalFreezesSnapshotAndFailedRetryNeedsNewApproval(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:14:14.819  4799  4814 I TestRunner: finished: explicitApprovalFreezesSnapshotAndFailedRetryNeedsNewApproval(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:14:14.819  4799  4814 I TestRunner: started: reviewCancelEmptyScopeAndMissingRecordCannotSubmit(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:14:14.823  4799  4814 I TestRunner: finished: reviewCancelEmptyScopeAndMissingRecordCannotSubmit(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:14:14.826  4799  4814 I TestRunner: started: lookupUnknownFailureSuspensionAndResumeKeepOriginalIdentityAndOtherAgencies(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:14:14.829  4799  4814 I TestRunner: finished: lookupUnknownFailureSuspensionAndResumeKeepOriginalIdentityAndOtherAgencies(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:14:14.829  4799  4814 I TestRunner: started: handoffSelfTargetAppliesWithoutInventingArrivalOrVehicleReceipt(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:14:14.831  4799  4814 I TestRunner: finished: handoffSelfTargetAppliesWithoutInventingArrivalOrVehicleReceipt(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:14:14.841  4799  4814 I TestRunner: started: directHandoffFixtureDoesNotInventArrivalAndResumePreservesOrigin(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:14:14.844  4799  4814 I TestRunner: finished: directHandoffFixtureDoesNotInventArrivalAndResumePreservesOrigin(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:14:14.846  4799  4814 I TestRunner: started: fullSessionSerializationPreservesEveryFieldForAllElevenScenes(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:14:14.869  4799  4814 I TestRunner: finished: fullSessionSerializationPreservesEveryFieldForAllElevenScenes(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:14:14.874  4799  4814 I TestRunner: started: knownReceiptBlocksApprovalEvenWhenReviewProjectionWasSelected(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:14:14.884  4799  4814 I TestRunner: finished: knownReceiptBlocksApprovalEvenWhenReviewProjectionWasSelected(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:14:14.884  4799  4814 I TestRunner: run finished: 41 tests, 0 failed, 0 ignored
+11-13 01:16:41.587   560  1076 I ActivityTaskManager: START u0 {flg=0x10000000 cmp=com.example.accidentpoc/.MainActivity (has extras)} with LAUNCH_MULTIPLE from uid 2000 result code=-92
+11-13 01:18:32.938   560  1857 W ActivityTaskManager: callingPackage for (uid=2000, pid=5473) has no WPC
+11-13 01:18:32.947   560  1857 I ActivityTaskManager: START u0 {flg=0x10000000 cmp=com.example.accidentpoc/.MainActivity (has extras)} with LAUNCH_MULTIPLE from uid 2000 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:18:33.986   560   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +1s47ms

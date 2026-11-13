@@ -1,0 +1,460 @@
+--------- beginning of system
+11-13 01:55:36.681   557   557 I ActivityManager: Memory class: 192
+11-13 01:55:37.061   557   593 I ActivityManager: Connection with lmkd established
+11-13 01:55:37.169   557   580 W ActivityTaskManager: Skip updateConfiguration because mWindowManager isn't set
+11-13 01:55:37.294   557   557 I ActivityTaskManager: Config changes=20005df8 {1.0 ?mcc0mnc [en_US] ldltr sw901dp w1442dp h901dp 213dpi xlrg land ?uimode ?night finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 1920, 1200) mAppBounds=Rect(0, 0 - 1920, 1200) mMaxBounds=Rect(0, 0 - 1920, 1200) mDisplayRotation=ROTATION_0 mWindowingMode=fullscreen mActivityType=undefined mAlwaysOnTop=undefined mRotation=ROTATION_0} s.2 ?fontWeightAdjustment}
+11-13 01:55:37.380   557   557 W ActivityManager: Unable to start service Intent { act=android.service.notification.NotificationListenerService cmp=com.google.android.apps.nexuslauncher/com.android.launcher3.notification.NotificationListener } U=0: not found
+11-13 01:55:37.380   557   557 W ActivityManager: Unable to start service Intent { act=android.service.notification.NotificationListenerService cmp=com.google.android.as/com.google.android.apps.miphone.aiai.common.notification.service.AiAiNotificationListenerService } U=0: not found
+11-13 01:55:37.380   557   557 W ActivityManager: Unable to start service Intent { act=android.service.notification.NotificationAssistantService cmp=com.google.android.as/com.google.android.apps.miphone.aiai.common.notification.service.AiAiNotificationAssistantService } U=0: not found
+11-13 01:55:37.572   557   557 I ActivityTaskManager: Config changes=200 {1.0 ?mcc0mnc [en_US] ldltr sw901dp w1442dp h901dp 213dpi xlrg land finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 1920, 1200) mAppBounds=Rect(0, 0 - 1920, 1200) mMaxBounds=Rect(0, 0 - 1920, 1200) mDisplayRotation=ROTATION_0 mWindowingMode=fullscreen mActivityType=undefined mAlwaysOnTop=undefined mRotation=ROTATION_0} s.4 ?fontWeightAdjustment}
+11-13 01:55:37.635   557   557 E ActivityManager: Unable to find com.example.accidentpoc.test/u0
+11-13 01:55:37.636   557   557 E ActivityManager: Unable to find com.example.accidentpoc/u0
+11-13 01:55:37.638   557   557 I ActivityManager: System now ready
+11-13 01:55:37.639   557   557 I ActivityTaskManager: Config changes=10008100 {1.0 ?mcc0mnc [en_US] ldltr sw901dp w1442dp h901dp 213dpi xlrg land finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 1920, 1200) mAppBounds=Rect(0, 0 - 1920, 1200) mMaxBounds=Rect(0, 0 - 1920, 1200) mDisplayRotation=ROTATION_0 mWindowingMode=fullscreen mActivityType=undefined mAlwaysOnTop=undefined mRotation=ROTATION_0} s.6 fontWeightAdjustment=0}
+11-13 01:55:37.643   557   557 W ActivityManager: Too early to start/bind service in system_server: Phase=550 ComponentInfo{com.android.server.telecom/com.android.server.telecom.components.TelecomService}
+11-13 01:55:37.643   557   557 W ActivityManager: Too early to start/bind service in system_server: Phase=550 ComponentInfo{com.android.server.telecom/com.android.server.telecom.components.TelecomService}
+11-13 01:55:37.677   557   592 I ActivityManager: Start proc 789:com.android.systemui/u0a176 for service {com.android.systemui/com.android.systemui.wallpapers.ImageWallpaper}
+11-13 01:55:37.699   557   592 I ActivityManager: Start proc 809:WebViewLoader-arm64-v8a/1037 [android.webkit.WebViewLibraryLoader$RelroFileCreator] for 
+11-13 01:55:37.778   557   592 I ActivityManager: Start proc 857:com.android.networkstack.process/1073 for service {com.google.android.networkstack/com.android.server.NetworkStackService}
+11-13 01:55:37.788   557   576 I ActivityManager: Process WebViewLoader-arm64-v8a (pid 809) has died: psvc PER 
+11-13 01:55:37.792   557   557 I ActivityManager: Current user:0
+11-13 01:55:37.871   557   592 I ActivityManager: Start proc 902:com.google.android.bluetooth/1002 for service {com.google.android.bluetooth/com.android.bluetooth.btservice.AdapterService}
+11-13 01:55:37.881   557   557 W ActivityTaskManager: callingPackage for (uid=-1, pid=0) has no WPC
+11-13 01:55:37.946   557   557 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.HOME] flg=0x10000100 cmp=com.android.settings/.FallbackHome (has extras)} with LAUNCH_MULTIPLE from uid 0 (BAL_ALLOW_ALLOWLISTED_UID) result code=0
+11-13 01:55:37.949   557   592 W ActivityManager: Slow operation: 70ms so far, now at startProcess: done updating battery stats
+11-13 01:55:37.949   557   592 W ActivityManager: Slow operation: 70ms so far, now at startProcess: building log message
+11-13 01:55:37.949   557   592 I ActivityManager: Start proc 916:com.android.se/1068 for added application com.android.se
+11-13 01:55:37.949   557   592 W ActivityManager: Slow operation: 70ms so far, now at startProcess: starting to update pids map
+11-13 01:55:37.949   557   592 W ActivityManager: Slow operation: 70ms so far, now at startProcess: done updating pids map
+11-13 01:55:37.949   557   592 W ActivityManager: Slow operation: 69ms so far, now at startProcess: asking zygote to start proc
+11-13 01:55:37.960   557   592 W ActivityManager: Slow operation: 72ms so far, now at startProcess: returned from zygote!
+11-13 01:55:37.960   557   592 W ActivityManager: Slow operation: 79ms so far, now at startProcess: done updating battery stats
+11-13 01:55:37.960   557   592 W ActivityManager: Slow operation: 79ms so far, now at startProcess: building log message
+11-13 01:55:37.960   557   592 I ActivityManager: Start proc 949:com.android.phone/1001 for added application com.android.phone
+11-13 01:55:37.960   557   592 W ActivityManager: Slow operation: 79ms so far, now at startProcess: starting to update pids map
+11-13 01:55:37.960   557   592 W ActivityManager: Slow operation: 79ms so far, now at startProcess: done updating pids map
+11-13 01:55:37.973   557   592 I ActivityManager: Start proc 962:com.android.settings/1000 for top-activity {com.android.settings/com.android.settings.FallbackHome}
+11-13 01:55:37.989   557   592 I ActivityManager: Start proc 979:com.google.android.ext.services/u0a204 for service {com.google.android.ext.services/android.ext.services.autofill.InlineSuggestionRenderServiceImpl}
+11-13 01:55:37.997   557   623 W ActivityManager: Unable to start service Intent { act=android.service.smartspace.SmartspaceService cmp=com.google.android.as/com.google.android.apps.miphone.aiai.app.AiAiSmartspaceService } U=0: not found
+11-13 01:55:37.999   557   933 W ActivityManager: Unable to start service Intent { act=android.service.smartspace.SmartspaceService cmp=com.google.android.as/com.google.android.apps.miphone.aiai.app.AiAiSmartspaceService } U=0: not found
+11-13 01:55:38.000   557   933 W ActivityManager: Unable to start service Intent { act=android.service.smartspace.SmartspaceService cmp=com.google.android.as/com.google.android.apps.miphone.aiai.app.AiAiSmartspaceService } U=0: not found
+11-13 01:55:38.001   557   933 W ActivityManager: Unable to start service Intent { act=android.service.smartspace.SmartspaceService cmp=com.google.android.as/com.google.android.apps.miphone.aiai.app.AiAiSmartspaceService } U=0: not found
+11-13 01:55:38.038   557   557 W ActivityManager: Unbind failed: could not find connection for android.app.LoadedApk$ServiceDispatcher$InnerConnection@15f6281
+11-13 01:55:38.038   557   557 W ActivityManager: Unbind failed: could not find connection for android.app.LoadedApk$ServiceDispatcher$InnerConnection@6666f26
+11-13 01:55:38.038   557   557 W ActivityManager: Unbind failed: could not find connection for android.app.LoadedApk$ServiceDispatcher$InnerConnection@cdf1767
+11-13 01:55:38.038   557   557 W ActivityManager: Unbind failed: could not find connection for android.app.LoadedApk$ServiceDispatcher$InnerConnection@4c88914
+11-13 01:55:38.041   557   557 W ActivityManager: Unable to start service Intent { act=android.service.notification.NotificationListenerService cmp=com.google.android.apps.nexuslauncher/com.android.launcher3.notification.NotificationListener } U=0: not found
+11-13 01:55:38.041   557   557 W ActivityManager: Unable to start service Intent { act=android.service.notification.NotificationListenerService cmp=com.google.android.as/com.google.android.apps.miphone.aiai.common.notification.service.AiAiNotificationListenerService } U=0: not found
+11-13 01:55:38.043   557   557 W ActivityManager: Unable to start service Intent { act=android.service.notification.NotificationAssistantService cmp=com.google.android.as/com.google.android.apps.miphone.aiai.common.notification.service.AiAiNotificationAssistantService } U=0: not found
+11-13 01:55:38.081   557   592 I ActivityManager: Start proc 1013:com.google.android.gms.persistent/u0a144 for broadcast {com.google.android.gms/com.google.android.gms.chimera.GmsIntentOperationService$PersistentTrustedReceiver}
+--------- beginning of main
+11-13 01:55:38.217   557   580 I ActivityTaskManager: Displayed com.android.settings/.FallbackHome for user 0: +333ms
+11-13 01:55:38.377   557   592 I ActivityManager: Start proc 1140:com.google.android.permissioncontroller/u0a200 for broadcast {com.google.android.permissioncontroller/com.android.permissioncontroller.privacysources.SafetyCenterReceiver}
+11-13 01:55:38.392   557   889 W ActivityManager: Unable to start service Intent { act=com.google.android.chimera.BoundService.START dat=chimera-action: cmp=com.google.android.gms/.chimera.PersistentApiService } U=0: not found
+11-13 01:55:38.394   557   889 W ActivityManager: Unbind failed: could not find connection for android.os.BinderProxy@2f1cf66
+11-13 01:55:38.447   557   592 I ActivityManager: Start proc 1167:com.google.android.cellbroadcastreceiver/u0a190 for broadcast {com.google.android.cellbroadcastreceiver/com.android.cellbroadcastreceiver.CellBroadcastReceiver}
+11-13 01:55:38.994   557   889 I ActivityTaskManager: Config changes=3 {1.0 310mcc260mnc [en_US] ldltr sw901dp w1442dp h901dp 213dpi xlrg land finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 1920, 1200) mAppBounds=Rect(0, 0 - 1920, 1200) mMaxBounds=Rect(0, 0 - 1920, 1200) mDisplayRotation=ROTATION_0 mWindowingMode=fullscreen mActivityType=undefined mAlwaysOnTop=undefined mRotation=ROTATION_0} s.8 fontWeightAdjustment=0}
+11-13 01:55:38.996   557   583 I ActivityTaskManager: Config changes=100 {1.0 310mcc260mnc [en_US] ldltr sw901dp w1442dp h901dp 213dpi xlrg land finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 1920, 1200) mAppBounds=Rect(0, 0 - 1920, 1200) mMaxBounds=Rect(0, 0 - 1920, 1200) mDisplayRotation=ROTATION_0 mWindowingMode=fullscreen mActivityType=undefined mAlwaysOnTop=undefined mRotation=ROTATION_0} s.20 fontWeightAdjustment=0}
+11-13 01:55:39.299   557   592 I ActivityManager: Start proc 1197:android.process.acore/u0a95 for content provider {com.android.providers.blockednumber/com.android.providers.blockednumber.BlockedNumberProvider}
+11-13 01:55:41.700   557   592 I ActivityManager: Start proc 1247:com.google.android.apps.nexuslauncher/u0a173 for service {com.google.android.apps.nexuslauncher/com.android.quickstep.TouchInteractionService}
+11-13 01:55:42.092   557   583 I ActivityManager: About to commit checkpoint
+11-13 01:55:42.174   557   592 I ActivityManager: Start proc 1306:com.google.android.inputmethod.latin/u0a152 for service {com.google.android.inputmethod.latin/com.android.inputmethod.latin.LatinIME}
+11-13 01:55:42.178   557   583 I ActivityManager: User 0 state changed from BOOTING to RUNNING_LOCKED
+11-13 01:55:42.208   557   592 I ActivityManager: Start proc 1310:com.google.android.apps.wellbeing/u0a142 for on-hold
+11-13 01:55:42.349   557  1044 W ActivityManager: Unable to start service Intent { act=android.service.smartspace.SmartspaceService cmp=com.google.android.as/com.google.android.apps.miphone.aiai.app.AiAiSmartspaceService } U=0: not found
+11-13 01:55:42.349   557   826 W ActivityManager: Unable to start service Intent { act=android.service.smartspace.SmartspaceService cmp=com.google.android.as/com.google.android.apps.miphone.aiai.app.AiAiSmartspaceService } U=0: not found
+11-13 01:55:42.350   557  1044 W ActivityManager: Unable to start service Intent { act=android.service.smartspace.SmartspaceService cmp=com.google.android.as/com.google.android.apps.miphone.aiai.app.AiAiSmartspaceService } U=0: not found
+11-13 01:55:42.351   557   580 I ActivityManager: User 0 state changed from RUNNING_LOCKED to RUNNING_UNLOCKING
+11-13 01:55:42.352   557   557 W ActivityManager: Unbind failed: could not find connection for android.app.LoadedApk$ServiceDispatcher$InnerConnection@f59575e
+11-13 01:55:42.352   557   557 W ActivityManager: Unbind failed: could not find connection for android.app.LoadedApk$ServiceDispatcher$InnerConnection@25d073f
+11-13 01:55:42.352   557   557 W ActivityManager: Unbind failed: could not find connection for android.app.LoadedApk$ServiceDispatcher$InnerConnection@38b780c
+11-13 01:55:42.383   557   592 I ActivityManager: Start proc 1353:com.google.android.as/u0a136 for service {com.google.android.as/com.google.android.apps.miphone.aiai.app.AiAiSmartspaceService}
+11-13 01:55:42.439   557   592 I ActivityManager: Start proc 1367:com.google.android.providers.media.module/u0a191 for service {com.google.android.providers.media.module/com.android.providers.media.fuse.ExternalStorageServiceImpl}
+11-13 01:55:42.487   557   592 I ActivityManager: Start proc 1379:com.google.android.googlequicksearchbox:interactor/u0a143 for service {com.google.android.googlequicksearchbox/com.google.android.voiceinteraction.GsaVoiceInteractionService}
+11-13 01:55:42.538   557   592 I ActivityManager: Start proc 1398:com.android.printspooler/u0a123 for service {com.android.printspooler/com.android.printspooler.model.PrintSpoolerService}
+11-13 01:55:42.580   557   592 I ActivityManager: Start proc 1420:com.google.android.apps.messaging:rcs/u0a139 for service {com.google.android.apps.messaging/com.google.android.ims.binding.SystemBindingService}
+11-13 01:55:42.586   557   591 I ActivityManager: User 0 state changed from RUNNING_UNLOCKING to RUNNING_UNLOCKED
+11-13 01:55:42.588   557   580 I ActivityTaskManager: Restoring recents for user 0
+11-13 01:55:42.617   557   592 I ActivityManager: Start proc 1433:com.android.emulator.multidisplay/1000 for added application com.android.emulator.multidisplay
+11-13 01:55:42.629   557   591 I ActivityManager: Posting BOOT_COMPLETED user #0
+11-13 01:55:42.675   557   623 W ActivityTaskManager: callingPackage for (uid=-1, pid=0) has no WPC
+11-13 01:55:42.682   557   623 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.HOME] flg=0x10000100 cmp=com.google.android.apps.nexuslauncher/.NexusLauncherActivity (has extras)} with LAUNCH_SINGLE_TASK from uid 0 (BAL_ALLOW_ALLOWLISTED_UID) result code=0
+11-13 01:55:42.802   557  1045 W ActivityManager: Slow operation: 144ms so far, now at startProcess: done updating battery stats
+11-13 01:55:42.802   557  1045 W ActivityManager: Slow operation: 144ms so far, now at startProcess: building log message
+11-13 01:55:42.802   557  1045 I ActivityManager: Start proc 1457:com.google.android.googlequicksearchbox:search/u0a143 for service {com.google.android.googlequicksearchbox/com.google.android.apps.search.podcasts.browser.PodcastBrowserService}
+11-13 01:55:42.802   557  1045 W ActivityManager: Slow operation: 144ms so far, now at startProcess: starting to update pids map
+11-13 01:55:42.802   557  1045 W ActivityManager: Slow operation: 144ms so far, now at startProcess: done updating pids map
+11-13 01:55:42.809   557   592 W ActivityManager: Slow operation: 61ms so far, now at startProcess: asking zygote to start proc
+11-13 01:55:42.837   557   592 W ActivityManager: Slow operation: 89ms so far, now at startProcess: returned from zygote!
+11-13 01:55:42.837   557   592 W ActivityManager: Slow operation: 89ms so far, now at startProcess: done updating battery stats
+11-13 01:55:42.837   557   592 W ActivityManager: Slow operation: 89ms so far, now at startProcess: building log message
+11-13 01:55:42.837   557   592 I ActivityManager: Start proc 1483:com.google.android.apps.messaging/u0a139 for broadcast {com.google.android.apps.messaging/com.google.android.apps.messaging.shared.simstatetracker.AsyncTelephonySimStateReceiver}
+11-13 01:55:42.837   557   592 W ActivityManager: Slow operation: 89ms so far, now at startProcess: starting to update pids map
+11-13 01:55:42.837   557   592 W ActivityManager: Slow operation: 89ms so far, now at startProcess: done updating pids map
+11-13 01:55:42.857   557   826 W ActivityManager: Slow operation: 64ms so far, now at startProcess: done updating battery stats
+11-13 01:55:42.858   557   826 W ActivityManager: Slow operation: 64ms so far, now at startProcess: building log message
+11-13 01:55:42.858   557   826 I ActivityManager: Start proc 1485:com.google.android.gms/u0a144 for service {com.google.android.gms/com.google.android.gms.chimera.GmsIntentOperationService}
+11-13 01:55:42.858   557   826 W ActivityManager: Slow operation: 64ms so far, now at startProcess: starting to update pids map
+11-13 01:55:42.858   557   826 W ActivityManager: Slow operation: 64ms so far, now at startProcess: done updating pids map
+11-13 01:55:42.877   557   592 W ActivityManager: Slow operation: 83ms so far, now at startProcess: returned from zygote!
+11-13 01:55:42.877   557   592 W ActivityManager: Slow operation: 71ms so far, now at startProcess: asking zygote to start proc
+11-13 01:55:42.885   557   592 W ActivityManager: Slow operation: 79ms so far, now at startProcess: returned from zygote!
+11-13 01:55:42.885   557   592 W ActivityManager: Slow operation: 79ms so far, now at startProcess: done updating battery stats
+11-13 01:55:42.885   557   592 W ActivityManager: Slow operation: 80ms so far, now at startProcess: building log message
+11-13 01:55:42.885   557   592 I ActivityManager: Start proc 1509:com.android.keychain/1000 for service {com.android.keychain/com.android.keychain.KeyChainService}
+11-13 01:55:42.885   557   592 W ActivityManager: Slow operation: 80ms so far, now at startProcess: starting to update pids map
+11-13 01:55:42.886   557   592 W ActivityManager: Slow operation: 80ms so far, now at startProcess: done updating pids map
+11-13 01:55:43.297   557  1042 W ActivityManager: Unable to start service Intent { act=com.google.android.play.core.splitinstall.BIND_SPLIT_INSTALL_SERVICE pkg=com.android.vending } U=0: not found
+11-13 01:55:43.297   557  1041 W ActivityManager: Unable to start service Intent { act=com.google.android.play.core.splitinstall.BIND_SPLIT_INSTALL_SERVICE pkg=com.android.vending } U=0: not found
+11-13 01:55:43.686   557   592 I ActivityManager: Start proc 1687:com.google.android.calendar/u0a158 for broadcast {com.google.android.calendar/com.android.calendar.widget.CalendarAppWidgetProvider}
+11-13 01:55:43.873   557   576 I ActivityManager: Start proc 1730:com.google.android.as.oss/u0a140 for service {com.google.android.as.oss/com.google.android.apps.miphone.astrea.grpc.AstreaGrpcService}
+11-13 01:55:44.373   557   592 I ActivityManager: Start proc 1814:com.android.providers.calendar/u0a97 for content provider {com.android.providers.calendar/com.android.providers.calendar.CalendarProvider2}
+11-13 01:55:44.854   557   621 I ActivityManager: Broadcasting: Intent { act=com.android.emulator.multidisplay.START flg=0x400000 cmp=com.android.emulator.multidisplay/.MultiDisplayServiceReceiver }
+11-13 01:55:44.903   557   621 I ActivityManager: Enqueued broadcast Intent { act=com.android.emulator.multidisplay.START flg=0x400000 cmp=com.android.emulator.multidisplay/.MultiDisplayServiceReceiver }: 0
+11-13 01:55:44.952   557   580 I ActivityManager: Broadcast completed: result=0
+11-13 01:55:45.168   557  1041 W ActivityManager: Slow operation: 66ms so far, now at startProcess: done updating battery stats
+11-13 01:55:45.168   557  1041 W ActivityManager: Slow operation: 67ms so far, now at startProcess: building log message
+11-13 01:55:45.168   557  1041 I ActivityManager: Start proc 1922:com.google.android.deskclock/u0a165 for broadcast {com.google.android.deskclock/com.android.alarmclock.AnalogAppWidgetProvider}
+11-13 01:55:45.168   557  1041 W ActivityManager: Slow operation: 67ms so far, now at startProcess: starting to update pids map
+11-13 01:55:45.168   557  1041 W ActivityManager: Slow operation: 67ms so far, now at startProcess: done updating pids map
+11-13 01:55:45.265   557   592 I ActivityManager: Start proc 1937:com.google.android.gms.unstable/u0a144 for service {com.google.android.gms/com.google.android.gms.droidguard.DroidGuardService}
+11-13 01:55:45.620   557   592 I ActivityManager: Start proc 2005:com.android.traceur/u0a116 for broadcast {com.android.traceur/com.android.traceur.Receiver}
+11-13 01:55:45.790   557   575 I ActivityManager: Start proc 2024:com.android.localtransport/1000 for service {com.android.localtransport/com.android.localtransport.LocalTransportService}
+11-13 01:55:45.790   557   575 W ActivityManager: Slow operation: 83ms so far, now at startProcess: starting to update pids map
+11-13 01:55:45.795   557   575 W ActivityManager: Slow operation: 89ms so far, now at startProcess: done updating pids map
+11-13 01:55:45.796   557   575 W ActivityManager: Slow operation: 51ms so far, now at attachApplicationLocked: before bindApplication
+11-13 01:55:45.796   557   575 W ActivityManager: Slow operation: 51ms so far, now at attachApplicationLocked: immediately before bindApplication
+11-13 01:55:45.796   557   575 W ActivityManager: Slow operation: 51ms so far, now at attachApplicationLocked: immediately after bindApplication
+11-13 01:55:45.796   557   575 W ActivityManager: Slow operation: 51ms so far, now at attachApplicationLocked: after updateLruProcessLocked
+11-13 01:55:45.797   557   575 W ActivityManager: Slow operation: 52ms so far, now at attachApplicationLocked: after updateOomAdjLocked
+11-13 01:55:45.932   557   592 I ActivityManager: Start proc 2060:com.android.externalstorage/u0a107 for broadcast {com.android.externalstorage/com.android.externalstorage.MountReceiver}
+11-13 01:55:46.084   557   592 I ActivityManager: Start proc 2095:com.google.android.apps.wallpaper/u0a171 for content provider {com.google.android.apps.wallpaper/com.google.android.apps.wallpaper.provider.RecentWallpapersProvider}
+11-13 01:55:46.241   557   592 I ActivityManager: Start proc 2114:android.process.media/u0a92 for content provider {com.android.providers.downloads/com.android.providers.downloads.DownloadProvider}
+11-13 01:55:46.250   557   592 I ActivityManager: Start proc 2115:com.google.android.onetimeinitializer/u0a132 for broadcast {com.google.android.onetimeinitializer/com.google.android.onetimeinitializer.OneTimeInitializerReceiver}
+11-13 01:55:46.313   557  1044 I ActivityManager: Start proc 2138:com.google.android.tts/u0a147 for service {com.google.android.tts/com.google.android.apps.speech.tts.googletts.service.GoogleTtsService}
+11-13 01:55:46.457   557   580 I ActivityTaskManager: Displayed com.google.android.apps.nexuslauncher/.NexusLauncherActivity for user 0: +3s753ms
+11-13 01:55:46.725   557   592 I ActivityManager: Start proc 2190:com.android.imsserviceentitlement/u0a131 for broadcast {com.android.imsserviceentitlement/com.android.imsserviceentitlement.ImsEntitlementReceiver}
+11-13 01:55:47.074   557   592 I ActivityManager: Start proc 2346:com.android.camera2/u0a154 for broadcast {com.android.camera2/com.android.camera.SetActivitiesCameraReceiver}
+11-13 01:55:47.408   557  2169 I ActivityManager: Start proc 2400:com.android.dynsystem/1000 for broadcast {com.android.dynsystem/com.android.dynsystem.BootCompletedReceiver}
+11-13 01:55:47.458   557   592 I ActivityManager: Start proc 2425:com.android.dynsystem:dynsystem/1000 for service {com.android.dynsystem/com.android.dynsystem.DynamicSystemInstallationService}
+11-13 01:55:47.462   557   592 I ActivityManager: Start proc 2433:com.android.managedprovisioning/u0a103 for broadcast {com.android.managedprovisioning/com.android.managedprovisioning.BootReminder}
+11-13 01:55:47.650   557   591 I ActivityManager: reportOnUserCompletedEvent(0): stored=10, eligible=111
+11-13 01:55:48.175   557   592 I ActivityManager: Start proc 2485:com.android.shell/2000 for broadcast {com.android.shell/com.android.shell.HeapDumpReceiver}
+11-13 01:55:48.464   557  2252 I ActivityManager: Background started FGS: Allowed [callingPackage: com.google.android.apps.messaging; callingUid: 10139; uidState: BFGS; uidBFSL: [BFSL]; intent: Intent { cmp=com.google.android.apps.messaging/com.google.apps.tiktok.concurrent.InternalForegroundService (has extras) }; code:PROC_STATE_BFGS; tempAllowListReason:<3ae054d android.intent.action.BOOT_COMPLETED/u0,reasonCode:BOOT_COMPLETED,duration:20000,callingUid:1000>; targetSdkVersion:35; callerTargetSdkVersion:35; startForegroundCount:0; bindFromPackage:null: isBindService:false]
+11-13 01:55:48.466   557  2252 W ActivityManager: Foreground service started from background can not have location/camera/microphone access: service com.google.android.apps.messaging/com.google.apps.tiktok.concurrent.InternalForegroundService
+11-13 01:55:48.560   557   592 I ActivityManager: Start proc 2514:com.google.android.apps.safetyhub/u0a135 for broadcast {com.google.android.apps.safetyhub/com.google.android.apps.safetyhub.startup.StartupBroadcastReceiver_Receiver}
+11-13 01:55:48.635   557  2169 I ActivityManager: Process com.android.keychain (pid 1509) has died: cch+45 CEM 
+11-13 01:55:48.931   557   592 I ActivityManager: Start proc 2562:com.google.android.configupdater/u0a141 for broadcast {com.google.android.configupdater/com.google.android.configupdater.MainReceiver}
+11-13 01:55:49.138   557   592 I ActivityManager: Start proc 2593:.adservices/u0a204 for broadcast {com.google.android.ext.services/com.android.adservices.service.common.AdExtBootCompletedReceiver}
+11-13 01:55:49.306   557   592 I ActivityManager: Start proc 2607:com.google.android.federatedcompute/u0a194 for broadcast {com.google.android.federatedcompute/com.android.federatedcompute.services.FederatedComputeBroadcastReceiver}
+11-13 01:55:49.424   557   592 I ActivityManager: Start proc 2622:com.google.android.healthconnect.controller/u0a195 for broadcast {com.google.android.healthconnect.controller/com.android.healthconnect.controller.safetycenter.SafetySourceBroadcastReceiver}
+11-13 01:55:49.571   557   592 I ActivityManager: Start proc 2653:com.google.android.ondevicepersonalization.services/u0a193 for broadcast {com.google.android.ondevicepersonalization.services/com.android.ondevicepersonalization.services.OnDevicePersonalizationBroadcastReceiver}
+11-13 01:55:49.612   557   592 I ActivityManager: Start proc 2674:com.google.android.packageinstaller/u0a102 for broadcast {com.google.android.packageinstaller/com.android.packageinstaller.common.TemporaryFileManager}
+11-13 01:55:49.636   557   592 I ActivityManager: Start proc 2688:com.google.android.partnersetup/u0a129 for broadcast {com.google.android.partnersetup/com.google.android.partnersetup.BootReceiver}
+11-13 01:55:49.675   557   592 I ActivityManager: Start proc 2703:com.google.android.rkpdapp/u0a189 for broadcast {com.google.android.rkpdapp/com.android.rkpdapp.BootReceiver}
+11-13 01:55:49.721   557   592 I ActivityManager: Start proc 2721:com.google.android.settings.intelligence/u0a133 for broadcast {com.google.android.settings.intelligence/com.google.android.settings.intelligence.modules.batterywidget.impl.BatteryWidgetBootBroadcastReceiver}
+11-13 01:55:49.891   557   580 I ActivityManager: Finished processing BOOT_COMPLETED for u0
+11-13 01:55:49.917   557  2251 W ActivityManager: pid 1485 com.google.android.gms sent binder code 1 with flags 2 to frozen apps and got error -2147483646
+11-13 01:55:50.201   557   592 I ActivityManager: Start proc 2802:com.android.chrome/u0a149 for broadcast {com.android.chrome/com.google.android.apps.chrome.rlz.RevenueStatsConfigurationUpdateReceiver}
+11-13 01:55:51.772   557   592 I ActivityManager: Start proc 2932:com.google.android.gms.ui/u0a144 for content provider {com.google.android.gms/com.google.android.gms.accountsettings.content.SettingsSearchContentProvider}
+11-13 01:55:51.785   557   592 I ActivityManager: Start proc 2946:com.google.android.marvin.talkback/u0a155 for content provider {com.google.android.marvin.talkback/com.google.android.accessibility.talkback.preference.search.TalkBackSearchIndexablesProvider}
+11-13 01:55:55.169   557  1041 I ActivityManager: Process com.android.externalstorage (pid 2060) has died: cch+15 CEM 
+11-13 01:56:03.742   557  2251 I ActivityManager: Force stopping com.example.accidentpoc appid=10209 user=-1: set debug app
+11-13 01:56:03.873   557   591 I ActivityManager: Force stopping com.example.accidentpoc appid=10209 user=-1: installPackageLI
+11-13 01:56:03.962   557   612 I ActivityManager: Force stopping com.example.accidentpoc appid=10209 user=0: pkg removed
+11-13 01:56:03.995   557   592 I ActivityManager: Start proc 3258:com.android.keychain/1000 for service {com.android.keychain/com.android.keychain.KeyChainService}
+11-13 01:56:04.454   557  2170 I ActivityManager: Force stopping com.example.accidentpoc appid=10209 user=0: start instr
+11-13 01:56:04.461   557   592 I ActivityManager: Start proc 3302:com.example.accidentpoc/u0a209 for added application com.example.accidentpoc
+11-13 01:56:04.633   557  2169 I ActivityManager: Background started FGS: Allowed [callingPackage: com.google.android.apps.wellbeing; callingUid: 10142; uidState: BTOP; uidBFSL: [BFSL]; intent: Intent { cmp=com.google.android.apps.wellbeing/com.google.apps.tiktok.concurrent.InternalForegroundService (has extras) }; code:BACKGROUND_ACTIVITY_PERMISSION; tempAllowListReason:<3ae054d android.intent.action.BOOT_COMPLETED/u0,reasonCode:BOOT_COMPLETED,duration:20000,callingUid:1000>; targetSdkVersion:34; callerTargetSdkVersion:34; startForegroundCount:0; bindFromPackage:null: isBindService:false]
+11-13 01:56:04.889  3302  3355 I TestRunner: run started: 41 tests
+11-13 01:56:04.890  3302  3355 I TestRunner: started: cueGlyphReaches3To1(com.example.accidentpoc.GlyphsTest)
+11-13 01:56:04.969   557  2169 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/androidx.activity.ComponentActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:56:05.386   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/androidx.activity.ComponentActivity for user 0: +424ms
+11-13 01:56:06.636   557  2170 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:56:06.648   557   592 I ActivityManager: Start proc 3384:com.example.accidentpoc.test/u0a207 for next-top-activity {com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity}
+11-13 01:56:07.075   557  2248 I ActivityManager: Process com.android.localtransport (pid 2024) has died: cch+99 CEM 
+11-13 01:56:07.088  3302  3355 I TestRunner: finished: cueGlyphReaches3To1(com.example.accidentpoc.GlyphsTest)
+11-13 01:56:07.132  3302  3355 I TestRunner: started: heartPulseCutLeavesAGap(com.example.accidentpoc.GlyphsTest)
+11-13 01:56:07.152   557  2248 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:56:07.152   557  2248 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{5644cc1 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t75 f}}
+11-13 01:56:07.184   557  2170 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/androidx.activity.ComponentActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:56:07.677   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/androidx.activity.ComponentActivity for user 0: +514ms
+11-13 01:56:07.777   557  2170 W ActivityTaskManager: takeTaskSnapshot: taskId=75 not found or not visible
+11-13 01:56:07.944   557  2170 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:56:08.038   557  1044 I ActivityTaskManager: Activity reported stop, but no longer stopping: ActivityRecord{ed718c0 u0 com.google.android.apps.nexuslauncher/.NexusLauncherActivity t73} RESUMED
+11-13 01:56:08.610  3302  3355 I TestRunner: finished: heartPulseCutLeavesAGap(com.example.accidentpoc.GlyphsTest)
+11-13 01:56:08.613  3302  3355 I TestRunner: started: handoffKeepsAChannelBetweenPeople(com.example.accidentpoc.GlyphsTest)
+11-13 01:56:08.623   557  2250 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/androidx.activity.ComponentActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:56:08.704   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/androidx.activity.ComponentActivity for user 0: +83ms
+11-13 01:56:08.860   557  2250 W ActivityTaskManager: takeTaskSnapshot: taskId=77 not found or not visible
+11-13 01:56:09.027   557  1044 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:56:09.162   557  2250 I ActivityTaskManager: Activity reported stop, but no longer stopping: ActivityRecord{ed718c0 u0 com.google.android.apps.nexuslauncher/.NexusLauncherActivity t73} RESUMED
+11-13 01:56:09.165   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +134ms
+11-13 01:56:09.222  3302  3355 I TestRunner: finished: handoffKeepsAChannelBetweenPeople(com.example.accidentpoc.GlyphsTest)
+11-13 01:56:09.223  3302  3355 I TestRunner: started: everyMappedGlyphBuildsANonEmptyPath(com.example.accidentpoc.GlyphsTest)
+11-13 01:56:09.267   557  2251 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/androidx.activity.ComponentActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:56:09.271   557  2250 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:56:09.271   557  2250 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{8dd01ee u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t79 f}}
+11-13 01:56:09.414   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/androidx.activity.ComponentActivity for user 0: +168ms
+11-13 01:56:09.746   557  2250 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:56:09.801   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +59ms
+11-13 01:56:09.925  3302  3355 I TestRunner: finished: everyMappedGlyphBuildsANonEmptyPath(com.example.accidentpoc.GlyphsTest)
+11-13 01:56:09.955  3302  3355 I TestRunner: started: brokenShaderIsReportedUnavailable(com.example.accidentpoc.SatinShaderTest)
+11-13 01:56:09.969  3302  3355 I TestRunner: finished: brokenShaderIsReportedUnavailable(com.example.accidentpoc.SatinShaderTest)
+11-13 01:56:09.975  3302  3355 I TestRunner: started: satinShaderCompilesOnSupportedApiAndIsNormalFallbackOnApi28(com.example.accidentpoc.SatinShaderTest)
+11-13 01:56:09.976  3302  3355 I TestRunner: finished: satinShaderCompilesOnSupportedApiAndIsNormalFallbackOnApi28(com.example.accidentpoc.SatinShaderTest)
+11-13 01:56:09.979  3302  3355 I TestRunner: started: invalidSceneExtraFallsBackToInitial(com.example.accidentpoc.Sc05LaunchTest)
+11-13 01:56:10.019   557  1044 I ActivityTaskManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:56:10.020   557  2248 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:56:10.020   557  2248 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{79ab317 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t81 f}}
+11-13 01:56:10.776   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +771ms
+11-13 01:56:11.509   557  1041 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:56:12.173  3302  3355 I TestRunner: finished: invalidSceneExtraFallsBackToInitial(com.example.accidentpoc.Sc05LaunchTest)
+11-13 01:56:12.186  3302  3355 I TestRunner: started: everySharedSceneOpensAndSurvivesRealActivityRecreation(com.example.accidentpoc.Sc05LaunchTest)
+11-13 01:56:12.198   557  2200 I ActivityTaskManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:56:12.399   557  2248 W ActivityTaskManager: takeTaskSnapshot: taskId=83 not found or not visible
+11-13 01:56:12.417   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +209ms
+11-13 01:56:13.155   557   888 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:56:13.239   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +91ms
+11-13 01:56:13.425   557   888 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:56:13.426   557   888 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{275ad31 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t85 f}}
+11-13 01:56:13.434   557  2248 I ActivityTaskManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:56:13.835   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +334ms
+11-13 01:56:14.751   557  1041 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:56:14.838   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +79ms
+11-13 01:56:15.023   557  2248 I ActivityTaskManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:56:15.023   557  2251 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:56:15.023   557  2251 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{e9f3def u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t87 f}}
+11-13 01:56:15.379   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +360ms
+11-13 01:56:16.374   557  2200 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:56:16.530   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +166ms
+11-13 01:56:16.757   557  2200 I ActivityTaskManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:56:16.758   557  2251 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:56:16.758   557  2251 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{2336486 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t89 f}}
+11-13 01:56:17.196   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +432ms
+11-13 01:56:17.980   557  1044 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:56:18.315   557  2248 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:56:18.316   557  2248 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{798d08e u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t91 f}}
+11-13 01:56:18.323   557  2251 I ActivityTaskManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:56:18.712   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +373ms
+11-13 01:56:19.521   557   888 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:56:19.688   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +167ms
+11-13 01:56:19.837   557  2200 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:56:19.837   557  2200 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{6d08770 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t93 f}}
+11-13 01:56:19.845   557  2200 I ActivityTaskManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:56:20.234   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +390ms
+11-13 01:56:21.245   557  2248 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:56:21.405   557  2251 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:56:21.405   557  2251 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{af1394d u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t95 f}}
+11-13 01:56:21.414   557  2200 I ActivityTaskManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:56:21.853   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +282ms
+11-13 01:56:22.426   557  2248 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:56:22.756   557   888 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:56:22.756   557   888 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{11788e7 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t97 f}}
+11-13 01:56:22.771   557  2251 I ActivityTaskManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:56:23.127   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +370ms
+11-13 01:56:23.998   557  2251 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:56:24.085   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +87ms
+11-13 01:56:24.252   557  2200 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:56:24.252   557  2200 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{8b27d55 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t99 f}}
+11-13 01:56:24.258   557  2250 I ActivityTaskManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:56:24.733   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +249ms
+11-13 01:56:25.392   557  2250 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:56:25.492   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +114ms
+11-13 01:56:25.683   557  2197 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:56:25.683   557  2197 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{854ef53 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t101 f}}
+11-13 01:56:25.689   557  2250 I ActivityTaskManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:56:26.038   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +353ms
+11-13 01:56:26.808   557  1044 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:56:27.454   557  2249 I ActivityTaskManager: START u0 {flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity (has extras)} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:56:27.646   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +193ms
+11-13 01:56:27.906   557  2249 W ActivityTaskManager: takeTaskSnapshot: taskId=103 not found or not visible
+11-13 01:56:28.445   557  1044 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:56:28.570   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +124ms
+11-13 01:56:28.717  3302  3355 I TestRunner: finished: everySharedSceneOpensAndSurvivesRealActivityRecreation(com.example.accidentpoc.Sc05LaunchTest)
+11-13 01:56:28.722  3302  3355 I TestRunner: started: primaryAndSecondaryHaveSeparateBoundsAndBothWork(com.example.accidentpoc.Sc05Test)
+11-13 01:56:28.729   557  1044 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:56:28.729   557  1044 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{ab5b9e4 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t105 f}}
+11-13 01:56:28.732   557  2249 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:56:29.103   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +352ms
+11-13 01:56:30.015   557  2249 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:56:30.181   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +177ms
+11-13 01:56:30.381  3302  3355 I TestRunner: finished: primaryAndSecondaryHaveSeparateBoundsAndBothWork(com.example.accidentpoc.Sc05Test)
+11-13 01:56:30.392  3302  3355 I TestRunner: started: initialSceneShowsEachAgencySeparately(com.example.accidentpoc.Sc05Test)
+11-13 01:56:30.405   557  2251 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:56:30.405   557  2249 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:56:30.405   557  2249 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{4e8ab8a u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t107 f}}
+11-13 01:56:30.719   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +320ms
+11-13 01:56:31.524   557  2251 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:56:31.741  3302  3355 I TestRunner: finished: initialSceneShowsEachAgencySeparately(com.example.accidentpoc.Sc05Test)
+11-13 01:56:31.741  3302  3355 I TestRunner: started: removedCopyLeavesNoEmptyText(com.example.accidentpoc.Sc05Test)
+11-13 01:56:31.755   557  1044 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:56:31.756   557  2249 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:56:31.756   557  2249 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{8831c1a u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t109 f}}
+11-13 01:56:32.100   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +333ms
+11-13 01:56:32.662   557  1044 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:56:32.862   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +201ms
+11-13 01:56:33.034  3302  3355 I TestRunner: finished: removedCopyLeavesNoEmptyText(com.example.accidentpoc.Sc05Test)
+11-13 01:56:33.036  3302  3355 I TestRunner: started: actionMovesFocusToNewTitle(com.example.accidentpoc.Sc05Test)
+11-13 01:56:33.048   557   888 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:56:33.049   557  2249 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:56:33.049   557  2249 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{3e7d1ea u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t111 f}}
+11-13 01:56:33.444   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +379ms
+11-13 01:56:34.205   557  1044 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:56:34.359   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +156ms
+11-13 01:56:34.503  3302  3355 I TestRunner: finished: actionMovesFocusToNewTitle(com.example.accidentpoc.Sc05Test)
+11-13 01:56:34.503  3302  3355 I TestRunner: started: font200PercentKeepsActionsAndEverySceneControlReachable(com.example.accidentpoc.Sc05Test)
+11-13 01:56:34.529   557  2250 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:56:34.529   557  1044 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:56:34.529   557  1044 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{a804dda u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t113 f}}
+11-13 01:56:34.933   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +407ms
+11-13 01:56:35.619   557   583 I ActivityTaskManager: Config changes=40000000 {2.0 310mcc260mnc [en_US] ldltr sw901dp w1442dp h901dp 213dpi xlrg land finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 1920, 1200) mAppBounds=Rect(0, 0 - 1920, 1200) mMaxBounds=Rect(0, 0 - 1920, 1200) mDisplayRotation=ROTATION_0 mWindowingMode=fullscreen mActivityType=undefined mAlwaysOnTop=undefined mRotation=ROTATION_0} s.32 fontWeightAdjustment=0}
+11-13 01:56:39.455   557   583 I ActivityTaskManager: Config changes=40000000 {1.0 310mcc260mnc [en_US] ldltr sw901dp w1442dp h901dp 213dpi xlrg land finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 1920, 1200) mAppBounds=Rect(0, 0 - 1920, 1200) mMaxBounds=Rect(0, 0 - 1920, 1200) mDisplayRotation=ROTATION_0 mWindowingMode=fullscreen mActivityType=undefined mAlwaysOnTop=undefined mRotation=ROTATION_0} s.89 fontWeightAdjustment=0}
+11-13 01:56:39.750   557  2200 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:56:40.051  3302  3355 I TestRunner: finished: font200PercentKeepsActionsAndEverySceneControlReachable(com.example.accidentpoc.Sc05Test)
+11-13 01:56:40.054  3302  3355 I TestRunner: started: allElevenSceneControlsAreReachableAndKeepSimulationNotice(com.example.accidentpoc.Sc05Test)
+11-13 01:56:40.069   557  1044 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:56:40.373   557  1044 W ActivityTaskManager: takeTaskSnapshot: taskId=115 not found or not visible
+11-13 01:56:40.385   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +325ms
+11-13 01:56:42.730   557  1044 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:56:43.323  3302  3355 I TestRunner: finished: allElevenSceneControlsAreReachableAndKeepSimulationNotice(com.example.accidentpoc.Sc05Test)
+11-13 01:56:43.325  3302  3355 I TestRunner: started: queuedDuplicateApprovalOnlySubmitsOnce(com.example.accidentpoc.Sc05Test)
+11-13 01:56:43.342   557   575 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:56:43.461   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +123ms
+11-13 01:56:43.816   557  1042 W ActivityTaskManager: takeTaskSnapshot: taskId=117 not found or not visible
+11-13 01:56:44.862   557  2200 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:56:44.919   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +58ms
+11-13 01:56:45.004  3302  3355 I TestRunner: finished: queuedDuplicateApprovalOnlySubmitsOnce(com.example.accidentpoc.Sc05Test)
+11-13 01:56:45.005  3302  3355 I TestRunner: started: suspendedReceiptAndHandoffStaySuspendedUntilResume(com.example.accidentpoc.Sc05Test)
+11-13 01:56:45.027   557  1044 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:56:45.028   557  2200 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:56:45.028   557  2200 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{5763539 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t119 f}}
+11-13 01:56:45.404   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +327ms
+11-13 01:56:47.202   557   575 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:56:47.303   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +107ms
+11-13 01:56:47.555  3302  3355 I TestRunner: finished: suspendedReceiptAndHandoffStaySuspendedUntilResume(com.example.accidentpoc.Sc05Test)
+11-13 01:56:47.557  3302  3355 I TestRunner: started: sc05DrawsMappedGlyphsAndMarks(com.example.accidentpoc.Sc05Test)
+11-13 01:56:47.585   557  1043 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:56:47.585   557  2171 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:56:47.586   557  2171 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{7675ac3 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t121 f}}
+11-13 01:56:47.903   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +326ms
+11-13 01:56:48.747   557  1043 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:56:48.937   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +192ms
+11-13 01:56:49.030  3302  3355 I TestRunner: finished: sc05DrawsMappedGlyphsAndMarks(com.example.accidentpoc.Sc05Test)
+11-13 01:56:49.032  3302  3355 I TestRunner: started: scopeValidationCancelApprovalAndFailedReapprovalUseRealControls(com.example.accidentpoc.Sc05Test)
+11-13 01:56:49.053   557   623 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:56:49.053   557   623 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{49bba49 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t123 f}}
+11-13 01:56:49.072   557  2254 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:56:49.652   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +350ms
+11-13 01:56:50.020   557  2254 W ActivityManager: pid 2721 com.google.android.settings.intelligence sent binder code 21 with flags 2 to frozen apps and got error -2147483646
+11-13 01:56:50.020   557  1043 I ActivityManager: Process com.android.settings (pid 962) early provider death
+11-13 01:56:50.021   557  1043 I ActivityManager: Process com.android.settings (pid 962) has died: cch+5 TRNB
+11-13 01:56:50.022   557  2254 W ActivityManager: ProcessRecord{d3a4e39 0:com.android.settings/1000} is attached to a previous process 962
+11-13 01:56:50.121   557   592 W ActivityManager: Slow operation: 99ms so far, now at startProcess: asking zygote to start proc
+11-13 01:56:50.128   557   583 W ActivityManager: setHasOverlayUi called on unknown pid: 962
+11-13 01:56:50.132   557   592 W ActivityManager: Slow operation: 110ms so far, now at startProcess: returned from zygote!
+11-13 01:56:50.132   557   592 W ActivityManager: Slow operation: 110ms so far, now at startProcess: done updating battery stats
+11-13 01:56:50.133   557   592 W ActivityManager: Slow operation: 110ms so far, now at startProcess: building log message
+11-13 01:56:50.133   557   592 I ActivityManager: Start proc 3736:com.android.settings/1000 for content provider {com.android.settings/com.android.settings.slices.SettingsSliceProvider}
+11-13 01:56:50.133   557   592 W ActivityManager: Slow operation: 110ms so far, now at startProcess: starting to update pids map
+11-13 01:56:50.133   557   592 W ActivityManager: Slow operation: 110ms so far, now at startProcess: done updating pids map
+11-13 01:56:53.446   557   576 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:56:53.997  3302  3355 I TestRunner: finished: scopeValidationCancelApprovalAndFailedReapprovalUseRealControls(com.example.accidentpoc.Sc05Test)
+11-13 01:56:54.000  3302  3355 I TestRunner: started: checkingUnknownFailureAndResumeNeverResend(com.example.accidentpoc.Sc05Test)
+11-13 01:56:54.008   557   576 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:56:54.181   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +176ms
+11-13 01:56:54.608   557  2255 W ActivityTaskManager: takeTaskSnapshot: taskId=125 not found or not visible
+11-13 01:56:56.044   557  2254 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:56:56.281  3302  3355 I TestRunner: finished: checkingUnknownFailureAndResumeNeverResend(com.example.accidentpoc.Sc05Test)
+11-13 01:56:56.291  3302  3355 I TestRunner: started: surfaceToggleKeepsSceneAndUsesApiSpecificCapability(com.example.accidentpoc.Sc05Test)
+11-13 01:56:56.313   557  2255 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:56:56.313   557  2171 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:56:56.313   557  2171 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{f79d56c u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t127 f}}
+11-13 01:56:56.652   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +343ms
+11-13 01:56:57.802   557   576 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:56:57.909   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +110ms
+11-13 01:56:58.084  3302  3355 I TestRunner: finished: surfaceToggleKeepsSceneAndUsesApiSpecificCapability(com.example.accidentpoc.Sc05Test)
+11-13 01:56:58.084  3302  3355 I TestRunner: started: koreanTextWrapsOnlyBetweenWordsAcrossAllScenes(com.example.accidentpoc.Sc05Test)
+11-13 01:56:58.096   557   576 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:56:58.099   557  2171 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:56:58.099   557  2171 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{3e54b02 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t129 f}}
+11-13 01:56:58.418   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +317ms
+11-13 01:57:00.826   557  2254 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:57:01.122  3302  3355 I TestRunner: finished: koreanTextWrapsOnlyBetweenWordsAcrossAllScenes(com.example.accidentpoc.Sc05Test)
+11-13 01:57:01.124  3302  3355 I TestRunner: started: receiptAndFactsSurviveNavigationRecreationAndLateUnknown(com.example.accidentpoc.Sc05Test)
+11-13 01:57:01.147   557  2255 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:57:01.147   557  2255 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{27052b7 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t131 f}}
+11-13 01:57:01.150   557  2254 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:57:01.510   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +361ms
+11-13 01:57:03.645   557   575 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:57:03.844  3302  3355 I TestRunner: finished: receiptAndFactsSurviveNavigationRecreationAndLateUnknown(com.example.accidentpoc.Sc05Test)
+11-13 01:57:03.852  3302  3355 I TestRunner: started: eventMovesFocusToCurrentSceneButton(com.example.accidentpoc.Sc05Test)
+11-13 01:57:03.865   557  2255 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:57:03.865   557   576 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:57:03.865   557   576 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{2ad4c22 u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t133 f}}
+11-13 01:57:04.207   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +304ms
+11-13 01:57:05.001   557  2255 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:57:05.313   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +316ms
+11-13 01:57:05.437  3302  3355 I TestRunner: finished: eventMovesFocusToCurrentSceneButton(com.example.accidentpoc.Sc05Test)
+11-13 01:57:05.438  3302  3355 I TestRunner: started: fullSessionScopeApprovalSuspendedResultsAndSurfaceSurviveRecreation(com.example.accidentpoc.Sc05Test)
+11-13 01:57:05.464   557  2255 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10008000 cmp=com.example.accidentpoc/.MainActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:57:05.464   557  1043 W ActivityTaskManager: Finishing task with all activities already finished
+11-13 01:57:05.464   557  1043 W ActivityTaskManager: Duplicate finish request for r=ActivityRecord{83786aa u0 com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity t135 f}}
+11-13 01:57:05.822   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +276ms
+11-13 01:57:09.078   557  2255 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity} with LAUNCH_MULTIPLE from uid 10209 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+11-13 01:57:09.165   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +87ms
+11-13 01:57:09.342  3302  3355 I TestRunner: finished: fullSessionScopeApprovalSuspendedResultsAndSurfaceSurviveRecreation(com.example.accidentpoc.Sc05Test)
+11-13 01:57:09.351  3302  3355 I TestRunner: started: glyphGridMappingsAndStatusMarksAreValidated(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:57:09.369  3302  3355 I TestRunner: finished: glyphGridMappingsAndStatusMarksAreValidated(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:57:09.370  3302  3355 I TestRunner: started: allSharedScenariosParseWithoutClaimingProductUiSupport(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:57:09.411  3302  3355 I TestRunner: finished: allSharedScenariosParseWithoutClaimingProductUiSupport(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:57:09.412  3302  3355 I TestRunner: started: effectsAgencySecondaryAndPanelsSurviveLoading(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:57:09.415  3302  3355 I TestRunner: finished: effectsAgencySecondaryAndPanelsSurviveLoading(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:57:09.415  3302  3355 I TestRunner: started: invalidOverrideReferencesStatusesFieldsAndStringTypesAreRejected(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:57:09.506  3302  3355 I TestRunner: finished: invalidOverrideReferencesStatusesFieldsAndStringTypesAreRejected(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:57:09.506  3302  3355 I TestRunner: started: invalidTargetsAgenciesEffectsAndTypesAreDiagnosed(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:57:09.589  3302  3355 I TestRunner: finished: invalidTargetsAgenciesEffectsAndTypesAreDiagnosed(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:57:09.592  3302  3355 I TestRunner: started: validFactOverridesArePreservedIncludingNonVisibleFacts(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:57:09.607  3302  3355 I TestRunner: finished: validFactOverridesArePreservedIncludingNonVisibleFacts(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:57:09.619  3302  3355 I TestRunner: started: invalidVersionScenarioAndDuplicateIdsAreRejected(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:57:09.708  3302  3355 I TestRunner: finished: invalidVersionScenarioAndDuplicateIdsAreRejected(com.example.accidentpoc.ScenarioLoadTest)
+11-13 01:57:09.709  3302  3355 I TestRunner: started: receiveAndHandoffWhileSuspendedUpdateSessionWithoutLeavingOrResending(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:57:09.711  3302  3355 I TestRunner: finished: receiveAndHandoffWhileSuspendedUpdateSessionWithoutLeavingOrResending(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:57:09.713  3302  3355 I TestRunner: started: invalidSavedSessionCannotReplaceTheAuthoritativeState(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:57:09.719  3302  3355 I TestRunner: finished: invalidSavedSessionCannotReplaceTheAuthoritativeState(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:57:09.723  3302  3355 I TestRunner: started: receiptArrivalAndHandoffAreIndependentAndMonotonicAcrossLateResults(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:57:09.727  3302  3355 I TestRunner: finished: receiptArrivalAndHandoffAreIndependentAndMonotonicAcrossLateResults(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:57:09.728  3302  3355 I TestRunner: started: explicitApprovalFreezesSnapshotAndFailedRetryNeedsNewApproval(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:57:09.730  3302  3355 I TestRunner: finished: explicitApprovalFreezesSnapshotAndFailedRetryNeedsNewApproval(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:57:09.731  3302  3355 I TestRunner: started: reviewCancelEmptyScopeAndMissingRecordCannotSubmit(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:57:09.732  3302  3355 I TestRunner: finished: reviewCancelEmptyScopeAndMissingRecordCannotSubmit(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:57:09.733  3302  3355 I TestRunner: started: lookupUnknownFailureSuspensionAndResumeKeepOriginalIdentityAndOtherAgencies(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:57:09.735  3302  3355 I TestRunner: finished: lookupUnknownFailureSuspensionAndResumeKeepOriginalIdentityAndOtherAgencies(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:57:09.736  3302  3355 I TestRunner: started: handoffSelfTargetAppliesWithoutInventingArrivalOrVehicleReceipt(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:57:09.737  3302  3355 I TestRunner: finished: handoffSelfTargetAppliesWithoutInventingArrivalOrVehicleReceipt(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:57:09.738  3302  3355 I TestRunner: started: directHandoffFixtureDoesNotInventArrivalAndResumePreservesOrigin(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:57:09.740  3302  3355 I TestRunner: finished: directHandoffFixtureDoesNotInventArrivalAndResumePreservesOrigin(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:57:09.741  3302  3355 I TestRunner: started: fullSessionSerializationPreservesEveryFieldForAllElevenScenes(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:57:09.743  3302  3355 I TestRunner: finished: fullSessionSerializationPreservesEveryFieldForAllElevenScenes(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:57:09.747  3302  3355 I TestRunner: started: knownReceiptBlocksApprovalEvenWhenReviewProjectionWasSelected(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:57:09.755  3302  3355 I TestRunner: finished: knownReceiptBlocksApprovalEvenWhenReviewProjectionWasSelected(com.example.accidentpoc.ScenarioSessionTest)
+11-13 01:57:09.756  3302  3355 I TestRunner: run finished: 41 tests, 0 failed, 0 ignored
+11-13 01:57:09.764   557  2251 I ActivityManager: Force stopping com.example.accidentpoc appid=10209 user=0: finished inst
+11-13 01:57:09.766   557  2251 E ActivityManager: Unable to freeze binder for 3302: -11
+11-13 01:57:09.769   557  2251 I ActivityManager: Killing 3302:com.example.accidentpoc/u0a209 (adj 0): stop com.example.accidentpoc due to finished inst
+11-13 01:57:09.780   557   583 W ActivityManager: setHasOverlayUi called on unknown pid: 3302
+11-13 01:57:09.992   557   591 I ActivityManager: Force stopping com.example.accidentpoc appid=10209 user=-1: deletePackageX
+11-13 01:57:10.076   557   612 I ActivityManager: Force stopping com.example.accidentpoc appid=10209 user=0: pkg removed
+11-13 01:57:10.154   557   591 I ActivityManager: Force stopping com.example.accidentpoc.test appid=10207 user=-1: deletePackageX
+11-13 01:57:10.157   557   591 I ActivityManager: Killing 3384:com.example.accidentpoc.test/u0a207 (adj 900): stop com.example.accidentpoc.test due to deletePackageX
+11-13 01:57:10.197   557   612 I ActivityManager: Force stopping com.example.accidentpoc.test appid=10207 user=0: pkg removed
+11-13 01:57:10.228   557   592 I ActivityManager: Start proc 3873:com.google.android.documentsui/u0a101 for broadcast {com.google.android.documentsui/com.android.documentsui.PackageReceiver}
+11-13 01:57:10.239   557   557 W ActivityManager: pid 557 system sent binder code 4 with flags 1 to frozen apps and got error -32
+11-13 01:57:10.241   557   583 W ActivityManager: setHasOverlayUi called on unknown pid: 3384
+11-13 01:57:10.444   557   592 I ActivityManager: Start proc 3934:com.android.externalstorage/u0a107 for content provider {com.android.externalstorage/com.android.externalstorage.ExternalStorageProvider}
+11-13 01:57:10.677   557  1044 I ActivityManager: Force stopping com.example.accidentpoc appid=10210 user=0: from pid 3961
+11-13 01:57:10.937   557  1044 W ActivityTaskManager: callingPackage for (uid=2000, pid=3961) has no WPC
+11-13 01:57:10.943   557  1044 I ActivityTaskManager: START u0 {flg=0x10000000 cmp=com.example.accidentpoc/.MainActivity (has extras)} with LAUNCH_MULTIPLE from uid 2000 (BAL_ALLOW_PERMISSION) result code=0
+11-13 01:57:10.960   557   592 I ActivityManager: Start proc 3965:com.example.accidentpoc/u0a210 for next-top-activity {com.example.accidentpoc/com.example.accidentpoc.MainActivity}
+11-13 01:57:11.335   557  2171 I ActivityManager: Background started FGS: Allowed [callingPackage: com.google.android.apps.wellbeing; callingUid: 10142; uidState: BTOP; uidBFSL: [BFSL]; intent: Intent { cmp=com.google.android.apps.wellbeing/com.google.apps.tiktok.concurrent.InternalForegroundService (has extras) }; code:BACKGROUND_ACTIVITY_PERMISSION; tempAllowListReason:<null>; targetSdkVersion:34; callerTargetSdkVersion:34; startForegroundCount:0; bindFromPackage:null: isBindService:false]
+11-13 01:57:12.022   557   580 I ActivityTaskManager: Displayed com.example.accidentpoc/.MainActivity for user 0: +1s69ms

@@ -1,0 +1,6 @@
+COMMAND ["python3", "/tmp/hyundai-contract-repair/check-doc-links.py", "evidence/contract-reliability-repair/failure-analysis.md"]
+CWD .
+TESTED_COMMIT 2bd7c258187772399bacfe62fdb8b6f3254c642a
+{"schemaVersion": 1, "checkedDocuments": 19, "localLinks": 163, "failures": 0}
+
+EXIT_STATUS 0

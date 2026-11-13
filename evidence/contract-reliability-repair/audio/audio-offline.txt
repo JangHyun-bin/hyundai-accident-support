@@ -1,0 +1,15 @@
+COMMAND ["node", "scripts/verify-guidance-audio.mjs"]
+CWD prototype/web
+TESTED_COMMIT 2a5dea5e992814a96c5e3cf19595f2691f07eb54
+file://$REPO/prototype/web/scripts/verify-guidance-audio.mjs:15
+ if(missing.length)throw new Error(`Missing guidance assets: ${JSON.stringify(missing)}`)
+                         ^
+
+Error: Missing guidance assets: ["기록을 이 기기에 저장하지 못했어요. 입력한 내용은 현재 화면에만 남아 있어요. 화면을 닫으면 사라져요.","전송을 보류했어요. 기록을 이 기기에 저장하지 못해 현재 화면에만 남아 있어요. 구호·차량 지원은 계속 진행돼요.","보험 접수는 아직 확인되지 않았어요. 전송과 접수는 별도로 확인해요. 구호·차량 지원은 계속 진행돼요.","보험 접수가 되지 않은 것을 확인했어요. 다시 보내려면 전송 범위를 확인하고 새로 승인해 주세요. 구호·차량 지원은 계속 진행돼요."]
+    at verifyGuidanceAssets (file://$REPO/prototype/web/scripts/verify-guidance-audio.mjs:15:26)
+    at main (file://$REPO/prototype/web/scripts/verify-guidance-audio.mjs:40:20)
+    at async file://$REPO/prototype/web/scripts/verify-guidance-audio.mjs:67:79
+
+Node.js v25.0.0
+
+EXIT_STATUS 1

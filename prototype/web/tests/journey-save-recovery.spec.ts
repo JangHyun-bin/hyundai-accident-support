@@ -1,9 +1,10 @@
 import { test, expect, type Page } from '@playwright/test'
 import type { JourneyCase, CaseCommand, AssetWrite } from '../src/journey/case'
+import type { JourneyCaseController } from '../src/journey/useJourneyCase'
 
 declare global {
   interface Window {
-    journeyController: ReturnType<typeof import('../src/journey/useJourneyCase').useJourneyCase>
+    journeyController: JourneyCaseController
     mediaSave: { command: CaseCommand; assets: AssetWrite[] }
   }
 }

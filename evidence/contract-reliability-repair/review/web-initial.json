@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "agent": "ReviewWebReliability",
+  "reviewedCheckpoint": "e9a463f66400e9d5f51465336e5069695bd37fb7",
+  "executedSourceCommit": "e76c9bcd7a91aa6ebc7dd9925e2840dd3e9e1fe5",
+  "normalization": "Personal absolute repository prefix removed from file_path; technical report and finding lines preserved.",
+  "overallCorrectness": "incorrect",
+  "confidence": 0.96,
+  "importantFindings": [
+    {
+      "id": "WEB-P2-1",
+      "severity": "P2",
+      "path": "prototype/web/src/journey/JourneyStudy.tsx",
+      "startLine": 116,
+      "endLine": 119,
+      "criteria": [
+        "B03",
+        "B04"
+      ],
+      "state": "open"
+    },
+    {
+      "id": "WEB-P2-2",
+      "severity": "P2",
+      "path": "prototype/web/src/journey/ReportPanel.tsx",
+      "startLine": 111,
+      "endLine": 120,
+      "criteria": [
+        "B06",
+        "B07"
+      ],
+      "state": "open"
+    }
+  ],
+  "mergeApproved": false,
+  "report": "## Scope and verdict\n\nReviewed the **whole B/C/E change** from `2ed19146d500882fd11211f65b660f91336015eb` to frozen checkpoint **`e9a463f66400e9d5f51465336e5069695bd37fb7`**, including existing evidence for executed source `e76c9bcd7a91aa6ebc7dd9925e2840dd3e9e1fe5`.\n\n**Overall correctness: incorrect.** Two patch-introduced draft-loss paths remain. C05 and the mandatory full gate also remain blocked as already documented. Confidence: **0.96**.\n\nNo files changed; no tests, builds, formatters, TTS, or secret access performed.\n\n## New important findings\n\n### [P2] Preserve edits made while latest-record reload is pending\n\n- **file_path:** `prototype/web/src/journey/JourneyStudy.tsx`\n- **line_start:** 116\n- **line_end:** 119\n- **confidence:** 0.97\n\n`reloadLatest()` snapshots the voice/report drafts before `journey.reload()` awaits IndexedDB, but leaves those editors editable throughout that asynchronous read. After a conflict, a user can click “최신 기록 불러오기” and continue typing or composing while it loads. Those later characters are neither in the captured commands nor the aggregate; `useJourneyCase.reload()` then adopts the durable value and increments `reloadVersion`, causing `VoiceRecordPanel` to overwrite the text and `ReportPanel` to clear its draft. The later input disappears from both the editor and recovery. This prevents unconditional B03/B04 closure. Freeze editor mutations for the reload operation, or capture their live drafts immediately before adoption, and cover a delayed-load interleaving.\n\n### [P2] Freeze reference choices while a report save is pending\n\n- **file_path:** `prototype/web/src/journey/ReportPanel.tsx`\n- **line_start:** 111\n- **line_end:** 120\n- **confidence:** 0.99\n\nThe new asynchronous save keeps the editor mounted during `await onCommand(command)`, but only the textarea and action buttons are protected: evidence-inclusion checkboxes at lines 133–136 remain editable. When an existing paragraph has references and its commit is delayed, unchecking a reference updates the local draft after the submitted command was captured; successful completion then unconditionally clears that newer draft. The paragraph retains the submitted reference despite the user’s later exclusion. Disable reference choices during the same saving window, or retain a draft changed after submission. This is a consumer-visible draft/reference-loss path not exercised by the current pending-save regression.\n\n## B/C/E assessment\n\n|Area|Independent assessment|\n|---|---|\n|**B**|URL publication/current-case epoch guards, explicit paragraph rejection, and failed-save retention are substantially repaired. The two findings above prevent full closure.|\n|**C**|No additional important correctness finding identified in resolver routing, playback ownership cancellation, or countdown preservation. Missing required assets still prevent completion.|\n|**E**|E01/E02/E04 are supported within their stated limits. E03 correctly remains unmet; E05 remains pending whole-review/PR/head closure.|\n\n### E02 causal evidence\n\n**I accept the qualified E02 closure**, not unique historical attribution.\n\nThe actual encoder experiment demonstrates the old assumption’s failure path: suspended native source, fulfilled 350 ms threshold, application-clock advancement, **0-byte recording → error → no save action**. Resuming the source and observing readiness produces **1,127 bytes, decoded frames, review, and enabled save**.\n\nNamed targeted/full recorder timelines and WebM metadata corroborate:\n- native stop once, ended tracks, review rather than automatic durable saving;\n- targeted decoded recordings of **0.48 s / 7,905 bytes** and **0.18 s / 3,059 bytes**;\n- full decoded recordings of **0.42 s / 6,939 bytes** and **0.12 s / 2,093 bytes**.\n\nThese validate accelerated application-duration behavior—not actual 120-second recordings. The targeted run’s eight failures concern required guidance assets; the recorder contracts pass. The final default **five-worker full run remains 432/445**, not green. Original PR #10’s unique interleaving remains genuinely unknown.\n\n### Missing-clip cache repair\n\nThe causal proofs support this fix. The controlled red preserves a single `null` read despite revision 7 containing the real **106,292-byte** asset. The fixed proof shows subsequent successful reads, followed by **14/14 targeted**, the passing reconstruction path in full, and native browser playback. Revision-based miss invalidation addresses the actual read/commit boundary without synthetic media or timer retries.\n\n## Known blockers and limits\n\n- Four required MP3/sidecar pairs remain absent: **C01/C03/C05 blocked**, **E03 unmet**. These are known blockers, not new findings.\n- Requirements accurately distinguish the missing-audio failures from green paths; B’s blanket verified statuses need qualification following the findings above.\n- `.audit` absence, separate installation, retained motion frames, and run-specific outputs have existing evidence. No patch-added skip/retry/timeout increase or worker reduction identified.\n- Original historical trace attribution, physical vehicle behavior, OS IME candidate-window behavior, human listening, new global movie, and final PR/merge closure remain unverified.\n- No additional non-blocking issues reported. **Do not approve merge.**"
+}

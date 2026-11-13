@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "agent": "ReviewWebReliability",
+  "reviewedCheckpoint": "2bd7c258187772399bacfe62fdb8b6f3254c642a",
+  "deltaBase": "e9a463f66400e9d5f51465336e5069695bd37fb7",
+  "importantFindings": [
+    {
+      "id": "WEB-P2-1",
+      "state": "closed"
+    },
+    {
+      "id": "WEB-P2-2",
+      "state": "closed"
+    }
+  ],
+  "newImportantFindings": [],
+  "confidence": 0.98,
+  "mergeApproved": false,
+  "fullSuiteAssessed": false,
+  "report": "## Follow-up verdict\n\nReviewed candidate **`2bd7c258187772399bacfe62fdb8b6f3254c642a`** against `e9a463f66400e9d5f51465336e5069695bd37fb7`.\n\n**Both P2 findings are closed. No new important defect identified in this delta.** Confidence: **0.98**. This is not merge approval.\n\n### 1. Edits during latest-record reload — closed\n\n`JourneyStudy.reloadLatest()` holds `reloading` across draft collection and the asynchronous reload, releasing it in `finally`. Voice/photo containers and both review/submission containers become inert; the reload button is disabled and displays loading text.\n\nCompleted held-transaction evidence demonstrates:\n- Neither pending voice nor report editor accepts focus or keyboard insertion.\n- Latest durable content appears after adoption.\n- Prior report text and DOM/IME voice text remain in recovery.\n- Recovered audio matches the original **423,804 bytes**.\n\n**Both layouts are covered:** normal layouts and representative `JourneyFlow` receive the same `recordWorkspace()` and `reviewWorkspace()` nodes containing these locks. Representative 119/safety controls and the normal emergency surface remain outside the inert boundaries. The dedicated held-load runtime proofs use the normal layout; representative coverage here is established by tracing the shared component placement.\n\n### 2. Reference changes during pending report save — closed\n\n`ReportPanel` reference checkboxes now use `disabled={saving}`, matching the textarea/action saving window. The completed proof holds a real write-transaction completion, observes the included checkbox disabled, and confirms the actual durable paragraph retains the submitted `sample-front` reference and range after reload.\n\nThe corrected fixture preserves the reference option, so the disabled assertion exercises the reported path.\n\n## Evidence and remaining gates\n\n- Completed candidate targeted gate: **33/33, five workers**, exit 0.\n- Completed clean candidate TypeScript/production build: exit 0.\n- **Candidate full-suite outcome is deliberately not assessed here**; it belongs to the separately observed result.\n- Known four required guidance assets remain absent; C01/C03/C05 remain blocked.\n- Mandatory full-gate success, final evidence/input-manifest relationships, and whole-review/PR/head closure remain required.\n- Historical PR10 attribution, human listening, physical-vehicle behavior, and OS IME candidate-window behavior remain unverified.\n\nNo files changed or checks executed during this follow-up review."
+}

@@ -1,0 +1,12 @@
+{
+  "credentialFilePresent": false,
+  "credentialEnvironmentPresent": false,
+  "authenticatedBrowserAccess": false,
+  "attemptedTtsHttpRequests": 0,
+  "newScriptCount": 4,
+  "newCodePoints": 251,
+  "maximumTtsHttpRequests": 4,
+  "maximumCodePoints": 1200,
+  "status": "blocked",
+  "reason": "No existing ElevenLabs credential or authenticated browser session is accessible; required genuine assets are not fabricated."
+}

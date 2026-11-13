@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-13T00:51:37.756060+00:00",
+  "execution": "functions.eval Python cell; metadata-only verification, not rerunning unchanged product tests.",
+  "executedProductSource": "2bd7c258187772399bacfe62fdb8b6f3254c642a",
+  "preExceptionPublishedHead": "5b3af4f66e1ab1352102821758fc7aa4387fb112",
+  "sourceInputsVerified": 410,
+  "sourceManifestSha256": "bd915f03442699a5c24cd08864643b2cf22583e1a17706a5e0673bc68cdef27f",
+  "rawFilesVerified": 557,
+  "rawRuns": 14,
+  "rawBytes": 466100243,
+  "byteIdenticalRaw": 525,
+  "jsonFilesParsedBeforeThisReport": 232,
+  "documents": 19,
+  "localLinks": 170,
+  "documentFailures": 0,
+  "unchangedCriterionOutcomes": {
+    "verified": 28,
+    "blocked": 3,
+    "unmet": 1
+  },
+  "originalAcceptanceSatisfied": false,
+  "latestFullPassed": false,
+  "mergeAllowedOnlyByUserException": true,
+  "waivedPrerequisites": [
+    "C01",
+    "C03",
+    "C05",
+    "E03"
+  ],
+  "serverPolicyBypassAllowed": false,
+  "newProviderCalls": 0,
+  "actualMergeNotYetClaimed": true
+}

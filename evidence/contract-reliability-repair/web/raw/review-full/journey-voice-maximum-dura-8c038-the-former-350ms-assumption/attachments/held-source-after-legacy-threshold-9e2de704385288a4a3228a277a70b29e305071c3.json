@@ -1,0 +1,54 @@
+{
+  "ui": {
+    "phase": "listening",
+    "message": null,
+    "clips": 0
+  },
+  "events": [
+    {
+      "kind": "phase-change",
+      "realMilliseconds": 1219.6999999284744,
+      "applicationMilliseconds": 1794513279779,
+      "phase": "requesting-permission",
+      "visibility": "visible"
+    },
+    {
+      "kind": "phase-change",
+      "realMilliseconds": 1222.6000000238419,
+      "applicationMilliseconds": 1794513279782,
+      "phase": "listening",
+      "visibility": "visible"
+    }
+  ],
+  "sources": [
+    {
+      "state": "suspended",
+      "seconds": 0
+    }
+  ],
+  "recordings": [
+    {
+      "mime": "audio/webm;codecs=opus",
+      "state": "recording",
+      "stopCalls": 0,
+      "chunks": [],
+      "tracks": [
+        {
+          "kind": "audio",
+          "readyState": "live",
+          "muted": false
+        }
+      ],
+      "events": [
+        {
+          "kind": "start-call",
+          "realMilliseconds": 1221.1000000238419,
+          "applicationMilliseconds": 1794513279781,
+          "phase": "requesting-permission",
+          "visibility": "visible",
+          "state": "inactive"
+        }
+      ]
+    }
+  ]
+}

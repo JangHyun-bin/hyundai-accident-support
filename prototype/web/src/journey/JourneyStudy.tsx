@@ -18,6 +18,7 @@ import {hasJourneyRecord} from './journey-flow'
 import { JourneyRecovery } from './JourneyRecovery'
 import {useGuidanceAudio,stopGuidanceAudio} from '@/audio/useGuidanceAudio'
 import {useCareMotion} from '@/design-system/motion'
+import {resolveGuidance} from '@/emergency/guidance'
 
 function replaceQuery(values: Record<string, string>) {
   const url = new URL(location.href)
@@ -43,6 +44,7 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
   const [loadingSamples, setLoadingSamples] = useState(false)
   const [sampleError, setSampleError] = useState('')
   const [navigationNotice, setNavigationNotice] = useState('')
+  const [reloading, setReloading] = useState(false)
   const currentCase = useRef(value)
   currentCase.current = value
   const voicePanel = useRef<VoiceRecordHandle>(null)
@@ -52,12 +54,16 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
   const heading = useRef<HTMLHeadingElement>(null)
   const scene = value ? sceneFor(value.emergency) : null
   const countdownKey = value && scene ? value.id + '/' + scene.id : ''
-  const contextKey=[value?.id,value?.stage,scene?.id,details,recordTab,device].join('/')
+  const guidance = value && scene ? resolveGuidance(value.emergency, scene, journey.saveState === 'saved') : null
+  const contextKey=[value?.id,value?.stage,scene?.id,guidance?.contextKey,details,recordTab,device].join('/')
   const motionRef=useCareMotion<HTMLElement>([value?.id,value?.stage,details,recordTab,device].join('/'))
-  const audio=useGuidanceAudio({text:scene?.voice??'',key:contextKey})
+  const audio=useGuidanceAudio({text:guidance?.text??'',key:contextKey})
   const voiceState=audio.state
   useLayoutEffect(()=>{stopGuidanceAudio()},[contextKey])
   const secondsLeft = countdown.key === countdownKey ? countdown.seconds : scene?.auto_contact?.seconds ?? 0
+  useEffect(() => {
+    if (value && value.revision > 0) replaceQuery({ case: value.id })
+  }, [value?.id, value?.revision])
 
   useEffect(() => {
     if (!scene?.auto_contact || !value || value.suspended || representative) return
@@ -87,10 +93,7 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
     const definition = fixtures.cases.find(f => f.id === fixture) ?? fixtures.cases[0]
     const created = createCase(createSession(definition.scenarioId, definition.sceneId), crypto.randomUUID(), new Date().toISOString())
     created.fixtureId = definition.id
-    const saved = await journey.start(created)
-    if (saved.ok) {
-      replaceQuery({ case: saved.value.id, device })
-    }
+    await journey.start(created)
     setDetails(false)
   }
 
@@ -99,7 +102,7 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
     const saved = await journey.flush()
     if (!saved.ok) return
     const next = device === 'vehicle' ? 'mobile' : 'vehicle'
-    setDevice(next); replaceQuery({ device: next, case: saved.value.id })
+    setDevice(next); replaceQuery({ device: next })
   }
 
   async function prepareToLeave(force = false) {
@@ -109,6 +112,16 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
     const ready = recordReady && reviewReady && followUpReady
     setNavigationNotice(ready ? '' : '남기던 기록을 확인하고 저장하거나 취소해주세요.')
     return ready
+  }
+
+  async function reloadLatest() {
+    if (reloading) return
+    setReloading(true)
+    try {
+      const record = await voicePanel.current?.recoveryDraft()
+      const report = reviewPanel.current?.recoveryCommand()
+      await journey.reload({ commands: [...(record?.commands ?? []), ...(report ? [report] : [])], assets: record?.assets ?? [] })
+    } finally { setReloading(false) }
   }
 
   async function navigate(stage: Stage) {
@@ -236,14 +249,14 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
     </nav>
     const footer=<JourneyRequests value={value}/>
     return <>
-      <div hidden={recordTab !== 'voice'} className="journey-editor-holder"><VoiceRecordPanel ref={voicePanel} value={value} mode={voiceMode} onSave={journey.save} navigation={tabs} footer={footer}/></div>
-      <div hidden={recordTab !== 'photos'} className="journey-editor-holder"><EvidencePanel ref={photoPanel} value={value} onSave={journey.save} onCommand={photoCommand} navigation={tabs} footer={footer}/></div>
+      <div hidden={recordTab !== 'voice'} inert={reloading} aria-busy={reloading} className="journey-editor-holder"><VoiceRecordPanel ref={voicePanel} value={value} mode={voiceMode} onSave={journey.save} durable={journey.saveState === 'saved'} reloadVersion={journey.reloadVersion} navigation={tabs} footer={footer}/></div>
+      <div hidden={recordTab !== 'photos'} inert={reloading} aria-busy={reloading} className="journey-editor-holder"><EvidencePanel ref={photoPanel} value={value} onSave={journey.save} onCommand={photoCommand} navigation={tabs} footer={footer}/></div>
     </>
   }
 
   function reviewWorkspace() {
     if (!value) return null
-    return <JourneyReviewPanel ref={reviewPanel} explicitTransport={representative} value={value} onCommand={dispatch} onApprove={journey.approve} footer={<JourneyRequests value={value}/>}/>
+    return <JourneyReviewPanel ref={reviewPanel} explicitTransport={representative} value={value} saving={journey.saveState === 'saving'} reloading={reloading} onCommand={journey.save} reloadVersion={journey.reloadVersion} onApprove={journey.approve} footer={<JourneyRequests value={value}/>}/>
   }
 
   function content() {
@@ -338,10 +351,10 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
       <div className="journey-save-status" role="status">{journey.saveState === 'saved' ? '이 기기에 보관됨' : journey.saveState === 'saving' ? '저장 중' :
         journey.saveState === 'conflict' ? '다른 화면에서 기록이 바뀌었어요. 내 입력은 이 화면에 남아 있어요.' : '이 기기에 저장하지 못했어요. 입력 내용은 이 화면에 남아 있어요.'}
         {['unavailable', 'quota', 'invalid'].includes(journey.saveState) && <button onClick={() => void journey.flush()}>저장 다시 시도</button>}
-        {journey.saveState === 'conflict' && <button onClick={() => void journey.reload()}>최신 기록 불러오기</button>}
+        {journey.saveState === 'conflict' && <button disabled={reloading} onClick={() => void reloadLatest()}>{reloading ? '최신 기록 불러오는 중' : '최신 기록 불러오기'}</button>}
       </div>
       <JourneyRecovery entries={journey.recoveries} current={value} onRestore={dispatch} />
-      {voiceState === 'error' && <p role="status">음성 재생을 사용할 수 없어요. {scene?.voice}</p>}
+      {voiceState === 'error' && <p role="status">{guidance?.text ? `음성 재생을 사용할 수 없어요. ${guidance.text}` : '음성 재생을 사용할 수 없어요.'}</p>}
       {sampleError && <p role="status">{sampleError}</p>}
       {navigationNotice && <p role="status">{navigationNotice}</p>}
 

@@ -1,0 +1,782 @@
+COMMAND ["npm", "run", "test:ui", "--", "tests/journey-record-reliability.spec.ts", "tests/journey-save-recovery.spec.ts", "tests/journey-review-fixes.spec.ts", "tests/journey-report.spec.ts", "tests/journey-voice.spec.ts", "tests/emergency-guidance-state.spec.ts", "tests/emergency-complete.spec.ts", "tests/guidance-audio.spec.ts", "tests/stable-voronoi-motion.spec.ts"]
+CWD prototype/web
+TESTED_COMMIT 65518e241aaa1235bd15b1bdd80a1aa55f15abd2
+
+> accident-support-design-poc@0.1.0 test:ui
+> playwright test tests/journey-record-reliability.spec.ts tests/journey-save-recovery.spec.ts tests/journey-review-fixes.spec.ts tests/journey-report.spec.ts tests/journey-voice.spec.ts tests/emergency-guidance-state.spec.ts tests/emergency-complete.spec.ts tests/guidance-audio.spec.ts tests/stable-voronoi-motion.spec.ts
+
+[WebServer] (node:93070) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 105 tests using 5 workers
+(node:93085) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93088) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93087) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93089) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93086) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+············FFF(node:93328) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93329) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93330) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+F(node:93337) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+FFF(node:93407) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+F(node:93410) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93413) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93414) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·······F(node:93523) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+FF(node:93529) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93534) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+F(node:93546) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·F(node:93612) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+F(node:93661) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+T(node:93817) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+T(node:93819) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+T(node:93858) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+T(node:93874) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+···········F(node:93933) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+F(node:93936) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+·T(node:93975) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+···························
+····················T····
+
+  1) tests/emergency-guidance-state.spec.ts:88:47 › SC04 보내지 않기 retains its actual decision through support and pause 
+
+    Error: expect(locator).not.toContainText(expected) failed
+
+    Locator: locator('.emergency-screen')
+    Expected substring: not "보류"
+    Received string: "사고 기록 · 전송 보류음성 안내 중지사고 기록초안 있음전송 승인전송 거절남은 일을 보관했어요보험사에 보내지 않았어요. 승인 없이는 전송하지 않아요. 다른 지원은 유지돼요.구호·차량 지원접수 확인 · 도착은 별도 확인보험사 전송거절 유지 · 보내지 않음남은 지원 확인안전한 곳에서 기다리세요구호접수 확인차량 지원접수 확인보험사전송 거절위치 확인 중아직 안내 지점이 확인되지 않았어요."
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "not toContainText" locator('.emergency-screen') with timeout 5000ms
+      - waiting for locator('.emergency-screen')
+        14 × locator resolved to <section data-scene="paused" data-scenario="SC04" data-request-count="0" aria-label="시각 중심 사고 대응" data-surface-status="flat" data-care-motion-key="SC04/paused" class="emergency-screen ac-emergency ac-system">…</section>
+           - unexpected value "사고 기록 · 전송 보류음성 안내 중지사고 기록초안 있음전송 승인전송 거절남은 일을 보관했어요보험사에 보내지 않았어요. 승인 없이는 전송하지 않아요. 다른 지원은 유지돼요.구호·차량 지원접수 확인 · 도착은 별도 확인보험사 전송거절 유지 · 보내지 않음남은 지원 확인안전한 곳에서 기다리세요구호접수 확인차량 지원접수 확인보험사전송 거절위치 확인 중아직 안내 지점이 확인되지 않았어요."
+
+
+      106 |   expect(after.approvedScope).toEqual(before.approvedScope)
+      107 |   if (decision === '보내지 않기') {
+    > 108 |     await expect(surface(page)).not.toContainText('보류')
+          |                                     ^
+      109 |     expect(await currentScript(page)).not.toContain('보류')
+      110 |   }
+      111 | })
+        at $REPO/prototype/web/tests/emergency-guidance-state.spec.ts:108:37
+
+    Error Context: test-results/repair-targeted-fix2/emergency-guidance-state-S-575b8-n-through-support-and-pause/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-targeted-fix2/emergency-guidance-state-S-575b8-n-through-support-and-pause/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-targeted-fix2/emergency-guidance-state-S-575b8-n-through-support-and-pause/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/emergency-guidance-state.spec.ts:113:46 › SC04 support selects every insurance state without mutating the request 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: locator('.emergency-screen')
+    Expected: "support"
+    Error: strict mode violation: locator('.emergency-screen') resolved to 2 elements:
+        1) <section data-scenario="SC01" data-scene="connected" data-request-count="0" aria-label="시각 중심 사고 대응" data-surface-status="flat" data-care-motion-key="SC01/connected" class="emergency-screen ac-emergency ac-system">…</section> aka getByLabel('Response layout preview').getByLabel('시각 중심 사고 대응')
+        2) <section data-scenario="SC04" data-scene="support" data-request-count="0" aria-label="시각 중심 사고 대응" data-surface-status="flat" data-care-motion-key="SC04/support" class="emergency-screen ac-emergency ac-system">…</section> aka getByRole('region', { name: '시각 중심 사고 대응' })
+
+    Call log:
+      - Expect "toHaveAttribute" locator('.emergency-screen') with timeout 5000ms
+      - waiting for locator('.emergency-screen')
+
+
+      67 |     createRoot(target).render(React.createElement(App))
+      68 |   }, sceneId)
+    > 69 |   await expect(surface(page)).toHaveAttribute('data-scene', sceneId)
+         |                               ^
+      70 | }
+      71 |
+      72 | test('blocked record storage shares the exact failure script with the surface and error fallback', async ({ page }) => {
+        at mount ($REPO/prototype/web/tests/emergency-guidance-state.spec.ts:69:31)
+        at $REPO/prototype/web/tests/emergency-guidance-state.spec.ts:114:3
+
+    Error Context: test-results/repair-targeted-fix2/emergency-guidance-state-S-0b357-ithout-mutating-the-request/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-targeted-fix2/emergency-guidance-state-S-0b357-ithout-mutating-the-request/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-targeted-fix2/emergency-guidance-state-S-0b357-ithout-mutating-the-request/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/emergency-guidance-state.spec.ts:113:46 › SC04 paused selects every insurance state without mutating the request 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: locator('.emergency-screen')
+    Expected: "paused"
+    Error: strict mode violation: locator('.emergency-screen') resolved to 2 elements:
+        1) <section data-scenario="SC01" data-scene="connected" data-request-count="0" aria-label="시각 중심 사고 대응" data-surface-status="flat" data-care-motion-key="SC01/connected" class="emergency-screen ac-emergency ac-system">…</section> aka getByLabel('Response layout preview').getByLabel('시각 중심 사고 대응')
+        2) <section data-scene="paused" data-scenario="SC04" data-request-count="0" aria-label="시각 중심 사고 대응" data-surface-status="flat" data-care-motion-key="SC04/paused" class="emergency-screen ac-emergency ac-system">…</section> aka getByRole('region', { name: '시각 중심 사고 대응' })
+
+    Call log:
+      - Expect "toHaveAttribute" locator('.emergency-screen') with timeout 5000ms
+      - waiting for locator('.emergency-screen')
+
+
+      67 |     createRoot(target).render(React.createElement(App))
+      68 |   }, sceneId)
+    > 69 |   await expect(surface(page)).toHaveAttribute('data-scene', sceneId)
+         |                               ^
+      70 | }
+      71 |
+      72 | test('blocked record storage shares the exact failure script with the surface and error fallback', async ({ page }) => {
+        at mount ($REPO/prototype/web/tests/emergency-guidance-state.spec.ts:69:31)
+        at $REPO/prototype/web/tests/emergency-guidance-state.spec.ts:114:3
+
+    Error Context: test-results/repair-targeted-fix2/emergency-guidance-state-S-dfe74-ithout-mutating-the-request/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-targeted-fix2/emergency-guidance-state-S-dfe74-ithout-mutating-the-request/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-targeted-fix2/emergency-guidance-state-S-dfe74-ithout-mutating-the-request/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) tests/emergency-guidance-state.spec.ts:142:1 › same-scene request changes stop audio, reject stale completion and use the latest script 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: locator('.emergency-screen')
+    Expected: "support"
+    Error: strict mode violation: locator('.emergency-screen') resolved to 2 elements:
+        1) <section data-scenario="SC01" data-scene="connected" data-request-count="0" aria-label="시각 중심 사고 대응" data-surface-status="flat" data-care-motion-key="SC01/connected" class="emergency-screen ac-emergency ac-system">…</section> aka getByLabel('Response layout preview').getByLabel('시각 중심 사고 대응')
+        2) <section data-scenario="SC04" data-scene="support" data-request-count="0" aria-label="시각 중심 사고 대응" data-surface-status="flat" data-care-motion-key="SC04/support" class="emergency-screen ac-emergency ac-system">…</section> aka getByRole('region', { name: '시각 중심 사고 대응' })
+
+    Call log:
+      - Expect "toHaveAttribute" locator('.emergency-screen') with timeout 5000ms
+      - waiting for locator('.emergency-screen')
+
+
+      67 |     createRoot(target).render(React.createElement(App))
+      68 |   }, sceneId)
+    > 69 |   await expect(surface(page)).toHaveAttribute('data-scene', sceneId)
+         |                               ^
+      70 | }
+      71 |
+      72 | test('blocked record storage shares the exact failure script with the surface and error fallback', async ({ page }) => {
+        at mount ($REPO/prototype/web/tests/emergency-guidance-state.spec.ts:69:31)
+        at $REPO/prototype/web/tests/emergency-guidance-state.spec.ts:143:3
+
+    Error Context: test-results/repair-targeted-fix2/emergency-guidance-state-s-d9562-n-and-use-the-latest-script/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-targeted-fix2/emergency-guidance-state-s-d9562-n-and-use-the-latest-script/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-targeted-fix2/emergency-guidance-state-s-d9562-n-and-use-the-latest-script/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) tests/emergency-guidance-state.spec.ts:158:1 › same-scene persistence changes cancel success audio and remove durable-storage claims 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: locator('.emergency-screen')
+    Expected: "record_saved"
+    Error: strict mode violation: locator('.emergency-screen') resolved to 2 elements:
+        1) <section data-scenario="SC01" data-scene="connected" data-request-count="0" aria-label="시각 중심 사고 대응" data-surface-status="flat" data-care-motion-key="SC01/connected" class="emergency-screen ac-emergency ac-system">…</section> aka getByLabel('Response layout preview').getByLabel('시각 중심 사고 대응')
+        2) <section data-scenario="SC02" data-request-count="0" aria-label="시각 중심 사고 대응" data-scene="record_saved" data-surface-status="flat" data-care-motion-key="SC02/record_saved" class="emergency-screen ac-emergency ac-system">…</section> aka getByRole('region', { name: '시각 중심 사고 대응' })
+
+    Call log:
+      - Expect "toHaveAttribute" locator('.emergency-screen') with timeout 5000ms
+      - waiting for locator('.emergency-screen')
+
+
+      67 |     createRoot(target).render(React.createElement(App))
+      68 |   }, sceneId)
+    > 69 |   await expect(surface(page)).toHaveAttribute('data-scene', sceneId)
+         |                               ^
+      70 | }
+      71 |
+      72 | test('blocked record storage shares the exact failure script with the surface and error fallback', async ({ page }) => {
+        at mount ($REPO/prototype/web/tests/emergency-guidance-state.spec.ts:69:31)
+        at $REPO/prototype/web/tests/emergency-guidance-state.spec.ts:159:3
+
+    Error Context: test-results/repair-targeted-fix2/emergency-guidance-state-s-821a1-move-durable-storage-claims/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-targeted-fix2/emergency-guidance-state-s-821a1-move-durable-storage-claims/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-targeted-fix2/emergency-guidance-state-s-821a1-move-durable-storage-claims/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) tests/emergency-guidance-state.spec.ts:169:1 › deferred storage failure never promises that the record is kept on this device 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: locator('.emergency-screen')
+    Expected: "support"
+    Error: strict mode violation: locator('.emergency-screen') resolved to 2 elements:
+        1) <section data-scenario="SC01" data-scene="connected" data-request-count="0" aria-label="시각 중심 사고 대응" data-surface-status="flat" data-care-motion-key="SC01/connected" class="emergency-screen ac-emergency ac-system">…</section> aka getByLabel('Response layout preview').getByLabel('시각 중심 사고 대응')
+        2) <section data-scenario="SC04" data-scene="support" data-request-count="0" aria-label="시각 중심 사고 대응" data-surface-status="flat" data-care-motion-key="SC04/support" class="emergency-screen ac-emergency ac-system">…</section> aka getByRole('region', { name: '시각 중심 사고 대응' })
+
+    Call log:
+      - Expect "toHaveAttribute" locator('.emergency-screen') with timeout 5000ms
+      - waiting for locator('.emergency-screen')
+
+
+      67 |     createRoot(target).render(React.createElement(App))
+      68 |   }, sceneId)
+    > 69 |   await expect(surface(page)).toHaveAttribute('data-scene', sceneId)
+         |                               ^
+      70 | }
+      71 |
+      72 | test('blocked record storage shares the exact failure script with the surface and error fallback', async ({ page }) => {
+        at mount ($REPO/prototype/web/tests/emergency-guidance-state.spec.ts:69:31)
+        at $REPO/prototype/web/tests/emergency-guidance-state.spec.ts:170:3
+
+    Error Context: test-results/repair-targeted-fix2/emergency-guidance-state-d-fa3cc-cord-is-kept-on-this-device/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-targeted-fix2/emergency-guidance-state-d-fa3cc-cord-is-kept-on-this-device/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-targeted-fix2/emergency-guidance-state-d-fa3cc-cord-is-kept-on-this-device/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7) tests/emergency-guidance-state.spec.ts:179:74 › same-script context change insurance still cancels playback 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: locator('.emergency-screen')
+    Expected: "support"
+    Error: strict mode violation: locator('.emergency-screen') resolved to 2 elements:
+        1) <section data-scenario="SC01" data-scene="connected" data-request-count="0" aria-label="시각 중심 사고 대응" data-surface-status="flat" data-care-motion-key="SC01/connected" class="emergency-screen ac-emergency ac-system">…</section> aka getByLabel('Response layout preview').getByLabel('시각 중심 사고 대응')
+        2) <section data-scenario="SC04" data-scene="support" data-request-count="0" aria-label="시각 중심 사고 대응" data-surface-status="flat" data-care-motion-key="SC04/support" class="emergency-screen ac-emergency ac-system">…</section> aka getByRole('region', { name: '시각 중심 사고 대응' })
+
+    Call log:
+      - Expect "toHaveAttribute" locator('.emergency-screen') with timeout 5000ms
+      - waiting for locator('.emergency-screen')
+
+
+      67 |     createRoot(target).render(React.createElement(App))
+      68 |   }, sceneId)
+    > 69 |   await expect(surface(page)).toHaveAttribute('data-scene', sceneId)
+         |                               ^
+      70 | }
+      71 |
+      72 | test('blocked record storage shares the exact failure script with the surface and error fallback', async ({ page }) => {
+        at mount ($REPO/prototype/web/tests/emergency-guidance-state.spec.ts:69:31)
+        at $REPO/prototype/web/tests/emergency-guidance-state.spec.ts:180:3
+
+    Error Context: test-results/repair-targeted-fix2/emergency-guidance-state-s-910d3-ance-still-cancels-playback/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-targeted-fix2/emergency-guidance-state-s-910d3-ance-still-cancels-playback/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-targeted-fix2/emergency-guidance-state-s-910d3-ance-still-cancels-playback/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  8) tests/emergency-guidance-state.spec.ts:179:74 › same-script context change persistent still cancels playback 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: locator('.emergency-screen')
+    Expected: "support"
+    Error: strict mode violation: locator('.emergency-screen') resolved to 2 elements:
+        1) <section data-scenario="SC01" data-scene="connected" data-request-count="0" aria-label="시각 중심 사고 대응" data-surface-status="flat" data-care-motion-key="SC01/connected" class="emergency-screen ac-emergency ac-system">…</section> aka getByLabel('Response layout preview').getByLabel('시각 중심 사고 대응')
+        2) <section data-scenario="SC04" data-scene="support" data-request-count="0" aria-label="시각 중심 사고 대응" data-surface-status="flat" data-care-motion-key="SC04/support" class="emergency-screen ac-emergency ac-system">…</section> aka getByRole('region', { name: '시각 중심 사고 대응' })
+
+    Call log:
+      - Expect "toHaveAttribute" locator('.emergency-screen') with timeout 5000ms
+      - waiting for locator('.emergency-screen')
+
+
+      67 |     createRoot(target).render(React.createElement(App))
+      68 |   }, sceneId)
+    > 69 |   await expect(surface(page)).toHaveAttribute('data-scene', sceneId)
+         |                               ^
+      70 | }
+      71 |
+      72 | test('blocked record storage shares the exact failure script with the surface and error fallback', async ({ page }) => {
+        at mount ($REPO/prototype/web/tests/emergency-guidance-state.spec.ts:69:31)
+        at $REPO/prototype/web/tests/emergency-guidance-state.spec.ts:180:3
+
+    Error Context: test-results/repair-targeted-fix2/emergency-guidance-state-s-9edfa-tent-still-cancels-playback/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-targeted-fix2/emergency-guidance-state-s-9edfa-tent-still-cancels-playback/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-targeted-fix2/emergency-guidance-state-s-9edfa-tent-still-cancels-playback/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  9) tests/guidance-audio.spec.ts:45:1 › every scene, journey and runtime script has an exact static speech asset 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 6
+
+    - Array []
+    + Array [
+    +   "기록을 이 기기에 저장하지 못했어요. 입력한 내용은 현재 화면에만 남아 있어요. 화면을 닫으면 사라져요.",
+    +   "전송을 보류했어요. 기록을 이 기기에 저장하지 못해 현재 화면에만 남아 있어요. 구호·차량 지원은 계속 진행돼요.",
+    +   "보험 접수는 아직 확인되지 않았어요. 전송과 접수는 별도로 확인해요. 구호·차량 지원은 계속 진행돼요.",
+    +   "보험 접수가 되지 않은 것을 확인했어요. 다시 보내려면 전송 범위를 확인하고 새로 승인해 주세요. 구호·차량 지원은 계속 진행돼요.",
+    + ]
+
+      52 |   const scripts=[...manifest.scenarios.flatMap((s:any)=>s.states.map((state:any)=>state.voice)),...Object.values(journey),...Object.values(variants)]
+      53 |   return scripts.filter(text=>!guidanceAsset(text))
+    > 54 |  });expect(result).toEqual([])
+         |                    ^
+      55 | })
+      56 |
+      57 | test('call spectrum pauses while the document is hidden',async({page})=>{
+        at $REPO/prototype/web/tests/guidance-audio.spec.ts:54:20
+
+    Error Context: test-results/repair-targeted-fix2/guidance-audio-every-scene-2d637-n-exact-static-speech-asset/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-targeted-fix2/guidance-audio-every-scene-2d637-n-exact-static-speech-asset/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-targeted-fix2/guidance-audio-every-scene-2d637-n-exact-static-speech-asset/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  10) tests/guidance-audio.spec.ts:73:57 › actual runtime asset record_storage_failed has exact hashes and plays in the browser 
+
+    Error: Required real JaeGyu asset missing for record_storage_failed
+
+    expect(received).not.toBeNull()
+
+    Received: null
+
+       98 |   return {scriptHash:asset.scriptHash,actualScriptHash:await digest(new TextEncoder().encode(text)),audioHash:asset.audioHash,actualAudioHash:await digest(await response.arrayBuffer()),duration:asset.duration}
+       99 |  },text)
+    > 100 |  expect(asset,`Required real JaeGyu asset missing for ${id}`).not.toBeNull()
+          |                                                                   ^
+      101 |  expect(asset!.actualScriptHash).toBe(asset!.scriptHash);expect(asset!.actualAudioHash).toBe(asset!.audioHash)
+      102 |  expect(asset!.duration).toBeGreaterThan(0)
+      103 |  await page.getByRole('button',{name:'음성 안내 듣기',exact:true}).click()
+        at $REPO/prototype/web/tests/guidance-audio.spec.ts:100:67
+
+    Error Context: test-results/repair-targeted-fix2/guidance-audio-actual-runt-7f6c6-es-and-plays-in-the-browser/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-targeted-fix2/guidance-audio-actual-runt-7f6c6-es-and-plays-in-the-browser/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-targeted-fix2/guidance-audio-actual-runt-7f6c6-es-and-plays-in-the-browser/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  11) tests/guidance-audio.spec.ts:73:57 › actual runtime asset deferred_storage_failed has exact hashes and plays in the browser 
+
+    Error: Required real JaeGyu asset missing for deferred_storage_failed
+
+    expect(received).not.toBeNull()
+
+    Received: null
+
+       98 |   return {scriptHash:asset.scriptHash,actualScriptHash:await digest(new TextEncoder().encode(text)),audioHash:asset.audioHash,actualAudioHash:await digest(await response.arrayBuffer()),duration:asset.duration}
+       99 |  },text)
+    > 100 |  expect(asset,`Required real JaeGyu asset missing for ${id}`).not.toBeNull()
+          |                                                                   ^
+      101 |  expect(asset!.actualScriptHash).toBe(asset!.scriptHash);expect(asset!.actualAudioHash).toBe(asset!.audioHash)
+      102 |  expect(asset!.duration).toBeGreaterThan(0)
+      103 |  await page.getByRole('button',{name:'음성 안내 듣기',exact:true}).click()
+        at $REPO/prototype/web/tests/guidance-audio.spec.ts:100:67
+
+    Error Context: test-results/repair-targeted-fix2/guidance-audio-actual-runt-c1fc4-es-and-plays-in-the-browser/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-targeted-fix2/guidance-audio-actual-runt-c1fc4-es-and-plays-in-the-browser/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-targeted-fix2/guidance-audio-actual-runt-c1fc4-es-and-plays-in-the-browser/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  12) tests/guidance-audio.spec.ts:73:57 › actual runtime asset insurance_unconfirmed has exact hashes and plays in the browser 
+
+    Error: Required real JaeGyu asset missing for insurance_unconfirmed
+
+    expect(received).not.toBeNull()
+
+    Received: null
+
+       98 |   return {scriptHash:asset.scriptHash,actualScriptHash:await digest(new TextEncoder().encode(text)),audioHash:asset.audioHash,actualAudioHash:await digest(await response.arrayBuffer()),duration:asset.duration}
+       99 |  },text)
+    > 100 |  expect(asset,`Required real JaeGyu asset missing for ${id}`).not.toBeNull()
+          |                                                                   ^
+      101 |  expect(asset!.actualScriptHash).toBe(asset!.scriptHash);expect(asset!.actualAudioHash).toBe(asset!.audioHash)
+      102 |  expect(asset!.duration).toBeGreaterThan(0)
+      103 |  await page.getByRole('button',{name:'음성 안내 듣기',exact:true}).click()
+        at $REPO/prototype/web/tests/guidance-audio.spec.ts:100:67
+
+    Error Context: test-results/repair-targeted-fix2/guidance-audio-actual-runt-2b27b-es-and-plays-in-the-browser/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-targeted-fix2/guidance-audio-actual-runt-2b27b-es-and-plays-in-the-browser/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-targeted-fix2/guidance-audio-actual-runt-2b27b-es-and-plays-in-the-browser/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  13) tests/guidance-audio.spec.ts:73:57 › actual runtime asset insurance_not_received has exact hashes and plays in the browser 
+
+    Error: Required real JaeGyu asset missing for insurance_not_received
+
+    expect(received).not.toBeNull()
+
+    Received: null
+
+       98 |   return {scriptHash:asset.scriptHash,actualScriptHash:await digest(new TextEncoder().encode(text)),audioHash:asset.audioHash,actualAudioHash:await digest(await response.arrayBuffer()),duration:asset.duration}
+       99 |  },text)
+    > 100 |  expect(asset,`Required real JaeGyu asset missing for ${id}`).not.toBeNull()
+          |                                                                   ^
+      101 |  expect(asset!.actualScriptHash).toBe(asset!.scriptHash);expect(asset!.actualAudioHash).toBe(asset!.audioHash)
+      102 |  expect(asset!.duration).toBeGreaterThan(0)
+      103 |  await page.getByRole('button',{name:'음성 안내 듣기',exact:true}).click()
+        at $REPO/prototype/web/tests/guidance-audio.spec.ts:100:67
+
+    Error Context: test-results/repair-targeted-fix2/guidance-audio-actual-runt-14ada-es-and-plays-in-the-browser/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-targeted-fix2/guidance-audio-actual-runt-14ada-es-and-plays-in-the-browser/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-targeted-fix2/guidance-audio-actual-runt-14ada-es-and-plays-in-the-browser/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  14) tests/journey-record-reliability.spec.ts:96:39 › first durable retry publishes the current case with existing=false 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.selectOption: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByLabel('시연 상황', { exact: true })
+
+
+       98 |   if (!existing) await page.goto('/?study=journey&fixture=partial-evidence&device=mobile&keep=retained')
+       99 |   else await page.evaluate(() => { const url = new URL(location.href); url.searchParams.set('keep', 'retained'); history.replaceState(null, '', url) })
+    > 100 |   await page.getByLabel('시연 상황', { exact: true }).selectOption('partial-evidence')
+          |                                                   ^
+      101 |   await blockWrites(page)
+      102 |   await button(page, existing ? '새 시연 시작' : '이 상황으로 시작').click()
+      103 |   await expect(page.locator('.journey-save-status')).toContainText('이 기기에 저장하지 못했어요')
+        at $REPO/prototype/web/tests/journey-record-reliability.spec.ts:100:51
+
+    Error Context: test-results/repair-targeted-fix2/journey-record-reliability-a21dd-nt-case-with-existing-false/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-targeted-fix2/journey-record-reliability-a21dd-nt-case-with-existing-false/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-targeted-fix2/journey-record-reliability-a21dd-nt-case-with-existing-false/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  15) tests/journey-record-reliability.spec.ts:96:39 › first durable retry publishes the current case with existing=true 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.selectOption: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByLabel('시연 상황', { exact: true })
+
+
+       98 |   if (!existing) await page.goto('/?study=journey&fixture=partial-evidence&device=mobile&keep=retained')
+       99 |   else await page.evaluate(() => { const url = new URL(location.href); url.searchParams.set('keep', 'retained'); history.replaceState(null, '', url) })
+    > 100 |   await page.getByLabel('시연 상황', { exact: true }).selectOption('partial-evidence')
+          |                                                   ^
+      101 |   await blockWrites(page)
+      102 |   await button(page, existing ? '새 시연 시작' : '이 상황으로 시작').click()
+      103 |   await expect(page.locator('.journey-save-status')).toContainText('이 기기에 저장하지 못했어요')
+        at $REPO/prototype/web/tests/journey-record-reliability.spec.ts:100:51
+
+    Error Context: test-results/repair-targeted-fix2/journey-record-reliability-4502a-ent-case-with-existing-true/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-targeted-fix2/journey-record-reliability-4502a-ent-case-with-existing-true/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-targeted-fix2/journey-record-reliability-4502a-ent-case-with-existing-true/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  16) tests/journey-record-reliability.spec.ts:121:1 › a late commit cannot adopt into a newer open case 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator: getByRole('textbox', { name: '사고 기록', exact: true })
+    Expected: "새로 연 기록"
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveValue" getByRole('textbox', { name: '사고 기록', exact: true }) with timeout 5000ms
+      - waiting for getByRole('textbox', { name: '사고 기록', exact: true })
+
+
+      148 |   await expect.poll(() => page.evaluate(() => window.recordController.value?.id)).toBe(second)
+      149 |   await page.evaluate(() => window.recordReleaseCommit())
+    > 150 |   await expect(statement(page)).toHaveValue('새로 연 기록')
+          |                                 ^
+      151 |   expect(await page.evaluate(() => window.recordController.value?.id)).not.toBe(first)
+      152 |   expect(await page.evaluate(() => window.recordController.saveState)).toBe('saved')
+      153 | })
+        at $REPO/prototype/web/tests/journey-record-reliability.spec.ts:150:33
+
+    Error Context: test-results/repair-targeted-fix2/journey-record-reliability-c1a56-dopt-into-a-newer-open-case/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-targeted-fix2/journey-record-reliability-c1a56-dopt-into-a-newer-open-case/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-targeted-fix2/journey-record-reliability-c1a56-dopt-into-a-newer-open-case/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  17) tests/journey-record-reliability.spec.ts:155:1 › two tabs reload the latest statement and review while preserving old text and audio bytes in recovery 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.selectOption: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByLabel('음성 입력', { exact: true })
+
+
+      158 |   await statement(page).fill('다른 탭에서 확정한 최신 진술')
+      159 |   await button(page, '기록 저장').click(); await saved(page)
+    > 160 |   await other.getByLabel('음성 입력', { exact: true }).selectOption('sample')
+          |                                                    ^
+      161 |   await button(other, '추가로 말하기').click()
+      162 |   await expect(other.locator('.journey-voice audio')).toHaveCount(1)
+      163 |   await statement(other).fill('내 화면의 오래된 진술과 pending 음성')
+        at $REPO/prototype/web/tests/journey-record-reliability.spec.ts:160:52
+
+    Error Context: test-results/repair-targeted-fix2/journey-record-reliability-fa2ff-and-audio-bytes-in-recovery/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-targeted-fix2/journey-record-reliability-fa2ff-and-audio-bytes-in-recovery/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-targeted-fix2/journey-record-reliability-fa2ff-and-audio-bytes-in-recovery/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  18) tests/journey-record-reliability.spec.ts:189:1 › clean statement identity changes synchronize without remounting and unrelated commits preserve caret 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.focus: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('textbox', { name: '사고 기록', exact: true })
+
+
+      189 | test('clean statement identity changes synchronize without remounting and unrelated commits preserve caret', async ({ page }) => {
+      190 |   await harness(page, 'voice')
+    > 191 |   await statement(page).focus()
+          |                         ^
+      192 |   await statement(page).evaluate((node: HTMLTextAreaElement) => { window.recordInput = node; node.setSelectionRange(2, 5) })
+      193 |   await page.evaluate(async () => {
+      194 |     await window.recordController.save({ type: 'safety-action', action: { id: 'hazard', label: '비상등', status: 'user-confirmed', source: 'user', confirmedAt: null } })
+        at $REPO/prototype/web/tests/journey-record-reliability.spec.ts:191:25
+
+    Error Context: test-results/repair-targeted-fix2/journey-record-reliability-8fe97-ated-commits-preserve-caret/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-targeted-fix2/journey-record-reliability-8fe97-ated-commits-preserve-caret/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-targeted-fix2/journey-record-reliability-8fe97-ated-commits-preserve-caret/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  19) tests/journey-record-reliability.spec.ts:205:1 › dirty text and in-progress DOM IME survive statement revisions, unrelated saves and hidden risk transitions 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.fill: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('textbox', { name: '사고 기록', exact: true })
+
+
+      205 | test('dirty text and in-progress DOM IME survive statement revisions, unrelated saves and hidden risk transitions', async ({ page }) => {
+      206 |   await harness(page, 'voice')
+    > 207 |   await statement(page).fill('내 dirty 진술')
+          |                         ^
+      208 |   await statement(page).evaluate((node: HTMLTextAreaElement) => {
+      209 |     window.recordInput = node
+      210 |     node.dispatchEvent(new CompositionEvent('compositionstart', { bubbles: true, data: '입' }))
+        at $REPO/prototype/web/tests/journey-record-reliability.spec.ts:207:25
+
+    Error Context: test-results/repair-targeted-fix2/journey-record-reliability-beaa0-and-hidden-risk-transitions/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-targeted-fix2/journey-record-reliability-beaa0-and-hidden-risk-transitions/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-targeted-fix2/journey-record-reliability-beaa0-and-hidden-risk-transitions/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  20) tests/journey-record-reliability.spec.ts:227:1 › pending audio is not replaced by incoming statement revisions 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator: getByRole('textbox', { name: '사고 기록', exact: true })
+    Expected: "처음 남긴 진술·
+    정차 중 오른쪽에서 충격을 느꼈어요. 정확한 사고 경위는 확인 중이에요."
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveValue" getByRole('textbox', { name: '사고 기록', exact: true }) with timeout 5000ms
+      - waiting for getByRole('textbox', { name: '사고 기록', exact: true })
+
+
+      230 |   await expect(page.locator('#record-reliability-harness audio')).toHaveCount(1)
+      231 |   await page.evaluate(async () => { await window.recordController.save({ type: 'statement-edit', id: 'primary-statement', text: '다른 진술 revision', audioEvidenceIds: [] }) })
+    > 232 |   await expect(statement(page)).toHaveValue('처음 남긴 진술\n\n정차 중 오른쪽에서 충격을 느꼈어요. 정확한 사고 경위는 확인 중이에요.')
+          |                                 ^
+      233 |   await expect(page.locator('#record-reliability-harness audio')).toHaveCount(1)
+      234 | })
+      235 |
+        at $REPO/prototype/web/tests/journey-record-reliability.spec.ts:232:33
+
+    Error Context: test-results/repair-targeted-fix2/journey-record-reliability-73d7c-ncoming-statement-revisions/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-targeted-fix2/journey-record-reliability-73d7c-ncoming-statement-revisions/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-targeted-fix2/journey-record-reliability-73d7c-ncoming-statement-revisions/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  21) tests/journey-record-reliability.spec.ts:236:1 › permission preparation survives incoming statement revisions without adopting over local state 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator: getByRole('textbox', { name: '사고 기록', exact: true })
+    Expected: "처음 남긴 진술"
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveValue" getByRole('textbox', { name: '사고 기록', exact: true }) with timeout 5000ms
+      - waiting for getByRole('textbox', { name: '사고 기록', exact: true })
+
+
+      245 |   await page.evaluate(async () => { await window.recordController.save({ type: 'statement-edit', id: 'primary-statement', text: '권한 대기 중 새 진술', audioEvidenceIds: [] }) })
+      246 |   await expect(page.locator('#record-reliability-harness [data-voice-phase]')).toHaveAttribute('data-voice-phase', 'requesting-permission')
+    > 247 |   await expect(statement(page)).toHaveValue('처음 남긴 진술')
+          |                                 ^
+      248 |   await page.evaluate(() => window.recordReleasePermission())
+      249 |   await expect(page.locator('#record-reliability-harness [data-voice-phase]')).not.toHaveAttribute('data-voice-phase', 'requesting-permission')
+      250 | })
+        at $REPO/prototype/web/tests/journey-record-reliability.spec.ts:247:33
+
+    Error Context: test-results/repair-targeted-fix2/journey-record-reliability-dfa74-t-adopting-over-local-state/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-targeted-fix2/journey-record-reliability-dfa74-t-adopting-over-local-state/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-targeted-fix2/journey-record-reliability-dfa74-t-adopting-over-local-state/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  22) tests/journey-record-reliability.spec.ts:303:1 › incoming state commits cannot close a voice save before its durable completion 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.fill: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('textbox', { name: '사고 기록', exact: true })
+
+
+      303 | test('incoming state commits cannot close a voice save before its durable completion', async ({ page }) => {
+      304 |   await harness(page, 'voice')
+    > 305 |   await statement(page).fill('저장 중에도 유지할 진술')
+          |                         ^
+      306 |   await page.evaluate(() => {
+      307 |     const descriptor = Object.getOwnPropertyDescriptor(IDBTransaction.prototype, 'oncomplete')!
+      308 |     Object.defineProperty(IDBTransaction.prototype, 'oncomplete', { ...descriptor, set(handler) {
+        at $REPO/prototype/web/tests/journey-record-reliability.spec.ts:305:25
+
+    Error Context: test-results/repair-targeted-fix2/journey-record-reliability-a7c74-fore-its-durable-completion/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/repair-targeted-fix2/journey-record-reliability-a7c74-fore-its-durable-completion/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/repair-targeted-fix2/journey-record-reliability-a7c74-fore-its-durable-completion/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  22 failed
+    tests/emergency-guidance-state.spec.ts:88:47 › SC04 보내지 않기 retains its actual decision through support and pause 
+    tests/emergency-guidance-state.spec.ts:113:46 › SC04 support selects every insurance state without mutating the request 
+    tests/emergency-guidance-state.spec.ts:113:46 › SC04 paused selects every insurance state without mutating the request 
+    tests/emergency-guidance-state.spec.ts:142:1 › same-scene request changes stop audio, reject stale completion and use the latest script 
+    tests/emergency-guidance-state.spec.ts:158:1 › same-scene persistence changes cancel success audio and remove durable-storage claims 
+    tests/emergency-guidance-state.spec.ts:169:1 › deferred storage failure never promises that the record is kept on this device 
+    tests/emergency-guidance-state.spec.ts:179:74 › same-script context change insurance still cancels playback 
+    tests/emergency-guidance-state.spec.ts:179:74 › same-script context change persistent still cancels playback 
+    tests/guidance-audio.spec.ts:45:1 › every scene, journey and runtime script has an exact static speech asset 
+    tests/guidance-audio.spec.ts:73:57 › actual runtime asset record_storage_failed has exact hashes and plays in the browser 
+    tests/guidance-audio.spec.ts:73:57 › actual runtime asset deferred_storage_failed has exact hashes and plays in the browser 
+    tests/guidance-audio.spec.ts:73:57 › actual runtime asset insurance_unconfirmed has exact hashes and plays in the browser 
+    tests/guidance-audio.spec.ts:73:57 › actual runtime asset insurance_not_received has exact hashes and plays in the browser 
+    tests/journey-record-reliability.spec.ts:96:39 › first durable retry publishes the current case with existing=false 
+    tests/journey-record-reliability.spec.ts:96:39 › first durable retry publishes the current case with existing=true 
+    tests/journey-record-reliability.spec.ts:121:1 › a late commit cannot adopt into a newer open case 
+    tests/journey-record-reliability.spec.ts:155:1 › two tabs reload the latest statement and review while preserving old text and audio bytes in recovery 
+    tests/journey-record-reliability.spec.ts:189:1 › clean statement identity changes synchronize without remounting and unrelated commits preserve caret 
+    tests/journey-record-reliability.spec.ts:205:1 › dirty text and in-progress DOM IME survive statement revisions, unrelated saves and hidden risk transitions 
+    tests/journey-record-reliability.spec.ts:227:1 › pending audio is not replaced by incoming statement revisions 
+    tests/journey-record-reliability.spec.ts:236:1 › permission preparation survives incoming statement revisions without adopting over local state 
+    tests/journey-record-reliability.spec.ts:303:1 › incoming state commits cannot close a voice save before its durable completion 
+  83 passed (1.7m)
+
+EXIT_STATUS 1

@@ -12,6 +12,8 @@
 
 상태: 문서 검토·builder check 반영 완료, 착수 준비. 기준 commit `70c4946`. 아래 checkbox는 구현 완료 기록이며 현재 모두 미착수. 이 문서 작성은 제품 구현·외부 연동·push·merge 실행을 뜻하지 않음.
 
+2026-11-13 상태 정정: 위의 “모두 미착수”와 아래 “이번 준비 작업”은 계획 작성 시점의 기록이다. 이후 checkbox와 실행 ledger는 구현 진행을 기록하므로 현재 미구현이라는 뜻이 아니다. 현재 코드·과거 검증·남은 전역 목표는 `specs/after-care-system/completion.md`에서 구분한다. 과거 통과 수를 최신 branch 검증으로 재사용하지 않는다.
+
 ## Global Constraints
 
 - 차량 canvas 2560 × 1440, app/map 각 1232 × 1152, app 내부 box gap 24, radius 32, 내부 card radius 24, padding 세로 24 / 가로 40.

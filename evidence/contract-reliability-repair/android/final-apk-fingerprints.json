@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "nativeTestedCommit": "2a5dea5e992814a96c5e3cf19595f2691f07eb54",
+  "finalSourceCommit": "2bd7c258187772399bacfe62fdb8b6f3254c642a",
+  "sourceRelation": "../source-input-relation.json",
+  "apks": [
+    {
+      "localBuildOutput": "prototype/android/app/build/outputs/apk/debug/app-debug.apk",
+      "sha256": "beccb66315b2dcd27fdef48c9f24f653bc853c0fc60110dacea4014eacd3a0f4",
+      "bytes": 29066436
+    },
+    {
+      "localBuildOutput": "prototype/android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk",
+      "sha256": "675df2e1aedbf15eedb259da02b238f9b1a0f90e1466397033906343d9cc8d03",
+      "bytes": 2610782
+    }
+  ],
+  "scope": "Local APK outputs used by the owned final native build/instrumentation. Hashes retained; APK binaries are not substituted for actual API28/API35 XML and screenshots."
+}

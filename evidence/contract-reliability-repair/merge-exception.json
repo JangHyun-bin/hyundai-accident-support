@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-11-13T00:49:55.979117+00:00",
+  "pr": 11,
+  "authority": "Latest user instruction in this conversation, after explicit disclosure of blockers; not a GitHub required approval.",
+  "userInstruction": "그냥 중요한 형상관리되는 문서에 내용을 남겨주고 -> ㅈ이어서 머지까지 진행해줘",
+  "interpretation": "Record the already disclosed incompleteness in important version-controlled documents and merge PR11 with a PR-specific exception to the original local all32/full-pass prerequisites.",
+  "canonicalDocument": "specs/after-care-system/completion.md#6-pr-11-한정-merge-예외",
+  "supersededMergePrerequisitesOnly": [
+    "C01",
+    "C03",
+    "C05",
+    "E03"
+  ],
+  "unchangedCriterionStates": {
+    "C01": "blocked",
+    "C03": "blocked",
+    "C05": "blocked",
+    "E03": "unmet"
+  },
+  "originalAcceptanceSatisfied": false,
+  "originalRepairComplete": false,
+  "latestFull": {
+    "passed": 434,
+    "total": 447,
+    "failed": 13,
+    "skipped": 0,
+    "workers": 5,
+    "cause": "Four missing required genuine audio assets/sidecars."
+  },
+  "missingScripts": "evidence/contract-reliability-repair/audio/missing-assets.json",
+  "providerQuotaHttpCalls": 0,
+  "ttsHttpCalls": 0,
+  "generatedMp3": 0,
+  "generatedSidecars": 0,
+  "costAndPermissionCeilingUnchanged": {
+    "providerVoiceModel": "Existing ElevenLabs/JaeGyu/eleven_v4 and existing quota only",
+    "maxNewScripts": 4,
+    "maxUnicodeCodepoints": 1200,
+    "maxTtsHttpCallsIncludingFailures": 4,
+    "newPayment": false,
+    "autoTopup": false,
+    "planChange": false,
+    "keyPermissionExpansion": false,
+    "otherPaidApi": false
+  },
+  "stillRequired": [
+    "Current exact PR head/base and unchanged410 runtime/test/config/asset inputs",
+    "Actual server required checks,required approvals and mergeability",
+    "No unresolved important correctness/data-loss finding",
+    "No conflicts or deletion of user work",
+    "Expected-head-protected actual merge; no direct main push,force push,admin bypass or auto-merge-only completion"
+  ],
+  "executedSourceCommit": "2bd7c258187772399bacfe62fdb8b6f3254c642a",
+  "publishedPreExceptionHead": "5b3af4f66e1ab1352102821758fc7aa4387fb112",
+  "sourceManifestSha256": "bd915f03442699a5c24cd08864643b2cf22583e1a17706a5e0673bc68cdef27f",
+  "mergeAllowedUnderUserException": true,
+  "serverPolicyBypassAllowed": false,
+  "actualMergeEvidence": "Exact final head/base and actual mergedAt/merge SHA recorded after execution in permanent PR11 comments; not a recursive self-SHA in this commit.",
+  "notClaimed": [
+    "All32 satisfied",
+    "Full/offline audio passed",
+    "New audio playback",
+    "Human listening",
+    "Physical-vehicle evaluation",
+    "New global E2E movie"
+  ]
+}

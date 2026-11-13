@@ -37,6 +37,9 @@ test('conflicting reports remain readable after two successive latest-record rel
       await button(current, '정정 저장').click()
       if (current === page) await saved(page)
     }
+    await expect(other.locator('.journey-save-status')).toContainText('다른 화면에서 기록이 바뀌었어요')
+    await expect(other.getByLabel('문장 내용', { exact: true })).toHaveValue(`내가 보존할 정정 ${round}`)
+    await expect(other.getByLabel('문장 내용', { exact: true })).toBeFocused()
     await button(other, '최신 기록 불러오기').click()
     await saved(other)
     await expect(other.locator('.journey-report')).toContainText(`다른 화면의 문장 ${round}`)
@@ -110,7 +113,7 @@ for (const kind of ['photo', 'diagram'] as const) {
   })
 }
 
-test('failed report commit remains protected after its editor closes', async ({ page }) => {
+test('failed report commit keeps its editor draft and unload protection', async ({ page }) => {
   await seed(page, 'review'); await button(page, '경위서').click()
   await button(page, '정정하기').click(); await page.getByLabel('문장 내용', { exact: true }).fill('저장되지 않은 경위서')
   await page.evaluate(() => {
@@ -122,6 +125,8 @@ test('failed report commit remains protected after its editor closes', async ({ 
   })
   await button(page, '정정 저장').click()
   await expect(page.locator('.journey-save-status')).toContainText('이 기기에 저장하지 못했어요')
+  await expect(page.getByLabel('문장 내용', { exact: true })).toHaveValue('저장되지 않은 경위서')
+  await expect(page.getByLabel('문장 내용', { exact: true })).toBeFocused()
   expect(await page.evaluate(() => { const event = new Event('beforeunload', { cancelable: true }); dispatchEvent(event); return event.defaultPrevented })).toBe(true)
 })
 

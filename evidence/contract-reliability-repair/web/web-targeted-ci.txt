@@ -1,0 +1,17 @@
+COMMAND ["npm", "run", "test:ui", "--", "tests/journey-record-reliability.spec.ts", "tests/journey-save-recovery.spec.ts", "tests/journey-review-fixes.spec.ts", "tests/journey-report.spec.ts", "tests/journey-voice.spec.ts", "tests/emergency-guidance-state.spec.ts", "tests/emergency-complete.spec.ts", "tests/guidance-audio.spec.ts", "tests/stable-voronoi-motion.spec.ts"]
+CWD prototype/web
+TESTED_COMMIT 6a4e9cd30ad2c52b9b91a29d5e9c4797ccc63e27
+
+> accident-support-design-poc@0.1.0 test:ui
+> playwright test tests/journey-record-reliability.spec.ts tests/journey-save-recovery.spec.ts tests/journey-review-fixes.spec.ts tests/journey-report.spec.ts tests/journey-voice.spec.ts tests/emergency-guidance-state.spec.ts tests/emergency-complete.spec.ts tests/guidance-audio.spec.ts tests/stable-voronoi-motion.spec.ts
+
+[WebServer] (node:91081) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+TypeError: Module "file://$REPO/prototype/web/src/audio/emergency-guidance.json" needs an import attribute of "type: json"
+
+TypeError: Module "file://$REPO/prototype/web/src/audio/emergency-guidance.json" needs an import attribute of "type: json"
+
+
+
+EXIT_STATUS 1

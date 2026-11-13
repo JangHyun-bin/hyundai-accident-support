@@ -1,0 +1,3 @@
+Previous HEAD position was 2a5dea5 test: establish native keyboard input before focus transitions
+HEAD is now at f47252a fix: start countdown guidance after persistence settles
+AUDIT_DIRECTORIES_ABSENT=true

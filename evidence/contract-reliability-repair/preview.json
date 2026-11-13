@@ -1,0 +1,13 @@
+{
+  "observedAt": "2026-11-12T20:21:19.129Z",
+  "sourceCommit": "2bd7c258187772399bacfe62fdb8b6f3254c642a",
+  "service": "RepairPreview",
+  "url": "http://127.0.0.1:5185/?study=journey&device=mobile",
+  "title": "사고 대응 지원 · Design review",
+  "viewport": {
+    "width": 1280,
+    "height": 900,
+    "deviceScaleFactor": 1
+  },
+  "scope": "Actual local unstarted Journey route observed. Separate native UI/record/reload proofs are preserved; not a new global E2E movie."
+}

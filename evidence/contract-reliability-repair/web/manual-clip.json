@@ -1,0 +1,25 @@
+{
+  "testedCommit": "e76c9bcd7a91aa6ebc7dd9925e2840dd3e9e1fe5",
+  "browser": "Chrome 157.0.8103.78",
+  "actions": [
+    "UI fixture start",
+    "UI actual sample asset import completed",
+    "UI record",
+    "UI review",
+    "UI video play"
+  ],
+  "native": {
+    "url": "http://127.0.0.1:5185/?study=journey&fixture=partial-evidence&device=mobile&case=63cae4d5-97bc-41a7-9b46-d02a1e9b0ecc",
+    "currentTime": 0.004,
+    "duration": 20,
+    "paused": false,
+    "readyState": 4,
+    "videoWidth": 960,
+    "videoHeight": 540,
+    "error": null,
+    "nativeSource": true
+  },
+  "audioMock": false,
+  "storageFaultInjection": false,
+  "scope": "Actual native video playback, not a full layout or human-listening assessment"
+}

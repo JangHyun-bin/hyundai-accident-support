@@ -1,0 +1,6 @@
+COMMAND ["node", "check.mjs"]
+CWD .
+TESTED_COMMIT 17a4d50f3f92222ffef36b9d2cf9d19149cf81ec
+PASS · 13 nodes, 17 edges · 저장 text round-trip · graph 유효성 · JavaScript syntax
+
+EXIT_STATUS 0
