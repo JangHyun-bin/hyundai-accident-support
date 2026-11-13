@@ -1,9 +1,9 @@
 {
   "schemaVersion": 2,
   "scope": "contract-reliability-repair",
-  "updatedAt": "2026-11-12T20:56:40.488679+00:00",
+  "updatedAt": "2026-11-13T00:49:55.979117+00:00",
   "finalTestedSourceCommit": "2bd7c258187772399bacfe62fdb8b6f3254c642a",
-  "mergeAllowed": false,
+  "mergeAllowed": true,
   "requirements": {
     "A01": {
       "status": "verified",
@@ -733,5 +733,18 @@
     "verified": 28,
     "blocked": 3,
     "unmet": 1
+  },
+  "mergeAuthorization": {
+    "mode": "latest-user-pr11-only-exception",
+    "evidence": "evidence/contract-reliability-repair/merge-exception.json",
+    "originalAcceptanceSatisfied": false,
+    "exceptionCriteria": [
+      "C01",
+      "C03",
+      "C05",
+      "E03"
+    ],
+    "requiresUnchangedInputsAndServerPolicy": true,
+    "notGitHubRequiredApproval": true
   }
 }

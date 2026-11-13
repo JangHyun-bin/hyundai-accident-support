@@ -1,6 +1,6 @@
 # Contract Reliability Repair — 병렬 구현·검증·머지 계획
 
-작성일: 2026-11-12. 상태: **독립 P2 closure·Draft PR #11 생성, 필수 신규 음성 부재로 merge 차단**. `[x]`는 해당 작업의 실제 수행을 뜻하며 모든 gate 통과를 뜻하지 않는다. 최신 full434/447·실패13개와 직접 회귀33/33을 [실행 결과](../results/2026-11-12-contract-reliability-repair.md)에 보존했다. 미완료 asset/merge를 완료로 해석하지 않는다.
+작성일: 2026-11-12. 상태: **독립 P2 closure·PR #11 생성, 원래 수용 기준 미충족·최신 사용자 merge 예외 적용**. `[x]`는 실제 수행을 뜻하며 모든 gate 통과를 뜻하지 않는다. 최신 full434/447·실패13개와 직접 회귀33/33을 [실행 결과](../results/2026-11-12-contract-reliability-repair.md)에 보존했다. 미완료 asset은 완료로 해석하지 않는다. 이 계획의 merge 체크는 merge 직전 snapshot이며 실제 결과는 PR 영구 기록으로 확인한다.
 
 **Goal:** Android 공유 계약, 기록 신뢰성, 상태별 안내, 검증 재현성, 정본 승계를 [상세 스펙](../specs/2026-11-12-contract-reliability-repair-design.md)의 32개 요구에 맞춰 복구한다.
 
@@ -212,7 +212,7 @@ npm run test:ui -- tests/journey-record-reliability.spec.ts tests/journey-save-r
 
 ## 12. S5 — PR·자율 머지
 
-실행 query가 명시적으로 허용한 경우에만 수행한다. 현재 계획 작성에서는 PR을 만들거나 push하지 않는다.
+원래 실행 query와 이후 사용자 지시의 범위에서만 수행한다. 사용자가 이번 실행을 명시적으로 허용해 PR #11을 생성했고, 이후 미충족 사실의 문서 보존 뒤 merge하도록 지시했다.
 
 - [x] 통합 담당 하나가 작업 산출물만 stage·checkpoint commit·push한다. 사용자 무관 파일·비밀·개인 데이터·임시 output을 포함하지 않는다.
 - [x] `main` 대상 PR을 생성하거나 이 작업 소유 PR만 갱신한다. 제목·본문에 다섯 범위, 32개 요구 closure, 실제 검사 결과, tested commit·final head·증거, 전역 goal의 남은 한계를 적는다.
@@ -233,6 +233,11 @@ npm run test:ui -- tests/journey-record-reliability.spec.ts tests/journey-save-r
 - 실제 사용자 변경을 제거해야만 진행 가능한 충돌.
 
 이 경우 가능한 작업과 증거 보존까지 마친 뒤 정확한 blocker를 보고한다. gate를 낮추거나 실제 완료하지 않은 요구를 추론해 merge하지 않는다.
+
+#### 최신 사용자 지시: 이번 PR의 명시된 예외
+
+[정본의 PR #11 한정 예외](../../../specs/after-care-system/completion.md#6-pr-11-한정-merge-예외)에 따라 C01/C03/C05의 신규 음성4개 부재와 그에 따른 E03의 full13실패만 원래 merge 선행 조건에서 예외로 처리한다. 수용 판정·실패 로그·누락 원고는 그대로 남긴다. 나머지 원격 정책·approval·충돌·중요 finding·expected HEAD·과금/권한 상한은 면제하지 않는다. 원래32개 repair의 완료 선언도 하지 않는다.
+
 
 ## 13. 최종 전달 형식
 

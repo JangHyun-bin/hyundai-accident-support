@@ -1,6 +1,6 @@
 # AFTER / CARE 목표와 Contract Reliability Repair 완료 추적
 
-갱신일: 2026-11-13. **필수 신규 음성·전체 gate 미충족으로 repair merge 차단. 전체 목표 완료 선언이 아니다.** 현재 실행 결과와 미검증 범위를 구분한다.
+갱신일: 2026-11-13. **원래 repair 수용 기준 미충족·PR #11 한정 사용자 merge 예외 적용. 전체 목표 완료 선언이 아니다.** 현재 실행 결과와 미검증 범위를 구분한다.
 
 - 원래 요구: [goal.md](goal.md)
 - 현행 설계: [design.md](design.md), [시각 기준의 출처·원문 미확보](../../docs/superpowers/specs/2026-11-12-figma-visual-contract.md)
@@ -27,7 +27,7 @@
 | 재현성·원인·증거 | E01–E05 | unmet | `.audit` 없는 clean 설치·native encoder 인과 실험·원시557개/14실행·입력/review/PR 연속성 확보. full434/447의 음성 누락13실패로 E03 미충족; 정확한 최종 head는 영구 PR 본문/comment에서 추적 |
 | 정본·문서 승계 | D01–D05 | verified | 원문 승인 미확보를 명시한 재구성·현재 문서·전역 goal 추적. 최종 로컬 링크·anchor와 문서 지문은 [검사 JSON](../../evidence/contract-reliability-repair/document-links.json)에서 추적 |
 
-미충족 사항을 명시한 draft PR은 생성할 수 있다. merge는 32개 요구를 모두 충족한 경우에만 허용하며 현재 merge 완료 증거는 없다.
+원래 실행 query는 32개 요구의 전부 충족을 merge 선행 조건으로 정했다. 현재 판정은 verified28·blocked3·unmet1로 그대로다. 이후 사용자가 미충족 내용을 형상관리 문서에 남긴 뒤 merge하도록 지시하여, [PR #11 한정 예외](#6-pr-11-한정-merge-예외)를 적용한다. 예외는 요구 충족이나 실패 검사의 통과를 뜻하지 않는다.
 
 ## 2. 원래 goal 항목별 추적
 
@@ -67,7 +67,7 @@
 | 기존 사용자 변경·preset 보존·기존 공용 구조 우선 | preflight·ownership·source-input-relation의 기준 대비 보호 입력60개 동일 | verified: 원본 board/archive/assets·공유 manifest·보호한 token/preset. 허용된 preview guidance 수정은 별도 표시 |
 | 승인 B 방향·제품 목적을 지키며 불필요한 승인 대기 없이 진행 | 병렬 A/B/C/E + 통합 D, 현행 시각 기준과 원문 승인 미확보 구분 | implemented-unverified. 실행은 진행했으나 새 디자인 승인이나 미확보 원문 승인을 발명하지 않음 |
 | 실제 browser 확인·필요 검증 | 최신 Chromium UI suite·managed Chrome 관찰·실제 Android XML/화면 | implemented-unverified. 명시한 조작 범위는 실행, 전체 gate와 신규 음성은 미충족 |
-| 작업 branch checkpoint·최종 PR·별도 지시 범위 merge | 실행 source2bd7c25·독립 리뷰와 P2 closure·[Draft PR #11](https://github.com/JangHyun-bin/hyundai-accident-support/pull/11) | blocked: PR 생성, merge 미실시. 신규 음성과 전체 gate 미충족으로 merge 금지 |
+| 작업 branch checkpoint·최종 PR·별도 지시 범위 merge | 실행 source2bd7c25·독립 리뷰와 P2 closure·[PR #11](https://github.com/JangHyun-bin/hyundai-accident-support/pull/11) | 사용자 후속 지시로 PR #11 한정 merge 예외 적용. 실제 merged 여부·SHA는 PR 영구 기록에서 확인하며 원래32개 repair 완료와 구분 |
 | catalog와 제품의 동일 구현 | 공용 import·catalog | implemented-unverified: 현재 gate 필요 |
 | 정의된 전체 scenario 구현·검증 추적 | inventory + 32요구와 별도 전역 표 | implemented-unverified: 과거/현재 scope 분리 |
 | localhost 실제 조작 가능 | managed Chrome으로 진술 저장/reload·SC04 거절·native 영상 재생 관찰 | verified: 관찰 JSON·PNG는 repair 결과 문서에서 연결. 설치만으로 확인한 것이 아님 |
@@ -84,3 +84,31 @@
 ## 5. 제품화·완료 선언 제한
 
 실제 119·보험사·정비소·차량 API, 사용자 인증·기기 간 동기화·서버 백업, 개인정보 보유/철회 등 기존 전역 설계의 운영 결정은 이 repair로 확정하지 않는다. 이번 repair를 완수하더라도 위 전역 영상·사람 평가·실차 검증을 완료했다고 전달하지 않는다.
+
+## 6. PR #11 한정 merge 예외
+
+사용자는 음성 자격 증명 부재·필수 음성4개 누락·전체13실패·merge 차단을 전달받은 뒤 다음과 같이 지시했다.
+
+> 그냥 중요한 형상관리되는 문서에 내용을 남겨주고 -> ㅈ이어서 머지까지 진행해줘
+
+이 후속 지시는 위 미충족 사실을 기록하고 merge하라는 지시로 적용한다. **이번 PR #11에 한해 C01/C03/C05 및 E03의 원래 merge 선행 조건에 사용자 예외를 적용한다.** 원래 스펙·query·검사 결과를 고치거나 32개 요구가 전부 충족됐다고 선언하지 않는다.
+
+| 미완료 항목 | 그대로 보존하는 사실·위험 |
+|---|---|
+| C01/C03/C05: 필수 신규 음성 | 원고4개/251 codepoint의 진짜 MP3·sidecar가 없다. 저장 실패·전송 보류·보험 접수 미확인·미접수의 해당 신규 원고를 실제 음성으로 재생했다는 보장이 없다. 기존64개 decode·resolver/UI 회귀로 대체하지 않는다 |
+| E03: 전체 실행 gate | 기본5-worker clean Web full은434/447, 실패13·skip0이다. 실패13개는 위 신규 음성 누락이며 전체 offline audio 검사도 실패했다. green·skip·재시도로 바꾸지 않는다 |
+
+누락 원고의 정확한 출처는 [원고·hash 목록](../../evidence/contract-reliability-repair/audio/missing-assets.json)이다.
+
+- `emergency/record_storage_failed`
+- `emergency/deferred_storage_failed`
+- `emergency/insurance_unconfirmed`
+- `emergency/insurance_not_received`
+
+기존 ElevenLabs 자격 증명과 authenticated browser relay를 사용할 수 없어 quota를 조회하지 못했다. 이번 실행의 provider quota/TTS HTTP는0회, 신규 MP3/sidecar는0개다. 신규 과금·자동 충전·plan 변경·key 권한 확대·다른 유료 API는 여전히 금지하며, 기존 JaeGyu/eleven_v4·기존 quota·4원고/1,200 codepoint/실패 포함4 TTS 호출 상한도 유지한다.
+
+예외는 서버 required checks·사람 approval·mergeability·충돌·HEAD 불일치·중요 correctness/data-loss finding을 면제하지 않는다. main 직접 push·force push·admin bypass·auto-merge 예약 완료 주장도 금지한다. 제품/test/config/asset 입력은 검증 source `2bd7c25`와 같아야 하며, 달라지면 관련 gate를 다시 연다.
+
+[기계 판독 예외 기록](../../evidence/contract-reliability-repair/merge-exception.json)에 지시·예외 범위·유지되는 제한을 보존한다. 정확한 최종 PR head/base·merge SHA·서버의 실제 merged 상태는 PR #11의 영구 comment에서 기록한다. 이 문서와 계획의 체크는 merge 직전 snapshot이며, merge 사실은 해당 영구 기록과 구분한다.
+
+원래 repair를 완수하려면 기존 자격 증명·quota를 확인하고 허용 범위에서 신규4개를 생성한 뒤 exact hash/sidecar·decode·playback·offline audio와 관련 전체 gate를 다시 통과시켜야 한다. 사람 청취·실차·새 전역 E2E 영상 등 위 전역 미완료 항목도 그대로 남는다.

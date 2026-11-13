@@ -1,6 +1,6 @@
 # Contract reliability repair 실행 결과
 
-상태: **필수 신규 음성 부재로 merge 차단 · 독립 리뷰 P2 두 건 closure · Draft PR #11 생성**. raw 실행 시각은 UTC다. 32개 수용 기준과 필수 gate를 모두 충족하기 전에는 merge하지 않는다.
+상태: **독립 리뷰 P2 두 건 closure · 원래 수용 기준 미충족 · PR #11 한정 사용자 merge 예외**. raw 실행 시각은 UTC다. 최신 사용자는 미충족 사실을 중요 형상관리 문서에 남기고 merge하도록 지시했다. [예외 범위·위험·유지되는 제한](../../../specs/after-care-system/completion.md#6-pr-11-한정-merge-예외)을 적용하되 실패를 통과로 바꾸지 않는다.
 
 - 실행 지시: [goal query](../plans/2026-11-12-contract-reliability-repair-goal-query.md), [32개 계약](../specs/2026-11-12-contract-reliability-repair-design.md)
 - 기준: `2ed19146d500882fd11211f65b660f91336015eb`; branch: `fix/contract-reliability-repair`
@@ -48,11 +48,11 @@ Android UI는 SC05의 11개 state 전체다. SC01–SC04는 parser 지원만 하
 
 저장 실패·2탭 conflict·IME·100/101 경계와 viewport/font/keyboard/reduced-motion은 full의 실제 Chromium UI 회귀로 검사했다. 별도 managed Chrome 관찰을 모든 조합의 수동 평가로 표현하지 않는다. 실제 사람 청취·물리 차량·OS IME 후보창 평가는 하지 않았다.
 
-## 신규 음성: 명시적 merge 차단
+## 신규 음성: 미완료 사실과 사용자 merge 예외
 
 필수 원고4개·총251 codepoint다. 기존 로컬 ElevenLabs key 파일과 환경변수에서 사용 가능한 자격을 찾지 못했고 authenticated browser relay도 연결되지 않았다. **TTS HTTP0회, 신규 MP3/sidecar0개**다. quota를 확인하거나 사용했다고 주장하지 않는다.
 
-[권한·사용량](../../../evidence/contract-reliability-repair/audio/authority.json), [정확한 누락 원고·hash](../../../evidence/contract-reliability-repair/audio/missing-assets.json)에 남겼다. 허용 상한은 기존 JaeGyu/eleven_v4, 신규4문장·1,200 codepoint·실패 포함4 TTS HTTP 호출이다. 새 결제·key 권한 확대·다른 유료 API는 하지 않았다. 가짜 파일·다른 원고·skip·fallback으로 C05를 닫지 않는다. C01/C03의 의미 선택 회귀가 실행됐어도 필수 신규 실제 음성 재생까지 완료했다고 기록하지 않는다.
+[권한·사용량](../../../evidence/contract-reliability-repair/audio/authority.json), [정확한 누락 원고·hash](../../../evidence/contract-reliability-repair/audio/missing-assets.json)에 남겼다. 허용 상한은 기존 JaeGyu/eleven_v4, 신규4원고·1,200 codepoint·실패 포함4 TTS HTTP 호출이다. 새 결제·key 권한 확대·다른 유료 API는 하지 않았다. 가짜 파일·다른 원고·skip·fallback으로 C05를 닫지 않는다. C01/C03의 의미 선택 회귀가 실행됐어도 필수 신규 실제 음성 재생까지 완료했다고 기록하지 않는다.
 
 ## 원시 증거와 source 관계
 
@@ -60,7 +60,7 @@ Android UI는 SC05의 11개 state 전체다. SC01–SC04는 parser 지원만 하
 
 [source-sha256.json](../../../evidence/contract-reliability-repair/source-sha256.json)의 410개 입력 mapping SHA-256은 `bd915f03442699a5c24cd08864643b2cf22583e1a17706a5e0673bc68cdef27f`이다. [검사별 입력 동일성](../../../evidence/contract-reliability-repair/source-input-relation.json)은 root/manifest·audio scripts·Android의 이전 실행 입력과 최종 입력이 같음을 연결한다. 원본 board/archive/assets·공유 JSON·보호한 preset/token 입력60개는 기준 commit과 동일하다. C guidance caller인 ResponseLayoutPreview 수정은 불변으로 위장하지 않는다.
 
-증거·문서만 추가한 후속 HEAD는 실행한 제품 commit과 다르다. [A/D 전범위 리뷰](../../../evidence/contract-reliability-repair/review/native-docs.json)와 [B/C/E 전범위 리뷰](../../../evidence/contract-reliability-repair/review/web-initial.json)는 `e9a463f66400e9d5f51465336e5069695bd37fb7`를 대상으로 했다. [P2 수정 독립 closure](../../../evidence/contract-reliability-repair/review/web-closure.json)는 최종 제품 source `2bd7c25`를 검토했다. 두 P2는 닫혔으나 전체 repair의 merge 승인은 아니다. [Draft PR #11](https://github.com/JangHyun-bin/hyundai-accident-support/pull/11)의 본문·영구 관찰 comment에 정확한 최종 head/base·실행 source·지문을 별도로 기록하며 merge/auto-merge는 실행하지 않는다. [생성 시 원격 관찰](../../../evidence/contract-reliability-repair/github-pr-created.json)은 당시 head의 역사 snapshot이지 최종 head라고 위장하지 않는다.
+증거·문서만 추가한 후속 HEAD는 실행한 제품 commit과 다르다. [A/D 전범위 리뷰](../../../evidence/contract-reliability-repair/review/native-docs.json)와 [B/C/E 전범위 리뷰](../../../evidence/contract-reliability-repair/review/web-initial.json)는 `e9a463f66400e9d5f51465336e5069695bd37fb7`를 대상으로 했다. [P2 수정 독립 closure](../../../evidence/contract-reliability-repair/review/web-closure.json)는 최종 제품 source `2bd7c25`를 검토했다. 두 P2는 닫혔으나 리뷰 자체가 merge 승인이나 GitHub required human approval은 아니다. [PR #11](https://github.com/JangHyun-bin/hyundai-accident-support/pull/11)의 본문·영구 comment에 정확한 최종 head/base·실행 source·지문과 사용자 예외를 연결하고, 실제 merge 뒤 서버 merged 상태·merge SHA를 별도로 기록한다. [생성 시 원격 관찰](../../../evidence/contract-reliability-repair/github-pr-created.json)은 당시 head의 역사 snapshot이지 최종 head라고 위장하지 않는다.
 
 ## 독립 리뷰에서 추가로 해결한 경계
 

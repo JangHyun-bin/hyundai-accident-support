@@ -646,6 +646,8 @@
     "remainingImportantCodeFindings": [],
     "finalMetadataHeadBinding": "Exact final PR head/base and source hash recorded after publication in permanent PR body/comment; no recursive self-commit SHA claim.",
     "metadataClosureReviewedCheckpoint": "3e1b9f2da033b9f1ae7b2caa545fac2d632ab492",
-    "publicationHandoffCondition": "After metadata-only commit/push: inspect actual GitHub commit paths and PR/base/head/policy; publish exact final SHA, reviewed checkpoints,410-input digest,all32 outcomes and pinned reports in permanent PR body/comment. Do not hand off before this binding exists."
-  }
+    "publicationHandoffCondition": "Bind the exact subsequent metadata-only head/base, unchanged410 inputs, unchanged32 criterion outcomes, latest-user PR11 exception and actual server merge receipt in permanent PR comments. Existing code reviews are not relabeled as merge approval.",
+    "mergeExceptionDoesNotAlterReviewVerdicts": true
+  },
+  "userMergeException": "evidence/contract-reliability-repair/merge-exception.json"
 }

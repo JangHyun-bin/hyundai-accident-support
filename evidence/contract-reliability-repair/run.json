@@ -1177,11 +1177,11 @@
     "No human listening, physical vehicle, OS IME candidate-window assessment, or new global end-to-end movie.",
     "Early dot reporter did not persist inline-body JSON; final helper writes durable named raw JSON."
   ],
-  "updatedAt": "2026-11-12T20:57:24.578423+00:00",
+  "updatedAt": "2026-11-13T00:49:55.979117+00:00",
   "finalTestedSourceCommit": "2bd7c258187772399bacfe62fdb8b6f3254c642a",
   "sourceManifest": "evidence/contract-reliability-repair/source-sha256.json",
   "artifactIndex": "evidence/contract-reliability-repair/artifact-index.json",
-  "mergeAllowed": false,
+  "mergeAllowed": true,
   "latestFullGate": "web-full-review",
   "latestTargetedGate": "web-targeted-review-fix2",
   "reviewReports": [
@@ -1194,7 +1194,10 @@
     "number": 11,
     "url": "https://github.com/JangHyun-bin/hyundai-accident-support/pull/11",
     "draft": true,
-    "mergeAllowed": false,
-    "finalHeadBinding": "Permanent PR11 body/comment after final metadata-only publication; exact final head deliberately external to avoid recursive SHA."
-  }
+    "mergeAllowed": true,
+    "finalHeadBinding": "Permanent PR11 body/comment after final metadata-only publication; exact final head deliberately external to avoid recursive SHA.",
+    "mergeAuthorization": "PR11-specific latest-user exception only; original acceptance remains unmet. Actual server merge receipt is external permanent PR metadata."
+  },
+  "userMergeException": "evidence/contract-reliability-repair/merge-exception.json",
+  "mergeExceptionIntegrity": "evidence/contract-reliability-repair/merge-exception-integrity.json"
 }

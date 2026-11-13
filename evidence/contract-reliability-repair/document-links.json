@@ -1,13 +1,15 @@
 {
   "schemaVersion": 1,
+  "observedAt": "2026-11-13T00:51:37.223935+00:00",
+  "check": "User-exception metadata finalization, functions.eval Python",
   "documentSha256": {
-    "README.md": "fbdfdeb96e49dccf9371f90f25df5303e626ac46322bb759b89eebde9d4ffc8b",
+    "README.md": "ff324d35fe74101c5a7a14e02821cfe02788dd7da666935482727910bff024ac",
     "prototype/web/README.md": "035cea5e6bc2f44e96634af4d8464c9f794073c913ac63cdcbc04124c5f14010",
     "prototype/android/README.md": "b29c7a4e7b1673a8e4dcdf8147588a291e82a48d2c529b00116042561b589440",
     "prototype/web/SOURCES.md": "623a76800ed0ecdfff62f78651098531b60dfb007746763b3d80c56f4a63163c",
     "specs/after-care-system/design.md": "18c1f23499f5ea37b2013a81f44d95e5e0971ca19bc41ae3daa3512d95daa111",
     "specs/after-care-system/inventory.md": "a449d76d3aef5159f5656716c3df9fd0fcd185489f6aa35a4d838e88e2616505",
-    "specs/after-care-system/completion.md": "a82d85b59bf92baab8d3badaab6f6d22d4aa4c47ad8f9cd03c8f2968ad874092",
+    "specs/after-care-system/completion.md": "3481e40bb39332add29d15ed64940c2d1bcc971a01df11848ce24e6862fb8ebb",
     "specs/emergency-experience/voice-selection.md": "9bf22f50fe8a5615bea578e2cebb90b7764c1d1faea3257f569f9718296b57da",
     "specs/emergency-experience/visual-language.md": "9af44fe1cf00fe21f8c47ac39833aeb0c2f32412d75068758ab70ad1bfc13728",
     "docs/superpowers/specs/2026-11-08-engraved-pictograms-design.md": "0c3c698954a402ab399499c438a3e063f2061f8ebe5018689478fe95876597ed",
@@ -15,14 +17,14 @@
     "docs/superpowers/plans/2026-11-09-full-journey.md": "50110cd13610f073ed0bf91c358734111d8f8436c1bb96b148c29adde20eca1c",
     "docs/superpowers/plans/2026-11-10-after-care-system.md": "7f57e84a840809add7e808125f97a606ac335e470f91ad658e96f93c0e207db4",
     "docs/superpowers/specs/2026-11-12-contract-reliability-repair-design.md": "c117f233b096250fd4d5629a6f5cc25b58dca375c629c1f88f8e77ef41debc9a",
-    "docs/superpowers/plans/2026-11-12-contract-reliability-repair.md": "0557d3a963fd44b51c3a511bd353e4ae53ea98124fe642a2411a89eac21fa037",
+    "docs/superpowers/plans/2026-11-12-contract-reliability-repair.md": "bd0823fa06fb94ec5d19627565a2cd57953b0dec7045f6793de6d0f43705b71d",
     "docs/superpowers/plans/2026-11-12-contract-reliability-repair-goal-query.md": "d13c92ba758291fa36221f4567d5f06a9a3d91c0bcb47c085723fb8586495270",
     "docs/superpowers/specs/2026-11-12-figma-visual-contract.md": "6d7d34cfe5a815eb5fafc3711bf408ab67b57bc4b8f4338d1b243a60f76e4a70",
-    "docs/superpowers/results/2026-11-12-contract-reliability-repair.md": "b955c92e7a69dcdb76c9624422d693ef4076ee9362fa88e74c5968f73bdfd7d0",
+    "docs/superpowers/results/2026-11-12-contract-reliability-repair.md": "be9a5af127e217d6cff1182acb6fb6511252f3e4cc75771df87b521a906473d0",
     "evidence/contract-reliability-repair/failure-analysis.md": "d683142c6a083924e1619bd8bec955cb6c5df59ee861632c99a9dcd0ca036642"
   },
   "checkedDocuments": 19,
-  "localLinks": 164,
+  "localLinks": 170,
   "failures": 0,
   "checks": [
     {
@@ -59,7 +61,15 @@
     },
     {
       "source": "README.md",
-      "line": 62,
+      "line": 10,
+      "href": "specs/after-care-system/completion.md#6-pr-11-한정-merge-예외",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "README.md",
+      "line": 63,
       "href": "docs/reviews/flow-review-v1.2.md",
       "exists": true,
       "fragmentValid": true,
@@ -67,7 +77,7 @@
     },
     {
       "source": "README.md",
-      "line": 70,
+      "line": 71,
       "href": "docs/research/pleos-foundation.md",
       "exists": true,
       "fragmentValid": true,
@@ -75,7 +85,7 @@
     },
     {
       "source": "README.md",
-      "line": 70,
+      "line": 71,
       "href": "docs/research/aaos-foundation.md",
       "exists": true,
       "fragmentValid": true,
@@ -83,7 +93,7 @@
     },
     {
       "source": "README.md",
-      "line": 70,
+      "line": 71,
       "href": "docs/research/component-shortlist.md",
       "exists": true,
       "fragmentValid": true,
@@ -91,7 +101,7 @@
     },
     {
       "source": "README.md",
-      "line": 70,
+      "line": 71,
       "href": "docs/research/design-direction.md",
       "exists": true,
       "fragmentValid": true,
@@ -99,7 +109,7 @@
     },
     {
       "source": "README.md",
-      "line": 72,
+      "line": 73,
       "href": "docs/superpowers/plans/2026-11-05-cult-design-poc.md",
       "exists": true,
       "fragmentValid": true,
@@ -107,7 +117,7 @@
     },
     {
       "source": "README.md",
-      "line": 72,
+      "line": 73,
       "href": "prototype/web/README.md",
       "exists": true,
       "fragmentValid": true,
@@ -115,7 +125,7 @@
     },
     {
       "source": "README.md",
-      "line": 72,
+      "line": 73,
       "href": "docs/reviews/cult-design-poc.md",
       "exists": true,
       "fragmentValid": true,
@@ -123,7 +133,7 @@
     },
     {
       "source": "README.md",
-      "line": 74,
+      "line": 75,
       "href": "docs/research/anti-slop-stack.md",
       "exists": true,
       "fragmentValid": true,
@@ -131,7 +141,7 @@
     },
     {
       "source": "README.md",
-      "line": 74,
+      "line": 75,
       "href": "docs/research/anti-slop-tools-scout.md",
       "exists": true,
       "fragmentValid": true,
@@ -139,7 +149,7 @@
     },
     {
       "source": "README.md",
-      "line": 76,
+      "line": 77,
       "href": "specs/emergency-experience/principles.md",
       "exists": true,
       "fragmentValid": true,
@@ -147,7 +157,7 @@
     },
     {
       "source": "README.md",
-      "line": 76,
+      "line": 77,
       "href": "prototype/web/evidence/emergency-complete/README.md",
       "exists": true,
       "fragmentValid": true,
@@ -155,7 +165,7 @@
     },
     {
       "source": "README.md",
-      "line": 76,
+      "line": 77,
       "href": "prototype/web/README.md",
       "exists": true,
       "fragmentValid": true,
@@ -163,7 +173,7 @@
     },
     {
       "source": "README.md",
-      "line": 76,
+      "line": 77,
       "href": "docs/reviews/design-tools/README.md",
       "exists": true,
       "fragmentValid": true,
@@ -171,7 +181,7 @@
     },
     {
       "source": "README.md",
-      "line": 78,
+      "line": 79,
       "href": "prototype/android/README.md",
       "exists": true,
       "fragmentValid": true,
@@ -179,7 +189,7 @@
     },
     {
       "source": "README.md",
-      "line": 78,
+      "line": 79,
       "href": "docs/superpowers/specs/2026-11-12-contract-reliability-repair-design.md",
       "exists": true,
       "fragmentValid": true,
@@ -490,6 +500,30 @@
       "ok": true
     },
     {
+      "source": "specs/after-care-system/completion.md",
+      "line": 30,
+      "href": "#6-pr-11-한정-merge-예외",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "specs/after-care-system/completion.md",
+      "line": 101,
+      "href": "../../evidence/contract-reliability-repair/audio/missing-assets.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "specs/after-care-system/completion.md",
+      "line": 112,
+      "href": "../../evidence/contract-reliability-repair/merge-exception.json",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
       "source": "specs/emergency-experience/voice-selection.md",
       "line": 37,
       "href": "../after-care-system/completion.md",
@@ -658,6 +692,14 @@
       "ok": true
     },
     {
+      "source": "docs/superpowers/plans/2026-11-12-contract-reliability-repair.md",
+      "line": 239,
+      "href": "../../../specs/after-care-system/completion.md#6-pr-11-한정-merge-예외",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
       "source": "docs/superpowers/plans/2026-11-12-contract-reliability-repair-goal-query.md",
       "line": 5,
       "href": "../specs/2026-11-12-contract-reliability-repair-design.md",
@@ -757,6 +799,14 @@
       "source": "docs/superpowers/specs/2026-11-12-figma-visual-contract.md",
       "line": 39,
       "href": "../plans/2026-11-12-contract-reliability-repair.md",
+      "exists": true,
+      "fragmentValid": true,
+      "ok": true
+    },
+    {
+      "source": "docs/superpowers/results/2026-11-12-contract-reliability-repair.md",
+      "line": 3,
+      "href": "../../../specs/after-care-system/completion.md#6-pr-11-한정-merge-예외",
       "exists": true,
       "fragmentValid": true,
       "ok": true

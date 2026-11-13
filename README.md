@@ -7,6 +7,7 @@ Figma 없이 원본 아이디어와 E2E flow를 확인·편집·저장하는 작
 - Web 기본 진입은 전체 여정 `/` 또는 `?study=journey`다. `?study=emergency`는 공유 JSON의 긴급 상황 storyboard이며 [실행·저장·시연 경계](prototype/web/README.md)를 따른다.
 - 공용 디자인 시스템은 catalog·제품이 같은 구현을 사용한다. 최신 display·조작 기준은 [Pleos display 문서](docs/design-system/pleos-display-and-controls.md), 누락 원문의 출처 정리는 [현행 시각 기준](docs/superpowers/specs/2026-11-12-figma-visual-contract.md)을 따른다. 후자는 사용자 승인 원문을 복원한 문서가 아니다.
 - [계약·신뢰성 복구 계획](docs/superpowers/plans/2026-11-12-contract-reliability-repair.md)은 Android·기록·안내·검증·문서 승계를 다룬다. 과거 PASS와 현재 실행 결과, 전체 디자인·영상 목표의 완료 여부를 구별한다.
+- 복구의 [미완료 항목과 PR #11 한정 사용자 merge 예외](specs/after-care-system/completion.md#6-pr-11-한정-merge-예외)를 별도로 추적한다. merge 여부를 32개 수용 기준 통과나 제품화 완료로 해석하지 않는다.
 - 아래 Python editor는 원본 board 편집용이다. React 앱과 다른 실행 경로이며 `project.json` 저장은 Web 사고 기록 저장과 무관하다.
 
 ## Local board 열기
