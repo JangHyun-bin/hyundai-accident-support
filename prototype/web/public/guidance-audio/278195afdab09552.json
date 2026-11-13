@@ -1,0 +1,23 @@
+{
+  "voiceId": "gKJdDVRmX8dROO8aA5I8",
+  "voiceName": "JaeGyu - Calm & Trustworthy",
+  "model": "eleven_v4",
+  "script": "전송을 보류했어요. 기록을 이 기기에 저장하지 못해 현재 화면에만 남아 있어요. 구호·차량 지원은 계속 진행돼요.",
+  "scriptHash": "278195afdab09552a8d8fc628f8ace05fce9d2fb399b2c836d51dd43e5c6c278",
+  "file": "278195afdab09552.mp3",
+  "path": "/guidance-audio/278195afdab09552.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "emergency/deferred_storage_failed"
+  ],
+  "duration": 8.72,
+  "bytes": 210694,
+  "audioHash": "dac09c8735715a429db64f438e7f35cf31d2ed7d6d5e3870221582e7125237cb",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-13T07:51:20.930Z"
+}

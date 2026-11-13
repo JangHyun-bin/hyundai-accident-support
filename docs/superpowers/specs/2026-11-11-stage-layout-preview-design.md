@@ -1,5 +1,7 @@
 # Stage와 layout 연결 preview
 
+> 역사 preview spec이다. Global 7단계·checklist·통화/전송/접수 의미는 후속 설계에서도 참조한다. 아래 면적 목표·fixed seed·최대 내부 rectangle·4000ms 시작 간격은 현행 배치 규칙이 아니다. [Stable layout spec](2026-11-12-stable-voronoi-layout-design.md), [외형 보완](../results/2026-11-12-voronoi-visual-regression.md), [Pleos display·조작 기준](../../design-system/pleos-display-and-controls.md)이 이를 대체한다. 아래 검증은 당시 source의 기록이다.
+
 사용자 승인: 대화에서 제안한 연결표를 짧은 spec으로 확정하고 localhost 한 화면에서 전체 전환 확인 요청. 이 문서는 해당 선택과 preview 범위를 기록함.
 
 ## 목적과 범위

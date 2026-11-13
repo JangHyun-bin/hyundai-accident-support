@@ -4,9 +4,9 @@
 
 사용자가 승인한 세 가지 방향을 같은 구성에서 비교하는 별도 visual PoC다.
 
-**2026-11-06 선택: C · Satin metal.** 사용자가 세 PoC를 본 뒤 C를 선택했다. 이후 surface design은 C의 불규칙한 가는 결과 길게 퍼지는 highlight를 기준으로 검토한다. A/B는 비교 기록으로 보존한다. 현재 slider 기본값은 PoC의 출발점이며, 최종 app의 강도·색·적용 위치가 확정된 것은 아니다. App에는 아직 적용하지 않았다.
+2026-11-06 사용자는 세 PoC를 본 뒤 **C · Satin metal**을 선택했다. 아래 shader·slider 설명은 당시 독립 study의 비교 기준이다. App의 현행 surface·preset 기준은 [Web README](../../README.md)와 [현행 시각 기준](../../../../docs/superpowers/specs/2026-11-12-figma-visual-contract.md)을 따른다.
 
-**후속 preview:** [긴급 상황 storyboard에 C 적용](http://127.0.0.1:5173/?study=emergency&material=satin). 같은 Gabor 원리와 anisotropic sheen을 어두운 배경에 맞추고, 읽기 영역의 밝기를 제한했다. 기존 flat과 같은 장면에서 전환할 수 있다. 이 적용은 web preview이며 최종 native app 적용을 뜻하지 않는다.
+과거 `?study=emergency&material=satin` preview는 현재 `material=satin` 전환을 지원하지 않는다. 긴급 화면은 [현재 storyboard](http://127.0.0.1:5173/?study=emergency), 독립 C 재질은 아래 study 링크에서 확인한다. 당시 flat/Satin 비교를 현행 app의 선택 기능으로 해석하지 않는다. Web study는 최종 native app 적용을 뜻하지 않는다.
 
 - [세 후보 비교](http://127.0.0.1:5173/studies/optical-materials.html?view=compare)
 - [A · Photographic diffusion](http://127.0.0.1:5173/studies/optical-materials.html?variant=A&view=focus)
@@ -41,7 +41,7 @@
 
 `npm run test:ui -- tests/optical-materials.spec.ts`로 확인한다. 서로 다른 실제 canvas 출력, 효과 제거 시 공통 baseline, 정지 render의 재현성, 조명 변경, detail inspection, 초기화, keyboard·URL 전환, 375px overflow, offline 실행, WebGL 불가 안내를 검사한다. Capture는 `prototype/web/evidence/optical-materials/`에 있다.
 
-WebGL 2가 필요하다. 사용할 수 없으면 오류를 표시하며 CSS fallback을 완성된 material로 제시하지 않는다. On-demand render이고 자동 frame loop는 없다. 차량 GPU·AAOS·Compose 이식, 실제 재료의 광학 정확도, display calibration과 사용자 가독성은 검증하지 않았다. 기존 app과 spec은 변경하지 않았다.
+WebGL 2가 필요하다. 사용할 수 없으면 오류를 표시하며 CSS fallback을 완성된 material로 제시하지 않는다. On-demand render이고 자동 frame loop는 없다. 차량 GPU·AAOS·Compose 이식, 실제 재료의 광학 정확도, display calibration과 사용자 가독성은 검증하지 않았다. 이 절의 구현·검증 범위는 당시 독립 study이며 이후 app 변경을 설명하지 않는다.
 
 ## Subtle gradient study — original
 

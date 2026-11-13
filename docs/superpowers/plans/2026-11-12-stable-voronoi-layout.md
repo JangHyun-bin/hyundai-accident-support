@@ -1,5 +1,7 @@
 # Stable Voronoi Layout Implementation Plan
 
+> 역사 실행 계획이다. 아래 389/389와 전체 gate 완료는 당시 source의 결과이며 현재 branch의 통과가 아니다. 후속 display 기준은 [Pleos 문서](../../design-system/pleos-display-and-controls.md), PR #11 판정과 남은 전역 목표는 [완료 추적](../../../specs/after-care-system/completion.md)을 따른다.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans for integration and the user-authorized A/B/C parallel streams. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** 실제 Journey 1–7에서 고정된 차량 frame, 안정된 text, 읽고 조작할 수 있는 persistent editor를 제공.

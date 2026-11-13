@@ -1,5 +1,7 @@
 # Stable Voronoi layout 검증 결과
 
+> 역사 결과다. 아래 389/389와 gate 완료는 당시 source에 한정한다. 후속 [외형 보완](2026-11-12-voronoi-visual-regression.md)과 [display 기준](../../design-system/pleos-display-and-controls.md)을 함께 읽는다. 현재 branch 통과로 승계하지 않으며 PR #11 판정·남은 전역 목표는 [완료 추적](../../../specs/after-care-system/completion.md)에서 구분한다.
+
 ## 적용 범위
 
 실제 Journey 1–7, Flow preview, Catalog가 `FlowFrame`과 `FlowPlan`을 공유하도록 통합. 정상 차량 환경에서 외곽 크기는 host가 결정하며, 내용 길이는 profile 선택에 영향을 주지 않음. Editor의 직사각형 slot을 먼저 예약하고 rounded surface를 그 바깥에 배치하는 방식.

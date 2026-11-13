@@ -32,10 +32,21 @@ Credential은 repository 밖 local 설정에서만 사용. 이 문서와 fronten
 - UTF-8 JSON을 temporary file에서 --data-binary로 전달. Curl config 안의 이중 JSON escaping은 한국어를 손상시킴을 local HTTP server에서 재현. 해당 첫 생성물은 public에서 격리; 재생성물 6.8s MP3만 public에 보관.
 - Pilot: `public/guidance-audio/f2672771e5fe1ba5.mp3`, SC01/connected. 청취 검증·frontend 연결은 아직 진행 전.
 
-## 현재 구현·권한 경계 · 2026-11-13
+## PR #11 당시 구현·권한 경계 · 역사 기록
 
-- 기존 frontend는 선택만 한 상태가 아니라 `src/audio/assets.json`의 사전 생성 JaeGyu MP3를 사용한다. `useGuidanceAudio`가 정확한 원고를 조회하고 scene·안내 context·pagehide·hidden에서 취소한다. 현재 전체 연결·새 variant의 실증 상태는 [완료 추적](../after-care-system/completion.md)을 따른다.
-- 과거 2026-11-10 Creator/active 조회는 현재 계정·잔여 할당량의 증거가 아니다. 이번 환경에는 문서화된 local credential과 두 환경변수가 없어 계정 재조회·새 필수 원고 생성은 차단됐다. 비밀을 repo나 채팅에 붙이지 않는다.
-- 이번 사용자 query가 허용한 상한은 기존 구독 안의 신규 원고4개·합계1,200 codepoint·TTS HTTP4회(실패 포함)다. 추가 결제·plan 변경·key 권한 확대·다른 유료 API는 금지다. 현재 실제 생성 요청은0회다.
+- PR #11 frontend는 `src/audio/assets.json`의 사전 생성 JaeGyu MP3를 사용했다. `useGuidanceAudio`가 정확한 원고를 조회하고 scene·안내 context·pagehide·hidden에서 취소한다. 당시 판정은 [완료 추적](../after-care-system/completion.md)에 보존한다.
+- PR #11 복구 환경에서는 문서화된 local credential과 두 환경변수가 없어 계정 재조회·필수 원고 생성이 차단됐다. 과거 2026-11-10의 Creator/active 조회를 당시 권한 근거로 쓰지 않았다. 비밀을 repo나 채팅에 붙이지 않는다.
+- 당시 허용 상한은 기존 구독 안의 신규 원고4개·합계1,200 codepoint·실패 포함 TTS HTTP4회였다. 당시 실제 생성 요청은0회였다. 이후 정리에서도 추가 결제·plan 변경·key 권한 확대·다른 유료 API는 사용하지 않는다.
 - 필수 새 asset이 없으면 정확한 오류 원고를 제공하더라도 해당 복구를 완료로 표시하지 않는다. 다른 원고 MP3·묵음·가짜 metadata로 대신하지 않으며 merge를 차단한다.
 - 2026-11-10의 “청취·frontend 연결 전”은 당시 pilot 기록이다. 현재 frontend 연결과 사람 청취 미실시를 별도로 표현한다.
+
+## 2026-11-13 repo 정리에서 신규 음성 생성
+
+기존 user-local ElevenLabs 설정 파일을 찾아 현재 subscription을 다시 확인했다. Creator/active, 생성 전 1,408 / 131,000 character였다. CLI 설치 없이 기존 `prototype/web/scripts/generate-guidance-audio.mjs`를 실행했다.
+
+- `record_storage_failed`, `deferred_storage_failed`, `insurance_unconfirmed`, `insurance_not_received`의 실제 MP3와 provenance sidecar를 생성했다.
+- 원고4개·251 codepoint·TTS HTTP4회로 기존 상한을 지켰다. 생성 재시도, 추가 결제, plan 변경, 유료 overage 활성화는 없었다.
+- 기존64개 metadata와 MP3 hash는 바뀌지 않았다. 총68개 원고·hash·sidecar·출처 대조와 FFmpeg decode를 통과했다.
+- [생성 근거](../../evidence/repository-cleanup/audio-generation.json)와 [offline 검사](../../evidence/repository-cleanup/audio-verification.json)를 기록했다. [Web 전체447/447](../../evidence/repository-cleanup/verification.json)은 새4개 실제 파일의 hash·decode·browser playback을 포함한다. 사람 청취 완료를 뜻하지 않는다.
+
+이 생성 결과는 PR #11 당시의 자산 부재·merge 예외를 소급 변경하지 않는다.

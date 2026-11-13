@@ -328,7 +328,6 @@ private fun ReviewButton(label: String, selected: Boolean, tag: String, modifier
     }
 }
 
-// C · Satin: prototype/web/src/emergency/SatinSurface.tsx 의 GLSL 을 AGSL 로 옮겼다.
 // GLSL pow(x, 2.) 는 음수 x 에서 정의되지 않으므로 x*x 로 쓴다.
 internal const val SATIN = """
 uniform float2 size;

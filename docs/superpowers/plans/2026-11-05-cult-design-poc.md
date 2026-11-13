@@ -1,5 +1,7 @@
 # Cult UI Design PoC Implementation Plan
 
+> 역사 계획이다. Task 1 체크는 [당시 비교·검증 기록](../../reviews/cult-design-poc.md)을 반영한다. Task 2는 긴급 storyboard로 대체됐고 Task 3는 승인된 SC05 범위로 변경됐다. 이 PoC의 완료는 전체 Compose·전역 디자인·음성·영상 목표의 완료가 아니다. 현행 범위와 남은 목표는 [완료 추적](../../../specs/after-care-system/completion.md)을 따른다.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** 실제 Cult UI source를 사용하는 두 가지 첫 화면을 localhost에서 비교하고, 선택한 화면의 상태 전환을 검증한 뒤 Kotlin + Compose의 한 화면으로 재현한다.
@@ -83,33 +85,35 @@ Motion 값은 조정 가능한 project 제안이다. 긴급 안내 문구는 장
 
 **Interface:** `Variant = 'focus' | 'context'`, `CaseId = 'urgent' | 'partial' | 'unconfirmed'`. `cases.ts`에서 공통 `DesignCase`와 `cases: Record<CaseId, DesignCase>`를 export한다. `DesignCase`에는 `title`, `guidance`, `primaryActionLabel`, `context: {label, value}[]`, `requests: {id, label, status}[]`, `sourceNodes: string[]`를 둔다. 두 view는 동일한 `caseData: DesignCase`를 받는다. 이 단계의 화면에는 `urgent`만 노출한다.
 
-- [ ] 현재 작업 상태를 확인하고 새 branch를 생성한다. 최소 React·TypeScript·Tailwind 환경과 `dev`, `check`, `test:ui` script를 추가한다. `check`는 typecheck와 production build를 수행한다.
-- [ ] 공식 source를 읽은 뒤 Halo Card·Halo Badge·TransitionPanel을 가져온다. License·URL·수신 원본 SHA-256·변경 내역을 `SOURCES.md`에 기록한다. Asta Sans와 OFL은 기존 `prototype/android/`의 asset을 재사용한다.
-- [ ] Browser test `same_urgent_case_in_both_variants`를 작성한다. 두 view에서 부상·고속도로·차량 이동 가능·조작 가능 미확인을 확인하고, 같은 주 행동 문구를 요구한다. 이동을 지시하는 CTA가 없어야 한다. 초기 실패를 확인한다.
-- [ ] 공통 fixture와 두 view를 구현한다. 동작하는 상세 열기 대신, 첫 단계에서는 안내의 보조 내용 펼치기에 TransitionPanel을 적용하여 실제 motion을 비교한다. Primary CTA는 `도움 요청 안내 보기`로 통일한다. 해당 문구는 검토용 제안으로 기록한다.
-- [ ] `npm run check`와 `npm run test:ui`를 통과시킨다. Browser에서 원래 크기로 두 화면과 전환을 직접 확인하고 screenshot 두 개·짧은 motion 기록·localhost 주소를 제시한다.
-- [ ] Source·lockfile·license·검증 기록을 함께 commit한다. 사용자가 고른 구조와 유지할 요소를 `docs/reviews/cult-design-poc.md`에 기록한다. 선택 전에 Task 2로 확장하지 않는다.
+- [x] React·TypeScript·Tailwind 환경과 `dev`, `check`, `test:ui` script를 추가했다. `check`는 typecheck와 production build를 수행한다.
+- [x] Halo Card·Halo Badge·TransitionPanel과 Asta Sans를 사용하고 source·license·hash·변경 내역을 기록했다.
+- [x] 두 view의 동일 상황·상태 표시 검사를 추가했다. 초기 실패와 구현 후 결과는 당시 비교 기록에 남겼다.
+- [x] 공통 fixture와 두 view를 구현했다. 안내 펼치기에 TransitionPanel을 적용하고 주 행동 문구를 통일했다.
+- [x] 당시 `npm run check`와 네 browser 검사를 통과했다. 실제 browser의 두 화면·전환과 screenshot·motion 기록을 제공했다.
+- [x] Source·lockfile·license·비교 기록을 남기고 사용자 선택 A · 행동 중심을 기록했다.
 
-## Task 2 · 선택한 화면의 세 상태와 상세 확인
+## Task 2 · 대체된 세 상태와 상세 확인 계획
 
 **Interface:** Task 1의 `DesignCase`를 유지한다. 요청 상태는 `'not-sent' | 'sent' | 'received' | 'unknown'`으로 제한한다. 화면 label은 각각 `전송 전`, `전송됨`, `접수 확인`, `접수 미확인`이다. `App.tsx`가 선택된 fixture와 변경 상태를 소유하여 view 전환이나 상세 열기·닫기에서 요청 상태가 유실되지 않게 한다. 새로고침은 fixture 초기 상태로 돌아간다.
 
-- [ ] Browser test `request_states_remain_independent`를 추가하고 실패를 확인한다. `partial`에서 세 기관의 label이 각각 다르며, `unconfirmed`를 열고 닫아도 미확인이 유지되어야 한다. 전송 시연으로 접수 확인이나 전체 완료가 나타나면 실패다.
-- [ ] 선택한 view에 세 fixture와 실제 Side Panel source를 연결한다. Fixture 변경은 명시적 초기화이며, 구조 전환은 기존 local 상태를 유지한다. `?view=focus&case=urgent`와 같은 URL은 초기 장면을 재현하며 잘못된 값은 `focus`·`urgent`로 처리한다.
-- [ ] 상세의 수신처·목적·항목·전송 시연·보류를 구현한다. Panel을 닫을 때 열기 control로 focus를 돌려준다. Keyboard만으로 열기·이동·닫기가 가능해야 한다. 반복 클릭이 시연 요청을 중복 생성하지 않게 한다.
-- [ ] Test `detail_keeps_focus_and_state`와 `reduced_motion_and_long_copy`를 추가한다. 빠른 열기·닫기, keyboard focus 복원, 긴 문구, browser 200% 확대, reduced motion에서 주요 행동의 접근 가능성을 확인한다.
-- [ ] `npm run check`·`npm run test:ui`를 통과시킨다. 실제 browser에서 세 상태의 text·contrast·clipping·motion을 확인하고 선정 화면의 기록을 갱신한다. 상태 의미나 새 위험 안내를 animation으로 지연시키지 않는다.
-- [ ] 변경을 commit하고 사용자가 확인할 localhost 주소와 세 장면을 제공한다. Design 검토 결과를 기록한다.
+아래는 실행하지 않은 원래 계획이다. 미완료 작업 목록이 아니라 [긴급 storyboard 계획](2026-11-05-emergency-storyboard.md)으로 대체된 범위다. Side Panel을 구현한 것으로 표시하지 않는다.
+
+- Browser test `request_states_remain_independent`를 추가하고 실패를 확인한다. `partial`에서 세 기관의 label이 각각 다르며, `unconfirmed`를 열고 닫아도 미확인이 유지되어야 한다. 전송 시연으로 접수 확인이나 전체 완료가 나타나면 실패다.
+- 선택한 view에 세 fixture와 실제 Side Panel source를 연결한다. Fixture 변경은 명시적 초기화이며, 구조 전환은 기존 local 상태를 유지한다. `?view=focus&case=urgent`와 같은 URL은 초기 장면을 재현하며 잘못된 값은 `focus`·`urgent`로 처리한다.
+- 상세의 수신처·목적·항목·전송 시연·보류를 구현한다. Panel을 닫을 때 열기 control로 focus를 돌려준다. Keyboard만으로 열기·이동·닫기가 가능해야 한다. 반복 클릭이 시연 요청을 중복 생성하지 않게 한다.
+- Test `detail_keeps_focus_and_state`와 `reduced_motion_and_long_copy`를 추가한다. 빠른 열기·닫기, keyboard focus 복원, 긴 문구, browser 200% 확대, reduced motion에서 주요 행동의 접근 가능성을 확인한다.
+- `npm run check`·`npm run test:ui`를 통과시킨다. 실제 browser에서 세 상태의 text·contrast·clipping·motion을 확인하고 선정 화면의 기록을 갱신한다. 상태 의미나 새 위험 안내를 animation으로 지연시키지 않는다.
+- 변경을 commit하고 사용자가 확인할 localhost 주소와 세 장면을 제공한다. Design 검토 결과를 기록한다.
 
 ## Task 3 · Compose 한 화면의 재현 가능성 검증
 
-**Interface:** `docs/reviews/cult-design-poc.md`에 선정 구조, 역할별 token, 한국어 문구, fixture, motion의 시작·끝 상태, 열기·닫기·뒤로 동작을 기록한다. Web의 component 이름과 CSS 수치는 참조이며 Compose API나 dp 값으로 자동 변환하지 않는다.
+**변경된 범위:** 사용자 승인으로 SC05 세 장면 + C · Satin을 검증 대상으로 정했다. 원래 상세 panel 계획은 실행하지 않았다. 아래 체크는 [2026-11-07 재현 기록](../../reviews/cult-design-poc.md#task-3--compose-재현-2026-11-07)의 실제 범위다.
 
-- [ ] 선정 화면에서 구현 난도가 높은 조합인 **기관별 상태 유지 + 상세 열기·닫기 + 상태 전환**을 native 검증 대상으로 고정한다. 새 native project를 만들지 않고 기존 Compose PoC를 사용한다.
-- [ ] `MainActivity.kt`에서 같은 fixture와 화면을 구현한다. 기존 Asta Sans를 사용하며 가용 영역·density·font scale을 확인하여 크기를 정한다. Web의 blur·spring을 그대로 복제할 수 없는 경우 의미와 가독성을 유지하는 대안을 기록한다.
-- [ ] `prototype/android/`에서 `./gradlew assembleDebug`를 실행한다. 전용 `accident-support-poc` emulator에서 접수 미확인 유지, 상세 닫기·Android Back, 큰 font scale, animation 비활성 상태의 표시를 확인한다.
-- [ ] Emulator 직접 실행과 실제 동영상으로 web·native를 비교한다. 기존 900 ms screenshot 갱신 page는 motion의 검증 근거로 사용하지 않는다. 차이가 큰 부분을 조정하고 남은 차이를 기록한다.
-- [ ] Build 결과·화면·동작 확인 근거와 한계를 commit한다. Native 한 화면의 재현이 확인된 후 전체 Compose E2E 확장 범위를 별도로 정한다.
+- [x] 기존 Compose PoC에 같은 `scenarios.json`의 세 장면과 상태·문구를 구현했다.
+- [x] Asta Sans·Satin shader와 API별 fallback을 적용하고 Web과의 차이를 기록했다.
+- [x] 당시 `assembleDebug`와 emulator 검사15/15를 통과했다. Font scale1.3·2.0과 animation 꺼짐에서도15/15를 확인했다.
+- [x] 세 장면의 clipping·주 행동·상태를 직접 확인했다. Android Back은 activity를 종료하며 재진입은 초기 장면으로 시작했다.
+- [x] 눈에 띄는 motion이 없어 동영상 대신 같은 장면의 정지 화면으로 비교했다. 음성·일시 중단·강도 조절·실차·전체 Compose E2E는 이 완료 범위가 아니다.
 
 ## 완료 기준과 후속 범위
 
@@ -123,4 +127,4 @@ GitHub에는 source·문서·license·lockfile·대표 비교 기록을 저장�
 
 - Task 1: 완료. [비교 기록](../../reviews/cult-design-poc.md).
 - Task 2: [긴급 storyboard](2026-11-05-emergency-storyboard.md)로 대체. Side Panel은 만들지 않았다.
-- Task 3: 사용자 승인에 따라 대상을 SC05 세 장면 + C · Satin으로 다시 정했다. 상세 열기·닫기 대신 Android Back과 activity 재생성 후 상태 유지를 확인했다. 결과는 [비교 기록의 Task 3](../../reviews/cult-design-poc.md#task-3--compose-재현-2026-11-07)에 있다.
+- Task 3: 사용자 승인에 따라 대상을 SC05 세 장면 + C · Satin으로 다시 정했다. 상세 열기·닫기는 구현하지 않았다. Android Back 종료 후 다시 열면 초기 장면으로 시작하는 동작을 확인했다. 결과는 [비교 기록의 Task 3](../../reviews/cult-design-poc.md#task-3--compose-재현-2026-11-07)에 있다.

@@ -10,9 +10,9 @@
 
 **Spec:** [전체 여정 제품 및 UI/UX spec](../specs/2026-11-09-full-journey-design.md). 구현자는 이 plan과 spec을 함께 읽음.
 
-상태: 문서 검토·builder check 반영 완료, 착수 준비. 기준 commit `70c4946`. 아래 checkbox는 구현 완료 기록이며 현재 모두 미착수. 이 문서 작성은 제품 구현·외부 연동·push·merge 실행을 뜻하지 않음.
+계획 작성 시점의 기준 commit은 `70c4946`이며 당시에는 구현 착수 전이었다. 아래 checkbox와 실행 ledger는 이후 구현 진행을 기록한다. 체크된 항목을 현재 미착수로 해석하지 않는다. 외부 연동·push·merge 여부는 각 실행 기록의 범위를 따른다.
 
-2026-11-13 상태 정정: 위의 “모두 미착수”와 아래 “이번 준비 작업”은 계획 작성 시점의 기록이다. 이후 checkbox와 실행 ledger는 구현 진행을 기록하므로 현재 미구현이라는 뜻이 아니다. 현재 코드·과거 검증·남은 전역 목표는 `specs/after-care-system/completion.md`에서 구분한다. 과거 통과 수를 최신 branch 검증으로 재사용하지 않는다.
+현행 구현 범위·과거 검증·남은 전역 목표는 [완료 추적](../../../specs/after-care-system/completion.md)에서 구분한다. 아래 초기 fixed app 크기·배치는 [stable layout spec](../specs/2026-11-12-stable-voronoi-layout-design.md)과 [Pleos display 기준](../../design-system/pleos-display-and-controls.md)으로 대체됐다. 과거 통과 수를 현재 branch 검증으로 재사용하지 않는다.
 
 ## Global Constraints
 

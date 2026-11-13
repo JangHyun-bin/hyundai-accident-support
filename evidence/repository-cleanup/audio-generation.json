@@ -1,0 +1,69 @@
+{
+  "checkedAt": "2026-11-13T07:53:36.683462+00:00",
+  "generator": "prototype/web/scripts/generate-guidance-audio.mjs",
+  "provider": "ElevenLabs",
+  "voiceId": "gKJdDVRmX8dROO8aA5I8",
+  "model": "eleven_v4",
+  "existingAssetsPreserved": 64,
+  "generatedAssets": 4,
+  "totalAssets": 68,
+  "newCodepoints": 251,
+  "ttsHttpRequests": 4,
+  "ttsHttpRequestLimit": 4,
+  "generationRetries": 0,
+  "accountTier": "creator",
+  "accountStatus": "active",
+  "characterCountBefore": 1408,
+  "characterCountAfter": 1519,
+  "characterLimit": 131000,
+  "planChanged": false,
+  "paidOverageEnabled": false,
+  "credentialSource": "Existing user-local ElevenLabs config outside the repository; no credential is copied into evidence",
+  "newAssets": [
+    {
+      "file": "36ca20f656f0891f.mp3",
+      "scriptHash": "36ca20f656f0891f525f5b711cfe798a22a547ee2a5a64a6c911363e4a881a51",
+      "audioHash": "5fac2023f82b28750fc0f48c6e81eca9811cc17d3080f4c0831f209f679c3dad",
+      "duration": 7.92,
+      "bytes": 191886,
+      "generatedAt": "2026-11-13T07:51:17.947Z",
+      "sources": [
+        "emergency/record_storage_failed"
+      ]
+    },
+    {
+      "file": "278195afdab09552.mp3",
+      "scriptHash": "278195afdab09552a8d8fc628f8ace05fce9d2fb399b2c836d51dd43e5c6c278",
+      "audioHash": "dac09c8735715a429db64f438e7f35cf31d2ed7d6d5e3870221582e7125237cb",
+      "duration": 8.72,
+      "bytes": 210694,
+      "generatedAt": "2026-11-13T07:51:20.930Z",
+      "sources": [
+        "emergency/deferred_storage_failed"
+      ]
+    },
+    {
+      "file": "e5d2c3f92537a8cf.mp3",
+      "scriptHash": "e5d2c3f92537a8cf95c9f5c91e587a15a27876076ae52e48117ea1562ba5376b",
+      "audioHash": "cffd9fcdbd04ae95ae820bad9b04266a680ff653429d026b7867b07d4ba7bd01",
+      "duration": 8.16,
+      "bytes": 197528,
+      "generatedAt": "2026-11-13T07:51:23.395Z",
+      "sources": [
+        "emergency/insurance_unconfirmed"
+      ]
+    },
+    {
+      "file": "45526d3060147367.mp3",
+      "scriptHash": "45526d30601473677e2143b2644838ba5cab7935f007e00a90b7ea36ef24a483",
+      "audioHash": "58989a9022ce27b58f20ebee102c01948b4df58e8776c6cffc06ee51a189c60e",
+      "duration": 9.2,
+      "bytes": 222606,
+      "generatedAt": "2026-11-13T07:51:26.153Z",
+      "sources": [
+        "emergency/insurance_not_received"
+      ]
+    }
+  ],
+  "verification": "All 68 script/hash/sidecar/source records and ffmpeg decode pass. Actual browser playback is checked separately. No human listening or remote transcription claim."
+}

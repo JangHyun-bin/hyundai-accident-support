@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-11-13T07:53:02.021811+00:00",
+  "sourceCommit": "25e07b399bc8f38cc7b56bf4fb8397dd5d315149",
+  "sourceIndex": "artifact-index.json",
+  "sourceIndexSha256": "ccb2a02df5f5434f30afcc2b4fc8f14e94231740bdedb1def398edcb46d2b2ed",
+  "repository": "JangHyun-bin/hyundai-accident-support",
+  "releaseTag": "evidence-contract-repair-2026-11-13",
+  "releaseUrl": "https://github.com/JangHyun-bin/hyundai-accident-support/releases/tag/evidence-contract-repair-2026-11-13",
+  "asset": "contract-reliability-repair-traces-2026-11-13.tar",
+  "sha256": "369839b20645d8c0931246530925e935d9aa7d8673555bbb087af43f3a5ab307",
+  "archiveBytes": 445173760,
+  "fileCount": 96,
+  "fileBytes": 445091835,
+  "selection": "artifact-index.json files whose path ends with /trace.zip",
+  "retained": "All 461 non-trace artifacts, including raw frame JSON, screenshots, WebM recordings, errors and run logs, remain in Git. Existing PR11 manifests stay unchanged.",
+  "policy": "External byte-identical archive. Restore original paths from the tar when inspecting a trace. Historical manifest paths and hashes are unchanged. Git history is not rewritten."
+}

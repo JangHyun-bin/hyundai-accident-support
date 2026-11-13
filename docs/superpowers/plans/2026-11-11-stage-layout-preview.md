@@ -1,5 +1,7 @@
 # Stage Layout Preview Implementation Plan
 
+> 역사 계획이다. Global 7단계·checklist·통화/전송/접수 의미는 유지하지만 최대 내부 rectangle·4000ms 시작 간격·초기 geometry는 [stable layout spec](../specs/2026-11-12-stable-voronoi-layout-design.md)과 후속 [외형 보완](../results/2026-11-12-voronoi-visual-regression.md)으로 대체됐다. 현행 display·조작 위치는 [Pleos 기준](../../design-system/pleos-display-and-controls.md)을 따른다. 아래 체크는 당시 실행 기록이다.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox syntax for tracking.
 
 **Goal:** localhost 한 화면에서 승인한 stage/layout event 흐름을 조작 가능하게 구현.

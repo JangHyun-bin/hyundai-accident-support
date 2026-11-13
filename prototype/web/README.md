@@ -2,11 +2,11 @@
 
 기본 진입 `/`는 차량·mobile **전체 여정**이다. `?study=emergency`는 공유 manifest의 긴급 상황 storyboard다. 실제 차량·전화·보험사 연계가 아니라 local 시연이며, 카메라·마이크·미디어·저장은 실제 browser API를 사용한다.
 
-현재 계약·신뢰성 repair 실행 결과는 [전역 완료 추적](../../specs/after-care-system/completion.md)과 [32개 요구 상태](../../evidence/contract-reliability-repair/requirements.json)에서 확인한다. 과거 screenshot이나 PASS 기록을 현재 branch의 통과로 해석하지 않는다.
+현재 source의 [repo 정리 검증](../../evidence/repository-cleanup/README.md)은 Web447/447·안내 음성68개를 확인했다. 남은 전역 목표와 PR #11의 역사 범위는 [완료 추적](../../specs/after-care-system/completion.md)에서 구분한다. [32개 요구 상태](../../evidence/contract-reliability-repair/requirements.json)는 PR #11 당시 판정으로 보존하며 이후 source의 결과로 덮어쓰지 않는다.
 
 ## 실행
 
-Node.js 22.12 이상과 npm이 필요하다. Google Chrome은 browser 검사에 사용한다.
+Node.js 22.12 이상과 npm이 필요하다. Google Chrome은 browser 검사에 사용한다. 저장소 루트에서 다음 명령을 실행한다.
 
 ```sh
 cd prototype/web
@@ -69,6 +69,8 @@ Browser TTS가 아니라 **사전 생성 JaeGyu/eleven_v4 MP3**를 정확한 원
 
 장면·안내 context 변경·pagehide·숨김·사용자 녹음 시작에서 이전 재생을 중단한다. 파일 부재·재생 실패는 정확한 원고와 오류를 표시하며 잘못된 MP3를 대신 재생하지 않는다. 필수 신규 자산이 없는 상태는 repair 완료가 아니다. 실제 자산 수·미생성 상태는 완료 추적을 따른다.
 
+현재는 필수 신규4개를 포함한68개 MP3가 있다. [생성 기록](../../evidence/repository-cleanup/audio-generation.json)과 [offline 검사](../../evidence/repository-cleanup/audio-verification.json)는 기존64개의 보존과 새4개의 실제 생성을 구분한다. 전체 browser suite에서 실제 파일 재생을 확인했으며 사람 청취 평가는 하지 않았다.
+
 API key는 frontend·repo에 없다. 앱 실행은 local MP3를 사용하며, 생성 script는 별도 권한으로 provider를 호출한다. 자동 전사·decode·browser 재생과 사람 청취를 구분한다. 통화 spectrum은119 실제 audio 분석이 아니고, 사용자 녹음 meter와 다르다.
 
 ## 검사
@@ -86,7 +88,7 @@ Repo root의 manifest 검사:
 node --test specs/emergency-experience/manifest.test.mjs
 ```
 
-현재 실행한 명령·결과·raw evidence는 repair 결과에서 확인한다. `evidence/emergency-complete/`, `evidence/journey/final-review-2026-11-10/`와 과거 stable 결과는 해당 source의 기록이다. 마지막 과거 display 전체 실행394/395의 음성 최대시간 실패는 단독1/1 성공으로 해결된 것으로 취급하지 않는다.
+현재 전체 실행은 [447/447](../../evidence/repository-cleanup/verification.json)이다. PR #11 repair 결과, `evidence/emergency-complete/`, `evidence/journey/final-review-2026-11-10/`와 stable 결과는 각각 당시 source의 기록이다. 과거 display 전체 실행394/395와 PR #11의434/447은 삭제하거나 새 결과로 덮어쓰지 않는다. 대용량 PR #11 ZIP은 [보관·복원 안내](../../evidence/contract-reliability-repair/trace-archive.md)를 따른다.
 
 ## 영상 재생성
 

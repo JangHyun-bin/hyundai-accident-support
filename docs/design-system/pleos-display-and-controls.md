@@ -39,6 +39,8 @@
 
 ## 검증 — 2026-11-12
 
+아래 395/395는 당시 source의 역사 결과다. 후속 경계 fix의 전체394/395와 단독1/1도 별도 실행이며, 앞선 성공이나 단독 성공으로 전체 실패를 닫지 않는다. 이후 PR #11의 원인 조사·판정과 남은 전역 목표는 [완료 추적](../../specs/after-care-system/completion.md)에서 구분한다. 이 절의 수치는 현재 branch 수용 판정이 아니다.
+
 - `npm run check`: TypeScript·production build 통과. 기존 bundle 크기 advisory 유지.
 - Playwright 전체 **395/395 통과**. 저장·승인·재시도, 7단계 전환, IME, 200% text, resize 중 Voronoi와 editor 보존 포함.
 - 실제 bounding box: 2560×1440, 1920×1080, 1440×810. 시연 설정 overlay를 열어도 frame 크기 유지.

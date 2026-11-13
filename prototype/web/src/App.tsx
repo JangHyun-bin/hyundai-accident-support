@@ -39,7 +39,7 @@ export default function App() {
   const props = { caseData: cases.urgent, expanded, setExpanded }
 
   return <main className="review-page">
-    <header className="review-header"><a className="review-brand" href="/">AFTER / CARE<span>Design study 01</span></a><div className="review-meta"><span className="demo-dot" /><span className="demo-copy">시연용 가상 정보</span><a href={catalog ? '/' : '/?catalog'}>{catalog ? '화면 비교' : 'Design 기준'}<ArrowRight size={14} aria-hidden="true" /></a></div></header>
+    <header className="review-header"><a className="review-brand" href="/">AFTER / CARE<span>Design study 01</span></a><div className="review-meta"><span className="demo-dot" /><span className="demo-copy">시연용 가상 정보</span><a href={catalog ? '/?study=legacy' : '/?study=legacy&catalog'}>{catalog ? '화면 비교' : 'Design 기준'}<ArrowRight size={14} aria-hidden="true" /></a></div></header>
     {catalog ? <Catalog /> : <>
       <div className="review-intro"><div><p className="eyebrow">사고 후 대응 지원 · 첫 화면 비교</p><h2>{variant === 'focus' ? '다음 행동에 집중하는 화면.' : '현재 상황을 함께 보는 화면.'}</h2></div><button className="size-control" aria-pressed={actualSize} onClick={() => setActualSize(!actualSize)}>{actualSize ? <Minimize2 size={16} /> : <Maximize2 size={16} />}{actualSize ? '전체 보기' : '원래 크기'}</button></div>
       <div className={`viewport ${actualSize ? 'actual-size' : ''}`} ref={viewport}><div className="canvas-space" style={{ width: 1440 * displayScale, height: 810 * displayScale }}><section className="app-screen" aria-label="사고 대응 화면" style={{ transform: `scale(${displayScale})` }}><ScreenHeader />{variant === 'focus' ? <FocusView {...props} /> : <ContextView {...props} />}</section></div></div>

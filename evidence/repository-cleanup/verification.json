@@ -1,0 +1,86 @@
+{
+  "checkedAt": "2026-11-13T08:00:32.825854+00:00",
+  "baseCommit": "25e07b399bc8f38cc7b56bf4fb8397dd5d315149",
+  "scope": "Uncommitted repository cleanup plus four new generated JaeGyu assets. Historical PR11 acceptance records remain unchanged.",
+  "checks": [
+    {
+      "command": "npm run check",
+      "cwd": "prototype/web",
+      "result": "passed",
+      "exitCode": 0,
+      "checks": [
+        "tsc --noEmit",
+        "vite build"
+      ],
+      "remainingWarning": "Vite reports a minified JavaScript chunk over 500 kB. No chunk-limit suppression or bundle redesign."
+    },
+    {
+      "command": "npx playwright test --reporter=line",
+      "cwd": "prototype/web",
+      "result": "passed",
+      "exitCode": 0,
+      "passed": 447,
+      "failed": 0,
+      "workers": 7,
+      "retriesConfigured": false,
+      "testFilesChanged": false,
+      "includes": "All four exact runtime asset hash/decode/playback tests and all eight SC04 guidance-state cases that failed before generation."
+    },
+    {
+      "command": "node check.mjs && node test-model.mjs && node test-review.mjs && python3 test-server.py",
+      "cwd": ".",
+      "result": "passed",
+      "exitCode": 0
+    },
+    {
+      "command": "node --test specs/emergency-experience/manifest.test.mjs prototype/web/scripts/generate-guidance-audio.test.mjs prototype/web/scripts/guidance-recording.test.mjs",
+      "cwd": ".",
+      "result": "passed",
+      "exitCode": 0,
+      "passed": 17,
+      "failed": 0
+    },
+    {
+      "command": "JAVA_HOME=\"<Android Studio JBR>\" ANDROID_HOME=\"<local Android SDK>\" prototype/android/gradlew --project-dir prototype/android --no-daemon -q assembleDebug assembleDebugAndroidTest",
+      "cwd": ".",
+      "result": "passed",
+      "exitCode": 0,
+      "limitation": "APK and instrumentation APK compile only; no emulator instrumentation rerun."
+    },
+    {
+      "command": "node scripts/verify-guidance-audio.mjs",
+      "cwd": "prototype/web",
+      "result": "passed",
+      "exitCode": 0,
+      "clips": 68,
+      "proof": "audio-verification.json"
+    },
+    {
+      "check": "Actual browser clicks and visual rendering",
+      "result": "passed",
+      "proof": "browser-smoke.json"
+    },
+    {
+      "check": "Actual Android preview HTTP boundary with no emulator attached",
+      "result": "passed",
+      "proof": "android-preview-smoke.json"
+    },
+    {
+      "check": "Independently download and extract historical trace archive; compare all557 original paths, sizes and SHA256",
+      "result": "passed",
+      "proof": "archive-verification.json"
+    }
+  ],
+  "operationalNotes": [
+    "First combined web build/test command completed the build, then Playwright refused to start because the owned browser-smoke server occupied port5173 under CI. No tests executed in that attempt. The smoke tab and its owned server were closed, then the unchanged full suite passed447/447.",
+    "No timeout, worker, retry, skip, test or acceptance-assertion change was used to obtain the passing suite.",
+    "Release creation initially rejected a short target commit. Retrying with the full original commit SHA succeeded; the published archive was downloaded and restored before removing in-repo ZIPs."
+  ],
+  "limits": [
+    "No human listening evaluation",
+    "No physical vehicle or live agency integration",
+    "No native emulator instrumentation in this cleanup",
+    "No new global end-to-end video or recovered original Figma approval",
+    "No Git history rewrite, local commit or source branch push"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "checkedAt": "2026-11-13T07:58:22.093564+00:00",
+  "command": "python3 prototype/android/preview-server.py",
+  "rootStatus": 200,
+  "frameStatusWithoutEmulator": 503,
+  "avd": "accident-repair-api35",
+  "serial": "emulator-5554",
+  "devicesAttached": 0,
+  "limitation": "No emulator was attached. Server HTTP behavior was exercised; native screenshot/tap or instrumentation was not run."
+}

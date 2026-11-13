@@ -1473,5 +1473,97 @@
     "audioHash": "340b59c77b5c2edcab5554b47163668c422f522e34aa35863c4f63c038c3be69",
     "payloadEncoding": "UTF-8 JSON file",
     "generatedAt": "2026-11-10T10:24:03.787Z"
+  },
+  {
+    "voiceId": "gKJdDVRmX8dROO8aA5I8",
+    "voiceName": "JaeGyu - Calm & Trustworthy",
+    "model": "eleven_v4",
+    "script": "기록을 이 기기에 저장하지 못했어요. 입력한 내용은 현재 화면에만 남아 있어요. 화면을 닫으면 사라져요.",
+    "scriptHash": "36ca20f656f0891f525f5b711cfe798a22a547ee2a5a64a6c911363e4a881a51",
+    "file": "36ca20f656f0891f.mp3",
+    "path": "/guidance-audio/36ca20f656f0891f.mp3",
+    "voiceSettings": {
+      "stability": 0.65,
+      "similarity_boost": 0.8,
+      "style": 0.05,
+      "use_speaker_boost": true
+    },
+    "sources": [
+      "emergency/record_storage_failed"
+    ],
+    "duration": 7.92,
+    "bytes": 191886,
+    "audioHash": "5fac2023f82b28750fc0f48c6e81eca9811cc17d3080f4c0831f209f679c3dad",
+    "payloadEncoding": "UTF-8 JSON file",
+    "generatedAt": "2026-11-13T07:51:17.947Z"
+  },
+  {
+    "voiceId": "gKJdDVRmX8dROO8aA5I8",
+    "voiceName": "JaeGyu - Calm & Trustworthy",
+    "model": "eleven_v4",
+    "script": "전송을 보류했어요. 기록을 이 기기에 저장하지 못해 현재 화면에만 남아 있어요. 구호·차량 지원은 계속 진행돼요.",
+    "scriptHash": "278195afdab09552a8d8fc628f8ace05fce9d2fb399b2c836d51dd43e5c6c278",
+    "file": "278195afdab09552.mp3",
+    "path": "/guidance-audio/278195afdab09552.mp3",
+    "voiceSettings": {
+      "stability": 0.65,
+      "similarity_boost": 0.8,
+      "style": 0.05,
+      "use_speaker_boost": true
+    },
+    "sources": [
+      "emergency/deferred_storage_failed"
+    ],
+    "duration": 8.72,
+    "bytes": 210694,
+    "audioHash": "dac09c8735715a429db64f438e7f35cf31d2ed7d6d5e3870221582e7125237cb",
+    "payloadEncoding": "UTF-8 JSON file",
+    "generatedAt": "2026-11-13T07:51:20.930Z"
+  },
+  {
+    "voiceId": "gKJdDVRmX8dROO8aA5I8",
+    "voiceName": "JaeGyu - Calm & Trustworthy",
+    "model": "eleven_v4",
+    "script": "보험 접수는 아직 확인되지 않았어요. 전송과 접수는 별도로 확인해요. 구호·차량 지원은 계속 진행돼요.",
+    "scriptHash": "e5d2c3f92537a8cf95c9f5c91e587a15a27876076ae52e48117ea1562ba5376b",
+    "file": "e5d2c3f92537a8cf.mp3",
+    "path": "/guidance-audio/e5d2c3f92537a8cf.mp3",
+    "voiceSettings": {
+      "stability": 0.65,
+      "similarity_boost": 0.8,
+      "style": 0.05,
+      "use_speaker_boost": true
+    },
+    "sources": [
+      "emergency/insurance_unconfirmed"
+    ],
+    "duration": 8.16,
+    "bytes": 197528,
+    "audioHash": "cffd9fcdbd04ae95ae820bad9b04266a680ff653429d026b7867b07d4ba7bd01",
+    "payloadEncoding": "UTF-8 JSON file",
+    "generatedAt": "2026-11-13T07:51:23.395Z"
+  },
+  {
+    "voiceId": "gKJdDVRmX8dROO8aA5I8",
+    "voiceName": "JaeGyu - Calm & Trustworthy",
+    "model": "eleven_v4",
+    "script": "보험 접수가 되지 않은 것을 확인했어요. 다시 보내려면 전송 범위를 확인하고 새로 승인해 주세요. 구호·차량 지원은 계속 진행돼요.",
+    "scriptHash": "45526d30601473677e2143b2644838ba5cab7935f007e00a90b7ea36ef24a483",
+    "file": "45526d3060147367.mp3",
+    "path": "/guidance-audio/45526d3060147367.mp3",
+    "voiceSettings": {
+      "stability": 0.65,
+      "similarity_boost": 0.8,
+      "style": 0.05,
+      "use_speaker_boost": true
+    },
+    "sources": [
+      "emergency/insurance_not_received"
+    ],
+    "duration": 9.2,
+    "bytes": 222606,
+    "audioHash": "58989a9022ce27b58f20ebee102c01948b4df58e8776c6cffc06ee51a189c60e",
+    "payloadEncoding": "UTF-8 JSON file",
+    "generatedAt": "2026-11-13T07:51:26.153Z"
   }
 ]

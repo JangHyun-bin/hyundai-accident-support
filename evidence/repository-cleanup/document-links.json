@@ -1,0 +1,8 @@
+{
+  "checkedAt": "2026-11-13T08:02:39.398505+00:00",
+  "checkedDocuments": 193,
+  "checkedLocalLinks": 480,
+  "checkedMarkdownAnchors": 87,
+  "brokenLinks": [],
+  "method": "Markdown inline relative links, including intra-file and cross-file heading anchors. External URLs and inline code/backtick paths are not network-checked."
+}

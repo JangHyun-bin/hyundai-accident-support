@@ -1,0 +1,10 @@
+{
+  "checkedAt": "2026-11-13T08:06:42.238452+00:00",
+  "method": "Before: sum unchanged base Git-index blob lengths. After: sum existing tracked and non-ignored new regular-file lengths, including this report. Excludes .git, dependencies, build outputs, ignored audit and external cache. Logical bytes, not allocated disk blocks.",
+  "beforeFiles": 1679,
+  "beforeBytes": 577979435,
+  "afterFiles": 1600,
+  "afterBytes": 133147427,
+  "removedTraceBytes": 445091835,
+  "gitHistoryRewritten": false
+}

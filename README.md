@@ -7,15 +7,15 @@ Figma 없이 원본 아이디어와 E2E flow를 확인·편집·저장하는 작
 - Web 기본 진입은 전체 여정 `/` 또는 `?study=journey`다. `?study=emergency`는 공유 JSON의 긴급 상황 storyboard이며 [실행·저장·시연 경계](prototype/web/README.md)를 따른다.
 - 공용 디자인 시스템은 catalog·제품이 같은 구현을 사용한다. 최신 display·조작 기준은 [Pleos display 문서](docs/design-system/pleos-display-and-controls.md), 누락 원문의 출처 정리는 [현행 시각 기준](docs/superpowers/specs/2026-11-12-figma-visual-contract.md)을 따른다. 후자는 사용자 승인 원문을 복원한 문서가 아니다.
 - [계약·신뢰성 복구 계획](docs/superpowers/plans/2026-11-12-contract-reliability-repair.md)은 Android·기록·안내·검증·문서 승계를 다룬다. 과거 PASS와 현재 실행 결과, 전체 디자인·영상 목표의 완료 여부를 구별한다.
-- 복구의 [미완료 항목과 PR #11 한정 사용자 merge 예외](specs/after-care-system/completion.md#6-pr-11-한정-merge-예외)를 별도로 추적한다. merge 여부를 32개 수용 기준 통과나 제품화 완료로 해석하지 않는다.
+- PR #11의 [당시 미완료 항목과 한정 merge 예외](specs/after-care-system/completion.md#6-pr-11-한정-merge-예외)는 역사 기록으로 보존한다. 이후 [repo 정리 검증](evidence/repository-cleanup/README.md)은 새 음성4개·전체447/447·대용량 trace 보관을 별도로 기록한다. 제품화 완료를 뜻하지 않는다.
 - 아래 Python editor는 원본 board 편집용이다. React 앱과 다른 실행 경로이며 `project.json` 저장은 Web 사고 기록 저장과 무관하다.
 
 ## Local board 열기
 
-`Open Local Board.command`를 실행하고 **http://127.0.0.1:8765** 를 연다. Python 3.9 이상과 Node.js 22 이상이 필요하다. 추가 package 설치와 Figma sign-in은 필요하지 않다.
+저장소 루트에서 `Open Local Board.command`를 실행하고 **http://127.0.0.1:8765** 를 연다. Python 3.9 이상과 Node.js 22 이상이 필요하다. 추가 package 설치와 Figma sign-in은 필요하지 않다.
 
 ```sh
-cd ~/Documents/cha-bun-flow
+# README.md와 serve.py가 있는 저장소 루트에서 실행한다.
 python3 serve.py
 ```
 
@@ -80,7 +80,7 @@ Native에는 Kotlin + Compose SC05 PoC가 있다. 과거 세 장면·C Satin 재
 
 ## Git과 확인
 
-이 directory는 [GitHub private repository](https://github.com/JangHyun-bin/hyundai-accident-support)의 `main`과 연결되어 있다. Editor에서 저장한 뒤 변경을 확인하고 의미 있는 단위로 commit·push한다. Editor의 저장은 local `project.json`에 반영되며 GitHub에 자동 전송되지는 않는다.
+이 directory는 [GitHub public repository](https://github.com/JangHyun-bin/hyundai-accident-support)의 `main`과 연결되어 있다. Editor에서 저장한 뒤 변경을 확인하고 의미 있는 단위로 commit·push한다. Editor의 저장은 local `project.json`에 반영되며 GitHub에 자동 전송되지는 않는다.
 
 ```sh
 git diff --stat

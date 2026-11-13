@@ -1,39 +1,43 @@
-# AFTER / CARE 목표와 Contract Reliability Repair 완료 추적
+# AFTER / CARE 목표와 PR #11 Contract Reliability Repair 기록
 
-갱신일: 2026-11-13. **원래 repair 수용 기준 미충족·PR #11 한정 사용자 merge 예외 적용. 전체 목표 완료 선언이 아니다.** 현재 실행 결과와 미검증 범위를 구분한다.
+문서 정정일: 2026-11-13. **아래 repair 판정과 실행 수치는 PR #11 merge 직전 snapshot이다. 원래 repair 수용 기준 미충족·PR #11 한정 사용자 merge 예외를 기록하며 전체 목표 완료 선언이 아니다.** 이후 source·자산 변경의 검증 결과로 덮어쓰지 않는다.
 
 - 원래 요구: [goal.md](goal.md)
 - 현행 설계: [design.md](design.md), [시각 기준의 출처·원문 미확보](../../docs/superpowers/specs/2026-11-12-figma-visual-contract.md)
-- 이번 범위: [repair 스펙](../../docs/superpowers/specs/2026-11-12-contract-reliability-repair-design.md), [실행 계획](../../docs/superpowers/plans/2026-11-12-contract-reliability-repair.md)
-- 현재 실행: [결과](../../docs/superpowers/results/2026-11-12-contract-reliability-repair.md), [32개 요구별 상태](../../evidence/contract-reliability-repair/requirements.json), [검사별 source 동일성](../../evidence/contract-reliability-repair/source-input-relation.json), [원시 산출물](../../evidence/contract-reliability-repair/artifact-index.json)
+- PR #11 범위: [repair 스펙](../../docs/superpowers/specs/2026-11-12-contract-reliability-repair-design.md), [실행 계획](../../docs/superpowers/plans/2026-11-12-contract-reliability-repair.md)
+- PR #11 실행 snapshot: [결과](../../docs/superpowers/results/2026-11-12-contract-reliability-repair.md), [32개 요구별 상태](../../evidence/contract-reliability-repair/requirements.json), [검사별 source 동일성](../../evidence/contract-reliability-repair/source-input-relation.json), [원시 산출물](../../evidence/contract-reliability-repair/artifact-index.json)
+
+이후 [repo 정리 검증](../../evidence/repository-cleanup/README.md)은 필수 신규 음성4개를 생성하고 Web 전체447/447·안내 음성68개 검사·원시 trace 보관 복원을 확인했다. 이는 아래 PR #11 당시의 미충족 항목을 소급 통과로 바꾸지 않는다. 전역 영상·사람 청취·실차·원본 승인 복원은 여전히 미완료다.
 
 ## 상태 정의
 
-- **verified:** 현재 source 범위에 맞는 직접 검사·관찰·문서 근거가 있음.
+- **verified:** 해당 실행 source 범위에 맞는 직접 검사·관찰·문서 근거가 있음.
 - **implemented-unverified:** 관련 구현은 있지만 현재 실행 증거가 아직 없거나 전체 요구를 입증하지 못함.
 - **unmet:** 필수 산출물·검증이 없음.
 - **blocked:** 외부 권한·환경 때문에 현재 완료 불가.
 - **historical:** 과거 source·시점의 기록이며 현재 통과로 재사용하지 않음.
 
-## 1. 이번 repair — 32개 요구
+## 1. PR #11 repair snapshot · 32개 요구
 
-32개 요구의 authoritative 상태는 위 `requirements.json`이다. 코드 worker 완료와 실행 통과는 별개다.
+32개 요구의 PR #11 판정 정본은 위 `requirements.json`이다. 코드 worker 완료와 실행 통과는 별개이며 이후 정리의 현재 수용 판정이 아니다.
 
-| 범위 | 요구 | 현재 상태 | 직접 확인/남은 조건 |
+| 범위 | 요구 | PR #11 상태 | 당시 직접 확인/남은 조건 |
 |---|---|---|---|
-| Android 공유 계약 | A01–A09 | verified | 현재 입력과 동일한 native source로 실제 API28/API35 각각41/41. SC05 전체11-state·effect·승인·복수 action·recreation; native SC01–04 UI는 범위 밖 |
-| 기록 신뢰성 | B01–B07 | verified | URL·2탭·IME·100/101·복구·승인 회귀와 영상14/14. 독립 P2 두 건 수정 후33/33·최신 full 해당 경로 통과 및 독립 closure |
-| 상태별 음성 | C01–C06 | blocked | resolver·UI·취소·거절·countdown 회귀 실행. 신규4개/251 codepoint의 실제 MP3 부재; 기존64개 decode만으로 완료 아님 |
-| 재현성·원인·증거 | E01–E05 | unmet | `.audit` 없는 clean 설치·native encoder 인과 실험·원시557개/14실행·입력/review/PR 연속성 확보. full434/447의 음성 누락13실패로 E03 미충족; 정확한 최종 head는 영구 PR 본문/comment에서 추적 |
-| 정본·문서 승계 | D01–D05 | verified | 원문 승인 미확보를 명시한 재구성·현재 문서·전역 goal 추적. 최종 로컬 링크·anchor와 문서 지문은 [검사 JSON](../../evidence/contract-reliability-repair/document-links.json)에서 추적 |
+| Android 공유 계약 | A01–A09 | verified | 당시 입력과 동일한 native source로 실제 API28/API35 각각41/41. SC05 전체11-state·effect·승인·복수 action·recreation; native SC01–04 UI는 범위 밖 |
+| 기록 신뢰성 | B01–B07 | verified | URL·2탭·IME·100/101·복구·승인 회귀와 영상14/14. 독립 P2 두 건 수정 후33/33·당시 full 해당 경로 통과 및 독립 closure |
+| 상태별 음성 구현·회귀 | C02/C04/C06 | verified | resolver·UI·취소·거절·countdown 회귀 실행. 필수 신규 MP3의 존재·재생 완료와 구분 |
+| 상태별 음성 자산·재생 | C01/C03/C05 | blocked | 신규4개/251 codepoint의 실제 MP3 부재; 기존64개 decode만으로 완료 아님 |
+| 재현성·원인·증거 | E01/E02/E04/E05 | verified | `.audit` 없는 clean 설치·native encoder 인과 실험·원시557개/14실행·입력/review/PR 연속성 확보 |
+| 전체 실행 gate | E03 | unmet | full434/447의 음성 누락13실패. 정확한 최종 head는 영구 PR 본문/comment에서 추적 |
+| 정본·문서 승계 | D01–D05 | verified | 원문 승인 미확보를 명시한 재구성·당시 문서·전역 goal 추적. 당시 로컬 링크·anchor와 문서 지문은 [검사 JSON](../../evidence/contract-reliability-repair/document-links.json)에서 추적 |
 
-원래 실행 query는 32개 요구의 전부 충족을 merge 선행 조건으로 정했다. 현재 판정은 verified28·blocked3·unmet1로 그대로다. 이후 사용자가 미충족 내용을 형상관리 문서에 남긴 뒤 merge하도록 지시하여, [PR #11 한정 예외](#6-pr-11-한정-merge-예외)를 적용한다. 예외는 요구 충족이나 실패 검사의 통과를 뜻하지 않는다.
+원래 실행 query는 32개 요구의 전부 충족을 merge 선행 조건으로 정했다. PR #11 snapshot 판정은 verified28·blocked3·unmet1이다. 이후 사용자가 미충족 내용을 형상관리 문서에 남긴 뒤 merge하도록 지시하여, [PR #11 한정 예외](#6-pr-11-한정-merge-예외)를 적용했다. 예외는 요구 충족이나 실패 검사의 통과를 뜻하지 않는다.
 
 ## 2. 원래 goal 항목별 추적
 
-아래 경로는 repo root 기준이다. 코드 존재는 제품 사용성·실차 적합성·현재 전체 실행의 통과를 뜻하지 않는다.
+아래 근거·상태는 PR #11 snapshot에서 원래 goal을 평가한 기록이다. 경로는 repo root 기준이다. 코드 존재는 제품 사용성·실차 적합성·이후 전체 실행의 통과를 뜻하지 않는다.
 
-| 목표 / 원래 요구 | 현재 근거 | 상태·한계 |
+| 목표 / 원래 요구 | PR #11 당시 근거 | 당시 상태·한계 |
 |---|---|---|
 | G1.1 색·semantic 상태·type·spacing·radius·border·surface·grain·CA·icon·motion·정보 우선순위 | `src/design-system/tokens.css`, `surfaces.ts`, 공용 `after-care.tsx`; 현행 시각 기준 | implemented-unverified. 승인 원문은 미확보이며 현행 값의 provenance만 재구성 |
 | G1.2 B 비례·문구·접점·사선·여백 조정, rounded split·text 안전 영역 | `flow-plan.ts`, `FlowBoard.tsx`, `split-geometry.ts`, stable layout spec; 최신 full의 실제 normal-motion frames | implemented-unverified. 자동 geometry/text 검증은 실행했지만 원래 디자인 승인 전체를 새로 입증한 것은 아님 |
@@ -87,6 +91,8 @@
 
 ## 6. PR #11 한정 merge 예외
 
+이 절의 누락 자산·실패 수·권한 상태·상한은 PR #11 예외 당시 기록으로 보존한다. 이후 생성·검증이 성공해도 당시 예외의 근거를 소급 변경하지 않는다.
+
 사용자는 음성 자격 증명 부재·필수 음성4개 누락·전체13실패·merge 차단을 전달받은 뒤 다음과 같이 지시했다.
 
 > 그냥 중요한 형상관리되는 문서에 내용을 남겨주고 -> ㅈ이어서 머지까지 진행해줘
@@ -111,4 +117,4 @@
 
 [기계 판독 예외 기록](../../evidence/contract-reliability-repair/merge-exception.json)에 지시·예외 범위·유지되는 제한을 보존한다. 정확한 최종 PR head/base·merge SHA·서버의 실제 merged 상태는 PR #11의 영구 comment에서 기록한다. 이 문서와 계획의 체크는 merge 직전 snapshot이며, merge 사실은 해당 영구 기록과 구분한다.
 
-원래 repair를 완수하려면 기존 자격 증명·quota를 확인하고 허용 범위에서 신규4개를 생성한 뒤 exact hash/sidecar·decode·playback·offline audio와 관련 전체 gate를 다시 통과시켜야 한다. 사람 청취·실차·새 전역 E2E 영상 등 위 전역 미완료 항목도 그대로 남는다.
+당시 repair를 완수하기 위한 조건은 기존 자격 증명·quota 확인, 허용 범위의 신규4개 생성, exact hash/sidecar·decode·playback·offline audio와 관련 전체 gate 재실행이었다. 이후 정리에서 확인한 결과는 문서 상단의 별도 실행 기록을 따른다. 사람 청취·실차·새 전역 E2E 영상 등 위 전역 미완료 항목은 그대로 남는다.

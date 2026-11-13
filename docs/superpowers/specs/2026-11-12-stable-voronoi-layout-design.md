@@ -1,5 +1,7 @@
 # 일정한 화면 높이와 안정된 content를 위한 Voronoi layout
 
+> 역사 설계 검토본이다. 아래 host 높이 계산·조작 위치·초기 shape는 후속 [외형 보완](../results/2026-11-12-voronoi-visual-regression.md)과 [Pleos display 기준](../../design-system/pleos-display-and-controls.md)으로 보완·대체됐다. 안정된 content·persistent editor·domain 보존 원칙과 승인 원문 미확보의 한계는 유지한다. 실행 판정과 남은 전역 목표는 [완료 추적](../../../specs/after-care-system/completion.md)에서 구분한다.
+
 작성일: 2026-11-12. 상태: **방향 승인, builder check를 마친 상세 spec 검토본**. 이 문서 작성으로 제품 code가 변경되지는 않음.
 
 사용자 요청: 단계마다 화면 height가 달라지고, Voronoi가 커지는 동안 text가 흔들리는 문제의 근본 해결. 승인 방향은 차량 화면의 외곽 height 유지, 안정된 content 배치, 그 주변에서 움직이는 Voronoi surface, 긴 기록의 내부 scroll. 전체 spec과 parallelization 검토 요청에 따라 작성.

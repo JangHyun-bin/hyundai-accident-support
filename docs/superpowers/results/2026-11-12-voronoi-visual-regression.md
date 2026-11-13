@@ -1,5 +1,7 @@
 # Voronoi 형태·외곽 정렬 regression 복구
 
+> 역사 결과다. 아래 391/391은 당시 source의 실행이며 후속 [display 변경·검증 기록](../../design-system/pleos-display-and-controls.md)이 있다. 현재 branch 통과로 승계하지 않는다. PR #11 판정과 남은 전역 목표는 [완료 추적](../../../specs/after-care-system/completion.md)에서 구분한다.
+
 사용자 screenshot에서 정상 차량 profile의 Voronoi가 직사각형 column으로 보이고, 왼쪽 차량 panel의 아래 경계가 오른쪽과 어긋나는 문제 확인.
 
 - 원인: 기존 power diagram은 고정 workspace를 포함하지 못해 항상 fallback 사용. Fallback의 경사 폭은 2–6px에 불과했음.

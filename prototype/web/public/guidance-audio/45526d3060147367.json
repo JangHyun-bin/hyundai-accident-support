@@ -1,0 +1,23 @@
+{
+  "voiceId": "gKJdDVRmX8dROO8aA5I8",
+  "voiceName": "JaeGyu - Calm & Trustworthy",
+  "model": "eleven_v4",
+  "script": "보험 접수가 되지 않은 것을 확인했어요. 다시 보내려면 전송 범위를 확인하고 새로 승인해 주세요. 구호·차량 지원은 계속 진행돼요.",
+  "scriptHash": "45526d30601473677e2143b2644838ba5cab7935f007e00a90b7ea36ef24a483",
+  "file": "45526d3060147367.mp3",
+  "path": "/guidance-audio/45526d3060147367.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "emergency/insurance_not_received"
+  ],
+  "duration": 9.2,
+  "bytes": 222606,
+  "audioHash": "58989a9022ce27b58f20ebee102c01948b4df58e8776c6cffc06ee51a189c60e",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-13T07:51:26.153Z"
+}

@@ -1,0 +1,16 @@
+{
+  "checkedAt": "2026-11-13T07:57:13.536384+00:00",
+  "releaseUrl": "https://github.com/JangHyun-bin/hyundai-accident-support/releases/tag/evidence-contract-repair-2026-11-13",
+  "releasePublished": true,
+  "downloadedIndependently": true,
+  "downloadedArchiveSha256": "369839b20645d8c0931246530925e935d9aa7d8673555bbb087af43f3a5ab307",
+  "archiveBytes": 445173760,
+  "restoredWith": "tar -xf downloaded-archive -C fresh-temporary-directory",
+  "restoredTraceFiles": 96,
+  "originalArtifactsVerified": 557,
+  "retainedNonTraceArtifacts": 461,
+  "sha256AndByteCountsMatch": true,
+  "sourceIndexSha256": "ccb2a02df5f5434f30afcc2b4fc8f14e94231740bdedb1def398edcb46d2b2ed",
+  "sourceIndexUnchanged": true,
+  "gitHistoryRewritten": false
+}

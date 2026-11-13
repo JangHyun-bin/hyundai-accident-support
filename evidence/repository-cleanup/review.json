@@ -1,0 +1,25 @@
+{
+  "reviewedBy": "openai-codex/gpt-6-astra",
+  "modelSelection": "Operator-configured reviewer override. Per-call requests for another model conflicted with that configuration and were not used.",
+  "reviews": [
+    {
+      "scope": "Unused source exports and CSS, legacy links, Android preview defaults, duplicate SVG, audio manifest and credential boundaries",
+      "agent": "CleanupSourceReview",
+      "verdict": "correct",
+      "findings": [],
+      "confidence": 0.95
+    },
+    {
+      "scope": "Historical versus current docs, archive recovery, manifest preservation, raw artifact retention and decision trail",
+      "agent": "CleanupEvidenceReview",
+      "verdict": "correct within the assigned scope",
+      "findings": [],
+      "confidence": 0.90
+    }
+  ],
+  "limits": [
+    "Both reviews were read-only and used the same configured reviewer model.",
+    "Reviewers did not repeat tests, decoding, archive hashing or network publication checks; those were directly exercised by the implementation owner and recorded separately.",
+    "No human audio listening or physical vehicle claim."
+  ]
+}

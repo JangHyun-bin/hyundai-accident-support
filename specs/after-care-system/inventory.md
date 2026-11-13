@@ -6,11 +6,11 @@
 
 아래60-state/8-fixture 표의 PASS와 공통 motion·음성 수치는 **전역화 당시의 적용·검증 기록**이다. 현재 branch 전체 통과·현재 자산 수·각 state의 최신 screenshot을 의미하지 않는다.
 
-현행 구현·repair32개 요구·전역 goal의 미충족 상태는 [completion](completion.md), 현재 실행 상태는 [requirements](../../evidence/contract-reliability-repair/requirements.json)에서 구분한다. 기존64개 MP3와 새 상태별 필수 원고의 완성 여부도 별개다. source/hash·실제 실행 결과 없이 PASS를 자동 승계하지 않는다.
+현행 구현 범위·전역 goal의 미충족 상태와 PR #11 repair snapshot은 [completion](completion.md)에서 구분한다. [requirements](../../evidence/contract-reliability-repair/requirements.json)는 PR #11의 역사 판정이며 현재 수용 판정이 아니다. 기존64개 MP3와 새 상태별 필수 원고의 완성 여부도 별개다. source/hash·실제 실행 결과 없이 PASS를 자동 승계하지 않는다.
 
 ## Emergency — 5 scenario / 60 state · 역사 적용표
 
-| Scenario | State | Title | Verification |
+| Scenario | State | Title | 당시 검증 · 현재 수용 판정 아님 |
 |---|---|---|---|
 | SC01 | `initial` | 119에 연결합니다 | shared UI + state/geometry + desktop/mobile capture PASS |
 | SC01 | `cancelled` | 구호 연결 안 함 | shared UI + state/geometry + desktop/mobile capture PASS |
@@ -75,7 +75,7 @@
 
 ## Journey — 8 fixture · 역사 적용표
 
-| Fixture | 범위 | Verification |
+| Fixture | 범위 | 당시 검증 · 현재 수용 판정 아님 |
 |---|---|---|
 | `complete-journey` | V1, V2, H1, R1, R2, R3, C1, C2, S1, S2, F1 | shared TaskLayout + fixture/behavior PASS |
 | `unanswered` | V1, V2 | shared TaskLayout + fixture/behavior PASS |
@@ -102,7 +102,7 @@
 - Rendering 비용·grain 생성 횟수, API asset 오류와 음성 재생 중단.
 - 최종 전체 영상과 주요 분기 영상에 scenario·source commit·timeline 근거 연결.
 
-## 공통 motion·음성 적용
+## 공통 motion·음성 적용 · 역사 기록
 
 - Emergency 전체 60 state와 journey 7개 작업 안내가 64개 deduplicated JaeGyu asset으로 연결됨.
 - 정본: `prototype/web/src/audio/assets.json`, `journey-guidance.json`. Voice `gKJdDVRmX8dROO8aA5I8`, model `eleven_v4`.

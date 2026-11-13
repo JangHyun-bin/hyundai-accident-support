@@ -1,5 +1,7 @@
 # 실패 인과 분석과 원시 증거
 
+이 문서는 PR #11 merge 전 source와 실패의 역사 기록이다. 이후 repo 정리 결과로 당시 판정을 덮어쓰지 않는다. 대용량 ZIP 96개는 [보관·복원 안내](trace-archive.md)를 따르며, JSON·screenshot·녹음 파일과 원래 manifest는 repo에 유지한다.
+
 최종 제품·검사 입력: `2bd7c258187772399bacfe62fdb8b6f3254c642a`. 최신 clean 전체 실행은 **434/447**, 실패 13개는 필수 신규 음성 4개 누락이다. maximum-duration·영상 복원·리뷰 P2 수정 경로는 이 병렬 전체 실행에서 통과했다. 전체 gate 성공이나 merge를 주장하지 않는다.
 
 ## 1. 과거 maximum-duration 실패의 경계
@@ -42,7 +44,7 @@ UI 제한은 `Date.now()`와 listening effect의 interval이다. `page.clock.fas
 
 ## 5. 새 전체 실행에서 발견한 영상 asset read/commit 결함
 
-이전 full의 추가 실패는 `journey-reconstruction`에서 저장이 끝난 뒤에도 전방 영상 재생 버튼이 없는 상태였다. [실패 원문](web/web-full-final.txt), [실패 trace](web/raw/full-before-clip-fix/journey-reconstruction-jou-67cea-ithout-losing-urgent-drafts/trace.zip)를 보존했다.
+이전 full의 추가 실패는 `journey-reconstruction`에서 저장이 끝난 뒤에도 전방 영상 재생 버튼이 없는 상태였다. [실패 원문](web/web-full-final.txt)과 [실패 trace 복원 방법](trace-archive.md)을 보존했다. 원래 ZIP 경로는 `web/raw/full-before-clip-fix/journey-reconstruction-jou-67cea-ithout-losing-urgent-drafts/trace.zip`이다.
 
 `useJourneyCase.save`는 metadata를 낙관적으로 먼저 표시한다. `StoredClip`은 Blob을 durable storage에서 읽되 case/asset ID만으로 effect를 실행했으므로, commit 전의 `null` 조회가 commit 뒤에도 영구 캐시됐다.
 
