@@ -1,0 +1,23 @@
+{
+  "voiceId": "gJSDQIpSQ56NBGhorBfg",
+  "voiceName": "David - Calm, Steady and Clear",
+  "model": "eleven_v4",
+  "script": "접수 결과를 불러오지 못했어요. 보낸 요청은 그대로 있어요.",
+  "scriptHash": "f297b0eb314bcbb671ab9fd415f97d006b679d168ccfea71c3a2fb9b573c7f2f",
+  "file": "f297b0eb314bcbb6.mp3",
+  "path": "/guidance-audio/f297b0eb314bcbb6.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "SC05/lookup_failed"
+  ],
+  "duration": 4.24,
+  "bytes": 103488,
+  "audioHash": "1b984a84335f671d7a698da8fddff07b98ec48df04194da5e984ef62f680f6f7",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-14T06:37:58.378Z"
+}

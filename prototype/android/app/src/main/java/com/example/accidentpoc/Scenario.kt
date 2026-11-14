@@ -12,7 +12,7 @@ internal data class Transition(
     val effect: String? = null, val agency: String? = null, val secondary: Boolean = false
 )
 internal data class Scene(
-    val id: String, val label: String, val title: String, val instruction: String,
+    val id: String, val label: String, val title: String, val instruction: String, val voice: String,
     val cueSymbol: String, val cueStatus: String, val cueLabel: String, val cueDetail: String,
     val requestOverrides: Map<String, String>, val factOverrides: Map<String, FactOverride>,
     val panel: String?, val actions: List<Transition>, val events: List<Transition>
@@ -125,7 +125,7 @@ internal fun parseScenario(source: String, id: String): Scenario = try {
             val actions = transitions("actions")
             val events = transitions("events")
             require((actions + events).map { it.id }.distinct().size == actions.size + events.size) { "Duplicate transition ID" }
-            Scene(sceneId, state.text("label"), state.text("title"), state.optionalText("instruction") ?: "",
+            Scene(sceneId, state.text("label"), state.text("title"), state.optionalText("instruction") ?: "", state.text("voice"),
                 cue.text("symbol"), cueStatus, cue.text("label"), cue.text("detail"),
                 requestOverrides, factOverrides, panel, actions, events)
         } catch (error: Exception) {

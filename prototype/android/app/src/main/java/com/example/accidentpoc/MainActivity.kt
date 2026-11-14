@@ -52,9 +52,12 @@ import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.lifecycle.compose.LifecycleStartEffect
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 // Web storyboard 의 dark semantic palette (prototype/web/src/styles.css).
-private object Ui {
+internal object Ui {
     val background = Color(0xFF131417)
     val surface = Color(0xFF191B1E)
     val card = Color(0xFF24282B)
@@ -104,13 +107,24 @@ private fun Storyboard(story: Scenario, start: String) {
     LaunchedEffect(session.sceneId, focusAfter) { focusAfter?.requestFocus(); focusAfter = null }
     val context = LocalContext.current
     val glyphs = remember { loadGlyphs(context).also { it.validate(story) } }
+    val vehicle: VehicleViewModel = viewModel()
+    val link by vehicle.state.collectAsStateWithLifecycle()
+    val guidance = remember { GuidanceAudio(context) }
+    var spoken by rememberSaveable { mutableStateOf<String?>(null) }
+    LaunchedEffect(scene.id) { if (spoken != scene.id) { spoken = scene.id; guidance.speak(scene.voice) } }
+    LifecycleStartEffect(vehicle, guidance) {
+        vehicle.setActive(true)
+        onStopOrDispose { vehicle.setActive(false); guidance.stop() }
+    }
     CompositionLocalProvider(LocalGlyphs provides glyphs) { Column(Modifier.fillMaxSize().background(Ui.review)) {
         ProductScreen(story, scene, session, satin && satinAvailable, titleFocus, Modifier.fillMaxWidth().weight(1f),
             act = { edge ->
                 val next = transition(story, session, edge)
-                if (next != session) { session = next; focusAfter = titleFocus }
+                if (next != session) { session = next; focusAfter = titleFocus; vehicle.follow(edge) }
             },
-            changeScope = { session = updateDraft(session, scope = it) })
+            changeScope = { session = updateDraft(session, scope = it) },
+            signal = { SignalStatus(link.safety) },
+            handoff = { PhoneHandoff(link, vehicle) })
         // This review-only tool stays outside the vehicle surface and never initiates a request.
         ReviewStrip(story, session, satin, satinAvailable, sceneFocus,
             select = { session = selectScene(story, session, it) },
@@ -122,7 +136,7 @@ private fun Storyboard(story: Scenario, start: String) {
 }
 
 @Composable
-private fun Copy(value: String, size: Int, color: Color = Ui.foreground, weight: FontWeight = FontWeight.Normal, modifier: Modifier = Modifier, lineHeight: Float = 1.4f, tracking: Float = 0f, align: TextAlign? = null) {
+internal fun Copy(value: String, size: Int, color: Color = Ui.foreground, weight: FontWeight = FontWeight.Normal, modifier: Modifier = Modifier, lineHeight: Float = 1.4f, tracking: Float = 0f, align: TextAlign? = null) {
     Text(value, modifier = modifier, color = color, fontSize = size.sp, fontWeight = weight, fontFamily = Ui.font, letterSpacing = tracking.em, lineHeight = (size * lineHeight).sp, textAlign = align, style = LocalTextStyle.current.copy(lineBreak = koreanLineBreak, localeList = korean))
 }
 
@@ -134,7 +148,7 @@ private val koreanLineBreak = LineBreak(LineBreak.Strategy.Balanced, LineBreak.S
 private fun Divider(color: Color) = Box(Modifier.fillMaxWidth().height(1.dp).background(color))
 
 @Composable
-private fun ProductScreen(story: Scenario, scene: Scene, session: Session, satin: Boolean, titleFocus: FocusRequester, modifier: Modifier, act: (Transition) -> Unit, changeScope: (List<String>) -> Unit) {
+private fun ProductScreen(story: Scenario, scene: Scene, session: Session, satin: Boolean, titleFocus: FocusRequester, modifier: Modifier, act: (Transition) -> Unit, changeScope: (List<String>) -> Unit, signal: @Composable () -> Unit, handoff: @Composable () -> Unit) {
     BoxWithConstraints(modifier.surface(satin).padding(horizontal = 32.dp)) {
         // A short landscape viewport must not shrink the actionable region below a 64 dp target.
         // On those devices the complete surface scrolls; a full vehicle display retains its fixed bands.
@@ -146,12 +160,14 @@ private fun ProductScreen(story: Scenario, scene: Scene, session: Session, satin
                 Copy("사고 대응", 24, weight = FontWeight.SemiBold)
                 Spacer(Modifier.width(36.dp))
                 Copy(story.contextLabel, 20, Ui.muted)
+                Spacer(Modifier.width(36.dp))
+                signal()
             }
             Divider(Ui.line)
             val body = if (compact) Modifier.heightIn(min = 320.dp) else Modifier.weight(1f)
             Row(Modifier.fillMaxWidth().then(body).padding(horizontal = 8.dp, vertical = 18.dp), horizontalArrangement = Arrangement.spacedBy(40.dp), verticalAlignment = if (compact) Alignment.Top else Alignment.CenterVertically) {
                 Cue(scene, Modifier.weight(.85f).then(if (compact) Modifier else Modifier.verticalScroll(rememberScrollState())))
-                ActionArea(story, scene, session, titleFocus, Modifier.weight(1.15f), act, changeScope, scroll = !compact)
+                ActionArea(story, scene, session, titleFocus, Modifier.weight(1.15f), act, changeScope, handoff, scroll = !compact)
             }
             Divider(Ui.border)
             Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).heightIn(min = 108.dp).padding(vertical = 12.dp), horizontalArrangement = Arrangement.spacedBy(28.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -186,7 +202,7 @@ private fun Cue(scene: Scene, modifier: Modifier) {
 }
 
 @Composable
-private fun WorkflowPanel(scene: Scene, session: Session, changeScope: (List<String>) -> Unit) {
+private fun WorkflowPanel(scene: Scene, session: Session, changeScope: (List<String>) -> Unit, handoff: @Composable () -> Unit) {
     Column(Modifier.fillMaxWidth().padding(top = 18.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Copy("요청 ${session.requestId} · 전송 ${session.submissions}회", 17, Ui.muted,
             modifier = Modifier.testTag("request-identity").semantics { liveRegion = LiveRegionMode.Polite })
@@ -208,6 +224,7 @@ private fun WorkflowPanel(scene: Scene, session: Session, changeScope: (List<Str
             submissionBlockReason(session)?.let {
                 Copy(it, 19, Ui.warning, modifier = Modifier.testTag("submit-block-reason").semantics { liveRegion = LiveRegionMode.Polite })
             }
+            handoff()
         }
         if (scene.panel == "resume") {
             Copy(if (session.requests["vehicle"] == "received") "기존 요청 · 접수 확인" else "기존 요청 · 결과 확인 필요", 21,
@@ -223,14 +240,14 @@ private fun WorkflowPanel(scene: Scene, session: Session, changeScope: (List<Str
 }
 
 @Composable
-private fun ActionArea(story: Scenario, scene: Scene, session: Session, titleFocus: FocusRequester, modifier: Modifier, act: (Transition) -> Unit, changeScope: (List<String>) -> Unit, scroll: Boolean) {
+private fun ActionArea(story: Scenario, scene: Scene, session: Session, titleFocus: FocusRequester, modifier: Modifier, act: (Transition) -> Unit, changeScope: (List<String>) -> Unit, handoff: @Composable () -> Unit, scroll: Boolean) {
     Column(modifier.then(if (scroll) Modifier.verticalScroll(rememberScrollState()) else Modifier).testTag("action-area").padding(top = 8.dp)) {
         Copy(scene.title, 44, weight = FontWeight.SemiBold, lineHeight = 1.25f, tracking = -.035f, modifier = Modifier.testTag("scene-title").semantics { heading(); liveRegion = LiveRegionMode.Polite }.focusRequester(titleFocus).focusable())
         if (scene.instruction.isNotEmpty()) {
             Spacer(Modifier.height(18.dp))
             Copy(scene.instruction, 24, Ui.muted, lineHeight = 1.45f)
         }
-        WorkflowPanel(scene, session, changeScope)
+        WorkflowPanel(scene, session, changeScope, handoff)
         Column(Modifier.fillMaxWidth().padding(top = 28.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
             // Each primary/secondary action owns its own row, including at 200% text size.
             scene.actions.forEach { action ->
@@ -287,6 +304,16 @@ private fun RequestStatus(request: Request, status: String, statuses: Map<String
             Spacer(Modifier.height(7.dp))
             Copy(label, 22, weight = FontWeight.SemiBold)
         }
+    }
+}
+
+@Composable
+private fun SignalStatus(safety: SafetyState) {
+    val line = safety.line()
+    Row(Modifier.testTag("vehicle-signal").semantics(mergeDescendants = true) { liveRegion = LiveRegionMode.Polite }, verticalAlignment = Alignment.CenterVertically) {
+        StatusMark(line.tone, 22.dp)
+        Spacer(Modifier.width(10.dp))
+        Copy(line.text, 18, if (line.tone == "attention") Ui.warning else Ui.muted)
     }
 }
 

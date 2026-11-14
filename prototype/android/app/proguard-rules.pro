@@ -1,0 +1,2 @@
+-keepattributes RuntimeVisibleAnnotations,RuntimeInvisibleAnnotations,Signature,InnerClasses,EnclosingMethod
+-keep class ai.pleos.playground.vehicle.api.implement.** { *; }

@@ -1,0 +1,23 @@
+{
+  "voiceId": "gJSDQIpSQ56NBGhorBfg",
+  "voiceName": "David - Calm, Steady and Clear",
+  "model": "eleven_v4",
+  "script": "차량 지원 접수는 아직 확인 전이에요. 구호는 접수됐고, 보험사에는 아직 요청하지 않았어요.",
+  "scriptHash": "066d2d75d677ca9e6f19c238274a8e2cb53f79a5ce6a04fb81f380dcd95dceb0",
+  "file": "066d2d75d677ca9e.mp3",
+  "path": "/guidance-audio/066d2d75d677ca9e.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "SC05/initial"
+  ],
+  "duration": 6.8,
+  "bytes": 164928,
+  "audioHash": "bf90fcb041b36d53429dd5318c8d96d0f4605180d589becf0fe1c1bb3f6a5964",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-14T06:37:57.097Z"
+}
