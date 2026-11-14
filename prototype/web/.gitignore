@@ -1,4 +1,5 @@
 dist/
+dist-native/
 test-results/
 playwright-report/
 *.tsbuildinfo

@@ -62,10 +62,7 @@ function PhonePresence({ phone }: { phone: VehicleProgress['phone'] }) {
 function Body({ handoff }: { handoff: VehicleHandoff }) {
   const { state } = handoff
   switch (state.kind) {
-    case 'idle': return <>
-      <CareHeading level={2} eyebrow="휴대폰으로 이어 기록" title="기록은 휴대폰에서 이어갈 수 있어요">사진과 진술은 휴대폰에 남기고, 진행 상황은 여기서 볼 수 있어요.</CareHeading>
-      <div className="vh-actions"><CareAction onClick={handoff.start}>휴대폰 연결하기</CareAction></div>
-    </>
+    case 'idle': return <div className="vh-actions"><CareAction onClick={handoff.start}>휴대폰 연결하기</CareAction></div>
     case 'starting': return <>
       <CareHeading level={2} eyebrow="휴대폰으로 이어 기록" title="연결 코드를 만들고 있어요" />
       <CareStatus tone="pending">잠시만 기다려 주세요</CareStatus>

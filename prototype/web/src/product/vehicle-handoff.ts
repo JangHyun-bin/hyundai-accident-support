@@ -62,11 +62,11 @@ export function parseProgress(value: unknown): VehicleProgress {
     record: { photos: record.photos, audio: record.audio, video: record.video, statement: record.statement, report: record.report },
     copy: { id: copy.id, preparedAt: copy.preparedAt }, insurance: { integration: 'unavailable', receipt: null } }
 }
-function parsePair(value: unknown): PairResponse {
+export function parsePair(value: unknown): PairResponse {
   if (!object(value) || !text(value.pairId) || !text(value.joinUrl) || !date(value.expiresAt) || !/^https?:\/\//u.test(value.joinUrl)) invalid()
   return { pairId: value.pairId, joinUrl: value.joinUrl, expiresAt: value.expiresAt }
 }
-function parseClaim(value: unknown): PairClaim {
+export function parseClaim(value: unknown): PairClaim {
   if (!object(value) || !text(value.claimId) || typeof value.verificationCode !== 'string' || !/^\d{6}$/u.test(value.verificationCode) ||
     !text(value.deviceLabel) || !date(value.expiresAt)) invalid()
   return { claimId: value.claimId, verificationCode: value.verificationCode, deviceLabel: value.deviceLabel, expiresAt: value.expiresAt }

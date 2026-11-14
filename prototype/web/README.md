@@ -32,6 +32,25 @@ npm run dev
 
 DEV 전용은 독립 연구 page 노출 범위다. 공용 FlowBoard·주변 상황 component는 실제 기본 여정에서도 사용한다. 기본 URL에서 `view`·`catalog`만 지정하는 오래된 링크는 legacy route를 선택하지 않는다.
 
+## Pleos 차량 앱 (Android WebView)
+
+```sh
+npm run build:native
+```
+
+`dist-native/`를 base `/assets/web/`로 만든다. Android build가 이 폴더를 APK의 `assets/web/`으로 복사하고 `https://appassets.androidplatform.net/assets/web/index.html?host=pleos-app`으로 연다. `public/` 파일은 root 절대 경로 대신 `publicAsset()`(`import.meta.env.BASE_URL`)으로 참조한다.
+
+`window.ChabunNative`가 있거나 `?host=pleos-app`이면 host mode다. 화면은 앱 창 내용만 그린다. 상태 표시줄·주행 화면·GNB 모사와 단계 표시·이전/다음은 없다. 앱 창은 물리 pixel 크기(`host().windowPx`, 없으면 `innerWidth × devicePixelRatio`)로 배치한 뒤 WebView viewport에 맞춰 축소한다. Pleos WebView는 devicePixelRatio 1.375라서 1682×1210 창이 1224×880 CSS px로 들어오기 때문이다. 시연 event는 `host().demo`가 `true`일 때만 오른쪽 아래 `시연` 버튼 안에 나온다.
+
+| Bridge | 동작 |
+|---|---|
+| `handoff(command, argJson)` | `journey`·`start`·`approve`·`renew`·`retry`. 휴대폰 이어받기 상태는 `chabun:handoff` event로 받는다. Web은 credential 저장·`/api` 호출을 하지 않는다. |
+| `dial('119')` | 운전자가 `119에 연결`을 누를 때만 부른다. `opened`면 통화 시작을 기록하고, `unavailable`·`rejected`면 휴대폰으로 전화하라고 안내한다. |
+| `chabun:vehicle-fact` | 좌석별 에어백 신호를 차 단위 관찰 하나로 합친다. 전개는 시연 버튼과 같은 119 제안, 신호 없음은 `신호 확인 불가`로 표시한다. 같은 상태의 재전송은 무시한다. |
+| `chabun:host-resize` | 화면 분할 등으로 `windowPx`가 바뀔 때 다시 배치한다. |
+
+검사: `tests/host-pleos-app.spec.ts`(fake bridge, 1682×1210·841×1210·1224×880@1.375, `dist-native` preview).
+
 ## 긴급 상황과 상태
 
 [상황 정본](../../specs/emergency-experience/scenarios.json)은 SC01 부상15·SC02 이동불가10·SC03 무응답12·SC04 보험 선택12·SC05 접수 미확인11, 총60개 장면이다.
