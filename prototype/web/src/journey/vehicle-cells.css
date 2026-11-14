@@ -43,7 +43,20 @@
 .vc-requests .ac-request-list { grid-template-columns:minmax(0,1fr); gap:var(--ac-space-1); }
 .vc-requests .ac-request-line { display:inline; }
 .vc-requests .ac-request-line+.ac-request-line::before { content:' · ' / ''; }
+.vc-requests .ac-request-list .ac-status { align-items:baseline; }
+.vc-requests .ac-request-list .ac-status svg { align-self:center; margin-top:0; }
 
+/* Values sit right after their labels so a row reads in one glance; on a wide screen the requests also get their own column. */
+.vc-detail:not([data-compact=true]) { container:vc-detail / inline-size; }
+.vc-body,.vc-state { display:contents; }
+.vc-detail:not([data-compact=true]) :is(.vc-rows>div,.vc-requests .ac-request-list>div) { display:grid; grid-template-columns:6em minmax(0,1fr); align-items:baseline; gap:var(--ac-space-4); }
+.vc-detail:not([data-compact=true]) :is(.vc-rows dd,.vc-requests .ac-request-list dd) { justify-content:flex-start; text-align:left; }
+.vc-detail:not([data-compact=true]) .vc-head { justify-content:flex-start; gap:var(--ac-space-8); }
+@container vc-detail (min-width:640px) {
+  .vc-body { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:var(--ac-space-8); align-items:start; }
+  .vc-state { display:flex; flex-direction:column; gap:var(--ac-space-3); min-width:0; }
+  .vc-requests { padding:0 0 0 var(--ac-space-8); border-top:0; border-left:1px solid var(--ac-material-line); }
+}
 .vc-cell[data-compact=true] { justify-content:center; }
 
 .vc-expanded { position:absolute; inset:0; z-index:10; display:grid; grid-template-rows:minmax(0,1fr); min-width:0; min-height:0; outline:none; background:var(--ac-background); animation:vc-expand var(--ac-motion-state) var(--ac-ease); }

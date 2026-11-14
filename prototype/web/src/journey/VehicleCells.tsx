@@ -135,8 +135,12 @@ export function VehicleDetailCell({value,compact}:{value:JourneyCase;compact:boo
   </section>
   return <section className="vc-cell vc-detail" data-attention={reasons.length>0} aria-labelledby={titleId}>
     <header className="fs-cell-label vc-head"><span className="vc-title" id={titleId}><span>내 차</span></span>{road?<span className="vc-place" data-vehicle-note="road"><MapPin aria-hidden="true"/>{road.value}{road.source&&<small>{road.source}</small>}</span>:<CarFront aria-hidden="true"/>}</header>
-    <dl className="vc-rows">{rows.map(row=><div key={row.id} data-vehicle-row={row.id}><dt>{row.label}</dt><dd><CareStatus tone={row.state.tone}>{row.state.value}</CareStatus>{row.state.source&&<small>{row.state.source}</small>}</dd></div>)}</dl>
-    {risk&&<p data-vehicle-note="risk"><CareStatus tone={risk.acknowledged?'confirmed':'failed'}>{risk.acknowledged?`${risk.summary} · 주변 확인함`:risk.summary}</CareStatus></p>}
-    <div className="vc-requests"><JourneyRequests value={value}/></div>
+    <div className="vc-body">
+      <div className="vc-state">
+        <dl className="vc-rows">{rows.map(row=><div key={row.id} data-vehicle-row={row.id}><dt>{row.label}</dt><dd><CareStatus tone={row.state.tone}>{row.state.value}</CareStatus>{row.state.source&&<small>{row.state.source}</small>}</dd></div>)}</dl>
+        {risk&&<p data-vehicle-note="risk"><CareStatus tone={risk.acknowledged?'confirmed':'failed'}>{risk.acknowledged?`${risk.summary} · 주변 확인함`:risk.summary}</CareStatus></p>}
+      </div>
+      <div className="vc-requests"><JourneyRequests value={value}/></div>
+    </div>
   </section>
 }

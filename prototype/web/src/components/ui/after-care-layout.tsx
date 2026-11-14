@@ -53,7 +53,8 @@ export function VehicleShell({children,device='vehicle',presentation,controls,pr
   },[pleos])
   const style=app?{width:windowWidth,height:windowHeight,'--pleos-scale':physical.scale} as CSSProperties
     :frame&&!pleos?{'--flow-stage-height':`${frame.height}px`,'--flow-content-height':`${frame.contentHeight}px`,'--flow-status-height':`${frame.statusHeight}px`,'--flow-dock-height':`${frame.dockHeight}px`} as CSSProperties:undefined
-  const shell=<div ref={host} className="ac-system ac-vehicle" data-care-component="vehicle-shell" data-care-device={device} data-presentation={pleos?'pleos':presentation} data-pleos-app={app||undefined} data-app-window={pleos&&!app?appWindow:undefined} data-flow-mode={frame?.mode} data-flow-reason={frame?.reason} data-flow-font-size={frame?.metrics.rem} style={style}>
+  const windowKind:AppWindow=app?(physical.width*2>windowWidths.full+windowWidths.split?'full':'split'):appWindow
+  const shell=<div ref={host} className="ac-system ac-vehicle" data-care-component="vehicle-shell" data-care-device={device} data-presentation={pleos?'pleos':presentation} data-pleos-app={app||undefined} data-app-window={pleos?windowKind:undefined} data-flow-mode={frame?.mode} data-flow-reason={frame?.reason} data-flow-font-size={frame?.metrics.rem} style={style}>
     {app?null:pleos?<div className="ac-pleos-system" aria-hidden="true">{systemAreas.map(({id,...rect})=><img key={id} data-system={id} src={publicAsset(`/pleos-frame/${id}.png`)} alt="" width={rect.width} height={rect.height} style={rect}/>)}</div>
     :<div className="ac-vehicle-status" role="region" aria-label="차량 상태 표시" data-figma-node="28:2041">
       <time dateTime="21:12">오후 9:12</time>
