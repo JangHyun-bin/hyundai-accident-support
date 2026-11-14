@@ -10,6 +10,7 @@ import type { CaseCommand, Stage } from '@/journey/case'
 import { stopGuidanceAudio } from '@/audio/useGuidanceAudio'
 import type { PhoneSession } from './api-contract'
 import { riskCheckRequired } from './product-case'
+import { BrandLockup } from '@/components/ui/brand'
 
 export function EmergencyHelp({ open, onClose }: { open: boolean; onClose: () => void }) {
   const dialog = useRef<HTMLDialogElement>(null)
@@ -140,7 +141,7 @@ export function ProductFlow({ session }: { session: PhoneSession }) {
     <button type="button" aria-pressed={method === 'voice'} onClick={() => void selectMethod('voice')}><Mic aria-hidden="true" />음성·직접 입력</button>
   </nav>
   return <div className="product-app ac-system journey-theme" data-care-device="mobile" data-case-id={value?.id} data-product-stage={value?.stage}>
-    <header className="product-header"><span className="product-wordmark">차분</span><span>차량과 이어진 사고 기록</span></header>
+    <header className="product-header"><span className="product-wordmark"><BrandLockup /></span><span>차량과 이어진 사고 기록</span></header>
     <main className="product-main">
       {journey.loading && <section className="product-card"><p role="status">사고 기록을 불러오고 있어요.</p></section>}
       {!value && !journey.loading && <section className="product-card"><CareHeading title="기록을 열지 못했어요">연결을 확인해주세요. 이 화면에서 새 기록을 만들지는 않아요.</CareHeading><CareAction secondary onClick={() => location.reload()}>연결 다시 확인</CareAction></section>}

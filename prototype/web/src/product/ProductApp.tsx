@@ -8,6 +8,7 @@ import { claimPair, claimStatus, PairingError, rememberedClaim, rememberClaim, r
 import { EmergencyHelp, ProductFlow } from './ProductFlow'
 import './product.css'
 import { ContextualGuidanceProvider } from '@/audio/GuidanceControl'
+import { BrandLockup } from '@/components/ui/brand'
 
 type Connection =
   | { kind: 'checking' }
@@ -87,7 +88,7 @@ function PhoneConnection() {
 
   if (connection.kind === 'ready') return <ConnectedProduct session={connection.session} />
   return <div className="product-app ac-system journey-theme" data-care-device="mobile">
-    <header className="product-header"><a href="/" aria-label="차분 처음 화면">차분</a><span>사고 후 도움</span></header>
+    <header className="product-header"><a href="/" aria-label="차분 처음 화면"><BrandLockup /></a><span>사고 후 도움</span></header>
     <main className="product-main product-connect">
       {connection.kind === 'waiting' ? <section className="product-card product-pairing" aria-label="차량 연결 승인">
         <ShieldCheck aria-hidden="true" />

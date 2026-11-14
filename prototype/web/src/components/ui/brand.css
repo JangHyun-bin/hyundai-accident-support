@@ -1,0 +1,5 @@
+.brand-lockup { display:inline-flex; align-items:center; height:32px; }
+.brand-lockup img { display:block; height:100%; width:auto; }
+.brand-lockup-on-light { display:none !important; }
+[data-theme=light] .brand-lockup-on-light { display:block !important; }
+[data-theme=light] .brand-lockup-on-dark { display:none !important; }
