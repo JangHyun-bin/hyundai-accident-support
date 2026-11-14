@@ -1,5 +1,6 @@
 package com.example.accidentpoc
 
+import org.json.JSONArray
 import org.json.JSONObject
 import java.time.Instant
 
@@ -31,6 +32,7 @@ internal data class VehicleProgress(
     val phone: PhoneProgress,
     val record: RecordProgress,
     val copyPreparedAt: Instant?,
+    val json: String,
 ) {
     companion object {
         fun parse(value: JSONObject): VehicleProgress {
@@ -60,6 +62,7 @@ internal data class VehicleProgress(
                 record = RecordProgress(record.nonnegativeLong("photos"), record.nonnegativeLong("audio"),
                     record.nonnegativeLong("video"), record.recordState("statement"), record.recordState("report")),
                 copyPreparedAt = value.getJSONObject("copy").optionalInstant("preparedAt"),
+                json = value.toString(),
             )
         }
     }
@@ -68,8 +71,22 @@ internal data class VehicleProgress(
 internal data class PhoneProgress(val paired: Boolean, val online: Boolean, val lastSeenAt: Instant?, val clientId: String?)
 internal data class RecordProgress(val photos: Long, val audio: Long, val video: Long, val statement: String, val report: String)
 internal data class CaseAccess(val caseId: String, val credential: String, val expiresAt: Instant)
-internal data class PairLink(val pairId: String, val joinUrl: String, val expiresAt: Instant)
-internal data class PairClaim(val claimId: String, val verificationCode: String, val deviceLabel: String, val expiresAt: Instant)
+internal data class PairLink(val pairId: String, val joinUrl: String, val expiresAt: Instant) {
+    fun json(): JSONObject = JSONObject().put("pairId", pairId).put("joinUrl", joinUrl).put("expiresAt", expiresAt.toString())
+
+    companion object {
+        fun parse(value: JSONObject) = PairLink(value.string("pairId"), value.string("joinUrl"), Instant.parse(value.string("expiresAt")))
+    }
+}
+internal data class PairClaim(val claimId: String, val verificationCode: String, val deviceLabel: String, val expiresAt: Instant) {
+    fun json(): JSONObject = JSONObject().put("claimId", claimId).put("verificationCode", verificationCode)
+        .put("deviceLabel", deviceLabel).put("expiresAt", expiresAt.toString())
+
+    companion object {
+        fun parse(value: JSONObject) = PairClaim(value.string("claimId"), value.string("verificationCode"),
+            value.string("deviceLabel"), Instant.parse(value.string("expiresAt")))
+    }
+}
 internal enum class FactSource(val wire: String) { Pleos("pleos-sdk"), Simulation("simulation") }
 internal enum class UnavailableCause(val wire: String) {
     PermissionDenied("permission-denied"), Unsupported("capability-missing"), Disconnected("disconnected"), ReadFailed("read-failed")
@@ -109,17 +126,8 @@ internal sealed interface SdkFact {
     }
 }
 
-internal sealed interface VehicleIntent {
-    data class Action(val id: VehicleActionId) : VehicleIntent
-    data class Fact(val fact: SdkFact) : VehicleIntent
-}
-internal data class PendingMutation(val mutationId: String, val expectedRevision: Long, val intent: VehicleIntent) {
-    fun body(): JSONObject = JSONObject().put("mutationId", mutationId).put("expectedRevision", expectedRevision).apply {
-        when (val value = intent) {
-            is VehicleIntent.Action -> put("actionId", value.id.wire)
-            is VehicleIntent.Fact -> put("fact", value.fact.json())
-        }
-    }
+internal data class PendingMutation(val mutationId: String, val expectedRevision: Long, val fact: SdkFact) {
+    fun body(): JSONObject = JSONObject().put("mutationId", mutationId).put("expectedRevision", expectedRevision).put("fact", fact.json())
 }
 
 internal fun JSONObject.string(key: String): String = (get(key) as? String)
@@ -133,4 +141,5 @@ internal fun JSONObject.nonnegativeLong(key: String): Long {
 }
 internal fun JSONObject.optionalString(key: String): String? = if (isNull(key)) null else string(key)
 internal fun JSONObject.optionalInstant(key: String): Instant? = optionalString(key)?.let(Instant::parse)
+internal fun JSONArray.objects(): List<JSONObject> = List(length()) { getJSONObject(it) }
 private fun JSONObject.recordState(key: String) = string(key).also { require(it in setOf("empty", "draft", "confirmed")) }

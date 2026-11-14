@@ -8,167 +8,164 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import java.io.IOException
 import java.security.MessageDigest
 import java.time.Instant
 
-internal data class VehicleLink(
-    val configured: Boolean,
-    val safety: SafetyState,
-    val saved: StoredVehicle? = null,
-    val progress: VehicleProgress? = null,
-    val claims: List<PairClaim> = emptyList(),
-    val online: Boolean = false,
-    val busy: Boolean = false,
-    val error: String? = null,
-)
+internal enum class FailureReason(val wire: String) { Unavailable("unavailable"), Expired("expired"), Access("access") }
 
-internal sealed interface Handoff {
-    data object Unconfigured : Handoff
-    data object Connecting : Handoff
-    data object Ready : Handoff
-    data class Pairing(val pair: PairLink, val claims: List<PairClaim>) : Handoff
-    data object Expired : Handoff
-    data class Approving(val claim: PairClaim) : Handoff
-    data class Connected(val progress: VehicleProgress) : Handoff
+// Mirrors VehicleHandoffState in prototype/web/src/product/vehicle-handoff.ts; the web renders whatever this sends.
+internal sealed interface HandoffState {
+    data object Idle : HandoffState
+    data object Starting : HandoffState
+    data class Pairing(val pair: PairLink, val claims: List<PairClaim>, val progress: VehicleProgress) : HandoffState
+    data class Connected(val progress: VehicleProgress) : HandoffState
+    data class Failed(val reason: FailureReason, val progress: VehicleProgress?) : HandoffState
 }
 
-internal fun handoff(link: VehicleLink, now: Instant): Handoff {
-    if (!link.configured) return Handoff.Unconfigured
-    link.saved?.pendingApproval?.let { return Handoff.Approving(it) }
-    val pair = link.saved?.pair
-    if (pair != null && pair.expiresAt.isAfter(now)) return Handoff.Pairing(pair, link.claims.filter { it.expiresAt.isAfter(now) })
-    val progress = link.progress ?: return Handoff.Connecting
-    return when {
-        progress.phone.paired -> Handoff.Connected(progress)
-        pair != null -> Handoff.Expired
-        else -> Handoff.Ready
-    }
-}
+private enum class Settle { Resume, Recover, Renew }
 
-// SC05 "나중에 이어하기" and the backend's defer-recording share one intent: pause now, keep what exists, check again before
-// continuing. No other SC05 transition carries a backend action; the README mapping table explains each one.
-internal fun vehicleAction(edge: Transition): VehicleActionId? = if (edge.effect == "suspend") VehicleActionId.Defer else null
-
-internal interface HandoffControl {
-    fun connect()
-    fun startPairing()
-    fun approve(claim: PairClaim)
-    fun confirmApproval()
-}
-
-internal class VehicleViewModel(application: Application) : AndroidViewModel(application), HandoffControl {
-    private val repository = BuildConfig.API_BASE_URL.takeIf { it.isNotEmpty() }?.let { origin ->
-        VehicleRepository(SecureVehicleStore(application, storeName(origin)), origin)
-    }
-    private val mutable = MutableStateFlow(VehicleLink(configured = repository != null, safety = SafetyState(source = FactSource.Pleos)))
-    val state = mutable.asStateFlow()
-    private val facts = mutableMapOf<String, SdkFact>()
-    private var operations = 0
+internal class VehicleViewModel(application: Application) : AndroidViewModel(application) {
+    private val origin = BuildConfig.API_BASE_URL
+    private val mutableHandoff = MutableStateFlow<HandoffState>(HandoffState.Idle)
+    val handoff = mutableHandoff.asStateFlow()
+    private val mutableFacts = MutableStateFlow<Map<String, SdkFact>>(emptyMap())
+    val facts = mutableFacts.asStateFlow()
+    private var journeyId: String? = null
+    private var repository: VehicleRepository? = null
+    private var epoch = 0
+    private var inflight = 0
     private var polling: Job? = null
-    private val safety = PleosSafetySource(application) { value, fact ->
-        mutable.update { it.copy(safety = value) }
-        if (fact != null) {
-            facts[fact.seatId] = fact
-            quietly { it.enqueueFact(fact); it.sendPending() }
-        }
+    private val safety = PleosSafetySource(application) { seats, fact ->
+        mutableFacts.value = seats
+        if (fact != null) repository?.let(::uploadFacts)
     }
+    val environment get() = safety.environment
 
     init {
         safety.start()
-        connect()
     }
 
-    override fun connect() = visibly { repository ->
-        apply(repository.start())
-        facts.values.toList().forEach { repository.enqueueFact(it) }
-        apply(repository.sendPending())
-    }
-
-    override fun startPairing() = visibly { repository ->
-        apply(repository.beginPair())
-        mutable.update { it.copy(claims = repository.claims()) }
-    }
-
-    override fun approve(claim: PairClaim) = visibly { repository ->
-        apply(repository.approve(claim))
-        mutable.update { it.copy(claims = emptyList()) }
-    }
-
-    override fun confirmApproval() = visibly { repository -> apply(repository.retryApproval()) }
-
-    fun follow(edge: Transition) {
-        val action = vehicleAction(edge) ?: return
-        if (action in mutable.value.progress?.actions.orEmpty()) quietly { it.enqueueAction(action); it.sendPending() }
+    fun handle(command: HandoffCommand) {
+        when (command) {
+            is HandoffCommand.Journey -> select(command.id)
+            HandoffCommand.Start -> command(HandoffState.Starting) { settle(it, Settle.Recover) }
+            HandoffCommand.Renew -> command { settle(it, Settle.Renew) }
+            HandoffCommand.Retry -> {
+                val forget = (handoff.value as? HandoffState.Failed)?.reason == FailureReason.Access
+                command(HandoffState.Starting) {
+                    if (forget) it.forget()
+                    settle(it, Settle.Recover)
+                }
+            }
+            is HandoffCommand.Approve -> {
+                val claim = (handoff.value as? HandoffState.Pairing)?.claims?.firstOrNull { it.claimId == command.claimId } ?: return
+                command { HandoffState.Connected(checkNotNull(it.approve(claim).progress)) }
+            }
+        }
     }
 
     fun setActive(active: Boolean) {
         polling?.cancel()
-        polling = if (active) viewModelScope.launch { while (isActive) { delay(2_500); poll() } } else null
+        polling = if (active) viewModelScope.launch { while (isActive) { poll(); delay(3_000) } } else null
     }
 
-    private suspend fun poll() {
-        val repository = repository ?: return
-        if (mutable.value.saved?.access == null) return
-        try {
-            apply(repository.refresh())
-            if (mutable.value.saved?.pending.orEmpty().isNotEmpty()) apply(repository.sendPending())
-            if (mutable.value.saved?.pair != null) mutable.update { it.copy(claims = repository.claims()) }
-            mutable.update { it.copy(online = true) }
-        } catch (error: Exception) {
-            if (error is CancellationException) throw error
-            mutable.update { it.copy(online = false) }
+    private fun select(id: String?) {
+        if (id == journeyId) return
+        journeyId = id
+        epoch++
+        mutableHandoff.value = HandoffState.Idle
+        val selected = if (id != null && origin.isNotEmpty()) {
+            VehicleRepository(SecureVehicleStore(getApplication<Application>(), storeName(origin, id)), origin)
+        } else null
+        repository = selected
+        if (selected == null) return
+        val ticket = epoch
+        viewModelScope.launch {
+            val stored = try { selected.snapshot().saved != null } catch (error: Exception) {
+                if (error is CancellationException) throw error
+                true
+            }
+            if (stored && ticket == epoch) handle(HandoffCommand.Start)
         }
     }
 
-    private fun visibly(block: suspend (VehicleRepository) -> Unit) {
-        val repository = repository ?: return
+    private fun command(pending: HandoffState? = null, work: suspend (VehicleRepository) -> HandoffState) {
+        if (journeyId == null) return
+        val selected = repository
+        if (selected == null) {
+            mutableHandoff.value = HandoffState.Failed(FailureReason.Unavailable, null)
+            return
+        }
+        val ticket = ++epoch
+        pending?.let { mutableHandoff.value = it }
+        execute(selected, ticket, work)
+    }
+
+    private fun poll() {
+        val selected = repository ?: return
+        if (inflight > 0) return
+        val mode = when (val state = handoff.value) {
+            is HandoffState.Pairing, is HandoffState.Connected -> Settle.Resume
+            is HandoffState.Failed -> if (state.reason == FailureReason.Unavailable) Settle.Recover else return
+            else -> return
+        }
+        execute(selected, epoch) { settle(it, mode) }
+    }
+
+    private fun execute(selected: VehicleRepository, ticket: Int, work: suspend (VehicleRepository) -> HandoffState) {
+        inflight++
         viewModelScope.launch {
-            operations++
-            mutable.update { it.copy(busy = true, error = null) }
-            try {
-                block(repository)
-                mutable.update { it.copy(online = true) }
+            val next = try {
+                work(selected)
             } catch (error: Exception) {
                 if (error is CancellationException) throw error
-                mutable.update { it.copy(online = false, error = message(error)) }
-                resync(repository)
-            } finally {
-                operations--
-                mutable.update { it.copy(busy = operations > 0) }
+                HandoffState.Failed(reason(error), progress(handoff.value))
+            } finally { inflight-- }
+            if (ticket != epoch) return@launch
+            mutableHandoff.value = next
+            if (next !is HandoffState.Failed) uploadFacts(selected)
+        }
+    }
+
+    private suspend fun settle(selected: VehicleRepository, mode: Settle): HandoffState {
+        var snapshot = selected.start()
+        if (snapshot.saved?.pendingApproval != null) snapshot = selected.retryApproval()
+        val progress = checkNotNull(snapshot.progress)
+        if (progress.phone.paired) return HandoffState.Connected(progress)
+        val pair = snapshot.saved?.pair
+        if (mode != Settle.Renew && pair != null && pair.expiresAt.isAfter(Instant.now())) {
+            return HandoffState.Pairing(pair, selected.claims(), progress)
+        }
+        if (mode == Settle.Resume && pair != null) return HandoffState.Failed(FailureReason.Expired, progress)
+        val paired = selected.newPair()
+        return HandoffState.Pairing(checkNotNull(paired.saved?.pair), emptyList(), paired.progress ?: progress)
+    }
+
+    // A failed upload stays queued in the encrypted store and is resent after the next successful poll.
+    private fun uploadFacts(selected: VehicleRepository) {
+        viewModelScope.launch {
+            try {
+                facts.value.values.forEach { selected.enqueueFact(it) }
+                selected.sendPending()
+            } catch (error: Exception) {
+                if (error is CancellationException) throw error
             }
         }
     }
 
-    private fun quietly(block: suspend (VehicleRepository) -> VehicleSnapshot) {
-        val repository = repository ?: return
-        viewModelScope.launch {
-            try {
-                apply(block(repository))
-            } catch (error: Exception) {
-                if (error is CancellationException) throw error
-                mutable.update { it.copy(online = false) }
-                resync(repository)
-            }
-        }
+    private fun progress(state: HandoffState): VehicleProgress? = when (state) {
+        is HandoffState.Pairing -> state.progress
+        is HandoffState.Connected -> state.progress
+        is HandoffState.Failed -> state.progress
+        else -> null
     }
 
-    // A failed call can still have persisted a pending approval or cleared a rejected pair; show what the store now holds.
-    private suspend fun resync(repository: VehicleRepository) {
-        try { apply(repository.snapshot()) } catch (error: Exception) { if (error is CancellationException) throw error }
-    }
-
-    private fun apply(snapshot: VehicleSnapshot) = mutable.update { it.copy(saved = snapshot.saved, progress = snapshot.progress) }
-
-    private fun message(error: Exception) = when {
-        error is PairApprovalRejected -> "승인하지 못했어요. 새 코드를 받아 다시 연결해 주세요."
-        error is VehicleApiException && error.status == 401 -> "차량 연결 권한이 끝났어요."
-        error is VehicleApiException && error.status == 429 -> "요청이 많아요. 잠시 후 다시 시도해 주세요."
-        error is IOException -> "서버에 연결할 수 없어요. 잠시 후 다시 시도해 주세요."
-        else -> "연결 정보를 확인하지 못했어요."
+    private fun reason(error: Exception) = when {
+        error is PairExpired -> FailureReason.Expired
+        error is VehicleApiException && (error.status == 401 || error.status == 403) -> FailureReason.Access
+        else -> FailureReason.Unavailable
     }
 
     override fun onCleared() {
@@ -177,6 +174,6 @@ internal class VehicleViewModel(application: Application) : AndroidViewModel(app
     }
 }
 
-// One encrypted identity per backend origin, so a rebuilt app pointing at another server never reuses or blocks on a foreign case.
-private fun storeName(origin: String) =
-    "vehicle-" + MessageDigest.getInstance("SHA-256").digest(origin.toByteArray()).take(8).joinToString("") { "%02x".format(it) }
+// One encrypted identity per backend origin and journey, so a rebuilt app pointing at another server never reuses a foreign case.
+private fun storeName(origin: String, journeyId: String) = "vehicle-" +
+    MessageDigest.getInstance("SHA-256").digest("$origin\n$journeyId".toByteArray()).take(8).joinToString("") { "%02x".format(it) }

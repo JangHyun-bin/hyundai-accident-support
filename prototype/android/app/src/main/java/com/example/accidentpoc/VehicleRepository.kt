@@ -15,7 +15,7 @@ import java.util.UUID
 import javax.net.ssl.HttpsURLConnection
 
 internal class VehicleApiException(val status: Int, val code: String, val latest: VehicleProgress?) : IOException(code)
-internal class PairApprovalRejected : IOException("Pair approval is no longer valid")
+internal class PairExpired : IOException("Pair is no longer valid")
 internal data class VehicleSnapshot(val saved: StoredVehicle?, val progress: VehicleProgress?)
 
 internal class VehicleRepository(private val store: SecureVehicleStore, private val origin: String) {
@@ -43,21 +43,11 @@ internal class VehicleRepository(private val store: SecureVehicleStore, private 
         snapshotNow()
     }
 
-    suspend fun refresh(): VehicleSnapshot = locked {
-        load()
-        if (saved?.access != null) refreshNow()
-        snapshotNow()
-    }
-
-    suspend fun enqueueAction(action: VehicleActionId): VehicleSnapshot = locked {
-        load()
-        val state = saved
-        val current = progress
-        val intent = VehicleIntent.Action(action)
-        if (state != null && current != null && action in current.actions && state.pending.none { it.intent == intent }) {
-            persist(state.copy(pending = state.pending + PendingMutation(UUID.randomUUID().toString(), current.revision, intent)))
-        }
-        snapshotNow()
+    suspend fun forget() = locked {
+        store.delete()
+        saved = null
+        progress = null
+        loaded = true
     }
 
     suspend fun enqueueFact(fact: SdkFact): VehicleSnapshot = locked {
@@ -69,29 +59,23 @@ internal class VehicleRepository(private val store: SecureVehicleStore, private 
             fact.seatId == "all" -> emptyMap()
             else -> state.factFingerprints
         }
-        val mutation = PendingMutation(UUID.randomUUID().toString(), progress?.revision ?: 0, VehicleIntent.Fact(fact))
+        val mutation = PendingMutation(UUID.randomUUID().toString(), progress?.revision ?: 0, fact)
         persist(state.copy(pending = state.pending + mutation, factFingerprints = fingerprints + (fact.seatId to fact.fingerprint())))
         snapshotNow()
     }
 
     // The server deduplicates by mutationId, so stamping the latest revision on every attempt keeps a resend after a lost response
-    // harmless. A conflict retries against the newer revision; an action the server no longer offers, or a change it rejects, is dropped.
+    // harmless. A conflict retries against the newer revision; a fact the server rejects is dropped.
     suspend fun sendPending(): VehicleSnapshot = locked {
         load()
         if (saved?.access == null) return@locked snapshotNow()
         repeat(32) {
             val next = saved?.pending?.firstOrNull() ?: return@locked snapshotNow()
             val current = progress ?: return@locked snapshotNow()
-            val intent = next.intent
-            if (intent is VehicleIntent.Action && intent.id !in current.actions) {
-                removePending(next)
-                return@repeat
-            }
             val mutation = next.copy(expectedRevision = current.revision)
             replacePending(mutation)
-            val route = if (intent is VehicleIntent.Fact) "vehicle-facts" else "vehicle-actions"
             try {
-                accept(VehicleProgress.parse(request("POST", "$casePath/$route", mutation.body())))
+                accept(VehicleProgress.parse(request("POST", "$casePath/vehicle-facts", mutation.body())))
                 removePending(mutation)
             } catch (error: VehicleApiException) {
                 error.latest?.let(::accept)
@@ -105,16 +89,12 @@ internal class VehicleRepository(private val store: SecureVehicleStore, private 
         snapshotNow()
     }
 
-    suspend fun beginPair(): VehicleSnapshot = locked {
+    suspend fun newPair(): VehicleSnapshot = locked {
         load()
-        refreshNow()
         val state = requireNotNull(saved)
         require(state.pendingApproval == null) { "Confirm the pending approval first" }
-        val old = state.pair
-        if (old != null && old.expiresAt.isAfter(Instant.now())) return@locked snapshotNow()
-        if (old != null) revokePairNow(old)
-        val result = request("POST", "$casePath/pairs", JSONObject())
-        val pair = PairLink(result.string("pairId"), result.string("joinUrl"), Instant.parse(result.string("expiresAt")))
+        state.pair?.let(::revokePairNow)
+        val pair = PairLink.parse(request("POST", "$casePath/pairs", JSONObject()))
         val join = URI(pair.joinUrl)
         val backend = URI(origin)
         require(join.scheme == "https" && join.host == backend.host && join.port == backend.port && join.rawUserInfo == null)
@@ -126,16 +106,21 @@ internal class VehicleRepository(private val store: SecureVehicleStore, private 
     suspend fun claims(): List<PairClaim> = locked {
         val pair = saved?.pair ?: return@locked emptyList()
         if (!pair.expiresAt.isAfter(Instant.now())) return@locked emptyList()
-        request("GET", "/pairs/${Uri.encode(pair.pairId)}/claims").getJSONArray("claims").objects().map {
-            PairClaim(it.string("claimId"), it.string("verificationCode"), it.string("deviceLabel"), Instant.parse(it.string("expiresAt")))
-        }.filter { it.expiresAt.isAfter(Instant.now()) }
+        val response = try {
+            request("GET", "/pairs/${Uri.encode(pair.pairId)}/claims")
+        } catch (error: VehicleApiException) {
+            if (error.status in setOf(404, 409, 410)) throw PairExpired()
+            throw error
+        }
+        response.getJSONArray("claims").objects().map(PairClaim::parse).filter { it.expiresAt.isAfter(Instant.now()) }
     }
 
     suspend fun approve(claim: PairClaim): VehicleSnapshot = locked {
         val state = requireNotNull(saved)
-        val pair = requireNotNull(state.pair)
+        val pair = state.pair ?: throw PairExpired()
         if (state.pendingApproval == null) {
-            require(pair.expiresAt.isAfter(Instant.now()) && claim.expiresAt.isAfter(Instant.now()))
+            val now = Instant.now()
+            if (!pair.expiresAt.isAfter(now) || !claim.expiresAt.isAfter(now)) throw PairExpired()
             persist(state.copy(pendingApproval = claim))
         } else require(state.pendingApproval.claimId == claim.claimId)
         approvePendingNow()
@@ -156,7 +141,7 @@ internal class VehicleRepository(private val store: SecureVehicleStore, private 
         } catch (error: VehicleApiException) {
             if (error.status in setOf(400, 403, 404, 409, 410, 422)) {
                 persist(state.copy(pair = null, pendingApproval = null))
-                throw PairApprovalRejected()
+                throw PairExpired()
             }
             throw error
         }

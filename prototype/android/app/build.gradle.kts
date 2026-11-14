@@ -1,9 +1,9 @@
 import java.io.File
 import java.net.URI
+import javax.inject.Inject
 
 plugins {
     id("com.android.application")
-    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 fun configured(name: String): String = providers.gradleProperty(name)
@@ -21,6 +21,10 @@ val signalEnvironment = configured("CHABUN_VEHICLE_ENVIRONMENT").trim().ifEmpty 
 require(signalEnvironment in setOf("auto", "emulator")) {
     "CHABUN_VEHICLE_ENVIRONMENT must be auto or emulator"
 }
+val demoControls = configured("CHABUN_DEMO_CONTROLS").trim().ifEmpty { "true" }
+require(demoControls in setOf("true", "false")) {
+    "CHABUN_DEMO_CONTROLS must be true or false"
+}
 val releaseValues = listOf("STORE_FILE", "STORE_PASSWORD", "KEY_ALIAS", "KEY_PASSWORD")
     .associateWith { configured("CHABUN_RELEASE_$it") }
 val hasReleaseKey = releaseValues.values.all { it.isNotEmpty() }
@@ -29,7 +33,7 @@ android {
     namespace = "com.example.accidentpoc"
     compileSdk = 35
     defaultConfig {
-        applicationId = "com.example.accidentpoc"
+        applicationId = "com.chabun.vehicle"
         minSdk = 28
         targetSdk = 35
         versionCode = 2
@@ -37,10 +41,9 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "API_BASE_URL", "\"$backendOrigin\"")
         buildConfigField("String", "VEHICLE_ENVIRONMENT", "\"$signalEnvironment\"")
+        buildConfigField("boolean", "DEMO_CONTROLS", demoControls)
     }
-    // Storyboard fixture 의 정본을 그대로 읽는다.
-    sourceSets["main"].assets.srcDir("../../../specs/emergency-experience")
-    buildFeatures { compose = true; buildConfig = true }
+    buildFeatures { buildConfig = true }
     signingConfigs {
         if (hasReleaseKey) {
             create("externalRelease") {
@@ -61,6 +64,30 @@ android {
     }
 }
 
+abstract class SyncWebAssets @Inject constructor(private val files: FileSystemOperations) : DefaultTask() {
+    @get:Internal abstract val bundle: DirectoryProperty
+    @get:OutputDirectory abstract val destination: DirectoryProperty
+
+    @get:InputFiles @get:PathSensitive(PathSensitivity.RELATIVE)
+    val bundleFiles: FileTree get() = bundle.asFileTree
+
+    @TaskAction fun sync() {
+        val root = bundle.get().asFile
+        check(root.resolve("index.html").isFile) {
+            "Web bundle missing: ${root.path}/index.html. Build it first with `npm run build:native` in prototype/web."
+        }
+        files.sync { from(root); into(destination.dir("web")) }
+    }
+}
+
+// A generated assets directory lets every consumer (merge, lint) depend on the copy; writing into src/main/assets does not.
+val syncWebAssets = tasks.register<SyncWebAssets>("syncWebAssets") {
+    bundle.set(layout.projectDirectory.dir("../../web/dist-native"))
+}
+androidComponents {
+    onVariants { variant -> variant.sources.assets?.addGeneratedSourceDirectory(syncWebAssets, SyncWebAssets::destination) }
+}
+
 val requireReleaseInputs = tasks.register("requireReleaseInputs") {
     doLast {
         check(backendOrigin.isNotEmpty()) { "Release requires CHABUN_API_BASE_URL" }
@@ -73,21 +100,14 @@ val requireReleaseInputs = tasks.register("requireReleaseInputs") {
 tasks.matching { it.name == "preReleaseBuild" }.configureEach { dependsOn(requireReleaseInputs) }
 
 dependencies {
-    // BOM 으로 app 과 test 의 Compose version 을 맞춘다 (ui·foundation 1.9.4, material3 1.4.0).
-    val compose = platform("androidx.compose:compose-bom:2025.10.01")
-    implementation(compose)
-    implementation("androidx.activity:activity-compose:1.9.3")
-    implementation("androidx.compose.material3:material3")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.9.4")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.9.4")
+    implementation("androidx.activity:activity-ktx:1.9.3")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.9.4")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.4")
+    implementation("androidx.webkit:webkit:1.18.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
     implementation("ai.pleos.playground:Vehicle:2.3.2")
     implementation("ai.pleos.playground:vehicle-data:1.1.11")
     implementation("ai.pleos.playground:vehicle-aidl:1.1.1")
-    implementation("com.google.zxing:core:3.5.3")
-    androidTestImplementation(compose)
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test:runner:1.6.2")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
 }

@@ -14,32 +14,12 @@ import android.os.Looper
 import androidx.core.content.ContextCompat
 import java.time.Instant
 
-internal data class SafetyState(val source: FactSource, val facts: Map<String, SdkFact> = emptyMap())
-internal data class SignalLine(val text: String, val tone: String)
-
-internal fun SafetyState.line(): SignalLine {
-    val readings = facts.values.filterIsInstance<SdkFact.Reading>()
-    val gap = facts.values.filterIsInstance<SdkFact.Unavailable>().maxByOrNull { it.observedAt }
-    val (status, tone) = when {
-        readings.any { it.value } -> "에어백 전개 신호 있음" to "attention"
-        readings.isNotEmpty() -> "에어백 전개 신호 없음" to "neutral"
-        gap == null -> "에어백 신호 확인 중" to "unknown"
-        else -> when (gap.cause) {
-            UnavailableCause.PermissionDenied -> "에어백 신호 권한 없음"
-            UnavailableCause.Unsupported -> "에어백 신호 미지원"
-            UnavailableCause.Disconnected -> "차량 서비스 연결 안 됨"
-            UnavailableCause.ReadFailed -> "에어백 신호를 읽지 못함"
-        } to "unknown"
-    }
-    return SignalLine(listOfNotNull("Pleos SDK", status, "시뮬레이션".takeIf { source == FactSource.Simulation }).joinToString(" · "), tone)
-}
-
-internal class PleosSafetySource(private val context: Context, private val onUpdate: (SafetyState, SdkFact?) -> Unit) {
+internal class PleosSafetySource(private val context: Context, private val onUpdate: (Map<String, SdkFact>, SdkFact?) -> Unit) {
     private val main = Handler(Looper.getMainLooper())
-    private val environment = if (BuildConfig.VEHICLE_ENVIRONMENT == "emulator" ||
+    val environment = if (BuildConfig.VEHICLE_ENVIRONMENT == "emulator" ||
         Build.FINGERPRINT.contains("generic", ignoreCase = true) || Build.FINGERPRINT.contains("emulator", ignoreCase = true) ||
         Build.MODEL.contains("Emulator", ignoreCase = true) || Build.HARDWARE in setOf("ranchu", "goldfish")) FactSource.Simulation else FactSource.Pleos
-    private var state = SafetyState(source = environment)
+    private var facts = emptyMap<String, SdkFact>()
     private var vehicle: Vehicle? = null
     private var safety: Safety? = null
     private var generation = 0
@@ -54,8 +34,8 @@ internal class PleosSafetySource(private val context: Context, private val onUpd
 
     fun start() {
         stop()
-        state = SafetyState(source = environment)
-        onUpdate(state, null)
+        facts = emptyMap()
+        onUpdate(facts, null)
         try {
             context.packageManager.getPermissionInfo(PleosPermission.CAR_SAFETY, 0)
         } catch (_: PackageManager.NameNotFoundException) {
@@ -150,13 +130,13 @@ internal class PleosSafetySource(private val context: Context, private val onUpd
     private fun reading(seat: String, value: Boolean?) {
         if (value == null) { unavailable(seat, UnavailableCause.ReadFailed); return }
         val fact = SdkFact.Reading(seat, Instant.now(), value, environment)
-        state = state.copy(facts = state.facts - "all" + (seat to fact))
-        onUpdate(state, fact)
+        facts = facts - "all" + (seat to fact)
+        onUpdate(facts, fact)
     }
     private fun unavailable(seat: String, cause: UnavailableCause) {
         val fact = SdkFact.Unavailable(seat, Instant.now(), cause)
-        state = state.copy(facts = state.facts + (seat to fact))
-        onUpdate(state, fact)
+        facts = facts + (seat to fact)
+        onUpdate(facts, fact)
     }
     // SDK 2.3.2 ships its exception type obfuscated, so the platform permission failure is the only cause told apart by type.
     private fun cause(error: Exception) = if (error is SecurityException) UnavailableCause.PermissionDenied else UnavailableCause.ReadFailed

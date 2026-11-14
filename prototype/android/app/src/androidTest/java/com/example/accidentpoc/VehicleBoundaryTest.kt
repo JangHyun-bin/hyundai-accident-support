@@ -29,7 +29,8 @@ class VehicleBoundaryTest {
     @Test fun encryptedIdentityAndUnacknowledgedMutationSurviveReopening() {
         val name = "boundary-${UUID.randomUUID()}".also(storeNames::add)
         val identity = StoredVehicle.new("https://vehicle.example")
-        val mutation = PendingMutation("unchanged-operation-id", 17, VehicleIntent.Action(VehicleActionId.Defer))
+        val fact = SdkFact.Reading("ROW_1_LEFT", Instant.parse("2026-11-14T03:00:00Z"), true, FactSource.Pleos)
+        val mutation = PendingMutation("unchanged-operation-id", 17, fact)
         val saved = identity.copy(access = CaseAccess("same-case", "private-vehicle-credential", Instant.parse("2030-01-01T00:00:00Z")),
             pending = listOf(mutation),
             pair = PairLink("same-pair", "https://vehicle.example/phone#pair=private-pair-token", Instant.parse("2030-01-01T00:00:00Z")),
@@ -90,19 +91,6 @@ class VehicleBoundaryTest {
         assertEquals(unsupported, SdkFact.parse(unsupported.json()))
         assertFalse(unsupported.json().has("value"))
         assertFalse(unsupported.json().has("source"))
-    }
-
-    @Test fun signalLineSaysWhatTheSdkReportedAndMarksSimulation() {
-        val at = Instant.parse("2026-11-14T03:00:00Z")
-        assertEquals(SignalLine("Pleos SDK · 에어백 신호 확인 중 · 시뮬레이션", "unknown"), SafetyState(FactSource.Simulation).line())
-        val quiet = SafetyState(FactSource.Pleos, mapOf("ROW_1_LEFT" to SdkFact.Reading("ROW_1_LEFT", at, false, FactSource.Pleos)))
-        assertEquals(SignalLine("Pleos SDK · 에어백 전개 신호 없음", "neutral"), quiet.line())
-        val deployed = quiet.copy(facts = quiet.facts + ("ROW_1_RIGHT" to SdkFact.Reading("ROW_1_RIGHT", at, true, FactSource.Pleos)))
-        assertEquals(SignalLine("Pleos SDK · 에어백 전개 신호 있음", "attention"), deployed.line())
-        val denied = SafetyState(FactSource.Pleos, mapOf("all" to SdkFact.Unavailable("all", at, UnavailableCause.PermissionDenied)))
-        assertEquals(SignalLine("Pleos SDK · 에어백 신호 권한 없음", "unknown"), denied.line())
-        val partial = quiet.copy(facts = quiet.facts + ("ROW_2_LEFT" to SdkFact.Unavailable("ROW_2_LEFT", at, UnavailableCause.ReadFailed)))
-        assertEquals("Pleos SDK · 에어백 전개 신호 없음", partial.line().text)
     }
 
     private fun progress() = JSONObject("""

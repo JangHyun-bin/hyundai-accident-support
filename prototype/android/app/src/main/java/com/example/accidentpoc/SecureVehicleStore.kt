@@ -79,18 +79,15 @@ internal class SecureVehicleStore(context: Context, name: String) {
         }
     }
 
+    fun delete() = file.delete()
+
     private fun encode(value: StoredVehicle) = JSONObject().put("version", 1)
         .put("origin", value.origin).put("creationId", value.creationId).put("creationSecret", value.creationSecret)
         .put("access", value.access?.let {
             JSONObject().put("caseId", it.caseId).put("credential", it.credential).put("expiresAt", it.expiresAt.toString())
         } ?: JSONObject.NULL)
-        .put("pair", value.pair?.let {
-            JSONObject().put("pairId", it.pairId).put("joinUrl", it.joinUrl).put("expiresAt", it.expiresAt.toString())
-        } ?: JSONObject.NULL)
-        .put("pendingApproval", value.pendingApproval?.let {
-            JSONObject().put("claimId", it.claimId).put("verificationCode", it.verificationCode)
-                .put("deviceLabel", it.deviceLabel).put("expiresAt", it.expiresAt.toString())
-        } ?: JSONObject.NULL)
+        .put("pair", value.pair?.json() ?: JSONObject.NULL)
+        .put("pendingApproval", value.pendingApproval?.json() ?: JSONObject.NULL)
         .put("fingerprints", JSONObject(value.factFingerprints))
         .put("pending", JSONArray().apply {
             value.pending.forEach { mutation -> put(mutation.body()) }
@@ -101,16 +98,10 @@ internal class SecureVehicleStore(context: Context, name: String) {
         val access = if (value.isNull("access")) null else value.getJSONObject("access").let {
             CaseAccess(it.string("caseId"), it.string("credential"), Instant.parse(it.string("expiresAt")))
         }
-        val pair = if (value.isNull("pair")) null else value.getJSONObject("pair").let {
-            PairLink(it.string("pairId"), it.string("joinUrl"), Instant.parse(it.string("expiresAt")))
-        }
-        val approval = if (value.isNull("pendingApproval")) null else value.getJSONObject("pendingApproval").let {
-            PairClaim(it.string("claimId"), it.string("verificationCode"), it.string("deviceLabel"), Instant.parse(it.string("expiresAt")))
-        }
+        val pair = if (value.isNull("pair")) null else PairLink.parse(value.getJSONObject("pair"))
+        val approval = if (value.isNull("pendingApproval")) null else PairClaim.parse(value.getJSONObject("pendingApproval"))
         val pending = value.getJSONArray("pending").objects().map {
-            val intent = if (it.has("actionId")) VehicleIntent.Action(VehicleActionId.parse(it.string("actionId")))
-                else VehicleIntent.Fact(SdkFact.parse(it.getJSONObject("fact")))
-            PendingMutation(it.string("mutationId"), it.nonnegativeLong("expectedRevision"), intent)
+            PendingMutation(it.string("mutationId"), it.nonnegativeLong("expectedRevision"), SdkFact.parse(it.getJSONObject("fact")))
         }
         val fingerprints = value.getJSONObject("fingerprints").let { all -> all.keys().asSequence().associateWith { all.string(it) } }
         return StoredVehicle(value.string("origin"), value.string("creationId"), value.string("creationSecret"),
