@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { ArrowLeft, ArrowRight, CarFront, Mic, Smartphone } from 'lucide-react'
 import fixtures from '../../../../specs/emergency-experience/journey-fixtures.json'
 import { createSession, sceneFor, scenarioFor, type Edge } from '../emergency/session'
-import {VehicleShell} from '@/components/ui/after-care-layout'
+import {VehicleShell, type AppWindow} from '@/components/ui/after-care-layout'
 import { EmergencySurface } from '../emergency/EmergencySurface'
 import { createCase, type Device, type JourneyCase, type RequestStatus, type Stage, type CaseCommand, type Evidence, type Diagram, type ReportParagraph, type Receipt } from './case'
 import { useJourneyCase } from './useJourneyCase'
@@ -38,6 +38,7 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
   const sending = value?.submissions.some(item => item.transport === 'sending') ?? false
   const [fixture, setFixture] = useState(initial.get('fixture') ?? fixtures.cases[0].id)
   const [device, setDevice] = useState<Device>(initial.get('device') === 'mobile' ? 'mobile' : 'vehicle')
+  const [appWindow, setAppWindow] = useState<AppWindow>(initial.get('window') === 'split' ? 'split' : 'full')
   const [details, setDetails] = useState(false)
   const [followUpDirty, setFollowUpDirty] = useState(false)
   const [directoryState, setDirectoryState] = useState<FollowUpDirectoryState>(() => (['ready', 'stale', 'empty', 'failed'] as const).find(item => item === initial.get('directory')) ?? 'ready')
@@ -155,6 +156,11 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
     dispatch({ type: 'observation', observation: { id: 'risk-' + crypto.randomUUID(), kind: 'risk', label: '차량 위험', value: '새로운 위험 감지',
       source: 'fixture', observedAt: new Date().toISOString(), confirmation: 'attention', legacyFactId: fact ? 'risk' : null, supersedes: null } })
     setDetails(false)
+  }
+
+  function airbag() {
+    dispatch({ type: 'observation', observation: { id: 'airbag-' + crypto.randomUUID(), kind: 'seat-airbag-deployed', label: '에어백', value: '펼쳐짐',
+      source: 'fixture', observedAt: new Date().toISOString(), confirmation: 'attention', legacyFactId: null, supersedes: null } })
   }
 
   function sampleReport() {
@@ -284,6 +290,7 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
       <label>시연 상황<select value={fixture} onChange={e => setFixture(e.target.value)}>{fixtures.cases.map(f => <option key={f.id} value={f.id}>{f.title}</option>)}</select></label>
       <button onClick={() => void begin()} disabled={journey.loading}>{value ? '새 시연 시작' : '이 상황으로 시작'}</button>
       {value && <button onClick={() => void switchDevice()}>{device === 'vehicle' ? <Smartphone size={16} /> : <CarFront size={16} />}{device === 'vehicle' ? 'Mobile 보기' : '차량 보기'}</button>}
+      {representative && device === 'vehicle' && <label>앱 화면<select value={appWindow} onChange={event => { const next = event.target.value === 'split' ? 'split' : 'full'; setAppWindow(next); replaceQuery({ window: next }) }}><option value="full">전체 화면 1682 × 1210</option><option value="split">화면 분할 841 × 1210</option></select></label>}
       <label>음성 입력<select value={voiceMode} onChange={async event => { const mode = event.target.value as 'device' | 'sample'; if (await prepareToLeave(true)) setVoiceMode(mode) }}><option value="device">이 기기 microphone</option><option value="sample">준비된 음성 sample</option></select></label>
     </section>
     {value&&<>
@@ -309,6 +316,7 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
         <button aria-label="시연 event: 비상등 작동 확인" onClick={() => dispatch({ type: 'safety-action', action: { id: 'hazard', label: '비상등', status: 'device-confirmed', source: 'fixture', confirmedAt: new Date().toISOString() } })}>비상등 작동 확인</button>
         <button aria-label="시연 event: 안내 지점 자료" onClick={() => dispatch({ type: 'navigation-data', value: { source: 'fixture', vehicle: { x: .4, y: .7 }, destination: { x: .7, y: .7 }, distanceMeters: 15, updatedAt: new Date().toISOString() } })}>안내 지점 자료</button>
         <button aria-label="시연 event: 위험 정보" onClick={risk}>위험 정보</button>
+        <button aria-label="시연 event: 에어백 전개 신호" onClick={airbag}>에어백 전개 신호</button>
         {value.activeSubmissionIds.rescue && <>{!representative&&<button aria-label="시연 event: 통화 연결 확인" onClick={() => result('rescue', 'connected')}>통화 연결 확인</button>}<button aria-label="시연 event: 구호 접수 확인" onClick={() => result('rescue', 'received')}>구호 접수 확인</button></>}
         {value.activeSubmissionIds.insurance && <><button disabled={!insuranceResultReady} aria-label="시연 event: 보험사 접수 확인" onClick={() => result('insurance', 'received')}>보험사 접수 확인</button><button disabled={!insuranceResultReady} aria-label="시연 event: 보험사 접수번호 확인" onClick={() => result('insurance', 'received', { number: 'AC-20261110-001', receivedAt: new Date().toISOString(), agencyName: value.submissions.find(item => item.id === value.activeSubmissionIds.insurance)?.recipient ?? '보험사', next: '담당자의 안내를 기다려주세요.' })}>보험사 접수번호 확인</button><button disabled={!insuranceResultReady} aria-label="시연 event: 보험사 결과 미확인" onClick={() => result('insurance', 'unknown')}>보험사 결과 미확인</button>{!representative&&<button aria-label="시연 event: 보험사 전송 실패" onClick={() => result('insurance', 'failed')}>보험사 전송 실패</button>}</>}
         {value.activeSubmissionIds.vehicle && <><button aria-label="시연 event: 차량 지원 접수 확인" onClick={() => result('vehicle', 'received')}>차량 지원 접수 확인</button><button aria-label="시연 event: 차량 지원 미접수 확인" onClick={() => result('vehicle', 'not_received')}>차량 지원 미접수 확인</button></>}
@@ -325,7 +333,7 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
     {journey.missing && !value && <section className="journey-empty"><h2>이 기기에서 기록을 찾지 못했어요</h2><p>다른 기기의 기록은 자동으로 이어지지 않아요.</p></section>}
     {value && <>
       <section ref={representative?undefined:motionRef} data-care-motion-key={contextKey} data-case-id={value.id} data-journey-stage={value.stage}>
-        {representative&&<div hidden={details||value.stage==='follow-up'}><JourneyFlow controls={flowActive?controls:null} previewHeight={previewHeight} key={value.id} value={value} device={device} active={!details&&value.stage!=='follow-up'} onCommand={dispatch} onNavigate={navigate} recordWorkspace={recordWorkspace()} reviewWorkspace={reviewWorkspace()} onReview={()=>reviewPanel.current?.openSubmission()} handoff={handoff}/></div>}
+        {representative&&<div hidden={details||value.stage==='follow-up'}><JourneyFlow controls={flowActive?controls:null} previewHeight={previewHeight} appWindow={appWindow} key={value.id} value={value} device={device} active={!details&&value.stage!=='follow-up'} onCommand={dispatch} onNavigate={navigate} recordWorkspace={recordWorkspace()} reviewWorkspace={reviewWorkspace()} onReview={()=>reviewPanel.current?.openSubmission()} handoff={handoff}/></div>}
         {content()}
         {!representative&&<div id="journey-record-editor" key={value.id} hidden={value.stage !== 'record' || details}>
           <JourneyLayout device={device} navigation={renderNavigation(value)} summary={<JourneySummary value={value} />}

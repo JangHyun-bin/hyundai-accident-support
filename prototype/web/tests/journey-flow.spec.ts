@@ -25,6 +25,7 @@ test('complete-journey covers V1–F1 through actual controls and preserves the 
   await begin(page, 'complete-journey')
   await expect(page.getByTestId('journey-primary')).toBeDisabled()
   await expect(page.getByTestId('journey-flow')).toHaveAttribute('data-call', 'idle')
+  await button(page, '다친 사람이 있거나 위험해요').click()
   await button(page, '119에 연결').click()
   await button(page, '시연 event: 통화 연결 확인').click()
   await expect(page.locator('[data-cell=emergency]')).toContainText('통화 중')

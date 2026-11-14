@@ -6,6 +6,7 @@ async function review(page:Page) {
   await page.goto('/')
   await page.getByRole('button',{name:'이 상황으로 시작',exact:true}).click()
   const primary=page.getByTestId('journey-primary')
+  await page.getByRole('button',{name:'다친 사람이 있거나 위험해요',exact:true}).click()
   await page.getByRole('button',{name:'119에 연결',exact:true}).click()
   await page.getByRole('button',{name: /^(?:다음 · )?시연 event: 통화 연결 확인$/,exact:true}).click()
   for(let i=0;i<3;i++)await primary.click()

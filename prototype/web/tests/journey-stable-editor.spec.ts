@@ -1,10 +1,11 @@
 import {journeyControl} from './helpers/journey-controls'
 import {test,expect,type Page} from '@playwright/test'
 
-async function record(page:Page){
+async function record(page:Page,path='/'){
  await page.emulateMedia({reducedMotion:'reduce'})
- await page.goto('/')
+ await page.goto(path)
  await page.getByRole('button',{name:'이 상황으로 시작',exact:true}).click()
+ await page.getByRole('button',{name:'다친 사람이 있거나 위험해요',exact:true}).click()
  await page.getByRole('button',{name:'119에 연결',exact:true}).click()
  await page.getByRole('button',{name: /^(?:다음 · )?시연 event: 통화 연결 확인$/,exact:true}).click()
  for(let i=0;i<3;i++)await page.getByTestId('journey-primary').click()
@@ -29,6 +30,7 @@ test('real editor retains draft, caret and its own scroll through BACK and urgen
  await record(page)
  const input=page.getByRole('textbox',{name:'사고 기록',exact:true})
  await input.fill('앞 차량이 멈춰서 함께 정차했어요. '.repeat(40))
+ await page.addStyleTag({content:'#journey-record-editor .journey-textarea{min-height:1600px}'})
  const original=await input.elementHandle()
  const scroll=page.locator('#journey-record-editor .journey-workspace-scroll:visible')
  await expect(scroll).toBeVisible()
@@ -55,28 +57,25 @@ test('real editor retains draft, caret and its own scroll through BACK and urgen
  expect(await scroll.evaluate(node=>node.scrollTop)).toBe(position)
 })
 
-test('narrow context keeps the same scene, draft and immediate call facts',async({page})=>{
- await page.setViewportSize({width:393,height:1200})
- await record(page)
- await expect(page.locator('.journey-flow .ac-vehicle')).toHaveAttribute('data-flow-mode','narrow')
+test('split app window keeps the same draft and call facts and returns to the full window',async({page})=>{
+ await record(page,'/?window=split')
+ const shell=page.locator('.journey-flow .ac-vehicle')
+ await expect(shell).toHaveAttribute('data-app-window','split')
+ await expect(shell).toHaveAttribute('data-flow-mode','narrow')
  const input=page.getByRole('textbox',{name:'사고 기록',exact:true})
  await input.fill('저장 전 기록')
  const original=await input.elementHandle()
- const scene=page.locator('.journey-flow-scene .ss-surface')
- const sceneNode=await scene.elementHandle()
- await page.getByRole('button',{name:'차량 주변 보기',exact:true}).click()
- await expect(page.locator('.fs-call-core')).toContainText('통화 중')
+ await expect(page.locator('[data-cell=emergency] .fs-call-core')).toContainText('통화 중')
  await expect(page.getByTestId('journey-primary')).toBeVisible()
- await scene.getByRole('button',{name:'주변 상황 보기',exact:true}).click()
- await scene.getByRole('button',{name:'사고 재생',exact:true}).click()
- const seek=scene.getByRole('slider',{name:'사고 시점 이동',exact:true})
- await seek.fill('-2')
- await page.getByRole('button',{name:'현재 작업 보기',exact:true}).click()
+ const app=(await shell.locator('.ac-vehicle-content').boundingBox())!,board=(await page.getByTestId('flow-board').boundingBox())!
+ expect(board.x).toBeGreaterThanOrEqual(app.x-1)
+ expect(board.x+board.width).toBeLessThanOrEqual(app.x+app.width+1)
+ await page.locator('.journey-flow-options>summary').click()
+ await page.getByRole('combobox',{name:'앱 화면',exact:true}).selectOption('full')
+ await expect(shell).toHaveAttribute('data-flow-mode','wide')
+ await expect(shell).toHaveAttribute('data-app-window','full')
  await expect(input).toHaveValue('저장 전 기록')
  expect(await original!.evaluate(node=>node.isConnected)).toBe(true)
- await page.getByRole('button',{name:'차량 주변 보기',exact:true}).click()
- await expect(seek).toHaveValue('-2')
- expect(await sceneNode!.evaluate(node=>node.isConnected)).toBe(true)
 })
 
 test('background updates preserve document scroll and editor focus',async({page})=>{

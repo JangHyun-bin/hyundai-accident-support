@@ -1,4 +1,4 @@
-import {test,expect} from '@playwright/test'
+import {test,expect,type Locator} from '@playwright/test'
 
 test('one controller advances the representative flow and contains all demo settings',async({page})=>{
  await page.emulateMedia({reducedMotion:'reduce'})
@@ -9,6 +9,7 @@ test('one controller advances the representative flow and contains all demo sett
  await expect(next).toHaveText(/다음/)
  await expect(controls.getByRole('button',{name:'이전 단계',exact:true})).toBeDisabled()
  await expect(next).toBeDisabled()
+ await page.getByRole('button',{name:'다친 사람이 있거나 위험해요',exact:true}).click()
  await page.getByRole('button',{name:'119에 연결',exact:true}).click()
  await expect(controls).toContainText('시연: 통화 연결 확인')
  await next.click()
@@ -39,7 +40,16 @@ test('one controller advances the representative flow and contains all demo sett
  await expect(controls.locator('summary')).toBeFocused()
 })
 
-for(const width of [1440,1920,2560])test(`Connect Standard frame keeps 16:9 at ${width}px`,async({page})=>{
+async function outsideAppWindow(shell:Locator) {
+ return shell.evaluate(node=>{
+  const app=node.querySelector('.ac-vehicle-content')!.getBoundingClientRect()
+  return [...node.querySelectorAll<HTMLElement>('.ac-vehicle-content *')].filter(element=>element instanceof HTMLElement&&!element.closest('[aria-hidden=true]')&&element.checkVisibility({visibilityProperty:true,opacityProperty:true}))
+   .filter(element=>[...element.getClientRects()].some(r=>r.width>0&&r.height>0&&(r.left<app.left-1||r.top<app.top-1||r.right>app.right+1||r.bottom>app.bottom+1)))
+   .map(element=>`${element.tagName.toLowerCase()}.${[...element.classList].join('.')}`)
+ })
+}
+
+for(const width of [1440,1920,2560])test(`Connect Standard display keeps 16:9 with our UI only inside the app window at ${width}px`,async({page})=>{
  await page.setViewportSize({width,height:1440})
  await page.emulateMedia({reducedMotion:'reduce'})
  await page.goto('/')
@@ -54,19 +64,25 @@ for(const width of [1440,1920,2560])test(`Connect Standard frame keeps 16:9 at $
  await expect(shell.locator('.fs-stages,.fs-step-copy,.journey-flow-options')).toHaveCount(0)
  const controller=(await page.locator('.journey-flow-header').boundingBox())!
  expect(controller.y).toBeGreaterThanOrEqual(before.y+before.height)
- const status=(await shell.locator('.ac-vehicle-status').boundingBox())!
- const content=(await shell.locator('.ac-vehicle-content').boundingBox())!
- const dock=(await shell.locator('.ac-vehicle-dock').boundingBox())!
- expect(content.y-status.y-status.height).toBeCloseTo(16,0)
- expect(dock.y-content.y-content.height).toBeCloseTo(16,0)
  expect(before.y+await page.evaluate(()=>scrollY)).toBeCloseTo(0,0)
+ const scale=before.width/2560
+ const area=async(selector:string)=>{const box=(await shell.locator(selector).boundingBox())!;return [box.x-before.x,box.y-before.y,box.width,box.height].map(value=>value/scale)}
+ for(const [selector,expected] of [['[data-system=status-bar]',[0,0,2560,90]],['[data-system=driving-view]',[0,90,853,1210]],['[data-system=gnb]',[0,1300,2560,140]],['.ac-vehicle-content',[853,90,1682,1210]]] as const){
+  const actual=await area(selector)
+  actual.forEach((value,index)=>expect(Math.abs(value-expected[index]),`${selector} ${index}`).toBeLessThanOrEqual(1))
+ }
+ expect(await shell.evaluate(node=>{
+  const profile=[...document.styleSheets].flatMap(sheet=>[...sheet.cssRules]).find((rule):rule is CSSMediaRule=>rule instanceof CSSMediaRule&&rule.conditionText.replace(/\s/g,'')==='(min-width:2400px)'&&rule.cssText.includes('--ac-type-body'))!.cssRules[0] as CSSStyleRule
+  const style=getComputedStyle(node)
+  return [...profile.style].filter(name=>style.getPropertyValue(name).trim()!==profile.style.getPropertyValue(name).trim())
+ }),'display type profile matches the 2560 token profile').toEqual([])
+ expect(await outsideAppWindow(shell)).toEqual([])
+ await page.getByRole('button',{name:'다친 사람이 있거나 위험해요',exact:true}).click()
  await page.getByRole('button',{name:'119에 연결',exact:true}).click()
  await page.getByTestId('journey-primary').click()
  await page.getByTestId('journey-primary').click()
  await expect(page.getByTestId('journey-flow')).toHaveAttribute('data-step','3')
  const after=(await shell.boundingBox())!
  expect(after.width).toBe(before.width);expect(after.height).toBe(before.height)
- const left=(await page.locator('.journey-flow-scene').boundingBox())!,right=(await page.getByTestId('flow-board').boundingBox())!
- expect(Math.abs(left.y-right.y)).toBeLessThanOrEqual(1)
- expect(Math.abs(left.height-right.height)).toBeLessThanOrEqual(1)
+ expect(await outsideAppWindow(shell)).toEqual([])
 })

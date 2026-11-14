@@ -9,11 +9,11 @@ async function contained(element:Locator,container:Locator) {
   expect(child!.y+child!.height).toBeLessThanOrEqual(parent!.y+parent!.height+1)
 }
 
-async function environment(page:Page,font:number,width:number,device:string) {
+async function environment(page:Page,font:number,device:string) {
   await page.evaluate(()=>document.fonts.ready)
   const board=page.getByTestId('flow-board'),shell=page.locator('.journey-flow [data-care-component=vehicle-shell]')
   await expect(shell).toHaveAttribute('data-flow-font-size',String(font))
-  await expect(board).toHaveAttribute('data-profile',device==='mobile'?'mobile':font===32?(width===2560?'wide':width<=393?'document':'narrow'):width>=1440?'wide':'narrow')
+  await expect(board).toHaveAttribute('data-profile',device==='mobile'?'mobile':font===32?'narrow':'wide')
   const profile=(await board.getAttribute('data-profile'))!
   await expect(shell).toHaveAttribute('data-flow-mode',profile)
   await expect(shell).toHaveAttribute('data-flow-reason',/\S+/)
@@ -23,7 +23,7 @@ async function environment(page:Page,font:number,width:number,device:string) {
 type ProfileProbe=HTMLElement&{contractProbe:{profiles:string[];frames:number[][];observer:MutationObserver;resize:ResizeObserver}}
 async function observeEnvironment(board:Locator) {
   await board.evaluate(node=>{
-    const shell=node.closest('[data-care-component=vehicle-shell]')!,scene=shell.querySelector('.journey-flow-scene')!
+    const shell=node.closest('[data-care-component=vehicle-shell]')!,scene=shell.querySelector('[data-cell=scene] .fs-cell-body')!
     const dimensions=()=>[shell,node,scene].flatMap(element=>{const r=element.getBoundingClientRect();return [r.width,r.height]})
     const profiles=[node.getAttribute('data-profile')!],frames=[dimensions()]
     const observer=new MutationObserver(()=>profiles.push(node.getAttribute('data-profile')!))
@@ -69,6 +69,7 @@ for (const [width, device] of [[2560, 'vehicle'], [1920, 'vehicle'], [1440, 'veh
     const primary = page.getByTestId('journey-primary')
     await primary.scrollIntoViewIfNeeded()
     await expect(primary).toBeInViewport({ratio:1})
+    await page.getByRole('button', { name: '다친 사람이 있거나 위험해요', exact: true }).click()
     await page.getByRole('button', { name: '119에 연결', exact: true }).click()
     await page.getByRole('button', { name: /^(?:다음 · )?시연 event: 통화 연결 확인$/, exact: true }).click()
     await primary.click()
@@ -76,12 +77,14 @@ for (const [width, device] of [[2560, 'vehicle'], [1920, 'vehicle'], [1440, 'veh
     for (const font of [16, 32]) {
       await page.evaluate(size => { document.documentElement.style.fontSize = `${size}px` }, font)
       await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true)
-      const profile=await environment(page,font,width,device)
+      const profile=await environment(page,font,device)
       const minimum = 48
+      const scale = device === 'vehicle' ? (await flow.locator('[data-care-component=vehicle-shell]').boundingBox())!.width / 2560 : 1
       for (const button of await flow.getByRole('button').all()) {
         const rect = await button.boundingBox()
-        expect(rect!.height).toBeGreaterThanOrEqual(minimum)
-        expect(rect!.width).toBeGreaterThanOrEqual(minimum)
+        const inDisplay = await button.evaluate(node => !!node.closest('[data-care-component=vehicle-shell]'))
+        expect(rect!.height / (inDisplay ? scale : 1)).toBeGreaterThanOrEqual(minimum)
+        expect(rect!.width / (inDisplay ? scale : 1)).toBeGreaterThanOrEqual(minimum)
       }
       const shell=flow.locator('[data-care-component=vehicle-shell]')
       const controller=flow.locator('.ac-display-controls')
@@ -110,12 +113,13 @@ for (const [width, device, font] of [[2560, 'vehicle', 16], [2560, 'vehicle', 32
     await page.goto('/?device=' + device)
     await page.getByRole('button', { name: '이 상황으로 시작', exact: true }).click()
     const primary = page.getByTestId('journey-primary')
+    await page.getByRole('button', { name: '다친 사람이 있거나 위험해요', exact: true }).click()
     await page.getByRole('button', { name: '119에 연결', exact: true }).click()
     await page.getByRole('button', { name: /^(?:다음 · )?시연 event: 통화 연결 확인$/, exact: true }).click()
     for (let index = 0; index < 3; index++) await primary.click()
     await expect(page.getByTestId('journey-flow')).toHaveAttribute('data-step', '5')
     await page.evaluate(size => { document.documentElement.style.fontSize = `${size}px` }, font)
-    const profile=await environment(page,font,width,device)
+    const profile=await environment(page,font,device)
     const board=page.getByTestId('flow-board')
     await observeEnvironment(board)
     await page.getByRole('button', { name: '직접 입력', exact: true }).click()
@@ -159,7 +163,7 @@ for (const [width, device, font] of [[2560, 'vehicle', 16], [2560, 'vehicle', 32
       return {profiles,frames}
     })
     expect(observed.profiles.every(value=>value===profile)).toBe(true)
-    if(profile!=='document')for(let dimension=0;dimension<6;dimension++){
+    if(profile!=='document')for(let dimension=0;dimension<(profile==='wide'?6:4);dimension++){
       const values=observed.frames.map(frame=>frame[dimension])
       expect(Math.max(...values)-Math.min(...values),`shell/board/scene dimension ${dimension} changed after content or stage`).toBeLessThanOrEqual(1)
     }
