@@ -5,7 +5,7 @@ test('full flow keeps call after sending and only settles after call ends',async
  await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/?study=flow')
  const root=page.getByTestId('flow-study'),board=page.getByTestId('flow-board')
  await expect(root).toHaveAttribute('data-step','1');await expect(board).toHaveAttribute('data-layout','detect')
- await next(page);await expect(root).toHaveAttribute('data-step','2');await expect(board).toHaveAttribute('data-layout','detect')
+ await next(page);await expect(root).toHaveAttribute('data-step','2');await expect(board).toHaveAttribute('data-layout','emergency');await expect(board.locator('[data-cell=emergency]')).toHaveAttribute('data-cell-visible','true')
  await next(page);await expect(board).toHaveAttribute('data-layout','evacuate')
  const checks=page.getByRole('group',{name:'안전 확인 항목'}).getByRole('checkbox')
  for(const checkbox of await checks.all())await checkbox.check()
@@ -17,7 +17,8 @@ test('full flow keeps call after sending and only settles after call ends',async
  await expect(root).toHaveAttribute('data-step','7',{timeout:6000});await expect(board).toHaveAttribute('data-layout','sending')
  await expect(page.getByTestId('flow-step-support')).toContainText('접수 여부는 아직')
  await page.getByRole('button',{name:'통화 종료 시연',exact:true}).click()
- await expect(board).toHaveAttribute('data-layout','calm');await expect(page.getByText('천천히 숨을 내쉬세요', {exact:true})).toBeVisible();await expect(board.locator('.fs-cell:visible')).toHaveCount(0)
+ await expect(board).toHaveAttribute('data-layout','calm');await expect(page.getByText('천천히 숨을 내쉬세요', {exact:true})).toBeVisible()
+ await expect(board.locator('.fs-cell[data-cell-visible=true]')).toHaveCount(4);await expect(board.locator('[data-cell=emergency]')).toHaveAttribute('data-cell-visible','false')
 })
 test('failed send preserves contents, retry works, and reset cancels pending result',async({page})=>{
  await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/?study=flow');await toReview(page)
@@ -59,7 +60,7 @@ test('review exposes the exact note and keyboard can open and close full content
  for(let i=0;i<4;i++)await next(page)
  const note='오른쪽 앞부분에 접촉이 있었습니다. 사진을 확인한 뒤 추가할 예정입니다.'
  await page.getByRole('textbox',{name:'시연할 기록'}).fill(note);await next(page)
- await expect(page.locator('[data-cell=insurer]')).toContainText(note)
+ await expect(page.locator('[data-cell=guide]')).toContainText(note)
  const open=page.getByRole('button',{name:'보낼 내용 전체 보기',exact:true});await open.focus();await page.keyboard.press('Enter')
  const dialog=page.getByRole('dialog',{name:'보험사에 보낼 내용',exact:true})
  await expect(dialog).toBeVisible();await expect(dialog).toContainText(note)
@@ -118,13 +119,26 @@ test('demo action stays outside the display and reachable through all seven stag
  }
 })
 
-test('wide preview gives the board one full pane and keeps external controls clickable',async({page})=>{
+test('wide preview gives the five-cell board the whole app window and keeps external controls clickable',async({page})=>{
  await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/?study=flow')
  await expect(page.locator('.ac-vehicle')).toHaveAttribute('data-flow-mode','wide')
- await expect(page.getByRole('button',{name:'차량 상태 보기',exact:true})).toBeHidden()
- const scene=await page.locator('.fs-vehicle').boundingBox(),board=await page.getByTestId('flow-board').boundingBox()
- expect(Math.abs(scene!.height-board!.height)).toBeLessThanOrEqual(1)
- expect(Math.abs(scene!.y-board!.y)).toBeLessThanOrEqual(1)
- expect(board!.height).toBeGreaterThan(400)
+ const app=await page.locator('.ac-vehicle-content').boundingBox(),board=await page.getByTestId('flow-board').boundingBox()
+ expect(board!.x).toBeGreaterThanOrEqual(app!.x);expect(board!.x+board!.width).toBeLessThanOrEqual(app!.x+app!.width+1)
+ expect(board!.height/app!.height).toBeGreaterThan(.9)
+ await expect(page.getByTestId('flow-board').locator('.fs-cell[data-cell-visible=true]')).toHaveCount(4)
  await page.getByRole('button',{name:'처음부터',exact:true}).click()
+})
+
+test('split window stacks the guide first, then the record summary and a compact scene beside the vehicle',async({page})=>{
+ await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/?study=flow&window=split')
+ const board=page.getByTestId('flow-board')
+ await expect(board).toHaveAttribute('data-profile','narrow')
+ for(let i=0;i<2;i++)await next(page)
+ await expect(board).toHaveAttribute('data-layout','evacuate')
+ const boxes=await board.evaluate(node=>Object.fromEntries([...node.querySelectorAll<HTMLElement>('.fs-cell[data-cell-visible=true]')].map(cell=>{const r=cell.querySelector('.fs-cell-body')!.getBoundingClientRect();return [cell.dataset.cell!,{top:r.top,left:r.left,height:r.height,compact:cell.dataset.compact==='true'}]})))
+ expect(Object.keys(boxes).sort()).toEqual(['emergency','guide','record','scene','vehicle'])
+ expect(boxes.emergency.top).toBeLessThan(boxes.guide.top);expect(boxes.guide.top).toBeLessThan(boxes.record.top);expect(boxes.record.top).toBeLessThan(boxes.scene.top)
+ expect(Math.abs(boxes.scene.top-boxes.vehicle.top)).toBeLessThanOrEqual(1);expect(boxes.scene.left).toBeLessThan(boxes.vehicle.left)
+ expect(boxes.guide.height).toBeGreaterThan(boxes.record.height)
+ expect([boxes.guide.compact,boxes.record.compact,boxes.scene.compact,boxes.vehicle.compact]).toEqual([false,true,true,true])
 })

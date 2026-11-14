@@ -1,31 +1,29 @@
 import {useEffect,useLayoutEffect,useMemo,useRef,useState,type ReactNode,type CSSProperties} from 'react'
 import {gsap} from 'gsap'
 import {CustomEase} from 'gsap/CustomEase'
-import {ShieldCheck} from 'lucide-react'
 import {CareSurface} from '@/components/ui/after-care'
-import {layoutPriority,type CellId} from './flow-geometry'
-import {createFlowPlan,flowShapes,sampleFlowShapes} from './flow-plan'
+import {cellIds,createFlowPlan,flowShapes,layoutPriority,sampleFlowShapes} from './flow-plan'
 import {useFlowFrame,type FlowFrame,type FlowPlan,type FlowShapeFrame} from './flow-contract'
-import type {FlowLayout} from './flow-study-model'
+import type {CellId,FlowLayout} from './flow-study-model'
 
 gsap.registerPlugin(CustomEase)
 const breathEase=CustomEase.create('flow-breath','.65,0,.35,1')
-const ids:CellId[]=['guide','record','insurer','emergency']
-const titles:Record<CellId,string>={guide:'안전 확보',record:'사고 기록',insurer:'보험사 전달',emergency:'긴급 통화'}
+const titles:Record<CellId,string>={emergency:'긴급 통화',guide:'현재 안내',record:'사고 기록',scene:'주변 상황',vehicle:'차량 상태'}
 const initialFrame:FlowFrame={width:680,height:800,device:'vehicle',mode:'narrow',contentHeight:600,statusHeight:0,dockHeight:0,revision:'initial',reason:'initial measurement',metrics:{rem:16,bodyLineHeight:23.58,headingLineHeight:36.4,callLineHeight:35,labelLineHeight:21,touch:64}}
 const emptyShape={left:0,top:0,width:1,height:1,path:'M0 0 Z'}
-const sameSlot=(a:FlowPlan['cells'][CellId],b:FlowPlan['cells'][CellId])=>a.visible&&b.visible&&a.variant===b.variant&&(['left','top','width','height'] as const).every(key=>Math.abs(a.slot[key]-b.slot[key])<.01)
+const restingLight={'--fs-light':.5,'--fs-chroma':1}
+const sameTarget=(a:FlowPlan,b:FlowPlan)=>a.layout===b.layout&&a.cells.emergency.visible===b.cells.emergency.visible
 
-export function FlowBoard({layout:target,notificationKey,reduced,driving=false,renderCell,readout=true,onSettled,onPlan,device='vehicle'}:{layout:FlowLayout;notificationKey:string;reduced:boolean;driving?:boolean;renderCell:(id:CellId,compact:boolean)=>ReactNode;readout?:boolean;persistentCells?:boolean;onSettled?:()=>void;onPlan?:(plan:FlowPlan)=>void;device?:'vehicle'|'mobile'}){
+export function FlowBoard({layout:target,emergencyActive=false,attention=[],notificationKey,reduced,driving=false,renderCell,readout=true,onSettled,onPlan}:{layout:FlowLayout;emergencyActive?:boolean;attention?:CellId[];notificationKey:string;reduced:boolean;driving?:boolean;renderCell:(id:CellId,compact:boolean)=>ReactNode;readout?:boolean;persistentCells?:boolean;onSettled?:()=>void;onPlan?:(plan:FlowPlan)=>void}){
  const inherited=useFlowFrame(),frame=inherited??initialFrame
  const host=useRef<HTMLDivElement>(null)
  const [size,setSize]=useState({width:680,height:600})
  const [fontsReady,setFontsReady]=useState(false)
- const plan=useMemo(()=>createFlowPlan(target,size.width,size.height,frame),[target,size.width,size.height,frame])
+ const plan=useMemo(()=>createFlowPlan(target,size.width,size.height,frame,emergencyActive),[target,size.width,size.height,frame,emergencyActive])
  const [display,setDisplay]=useState(plan),[moving,setMoving]=useState(false)
  const shown=useRef(display),current=useRef<FlowShapeFrame>(flowShapes(display))
  const tween=useRef<gsap.core.Timeline|null>(null),generation=useRef(0),environment=useRef('')
- const commit=useRef<{generation:number;fade:CellId[]}|null>(null),phase=useRef<'idle'|'moving'|'paused'>('idle')
+ const commit=useRef<{generation:number;fade:CellId[]}|null>(null),phase=useRef<'idle'|'moving'>('idle')
  const measured=useRef(false)
  const callback=useRef(onSettled);callback.current=onSettled
  const revision=`${frame.revision}/${size.width}/${size.height}`
@@ -56,7 +54,7 @@ export function FlowBoard({layout:target,notificationKey,reduced,driving=false,r
  },[])
  function paint(next:FlowShapeFrame){
   current.current=next
-  for(const id of ids){
+  for(const id of cellIds){
    const surface=host.current?.querySelector<HTMLElement>(`[data-cell="${id}"]`)
    const background=surface?.querySelector<HTMLElement>('.ac-material-frame'),shape=next.shapes[id]
    if(!background)continue
@@ -69,6 +67,16 @@ export function FlowBoard({layout:target,notificationKey,reduced,driving=false,r
   }
  }
  const body=(id:CellId)=>host.current!.querySelector<HTMLElement>(`[data-cell="${id}"] .fs-cell-body`)!
+ function reveal(next:FlowPlan){
+  for(const id of cellIds){
+   const node=body(id),cell=next.cells[id]
+   node.inert=!cell.visible;node.setAttribute('aria-hidden',String(!cell.visible))
+   node.style.opacity=cell.visible?'1':'0'
+  }
+  const decoration=host.current?.querySelector<HTMLElement>('.fs-call-decoration')
+  if(decoration)decoration.style.opacity='1'
+  return decoration
+ }
  useLayoutEffect(()=>{
   const ticket=++generation.current
   tween.current?.kill();tween.current=null;commit.current=null
@@ -77,24 +85,25 @@ export function FlowBoard({layout:target,notificationKey,reduced,driving=false,r
   const destination=flowShapes(plan)
   const settle=()=>{
    if(generation.current!==ticket)return
-   shown.current=plan;setDisplay(plan);paint(destination);phase.current='idle';setMoving(false)
+   shown.current=plan;setDisplay(plan);paint(destination);reveal(plan);phase.current='idle';setMoving(false)
   }
-  if(!measured.current||!fontsReady||changedEnvironment||reduced||frame.mode!=='wide'){
+  // Driving stops animation, not information: the board lands on the current plan at once so every visible cell stays readable.
+  if(!measured.current||!fontsReady||changedEnvironment||reduced||driving||frame.mode!=='wide'){
    settle();return
   }
-  if(driving){phase.current='paused';setMoving(false);return}
-  if(shown.current.layout===target&&phase.current==='idle'){paint(destination);return}
+  if(sameTarget(shown.current,plan)&&phase.current==='idle'){paint(destination);return}
   const source=current.current
-  const canvas=document.createElement('canvas').getContext('2d')!
-  const keep=new Set<CellId>(['emergency'])
-  for(const id of ids.filter(id=>id!=='emergency')){
-   if(!sameSlot(shown.current.cells[id],plan.cells[id]))continue
-   const r=plan.cells[id].slot
+  if(source.width===destination.width&&source.height===destination.height&&cellIds.every(id=>(['x','y','offset'] as const).every(key=>source.planes[id][key]===destination.planes[id][key]))){settle();return}
+  const canvas=document.createElement('canvas').getContext('2d')!,samples=Array.from({length:25},(_,i)=>sampleFlowShapes(source,destination,i/24).shapes)
+  // A body stays put only if its slot is unchanged and every sampled frame still contains it; the 119 core keeps its slot across variants.
+  const keep=new Set(cellIds.filter(id=>{
+   const from=shown.current.cells[id],to=plan.cells[id],r=to.slot
+   if(!from.visible||!to.visible||id!=='emergency'&&from.variant!==to.variant||(['left','top','width','height'] as const).some(key=>Math.abs(from.slot[key]-r[key])>=.01))return false
    const corners=[[r.left-4,r.top-4],[r.left+r.width+4,r.top-4],[r.left+r.width+4,r.top+r.height+4],[r.left-4,r.top+r.height+4]]
-   if(Array.from({length:25},(_,i)=>sampleFlowShapes(source,destination,i/24).shapes[id]).every(shape=>shape&&corners.every(([x,y])=>canvas.isPointInPath(new Path2D(shape.path),x-shape.bounds.left,y-shape.bounds.top))))keep.add(id)
-  }
-  for(const id of keep)if(shown.current.cells[id].visible)body(id).style.opacity='1'
-  const fade=ids.filter(id=>!keep.has(id))
+   return samples.every(shapes=>{const shape=shapes[id];if(!shape)return false;const path=new Path2D(shape.path);return corners.every(([x,y])=>canvas.isPointInPath(path,x-shape.bounds.left,y-shape.bounds.top))})
+  }))
+  for(const id of keep)body(id).style.opacity='1'
+  const fade=cellIds.filter(id=>!keep.has(id))
   const decoration=host.current?.querySelector<HTMLElement>('.fs-call-decoration')
   const changing=[...fade.map(body),...(decoration?[decoration]:[])]
   phase.current='moving';setMoving(true)
@@ -116,19 +125,11 @@ export function FlowBoard({layout:target,notificationKey,reduced,driving=false,r
  },[plan,revision,fontsReady,reduced,driving])
  useLayoutEffect(()=>{
   const transaction=commit.current
-  for(const id of ids){
-   const node=body(id),cell=display.cells[id]
-   node.inert=!cell.visible;node.setAttribute('aria-hidden',String(!cell.visible))
-   node.style.opacity=cell.visible?'1':'0'
-  }
-  const decoration=host.current?.querySelector<HTMLElement>('.fs-call-decoration')
-  if(decoration)decoration.style.opacity='1'
+  const decoration=reveal(display)
   if(!transaction||transaction.generation!==generation.current)return
   commit.current=null
-  const nodes=transaction.fade.filter(id=>display.cells[id].visible&&display.layout!=='calm').map(body)
+  const nodes=transaction.fade.filter(id=>display.cells[id].visible).map(body)
   if(decoration)nodes.push(decoration)
-  const calm=host.current?.querySelector<HTMLElement>('.fs-calm')
-  if(calm)nodes.push(calm)
   gsap.set(nodes,{opacity:0})
   const tl=gsap.timeline({onComplete:()=>{if(transaction.generation===generation.current){phase.current='idle';setMoving(false)}}})
   tween.current=tl
@@ -137,31 +138,26 @@ export function FlowBoard({layout:target,notificationKey,reduced,driving=false,r
  },[display,reduced])
  useEffect(()=>{onPlan?.(display)},[display,onPlan])
  useEffect(()=>{
-  if(!moving&&display.layout===target&&!driving)callback.current?.()
- },[display,target,moving,driving,onSettled])
+  if(!moving&&sameTarget(display,plan)&&!driving)callback.current?.()
+ },[display,plan,moving,driving,onSettled])
  useEffect(()=>()=>{generation.current++;tween.current?.kill()},[])
  useEffect(()=>{
-  const element=host.current!;gsap.set(element,{'--fs-light':0,'--fs-chroma':0})
-  if(reduced||driving)return
+  const element=host.current!
+  // The active task and a live call keep their material lit; a notification pulses above that resting level.
+  if(reduced||driving){gsap.set(element,restingLight);return}
   const tl=gsap.timeline().to(element,{'--fs-light':.95,'--fs-chroma':1,duration:.7,ease:'power2.out'})
    .to(element,{'--fs-light':.68,duration:1.2,ease:'sine.inOut'},'+=.35')
-   .to(element,{'--fs-light':0,'--fs-chroma':0,duration:1.4,ease:'power2.inOut'},'+=.6')
+   .to(element,{...restingLight,duration:1.4,ease:'power2.inOut'},'+=.6')
   return()=>{tl.kill()}
  },[notificationKey,reduced,driving])
- useLayoutEffect(()=>{
-  const emergency=plan.cells.emergency.shape
-  const dashboard=host.current?.closest<HTMLElement>('.fs-dashboard')
-  dashboard?.style.setProperty('--flow-call-reserve',`${frame.mode==='wide'?0:emergency?size.height-emergency.bounds.top:0}px`)
- },[plan,frame.mode,size.height])
- const calm=display.layout==='calm',quiet=reduced||driving,priority=layoutPriority[target]
- return <div className="fs-board-wrap"><div ref={host} className="fs-board" data-testid="flow-board" data-layout={display.layout} data-target={target} data-moving={moving} data-profile={frame.mode} data-stack={false} data-quiet={quiet} style={{'--fs-calm-size':`${Math.min(size.width,size.height)*.77}px`} as CSSProperties}>
-  {ids.map(id=>{
-   const cell=display.cells[id],r=cell.slot,visible=cell.visible&&!calm
+ const quiet=reduced||driving,priority=layoutPriority[target],visible=cellIds.filter(id=>display.cells[id].visible)
+ return <div className="fs-board-wrap"><div ref={host} className="fs-board" data-testid="flow-board" data-layout={display.layout} data-target={target} data-emergency={display.cells.emergency.visible} data-moving={moving} data-profile={frame.mode} data-quiet={quiet}>
+  {cellIds.map(id=>{
+   const cell=display.cells[id],r=cell.slot,warm=attention.includes(id)
    const style:CSSProperties={left:0,top:0,width:r.width,height:r.height,transform:`translate(${r.left}px, ${r.top}px)`}
-   return <CareSurface key={id} data-cell={id} data-cell-visible={visible} data-compact={cell.variant==='summary'} data-priority={id===priority} data-lit={id===priority||id==='emergency'} tone={id==='guide'?'safety':id==='emergency'?'call':'plain'} shape={frame.mode==='document'?undefined:emptyShape} interactiveMaterial className="fs-cell">
-    <div className="fs-cell-body" hidden={!visible} data-scroll={cell.scroll} data-slot-x={r.left} data-slot-y={r.top} style={style} aria-hidden={!visible} inert={!visible}>{renderCell(id,cell.variant==='summary')}</div>
+   return <CareSurface key={id} data-cell={id} data-cell-visible={cell.visible} data-compact={cell.variant==='summary'} data-priority={id===priority} data-lit={id===priority||id==='emergency'||priority==='emergency'&&id==='guide'} data-attention={warm} tone={warm||id==='emergency'?'call':id==='guide'?'safety':'plain'} shape={frame.mode==='document'?undefined:emptyShape} interactiveMaterial className="fs-cell">
+    <div className="fs-cell-body" hidden={!cell.visible} data-scroll={cell.scroll} data-slot-x={r.left} data-slot-y={r.top} style={style} aria-hidden={!cell.visible} inert={!cell.visible}>{renderCell(id,cell.variant==='summary')}</div>
    </CareSurface>
   })}
-  {calm&&<div className="fs-calm"><div className="fs-breath"/><div className="fs-calm-copy"><ShieldCheck aria-hidden="true"/><span>기록 전송 완료</span><h2>천천히 숨을 내쉬세요</h2><p>필요할 때 기록을 다시 확인할 수 있어요.</p></div></div>}
- </div>{readout&&<div className="fs-layout-readout" aria-live="polite"><span>{calm?'완료':`${ids.filter(id=>display.cells[id].visible).length} cells`}</span><span>{driving?'주행 중 · 움직임 정지':moving?'배치 전환 중':'배치 유지'}</span><span>{ids.filter(id=>display.cells[id].visible).map(id=>`${titles[id]} ${Math.round((display.cells[id].shape?.areaFraction??0)*100)}%`).join(' · ')}</span></div>}</div>
+ </div>{readout&&<div className="fs-layout-readout" aria-live="polite"><span>{visible.length} cells</span><span>{driving?'주행 중 · 움직임 정지':moving?'배치 전환 중':'배치 유지'}</span><span>{visible.map(id=>`${titles[id]} ${Math.round((display.cells[id].shape?.areaFraction??0)*100)}%`).join(' · ')}</span></div>}</div>
 }

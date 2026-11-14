@@ -1,6 +1,5 @@
 import {createContext,useContext} from 'react'
-import type {CellId} from './flow-geometry'
-import type {FlowLayout} from './flow-study-model'
+import type {CellId,FlowLayout} from './flow-study-model'
 import type {Point,SlotRect} from './split-geometry'
 
 export type FlowMode='wide'|'narrow'|'mobile'|'document'

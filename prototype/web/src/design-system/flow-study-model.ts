@@ -1,5 +1,8 @@
 export type FlowStep=1|2|3|4|5|6|7
-export type FlowLayout='detect'|'evacuate'|'safe'|'review'|'sending'|'calm'
+export type CellId='scene'|'vehicle'|'guide'|'record'|'emergency'
+// The 119 cell is never permanent: the `emergency` layout leads with it, and any other layout except `calm`
+// shows it only while FlowBoard's `emergencyActive` is true, so a live call keeps its cell without changing the task emphasis.
+export type FlowLayout='detect'|'emergency'|'evacuate'|'safe'|'review'|'sending'|'calm'
 export type FlowState={step:FlowStep;call:'waiting'|'connected'|'ended';checks:boolean[];note:string;transfer:'idle'|'sending'|'failed'|'sent';driving:boolean}
 export type FlowEvent={type:'NEXT'|'CONFIRM_SAFE'|'SEND'|'END_CALL'|'BACK'|'RESET'}|{type:'CHECK';index:number}|{type:'EDIT';note:string}|{type:'RESULT';ok:boolean}|{type:'DRIVING';value:boolean}
 export const stageLabels=['상황 확인','119 연결','대피 안내','안전 확보','기록','보험사 전달','완료']
@@ -30,9 +33,9 @@ export function layoutFor(s:FlowState):FlowLayout{
  if(s.step===7)return s.call==='connected'?'sending':'calm'
  if(s.step===6)return s.transfer==='sending'?'sending':'review'
  if(s.step>=4)return 'safe'
- return s.step===3?'evacuate':'detect'
+ return s.step===3?'evacuate':s.step===2?'emergency':'detect'
 }
-export const layoutLabels:Record<FlowLayout,string>={detect:'안전 · 긴급 통화',evacuate:'대피 안내 중심',safe:'사고 기록 중심',review:'보낼 내용 확인',sending:'보험사 전달 중심',calm:'숨 고르기'}
+export const layoutLabels:Record<FlowLayout,string>={detect:'상황 확인',emergency:'119 연결',evacuate:'대피 안내 중심',safe:'사고 기록 중심',review:'보낼 내용 확인',sending:'보험사 전달 중심',calm:'숨 고르기'}
 export const stepCopy:Record<FlowStep,{title:string;support:string;action:string}>={
  1:{title:'충격이 감지됐어요',support:'119에 연결해 도움을 요청하세요.',action:'119에 연결하기'},
  2:{title:'119와 통화 중이에요',support:'통화하며 안전 안내를 확인할 수 있어요.',action:'안전 안내 보기'},
