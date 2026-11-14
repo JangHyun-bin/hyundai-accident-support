@@ -4,6 +4,8 @@ import {responseShapes,type ResponseShapes,type SlotRect} from '@/design-system/
 import {CareSurface} from './after-care'
 import {FlowFrameContext,type FlowFrame,type FlowMetrics} from '@/design-system/flow-contract'
 import {useBoundedFrame} from '@/design-system/use-bounded-frame'
+import {inPleosApp,useAppWindow} from '@/host/pleos-host'
+import {publicAsset} from '@/lib/utils'
 import '@/design-system/layout.css'
 import './pleos-display.css'
 
@@ -11,7 +13,7 @@ type ResponseProps={summary:ReactNode;primary:ReactNode;requests:ReactNode;navig
 export type AppWindow='full'|'split'
 
 const display={width:2560,height:1440}
-const windowRect={left:853,top:90,height:1210,padding:32}
+const windowRect={left:853,top:90,height:1210}
 const windowWidths:Record<AppWindow,number>={full:1682,split:841}
 const systemAreas=[
   {id:'status-bar',left:0,top:0,width:2560,height:90},
@@ -20,12 +22,12 @@ const systemAreas=[
   {id:'gnb',left:0,top:1300,width:2560,height:140},
 ] as const
 
-function connectWindowFrame(width:number,metrics:FlowMetrics):FlowFrame {
-  const height=windowRect.height,contentHeight=height-2*windowRect.padding,wide=width>=78*metrics.rem+48
+function connectWindowFrame(width:number,height:number,metrics:FlowMetrics):FlowFrame {
+  const wide=width>=78*metrics.rem+48
   const callHeight=Math.max(106*metrics.rem/16,metrics.callLineHeight+2*metrics.labelLineHeight+24*metrics.rem/16)
   const minimum=3*metrics.bodyLineHeight+metrics.touch+metrics.headingLineHeight+(wide?48:metrics.touch+callHeight+96)
-  const mode=contentHeight<minimum?'document':wide?'wide':'narrow'
-  return {width,height,device:'vehicle',metrics,mode,contentHeight:mode==='document'?Math.ceil(minimum):contentHeight,statusHeight:0,dockHeight:0,
+  const mode=height<minimum?'document':wide?'wide':'narrow'
+  return {width,height,device:'vehicle',metrics,mode,contentHeight:mode==='document'?Math.ceil(minimum):height,statusHeight:0,dockHeight:0,
     revision:['connect',width,height,...Object.values(metrics)].join('/'),
     reason:mode==='document'?'essential-controls-and-three-lines-do-not-fit':wide?'two-readable-vehicle-panes':'single-readable-vehicle-pane'}
 }
@@ -33,10 +35,13 @@ function connectWindowFrame(width:number,metrics:FlowMetrics):FlowFrame {
 export function VehicleShell({children,device='vehicle',presentation,controls,previewHeight,appWindow='full'}:{children:ReactNode;device?:'vehicle'|'mobile';presentation?:'bounded';controls?:ReactNode;previewHeight?:number;appWindow?:AppWindow}) {
   const host=useRef<HTMLDivElement>(null),stage=useRef<HTMLDivElement>(null)
   const pleos=presentation==='bounded'&&device==='vehicle'
+  // Inside the Pleos app the page is the app window itself: no simulated system areas, laid out at its physical size and fitted to the viewport.
+  const app=pleos&&inPleosApp
+  const physical=useAppWindow()
   const measured=useBoundedFrame(host,device,previewHeight)
-  const metrics=measured?.metrics,windowWidth=windowWidths[appWindow]
+  const metrics=measured?.metrics,windowWidth=app?physical.width:windowWidths[appWindow],windowHeight=app?physical.height:windowRect.height
   const signature=metrics?Object.values(metrics).join('/'):''
-  const windowFrame=useMemo(()=>metrics?connectWindowFrame(windowWidth,metrics):null,[windowWidth,signature])
+  const windowFrame=useMemo(()=>metrics?connectWindowFrame(windowWidth,windowHeight,metrics):null,[windowWidth,windowHeight,signature])
   const frame=pleos?windowFrame:presentation==='bounded'?measured:null
   useLayoutEffect(()=>{
     const node=stage.current
@@ -46,19 +51,20 @@ export function VehicleShell({children,device='vehicle',presentation,controls,pr
     observer.observe(node);fit()
     return()=>observer.disconnect()
   },[pleos])
-  const style=frame&&!pleos?{'--flow-stage-height':`${frame.height}px`,'--flow-content-height':`${frame.contentHeight}px`,'--flow-status-height':`${frame.statusHeight}px`,'--flow-dock-height':`${frame.dockHeight}px`} as CSSProperties:undefined
-  const shell=<div ref={host} className="ac-system ac-vehicle" data-care-component="vehicle-shell" data-care-device={device} data-presentation={pleos?'pleos':presentation} data-app-window={pleos?appWindow:undefined} data-flow-mode={frame?.mode} data-flow-reason={frame?.reason} data-flow-font-size={frame?.metrics.rem} style={style}>
-    {pleos?<div className="ac-pleos-system" aria-hidden="true">{systemAreas.map(({id,...rect})=><img key={id} data-system={id} src={`/pleos-frame/${id}.png`} alt="" width={rect.width} height={rect.height} style={rect}/>)}</div>
+  const style=app?{width:windowWidth,height:windowHeight,'--pleos-scale':physical.scale} as CSSProperties
+    :frame&&!pleos?{'--flow-stage-height':`${frame.height}px`,'--flow-content-height':`${frame.contentHeight}px`,'--flow-status-height':`${frame.statusHeight}px`,'--flow-dock-height':`${frame.dockHeight}px`} as CSSProperties:undefined
+  const shell=<div ref={host} className="ac-system ac-vehicle" data-care-component="vehicle-shell" data-care-device={device} data-presentation={pleos?'pleos':presentation} data-pleos-app={app||undefined} data-app-window={pleos&&!app?appWindow:undefined} data-flow-mode={frame?.mode} data-flow-reason={frame?.reason} data-flow-font-size={frame?.metrics.rem} style={style}>
+    {app?null:pleos?<div className="ac-pleos-system" aria-hidden="true">{systemAreas.map(({id,...rect})=><img key={id} data-system={id} src={publicAsset(`/pleos-frame/${id}.png`)} alt="" width={rect.width} height={rect.height} style={rect}/>)}</div>
     :<div className="ac-vehicle-status" role="region" aria-label="차량 상태 표시" data-figma-node="28:2041">
       <time dateTime="21:12">오후 9:12</time>
-      <span className="ac-vehicle-mode"><span className="ac-vehicle-mode-mark"><img src="/figma/ivi-status-bar/mode-indicator.svg" width="14" height="14" alt=""/></span><span>차분 · 사고 대응 모드</span></span>
+      <span className="ac-vehicle-mode"><span className="ac-vehicle-mode-mark"><img src={publicAsset('/figma/ivi-status-bar/mode-indicator.svg')} width="14" height="14" alt=""/></span><span>차분 · 사고 대응 모드</span></span>
       <span className="ac-vehicle-connectivity" aria-label="5G, 외부 온도 18°C">{'5G   18°C'}</span>
     </div>}
-    <div className="ac-vehicle-content" style={pleos?{left:windowRect.left,top:windowRect.top,width:windowWidth,height:windowRect.height,padding:windowRect.padding}:undefined}>{children}</div>
-    {pleos?appWindow==='split'&&<div className="ac-pleos-other-app" aria-hidden="true" style={{left:windowRect.left+windowWidth,top:windowRect.top,width:windowWidths.full-windowWidth,height:windowRect.height}}>다른 앱</div>
+    <div className="ac-vehicle-content" style={app?{inset:0}:pleos?{left:windowRect.left,top:windowRect.top,width:windowWidth,height:windowRect.height}:undefined}>{children}</div>
+    {app?null:pleos?appWindow==='split'&&<div className="ac-pleos-other-app" aria-hidden="true" style={{left:windowRect.left+windowWidth,top:windowRect.top,width:windowWidths.full-windowWidth,height:windowRect.height}}>다른 앱</div>
     :<div className="ac-vehicle-dock" aria-hidden="true"><span><Fan/>22.5°</span><span><House/><Navigation/><i/><Phone/></span><span>22.5°</span></div>}
   </div>
-  return <FlowFrameContext.Provider value={frame}>{presentation==='bounded'?<div ref={stage} className="ac-vehicle-stage" data-display={pleos?'pleos':undefined}>{shell}</div>:shell}{controls&&<div className="ac-system ac-display-controls" data-flow-mode={frame?.mode}>{controls}</div>}</FlowFrameContext.Provider>
+  return <FlowFrameContext.Provider value={frame}>{presentation==='bounded'&&!app?<div ref={stage} className="ac-vehicle-stage" data-display={pleos?'pleos':undefined}>{shell}</div>:shell}{controls&&!app&&<div className="ac-system ac-display-controls" data-flow-mode={frame?.mode}>{controls}</div>}</FlowFrameContext.Provider>
 }
 
 export function ResponseLayout({summary,primary,requests,navigation,guidance,action,primaryTone='call',interactive=false,notificationKey}:ResponseProps) {

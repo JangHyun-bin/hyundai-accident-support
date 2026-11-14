@@ -6,9 +6,11 @@
   position:relative; display:block; box-sizing:border-box; width:2560px; max-width:none; height:1440px; margin:0; padding:0; overflow:clip; background:#000;
   transform:scale(var(--pleos-scale)); transform-origin:0 0;
 }
+/* Inside the Pleos app the page is the app window itself: VehicleShell sizes it in physical pixels and --pleos-scale fits it to the viewport. */
+.ac-vehicle[data-presentation=pleos][data-pleos-app] { position:fixed; left:0; top:0; background:var(--ac-background); }
 .ac-pleos-system>img { position:absolute; display:block; max-width:none; pointer-events:none; user-select:none; }
 .ac-vehicle[data-presentation=pleos]>.ac-vehicle-content { position:absolute; box-sizing:border-box; min-width:0; overflow:clip; background:var(--ac-background); }
 .ac-vehicle[data-presentation=pleos]>.ac-vehicle-content>* { height:100%; min-height:0; }
 .ac-vehicle[data-presentation=pleos][data-flow-mode=document]>.ac-vehicle-content { overflow:auto; overscroll-behavior:contain; }
 .ac-vehicle[data-presentation=pleos][data-flow-mode=document]>.ac-vehicle-content>* { height:auto; }
-.ac-pleos-other-app { position:absolute; box-sizing:border-box; display:grid; place-content:center; border-left:4px solid #000; background:color-mix(in srgb,var(--ac-surface) 55%,#000); color:var(--ac-muted); font-size:var(--ac-type-title); opacity:.7; }
+.ac-pleos-other-app { position:absolute; box-sizing:border-box; display:grid; place-content:center; border-left:4px solid var(--ac-background); background:color-mix(in srgb,var(--ac-surface) 55%,var(--ac-background)); color:var(--ac-muted); font-size:var(--ac-type-title); opacity:.7; }

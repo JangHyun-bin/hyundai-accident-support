@@ -13,13 +13,13 @@ export function insetEdges(points: Point[], distances: number[]): Point[] {
   })
 }
 
-export function roundedPath(points: Point[], radius = 28): string {
+export function roundedPath(points: Point[], radius: number | readonly number[] = 28): string {
   const corners = points.map((p, i) => {
     const a = points[(i + points.length - 1) % points.length], b = points[(i + 1) % points.length]
     const al = Math.hypot(a[0] - p[0], a[1] - p[1]), bl = Math.hypot(b[0] - p[0], b[1] - p[1])
     const u = [(a[0] - p[0]) / al, (a[1] - p[1]) / al], v = [(b[0] - p[0]) / bl, (b[1] - p[1]) / bl]
     const angle = Math.acos(Math.max(-1, Math.min(1, u[0] * v[0] + u[1] * v[1])))
-    const d = Math.min(radius / Math.tan(angle / 2), al * .45, bl * .45)
+    const d = Math.min((typeof radius === 'number' ? radius : radius[i]) / Math.tan(angle / 2), al * .45, bl * .45)
     const handle = 4 / 3 * Math.tan((Math.PI - angle) / 4) * d * Math.tan(angle / 2)
     return {
       start: [p[0] + u[0] * d, p[1] + u[1] * d], end: [p[0] + v[0] * d, p[1] + v[1] * d],

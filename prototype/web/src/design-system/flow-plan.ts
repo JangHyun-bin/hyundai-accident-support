@@ -13,10 +13,11 @@ const layoutWeights:Record<FlowLayout,{record:number;call:number}>={
 }
 const contextShare=.3,sceneShare=.56,tilt=.03,kink=.02,pinch=.015,rise=.03
 const emptySlot:SlotRect={left:0,top:0,width:0,height:0}
+// Content keeps `padding` from a seam and `Sizes.edge` from the app window border, whose corners the system may round.
 const inset=8,padding=24,focusRing=4
 type Part={polygon:Point[];slot:SlotRect;full:boolean}
 type Partition=Partial<Record<CellId,Part>>
-type Sizes={call:number;decoration:SlotRect;summary:number;context:number;workspace:number;full:{width:number;height:number}}
+type Sizes={edge:number;call:number;decoration:SlotRect;summary:number;context:number;workspace:number;full:{width:number;height:number}}
 
 function area(polygon:Point[]):number{return Math.abs(polygon.reduce((sum,p,i)=>{const q=polygon[(i+1)%polygon.length];return sum+p[0]*q[1]-q[0]*p[1]},0))/2}
 function rect(left:number,top:number,right:number,bottom:number):Point[]{return [[left,top],[right,top],[right,bottom],[left,bottom]]}
@@ -28,14 +29,15 @@ function insidePolygon(p:Point,polygon:Point[]):boolean{
 
 function sizes(frame:FlowFrame):Sizes{
  const {rem,bodyLineHeight:body,headingLineHeight:heading,callLineHeight,labelLineHeight:label,touch}=frame.metrics,scale=rem/16
- const number=(callLineHeight/scale>=50?141:80)*scale
+ const number=(callLineHeight/scale>=50?141:80)*scale,edge=frame.mode==='mobile'?padding:32
  return {
+  edge,
   call:Math.max(106*scale,callLineHeight+2*label+24*scale),
   decoration:{left:8,top:16,width:2*number,height:number+64},
-  summary:2*padding+label+body+12*scale,
-  context:2*padding+4*label,
+  summary:padding+edge+label+body+12*scale,
+  context:padding+edge+4*label,
   // A stacked task row must hold an editor: a heading that wraps to three lines, three body lines and a touch target.
-  workspace:2*padding+3*heading+3*body+touch,
+  workspace:padding+edge+3*heading+3*body+touch,
   full:{width:280*scale,height:3*body+heading+touch},
  }
 }
@@ -54,27 +56,27 @@ function callSeam(layout:FlowLayout,w:number,h:number,coreBottom:number):[Point,
 }
 
 // The live call core is one rectangle shared by every layout that can show 119, so call text never moves or fades.
-function callCore(w:number,h:number,call:number):SlotRect{
- const bottom=padding+call
+function callCore(w:number,h:number,call:number,edge:number):SlotRect{
+ const bottom=edge+call
  const spans=(Object.keys(layoutWeights) as FlowLayout[]).filter(layout=>layout!=='calm').map(layout=>{
   const {a,c}=columns(layout,w,h),[j2,j3]=callSeam(layout,w,h,bottom)
   return [Math.max(a[0],j2[0]),Math.min(c[0],j3[0])]
  })
- return box(Math.max(...spans.map(span=>span[0]))+padding,padding,Math.min(...spans.map(span=>span[1]))-padding,bottom)
+ return box(Math.max(...spans.map(span=>span[0]))+padding,edge,Math.min(...spans.map(span=>span[1]))-padding,bottom)
 }
 
-function widePartition(layout:FlowLayout,w:number,h:number,core:SlotRect|null):Partition{
+function widePartition(layout:FlowLayout,w:number,h:number,edge:number,core:SlotRect|null):Partition{
  const {a,b,c,d,j1,l}=columns(layout,w,h),corner:Point=[0,0],foot:Point=[0,h],top:Point=[w,0],bottom:Point=[w,h]
- const scene=box(padding,padding,Math.min(a[0],j1[0])-padding,j1[1]-padding),record=box(Math.max(c[0],d[0])+padding,padding,w-padding,h-padding)
- const vehicle:Part={polygon:[l,j1,b,foot],slot:box(padding,l[1]+padding,Math.min(j1[0],b[0])-padding,h-padding),full:true}
+ const scene=box(edge,edge,Math.min(a[0],j1[0])-padding,j1[1]-padding),record=box(Math.max(c[0],d[0])+padding,edge,w-edge,h-edge)
+ const vehicle:Part={polygon:[l,j1,b,foot],slot:box(edge,l[1]+padding,Math.min(j1[0],b[0])-padding,h-edge),full:true}
  if(!core)return {
-  guide:{polygon:[a,c,d,b,j1],slot:box(Math.max(a[0],b[0])+padding,padding,Math.min(c[0],d[0])-padding,h-padding),full:true},
+  guide:{polygon:[a,c,d,b,j1],slot:box(Math.max(a[0],b[0])+padding,edge,Math.min(c[0],d[0])-padding,h-edge),full:true},
   record:{polygon:[c,top,bottom,d],slot:record,full:true},scene:{polygon:[corner,a,j1,l],slot:scene,full:true},vehicle,
  }
  const [j2,j3]=callSeam(layout,w,h,core.top+core.height)
  return {
   emergency:{polygon:[a,c,j3,j2],slot:core,full:true},
-  guide:{polygon:[j2,j3,d,b,j1],slot:box(Math.max(j2[0],b[0])+padding,Math.max(j2[1],j3[1])+padding,Math.min(j3[0],d[0])-padding,h-padding),full:true},
+  guide:{polygon:[j2,j3,d,b,j1],slot:box(Math.max(j2[0],b[0])+padding,Math.max(j2[1],j3[1])+padding,Math.min(j3[0],d[0])-padding,h-edge),full:true},
   record:{polygon:[c,top,bottom,d,j3],slot:record,full:true},scene:{polygon:[corner,a,j2,j1,l],slot:scene,full:true},vehicle,
  }
 }
@@ -82,7 +84,7 @@ function widePartition(layout:FlowLayout,w:number,h:number,core:SlotRect|null):P
 // Narrow and phone boards stack 119, guide, record, then scene beside vehicle. The task row absorbs the height;
 // when it would drop below a usable workspace, the 119 numeral, then the context row, then the summary row give way.
 function stackPartition(layout:FlowLayout,w:number,h:number,size:Sizes,call:boolean,fit:boolean):{partition:Partition;height:number}{
- const priority=layoutPriority[layout],flex:CellId=priority==='record'?'record':'guide',core=2*padding+size.call
+ const priority=layoutPriority[layout],flex:CellId=priority==='record'?'record':'guide',{edge}=size,core=edge+padding+size.call
  const context=Math.max(size.context,.2*h),decoration=size.decoration.top+size.decoration.height
  type Extra='summary'|'context'|'decoration'
  const extras:[Extra,number][]=[['summary',size.summary],['context',context]]
@@ -98,13 +100,14 @@ function stackPartition(layout:FlowLayout,w:number,h:number,size:Sizes,call:bool
  let y=0
  rows.forEach(([id,rowHeight],index)=>{
   const last=index===rows.length-1,end=last?split:y+rowHeight
-  partition[id]={polygon:last&&split<height?[[0,y],[w,y],[w,end],[w/2,end+dip],[0,end]]:rect(0,y,w,end),slot:box(padding,y+padding,w-padding,(id==='emergency'?y+padding+size.call:end-padding)),full:id===flex||id==='emergency'}
+  const top=y?y+padding:edge,bottom=id==='emergency'?top+size.call:end===height?end-edge:end-padding
+  partition[id]={polygon:last&&split<height?[[0,y],[w,y],[w,end],[w/2,end+dip],[0,end]]:rect(0,y,w,end),slot:box(edge,top,w-edge,bottom),full:id===flex||id==='emergency'}
   y=end
  })
  if(split<height){
   const left:Point=[0,split],middle:Point=[w/2,split+dip],right:Point=[w,split]
-  partition.scene={polygon:[left,middle,[w/2,height],[0,height]],slot:box(padding,split+dip+padding,w/2-padding,height-padding),full:false}
-  partition.vehicle={polygon:[middle,right,[w,height],[w/2,height]],slot:box(w/2+padding,split+dip+padding,w-padding,height-padding),full:false}
+  partition.scene={polygon:[left,middle,[w/2,height],[0,height]],slot:box(edge,split+dip+padding,w/2-padding,height-edge),full:false}
+  partition.vehicle={polygon:[middle,right,[w,height],[w/2,height]],slot:box(w/2+padding,split+dip+padding,w-edge,height-edge),full:false}
  }
  return {partition,height}
 }
@@ -156,19 +159,22 @@ function clip(points:Point[],a:number,b:number,c:number):Point[]{
  return out.filter((p,i)=>Math.hypot(p[0]-out[(i+1)%out.length][0],p[1]-out[(i+1)%out.length][1])>1e-5)
 }
 
-function shapesOf(planes:Record<CellId,FlowPlane>,width:number,height:number):Record<CellId,FlowShape|null>{
+// Vertices on the board edge stay square so cells meet the app window edge; only a phone board, which floats in its frame, rounds them.
+function shapesOf(planes:Record<CellId,FlowPlane>,width:number,height:number,square=true):Record<CellId,FlowShape|null>{
+ const region=(id:CellId,others:CellId[])=>others.reduce((polygon,other)=>{
+  const own=planes[id],plane=planes[other],dx=plane.x-own.x,dy=plane.y-own.y
+  return other===id?polygon:clip(polygon,dx,dy,own.offset-plane.offset-inset*Math.hypot(dx,dy))
+ },rect(0,0,width,height))
+ const empty=(polygon:Point[])=>polygon.length<3||area(polygon)<1
+ // A cell with no visible region leaves no seam, so a cell entering or leaving through the window edge never opens a gap along it.
+ const live=cellIds.filter(id=>!empty(region(id,cellIds)))
  return Object.fromEntries(cellIds.map(id=>{
-  const own=planes[id]
-  let polygon=rect(0,0,width,height)
-  for(const other of cellIds){
-   if(other===id)continue
-   const plane=planes[other],dx=plane.x-own.x,dy=plane.y-own.y
-   polygon=clip(polygon,dx,dy,own.offset-plane.offset-inset*Math.hypot(dx,dy))
-  }
-  if(polygon.length<3||area(polygon)<1)return [id,null]
+  if(!live.includes(id))return [id,null]
+  const polygon=region(id,live)
   const left=Math.min(...polygon.map(p=>p[0])),top=Math.min(...polygon.map(p=>p[1]))
   const bounds={left,top,width:Math.max(...polygon.map(p=>p[0]))-left,height:Math.max(...polygon.map(p=>p[1]))-top}
-  return [id,{polygon,bounds,path:roundedPath(polygon.map(([x,y])=>[x-left,y-top]),24),areaFraction:area(polygon)/(width*height)}]
+  const radii=polygon.map(([x,y])=>square&&Math.min(x,y,width-x,height-y)<1e-6?0:24)
+  return [id,{polygon,bounds,path:roundedPath(polygon.map(([x,y])=>[x-left,y-top]),radii),areaFraction:area(polygon)/(width*height)}]
  })) as Record<CellId,FlowShape|null>
 }
 
@@ -189,11 +195,11 @@ export function createFlowPlan(layout:FlowLayout,width:number,height:number,fram
  const plan:FlowPlan={layout,mode:frame.mode,width,height,planes:Object.fromEntries(cellIds.map(id=>[id,flat])) as FlowPlan['planes'],cells}
  if(!Number.isFinite(width)||!Number.isFinite(height)||width<=0||height<=0)return plan
  const size=sizes(frame),priority=layoutPriority[layout],call=layout==='emergency'||emergencyActive&&layout!=='calm'
- const {partition,height:extent}=frame.mode==='wide'?{partition:widePartition(layout,width,height,call?callCore(width,height,size.call):null),height}:stackPartition(layout,width,height,size,call,frame.mode!=='document')
+ const {partition,height:extent}=frame.mode==='wide'?{partition:widePartition(layout,width,height,size.edge,call?callCore(width,height,size.call,size.edge):null),height}:stackPartition(layout,width,height,size,call,frame.mode!=='document')
  const solved=solvePlanes(partition)
  plan.height=extent
  plan.planes=Object.fromEntries(cellIds.map(id=>[id,solved[id]??absentPlane(id,solved,extent)])) as FlowPlan['planes']
- const shapes=shapesOf(plan.planes,width,extent)
+ const shapes=shapesOf(plan.planes,width,extent,frame.mode!=='mobile')
  for(const id of cellIds){
   const part=partition[id];if(!part)continue
   const fits=part.slot.width>=size.full.width&&part.slot.height>=size.full.height,lead=id===priority&&id!=='emergency'

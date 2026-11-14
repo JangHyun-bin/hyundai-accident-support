@@ -14,8 +14,8 @@ type Target=[FlowLayout,boolean]
 type Mode=FlowFrame['mode']
 const pleosType:FlowMetrics={rem:16,bodyLineHeight:34.06,headingLineHeight:56.12,callLineHeight:52.4,labelLineHeight:31.44,touch:64}
 const hostType=(scale=1,touch=64):FlowMetrics=>({rem:16*scale,bodyLineHeight:27*scale,headingLineHeight:34*scale,callLineHeight:36.68*scale,labelLineHeight:21*scale,touch:touch*scale})
-// Two smaller wide hosts, the Pleos app window board (1682x1210 less its 32px padding) and the bare window.
-const environments:[number,number,FlowMetrics][]=[[1296,700,hostType()],[1440,960,hostType()],[1618,1146,pleosType],[1682,1210,pleosType]]
+// Two smaller wide hosts and the Pleos app window, which the board fills edge to edge.
+const environments:[number,number,FlowMetrics][]=[[1296,700,hostType()],[1440,960,hostType()],[1682,1210,pleosType]]
 const appWindow=environments[2]
 const frame=(width:number,height:number,metrics:FlowMetrics,mode:Mode='wide'):FlowFrame=>({width,height,mode,device:mode==='mobile'?'mobile':'vehicle',contentHeight:height,statusHeight:0,dockHeight:0,revision:`${width}:${height}:${mode}:${metrics.rem}`,reason:'test fixture',metrics})
 const layouts:FlowLayout[]=['detect','emergency','evacuate','safe','review','sending','calm']
@@ -59,7 +59,7 @@ test('endpoints are deterministic and give every target its cells, priority work
   const cores=planned.filter(current=>current.cells.emergency.visible).map(current=>current.cells.emergency.slot)
   expect(cores).toHaveLength(targets.filter(shows119).length)
   for(const core of cores)expect(core).toEqual(cores[0])
-  expect(cores[0].top).toBe(24)
+  expect(cores[0].top).toBe(32)
   expect(cores[0].height).toBeGreaterThanOrEqual(Math.max(106,metrics.callLineHeight+2*metrics.labelLineHeight+24))
   expect(cores[0].width).toBeGreaterThanOrEqual(width*.18)
  }
@@ -117,9 +117,46 @@ test('every morph frame is one continuous surface: cells never overlap and only 
  expect(failures).toEqual([])
 })
 
+// The board is the app window: cells meet every window edge with square corners, so only seam ends leave the edge uncovered,
+// including while 119 enters or leaves through the top edge.
+test('cells reach all four window edges with square corners in every layout and morph frame',async({page})=>{
+ await loadPlanner(page)
+ const [width,height,metrics]=appWindow
+ const result=await page.evaluate(({pairs,environments})=>{
+  const {createFlowPlan,flowShapes,sampleFlowShapes}=window.flowPlanner!
+  const ctx=document.createElement('canvas').getContext('2d')!,failures:string[]=[]
+  let widest=0
+  for(const environment of environments){
+   const {width:w,height:h}=environment,frames:[string,FlowShapeFrame][]=[]
+   for(const [from,to] of pairs){
+    const source=flowShapes(createFlowPlan(from[0],w,h,environment,from[1])),target=flowShapes(createFlowPlan(to[0],w,h,environment,to[1]))
+    frames.push([`${environment.mode} ${from.join('/')}`,source])
+    if(environment.mode==='wide')for(let t=.05;t<1;t+=.05)frames.push([`${from.join('/')}->${to.join('/')} t=${t.toFixed(2)}`,sampleFlowShapes(source,target,t)])
+   }
+   for(const [label,frame] of frames){
+    const shapes=Object.values(frame.shapes).flatMap(shape=>shape?[{shape,path:new Path2D(shape.path)}]:[])
+    const covered=(x:number,y:number)=>shapes.some(({shape,path})=>ctx.isPointInPath(path,x-shape.bounds.left,y-shape.bounds.top))
+    const edges:[string,(s:number)=>[number,number],number][]=[['top',s=>[s,.5],w],['bottom',s=>[s,h-.5],w],['left',s=>[.5,s],h],['right',s=>[w-.5,s],h]]
+    for(const [name,at,length] of edges){
+     let run=0,touched=0
+     for(let s=.5;s<length;s+=2){
+      if(covered(...at(s))){touched+=2;run=0}else{run+=2;widest=Math.max(widest,run)}
+      if(run>24){failures.push(`${label}: ${name} edge open at ${Math.round(s)}`);break}
+     }
+     if(touched<length*.9)failures.push(`${label}: cells cover ${Math.round(100*touched/length)}% of the ${name} edge`)
+    }
+    for(const [x,y] of [[.5,.5],[w-.5,.5],[.5,h-.5],[w-.5,h-.5]])if(!covered(x,y))failures.push(`${label}: window corner ${x},${y} uncovered`)
+   }
+  }
+  return {failures:failures.slice(0,12),widest}
+ },{pairs:steps,environments:[frame(width,height,metrics),frame(841,1210,metrics,'narrow')]})
+ expect(result.failures).toEqual([])
+ expect(result.widest,'a seam end is the only gap on the edge').toBeLessThanOrEqual(24)
+})
+
 test('rounded endpoint paths contain slot perimeters and four-pixel focus rings',async({page})=>{
  const fixtures:FlowPlan[]=environments.flatMap(([width,height,metrics])=>targets.map(target=>plan(target,width,height,metrics)))
- for(const mode of ['narrow','mobile','document'] as const)for(const [width,height,metrics] of [[777,1146,pleosType],[360,600,hostType(1,48)],[360,900,hostType(2,48)]] as const)fixtures.push(...targets.map(target=>plan(target,width,height,metrics,mode)))
+ for(const mode of ['narrow','mobile','document'] as const)for(const [width,height,metrics] of [[841,1210,pleosType],[360,600,hostType(1,48)],[360,900,hostType(2,48)]] as const)fixtures.push(...targets.map(target=>plan(target,width,height,metrics,mode)))
  await page.goto('/')
  const failures=await page.evaluate(planned=>{
   const ctx=document.createElement('canvas').getContext('2d')!,failures:string[]=[]
@@ -226,7 +263,7 @@ test('the 119 cell grows down from the top of the centre column and leaves the s
 })
 
 test('narrow, phone and document boards stack 119, guide, record, then scene beside vehicle',()=>{
- const fixtures:[number,number,FlowMetrics,Mode][]=[[777,1146,pleosType,'narrow'],...(['narrow','mobile','document'] as const).flatMap(mode=>[[360,900,hostType(1,48),mode],[360,900,hostType(2,48),mode]] as [number,number,FlowMetrics,Mode][])]
+ const fixtures:[number,number,FlowMetrics,Mode][]=[[841,1210,pleosType,'narrow'],...(['narrow','mobile','document'] as const).flatMap(mode=>[[360,900,hostType(1,48),mode],[360,900,hostType(2,48),mode]] as [number,number,FlowMetrics,Mode][])]
  for(const [width,height,metrics,mode] of fixtures){
   const planned=targets.map(target=>plan(target,width,height,metrics,mode)),scale=metrics.rem/16
   const cores=planned.filter(current=>current.cells.emergency.visible).map(current=>current.cells.emergency.slot)
@@ -235,12 +272,12 @@ test('narrow, phone and document boards stack 119, guide, record, then scene bes
   for(const [index,current] of planned.entries()){
    const label=`${mode} ${width}x${height}@${scale} ${name(targets[index])}`,cells=current.cells,priority=cells[layoutPriority[targets[index][0]]]
    expect(priority.visible,label).toBe(true)
-   expect(priority.slot.width,label).toBeGreaterThanOrEqual(312)
+   expect(priority.slot.width,label).toBeGreaterThanOrEqual(width-2*(mode==='mobile'?24:32))
    expect(priority.slot.height,label).toBeGreaterThanOrEqual(priority.id==='emergency'?106*scale:3*27*scale+64*scale)
    const order=(['emergency','guide','record','scene'] as const).filter(id=>cells[id].visible).map(id=>cells[id].slot.top)
    expect(order,label).toEqual([...order].sort((a,b)=>a-b))
    if(cells.scene.visible){expect(cells.vehicle.visible).toBe(true);expect(cells.scene.slot.top).toBe(cells.vehicle.slot.top);expect(cells.scene.slot.left).toBeLessThan(cells.vehicle.slot.left);expect([cells.scene.variant,cells.vehicle.variant]).toEqual(['summary','summary'])}
-   if(mode==='document'||width===777)expect(cellIds.filter(id=>cells[id].visible),label).toEqual(cellIds.filter(id=>id!=='emergency'||shows119(targets[index])))
+   if(mode==='document'||width===841)expect(cellIds.filter(id=>cells[id].visible),label).toEqual(cellIds.filter(id=>id!=='emergency'||shows119(targets[index])))
   }
  }
 })
