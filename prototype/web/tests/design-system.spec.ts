@@ -2,7 +2,7 @@ import {expect, test} from '@playwright/test'
 
 test('catalog exposes actual semantic components and the selected material', async ({page}) => {
   await page.goto('/?study=design-system')
-  await expect(page.getByRole('heading', {name:'AFTER / CARE design system', exact:true})).toBeVisible()
+  await expect(page.getByRole('heading', {name:'차분 design system', exact:true})).toBeVisible()
   await expect(page.getByRole('region',{name:'Interactive components'}).locator('[data-care-component="status"]')).toHaveCount(6)
   await expect(page.locator('[data-care-surface="call"]').first()).toBeVisible()
   await expect(page.locator('[data-care-surface="safety"]').first()).toBeVisible()

@@ -142,7 +142,7 @@ export function InteractionStudy(){
   useEffect(()=>{if(reduced){rest(true);layoutTween.current?.kill();Object.assign(actualLayout.current,layoutRef.current);writeLayout()}},[reduced])
 
   return <main className={`ac-system interaction-study${full?' is-full':''}`}>
-    <header className="is-header"><a href="/?study=design-system"><ArrowLeft size={16}/>AFTER / CARE</a><span>INTERACTION STUDY <i>01</i></span><button onClick={()=>setFull(!full)}><SlidersHorizontal size={16}/>{full?'조절 도구 열기':'화면에 집중'}</button></header>
+    <header className="is-header"><a href="/?study=design-system"><ArrowLeft size={16}/>차분</a><span>INTERACTION STUDY <i>01</i></span><button onClick={()=>setFull(!full)}><SlidersHorizontal size={16}/>{full?'조절 도구 열기':'화면에 집중'}</button></header>
     <div className="is-intro"><div><p className="ac-eyebrow">Light, space & a little restraint.</p><h1>빛이 머무는 방식.</h1></div><p>평소에는 조용하게.<br/>필요한 순간에만 빛과 공간이 반응하도록.</p></div>
     <div className="is-workbench">
       <section className="is-stage" aria-label="Interaction preview" ref={host}>

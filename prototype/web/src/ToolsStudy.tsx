@@ -78,7 +78,7 @@ export function ToolsStudy() {
   const props = { caseData: cases.urgent, expanded, setExpanded }
 
   return <main className="tool-study">
-    <header className="study-header"><a href="/?study=tools" className="study-brand">AFTER / CARE <span>Design study 02</span></a><div><span className="study-demo">시연용 가상 정보</span><a href="/?view=focus">이전 A/B 보기</a></div></header>
+    <header className="study-header"><a href="/?study=tools" className="study-brand">차분 <span>Design study 02</span></a><div><span className="study-demo">시연용 가상 정보</span><a href="/?view=focus">이전 A/B 보기</a></div></header>
     <div className="study-intro"><div><h1>같은 상황, 네 가지 화면.</h1><p>고속도로 · 부상 있음 · 차량 이동 가능 · 조작과 경로 미확인</p></div><button className="study-control" aria-pressed={settings.revealed} onClick={() => update({ revealed: !settings.revealed })}>{settings.revealed ? <EyeOff size={17} /> : <Eye size={17} />}{settings.revealed ? '도구 이름 숨기기' : '도구 이름 공개'}</button></div>
     <div className="study-toolbar">
       <nav aria-label="Design 후보" className="study-candidates">{designIds.map(id => <button key={id} aria-pressed={settings.left === id} onClick={() => update({ left: id })}>{label(id)}</button>)}</nav>

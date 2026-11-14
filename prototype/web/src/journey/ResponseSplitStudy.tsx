@@ -53,7 +53,7 @@ export function ResponseSplitStudy() {
     window.addEventListener('keydown',onKey);return()=>window.removeEventListener('keydown',onKey)
   },[view])
   return <main className="rc-study rps-study">
-    <header className="rc-study-header"><span className="rc-wordmark">AFTER / CARE <span>SPLIT STUDY</span></span><a href="?study=response-alts&focus=surface">Surface 조절 <ArrowRight size={15}/></a></header>
+    <header className="rc-study-header"><span className="rc-wordmark">차분 <span>SPLIT STUDY</span></span><a href="?study=response-alts&focus=surface">Surface 조절 <ArrowRight size={15}/></a></header>
     <div className="rc-study-intro"><div><span className="rc-eyebrow">B″ / TWO WAYS TO SHARE AN EDGE</span><h1>경계는 부드럽게, 정보는 또렷하게.</h1></div><p>같은 색과 내용, 두 가지 분할.<br/>Grain 12% · CA 1px · gap 16px</p></div>
     {initial.error&&<p role="status" className="rps-read-error">{initial.error}</p>}
     <section className={`rps-comparison rps-view-${view}`} aria-label="Split 시안 비교">

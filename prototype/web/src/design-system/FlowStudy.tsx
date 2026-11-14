@@ -33,7 +33,7 @@ export function FlowStudy(){
  const failureAtSend=useRef(false),resultTimer=useRef<ReturnType<typeof setTimeout>|null>(null)
  const copy=state.step===2&&state.call==='ended'?{...stepCopy[2],title:'통화가 종료됐어요',support:'계속해서 안전 확보 안내를 확인하세요.'}:stepCopy[state.step],sending=state.transfer==='sending'
  useEffect(()=>{
-  document.title='흐름과 공간 · AFTER / CARE'
+  document.title='흐름과 공간 · 차분'
   let alive=true,frame=0
   document.fonts.ready.then(()=>{if(alive)frame=requestAnimationFrame(()=>document.querySelector('.fs-study .ac-vehicle')?.scrollIntoView({block:'start'}))})
   return()=>{alive=false;cancelAnimationFrame(frame)}
@@ -53,7 +53,7 @@ export function FlowStudy(){
  const vehicle:VehicleContourState={direction:'우측 전방',directionNote:'예시 자료',hazard:{value:state.checks[0]?'켜짐':'미확인',tone:state.checks[0]?'confirmed':'unknown',source:state.checks[0]?'사용자 확인':undefined},trunk:{value:'미확인',tone:'unknown'},mobility:{value:'가능 여부 미확인',tone:'unknown'}}
  const locked=state.driving&&state.step!==1
  return <MotionConfig reducedMotion={reduced||state.driving?'always':'user'}><main className="ac-system fs-study" data-testid="flow-study" data-step={state.step} data-transfer={state.transfer} data-quiet={reduced||state.driving}>
-  <header className="fs-heading"><div><a href="/?study=design-system"><ArrowLeft size={15}/>AFTER / CARE</a><h1>흐름에 맞춰, 공간도 함께.</h1></div><p>Stage / Layout preview<span>실제 전화·전송 없는 시연</span></p></header>
+  <header className="fs-heading"><div><a href="/?study=design-system"><ArrowLeft size={15}/>차분</a><h1>흐름에 맞춰, 공간도 함께.</h1></div><p>Stage / Layout preview<span>실제 전화·전송 없는 시연</span></p></header>
   <VehicleShell presentation="bounded" controls={<div className="fs-flow-header">  <ol className="fs-stages" aria-label="사고 대응 진행">{stageLabels.map((label,i)=><li key={label} aria-current={state.step===i+1?'step':undefined} data-done={i+1<state.step}><span>{String(i+1).padStart(2,'0')}</span>{label}</li>)}</ol>
   <div className="fs-action-bar"><div className="fs-step-copy" aria-live="polite"><span className="fs-step-label">{String(state.step).padStart(2,'0')} / 07 · {stageLabels[state.step-1]}</span><h2>{state.transfer==='failed'?'전송되지 않았어요':sending?'기록을 보내고 있어요':copy.title}</h2><p data-testid="flow-step-support">{state.driving?'주행 중에는 119 통화만 조작할 수 있어요.':state.transfer==='failed'?'작성한 내용은 유지돼요. 다시 보내주세요.':sending?'전송 결과를 기다리고 있어요.':copy.support}</p></div><CareAction data-testid="flow-primary" disabled={locked||sending||(state.step===5&&!state.note.trim())} onClick={act}>{sending?'전송 중':state.transfer==='failed'?'다시 보내기':copy.action}{!sending&&<ArrowRight aria-hidden="true"/>}</CareAction></div>
 </div>}>

@@ -15,7 +15,7 @@ test.afterAll(async()=>{
 })
 test('production catalog only links to pages included in the production build',async({page})=>{
  await page.goto(url+'?study=design-system')
- await expect(page.getByRole('heading',{name:'AFTER / CARE design system',exact:true})).toBeVisible()
+ await expect(page.getByRole('heading',{name:'차분 design system',exact:true})).toBeVisible()
  const developmentLinks=page.locator('a[href*="study=flow"],a[href*="study=interaction"],a[href*="study=response-alts"],a[href*="study=vehicle"],a[href*="study=surroundings"]')
  await expect(developmentLinks).toHaveCount(0)
  await page.getByRole('link',{name:'전체 흐름',exact:false}).click()

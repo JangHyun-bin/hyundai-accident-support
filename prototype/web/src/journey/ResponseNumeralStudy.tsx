@@ -23,7 +23,7 @@ export function ResponseNumeralStudy() {
     return () => window.removeEventListener('popstate', pop)
   }, [])
   return <main className="rc-study rn-study">
-    <header className="rc-study-header"><span className="rc-wordmark">AFTER / CARE <span>NUMERAL STUDY</span></span><a href="?study=response-alts&family=B&variant=B2">기존 B″ <ArrowRight size={15}/></a></header>
+    <header className="rc-study-header"><span className="rc-wordmark">차분 <span>NUMERAL STUDY</span></span><a href="?study=response-alts&family=B&variant=B2">기존 B″ <ArrowRight size={15}/></a></header>
     <div className="rc-study-intro"><div><span className="rc-eyebrow">B″ / ONE DETAIL</span><h1>119, 숫자만 비교.</h1></div><p>B″의 색 · card · 배치 그대로.<br/>아래 안을 선택하면 숫자 표현만 바뀌어요.</p></div>
     <div className="rn-options" role="group" aria-label="119 숫자 디자인">
       {numeralStyles.map((item, index) => <button key={item.id} className="rn-option" aria-pressed={numeral === item.id} onClick={() => choose(item.id)}>

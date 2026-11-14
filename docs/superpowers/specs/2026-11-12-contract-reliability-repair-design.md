@@ -4,7 +4,7 @@
 
 - [실행 계획](../plans/2026-11-12-contract-reliability-repair.md)
 - [자율 실행·머지 goal query](../plans/2026-11-12-contract-reliability-repair-goal-query.md)
-- 기존 제품 목표: [AFTER / CARE goal](../../../specs/after-care-system/goal.md)
+- 기존 제품 목표: [차분 goal](../../../specs/after-care-system/goal.md)
 
 ## 1. 목표와 범위
 

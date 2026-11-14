@@ -83,7 +83,7 @@ try {
   }, appBounds)
   trim = (performance.now() - began) / 1000
   const count = `${manifest.scenarios.length} scenarios · ${manifest.scenarios.reduce((n, s) => n + s.states.length, 0)} scenes`
-  await card('AFTER / CARE', '사고 대응\nEnd-to-end flow', count, 3)
+  await card('차분', '사고 대응\nEnd-to-end flow', count, 3)
   const begin = async (id, title, detail) => {
     await card(`${id} / ${manifest.scenarios.find(s => s.id === id).title}`, title, detail, 2.5)
     await page.locator('.emergency-scenarios').getByRole('button', { name: manifest.scenarios.find(s => s.id === id).title, exact: true, includeHidden: true }).evaluate(button => button.click())

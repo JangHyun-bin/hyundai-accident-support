@@ -317,7 +317,7 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
   </>
 
   return <div data-care-device={device} data-flow-active={flowActive} className={`journey-study journey-theme ac-system${embedded?' journey-embedded':''}`}>
-    {!embedded&&!flowActive&&<header className="journey-review-heading"><div><p>AFTER / CARE</p><h1>사고 대응 · 전체 여정</h1><span>가상 자료와 명시적 결과로 검토 · 실제 전화·전송·기기 간 동기화 없음</span></div><a href="/?study=design-system">Design system<ArrowRight size={16} /></a></header>}
+    {!embedded&&!flowActive&&<header className="journey-review-heading"><div><p>차분</p><h1>사고 대응 · 전체 여정</h1><span>가상 자료와 명시적 결과로 검토 · 실제 전화·전송·기기 간 동기화 없음</span></div><a href="/?study=design-system">Design system<ArrowRight size={16} /></a></header>}
 
     {!flowActive&&<div className="journey-controls-standalone">{controls}</div>}
     {journey.loading && <p role="status">기록을 불러오고 있어요.</p>}

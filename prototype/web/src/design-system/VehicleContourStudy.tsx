@@ -55,7 +55,7 @@ export function VehicleContourStudy() {
     return vehicleContourState(value)
   },[scene,direction,hazard,trunk])
   return <main className="ac-system vcs-study">
-    <header className="vcs-heading"><div><a href="/?study=design-system"><ArrowLeft size={16}/>AFTER / CARE</a><h1>B / Contour</h1><p>차량의 상태를, 필요한 만큼만.</p></div><a className="vcs-product-link" href="/?study=journey">전체 여정<ArrowUpRight size={16}/></a></header>
+    <header className="vcs-heading"><div><a href="/?study=design-system"><ArrowLeft size={16}/>차분</a><h1>B / Contour</h1><p>차량의 상태를, 필요한 만큼만.</p></div><a className="vcs-product-link" href="/?study=journey">전체 여정<ArrowUpRight size={16}/></a></header>
     <section className="vcs-toolbar" aria-label="차량 상태 시안 설정"><div className="vcs-scenes" role="group" aria-label="예시 상태">{scenes.map(item=><CareAction key={item.id} secondary={scene!==item.id} aria-pressed={scene===item.id} onClick={()=>setScene(item.id)}>{item.label}</CareAction>)}</div>
       <label>충격 방향<select aria-label="예시 충격 방향" value={direction} disabled={scene==='unknown'} onChange={event=>setDirection(impactDirections.find(value=>value===event.target.value)??'우측 전방')}>{impactDirections.map(item=><option key={item}>{item}</option>)}</select></label>
       <label>비상등<select aria-label="예시 비상등 상태" value={hazard} disabled={scene==='unknown'} onChange={event=>setHazard(actionStates.find(item=>item.value===event.target.value)!.value)}>{actionStates.map(item=><option key={item.value} value={item.value}>{item.label}</option>)}</select></label>

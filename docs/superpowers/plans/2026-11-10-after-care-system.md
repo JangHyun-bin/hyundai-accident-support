@@ -1,4 +1,4 @@
-# AFTER / CARE Global Design System Implementation Plan
+# 차분 Global Design System Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
