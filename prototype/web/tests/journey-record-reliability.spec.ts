@@ -10,6 +10,7 @@ import type * as EmergencySession from '../src/emergency/session'
 import type * as JourneyHook from '../src/journey/useJourneyCase'
 import type * as VoicePanel from '../src/journey/VoiceRecordPanel'
 import type * as ReportEditor from '../src/journey/ReportPanel'
+import type * as CaseDataModule from '../src/journey/case-data'
 import type { JourneyCaseController } from '../src/journey/useJourneyCase'
 
 const button = (page: Page, name: string) => page.getByRole('button', { name, exact: true })
@@ -99,12 +100,14 @@ async function harness(page: Page, kind: 'voice' | 'report', paragraphs = 0, mod
     const main = await (await fetch(root + 'main.tsx')).text()
     const reactUrl = source.match(/from "([^"]*\/react\.js[^\"]*)"/)![1]
     const clientUrl = main.match(/from "([^"]*\/react-dom_client\.js[^\"]*)"/)![1]
-    // Loading the Vite/browser module instances avoids a second React runtime across realms.
+    // Loading the module instances the hook itself imports (Vite deps and HMR-stamped sources) avoids a second React runtime or CaseData context.
     const React = (await import(reactUrl)).default as typeof ReactModule
     const { createRoot } = (await import(clientUrl)).default as typeof ReactDOMClient
     const { useJourneyCase } = await import(root + 'journey/useJourneyCase.ts') as typeof JourneyHook
     const { VoiceRecordPanel } = await import(root + 'journey/VoiceRecordPanel.tsx') as typeof VoicePanel
     const { ReportPanel } = await import(root + 'journey/ReportPanel.tsx') as typeof ReportEditor
+    const caseDataUrl = source.match(/from "([^"]*\/journey\/case-data\.tsx[^"]*)"/)![1]
+    const { CaseDataProvider, studyCaseData } = await import(caseDataUrl) as typeof CaseDataModule
     function Harness() {
       const [caseId, setCaseId] = React.useState(id)
       const controller = useJourneyCase(caseId)
@@ -118,7 +121,7 @@ async function harness(page: Page, kind: 'voice' | 'report', paragraphs = 0, mod
     container.id = 'record-reliability-harness'
     document.getElementById('root')!.hidden = true
     document.body.append(container)
-    createRoot(container).render(React.createElement(Harness))
+    createRoot(container).render(React.createElement(CaseDataProvider, { data: studyCaseData, children: React.createElement(Harness) }))
   }, { id, kind, mode })
   await expect.poll(() => page.evaluate(() => window.recordController?.value?.id)).toBe(id)
   return id

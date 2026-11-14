@@ -20,6 +20,8 @@ async function setup(page: Page) {
     const React = (await import(reactUrl)).default as typeof import('react')
     const { createRoot } = (await import(clientUrl)).default as typeof import('react-dom/client')
     const { useJourneyCase } = await import(root + 'journey/useJourneyCase.ts')
+    const caseDataUrl = hookSource.match(/from "([^"]*\/journey\/case-data\.tsx[^"]*)"/)![1]
+    const { CaseDataProvider, studyCaseData } = await import(caseDataUrl)
     const { createCase } = await import(root + 'journey/case.ts')
     const { createSession } = await import(root + 'emergency/session.ts')
     const { commitCase } = await import(root + 'journey/case-store.ts')
@@ -30,7 +32,7 @@ async function setup(page: Page) {
     function Harness() { window.journeyController = useJourneyCase(value.id); return null }
     const container = document.createElement('div')
     document.body.append(container)
-    createRoot(container).render(React.createElement(Harness))
+    createRoot(container).render(React.createElement(CaseDataProvider, { data: studyCaseData, children: React.createElement(Harness) }))
   })
   await expect.poll(() => page.evaluate(() => window.journeyController?.value?.id)).toBe('recovery-case')
 }

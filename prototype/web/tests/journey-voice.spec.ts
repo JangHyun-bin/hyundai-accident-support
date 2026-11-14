@@ -89,15 +89,15 @@ test('actual MediaRecorder WebM can be reviewed and approved without trusting it
   expect(await page.locator('.journey-voice audio').evaluate((node: HTMLAudioElement) => String(node.duration))).toBe('Infinity')
   const opened = await page.evaluate(async () => {
     const storePath = '/src/journey/case-store.ts', mediaPath = '/src/journey/evidence-media.ts'
-    const { loadCase } = await import(/* @vite-ignore */ storePath) as typeof import('../src/journey/case-store')
+    const { loadCase, readAsset } = await import(/* @vite-ignore */ storePath) as typeof import('../src/journey/case-store')
     const { openEvidence } = await import(/* @vite-ignore */ mediaPath) as typeof import('../src/journey/evidence-media')
     const value = (await loadCase(new URL(location.href).searchParams.get('case')!))!
     const evidence = value.evidence.find(item => item.kind === 'audio')!
     try {
-      await openEvidence(value.id, evidence)
-      await openEvidence(value.id, evidence, { evidenceId: evidence.id, evidenceRevision: evidence.revision, start: 0, end: .2 })
+      await openEvidence({ readAsset }, value.id, evidence)
+      await openEvidence({ readAsset }, value.id, evidence, { evidenceId: evidence.id, evidenceRevision: evidence.revision, start: 0, end: .2 })
       try {
-        await openEvidence(value.id, evidence, { evidenceId: evidence.id, evidenceRevision: evidence.revision, start: 0, end: 1000 })
+        await openEvidence({ readAsset }, value.id, evidence, { evidenceId: evidence.id, evidenceRevision: evidence.revision, start: 0, end: 1000 })
         return 'accepted invalid range'
       } catch { return 'valid audio and bounded range' }
     } catch (error) { return String(error) }

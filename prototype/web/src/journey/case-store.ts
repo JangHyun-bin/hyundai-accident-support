@@ -1,5 +1,6 @@
 import type { Session } from '../emergency/session'
-import { createCase, validateCase, LIMITS, type AssetWrite, type CommitResult, type Evidence, type JourneyCase } from './case'
+import { createCase, validateCase, LIMITS, type AssetWrite, type CommitResult, type JourneyCase } from './case'
+import { evidenceReferences, validAssetReferences } from './case-assets'
 
 type AssetRecord = { id: string; caseId: string; blob: Blob }
 type Failure = Extract<CommitResult, { ok: false }>['reason']
@@ -41,19 +42,9 @@ function completed(transaction: IDBTransaction): Promise<void> {
   void promise.catch(() => {})
   return promise
 }
-function evidenceReferences(value: JourneyCase): Evidence[] {
-  return [...value.evidence, ...value.evidenceHistory,
-    ...value.submissions.flatMap(s => s.payload?.evidence ?? []),
-    ...value.shares.flatMap(s => s.payload.evidence)]
-}
 function validReferences(value: JourneyCase, assets: AssetRecord[]) {
-  const byId = new Map(assets.map(a => [a.id, a]))
-  return evidenceReferences(value).every(e => {
-    if (e.availability !== 'available') return true
-    const asset = e.assetId ? byId.get(e.assetId) : undefined
-    return asset?.caseId === value.id && asset.blob instanceof Blob &&
-      asset.blob.size === e.metadata.bytes && asset.blob.type === e.metadata.mime
-  })
+  return assets.every(asset => asset.blob instanceof Blob) &&
+    validAssetReferences(value, assets.map(asset => ({ id: asset.id, caseId: asset.caseId, bytes: asset.blob.size, mime: asset.blob.type })))
 }
 function failure(error: unknown): Failure {
   if (error instanceof CommitError) return error.reason

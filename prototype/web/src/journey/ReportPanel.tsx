@@ -5,11 +5,14 @@ import { ClipPlayer } from './ClipPlayer'
 import { evidenceForReference, LIMITS, type CaseCommand, type CommitResult, type Evidence, type EvidenceReference, type JourneyCase, type ReportParagraph } from './case'
 import { openEvidence } from './evidence-media'
 import './report.css'
+import { useCaseData } from './case-data'
+import { useEditorDraft } from '@/product/useEditorDraft'
 
 const kinds = { observation: '자료 관측', statement: '사용자 진술', inference: '추정', unknown: '미확인' }
 type Draft = { id: string; text: string; references: EvidenceReference[]; isNew: boolean }
 
 export function EvidenceView({ caseId, evidence, reference, onFailure }: { caseId: string; evidence: Evidence | null; reference: EvidenceReference; onFailure: () => void }) {
+  const data = useCaseData()
   const [media, setMedia] = useState<{ blob: Blob; url: string } | null>(null)
   const [failed, setFailed] = useState(false)
   const failure = useRef(onFailure)
@@ -21,14 +24,14 @@ export function EvidenceView({ caseId, evidence, reference, onFailure }: { caseI
     async function load() {
       try {
         if (!evidence) throw new Error('Missing reference')
-        const blob = await openEvidence(caseId, evidence, reference)
+        const blob = await openEvidence(data, caseId, evidence, reference)
         if (cancelled) return
         url = URL.createObjectURL(blob); setMedia({ blob, url })
       } catch { if (!cancelled) { setFailed(true); failure.current() } }
     }
     void load()
     return () => { cancelled = true; if (url) URL.revokeObjectURL(url) }
-  }, [caseId, evidence?.id, evidence?.revision, evidence?.assetId, reference.start, reference.end])
+  }, [data, caseId, evidence?.id, evidence?.revision, evidence?.assetId, reference.start, reference.end])
   if (failed) return <p role="status">근거를 열 수 없어요</p>
   if (!media || !evidence) return <p role="status">근거를 불러오고 있어요.</p>
   if (evidence.kind === 'video') return <ClipPlayer evidence={evidence} blob={media.blob} range={reference.start !== null && reference.end !== null ? { start: reference.start, end: reference.end } : undefined} />
@@ -46,6 +49,7 @@ export function ReportPanel({ value, onCommand, reloadVersion = 0, active = true
   value: JourneyCase; onCommand: (command: CaseCommand) => Promise<CommitResult>; reloadVersion?: number; active?: boolean; onDirtyChange?: (dirty: boolean) => void
   ref?: Ref<ReportPanelHandle>
 }) {
+  const data = useCaseData()
   const [draft, setDraft] = useState<Draft | null>(null)
   const [drawer, setDrawer] = useState<string | null>(null)
   const [checking, setChecking] = useState<string | null>(null)
@@ -61,6 +65,13 @@ export function ReportPanel({ value, onCommand, reloadVersion = 0, active = true
   const paragraphs = value.report?.paragraphs ?? []
   const selected = paragraphs.find(p => p.id === drawer)
   const dirty = draft !== null
+  const editorDraft = useEditorDraft({ caseId:value.id, kind:'report', restore: saved => {
+    setDraft({ id:saved.id, text:saved.text, references:saved.references, isNew:saved.isNew })
+    setMessage('이 기기에 남긴 문장을 불러왔어요. 확인한 뒤 저장해주세요.')
+  } })
+  useEffect(() => {
+    if (editorDraft.ready && draft) void editorDraft.preserve({ kind:'report', ...draft })
+  }, [draft, editorDraft.ready, editorDraft.preserve])
   function recoveryCommand(): Extract<CaseCommand, { type: 'paragraph-edit' }> | null {
     if (!draft) return null
     const text = panel.current?.querySelector('textarea')?.value ?? draft.text
@@ -69,6 +80,7 @@ export function ReportPanel({ value, onCommand, reloadVersion = 0, active = true
   useImperativeHandle(ref, () => ({ preserveDraft: () => {
     const command = recoveryCommand()
     if (command?.type === 'paragraph-edit' && draft && command.text !== draft.text) setDraft({ ...draft, text: command.text })
+    if (command && draft && editorDraft.ready) void editorDraft.preserve({ kind:'report', ...draft, text:command.text })
   }, recoveryCommand }))
   useEffect(() => { setDraft(null); setMessage('') }, [reloadVersion])
   useEffect(() => { onDirtyChange?.(dirty) }, [dirty, onDirtyChange])
@@ -95,7 +107,7 @@ export function ReportPanel({ value, onCommand, reloadVersion = 0, active = true
       for (const reference of paragraph.references) {
         const evidence = evidenceForReference(source, reference)
         if (!evidence) throw new Error('Broken reference')
-        await openEvidence(source.id, evidence, reference)
+        await openEvidence(data, source.id, evidence, reference)
       }
       if (current.current.id !== source.id || current.current.report?.revision !== source.report?.revision) return
       setErrors(previous => { const next = { ...previous }; delete next[paragraph.id]; return next })
@@ -118,6 +130,7 @@ export function ReportPanel({ value, onCommand, reloadVersion = 0, active = true
         return
       }
       panel.current?.focus(); setDraft(null)
+      void editorDraft.preserve(null)
       setErrors(previous => { const next = { ...previous }; delete next[command.id]; return next })
     } catch {
       setMessage('저장하지 못했어요. 정정 내용은 이 화면에 남아 있어요.')
@@ -138,7 +151,7 @@ export function ReportPanel({ value, onCommand, reloadVersion = 0, active = true
       </label>)}
       {message && <p role="status" className="journey-report-error">{message}</p>}
       <JourneyAction disabled={saving || !draft.text.trim()} onClick={() => void saveDraft()}>{saving ? '정정 저장 중' : '정정 저장'}</JourneyAction>
-      <JourneyAction secondary disabled={saving} onClick={() => { panel.current?.focus(); setDraft(null); setMessage('') }}>정정 취소</JourneyAction>
+      <JourneyAction secondary disabled={saving} onClick={() => { panel.current?.focus(); setDraft(null); setMessage(''); void editorDraft.preserve(null) }}>정정 취소</JourneyAction>
     </div>
   }
   return <section ref={panel} tabIndex={-1} className="journey-report" aria-label="경위서 검토">
@@ -160,23 +173,25 @@ export function ReportPanel({ value, onCommand, reloadVersion = 0, active = true
           {(broken || errors[paragraph.id]) && <p className="journey-report-error" role="status">근거를 열 수 없어요</p>}
           <div className="journey-report-tools">
             {paragraph.references.length > 0 && <button type="button" onClick={event => { trigger.current = event.currentTarget; setDrawer(paragraph.id) }}>근거 보기</button>}
-            <button type="button" disabled={dirty || checking !== null} onClick={() => { setMessage(''); setDraft({ id: paragraph.id, text: paragraph.text, references: structuredClone(paragraph.references), isNew: false }) }}>정정하기</button>
-            <button type="button" disabled={dirty || checking !== null} onClick={() => { panel.current?.focus(); onCommand({ type: 'paragraph-remove', id: paragraph.id }) }}>문장 제외</button>
+            <button type="button" disabled={!editorDraft.ready || dirty || checking !== null} onClick={() => { setMessage(''); setDraft({ id: paragraph.id, text: paragraph.text, references: structuredClone(paragraph.references), isNew: false }) }}>정정하기</button>
+            <button type="button" disabled={!editorDraft.ready || dirty || checking !== null} onClick={() => { panel.current?.focus(); onCommand({ type: 'paragraph-remove', id: paragraph.id }) }}>문장 제외</button>
           </div>
-          {paragraph.confirmedRevision !== paragraph.revision && <JourneyAction secondary disabled={dirty || checking !== null || broken} onClick={event => { event.currentTarget.closest('article')?.focus(); void confirm(paragraph) }}>{checking === paragraph.id ? '근거 확인 중' : '문장 확인'}</JourneyAction>}
+          {paragraph.confirmedRevision !== paragraph.revision && <JourneyAction secondary disabled={!editorDraft.ready || dirty || checking !== null || broken} onClick={event => { event.currentTarget.closest('article')?.focus(); void confirm(paragraph) }}>{checking === paragraph.id ? '근거 확인 중' : '문장 확인'}</JourneyAction>}
         </>}
       </article>
     })}
     {draft && (draft.isNew || !paragraphs.some(p => p.id === draft.id)) && editor()}
     <p className="journey-supporting" role="status">경위서 {paragraphs.length} / {LIMITS.reportParagraphs}문장{paragraphs.length >= LIMITS.reportParagraphs ? ' · 문장 추가 한도에 도달했어요. 기존 문장은 수정하거나 제외할 수 있어요.' : ''}</p>
-    <JourneyAction secondary disabled={dirty || checking !== null || paragraphs.length >= LIMITS.reportParagraphs} onClick={() => { setMessage(''); setDraft({ id: crypto.randomUUID(), text: '', references: [], isNew: true }) }}>문장 추가</JourneyAction>
+    <JourneyAction secondary disabled={!editorDraft.ready || dirty || checking !== null || paragraphs.length >= LIMITS.reportParagraphs} onClick={() => { setMessage(''); setDraft({ id: crypto.randomUUID(), text: '', references: [], isNew: true }) }}>문장 추가</JourneyAction>
     {value.pendingReport && <details className="journey-report-candidate"><summary>새 초안 비교</summary>
       <p className="journey-supporting">현재 내용은 교체하기 전까지 유지돼요. 교체한 뒤에는 다시 확인해주세요.</p>
       {value.pendingReport.basedOnRevision !== value.contentRevision && <p role="status">최근 정정 내용이 반영되지 않은 초안이에요.</p>}
       <h3>현재 내용</h3>{paragraphs.map(p => <p key={p.id}>{p.text}</p>)}
       <h3>새 초안</h3>{value.pendingReport.paragraphs.map(p => <p key={p.id}><span className="journey-supporting">{kinds[p.kind]}</span><br />{p.text}</p>)}
-      <JourneyAction disabled={dirty || checking !== null} onClick={() => onCommand({ type: 'report-apply-pending' })}>이 초안으로 교체</JourneyAction>
+      <JourneyAction disabled={!editorDraft.ready || dirty || checking !== null} onClick={() => onCommand({ type: 'report-apply-pending' })}>이 초안으로 교체</JourneyAction>
     </details>}
+    {!editorDraft.ready && !editorDraft.failed && <p role="status" className="journey-supporting">이 기기의 경위서 초안을 확인하고 있어요.</p>}
+    {editorDraft.failed && <p role="alert" className="journey-supporting">이 기기에 경위서 초안을 보관하지 못했어요. 화면을 닫지 말고 다시 시도해주세요. <button type="button" onClick={() => editorDraft.ready && draft ? void editorDraft.preserve({ kind:'report', ...draft }) : editorDraft.retry()}>초안 보관 다시 시도</button></p>}
     <dialog className="journey-report-drawer" ref={dialog} aria-labelledby="report-evidence-title" onCancel={() => setDrawer(null)} onClose={() => {
       setDrawer(null)
       if (active && trigger.current?.getClientRects().length) trigger.current.focus()

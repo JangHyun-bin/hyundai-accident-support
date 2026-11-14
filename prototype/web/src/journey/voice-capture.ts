@@ -1,11 +1,13 @@
 export type VoiceCapture = { stop: () => Promise<Blob>; cancel: () => void; finished: Promise<Blob> }
 
-export function startVoiceCapture(stream: MediaStream, onLevel: (level: number) => void): VoiceCapture {
+export function startVoiceCapture(stream: MediaStream, onLevel: (level: number) => void, onSnapshot?: (blob: Blob, elapsed: number) => void): VoiceCapture {
   let context: AudioContext | undefined
   let recorder: MediaRecorder
   let frame = 0
+  let snapshotTimer: number | undefined
   const release = () => {
     cancelAnimationFrame(frame)
+    clearTimeout(snapshotTimer)
     stream.getTracks().forEach(track => track.stop())
     if (context && context.state !== 'closed') void context.close().catch(() => {})
     onLevel(0)
@@ -32,8 +34,16 @@ export function startVoiceCapture(stream: MediaStream, onLevel: (level: number) 
   const chunks: Blob[] = []
   let cancelled = false
   let stopped = false
+  const startedAt = Date.now()
+  const snapshot = () => {
+    snapshotTimer = undefined
+    if (!cancelled && !stopped && chunks.length) onSnapshot?.(new Blob(chunks, { type:recorder.mimeType }), (Date.now() - startedAt) / 1000)
+  }
   const result = new Promise<Blob>((resolve, reject) => {
-    recorder.ondataavailable = event => { if (event.data.size) chunks.push(event.data) }
+    recorder.ondataavailable = event => {
+      if (event.data.size) chunks.push(event.data)
+      if (onSnapshot && !cancelled && !stopped && !snapshotTimer) snapshotTimer = window.setTimeout(snapshot, 2000)
+    }
     recorder.onstop = () => {
       release()
       const blob = new Blob(chunks, { type: recorder.mimeType })

@@ -63,7 +63,7 @@ test('camera permission is requested by an action and denial leaves file selecti
   await page.getByRole('button', { name: '현장 전체 사진', exact: true }).click()
   expect(await page.locator('html').getAttribute('data-camera-calls')).toBeNull()
   await page.getByRole('button', { name: '촬영하기', exact: true }).click()
-  await expect(page.getByText('Camera를 사용할 수 없어요. 저장된 사진을 선택할 수 있어요.', { exact: true })).toBeVisible()
+  await expect(page.getByText('카메라를 사용할 수 없어요. 저장된 사진을 선택할 수 있어요.', { exact: true })).toBeVisible()
   await expect(page.getByRole('button', { name: '사진 선택', exact: true })).toBeVisible()
   await page.getByRole('button', { name: '지금 촬영하기 어려워요', exact: true }).click()
   await expect(page.locator('[data-photo-target="scene"]')).toContainText('생략')

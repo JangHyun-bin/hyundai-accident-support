@@ -1,23 +1,25 @@
 import { useEffect, useState } from 'react'
 import { DiagramEditor } from './DiagramEditor'
 import { JourneyAction } from './JourneyLayout'
-import { readAsset } from './case-store'
+import { useCaseData } from './case-data'
 import { followUpDirectories } from './follow-up-fixtures'
 import type { AssetWrite, CaseCommand, Evidence, JourneyCase } from './case'
 import type { Recovery } from './useJourneyCase'
 
 function RecoveryFile({ caseId, evidence, pending }: { caseId: string; evidence: Evidence; pending?: AssetWrite }) {
+  const data = useCaseData()
   const [url, setUrl] = useState('')
   const [failed, setFailed] = useState(false)
   useEffect(() => {
     let cancelled = false, created = ''
-    void (pending ? Promise.resolve(pending.blob) : evidence.assetId ? readAsset(caseId, evidence.assetId) : Promise.resolve(null)).then(blob => {
+    setUrl(''); setFailed(false)
+    void (pending ? Promise.resolve(pending.blob) : evidence.assetId ? data.readAsset(caseId, evidence.assetId) : Promise.resolve(null)).then(blob => {
       if (cancelled) return
       if (!blob) { setFailed(true); return }
       created = URL.createObjectURL(blob); setUrl(created)
-    })
+    }).catch(() => { if (!cancelled) setFailed(true) })
     return () => { cancelled = true; if (created) URL.revokeObjectURL(created) }
-  }, [caseId, evidence.assetId, pending])
+  }, [data, caseId, evidence.assetId, pending])
   return <p>{evidence.label} · {url ? <a href={url} download={`${evidence.label}.${evidence.metadata.mime.split('/')[1].split(';')[0]}`}>자료 사본 내려받기</a> : failed ? '원본을 열 수 없어요' : '자료 확인 중'}</p>
 }
 
@@ -33,7 +35,7 @@ function RecoveryEntry({ entry, index, current, onRestore }: { entry: Recovery; 
   const shop = followUpDirectories.ready.shops.find(item => item.id === value.followUp.shopId)
   return <article aria-label={`임시 기록 ${index + 1}`}>
     <h3>임시 기록 {index + 1}</h3>
-    <p>이 내용은 현재 기록과 별도로 보관 중이에요. 다시 불러오면 새 편집으로 보관되며, 전송 전 내용을 다시 확인해야 해요.</p>
+    <p>현재 기록과 따로 남긴 내용이에요. 다시 불러오면 새 편집이 돼요. 적용한 내용을 다시 확인해주세요.</p>
     {value.statements.length > 0 && <section><h4>남긴 이야기</h4>{value.statements.map(item => <p key={item.id}>{item.text}</p>)}</section>}
     {entry.commands.map((command, index) => command.type === 'voice-save' && command.statement &&
       !value.statements.some(item => item.id === command.statement!.id && item.text === command.statement!.text) &&
@@ -59,10 +61,10 @@ function RecoveryEntry({ entry, index, current, onRestore }: { entry: Recovery; 
   </article>
 }
 
-export function JourneyRecovery({ entries, current, onRestore }: { entries: Recovery[]; current: JourneyCase; onRestore: (command: CaseCommand) => void }) {
+export function JourneyRecovery({ entries, current, onRestore, durable=false }: { entries: Recovery[]; current: JourneyCase; onRestore: (command: CaseCommand) => void; durable?:boolean }) {
   if (!entries.length) return null
   return <details className="journey-recovery"><summary>내 임시 기록 확인</summary>
-    <p>이 화면을 닫으면 임시 기록은 사라져요. 필요한 내용을 다시 불러오거나 사본을 보관해주세요. 기관별 요청 결과와 승인 이력은 바뀌지 않아요.</p>
+    <p>{durable ? '이 기기에 따로 보관한 초안이에요. 필요한 내용만 다시 불러오고 확인해주세요.' : '화면을 닫으면 임시 기록을 잃을 수 있어요. 필요한 내용을 다시 저장하거나 사본을 내려받아주세요.'} 이전 승인 기록은 바뀌지 않아요.</p>
     {entries.map((entry, index) => <RecoveryEntry key={index} entry={entry} index={index} current={current} onRestore={onRestore} />)}
   </details>
 }

@@ -135,6 +135,15 @@ export function createCase(session: Session, id: string, now: string): JourneyCa
   return value
 }
 
+export function isRecordReady(value: JourneyCase): boolean {
+  return value.safetyActions.some(action => action.id === 'record-ready' && action.source === 'user' &&
+    action.status === 'user-confirmed' && action.confirmedAt !== null)
+}
+
+export function riskCheckRequired(value: JourneyCase): boolean {
+  return !isRecordReady(value)
+}
+
 export function canSubmit(value: JourneyCase, agency: Agency): boolean {
   return ['not_sent', 'deferred', 'declined', 'failed', 'not_received'].includes(value.emergency.requests[agency])
 }
@@ -292,12 +301,25 @@ export function reduceCase(current: JourneyCase, command: CaseCommand): JourneyC
   const next = structuredClone(current)
   switch (command.type) {
     case 'navigate':
+      if (current.emergency.scenarioId === 'product' && command.stage !== 'response' &&
+        (current.suspended || !isRecordReady(current))) return current
       if (current.submissions.some(item => item.transport === 'sending')) return current
       next.returnStage = current.stage
       next.stage = command.stage
       break
     case 'suspend':
     case 'resume': {
+      if (current.emergency.scenarioId === 'product') {
+        if (command.type === 'resume' && !isRecordReady(current)) return current
+        if (command.type === 'suspend' && !current.suspended) next.returnStage = current.stage
+        if (command.type === 'suspend') {
+          const ready = next.safetyActions.find(action => action.id === 'record-ready')
+          if (ready) { ready.status = 'unknown'; ready.confirmedAt = null }
+        }
+        next.suspended = command.type === 'suspend'
+        next.stage = command.type === 'suspend' ? 'response' : current.returnStage
+        break
+      }
       const scene = sceneFor(current.emergency)
       const edge = [...scene.actions, ...scene.events].find(item => item.effect === command.type)
       if (edge) {
@@ -312,10 +334,18 @@ export function reduceCase(current: JourneyCase, command: CaseCommand): JourneyC
       break
     }
     case 'observation':
+      if (current.observations.some(item => item.id === command.observation.id)) return current
       addObservation(next, command.observation)
       if (command.observation.kind === 'risk' && command.observation.confirmation === 'attention') {
         if (current.stage !== 'response') next.returnStage = current.stage
         next.stage = 'response'
+        if (current.emergency.scenarioId === 'product') {
+          next.suspended = true
+          const ready = next.safetyActions.find(action => action.id === 'record-ready')
+          if (ready) { ready.status = 'unknown'; ready.confirmedAt = null }
+          const deferred = next.safetyActions.find(action => action.id === 'record-deferred')
+          if (deferred) { deferred.status = 'unknown'; deferred.confirmedAt = null }
+        }
       }
       break
     case 'safety-action': {
@@ -379,7 +409,7 @@ export function reduceCase(current: JourneyCase, command: CaseCommand): JourneyC
       next.diagram.confirmedRevision = next.diagram.revision
       break
     case 'report-result': {
-      if (!current.fixtureId || command.report.basedOnRevision > current.contentRevision) return current
+      if (current.emergency.scenarioId !== 'product' && !current.fixtureId || command.report.basedOnRevision > current.contentRevision) return current
       if (!current.evidence.some(e => e.availability === 'available') && !current.statements.some(s => s.text.trim())) return current
       const candidate = { ...structuredClone(command.report), paragraphs: command.report.paragraphs.map(p => ({ ...p, confirmedRevision: null })) }
       if (current.report || candidate.basedOnRevision !== current.contentRevision) next.pendingReport = candidate

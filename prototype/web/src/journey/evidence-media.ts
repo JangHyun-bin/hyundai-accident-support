@@ -1,10 +1,10 @@
-import { readAsset } from './case-store'
 import { validatePhoto } from './capture'
 import type { Evidence, EvidenceReference } from './case'
+import type { CaseData } from './case-data'
 
-export async function openEvidence(caseId: string, evidence: Evidence, range?: EvidenceReference): Promise<Blob> {
+export async function openEvidence(data: Pick<CaseData, 'readAsset'>, caseId: string, evidence: Evidence, range?: EvidenceReference): Promise<Blob> {
   if (evidence.availability !== 'available' || !evidence.assetId) throw new Error('근거를 열 수 없어요')
-  const blob = await readAsset(caseId, evidence.assetId)
+  const blob = await data.readAsset(caseId, evidence.assetId)
   if (!blob || !blob.size) throw new Error('근거를 열 수 없어요')
   if (evidence.kind === 'photo') await validatePhoto(blob)
   else {

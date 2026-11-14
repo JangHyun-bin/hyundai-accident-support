@@ -1,5 +1,5 @@
 import { manifest, scopeItems } from '../emergency/session'
-import { LIMITS, type JourneyCase } from './case'
+import { LIMITS, type JourneyCase, type Observation, type SafetyAction, type Evidence, type Diagram, type EvidenceReference, type Report, type PayloadSnapshot, type FollowUp } from './case'
 
 const object = (v: unknown): v is Record<string, unknown> => !!v && typeof v === 'object' && !Array.isArray(v)
 const text = (v: unknown, max = 5000): v is string => typeof v === 'string' && v.length <= max
@@ -20,6 +20,15 @@ const versionConfirmed = (v: Record<string, unknown>) => positive(v.revision) &&
 
 function session(v: unknown) {
   if (!object(v) || v.version !== 1 || !text(v.scenarioId, 8)) return false
+  if (v.scenarioId === 'product') {
+    return v.sceneId === 'situation-check' && v.returnTo === 'situation-check' && v.suspendedFrom === null &&
+      v.record === '' && v.savedRecord === '' && v.approvedRecord === '' &&
+      Array.isArray(v.scope) && v.scope.length === 0 && Array.isArray(v.approvedScope) && v.approvedScope.length === 0 &&
+      v.draftApproved === false && v.submissions === 0 && v.requestId === null &&
+      object(v.facts) && Object.keys(v.facts).length === 0 && object(v.requests) &&
+      Object.keys(v.requests).length === 3 && Object.values(v.requests).every(value => oneOf(value, ['not_sent', 'deferred', 'declined'])) &&
+      ['rescue', 'vehicle', 'insurance'].every(key => Object.hasOwn(v.requests as object, key))
+  }
   const scenario = manifest.scenarios.find(s => s.id === v.scenarioId)
   if (!scenario) return false
   const scene = (x: unknown) => scenario.states.some(s => s.id === x)
@@ -34,19 +43,19 @@ function session(v: unknown) {
     (fact.label === undefined || text(fact.label, 80)) && (fact.id === undefined || fact.id === key))
 }
 
-function observation(v: unknown) {
+function observation(v: unknown): v is Observation {
   return object(v) && id(v.id) && text(v.kind, 80) && text(v.label, 80) && text(v.value, 80) &&
     source(v.source) && nullable(v.observedAt, date) && confirmation(v.confirmation) &&
     nullable(v.legacyFactId, id) && nullable(v.supersedes, id)
 }
 
-function safetyAction(v: unknown) {
+function safetyAction(v: unknown): v is SafetyAction {
   return object(v) && id(v.id) && text(v.label, 100) && source(v.source) && nullable(v.confirmedAt, date) &&
     oneOf(v.status, ['unknown', 'requested', 'user-confirmed', 'device-confirmed', 'unavailable']) &&
     (v.status !== 'device-confirmed' || v.source !== 'user')
 }
 
-function evidence(v: unknown) {
+function evidence(v: unknown): v is Evidence {
   if (!object(v) || !id(v.id) || !text(v.label, 100) || !positive(v.revision) ||
     !oneOf(v.kind, ['photo', 'audio', 'video']) || !oneOf(v.origin, ['sample', 'user']) ||
     !nullable(v.assetId, id) || !oneOf(v.availability, ['pending', 'available', 'failed', 'unavailable', 'skipped']) ||
@@ -75,24 +84,24 @@ function statement(v: unknown) {
 function point(v: unknown) {
   return object(v) && [v.x, v.y].every(n => typeof n === 'number' && Number.isFinite(n) && n >= 0 && n <= 1)
 }
-function diagram(v: unknown) {
+function diagram(v: unknown): v is Diagram {
   return object(v) && versionConfirmed(v) && oneOf(v.origin, ['fixture', 'user']) && oneOf(v.road, ['straight', 'unsupported']) &&
     list(v.vehicles, car => object(car) && oneOf(car.id, ['own', 'other']) && point(car.position) &&
       typeof car.heading === 'number' && Number.isFinite(car.heading) && car.heading >= 0 && car.heading < 360, 2) &&
     uniqueIds(v.vehicles) && nullable(v.contact, point)
 }
-function reference(v: unknown) {
+function reference(v: unknown): v is EvidenceReference {
   return object(v) && id(v.evidenceId) && positive(v.evidenceRevision) &&
     ((v.start === null && v.end === null) || (typeof v.start === 'number' && typeof v.end === 'number' &&
       Number.isFinite(v.start) && Number.isFinite(v.end) && v.start >= 0 && v.end > v.start))
 }
-function report(v: unknown) {
+function report(v: unknown): v is Report {
   return object(v) && positive(v.revision) && integer(v.basedOnRevision) &&
     list(v.paragraphs, p => object(p) && id(p.id) && text(p.text, 5000) &&
       oneOf(p.kind, ['observation', 'statement', 'inference', 'unknown']) && list(p.references, reference, 100) && versionConfirmed(p), LIMITS.reportParagraphs) &&
     uniqueIds(v.paragraphs)
 }
-function payload(v: unknown) {
+function payload(v: unknown): v is PayloadSnapshot {
   return object(v) && list(v.observations, observation) && list(v.statements, statement) &&
     list(v.evidence, evidence) && nullable(v.diagram, diagram) && nullable(v.report, report)
 }
@@ -118,7 +127,7 @@ function share(v: unknown) {
 function followUpRequest(v: unknown) {
   return object(v) && id(v.id) && nullable(v.shopId, id) && source(v.source) && nullable(v.updatedAt, date)
 }
-function followUp(v: unknown) {
+function followUp(v: unknown): v is FollowUp {
   return object(v) && (v.requestRevision === undefined || integer(v.requestRevision)) &&
     [v.routeRequest, v.rentalRequest].every(request => request === undefined || request === null || object(request) && followUpRequest(request) && request.shopId === v.shopId) &&
     nullable(v.shopId, id) && list(v.repairItems, x => text(x, 200), 30) &&
@@ -145,7 +154,14 @@ export function validateCase(v: unknown): v is JourneyCase {
     const key = (v.activeSubmissionIds as Record<string, unknown>)[a]
     return key === null || value.submissions.some(s => s.id === key && s.agency === a)
   })) return false
-  const scenario = manifest.scenarios.find(s => s.id === value.emergency.scenarioId)!
-  return value.observations.every(o => (!o.legacyFactId || scenario.facts.some(f => f.id === o.legacyFactId)) &&
+  const scenario = manifest.scenarios.find(s => s.id === value.emergency.scenarioId)
+  if (value.emergency.scenarioId === 'product' &&
+    (value.fixtureId !== null || value.navigation !== null || value.submissions.length !== 0 ||
+      Object.values(value.activeSubmissionIds).some(id => id !== null))) return false
+  return value.observations.every(o => (!o.legacyFactId || scenario?.facts.some(f => f.id === o.legacyFactId)) &&
     (!o.supersedes || value.observations.some(previous => previous.id === o.supersedes && previous.kind === o.kind && previous.id !== o.id)))
 }
+
+export { observation as validateObservation, safetyAction as validateSafetyAction, evidence as validateEvidence,
+  diagram as validateDiagram, reference as validateEvidenceReference, report as validateReport,
+  payload as validatePayload, followUp as validateFollowUp }

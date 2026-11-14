@@ -27,15 +27,15 @@ function pauseCollapsedMedia(event: SyntheticEvent<HTMLDetailsElement>) {
   if (!event.currentTarget.open) for (const media of event.currentTarget.querySelectorAll<HTMLMediaElement>('video,audio')) media.pause()
 }
 
-function PayloadContent({ payload, caseId, active, onMediaFailure }: { payload: PayloadSnapshot; caseId: string; active: boolean; onMediaFailure?: () => void }) {
+export function PayloadContent({ payload, caseId, active, onMediaFailure }: { payload: PayloadSnapshot; caseId: string; active: boolean; onMediaFailure?: () => void }) {
   const [opened, setOpened] = useState<string | null>(null)
   const media = payload.evidence.find(item => item.id === opened)
   return <div className="journey-payload">
-    {payload.observations.length > 0 && <section><h3>차량 상태</h3>{payload.observations.map(item => <p key={item.id}>{item.label} · {item.value}<span>{item.confirmation === 'confirmed' ? '확인됨' : '미확인'} · {item.source === 'user' ? '직접 남긴 내용' : item.source === 'fixture' ? '준비된 자료' : '차량 감지'}</span></p>)}</section>}
+    {payload.observations.length > 0 && <section><h3>확인한 정보</h3>{payload.observations.map(item => <p key={item.id}>{item.label} · {item.value}<span>{item.confirmation === 'confirmed' ? '확인됨' : '미확인'} · {item.source === 'user' ? '직접 남긴 내용' : item.source === 'fixture' ? '모의 자료' : '차량 SDK 보고'}</span></p>)}</section>}
     {payload.statements.length > 0 && <section><h3>남긴 이야기</h3>{payload.statements.map(item => <p key={item.id}>{item.text}</p>)}</section>}
-    {payload.report && <section><h3>경위서</h3>{payload.report.paragraphs.map(item => <p key={item.id}><span>{{ observation: '자료 관측', statement: '사용자 진술', inference: '추정', unknown: '미확인' }[item.kind]}</span>{item.text}</p>)}</section>}
-    {payload.diagram && <section><h3>사고 도식</h3><p>확인한 도식 포함 · {payload.diagram.origin === 'user' ? '사용자 정정본' : '제안된 도식'}</p><DiagramEditor value={payload.diagram} readOnly /></section>}
-    {payload.evidence.length > 0 && <section><h3>함께 보내는 자료</h3>{payload.evidence.map(item => <p key={item.id}><strong>{item.label}</strong><span>{item.metadata.sourceLabel} · {(item.metadata.bytes / 1024 / 1024).toFixed(1)} MiB{item.metadata.duration !== null ? ` · ${item.metadata.duration.toFixed(1)}초` : ''}</span></p>)}</section>}
+    {payload.report && <section><h3>경위서</h3>{payload.report.paragraphs.map(item => <p key={item.id}><span>{{ observation: '자료에서 확인', statement: '직접 남긴 내용', inference: '추정', unknown: '미확인' }[item.kind]}</span>{item.text}</p>)}</section>}
+    {payload.diagram && <section><h3>사고 도식</h3><p>확인한 도식 · {payload.diagram.origin === 'user' ? '직접 고친 내용' : '제안된 내용'}</p><DiagramEditor value={payload.diagram} readOnly /></section>}
+    {payload.evidence.length > 0 && <section><h3>선택한 자료</h3>{payload.evidence.map(item => <p key={item.id}><strong>{item.label}</strong><span>{item.metadata.sourceLabel} · {(item.metadata.bytes / 1024 / 1024).toFixed(1)} MiB{item.metadata.duration !== null ? ` · ${item.metadata.duration.toFixed(1)}초` : ''}</span></p>)}</section>}
     {payload.evidence.length > 0 && <div className="journey-report-tools">{payload.evidence.map(item => <button key={item.id} onClick={() => setOpened(opened === item.id ? null : item.id)}>{item.label} 열기</button>)}</div>}
     {media && active && <EvidenceView caseId={caseId} evidence={media} reference={{ evidenceId: media.id, evidenceRevision: media.revision, start: null, end: null }} onFailure={() => onMediaFailure?.()} />}
   </div>
