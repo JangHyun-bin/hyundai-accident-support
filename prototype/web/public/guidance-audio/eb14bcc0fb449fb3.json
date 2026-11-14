@@ -1,0 +1,23 @@
+{
+  "voiceId": "gJSDQIpSQ56NBGhorBfg",
+  "voiceName": "David - Calm, Steady and Clear",
+  "model": "eleven_v4",
+  "script": "에어백이 펼쳐졌어요. 다친 사람이 없는지 먼저 살펴보세요. 도움이 필요하면 119에 연결하세요.",
+  "scriptHash": "eb14bcc0fb449fb3a5407df135aeb73804c0eef9dda387f8e02c0cae655c056d",
+  "file": "eb14bcc0fb449fb3.mp3",
+  "path": "/guidance-audio/eb14bcc0fb449fb3.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "journey-flow/situation-airbag"
+  ],
+  "duration": 7.2,
+  "bytes": 174332,
+  "audioHash": "648a978e52382795475ccc4383295b315b2f02e7055ce08b3b9eca59816cfefa",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-14T08:19:55.665Z"
+}
