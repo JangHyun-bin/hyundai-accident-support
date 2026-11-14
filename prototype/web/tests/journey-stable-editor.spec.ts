@@ -22,7 +22,7 @@ test('display keeps urgent facts while demo progress and actions stay outside',a
  await expect(controls.getByTestId('journey-primary')).toBeVisible()
  await expect(shell.getByTestId('journey-primary')).toHaveCount(0)
  await clickWithoutScroll(page,'시연 event: 위험 정보')
- await expect(shell.getByRole('alert')).toContainText('새로운 위험 감지')
+ await expect(shell.getByRole('alert')).toContainText('주변을 다시 살펴보세요')
  await expect(shell.getByRole('button',{name:'주변을 확인했어요',exact:true})).toBeVisible()
 })
 

@@ -1,11 +1,10 @@
-import {CareAction} from '@/components/ui/after-care'
 import { MapPin, ShieldCheck, TriangleAlert } from 'lucide-react'
 import {CareSituation,CareRequests,CareUnknownMap} from '@/components/ui/response-content'
 import {CareVehicleContour} from '@/components/ui/vehicle-contour'
 import {careTone} from '@/emergency/EmergencySurface'
 import { manifest, scenarioFor } from '../emergency/session'
 import { JourneyHeading, JourneyStatus, type JourneyTone } from './JourneyLayout'
-import type { CaseCommand, JourneyCase, SafetyAction, Source } from './case'
+import { riskState, type CaseCommand, type JourneyCase, type SafetyAction, type Source } from './case'
 import {activeRequest} from './journey-flow'
 import {agreedValue,currentObservations,vehicleContourState} from './vehicle-state'
 
@@ -23,12 +22,10 @@ export function JourneySummary({ value }: { value: JourneyCase }) {
   return <CareSituation title="충돌 감지" facts={[{id:'driver',label:'운전자 조작'},{id:'mobility',label:'차량 이동'},{id:'route',label:'이동 경로'}].map(({id,label})=>{const fact={...scenario.facts.find(f=>f.id===id),...value.emergency.facts[id]};return {id,label,value:fact.value??'미확인',tone:careTone(fact.status??'unknown')}})}><JourneyRiskNotice value={value}/></CareSituation>
 }
 
-export function JourneyRiskNotice({ value, onCommand }: { value: JourneyCase; onCommand?:(command:CaseCommand)=>void }) {
-  const risks = currentObservations(value, 'risk').filter(item => item.confirmation === 'attention')
-  if (!risks.length) return null
-  const acknowledged=risks.every(risk=>value.safetyActions.some(action=>action.id===`ack:${risk.id}`&&action.status==='user-confirmed'))
-  const summary = [...new Set(risks.map(item => item.value))].join(' · ')
-  return <div className="journey-risk" role="alert"><TriangleAlert aria-hidden="true" />{onCommand&&acknowledged?<><span>{summary}</span><span>주변 확인함 · 위험 기록은 남아 있어요</span></>:<span>{summary} · 주변을 다시 살펴보세요</span>}{onCommand&&!acknowledged&&<CareAction secondary onClick={()=>risks.forEach(risk=>onCommand({type:'safety-action',action:{id:`ack:${risk.id}`,label:'주변 확인',status:'user-confirmed',source:'user',confirmedAt:new Date().toISOString()}}))}>주변을 확인했어요</CareAction>}</div>
+export function JourneyRiskNotice({ value }: { value: JourneyCase }) {
+  const risk = riskState(value)
+  if (!risk) return null
+  return <div className="journey-risk" role="alert"><TriangleAlert aria-hidden="true" /><span>{risk.summary} · {risk.acknowledged ? '주변 확인함' : '주변을 다시 살펴보세요'}</span></div>
 }
 
 export function JourneyRequests({ value }: { value: JourneyCase }) {

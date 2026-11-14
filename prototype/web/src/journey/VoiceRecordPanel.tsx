@@ -9,6 +9,7 @@ import './voice.css'
 import {stopGuidanceAudio} from '@/audio/useGuidanceAudio'
 import {CareSpectrum} from '@/components/ui/after-care'
 import { useEditorDraft } from '@/product/useEditorDraft'
+import { publicAsset } from '@/lib/utils'
 
 type Phase = 'ready' | 'requesting-permission' | 'listening' | 'review' | 'saving' | 'saved' | 'error'
 type PendingClip = { evidence: Evidence; blob: Blob }
@@ -166,7 +167,7 @@ export function VoiceRecordPanel({ value, mode, onSave, durable, reloadVersion =
     try {
       if (mode === 'sample') {
         if (!value.fixtureId) throw new Error('Sample case required')
-        const response = await fetch(`/journey-samples/${sample.id}.wav`)
+        const response = await fetch(publicAsset(`/journey-samples/${sample.id}.wav`))
         if (!response.ok) throw new Error('Sample unavailable')
         const blob = await response.blob()
         if (generation !== request.current || !mounted.current) return

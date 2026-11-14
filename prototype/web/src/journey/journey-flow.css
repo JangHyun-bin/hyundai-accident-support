@@ -38,8 +38,7 @@
 .journey-cell-compact .journey-cell-summary { overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
 .journey-cell-compact>.ac-action { white-space:nowrap; }
 .journey-flow .journey-escalate { min-height:var(--ac-touch); padding:0 var(--ac-space-2); color:var(--ac-muted); font-size:var(--ac-type-label); text-decoration:underline; text-underline-offset:.25em; cursor:pointer; }
-.journey-flow .journey-risk { display:flex; flex-wrap:wrap; align-items:center; gap:var(--ac-space-3); width:100%; margin:0; padding:var(--ac-space-3) var(--ac-space-4); border:1px solid var(--ac-attention); border-radius:var(--ac-radius-control); font-size:var(--ac-type-label); }
-.journey-flow .journey-risk>span { flex:1; min-width:0; }
+.journey-flow .journey-guide-copy { display:grid; gap:var(--ac-space-4); width:100%; min-width:0; }
 .journey-record-rows { display:grid; gap:var(--ac-space-2); width:100%; margin:0; }
 .journey-record-rows>div { display:flex; align-items:baseline; justify-content:space-between; gap:var(--ac-space-4); min-width:0; }
 .journey-record-rows dt { color:var(--ac-muted); font-size:var(--ac-type-label); }

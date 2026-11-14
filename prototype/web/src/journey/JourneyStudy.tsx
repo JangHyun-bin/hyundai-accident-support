@@ -6,10 +6,15 @@ import {VehicleShell, type AppWindow} from '@/components/ui/after-care-layout'
 import { EmergencySurface } from '../emergency/EmergencySurface'
 import { createCase, type Device, type JourneyCase, type RequestStatus, type Stage, type CaseCommand, type Evidence, type Diagram, type ReportParagraph, type Receipt } from './case'
 import { useJourneyCase } from './useJourneyCase'
-import { JourneyAction, JourneyEditorLayout, JourneyLayout } from './JourneyLayout'
-import { useVehicleHandoff } from '@/product/vehicle-handoff'
+import { JourneyAction, JourneyEditorLayout, JourneyLayout, JourneyStatus } from './JourneyLayout'
+import { useJourneyHandoff } from '@/host/native-handoff'
+import { useVehicleFacts } from '@/host/vehicle-facts'
+import { hostDemo, inPleosApp } from '@/host/pleos-host'
+import { HostDemoStrip } from '@/host/HostDemoStrip'
+import { publicAsset } from '@/lib/utils'
 import { VehicleHandoffPanel } from '@/product/VehicleHandoffPanel'
 import { JourneyNavigation, JourneyRequests, JourneyRiskNotice, JourneySummary, VehiclePanel } from './VehiclePanel'
+import { VehicleDetailCell } from './VehicleCells'
 import { VoiceRecordPanel, type VoiceRecordHandle } from './VoiceRecordPanel'
 import { EvidencePanel, type EvidencePanelHandle } from './EvidencePanel'
 import { FollowUpPanel } from './FollowUpPanel'
@@ -31,7 +36,8 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
   const [initial] = useState(() => new URLSearchParams(location.search))
   const journey = useJourneyCase(initial.get('case'))
   const { value, dispatch } = journey
-  const handoff = useVehicleHandoff(value?.id ?? '')
+  const handoff = useJourneyHandoff(value?.id ?? '')
+  useVehicleFacts(value, dispatch)
   const representative = value?.fixtureId === 'complete-journey'
   const insurance = value?.submissions.find(item=>item.id===value.activeSubmissionIds.insurance)
   const insuranceResultReady = insurance?.transport === undefined || insurance.transport === 'sent'
@@ -39,6 +45,7 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
   const [fixture, setFixture] = useState(initial.get('fixture') ?? fixtures.cases[0].id)
   const [device, setDevice] = useState<Device>(initial.get('device') === 'mobile' ? 'mobile' : 'vehicle')
   const [appWindow, setAppWindow] = useState<AppWindow>(initial.get('window') === 'split' ? 'split' : 'full')
+  const framed = representative && device === 'vehicle'
   const [details, setDetails] = useState(false)
   const [followUpDirty, setFollowUpDirty] = useState(false)
   const [directoryState, setDirectoryState] = useState<FollowUpDirectoryState>(() => (['ready', 'stale', 'empty', 'failed'] as const).find(item => item === initial.get('directory')) ?? 'ready')
@@ -64,6 +71,11 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
   useEffect(() => {
     if (value && value.revision > 0) replaceQuery({ case: value.id })
   }, [value?.id, value?.revision])
+
+  // The Pleos app has no review controls to start a journey, so it opens one as soon as no stored case can be shown.
+  useEffect(() => {
+    if (inPleosApp && !value && !journey.loading && (!initial.get('case') || journey.missing || journey.saveState !== 'saved')) void begin()
+  }, [value, journey.loading, journey.missing, journey.saveState])
 
   useEffect(() => {
     if (!scene?.auto_contact || !value || value.suspended || representative) return
@@ -197,7 +209,7 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
         const label = camera === 'front' ? '전방 영상' : '후방 영상'
         let blob: Blob | null = null
         if (available) {
-          const response = await fetch(`/journey-samples/${camera}-20s.mp4`)
+          const response = await fetch(publicAsset(`/journey-samples/${camera}-20s.mp4`))
           if (!response.ok) throw new Error('Sample unavailable')
           blob = await response.blob()
         }
@@ -253,7 +265,7 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
       <button aria-pressed={recordTab === 'photos'} onClick={() => void selectRecordTab('photos')}>사진 남기기</button>
       <button aria-pressed={recordTab === 'phone'} onClick={() => void selectRecordTab('phone')}>휴대폰으로 남기기</button>
     </nav>
-    const footer=<JourneyRequests value={value}/>
+    const footer=framed ? null : <JourneyRequests value={value}/>
     return <>
       <div hidden={recordTab !== 'voice'} inert={reloading} aria-busy={reloading} className="journey-editor-holder"><VoiceRecordPanel ref={voicePanel} value={value} mode={voiceMode} onSave={journey.save} durable={journey.saveState === 'saved'} reloadVersion={journey.reloadVersion} navigation={tabs} footer={footer}/></div>
       <div hidden={recordTab !== 'photos'} inert={reloading} aria-busy={reloading} className="journey-editor-holder"><EvidencePanel ref={photoPanel} value={value} onSave={journey.save} onCommand={photoCommand} navigation={tabs} footer={footer}/></div>
@@ -263,13 +275,13 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
 
   function reviewWorkspace() {
     if (!value) return null
-    return <JourneyReviewPanel ref={reviewPanel} explicitTransport={representative} value={value} saving={journey.saveState === 'saving'} reloading={reloading} onCommand={journey.save} reloadVersion={journey.reloadVersion} onApprove={journey.approve} footer={<JourneyRequests value={value}/>}/>
+    return <JourneyReviewPanel ref={reviewPanel} explicitTransport={representative} value={value} saving={journey.saveState === 'saving'} reloading={reloading} onCommand={journey.save} reloadVersion={journey.reloadVersion} onApprove={journey.approve} footer={framed ? null : <JourneyRequests value={value}/>}/>
   }
 
   function content() {
     if (!value || !scene) return null
     const navigation = renderNavigation(value)
-    if (details) return <JourneyLayout device={device} navigation={navigation} summary={<JourneySummary value={value} />}
+    if (details) return <JourneyLayout device={device} appWindow={framed ? appWindow : undefined} navigation={navigation} summary={framed ? <VehicleDetailCell value={value} compact={false} /> : <JourneySummary value={value} />}
       action={<JourneyAction onClick={() => setDetails(false)}><ArrowLeft aria-hidden="true" />대응 화면으로</JourneyAction>}>
       <VehiclePanel value={value} onCommand={dispatch} />
     </JourneyLayout>
@@ -287,10 +299,10 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
   const flowActive=representative&&!details&&value.stage!=='follow-up'
   const controls=<>
     <section className="journey-review-controls" aria-label="시연 설정">
-      <label>시연 상황<select value={fixture} onChange={e => setFixture(e.target.value)}>{fixtures.cases.map(f => <option key={f.id} value={f.id}>{f.title}</option>)}</select></label>
+      {!inPleosApp && <label>시연 상황<select value={fixture} onChange={e => setFixture(e.target.value)}>{fixtures.cases.map(f => <option key={f.id} value={f.id}>{f.title}</option>)}</select></label>}
       <button onClick={() => void begin()} disabled={journey.loading}>{value ? '새 시연 시작' : '이 상황으로 시작'}</button>
-      {value && <button onClick={() => void switchDevice()}>{device === 'vehicle' ? <Smartphone size={16} /> : <CarFront size={16} />}{device === 'vehicle' ? 'Mobile 보기' : '차량 보기'}</button>}
-      {representative && device === 'vehicle' && <label>앱 화면<select value={appWindow} onChange={event => { const next = event.target.value === 'split' ? 'split' : 'full'; setAppWindow(next); replaceQuery({ window: next }) }}><option value="full">전체 화면 1682 × 1210</option><option value="split">화면 분할 841 × 1210</option></select></label>}
+      {value && !inPleosApp && <button onClick={() => void switchDevice()}>{device === 'vehicle' ? <Smartphone size={16} /> : <CarFront size={16} />}{device === 'vehicle' ? 'Mobile 보기' : '차량 보기'}</button>}
+      {representative && device === 'vehicle' && !inPleosApp && <label>앱 화면<select value={appWindow} onChange={event => { const next = event.target.value === 'split' ? 'split' : 'full'; setAppWindow(next); replaceQuery({ window: next }) }}><option value="full">전체 화면 1682 × 1210</option><option value="split">화면 분할 841 × 1210</option></select></label>}
       <label>음성 입력<select value={voiceMode} onChange={async event => { const mode = event.target.value as 'device' | 'sample'; if (await prepareToLeave(true)) setVoiceMode(mode) }}><option value="device">이 기기 microphone</option><option value="sample">준비된 음성 sample</option></select></label>
     </section>
     {value&&<>
@@ -325,12 +337,12 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
     </>}
   </>
 
-  return <div data-care-device={device} data-flow-active={flowActive} className={`journey-study journey-theme ac-system${embedded?' journey-embedded':''}`}>
-    {!embedded&&!flowActive&&<header className="journey-review-heading"><div><p>AFTER / CARE</p><h1>사고 대응 · 전체 여정</h1><span>가상 자료와 명시적 결과로 검토 · 실제 전화·전송·기기 간 동기화 없음</span></div><a href="/?study=design-system">Design system<ArrowRight size={16} /></a></header>}
+  return <div data-care-device={device} data-flow-active={representative} className={`journey-study journey-theme ac-system${embedded?' journey-embedded':''}`}>
+    {!embedded&&!representative&&!inPleosApp&&<header className="journey-review-heading"><div><p>AFTER / CARE</p><h1>사고 대응 · 전체 여정</h1><span>가상 자료와 명시적 결과로 검토 · 실제 전화·전송·기기 간 동기화 없음</span></div><a href="/?study=design-system">Design system<ArrowRight size={16} /></a></header>}
 
-    {!flowActive&&<div className="journey-controls-standalone">{controls}</div>}
+    {!representative&&!inPleosApp&&<div className="journey-controls-standalone">{controls}</div>}
     {journey.loading && <p role="status">기록을 불러오고 있어요.</p>}
-    {journey.missing && !value && <section className="journey-empty"><h2>이 기기에서 기록을 찾지 못했어요</h2><p>다른 기기의 기록은 자동으로 이어지지 않아요.</p></section>}
+    {journey.missing && !value && !inPleosApp && <section className="journey-empty"><h2>이 기기에서 기록을 찾지 못했어요</h2><p>다른 기기의 기록은 자동으로 이어지지 않아요.</p></section>}
     {value && <>
       <section ref={representative?undefined:motionRef} data-care-motion-key={contextKey} data-case-id={value.id} data-journey-stage={value.stage}>
         {representative&&<div hidden={details||value.stage==='follow-up'}><JourneyFlow controls={flowActive?controls:null} previewHeight={previewHeight} appWindow={appWindow} key={value.id} value={value} device={device} active={!details&&value.stage!=='follow-up'} onCommand={dispatch} onNavigate={navigate} recordWorkspace={recordWorkspace()} reviewWorkspace={reviewWorkspace()} onReview={()=>reviewPanel.current?.openSubmission()} handoff={handoff}/></div>}
@@ -348,14 +360,21 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
           </JourneyLayout>
         </div>}
         <div key={value.id + '-follow-up'} hidden={value.stage !== 'follow-up' || details}>
-          <JourneyLayout device={device} navigation={renderNavigation(value)} summary={<JourneySummary value={value} />}
-            action={<JourneyAction secondary disabled={representative&&!hasJourneyRecord(value)} onClick={() => void navigate('review')}>사고 내용으로 돌아가기</JourneyAction>}>
+          <JourneyLayout device={device} appWindow={framed ? appWindow : undefined} navigation={renderNavigation(value)} summary={framed ? <VehicleDetailCell value={value} compact={false} /> : <JourneySummary value={value} />}
+            action={<>
+              {representative && !hasJourneyRecord(value)
+                ? <JourneyAction secondary onClick={() => void navigate('record')}>기록 이어서 남기기</JourneyAction>
+                : <JourneyAction secondary onClick={() => void navigate('review')}>사고 내용으로 돌아가기</JourneyAction>}
+              {representative && <JourneyAction secondary onClick={() => void navigate('response')}>도움이 필요해요</JourneyAction>}
+            </>}>
+            {representative && !hasJourneyRecord(value) && <p className="journey-supporting"><JourneyStatus tone="unknown">사고 기록 · 아직 남기지 않았어요</JourneyStatus> 준비되면 이어서 남길 수 있어요.</p>}
             <FollowUpPanel value={value} onCommand={dispatch} directory={value.fixtureId ? followUpDirectories[directoryState] : undefined} onDirtyChange={setFollowUpDirty}
               navigation={device === 'mobile' ? renderNavigation(value) : undefined} />
-            <JourneyRequests value={value} />
+            {!framed && <JourneyRequests value={value} />}
           </JourneyLayout>
         </div>
       </section>
+      {representative && !flowActive && (inPleosApp ? hostDemo && <HostDemoStrip>{controls}</HostDemoStrip> : <div className="journey-controls-standalone">{controls}</div>)}
 
       <div className="journey-save-status" role="status">{journey.saveState === 'saved' ? '이 기기에 보관됨' : journey.saveState === 'saving' ? '저장 중' :
         journey.saveState === 'conflict' ? '다른 화면에서 기록이 바뀌었어요. 내 입력은 이 화면에 남아 있어요.' : '이 기기에 저장하지 못했어요. 입력 내용은 이 화면에 남아 있어요.'}
@@ -367,6 +386,6 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
       {navigationNotice && <p role="status">{navigationNotice}</p>}
 
     </>}
-    {!value && !journey.loading && !journey.missing && <div className="journey-empty"><Mic aria-hidden="true" /><h2>상황을 선택해 여정을 시작하세요</h2><p>기록은 이 browser에만 보관돼요.</p></div>}
+    {!value && !journey.loading && !journey.missing && !inPleosApp && <div className="journey-empty"><Mic aria-hidden="true" /><h2>상황을 선택해 여정을 시작하세요</h2><p>기록은 이 browser에만 보관돼요.</p></div>}
   </div>
 }

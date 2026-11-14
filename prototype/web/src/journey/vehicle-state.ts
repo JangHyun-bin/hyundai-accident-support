@@ -1,6 +1,6 @@
 import {impactDirections, type VehicleContourState, type VehiclePartState} from '@/components/ui/vehicle-contour'
 import {manifest} from '@/emergency/session'
-import {agencies, type Agency, type JourneyCase, type Observation, type SafetyAction, type Source} from './case'
+import {agencies, riskState, type Agency, type JourneyCase, type Observation, type SafetyAction, type Source} from './case'
 
 export function currentObservations(value:JourneyCase,kind:string):Observation[] {
   const superseded=new Set(value.observations.map(o=>o.supersedes))
@@ -45,8 +45,10 @@ export function vehicleContourState(value:JourneyCase):VehicleContourState {
 export type VehicleRow={id:'mobility'|'impact'|'airbag'|'hazard'|'trunk';label:string;state:VehiclePartState;attention:boolean}
 
 // A known impact direction is expected after any collision, so it never raises attention on its own.
+// An airbag signal the vehicle could not read shows its own wording (신호 확인 불가) instead of 미확인 until a reading arrives.
 export function vehicleRows(value:JourneyCase):VehicleRow[] {
-  const contour=vehicleContourState(value),airbag=observedState(currentObservations(value,'seat-airbag-deployed'),'미확인')
+  const airbagObservations=currentObservations(value,'seat-airbag-deployed')
+  const contour=vehicleContourState(value),airbag=observedState(airbagObservations,airbagObservations.filter(item=>item.confirmation==='unknown').at(-1)?.value??'미확인')
   const impact=contour.direction?currentObservations(value,'impact-direction').filter(item=>item.confirmation==='confirmed').at(-1):undefined
   return [
     {id:'mobility',label:'차량 이동',state:contour.mobility,attention:contour.mobility.tone==='failed'},
@@ -60,15 +62,6 @@ export function vehicleRows(value:JourneyCase):VehicleRow[] {
 export function roadState(value:JourneyCase):VehiclePartState|null {
   const road=observedState(currentObservations(value,'road'),'')
   return road.tone==='unknown'?null:road
-}
-
-export type RiskState={key:string;summary:string;acknowledged:boolean}
-
-export function riskState(value:JourneyCase):RiskState|null {
-  const risks=currentObservations(value,'risk').filter(item=>item.confirmation==='attention')
-  if(!risks.length)return null
-  return {key:risks.map(risk=>risk.id).join('|'),summary:[...new Set(risks.map(risk=>risk.value))].join(' · '),
-    acknowledged:risks.every(risk=>value.safetyActions.some(action=>action.id===`ack:${risk.id}`&&action.status==='user-confirmed'))}
 }
 
 const agencyLabels:Record<Agency,string>={rescue:'구호',vehicle:'차량 지원',insurance:'보험사'}

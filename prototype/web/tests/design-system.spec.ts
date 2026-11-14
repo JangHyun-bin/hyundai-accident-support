@@ -34,7 +34,7 @@ test('applying a theme updates another tab while preserving named presets and dr
 test('invalid stored theme remains intact and reports fallback; invalid input cannot replace it', async ({page}) => {
   await page.addInitScript(()=>localStorage.setItem('after-care-theme-v1','{"version":1,"surfaces":null}'))
   await page.goto('/?study=design-system')
-  await expect(page.getByRole('status')).toContainText('적용한 theme를 읽지 못했어요')
+  await expect(page.locator('.ac-catalog-issue')).toContainText('적용한 theme를 읽지 못했어요')
   const result=await page.evaluate(async()=>{
     const path='/src/design-system/SurfaceTheme.tsx'
     const {applySurfaceTheme}=await import(path)

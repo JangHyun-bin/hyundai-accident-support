@@ -1,4 +1,4 @@
-.journey-theme { color:var(--ac-text); color-scheme:dark; font-family:var(--ac-font); background:var(--ac-background); }
+.journey-theme { color:var(--ac-text); font-family:var(--ac-font); background:var(--ac-background); }
 .journey-surface { word-break:keep-all; overflow-wrap:break-word; font-size:var(--ac-type-body); line-height:var(--ac-leading); }
 .journey-content { display:flex; flex-direction:column; gap:var(--ac-space-6); min-width:0; }
 .journey-action { width:100%; }
@@ -126,3 +126,18 @@
 .journey-study :is(button,select),.journey-surface :is(button,select) { min-height:var(--ac-touch); min-width:var(--ac-touch); }
 
 .journey-study[data-flow-active=true] { padding:0; }
+
+/* Task screens in the Pleos app window mirror the journey: context on the left column, the task in the remaining width. */
+.ac-vehicle[data-presentation=pleos] .journey-surface .ac-layout-container { height:100%; }
+.ac-vehicle[data-presentation=pleos] .journey-surface .ac-solid-source { background:var(--ac-control); box-shadow:none; }
+.ac-vehicle[data-presentation=pleos][data-app-window=full] .journey-surface .ac-task-grid { height:100%; grid-template-columns:minmax(0,32fr) minmax(0,68fr); grid-template-rows:minmax(0,55fr) minmax(0,45fr); align-items:stretch; }
+.ac-vehicle[data-presentation=pleos][data-app-window=full] .journey-surface .ac-task-navigation { grid-column:1; grid-row:1; position:relative; top:auto; min-height:0; overflow:hidden; }
+.ac-vehicle[data-presentation=pleos][data-app-window=full] .journey-surface .ac-task-summary { grid-column:1; grid-row:2; min-height:0; overflow:auto; overscroll-behavior:contain; }
+.ac-vehicle[data-presentation=pleos][data-app-window=full] .journey-surface .ac-task-grid:not(:has(>.ac-task-navigation))>.ac-task-summary { grid-row:1/3; }
+.ac-vehicle[data-presentation=pleos][data-app-window=full] .journey-surface .ac-task-workspace { grid-column:2; grid-row:1/3; min-height:0; }
+.ac-vehicle[data-presentation=pleos][data-app-window=full] .journey-surface .ac-task-body { flex:1 1 0; max-height:none; overflow:auto; overscroll-behavior:contain; }
+.ac-vehicle[data-presentation=pleos][data-app-window=split] .journey-surface .ac-task-grid { height:100%; overflow:auto; overscroll-behavior:contain; }
+/* Task cards run to the window edge: corners on the edge stay square, only the inner junction rounds like a Voronoi seam. */
+.ac-vehicle[data-presentation=pleos] .journey-surface .ac-task-grid>.ac-surface { border-radius:0; }
+.ac-vehicle[data-presentation=pleos][data-app-window=full] .journey-surface .ac-task-navigation { border-bottom-right-radius:var(--ac-radius-card); }
+.ac-vehicle[data-presentation=pleos][data-app-window=full] .journey-surface .ac-task-grid:has(>.ac-task-navigation)>.ac-task-summary { border-top-right-radius:var(--ac-radius-card); }

@@ -16,6 +16,7 @@
 .fs-board .fs-cell { position:absolute; padding:0; border-radius:0; --ac-notify-light:0; --ac-notify-chroma:0; }
 .fs-board .fs-cell[data-lit=true] { --ac-notify-light:var(--fs-light,0); --ac-notify-chroma:var(--fs-chroma,0); }
 .fs-board .fs-cell[data-attention=true] { --ac-notify-light:.72; --ac-notify-chroma:1; }
+.fs-board .fs-cell:is([data-care-surface=call],[data-care-surface=safety]):is([data-lit=true],[data-attention=true]) { --ac-muted:var(--ac-material-muted); }
 .fs-cell .ac-solid-source { background:var(--ac-control); box-shadow:none; }
 .fs-cell .ac-material-idle { background:var(--ac-control); box-shadow:none; }
 .fs-cell-body { position:absolute; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; gap:var(--ac-space-4); overflow:hidden; min-width:0; }
@@ -37,7 +38,8 @@
 .fs-check-track i[data-done=true] { background:var(--ac-text); }
 .fs-checklist { display:grid; width:100%; gap:0; }
 .fs-checklist label { display:flex; align-items:center; gap:var(--ac-space-2); min-height:48px; font-size:var(--ac-type-checklist); line-height:1.3; cursor:pointer; }
-.fs-checklist input,.fs-control-options input { width:18px; height:18px; flex:none; accent-color:var(--ac-text); }
+.fs-checklist input { width:1em; height:1em; margin:0; flex:none; accent-color:var(--ac-text); }
+.fs-control-options input { width:18px; height:18px; flex:none; accent-color:var(--ac-text); }
 .fs-record-excerpt { color:var(--ac-muted); display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden; }
 .fs-record-status { display:flex; flex-wrap:wrap; gap:var(--ac-space-3); color:var(--ac-muted); font-size:var(--ac-type-label); }
 .fs-record-status span { display:flex; align-items:center; gap:var(--ac-space-1); }
@@ -78,7 +80,7 @@
 .fs-review-excerpt { -webkit-line-clamp:2; flex-shrink:0; }
 .fs-cell-body>.ac-action { flex-shrink:0; }
 .fs-note-dialog { width:min(36rem,calc(100vw - 2rem)); max-height:calc(100dvh - 2rem); margin:auto; padding:var(--ac-space-6); border:1px solid var(--ac-line); border-radius:var(--ac-radius-card); color:var(--ac-text); background:var(--ac-surface); overflow:auto; }
-.fs-note-dialog::backdrop { background:rgb(0 0 0 / .6); }
+.fs-note-dialog::backdrop { background:var(--ac-scrim); }
 .fs-note-dialog h2 { font-size:var(--ac-type-section); }
 .fs-note-dialog p { margin-block:var(--ac-space-4); white-space:pre-wrap; overflow-wrap:anywhere; font-size:var(--ac-type-supporting); line-height:1.55; }
 .fs-note-dialog .ac-action { min-height:48px; }

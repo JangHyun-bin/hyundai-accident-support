@@ -1,5 +1,5 @@
 import { checklistLabels, type FlowLayout } from '@/design-system/flow-study-model'
-import type { JourneyCase, Submission } from './case'
+import { riskState, type JourneyCase, type Submission } from './case'
 
 export const safetyChecklist = [
   { id: 'checklist-hazard', label: checklistLabels[0] },
@@ -14,8 +14,8 @@ export type CallState = 'idle' | 'connecting' | 'connected' | 'ended'
 export type ResponsePath = 'unanswered' | 'danger' | 'call' | 'clear'
 export type ResponseStep = 1 | 2 | 3 | 4
 type JourneyStep = ResponseStep | 5 | 6 | 7
-export type FlowScene = 'situation' | 'situation-airbag' | 'situation-danger' | 'situation-call' | 'situation-clear' | 'emergency' | 'calling' | 'call' | 'call-ended' | 'move' | 'ready'
-  | 'record-empty' | 'record' | 'review' | 'review-ready' | 'review-failed' | 'sending' | 'sent' | 'received' | 'sent-review'
+export type FlowScene = 'situation' | 'situation-airbag' | 'situation-danger' | 'situation-call' | 'situation-clear' | 'emergency' | 'calling' | 'call' | 'call-ended' | 'move' | 'ready' | 'risk-check'
+  | 'record-empty' | 'record' | 'review' | 'review-ready' | 'review-failed' | 'review-declined' | 'sending' | 'sent' | 'received' | 'sent-review'
 type SceneCopy = { title: string; support: string; action: string; blocked?: true; demo?: true }
 
 export const safetyConfirmed = (value: JourneyCase, id: string) => value.safetyActions.some(action => action.id === id && ['user-confirmed', 'device-confirmed'].includes(action.status))
@@ -60,11 +60,13 @@ export const sceneCopy: Record<FlowScene, SceneCopy> = {
   'call-ended': { title: '119 통화가 끝났어요', support: '도움이 더 필요하면 다시 연결할 수 있어요.', action: '대피 안내 보기' },
   move: { title: '안전한 곳으로 이동하세요', support: '할 수 있는 것부터 하나씩 해 주세요.', action: '안전한 곳에 있어요' },
   ready: { title: '기억나는 내용을 남겨 둘까요?', support: '말이나 사진으로 편하게 남길 수 있어요.', action: '기록 시작' },
+  'risk-check': { title: '주변을 다시 살펴보세요', support: '새로운 위험이 감지됐어요. 남기던 기록은 그대로 있어요.', action: '주변을 확인하면 이어서 진행해요', blocked: true },
   'record-empty': { ...recording, action: '기록을 저장하면 다음으로 넘어가요', blocked: true },
   record: { ...recording, action: '남긴 내용 확인' },
   review: { ...reviewing, action: '받는 곳과 보낼 자료 고르기' },
   'review-ready': { ...reviewing, action: '승인한 내용 보내기' },
   'review-failed': { title: '보내지 못했어요', support: '기록은 그대로 있어요. 승인한 내용 그대로 다시 보낼 수 있어요.', action: '다시 보내기' },
+  'review-declined': { title: '보험사에 보내지 않기로 했어요', support: '남긴 기록은 이 기기에 그대로 있어요. 마음이 바뀌면 다시 보낼 수 있어요.', action: '다음 할 일 보기' },
   sending: { title: '기록을 보내고 있어요', support: '보내는 동안에도 기록과 통화는 그대로 유지돼요.', action: '보험사 전송 완료', demo: true },
   sent: { title: '보험사에 기록을 보냈어요', support: '보험사 접수는 아직 확인되지 않았어요.', action: '다음 할 일 보기' },
   received: { title: '보험사에 기록을 보냈어요', support: '보험사 접수가 확인됐어요.', action: '다음 할 일 보기' },
@@ -82,11 +84,13 @@ export function journeyFlow(value: JourneyCase, responseView: ResponseStep | nul
   const step: JourneyStep = value.stage === 'record' ? 5 : value.stage === 'review' || value.stage === 'follow-up' ? sent ? 7 : 6
     : responseView ?? (arrived ? 4 : resumeStep[path])
   const response = isResponseStep(step) ? responseSteps[step] : null
-  const scene: FlowScene = sending && step >= 4 ? 'sending'
+  const scene: FlowScene = value.stage === 'response' && riskState(value)?.acknowledged === false ? 'risk-check'
+    : sending && step >= 4 ? 'sending'
     : step === 1 ? path === 'unanswered' && airbagSignal(value) ? 'situation-airbag' : situationScene[path]
     : step === 2 ? callScene[call] : step === 3 ? 'move' : step === 4 ? 'ready'
     : step === 5 ? hasJourneyRecord(value) ? 'record' : 'record-empty'
-    : step === 6 ? request?.transport === 'failed' ? 'review-failed' : request?.transport === 'approved' ? 'review-ready' : 'review'
+    : step === 6 ? request?.transport === 'failed' ? 'review-failed' : request?.transport === 'approved' ? 'review-ready'
+      : value.emergency.requests.insurance === 'declined' ? 'review-declined' : 'review'
     : request?.status === 'received' ? 'received' : 'sent'
   const layout: FlowLayout = scene === 'sending' || step === 7 && callLive(call) ? 'sending' : scene === 'situation-airbag' ? 'emergency' : stepLayout[step]
   return { step, scene, layout, emergency, path, call, arrived, request, sending,

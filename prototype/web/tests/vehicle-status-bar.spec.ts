@@ -37,11 +37,10 @@ test('status remains readable at narrow widths and with enlarged text',async({pa
   }
 })
 
-test('the shared status appears on each vehicle route without browser errors',async({page})=>{
+test('the shared status appears on each simulated vehicle route without browser errors',async({page})=>{
   const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message))
-  for(const study of ['journey','emergency','vehicle','surroundings']){
+  for(const study of ['emergency','vehicle','surroundings']){
     await page.goto('/?study='+study)
-    if(study==='journey')await page.getByRole('button',{name:'이 상황으로 시작',exact:true}).click()
     const bar=page.getByRole('region',{name:'차량 상태 표시'})
     await expect(bar).toBeVisible()
     await expect(bar.getByText('차분 · 사고 대응 모드',{exact:true})).toBeVisible()

@@ -1,4 +1,5 @@
 import { useEffect, useImperativeHandle, useRef, useState, type Ref } from 'react'
+import { createPortal } from 'react-dom'
 import { FileText, X } from 'lucide-react'
 import { JourneyAction, JourneyStatus } from './JourneyLayout'
 import { ClipPlayer } from './ClipPlayer'
@@ -52,6 +53,7 @@ export function ReportPanel({ value, onCommand, reloadVersion = 0, active = true
   const data = useCaseData()
   const [draft, setDraft] = useState<Draft | null>(null)
   const [drawer, setDrawer] = useState<string | null>(null)
+  const [drawerHost, setDrawerHost] = useState<HTMLElement | null>(null)
   const [checking, setChecking] = useState<string | null>(null)
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [saving, setSaving] = useState(false)
@@ -92,9 +94,17 @@ export function ReportPanel({ value, onCommand, reloadVersion = 0, active = true
   }, [dirty])
   useEffect(() => {
     const node = dialog.current
-    if (drawer && selected && active) node?.showModal()
-    else { node?.close(); if (!active) setDrawer(null) }
-  }, [drawer, !!selected, active])
+    if (!drawer || !selected || !active) { node?.close(); if (!active) setDrawer(null); return }
+    if (!node) return
+    if (!drawerHost) { node.showModal(); return }
+    node.show()
+    // A drawer hosted in the app window is not in the top layer, so everything around it is made inert the way showModal would.
+    const outside: HTMLElement[] = []
+    for (let child: Element = node; child.parentElement; child = child.parentElement)
+      for (const sibling of child.parentElement.children) if (sibling !== child && sibling instanceof HTMLElement && !sibling.inert) outside.push(sibling)
+    for (const element of outside) element.inert = true
+    return () => { for (const element of outside) element.inert = false }
+  }, [drawer, !!selected, active, drawerHost])
 
   function failed(paragraph: ReportParagraph) {
     setErrors(previous => ({ ...previous, [paragraph.id]: '근거를 열 수 없어요' }))
@@ -154,6 +164,15 @@ export function ReportPanel({ value, onCommand, reloadVersion = 0, active = true
       <JourneyAction secondary disabled={saving} onClick={() => { panel.current?.focus(); setDraft(null); setMessage(''); void editorDraft.preserve(null) }}>정정 취소</JourneyAction>
     </div>
   }
+  const evidenceDrawer = <dialog className="journey-report-drawer" ref={dialog} data-hosted={drawerHost ? true : undefined} aria-modal={drawerHost ? true : undefined} aria-labelledby="report-evidence-title"
+    onCancel={() => setDrawer(null)} onKeyDown={event => { if (drawerHost && event.key === 'Escape') { event.preventDefault(); setDrawer(null) } }} onClose={() => {
+      setDrawer(null)
+      if (active && trigger.current?.getClientRects().length) trigger.current.focus()
+    }}>
+    <header><h2 id="report-evidence-title">문장의 근거</h2><button type="button" aria-label="근거 닫기" onClick={() => setDrawer(null)}><X aria-hidden="true" /></button></header>
+    {selected && <><p className="journey-report-text">{selected.text}</p>{selected.references.map((reference, index) => <EvidenceView
+      key={`${reference.evidenceId}-${reference.evidenceRevision}-${index}`} caseId={value.id} evidence={evidenceForReference(value, reference)} reference={reference} onFailure={() => failed(selected)} />)}</>}
+  </dialog>
   return <section ref={panel} tabIndex={-1} className="journey-report" aria-label="경위서 검토">
     <header className="journey-report-heading"><FileText aria-hidden="true" /><div><h2>내용을 한 문장씩 확인해주세요</h2><p className="journey-supporting">추정과 미확인은 확인한 뒤에도 그대로 표시돼요.</p></div></header>
     {!paragraphs.length && <p className="journey-supporting">아직 작성된 경위서가 없어요.</p>}
@@ -172,7 +191,7 @@ export function ReportPanel({ value, onCommand, reloadVersion = 0, active = true
           {corrected && <details className="journey-report-original"><summary>원문 보기</summary><p>{original.text}</p></details>}
           {(broken || errors[paragraph.id]) && <p className="journey-report-error" role="status">근거를 열 수 없어요</p>}
           <div className="journey-report-tools">
-            {paragraph.references.length > 0 && <button type="button" onClick={event => { trigger.current = event.currentTarget; setDrawer(paragraph.id) }}>근거 보기</button>}
+            {paragraph.references.length > 0 && <button type="button" onClick={event => { trigger.current = event.currentTarget; setDrawerHost(event.currentTarget.closest<HTMLElement>('[data-presentation=pleos]>.ac-vehicle-content')); setDrawer(paragraph.id) }}>근거 보기</button>}
             <button type="button" disabled={!editorDraft.ready || dirty || checking !== null} onClick={() => { setMessage(''); setDraft({ id: paragraph.id, text: paragraph.text, references: structuredClone(paragraph.references), isNew: false }) }}>정정하기</button>
             <button type="button" disabled={!editorDraft.ready || dirty || checking !== null} onClick={() => { panel.current?.focus(); onCommand({ type: 'paragraph-remove', id: paragraph.id }) }}>문장 제외</button>
           </div>
@@ -192,13 +211,6 @@ export function ReportPanel({ value, onCommand, reloadVersion = 0, active = true
     </details>}
     {!editorDraft.ready && !editorDraft.failed && <p role="status" className="journey-supporting">이 기기의 경위서 초안을 확인하고 있어요.</p>}
     {editorDraft.failed && <p role="alert" className="journey-supporting">이 기기에 경위서 초안을 보관하지 못했어요. 화면을 닫지 말고 다시 시도해주세요. <button type="button" onClick={() => editorDraft.ready && draft ? void editorDraft.preserve({ kind:'report', ...draft }) : editorDraft.retry()}>초안 보관 다시 시도</button></p>}
-    <dialog className="journey-report-drawer" ref={dialog} aria-labelledby="report-evidence-title" onCancel={() => setDrawer(null)} onClose={() => {
-      setDrawer(null)
-      if (active && trigger.current?.getClientRects().length) trigger.current.focus()
-    }}>
-      <header><h2 id="report-evidence-title">문장의 근거</h2><button type="button" aria-label="근거 닫기" onClick={() => setDrawer(null)}><X aria-hidden="true" /></button></header>
-      {selected && <><p className="journey-report-text">{selected.text}</p>{selected.references.map((reference, index) => <EvidenceView
-        key={`${reference.evidenceId}-${reference.evidenceRevision}-${index}`} caseId={value.id} evidence={evidenceForReference(value, reference)} reference={reference} onFailure={() => failed(selected)} />)}</>}
-    </dialog>
+    {drawerHost ? createPortal(evidenceDrawer, drawerHost) : evidenceDrawer}
   </section>
 }

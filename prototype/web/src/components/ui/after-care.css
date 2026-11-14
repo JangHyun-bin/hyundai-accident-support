@@ -1,6 +1,7 @@
 .ac-surface { position:relative; isolation:isolate; min-width:0; border-radius:var(--ac-radius-card); background:transparent; border:0; padding:var(--ac-space-8); }
 .ac-surface[data-care-surface=call],.ac-surface[data-care-surface=safety] { background:transparent; border:0; color:var(--ac-material-text); --rs-border:var(--ac-material-border); }
 .ac-surface .rs-material-source { border-radius:inherit; overflow:hidden; }
+.ac-surface .rs-material-source>i { background:var(--ac-material-core,var(--rs-core)); }
  .ac-material-frame { position:absolute; inset:0; z-index:-1; pointer-events:none; border-radius:inherit; }
 .ac-solid-source { position:absolute; inset:0; border-radius:inherit; background:var(--ac-surface); box-shadow:inset 0 0 0 1px var(--ac-line); }
 .ac-surface[data-care-surface=map] .ac-solid-source { background:var(--ac-control); }

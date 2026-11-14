@@ -144,6 +144,25 @@ export function riskCheckRequired(value: JourneyCase): boolean {
   return !isRecordReady(value)
 }
 
+export type RiskState = { key: string; summary: string; acknowledged: boolean }
+
+function attentionRisks(value: JourneyCase): Observation[] {
+  const superseded = new Set(value.observations.map(o => o.supersedes))
+  return value.observations.filter(o => o.kind === 'risk' && o.confirmation === 'attention' && !superseded.has(o.id))
+}
+const riskAcknowledged = (value: JourneyCase, risk: Observation) => value.safetyActions.some(action => action.id === `ack:${risk.id}` && action.status === 'user-confirmed')
+
+export function riskState(value: JourneyCase): RiskState | null {
+  const risks = attentionRisks(value)
+  if (!risks.length) return null
+  return { key: risks.map(risk => risk.id).join('|'), summary: [...new Set(risks.map(risk => risk.value))].join(' · '), acknowledged: risks.every(risk => riskAcknowledged(value, risk)) }
+}
+
+export function acknowledgeRisks(value: JourneyCase, now: string): CaseCommand[] {
+  return attentionRisks(value).filter(risk => !riskAcknowledged(value, risk))
+    .map(risk => ({ type: 'safety-action', action: { id: `ack:${risk.id}`, label: '주변 확인', status: 'user-confirmed', source: 'user', confirmedAt: now } }))
+}
+
 export function canSubmit(value: JourneyCase, agency: Agency): boolean {
   return ['not_sent', 'deferred', 'declined', 'failed', 'not_received'].includes(value.emergency.requests[agency])
 }
