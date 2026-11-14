@@ -16,7 +16,7 @@
 | --- | --- | --- |
 | Vehicle SDK 에어백 전개 | 좌석별 지원 조회 `checkAirbagDeployedCapabilities`, 전개 조회 `hasSeatAirbagBeenDeployed`, 구독 `registerSeatAirbagDeployed`와 Boolean 변경 콜백을 AAR에서 확인 | `CAR_SAFETY` 권한·capability·지원 좌석·실제 Service 수신 검수 필요. 미전개를 사고 없음으로, 전개를 부상·심각도 확정으로 해석하지 않음 |
 | Fleet 충돌 상태 | `Emergency.Crash`와 발생 시각을 가진 `ValueObject`가 공개됨. 데이터는 차량에서 수신된 경우에만 포함되는 선택값 | 계약·승인, 대상 차량·단말 등록과 실제 제공 여부, 인증된 수신 경로, 지연·단절 검증 필요. 값 누락을 `UNCRASH`로 바꾸지 않음 |
-| AAOS 직접 충격 property | Android 공식 명세에 `VehiclePropertyIds.IMPACT_DETECTED`가 존재하며 충격을 감지한 차량 측면을 bit flag로 전달 | 읽기는 `Car.PERMISSION_READ_IMPACT_SENSORS`의 signature·privileged 권한 필요. 일반 앱의 Manifest 선언만으로 사용할 수 없음. 대상 Pleos 버전·차량의 구현과 접근 승인 미확인. [Android 명세][aaos-impact] |
+| AAOS 직접 충격 property | Android 공식 명세의 `IMPACT_DETECTED`는 충격을 감지한 차량 측면을 전달하는 상태값이며 원시 가속도 센서가 아님 | `READ_IMPACT_SENSORS` signature·privileged 권한 필요. 확인한 AOSP `android14-release` 소스에는 property·권한이 없고 `android15-release`에는 시스템 API·권한이 존재. Pleos의 별도 구현·이식과 실행 지원은 미확인. [명세][aaos-impact], [버전별 확인](#5-aaos-적용-난도와-센서-융합-연구) |
 | Vehicle SDK 차량 상태 | Brake, Light, Safety 등 도메인과 capability 조회·현재값·변경 알림 구조 제공 | 차량·기능별 지원 및 읽기 권한을 확인. 브레이크·비상등·경고등을 충돌 확정 신호로 취급하지 않음 |
 | 차량 원시 IMU·카메라·블랙박스 | 이번에 확인한 공개 안내만으로 일반 앱의 입력 가용성을 확정할 수 없음 | 물리 센서 직접 접근 금지. SDK 미제공 특수 property는 사전 기술 검토 필요. 일반 Android API 존재를 Pleos 접근 허가로 간주하지 않음 |
 | Android 휴대폰 IMU | `SensorManager`, `TYPE_ACCELEROMETER`, `TYPE_LINEAR_ACCELERATION`, `TYPE_GYROSCOPE`로 기기가 제공하는 센서값 수집 가능 | 별도 폰 실행부, 사고 전 연결·수집, 센서 존재·범위·권한·거치 상태 확인. 사고 검출 성능은 별도 검증 |
@@ -92,7 +92,65 @@ flowchart TD
 
 검출기 검증에는 정상 주행, 급제동, 방지턱, 휴대폰 집기·낙하, 센서 누락, 지연·재전달, 추가 충격과 중단 후 복귀를 포함한다. 실제 차량 충돌이나 위험한 주행을 만들어 시험하지 않는다. 센서·비전의 미탐 가능성을 사용자 도움 경로와 함께 설명한다.
 
-**다음 주요 결정:** 공식 차량 신호 우선이라는 제품 목표를 유지하되, 이번 구현에 운행 전 연결을 전제로 한 Android 폰 센서 실측·의심 감지까지 포함할지 확정한다. 감지 기능 삭제 여부를 다시 묻는 질문이 아니다.
+**다음 실행 순서:** 전용 Pleos 환경에서 공개 SDK와 접근 가능한 AAOS property의 지원·권한·샘플 형식을 확인한다. 실제 가속도·회전율·속도 입력 경로를 확보한 뒤 감지 구조와 검증 자료를 맞춘다. 차량 데이터만으로 가능한 범위를 확인하기 전에 선택지를 Fleet·에어백 또는 폰 상시 연결만으로 한정하지 않는다.
+
+## 5. AAOS 적용 난도와 센서 융합 연구
+
+### AAOS: 구독 코드보다 권한·플랫폼 지원이 선행 조건
+
+2026-11-14에 AOSP 공식 원문을 내려받아 Gitiles의 base64 본문을 디코딩하고 property 정의와 CarService Manifest를 확인했다.
+
+| 확인한 소스 | 결과 |
+| --- | --- |
+| `android14-release`의 `VehiclePropertyIds.java` | `IMPACT_DETECTED`와 `READ_IMPACT_SENSORS` 참조 없음 |
+| 같은 branch의 CarService `AndroidManifest.xml` | `READ_IMPACT_SENSORS` 선언 없음 |
+| `android15-release`의 `VehiclePropertyIds.java` | `IMPACT_DETECTED = 289407792`, `@SystemApi`, `@FlaggedApi(FLAG_ANDROID_VIC_VEHICLE_PROPERTIES)`, `@RequiresPermission` 존재 |
+| 같은 branch의 CarService Manifest | `android.car.permission.READ_IMPACT_SENSORS`를 `signature|privileged`로 선언 |
+
+이는 조사한 AOSP branch의 사실이며 **모든 Android 14 기반 OEM 이미지의 미지원을 증명하지 않는다.** Pleos가 이식하거나 별도 서비스로 노출했는지는 실제 이미지·문서·승인으로 확인해야 한다. 현재 Pleos의 기준 이미지가 API34라는 점 때문에 최신 Android API 문서만 보고 즉시 사용 가능하다고 약속할 수 없다. [Android 14 정의][aosp14-ids], [14 권한][aosp14-manifest], [Android 15 정의][aosp15-ids], [15 권한][aosp15-manifest]
+
+접근권을 받은 뒤 상태를 조회·구독해 앱으로 전달하는 부분보다, 지원 차량·시스템 권한·데이터 제공을 확보하는 부분이 어려운 의존성이다. signature 또는 시스템 privileged 앱·allowlist 설정의 문제이지 일반 사용자가 승인창을 누르면 해결되는 권한이 아니다. 개발 에뮬레이터의 권한 우회를 일반 배포 가능성으로 바꾸어 말하지 않는다. [권한 정책][privileged]
+
+지원 조회의 결과도 정확히 해석해야 한다. `getCarPropertyConfig`의 `null`과 목록에서의 누락은 미지원뿐 아니라 읽기·쓰기 권한 부족 때문일 수 있다. `isPropertyAvailable`은 읽기 권한이 없으면 `SecurityException`을 낼 수 있다. 따라서 단일 실패나 빈 목록으로 차량에 충격 센서가 없다고 단정하지 않는다. [CarPropertyManager][car-properties]
+
+### 직접 검토한 연구
+
+| 연구 | 사용한 입력·방법 | 검증과 적용 한계 |
+| --- | --- | --- |
+| Thompson 등, *Using Smartphones to Detect Car Accidents and Provide Situational Awareness to Emergency Responders* (2010) | 폰 가속도·GPS 속도·충전 맥락과 임계값 필터 | §1.4는 폰 낙하·급정거 실험이며 실차 충돌 검증이 아님. §1.6에서 저속 접촉 미탐 가능성을 인정. 임계값을 제품 안전 기준으로 복사하지 않음. [저자 원문][wreckwatch] |
+| Paciorek 등, *Effective Car Collision Detection with Mobile Phone Only* (ICCS 2021, DOI `10.1007/978-3-030-77980-1_24`) | 센서 좌표계 정렬, 가속도·회전 시계열의 시간창 적분·평균 절대미분, 결정트리 | 실제 충돌시험 22개 사건에서 여러 폰의 53개 예제를 수집. 정차 차량 피격과 경미 충돌을 포함. 일반 주행·폰 조작의 피크가 충돌보다 클 수 있음을 관찰. 충돌 예제 leave-one-out 평가와 제한된 정상 주행으로 모든 차량·주차 상태의 성능이 보장되지는 않음. [원문 §3–6][paciorek] |
+| Kubin 등, *Deep Crash Detection From Vehicular Sensor Data With Multimodal Self-Supervision* (IEEE T-ITS, 2022, DOI `10.1109/TITS.2021.3114816`) | IMU 가속도·회전율과 GPS 속도, 시간창 CNN·GRU·다중모달 자기지도학습 | 실제 차량 센서 시간창 자료에 비충돌·경미·심각 사고 라벨을 부여. 실제 사고 수와 시간창 수를 혼동하지 않음. 논문의 성능은 우리 장치·차량에 대한 검증이 아니며 공개 원시 자료·재현 가중치는 이번에 확보하지 않음. 원문은 stratified split을 설명하지만 차량·사고 단위 완전 분리 여부는 별도 확인 필요. [원문 §III–V][kubin] |
+| Hankey 등, *Description of the SHRP 2 Naturalistic Database and the Crash, Near-Crash, and Baseline Data Sets* (VTTI, 2016) | 차량 고정 센서의 가감속·yaw·jerk, 제동·안전 시스템 등 여러 트리거로 사건 후보를 추출하고 영상·사람 검토로 구분 | 실제 자연주행의 충돌·충돌 직전·일반 주행을 다룬다. 단, 연구용 사후 후보 추출과 수작업 검증은 제품의 실시간 충돌 확정 성능이 아니다. 알려지지 않은 경미 접촉과 후보 선택 편향이 있어 전체 미탐률을 보장하지 못한다. [보고서 §2–3][shrp2-report] |
+
+이 연구들은 사용자 제안의 **시간에 따른 가속도·회전·속도·제동 맥락 조합**을 뒷받침한다. 다만 앞의 세 논문이 동일한 센서 조합을 사용하거나 차량의 브레이크 압력을 입력으로 검증한 것은 아니다. 특히 Paciorek의 방법은 단일 피크보다 지속성·변화 패턴을 살피지만 오탐을 없애지는 못한다. Kubin의 비교 실험은 방지턱·포트홀에서 수직축 가속도 피크가 커지는 문제를 명시한다. 이를 모든 수직 충격을 버리는 제품 규칙으로 일반화하지 않는다. SHRP2의 영상·사람 검토를 우리 앱에서 이미 가능한 실시간 비전 분석으로 해석하지 않는다.
+
+### 현재 코드와 연결할 때 구분할 실제 신호
+
+- 실제 SDK AAR의 `Brake.getCurrentBrakePedalStatus`는 **Boolean 눌림 상태**다. 연속적인 제동 압력·페달 깊이가 아니다.
+- `SteeringWheel.getCurrentSteeringWheelAngle`은 **조향휠 각도**다. 차량 차체의 회전율인 yaw rate와 같지 않다.
+- `DrivingMode.getCruiseControlTargetSpeed`는 **크루즈 목표 속도**다. 실제 차량 속도로 사용하지 않는다.
+- 원시 IMU, 실제 속도, 필요한 주기·측정 범위·좌표계는 제공 출처와 권한을 따로 확인한다. 콘솔의 슬라이더가 있다는 것과 앱이 같은 수치·주기로 읽을 수 있다는 것도 다르다.
+
+### 권장 검출·검증 구조
+
+1. **입력 확보·정렬:** 센서별 측정 시각·단위·좌표계·범위·포화·누락을 확인하고 차량 기준으로 정렬한다. 폰 센서는 차량 고정 센서와 같은 값이라고 가정하지 않는다.
+2. **충돌 후보 검출:** 가속도 크기뿐 아니라 변화율, 지속시간·방향, 짧은 시간창의 속도 변화와 회전 패턴을 특징으로 삼는 가벼운 검출기부터 비교한다. 사용 가능한 제동 상태는 보조 맥락으로만 추가한다. 데이터 없이 고정 G값이나 확인되지 않은 모델을 제품 기준으로 확정하지 않는다.
+3. **교란 상황과 분리:** 급제동·방지턱·폰 집기·낙하·문 닫기·거치 변경을 충돌 라벨과 대조한다. 속도가 낮다고 감지를 꺼 정차 피격을 구조적으로 놓치지 않도록 평가한다. 연석 접촉을 사고로 볼지는 제품 정의로 별도 확정한다.
+4. **제품 진입:** 공식 전개·충돌 신호와 모델의 충돌 의심을 구분해 사용자 상태 확인으로 연결한다. 검출기 결과만으로 부상·안전·기관 연결·보험 접수를 확정하지 않는다. 자동 감지 경로는 유지하고 오탐 취소·감지 이용 불가·보조 수동 도움 경로를 함께 검수한다.
+5. **누수 없는 성능 검증:** 동일 사고의 여러 폰, 겹치는 시간창, 같은 차량·주행이 학습과 평가 양쪽에 섞이지 않도록 분리한다. 정확도 하나가 아니라 충돌별 미탐·재현, 주행 시간당 오탐, 감지 지연과 신호 이용 불가 시간을 기록한다. 정상 주행에서 이벤트가 희귀하므로 비충돌만 잘 맞히는 모델을 높게 평가하지 않는다.
+
+조건부 검출기 성능과 전체 제품 성능을 나누어 보고한다. 센서가 꺼졌거나 권한이 없는 동안을 정상·무사고로 바꾸지 않고, 그동안 발생한 사고를 전체 제품의 사고 분모에서 빼서 성능을 부풀리지 않는다.
+
+### 검증 데이터 확보 조건
+
+| 자료 | 활용과 접근 경계 |
+| --- | --- |
+| NHTSA Crash Test Database | 공개 차량 충돌시험 자료·API가 있어 실제 센서 파형 검토의 출발점으로 쓸 수 있다. 통제 충돌시험을 일반 주행·우리 폰 거치·경미 접촉의 완전한 평가 자료로 취급하지 않는다. [공식 안내][nhtsa-crash-data] |
+| SHRP2 자연주행 | 충돌·충돌 직전·일반 주행 자료가 있으나 Guest는 요약·사전 위주이며, 전체 가용 자료 접근에는 IRB 교육 증명과 Qualified Researcher 신청·승인이 필요하다. 보고서 공개와 원시 자료 이용권을 구분한다. [접근 조건][shrp2-access] |
+| 대상 장치의 비충돌 기록 | 방지턱·폰 조작·거치 변경 등의 실제 조건에 맞춘 별도 자료가 필요하다. 일반 주행 baseline에 해당 상황의 검증 라벨이 있다고 가정하지 않는다. 실제 충돌이나 위험한 급제동을 만들어 자료를 수집하지 않는다. |
+
+
+이 단계에서 완성된 것은 접근 조건·논문 대조와 개발 계획이다. 새로운 충돌 검출 코드, 학습 모델, 실기기 센서 수집, Pleos 런타임 검증은 아직 수행하지 않았다.
 
 ## 출처
 
@@ -119,3 +177,15 @@ flowchart TD
 [aaos-impact]: https://developer.android.com/reference/android/car/VehiclePropertyIds#IMPACT_DETECTED
 [dashcam-events]: https://forum.blackvue.com/hc/en-us/articles/49137875436569-Uploading-and-triggering-event-files-to-the-Cloud
 [dashcam-integration]: https://media.blackvue.com/press-release-blackvue-introduces-cloud-api-facilitate-fleet-telematics-software-integration/
+[aosp14-ids]: https://android.googlesource.com/platform/packages/services/Car/+/refs/heads/android14-release/car-lib/src/android/car/VehiclePropertyIds.java
+[aosp14-manifest]: https://android.googlesource.com/platform/packages/services/Car/+/refs/heads/android14-release/service/AndroidManifest.xml
+[aosp15-ids]: https://android.googlesource.com/platform/packages/services/Car/+/refs/heads/android15-release/car-lib/src/android/car/VehiclePropertyIds.java
+[aosp15-manifest]: https://android.googlesource.com/platform/packages/services/Car/+/refs/heads/android15-release/service/AndroidManifest.xml
+[privileged]: https://source.android.com/docs/core/permissions/perms-allowlist
+[car-properties]: https://developer.android.com/reference/android/car/hardware/property/CarPropertyManager
+[wreckwatch]: https://www.dre.vanderbilt.edu/~schmidt/PDF/wreckwatch.pdf
+[paciorek]: https://www.iccs-meeting.org/archive/iccs2021/papers/127470294.pdf
+[kubin]: https://leotac.github.io/pdfs/tits2021crash.pdf
+[shrp2-report]: https://vtechworks.lib.vt.edu/server/api/core/bitstreams/2baad9a3-72a9-4974-8f71-9a3357ae903c/content
+[shrp2-access]: https://insight.shrp2nds.us/userAccess
+[nhtsa-crash-data]: https://nrd.api.nhtsa.dot.gov/
