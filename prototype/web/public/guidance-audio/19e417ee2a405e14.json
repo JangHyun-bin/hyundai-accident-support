@@ -1,0 +1,23 @@
+{
+  "voiceId": "gJSDQIpSQ56NBGhorBfg",
+  "voiceName": "David - Calm, Steady and Clear",
+  "model": "eleven_v4",
+  "script": "119에 연결하고 있어요. 다친 곳이 있으면 통화로 알려 주세요.",
+  "scriptHash": "19e417ee2a405e14e3197c71b9db4f441f7007c171cf9a0fe8d3644a78d9e7df",
+  "file": "19e417ee2a405e14.mp3",
+  "path": "/guidance-audio/19e417ee2a405e14.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "SC03/contact_unknown"
+  ],
+  "duration": 4.24,
+  "bytes": 103488,
+  "audioHash": "e44c5ed453500631e95399932b528986035bce5dce2e62c8c78538cb023af307",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-14T06:37:50.502Z"
+}

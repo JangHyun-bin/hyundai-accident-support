@@ -295,7 +295,7 @@ assert.ok(Number(result.format.duration) > 90)
 const time = item => item.device === 'vehicle' ? item.atRaw - trim : vehicleDuration + item.atRaw - mobileStart
 writeFileSync(metadataPath, JSON.stringify({ output, sourceCommit, simulationOnly: true, audio: true, audioSegments, raw, mobileRaw, trim, vehicleEnd, mobileBegan, mobileStart, finished,
   composition: 'Actual browser footage. Vehicle then mobile. Same persistent browser profile reopened at each native viewport; setup omitted. Portrait footage scaled and centered.',
-  limitations: ['Same-browser device preview, not device synchronization', 'Authored media and explicit external result events, no agency requests', 'Authored voice-input sample, not live STT; guidance is JaeGyu / eleven_v4', 'Late historical callbacks, denied permissions and quota errors are covered by tests, not all shown in this video'],
+  limitations: ['Same-browser device preview, not device synchronization', 'Authored media and explicit external result events, no agency requests', 'Authored voice-input sample, not live STT; guidance is ElevenLabs David - Calm, Steady and Clear / eleven_v4', 'Late historical callbacks, denied permissions and quota errors are covered by tests, not all shown in this video'],
   timeline: timeline.map(item => ({ ...item, at: time(item) })), actions: actions.map(item => ({ ...item, at: time(item) })),
   fixtureCoverage: fixtures.cases.map(item => ({ id: item.id, scenes: timeline.filter(scene => scene.fixture === item.id).map(scene => scene.id) })),
   features: [...new Set(timeline.flatMap(item => item.coverage))], probe: result, errors,

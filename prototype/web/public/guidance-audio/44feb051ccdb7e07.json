@@ -1,0 +1,23 @@
+{
+  "voiceId": "gJSDQIpSQ56NBGhorBfg",
+  "voiceName": "David - Calm, Steady and Clear",
+  "model": "eleven_v4",
+  "script": "안전한 곳으로 이동하세요. 차가 다니지 않는 곳으로 피하고, 할 수 있는 것부터 하나씩 해 주세요.",
+  "scriptHash": "44feb051ccdb7e072d276ea599b4aa6e3b9bb923b320ca1e7a95dc998d87c42e",
+  "file": "44feb051ccdb7e07.mp3",
+  "path": "/guidance-audio/44feb051ccdb7e07.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "journey-flow/move"
+  ],
+  "duration": 6.56,
+  "bytes": 159285,
+  "audioHash": "d969f0429ff010ffced80b7b3797de6950e1d2601ea6ce07217394b6496bc3e2",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-14T06:40:51.613Z"
+}

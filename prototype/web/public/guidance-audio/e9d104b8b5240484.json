@@ -1,0 +1,23 @@
+{
+  "voiceId": "gJSDQIpSQ56NBGhorBfg",
+  "voiceName": "David - Calm, Steady and Clear",
+  "model": "eleven_v4",
+  "script": "기억나는 내용을 남겨 주세요. 사고 위치와 경위 중 확실한 것만 적어도 괜찮아요.",
+  "scriptHash": "e9d104b8b52404841bd78c1da6a449a83bc1a64e53a7d7fe85214889529a5982",
+  "file": "e9d104b8b5240484.mp3",
+  "path": "/guidance-audio/e9d104b8b5240484.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "SC02/record"
+  ],
+  "duration": 5.84,
+  "bytes": 141731,
+  "audioHash": "2072ed32d7a787b1e7191ef66f32cf20f3b9b84268e76146c179fda30cca8bd1",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-14T06:37:48.284Z"
+}

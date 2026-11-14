@@ -1,0 +1,23 @@
+{
+  "voiceId": "gJSDQIpSQ56NBGhorBfg",
+  "voiceName": "David - Calm, Steady and Clear",
+  "model": "eleven_v4",
+  "script": "사고 기록을 고쳐 주세요.",
+  "scriptHash": "cd4cad95a743a9bea37c82ac572c1da8a0d9baf9484e069899ee89b4ac2dc8fa",
+  "file": "cd4cad95a743a9be.mp3",
+  "path": "/guidance-audio/cd4cad95a743a9be.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "SC04/record"
+  ],
+  "duration": 1.84,
+  "bytes": 45809,
+  "audioHash": "791fae8b01c1d8975b7b55c90610c3fae36e15e32f23d1248b3552c9370164a2",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-14T06:37:51.532Z"
+}

@@ -1,0 +1,23 @@
+{
+  "voiceId": "gJSDQIpSQ56NBGhorBfg",
+  "voiceName": "David - Calm, Steady and Clear",
+  "model": "eleven_v4",
+  "script": "보험사에 보낼 내용을 확인하세요. 받는 곳과 보낼 자료는 직접 고를 수 있어요.",
+  "scriptHash": "b70f5a5963db1ab6efa8293f07ff5537ecb9cfe269ee5b1a14d1ef754a045bd5",
+  "file": "b70f5a5963db1ab6.mp3",
+  "path": "/guidance-audio/b70f5a5963db1ab6.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "journey-flow/review"
+  ],
+  "duration": 5.68,
+  "bytes": 137969,
+  "audioHash": "22e99945eb693c97cd30f74227b754f78993c8727644a0a8d4a8d3377a483f55",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-14T06:40:53.303Z"
+}

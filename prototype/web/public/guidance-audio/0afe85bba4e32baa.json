@@ -1,6 +1,6 @@
 {
-  "voiceId": "gKJdDVRmX8dROO8aA5I8",
-  "voiceName": "JaeGyu - Calm & Trustworthy",
+  "voiceId": "gJSDQIpSQ56NBGhorBfg",
+  "voiceName": "David - Calm, Steady and Clear",
   "model": "eleven_v4",
   "script": "남겨진 자료를 살펴보세요. 영상과 사고 도식, 경위서를 각각 확인할 수 있어요. 확인할 수 없는 내용은 그대로 남겨도 돼요.",
   "scriptHash": "0afe85bba4e32baa36b1c84a5754bb6cf8b17905ab6bc8909015ef016b81cf6f",
@@ -15,9 +15,9 @@
   "sources": [
     "journey/남겨진 자료를 살펴보세요"
   ],
-  "duration": 8.8,
-  "bytes": 212575,
-  "audioHash": "59a74d8f45ad5c3e3cd2a06b6613ffb2c3f3ebcf6054811a4d519776e666c785",
+  "duration": 9.28,
+  "bytes": 224487,
+  "audioHash": "a71589569642d5fd6b5bbef4200a0b3860a022d554305c12755e19b29013be7e",
   "payloadEncoding": "UTF-8 JSON file",
-  "generatedAt": "2026-11-10T10:23:57.882Z"
+  "generatedAt": "2026-11-14T06:08:32.888Z"
 }

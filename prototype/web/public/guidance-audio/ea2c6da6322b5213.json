@@ -1,0 +1,23 @@
+{
+  "voiceId": "gJSDQIpSQ56NBGhorBfg",
+  "voiceName": "David - Calm, Steady and Clear",
+  "model": "eleven_v4",
+  "script": "전송을 보류했어요. 기록은 이 기기에 저장하지 못해 지금 화면에만 남아 있어요. 구호와 차량 지원은 계속 진행돼요.",
+  "scriptHash": "ea2c6da6322b521398c2643edc309940d32a5d12bf618e90a740b194d3c148e5",
+  "file": "ea2c6da6322b5213.mp3",
+  "path": "/guidance-audio/ea2c6da6322b5213.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "emergency/deferred_storage_failed"
+  ],
+  "duration": 8.56,
+  "bytes": 206932,
+  "audioHash": "7dd4f5f68f91ee0f6d74e7309cbd24caef3e01de648d3431755ecd2d3605f6a9",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-14T06:38:02.645Z"
+}

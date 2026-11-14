@@ -1,0 +1,24 @@
+{
+  "voiceId": "gJSDQIpSQ56NBGhorBfg",
+  "voiceName": "David - Calm, Steady and Clear",
+  "model": "eleven_v4",
+  "script": "응답이 없어 119에 자동으로 연결했어요. 응답할 수 있으면 알려 주세요.",
+  "scriptHash": "4fa4b5b5540e1f68cfc41e1b7bb9f4e53c071a28628218f68dd623c0cdc576a7",
+  "file": "4fa4b5b5540e1f68.mp3",
+  "path": "/guidance-audio/4fa4b5b5540e1f68.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "SC01/auto_contact",
+    "SC03/unanswered"
+  ],
+  "duration": 5.2,
+  "bytes": 126684,
+  "audioHash": "c4a1a04e6ec3d6fdd05be8eb974ed624c45c16782d1217ccd5244696d4a53a32",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-14T06:37:38.987Z"
+}

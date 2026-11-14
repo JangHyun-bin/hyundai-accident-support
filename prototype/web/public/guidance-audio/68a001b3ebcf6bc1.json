@@ -1,0 +1,24 @@
+{
+  "voiceId": "gJSDQIpSQ56NBGhorBfg",
+  "voiceName": "David - Calm, Steady and Clear",
+  "model": "eleven_v4",
+  "script": "구호 접수가 확인됐어요. 구조대가 올 때까지 안전한 곳에 있어 주세요.",
+  "scriptHash": "68a001b3ebcf6bc122f2116c9d0ff659223c46e5065d9d2b580033bc85f1eecc",
+  "file": "68a001b3ebcf6bc1.mp3",
+  "path": "/guidance-audio/68a001b3ebcf6bc1.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "SC01/received",
+    "SC03/received"
+  ],
+  "duration": 4.56,
+  "bytes": 111011,
+  "audioHash": "4da65bf8ee6116ddbac262302d9f9ddf7e23b2d6cee5b3c7d21fab7a3456c3ea",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-14T06:37:42.242Z"
+}

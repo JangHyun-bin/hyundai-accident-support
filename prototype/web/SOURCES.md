@@ -20,6 +20,6 @@ Cult의 기본 gradient·surface 표현은 첫 비교본에 남아 있다. 이�
 
 현재 palette role은 저장 slot을 보존한 채 `semanticSurfaces()`에서 연결한다. 자세한 기준·승인 원문 미확보 상태는 [현행 시각 기준](../../docs/superpowers/specs/2026-11-12-figma-visual-contract.md)을 따른다.
 
-안내 MP3는 ElevenLabs JaeGyu/eleven_v4 생성물이며 provider·원고·hash·duration을 asset metadata에 기록한다. 사용자 진술 sample WAV는 별도 출처와 공개 배포 권리 검토가 있다. [음성 선택·실행 상태](../../specs/emergency-experience/voice-selection.md)를 참고한다.
+안내 MP3는 ElevenLabs `David - Calm, Steady and Clear`(`gJSDQIpSQ56NBGhorBfg`)/eleven_v4 생성물이며 provider·원고·hash·duration을 asset metadata에 기록한다. 2026-11-14 이전 MP3는 JaeGyu 생성물이었다. 사용자 진술 sample WAV는 별도 출처와 공개 배포 권리 검토가 있다. [음성 선택·실행 상태](../../specs/emergency-experience/voice-selection.md)를 참고한다.
 
 복사 source의 MIT가 전체 dependency의 license를 대체하지 않는다. Asta OFL·GSAP 별도 license와 각 transitive dependency 조건, 배포물 notice 포함 여부는 별도로 확인해야 한다. 이 문서는 법적 적합성 인증이 아니다.

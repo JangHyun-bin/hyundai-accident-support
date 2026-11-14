@@ -1,6 +1,6 @@
 {
-  "voiceId": "gKJdDVRmX8dROO8aA5I8",
-  "voiceName": "JaeGyu - Calm & Trustworthy",
+  "voiceId": "gJSDQIpSQ56NBGhorBfg",
+  "voiceName": "David - Calm, Steady and Clear",
   "model": "eleven_v4",
   "script": "기존 요청을 확인하고 있어요. 같은 요청을 다시 보내지 않아요.",
   "scriptHash": "007a6e3ee0d3e09776325735cd52756b77b6de2924b03a82cdc7d78b2b398752",
@@ -15,9 +15,9 @@
   "sources": [
     "SC02/checking"
   ],
-  "duration": 4.4,
-  "bytes": 107249,
-  "audioHash": "9a9c7ff77376f8e006b4b8ad64fc93a0a7c00404b33b291eb926bc96297cbf57",
+  "duration": 4.48,
+  "bytes": 109130,
+  "audioHash": "0770286509051ac00be21cae6e4e802fea66786d1546ad8de5adbf0fed69d748",
   "payloadEncoding": "UTF-8 JSON file",
-  "generatedAt": "2026-11-10T10:22:30.617Z"
+  "generatedAt": "2026-11-14T06:08:06.757Z"
 }

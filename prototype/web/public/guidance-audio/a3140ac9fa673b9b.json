@@ -1,0 +1,23 @@
+{
+  "voiceId": "gJSDQIpSQ56NBGhorBfg",
+  "voiceName": "David - Calm, Steady and Clear",
+  "model": "eleven_v4",
+  "script": "119와 통화가 연결됐어요. 구호 접수는 아직 확인 전이에요. 움직일 수 있으면 가드레일 밖으로 대피하세요.",
+  "scriptHash": "a3140ac9fa673b9b2e1e007571281d10b328294d042ac94c33d7bf6cfe07f5d8",
+  "file": "a3140ac9fa673b9b.mp3",
+  "path": "/guidance-audio/a3140ac9fa673b9b.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "SC01/connected"
+  ],
+  "duration": 7.52,
+  "bytes": 181855,
+  "audioHash": "34fa38dc8e790b5451abcf4b37a25761e2e7e66bef054dcba2220e4f845ea690",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-14T06:37:41.336Z"
+}

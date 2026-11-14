@@ -1,10 +1,10 @@
-import {readFile,writeFile,mkdir} from 'node:fs/promises'
+import {readFile,writeFile,mkdir,readdir} from 'node:fs/promises'
 import {homedir} from 'node:os'
 import {join,resolve} from 'node:path'
 import {fileURLToPath} from 'node:url'
 import {spawn,execFileSync} from 'node:child_process'
 import {createHash} from 'node:crypto'
-import {collectGuidanceScripts} from './generate-guidance-audio.mjs'
+import {collectGuidanceScripts,voiceId,voiceName,model,voiceSettings} from './generate-guidance-audio.mjs'
 const root=fileURLToPath(new URL('../',import.meta.url))
 const hash=value=>createHash('sha256').update(value).digest('hex')
 
@@ -13,12 +13,14 @@ export async function verifyGuidanceAssets(scripts,assets,publicDirectory=join(r
  if(byText.size!==assets.length)throw new Error('Duplicate guidance script')
  const missing=[...scripts.keys()].filter(script=>!byText.has(script))
  if(missing.length)throw new Error(`Missing guidance assets: ${JSON.stringify(missing)}`)
+ const extra=assets.filter(asset=>!scripts.has(asset.script)).map(asset=>asset.file)
+ if(extra.length)throw new Error(`Unreferenced guidance assets: ${JSON.stringify(extra)}`)
  const reports=[]
  for(const [script,sources]of scripts){
   const asset=byText.get(script),scriptHash=hash(script)
   if(asset.scriptHash!==scriptHash||asset.file!==scriptHash.slice(0,16)+'.mp3'||asset.path!=='/guidance-audio/'+asset.file)throw new Error(`Script hash/path mismatch: ${asset.file}`)
-  if(JSON.stringify(asset.voiceSettings)!==JSON.stringify({stability:.65,similarity_boost:.8,style:.05,use_speaker_boost:true}))throw new Error(`Voice settings mismatch: ${asset.file}`)
-  if(asset.voiceId!=='gKJdDVRmX8dROO8aA5I8'||asset.model!=='eleven_v4')throw new Error(`Voice/model mismatch: ${asset.file}`)
+  if(JSON.stringify(asset.voiceSettings)!==JSON.stringify(voiceSettings))throw new Error(`Voice settings mismatch: ${asset.file}`)
+  if(asset.voiceId!==voiceId||asset.voiceName!==voiceName||asset.model!==model)throw new Error(`Voice/model mismatch: ${asset.file}`)
   if(sources.some(source=>!asset.sources.includes(source)))throw new Error(`Missing guidance source: ${asset.file}`)
   const source=join(publicDirectory,asset.path),bytes=await readFile(source)
   if(hash(bytes)!==asset.audioHash||bytes.length!==asset.bytes)throw new Error(`Audio hash/bytes mismatch: ${asset.file}`)
@@ -29,6 +31,9 @@ export async function verifyGuidanceAssets(scripts,assets,publicDirectory=join(r
   execFileSync('ffmpeg',['-v','error','-i',source,'-f','null','-'],{stdio:['ignore','pipe','pipe']})
   reports.push({file:asset.file,scriptHash,audioHash:asset.audioHash,duration,sources})
  }
+ const files=new Set(assets.flatMap(asset=>[asset.file,asset.file.replace(/\.mp3$/,'.json')]))
+ const orphans=(await readdir(join(publicDirectory,'guidance-audio'))).filter(name=>!files.has(name))
+ if(orphans.length)throw new Error(`Orphan guidance audio files: ${JSON.stringify(orphans)}`)
  return reports
 }
 
@@ -36,8 +41,9 @@ async function main(){
  const scenario=JSON.parse(await readFile(new URL('../../../specs/emergency-experience/scenarios.json',import.meta.url),'utf8'))
  const journey=JSON.parse(await readFile(join(root,'src/audio/journey-guidance.json'),'utf8'))
  const emergency=JSON.parse(await readFile(join(root,'src/audio/emergency-guidance.json'),'utf8'))
+ const flow=JSON.parse(await readFile(join(root,'src/audio/journey-flow-guidance.json'),'utf8'))
  const assets=JSON.parse(await readFile(join(root,'src/audio/assets.json'),'utf8'))
- const clips=await verifyGuidanceAssets(collectGuidanceScripts(scenario,journey,emergency),assets)
+ const clips=await verifyGuidanceAssets(collectGuidanceScripts(scenario,journey,emergency,flow),assets)
  console.log(JSON.stringify({method:'Local exact-script/hash/sidecar/source verification and ffmpeg decode; no human listening claim',clips},null,2))
  // Remote transcription is opt-in; the default validation never reads credentials or sends requests.
  if(!process.argv.includes('--transcribe'))return

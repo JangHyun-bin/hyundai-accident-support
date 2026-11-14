@@ -1,6 +1,6 @@
 {
-  "voiceId": "gKJdDVRmX8dROO8aA5I8",
-  "voiceName": "JaeGyu - Calm & Trustworthy",
+  "voiceId": "gJSDQIpSQ56NBGhorBfg",
+  "voiceName": "David - Calm, Steady and Clear",
   "model": "eleven_v4",
   "script": "기록을 이 기기에 저장하지 못했어요. 입력한 내용은 현재 화면에만 남아 있어요. 화면을 닫으면 사라져요.",
   "scriptHash": "36ca20f656f0891f525f5b711cfe798a22a547ee2a5a64a6c911363e4a881a51",
@@ -15,9 +15,9 @@
   "sources": [
     "emergency/record_storage_failed"
   ],
-  "duration": 7.92,
-  "bytes": 191886,
-  "audioHash": "5fac2023f82b28750fc0f48c6e81eca9811cc17d3080f4c0831f209f679c3dad",
+  "duration": 7.84,
+  "bytes": 190005,
+  "audioHash": "0544379e91a26c34383c709db91952cfb3f4b4b14d55951864c5b9939d5b729e",
   "payloadEncoding": "UTF-8 JSON file",
-  "generatedAt": "2026-11-13T07:51:17.947Z"
+  "generatedAt": "2026-11-14T06:08:35.166Z"
 }

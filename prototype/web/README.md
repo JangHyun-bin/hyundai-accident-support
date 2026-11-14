@@ -65,7 +65,7 @@ Emergency 저장은 `after-care-session-v1-${scenarioId}` localStorage다. 같�
 
 ## 음성 안내
 
-Browser TTS가 아니라 **사전 생성 JaeGyu/eleven_v4 MP3**를 정확한 원고로 lookup해 재생한다. 일반 장면 원고와 실제 저장·기관 상태에 따른 원고를 구별한다. 실제 저장 실패를 보관 성공으로, 거절을 보류로 설명하면 안 된다.
+Browser TTS가 아니라 **사전 생성 ElevenLabs `David - Calm, Steady and Clear`/eleven_v4 MP3**를 정확한 원고로 lookup해 재생한다. 일반 장면 원고와 실제 저장·기관 상태에 따른 원고를 구별한다. 실제 저장 실패를 보관 성공으로, 거절을 보류로 설명하면 안 된다.
 
 장면·안내 context 변경·pagehide·숨김·사용자 녹음 시작에서 이전 재생을 중단한다. 파일 부재·재생 실패는 정확한 원고와 오류를 표시하며 잘못된 MP3를 대신 재생하지 않는다. 필수 신규 자산이 없는 상태는 repair 완료가 아니다. 실제 자산 수·미생성 상태는 완료 추적을 따른다.
 

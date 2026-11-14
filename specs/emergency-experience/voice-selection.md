@@ -1,5 +1,25 @@
 # 사고 안내 음성 선택
 
+## 2026-11-14 현행 선택: David - Calm, Steady and Clear
+
+2026-11-14 사용자가 기존 JaeGyu(`gKJdDVRmX8dROO8aA5I8`)와 한국어 David 후보 4개의 같은 원고 sample을 직접 듣고 비교한 뒤 `David - Calm, Steady and Clear`를 선택했다. Web·Android의 모든 안내 음성을 이 voice로 교체한다.
+
+비교 후보:
+
+- `oMb1n2v5lej4lcqCGPY4` · David Bae
+- `v1jVu1Ky28piIPEJqRrm` · David - Warm, Measured and Clear
+- `IT6mQFys7Gvexz1gF7YM` · David - Calm & soothing
+- `gJSDQIpSQ56NBGhorBfg` · David - Calm, Steady and Clear (선택)
+
+- Provider는 ElevenLabs. Voice는 shared library voice이며 별도 library 추가 없이 voice ID로 TTS 생성이 동작했다.
+- Voice ID는 `gJSDQIpSQ56NBGhorBfg`, model은 `eleven_v4`. Voice settings·출력 형식은 기존 생성 script 설정을 그대로 쓴다.
+- 기본 원고는 `scenarios.json`의 각 장면 `voice`다. 현행 runtime 상태별 선택은 `prototype/web/src/emergency/guidance.ts`와 `src/audio/emergency-guidance.json`에서 저장·기관 상태를 반영한다. 전송 대상은 `보험사에`로 표기한다.
+- 선택 청취는 후보 sample 비교다. 생성된 전체 안내의 발음·속도 사람 청취 평가와 자동 전사·decode·browser playback은 구분해 기록한다.
+
+아래 JaeGyu 관련 절은 2026-11-14 이전의 역사 기록이다.
+
+## 2026-11-09 선택 · 역사 기록
+
 2026-11-09 사용자가 Voice Library preview를 비교하고 JaeGyu 선택.
 
 - Provider는 ElevenLabs.
@@ -7,8 +27,6 @@
 - Voice ID는 `gKJdDVRmX8dROO8aA5I8`.
 - 한국어 남성, 낮고 일정하며 단정한 말투 지향.
 - 생성 대상 model은 `eleven_v4`. 사용자의 최신 고품질 model 요청과 provider의 flagship 안내에 따른 선택이며, 한국어 품질 비교 평가 결과는 아님.
-- 기본 원고는 `scenarios.json`의 각 장면 `voice`다. 현행 runtime 상태별 선택은 `prototype/web/src/emergency/guidance.ts`와 `src/audio/emergency-guidance.json`에서 저장·기관 상태를 반영한다. 전송 대상은 `보험사에`로 표기한다.
-- 실제 발음·속도·감정 표현의 사람 청취 평가는 미실시다. 자동 전사·decode·browser playback과 구분하고 전역 goal의 남은 검증으로 기록한다.
 
 ## 2026-11-09 상태 · 역사 기록
 

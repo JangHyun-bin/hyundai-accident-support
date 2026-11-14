@@ -1,0 +1,23 @@
+{
+  "voiceId": "gJSDQIpSQ56NBGhorBfg",
+  "voiceName": "David - Calm, Steady and Clear",
+  "model": "eleven_v4",
+  "script": "구조대 인계가 끝났어요. 차량 지원과 보험 접수는 따로 요청해 주세요.",
+  "scriptHash": "3b5b724fe758107b66b15a7bafa05392877ba986002aae39d04a0efb65b1ef01",
+  "file": "3b5b724fe758107b.mp3",
+  "path": "/guidance-audio/3b5b724fe758107b.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "SC01/handoff"
+  ],
+  "duration": 4.88,
+  "bytes": 118534,
+  "audioHash": "0f7972e28fb9b2a4010852cab888dd47c3401502ae583a1a6e80bf1f33142363",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-14T06:37:43.063Z"
+}

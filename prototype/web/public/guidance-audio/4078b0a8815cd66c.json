@@ -1,0 +1,23 @@
+{
+  "voiceId": "gJSDQIpSQ56NBGhorBfg",
+  "voiceName": "David - Calm, Steady and Clear",
+  "model": "eleven_v4",
+  "script": "구조대가 현장에 도착했어요. 구조대의 안내를 따라 주세요.",
+  "scriptHash": "4078b0a8815cd66c839db17d94007d8121ddde1c683a4049730300741cf41c85",
+  "file": "4078b0a8815cd66c.mp3",
+  "path": "/guidance-audio/4078b0a8815cd66c.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "SC01/arrived"
+  ],
+  "duration": 4.08,
+  "bytes": 99726,
+  "audioHash": "cf5217bea958fbd4f5c59919914417a3f526fedf33fd591bef707a0a97c628da",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-14T06:37:42.179Z"
+}

@@ -1,6 +1,6 @@
 {
-  "voiceId": "gKJdDVRmX8dROO8aA5I8",
-  "voiceName": "JaeGyu - Calm & Trustworthy",
+  "voiceId": "gJSDQIpSQ56NBGhorBfg",
+  "voiceName": "David - Calm, Steady and Clear",
   "model": "eleven_v4",
   "script": "기억나는 내용을 말로 남겨주세요. 확실한 내용만 말해도 돼요. 말하기를 마친 뒤 내용을 확인하고 저장할 수 있어요.",
   "scriptHash": "e7af40e571accdc77b1ac340d0a14b95a05df62aa0f5fcbef42b557c092bfd02",
@@ -15,9 +15,9 @@
   "sources": [
     "journey/기억나는 내용을 남겨주세요"
   ],
-  "duration": 8.16,
-  "bytes": 197528,
-  "audioHash": "eb6698a0570ca24bdb3e598e9ed29b8c0c4fb5d4accc13be8433dc53bb8e4398",
+  "duration": 8.4,
+  "bytes": 203171,
+  "audioHash": "842b3ca4aca0c11ec22bc592b6632e620e73ea5b0705304ce5b1141ed9fe2e46",
   "payloadEncoding": "UTF-8 JSON file",
-  "generatedAt": "2026-11-10T10:23:49.447Z"
+  "generatedAt": "2026-11-14T06:08:30.409Z"
 }

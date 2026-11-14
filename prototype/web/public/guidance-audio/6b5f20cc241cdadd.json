@@ -1,0 +1,25 @@
+{
+  "voiceId": "gJSDQIpSQ56NBGhorBfg",
+  "voiceName": "David - Calm, Steady and Clear",
+  "model": "eleven_v4",
+  "script": "구조대 인계가 끝났어요. 구조대의 안내를 따라 주세요.",
+  "scriptHash": "6b5f20cc241cdadd91dc619d756923358201ac8c046460e0b635de0db2af21e5",
+  "file": "6b5f20cc241cdadd.mp3",
+  "path": "/guidance-audio/6b5f20cc241cdadd.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "SC01/auto_handoff",
+    "SC03/handoff",
+    "SC03/unanswered_handoff"
+  ],
+  "duration": 3.92,
+  "bytes": 95964,
+  "audioHash": "509007f94b428978613f008ee497b7b28f8ab18a9aaf2b533c3ebdbab50144a0",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-14T06:37:45.389Z"
+}

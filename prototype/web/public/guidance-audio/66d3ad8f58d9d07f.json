@@ -1,0 +1,23 @@
+{
+  "voiceId": "gJSDQIpSQ56NBGhorBfg",
+  "voiceName": "David - Calm, Steady and Clear",
+  "model": "eleven_v4",
+  "script": "보험사 접수가 확인됐어요. 보상 절차는 보험사 안내를 따라 주세요.",
+  "scriptHash": "66d3ad8f58d9d07f621c2a7a8c242020155e0033d441b72b5499baee95b4b21e",
+  "file": "66d3ad8f58d9d07f.mp3",
+  "path": "/guidance-audio/66d3ad8f58d9d07f.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "SC04/received"
+  ],
+  "duration": 4.8,
+  "bytes": 116653,
+  "audioHash": "3e970a941e033348883a607bd94eec331060cf5db9314500277bcb3c0d3f17d8",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-14T06:37:56.460Z"
+}

@@ -1,0 +1,23 @@
+{
+  "voiceId": "gJSDQIpSQ56NBGhorBfg",
+  "voiceName": "David - Calm, Steady and Clear",
+  "model": "eleven_v4",
+  "script": "구조대 인계가 끝났어요. 보험사에는 아직 요청하지 않았어요.",
+  "scriptHash": "1954124a5dcc52fd08cf285f3c75c5b85d80fc4531658e60148a22749b60fbd7",
+  "file": "1954124a5dcc52fd.mp3",
+  "path": "/guidance-audio/1954124a5dcc52fd.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "SC05/handoff"
+  ],
+  "duration": 4.24,
+  "bytes": 103488,
+  "audioHash": "afde58d3d7334a14fecbc4ad7a41a35da82aeca071495a2cb9fe96be88d943cd",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-14T06:38:01.557Z"
+}

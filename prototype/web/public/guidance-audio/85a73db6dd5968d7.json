@@ -1,0 +1,23 @@
+{
+  "voiceId": "gJSDQIpSQ56NBGhorBfg",
+  "voiceName": "David - Calm, Steady and Clear",
+  "model": "eleven_v4",
+  "script": "사고 기록을 이 기기에 저장했어요. 아직 아무 곳에도 보내지 않았어요.",
+  "scriptHash": "85a73db6dd5968d79bbe5bc5b27fa48525e020d1e056ac66c4c656398944ce79",
+  "file": "85a73db6dd5968d7.mp3",
+  "path": "/guidance-audio/85a73db6dd5968d7.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "SC02/record_saved"
+  ],
+  "duration": 4.8,
+  "bytes": 116653,
+  "audioHash": "3ed229aba227fc82a0e02b9454a99ec0ab21ee113552b2d8ae6d140ab4a25ec7",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-14T06:37:49.016Z"
+}

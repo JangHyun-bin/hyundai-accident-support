@@ -1,0 +1,23 @@
+{
+  "voiceId": "gJSDQIpSQ56NBGhorBfg",
+  "voiceName": "David - Calm, Steady and Clear",
+  "model": "eleven_v4",
+  "script": "차량 지원이 도착했어요. 사고 기록과 보험 요청은 그대로 남아 있어요.",
+  "scriptHash": "6297d90b6d3dcbe409495ac6f458603c35c616d4d010a93333fb7f47d915df62",
+  "file": "6297d90b6d3dcbe4.mp3",
+  "path": "/guidance-audio/6297d90b6d3dcbe4.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "SC02/arrived"
+  ],
+  "duration": 5.04,
+  "bytes": 122296,
+  "audioHash": "d8ea5b5231fbae0828ff27f3248a518ee61bba122e9fc05063d565a1c09173c7",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-14T06:37:49.247Z"
+}

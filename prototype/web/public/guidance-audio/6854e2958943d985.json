@@ -1,6 +1,6 @@
 {
-  "voiceId": "gKJdDVRmX8dROO8aA5I8",
-  "voiceName": "JaeGyu - Calm & Trustworthy",
+  "voiceId": "gJSDQIpSQ56NBGhorBfg",
+  "voiceName": "David - Calm, Steady and Clear",
   "model": "eleven_v4",
   "script": "차량에서 확인한 내용이에요. 확인된 정보와 아직 모르는 내용을 구분해요. 충격 정보만으로 차량 손상이나 이동 가능 여부를 판단하지 않아요.",
   "scriptHash": "6854e2958943d985744e535c3ff2bab89939040ad3203a9f5819ea4a5f9cd430",
@@ -15,9 +15,9 @@
   "sources": [
     "journey/차량에서 확인한 내용"
   ],
-  "duration": 10.48,
-  "bytes": 253326,
-  "audioHash": "1a610796baf7c5f89d119f83d1f5dd715b55c1142b64f3368e90c56c4d272b23",
+  "duration": 10.24,
+  "bytes": 247056,
+  "audioHash": "dd16486a8bb48e28f15a82300399fcae77126f11720f65f5859c0dc7965df220",
   "payloadEncoding": "UTF-8 JSON file",
-  "generatedAt": "2026-11-10T10:23:46.964Z"
+  "generatedAt": "2026-11-14T06:08:29.958Z"
 }

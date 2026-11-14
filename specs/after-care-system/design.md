@@ -44,7 +44,7 @@ C·C_02와 draft는 기존 storage에 보존한다. 제품 적용은 별도 `aft
 
 ## 안내·입력·시연 경계
 
-안내는 JaeGyu 사전 생성 MP3와 원고/hash metadata를 사용한다. 기본 scene 원고 외 실제 persistence·기관 상태를 반영한 resolver가 필요하다. API key는 repo/frontend에 넣지 않는다. 파일 부재는 정확한 원고·오류로 표시하되 필수 asset 없는 feature를 완료라고 하지 않는다.
+안내는 ElevenLabs David(`gJSDQIpSQ56NBGhorBfg`, 2026-11-14 JaeGyu에서 교체) 사전 생성 MP3와 원고/hash metadata를 사용한다. 기본 scene 원고 외 실제 persistence·기관 상태를 반영한 resolver가 필요하다. API key는 repo/frontend에 넣지 않는다. 파일 부재는 정확한 원고·오류로 표시하되 필수 asset 없는 feature를 완료라고 하지 않는다.
 
 사용자 마이크 녹음·실제 amplitude meter와 안내/통화 시연 spectrum은 다르다. 실제 STT·119 audio·기관 전송·차량 센서는 구현하지 않는다. 승인 snapshot·request identity·미확인/접수 semantics·IndexedDB 원자 저장은 presentation보다 우선한다.
 

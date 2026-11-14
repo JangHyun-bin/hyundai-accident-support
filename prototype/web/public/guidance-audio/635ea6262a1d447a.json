@@ -1,0 +1,23 @@
+{
+  "voiceId": "gJSDQIpSQ56NBGhorBfg",
+  "voiceName": "David - Calm, Steady and Clear",
+  "model": "eleven_v4",
+  "script": "119 통화가 끝났어요. 도움이 더 필요하면 다시 연결할 수 있어요.",
+  "scriptHash": "635ea6262a1d447a181f228909f76b0619fc8fd2a2d7aab0cc81f0ac78b2a55e",
+  "file": "635ea6262a1d447a.mp3",
+  "path": "/guidance-audio/635ea6262a1d447a.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "journey-flow/call-ended"
+  ],
+  "duration": 4.56,
+  "bytes": 111011,
+  "audioHash": "ca02f1f868e1017e9250a71599c740e3dfd12da6112b449af01b8cd8ff1a892c",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-14T06:40:51.154Z"
+}

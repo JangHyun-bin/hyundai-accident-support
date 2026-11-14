@@ -1,6 +1,6 @@
 {
-  "voiceId": "gKJdDVRmX8dROO8aA5I8",
-  "voiceName": "JaeGyu - Calm & Trustworthy",
+  "voiceId": "gJSDQIpSQ56NBGhorBfg",
+  "voiceName": "David - Calm, Steady and Clear",
   "model": "eleven_v4",
   "script": "차량 지원 접수가 확인됐어요. 현장 도착은 아직 확인되지 않았어요.",
   "scriptHash": "9c86b740763759ba231b98dc5a8a53140020b6a30f547445dcdb63a1c023a5a8",
@@ -15,9 +15,9 @@
   "sources": [
     "SC02/received"
   ],
-  "duration": 4.96,
-  "bytes": 120415,
-  "audioHash": "bde04b9bad8a2445889001ac372e3a14d7183642d4ed9e74f612f8f42cc9d0aa",
+  "duration": 4.8,
+  "bytes": 116653,
+  "audioHash": "5e23ff8d2f1ed1e856c7b8950dc8a1a5309dea70548160d157ee3b155b07ca46",
   "payloadEncoding": "UTF-8 JSON file",
-  "generatedAt": "2026-11-10T10:22:37.013Z"
+  "generatedAt": "2026-11-14T06:08:08.541Z"
 }

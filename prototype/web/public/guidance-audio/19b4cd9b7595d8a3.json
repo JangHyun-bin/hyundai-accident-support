@@ -1,0 +1,23 @@
+{
+  "voiceId": "gJSDQIpSQ56NBGhorBfg",
+  "voiceName": "David - Calm, Steady and Clear",
+  "model": "eleven_v4",
+  "script": "119와 통화 중이에요. 안내를 들으며 안전한 곳으로 이동하세요.",
+  "scriptHash": "19b4cd9b7595d8a318fac634d20ce3efa0288b45348ca6418586d06ab1848028",
+  "file": "19b4cd9b7595d8a3.mp3",
+  "path": "/guidance-audio/19b4cd9b7595d8a3.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "journey-flow/call"
+  ],
+  "duration": 4.56,
+  "bytes": 111011,
+  "audioHash": "5d7942c19f7dfa9621b16a2924c57a489585c57d603ecd832a1d1c970ce57dff",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-14T06:40:49.574Z"
+}
