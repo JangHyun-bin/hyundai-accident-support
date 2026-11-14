@@ -1533,6 +1533,29 @@
     "voiceId": "gJSDQIpSQ56NBGhorBfg",
     "voiceName": "David - Calm, Steady and Clear",
     "model": "eleven_v4",
+    "script": "주변을 다시 살펴보세요. 차 주변이 안전한지 먼저 확인해 주세요. 남기던 기록은 그대로 있어요.",
+    "scriptHash": "f9d45f7bfa26e2c9fd191560fbb493d5e84d968a4e8dcd199512081e6972041a",
+    "file": "f9d45f7bfa26e2c9.mp3",
+    "path": "/guidance-audio/f9d45f7bfa26e2c9.mp3",
+    "voiceSettings": {
+      "stability": 0.65,
+      "similarity_boost": 0.8,
+      "style": 0.05,
+      "use_speaker_boost": true
+    },
+    "sources": [
+      "journey-flow/risk-check"
+    ],
+    "duration": 7.36,
+    "bytes": 178093,
+    "audioHash": "4ccd1f73f9090082b3a1eab721c296fb31d7b5be2e8437435ec017f0227c15df",
+    "payloadEncoding": "UTF-8 JSON file",
+    "generatedAt": "2026-11-14T08:55:09.992Z"
+  },
+  {
+    "voiceId": "gJSDQIpSQ56NBGhorBfg",
+    "voiceName": "David - Calm, Steady and Clear",
+    "model": "eleven_v4",
     "script": "안전한 곳에 있다면, 기억나는 내용을 남겨 둘 수 있어요. 말이나 사진으로 편하게 남겨 주세요.",
     "scriptHash": "991028f6bfc59f1c86740d865a3c17bee85724099b428d4cc73bcf0debe1c6e3",
     "file": "991028f6bfc59f1c.mp3",
@@ -1620,6 +1643,29 @@
     "audioHash": "f53c079843c652fbf22b7f94225e6eaff930768e7797447aec41a4d6d80bac3f",
     "payloadEncoding": "UTF-8 JSON file",
     "generatedAt": "2026-11-14T06:40:53.706Z"
+  },
+  {
+    "voiceId": "gJSDQIpSQ56NBGhorBfg",
+    "voiceName": "David - Calm, Steady and Clear",
+    "model": "eleven_v4",
+    "script": "보험사에 보내지 않기로 했어요. 남긴 기록은 그대로 있고, 나중에 다시 보낼 수 있어요.",
+    "scriptHash": "b99470b4fa263063a878cbb8448da0cc554e981a7de6fb231692f7e90a96851d",
+    "file": "b99470b4fa263063.mp3",
+    "path": "/guidance-audio/b99470b4fa263063.mp3",
+    "voiceSettings": {
+      "stability": 0.65,
+      "similarity_boost": 0.8,
+      "style": 0.05,
+      "use_speaker_boost": true
+    },
+    "sources": [
+      "journey-flow/review-declined"
+    ],
+    "duration": 5.92,
+    "bytes": 143612,
+    "audioHash": "f50bef70b9bbe9b00d44814a81aca17cc0e014c6ada9cdb8d90a833903b86b9b",
+    "payloadEncoding": "UTF-8 JSON file",
+    "generatedAt": "2026-11-14T08:55:09.852Z"
   },
   {
     "voiceId": "gJSDQIpSQ56NBGhorBfg",

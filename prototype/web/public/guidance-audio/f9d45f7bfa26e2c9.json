@@ -1,0 +1,23 @@
+{
+  "voiceId": "gJSDQIpSQ56NBGhorBfg",
+  "voiceName": "David - Calm, Steady and Clear",
+  "model": "eleven_v4",
+  "script": "주변을 다시 살펴보세요. 차 주변이 안전한지 먼저 확인해 주세요. 남기던 기록은 그대로 있어요.",
+  "scriptHash": "f9d45f7bfa26e2c9fd191560fbb493d5e84d968a4e8dcd199512081e6972041a",
+  "file": "f9d45f7bfa26e2c9.mp3",
+  "path": "/guidance-audio/f9d45f7bfa26e2c9.mp3",
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.05,
+    "use_speaker_boost": true
+  },
+  "sources": [
+    "journey-flow/risk-check"
+  ],
+  "duration": 7.36,
+  "bytes": 178093,
+  "audioHash": "4ccd1f73f9090082b3a1eab721c296fb31d7b5be2e8437435ec017f0227c15df",
+  "payloadEncoding": "UTF-8 JSON file",
+  "generatedAt": "2026-11-14T08:55:09.992Z"
+}
