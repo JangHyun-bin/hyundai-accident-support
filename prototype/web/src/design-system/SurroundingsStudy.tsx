@@ -21,12 +21,30 @@ function viewUrl(view:SurroundingsView){const url=new URL(location.href);url.sea
 const partNames:Record<VehiclePart,string>={impact:'충격 방향',hazard:'비상등',trunk:'트렁크'}
 const vehicleState:VehicleContourState={direction:'우측 전방',directionNote:'',hazard:{value:'켜짐',tone:'confirmed',source:'예시 자료'},trunk:{value:'미확인',tone:'unknown'},mobility:{value:'가능 여부 미확인',tone:'unknown'}}
 
-function SceneCar({pose,own=false,hazardOn=false,onFocus}:{pose:Pose;own?:boolean;hazardOn?:boolean;onFocus?:()=>void}){
+export function SceneCar({pose,own=false,hazardOn=false,onFocus}:{pose:Pose;own?:boolean;hazardOn?:boolean;onFocus?:()=>void}){
   const interactive=own&&!!onFocus
   return <g className={`ss-car ${own?'ss-car-own':'ss-car-other'}`} transform={`translate(${pose.x} ${pose.y}) rotate(${pose.heading})`} data-scene-car={own?'own':'other'} role={interactive?'button':undefined} tabIndex={interactive?0:undefined} aria-label={interactive?'내 차량 상태 보기':undefined} onClick={interactive?onFocus:undefined} onKeyDown={event=>{if(interactive&&(event.key==='Enter'||event.key===' ')){event.preventDefault();onFocus?.()}}}>
     {own&&<rect className="ss-car-hit" x="-45" y="-90" width="90" height="180" rx="20"/>}
     <g transform="scale(.34) translate(-280 -265)"><ContourCar/>{hazardOn&&<path className="ac-contour-hazards" d="M209 88L224 80M336 80L351 88M211 461L227 469M333 469L349 461"/>}</g>
   </g>
+}
+
+export function SceneRoad(){
+  return <>
+    <path d="M58 -1000H542V1600H58Z" className="ss-road-bed"/>
+    <path d="M58 -1000V1600M542 -1000V1600" className="ss-road-edge"/>
+    <path d="M220 -1000V1600M380 -1000V1600" className="ss-lanes"/>
+    <path d="M558 -1000V1600" className="ss-barrier"/>
+    <path d="M565 -1000V1600" className="ss-barrier-ticks"/>
+  </>
+}
+
+export function SceneTrails({time,own,other}:{time:number;own:Pose;other:Pose}){
+  const id=useId().replaceAll(':','')
+  return <>
+    <defs><mask id={`${id}-trail-mask`} maskUnits="userSpaceOnUse" x="-1000" y="-1000" width="3000" height="4000"><rect x="-1000" y="-1000" width="3000" height="4000" fill="white"/>{[own,other].map((pose,i)=><path key={i} d={contourBodyPath} fill="black" transform={`translate(${pose.x} ${pose.y}) rotate(${pose.heading}) scale(.34) translate(-280 -265)`}/>)}</mask></defs>
+    <g fill="none" className="ss-trails" mask={`url(#${id}-trail-mask)`}>{(['own','other'] as const).map(actor=><g key={actor} className={`ss-trail-${actor}`}>{trailSegments(actor,time).map((segment,i)=><path key={i} d={segment.path} opacity={segment.opacity}/>)}</g>)}</g>
+  </>
 }
 
 export function SurroundingsStudy({initialView='vehicle'}:{initialView?:SurroundingsView}){
@@ -44,15 +62,15 @@ export function SurroundingsStudy({initialView='vehicle'}:{initialView?:Surround
   </main>
 }
 
-export function SurroundingsScene({initialView='vehicle',vehicle=vehicleState,onViewChange,studyControls=false,active=true,bounded=false}:{bounded?:boolean;active?:boolean;initialView?:SurroundingsView;vehicle?:VehicleContourState;onViewChange?:(view:SurroundingsView)=>void;studyControls?:boolean}){
+export function SurroundingsScene({initialView='vehicle',initialTime=replayStart,vehicle=vehicleState,onViewChange,onClose,studyControls=false,active=true,bounded=false}:{bounded?:boolean;active?:boolean;initialView?:SurroundingsView;initialTime?:number;vehicle?:VehicleContourState;onViewChange?:(view:SurroundingsView)=>void;onClose?:()=>void;studyControls?:boolean}){
   const id=useId().replaceAll(':',''),reduce=useReducedMotionPreference(),frame=useFlowFrame()
   const fit=bounded&&frame?.mode!=='document'
   const [view,setView]=useState<SurroundingsView>(initialView),[part,setPart]=useState<VehiclePart|null>(null)
   const focused=view==='vehicle',mode=view==='replay'?'replay':'current',front=view==='front'
-  const [liveTime,setLiveTime]=useState(2.5),[replayTime,setReplayTime]=useState(replayStart)
+  const [liveTime,setLiveTime]=useState(2.5),[replayTime,setReplayTime]=useState(initialTime)
   const [livePlaying,setLivePlaying]=useState(true),[playing,setPlaying]=useState(false),[speed,setSpeed]=useState(1),[signal,setSignal]=useState(true)
   const [contactSelected,setContactSelected]=useState(false)
-  const raf=useRef(0),liveClock=useRef(2.5),replayClock=useRef(replayStart)
+  const raf=useRef(0),liveClock=useRef(2.5),replayClock=useRef(initialTime)
   const viewTitle=useRef<HTMLHeadingElement>(null),currentView=useRef<HTMLButtonElement>(null),focusView=useRef<'vehicle'|'current'|null>(null)
   const stage=useRef<HTMLDivElement>(null),scene=useRef<SVGSVGElement>(null),detailTitle=useRef<HTMLHeadingElement>(null)
   const [viewport,setViewport]=useState({width:0,height:0,stacked:false})
@@ -124,23 +142,19 @@ export function SurroundingsScene({initialView='vehicle',vehicle=vehicleState,on
   const stageLabel=mode==='current'?(!signal?'업데이트 중단':!livePlaying?'주변 움직임 일시정지':front?'내 차량에서 바라본 전방':live.phase):past.contact?'접촉 시점':replayTime<0?'충돌 전 상황':'충돌 후 상황'
   return <CareSurface className="ss-surface" data-scene-bounded={fit||undefined} data-scene-view={view} data-scene-mode={mode} data-scene-focus={focused?'vehicle':'surroundings'}>
         {studyControls&&<div className="ss-study-tools"><span>INTERACTIVE STUDY</span><button type="button" aria-pressed={!signal} onClick={()=>setSignal(value=>!value)}><WifiOff size={15}/>{signal?'신호 끊김 시연':'신호 복원'}</button></div>}
-        <header className="ss-header"><div><span className="ac-eyebrow">{focused?'내 차량':front?'차량 전방':'차량과 주변'}</span><h2 ref={viewTitle} tabIndex={-1}>{stateLabel}</h2></div><div className="ss-header-actions"><span className={`ss-source ${!focused&&mode==='replay'?'ss-source-past':!signal?'ss-source-stale':''}`}><i/>{focused?(signal?'현재 상태 · 시연':'마지막 상태 · 시연'):mode==='replay'?'기록 재생 · 시연':!signal?'신호 없음 · 시연':front?'전방 시점 · 시연':'현재 · 시연'}</span>{focused&&<button type="button" className="ss-surroundings-entry" onClick={showSurroundings}><Expand size={17}/>주변 상황 보기</button>}</div></header>
+        <header className="ss-header"><div><span className="ac-eyebrow">{focused?'내 차량':front?'차량 전방':'차량과 주변'}</span><h2 ref={viewTitle} tabIndex={-1}>{stateLabel}</h2></div><div className="ss-header-actions"><span className={`ss-source ${!focused&&mode==='replay'?'ss-source-past':!signal?'ss-source-stale':''}`}><i/>{focused?(signal?'현재 상태 · 시연':'마지막 상태 · 시연'):mode==='replay'?'기록 재생 · 시연':!signal?'신호 없음 · 시연':front?'전방 시점 · 시연':'현재 · 시연'}</span>{focused&&<button type="button" className="ss-surroundings-entry" onClick={showSurroundings}><Expand size={17}/>주변 상황 보기</button>}{onClose&&<button type="button" className="ss-surroundings-entry" onClick={onClose}><X size={17}/>닫기</button>}</div></header>
         {(!focused||fit)&&<nav className="ss-surroundings-nav" aria-label={focused?'차량 상태 항목':'주변 상황 탐색'}>{focused?part?detailControls:<div className="ss-focus-labels">{partButtons}</div>:<><button type="button" className="ss-back-to-vehicle" onClick={focusCar}><ArrowLeft size={16}/>내 차 상태로</button><div className="ss-modes" role="group" aria-label="주변 view 선택">{scenePages.map(item=><button key={item.view} ref={item.view==='current'?currentView:undefined} type="button" aria-pressed={view===item.view} onClick={()=>switchMode(item.view)}>{item.label}</button>)}</div></>}</nav>}
         <div className="ss-visual" ref={stage} data-front={front} data-focused={focused} data-detail={!!part} data-contact-selected={contactVisible&&contactSelected} onPointerDown={event=>{if(contactSelected&&event.target instanceof Element&&!event.target.closest('[data-contact-marker],.ss-contact-detail'))setContactSelected(false)}} onKeyDown={event=>{if(event.key==='Escape'&&(part||contactSelected)){event.preventDefault();event.stopPropagation();if(contactSelected)closeContact();else closePart()}}}>
           <svg ref={scene} className="ss-scene" viewBox={`0 0 ${width} ${height}`} aria-label={focused?'내 차량 상태 시연':front?'내 차량에서 바라본 전방 시연':mode==='replay'?'사고 당시 차량 위치 시연':'현재 주변 차량 위치 시연'}>
             {front?<FrontScene width={width} height={height} frame={live}/>:<>
             <defs><linearGradient id={`${id}-road-fade`} x1="0" y1="0" x2="0" y2="1"><stop stopColor="white" stopOpacity="0"/><stop offset=".06" stopColor="white"/><stop offset=".94" stopColor="white"/><stop offset="1" stopColor="white" stopOpacity="0"/></linearGradient><mask id={`${id}-road-mask`} maskUnits="userSpaceOnUse" x="0" y="0" width={width} height={height}><rect width={width} height={height} fill={`url(#${id}-road-fade)`}/></mask></defs>
-            <defs><mask id={`${id}-trail-mask`} maskUnits="userSpaceOnUse" x="-1000" y="-1000" width="3000" height="4000"><rect x="-1000" y="-1000" width="3000" height="4000" fill="white"/>{[shown.own,shown.other].map((pose,i)=><path key={i} d={contourBodyPath} fill="black" transform={`translate(${pose.x} ${pose.y}) rotate(${pose.heading}) scale(.34) translate(-280 -265)`}/>)}</mask><linearGradient id={`${id}-passing-fade`} gradientUnits="userSpaceOnUse" x1="130" x2="130" y1={live.passing.y+82} y2={live.passing.y+210}><stop stopColor="var(--ac-muted)" stopOpacity=".4"/><stop offset="1" stopColor="var(--ac-muted)" stopOpacity="0"/></linearGradient></defs>
+            <defs><linearGradient id={`${id}-passing-fade`} gradientUnits="userSpaceOnUse" x1="130" x2="130" y1={live.passing.y+82} y2={live.passing.y+210}><stop stopColor="var(--ac-muted)" stopOpacity=".4"/><stop offset="1" stopColor="var(--ac-muted)" stopOpacity="0"/></linearGradient></defs>
             <g mask={focused?undefined:`url(#${id}-road-mask)`}>
               {viewport.width>0&&<motion.g className="ss-camera" initial={false} animate={{transform:`translate(${camera.x}px, ${camera.y}px) scale(${camera.scale})`}} style={{originX:0,originY:0,transformBox:'view-box'}} transition={{duration:reduce?0:.8,ease:[.22,1,.36,1]}}>
                 <g transform={`translate(0 ${contextY})`}>
                   <motion.g initial={false} animate={{opacity:focused?0:1}} transition={{duration:reduce?0:.3}} className="ss-environment">
-                    <path d="M58 -1000H542V1600H58Z" className="ss-road-bed"/>
-                    <path d="M58 -1000V1600M542 -1000V1600" className="ss-road-edge"/>
-                    <path d="M220 -1000V1600M380 -1000V1600" className="ss-lanes"/>
-                    <path d="M558 -1000V1600" className="ss-barrier"/>
-                    <path d="M565 -1000V1600" className="ss-barrier-ticks"/>
-                    {mode==='replay'&&<g fill="none" className="ss-trails" mask={`url(#${id}-trail-mask)`}>{(['own','other'] as const).map(actor=><g key={actor} className={`ss-trail-${actor}`}>{trailSegments(actor,replayTime).map((segment,i)=><path key={i} d={segment.path} opacity={segment.opacity}/>)}</g>)}</g>}
+                    <SceneRoad/>
+                    {mode==='replay'&&<SceneTrails time={replayTime} own={shown.own} other={shown.other}/>}
                     <SceneCar pose={shown.other}/>
                     {mode==='current'&&<g className="ss-passing"><SceneCar pose={live.passing}/><path d={`M130 ${live.passing.y+82}v128`} className="ss-passing-trail" stroke={`url(#${id}-passing-fade)`}/></g>}
                   </motion.g>

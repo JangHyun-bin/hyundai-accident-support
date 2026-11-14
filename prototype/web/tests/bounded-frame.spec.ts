@@ -51,7 +51,7 @@ test('bounded shell and scene keep their bounds through long content and every s
  await fixture(page)
  const shell=page.locator('.ac-vehicle'),scene=page.locator('.ss-surface'),visual=page.locator('.ss-visual')
  const start=await shell.boundingBox(),sceneStart=await scene.boundingBox(),visualStart=await visual.boundingBox()
- expect(start!.height).toBe(900)
+ expect(start!.height).toBeCloseTo(start!.width*1440/2560,0)
  const editor=await page.locator('textarea').elementHandle(),sceneNode=await scene.elementHandle()
  await page.locator('textarea').fill('오른쪽 차량과 접촉한 뒤 멈췄어요. '.repeat(100))
  await page.locator('#long-content').evaluate(node=>{node.textContent='긴 기록 '.repeat(2000)})
@@ -80,15 +80,15 @@ test('bounded shell and scene keep their bounds through long content and every s
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true)
 })
 
-test('font and host changes update environment while retaining children',async({page})=>{
+test('font changes update the vehicle environment while retaining children',async({page})=>{
  await page.setViewportSize({width:393,height:1080});await page.emulateMedia({reducedMotion:'reduce'})
  await fixture(page,{height:700})
  const shell=page.locator('.ac-vehicle'),editor=await page.locator('textarea').elementHandle()
- await expect(shell).toHaveAttribute('data-flow-mode','narrow')
+ await expect(shell).toHaveAttribute('data-flow-mode','wide')
  await page.evaluate(()=>{document.documentElement.style.fontSize='32px'})
- await expect(shell).toHaveAttribute('data-flow-mode','document')
- await page.evaluate(()=>{document.documentElement.style.fontSize='16px'})
  await expect(shell).toHaveAttribute('data-flow-mode','narrow')
+ await page.evaluate(()=>{document.documentElement.style.fontSize='16px'})
+ await expect(shell).toHaveAttribute('data-flow-mode','wide')
  expect(await editor!.evaluate(node=>node===document.querySelector('textarea'))).toBe(true)
 })
 
@@ -97,9 +97,12 @@ for(const [width,height] of [[1440,900],[1920,1080],[2560,1440]])test(`measured 
  await fixture(page,{height})
  const shell=page.locator('.ac-vehicle')
  await expect(shell).toHaveAttribute('data-flow-mode','wide')
- expect((await shell.boundingBox())!.height).toBe(height)
- const content=await page.locator('.ac-vehicle-content').boundingBox(),scene=await page.locator('.ss-surface').boundingBox()
- expect(Math.abs(content!.height-scene!.height)).toBeLessThanOrEqual(1)
+ expect((await shell.boundingBox())!.height).toBeCloseTo(width*1440/2560,0)
+ await expect(page.getByTestId('frame-revision')).toHaveAttribute('data-width','1682')
+ expect(await page.evaluate(()=>{
+  const content=document.querySelector<HTMLElement>('.ac-vehicle-content')!,style=getComputedStyle(content)
+  return Math.abs(content.clientHeight-parseFloat(style.paddingTop)-parseFloat(style.paddingBottom)-document.querySelector<HTMLElement>('.ss-surface')!.offsetHeight)
+ })).toBeLessThanOrEqual(1)
  expect(await page.locator('.ss-part').first().evaluate(node=>getComputedStyle(node).minHeight)).toBe('48px')
  expect(await page.locator('.ss-focus-labels').evaluate(node=>{
   const bounds=node.getBoundingClientRect(),walker=document.createTreeWalker(node,NodeFilter.SHOW_TEXT)
@@ -111,39 +114,48 @@ for(const [width,height] of [[1440,900],[1920,1080],[2560,1440]])test(`measured 
  })).toBe(true)
 })
 
+test('the vehicle display keeps its app window environment while the browser resizes',async({page})=>{
+ await page.setViewportSize({width:1440,height:900});await page.emulateMedia({reducedMotion:'reduce'})
+ await fixture(page)
+ const readout=page.getByTestId('frame-revision'),initial=await readout.getAttribute('data-revision')
+ await expect(readout).toHaveAttribute('data-width','1682')
+ await page.setViewportSize({width:1100,height:900})
+ await expect.poll(async()=>(await page.locator('.ac-vehicle').boundingBox())!.width).toBeCloseTo(1100,0)
+ expect(await readout.getAttribute('data-revision')).toBe(initial)
+})
 
-test('resize bursts commit only the latest environment after settling',async({page})=>{
+test('mobile resize bursts commit only the latest environment after settling',async({page})=>{
  await page.clock.install();await page.setViewportSize({width:1440,height:900});await page.emulateMedia({reducedMotion:'reduce'})
- await fixture(page);await page.clock.runFor(200)
+ await fixture(page,{device:'mobile'});await page.clock.runFor(200)
  const readout=page.getByTestId('frame-revision'),initial=await readout.getAttribute('data-revision')
  await readout.evaluate(node=>{
   const revisions:string[]=[]
   new MutationObserver(()=>{revisions.push(node.getAttribute('data-revision')!);node.setAttribute('data-commits',String(revisions.length))}).observe(node,{attributes:true,attributeFilter:['data-revision']})
  })
- for(const width of [1380,1360,1340]){
+ for(const width of [540,520,500]){
   await page.locator('#host').evaluate((node,width)=>{node.style.width=`${width}px`;window.dispatchEvent(new Event('resize'))},width)
   await page.clock.runFor(40)
  }
  expect(await readout.getAttribute('data-revision')).toBe(initial)
  await page.clock.runFor(140)
- await expect(readout).toHaveAttribute('data-width','1340')
+ await expect(readout).toHaveAttribute('data-width','500')
  await expect(readout).toHaveAttribute('data-commits','1')
 })
 
-test('composing editor retains its environment until compositionend commits the latest size',async({page})=>{
+test('mobile composing editor retains its environment until compositionend commits the latest size',async({page})=>{
  await page.clock.install();await page.setViewportSize({width:1440,height:900});await page.emulateMedia({reducedMotion:'reduce'})
- await fixture(page);await page.clock.runFor(200)
+ await fixture(page,{device:'mobile'});await page.clock.runFor(200)
  const readout=page.getByTestId('frame-revision'),initial=await readout.getAttribute('data-revision')
  const editor=page.getByRole('textbox',{name:'긴 기록'}),element=await editor.elementHandle()
  await editor.focus();await editor.dispatchEvent('compositionstart',{data:'ㅎ'})
  await editor.evaluate((node:HTMLTextAreaElement)=>{node.value='마지막 조합 값';node.setSelectionRange(3,5)})
- for(const width of [1380,1340]){
+ for(const width of [520,500]){
   await page.locator('#host').evaluate((node,width)=>{node.style.width=`${width}px`;window.dispatchEvent(new Event('resize'))},width)
   await page.clock.runFor(180)
  }
  expect(await readout.getAttribute('data-revision')).toBe(initial)
  await editor.dispatchEvent('compositionend',{data:'값'})
- await expect(readout).toHaveAttribute('data-width','1340')
+ await expect(readout).toHaveAttribute('data-width','500')
  await expect(editor).toBeFocused();await expect(editor).toHaveValue('마지막 조합 값')
  expect(await element!.evaluate(node=>node===document.querySelector('textarea'))).toBe(true)
  expect(await editor.evaluate((node:HTMLTextAreaElement)=>[node.selectionStart,node.selectionEnd])).toEqual([3,5])

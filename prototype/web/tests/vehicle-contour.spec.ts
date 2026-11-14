@@ -1,4 +1,4 @@
-import {test,expect} from '@playwright/test'
+import {test,expect,type Page} from '@playwright/test'
 
 test('known immobility remains an attention state instead of becoming unknown',async({page})=>{
   await page.goto('/?study=vehicle')
@@ -9,7 +9,7 @@ test('known immobility remains an attention state instead of becoming unknown',a
     const {vehicleContourState}=await import(/* @vite-ignore */ viewPath) as typeof import('../src/journey/vehicle-state')
     return vehicleContourState(createCase(createSession('SC02'),'immobility-test',new Date().toISOString()))
   })
-  expect(state.mobility).toEqual({value:'이동 불가',tone:'failed'})
+  expect(state.mobility).toEqual({value:'이동 불가',tone:'failed',source:'예시 자료'})
 })
 
 test('unknown and conflicting directions do not highlight a vehicle location',async({page})=>{
@@ -122,4 +122,91 @@ test('expanded details fit mobile, enlarged text and reduced motion',async({page
     }
   }
   expect(errors).toEqual([])
+})
+
+// The fixture module loads only after the React refresh preamble is installed, hence the import inside the page script.
+const cellsPage=`<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0;background:#09090c}.vcp{padding:32px;box-sizing:border-box}.vcp-event{margin-bottom:16px}.vcp-wrap{position:relative}.vcp-board{display:flex;gap:32px;align-items:flex-start}.vcp-column,.vcp-pair{display:grid;gap:24px;justify-items:start;align-content:start}.vcp-pair{gap:12px}.vcp-caption{color:#777;font:20px/1.2 ui-monospace,monospace}.vcp-cell .ac-solid-source,.vcp-cell .ac-material-idle{background:var(--ac-control);box-shadow:none}.vcp-body.fs-cell-body{position:relative}</style></head><body><div id="host"></div><script type="module">
+import RefreshRuntime from '/@react-refresh';RefreshRuntime.injectIntoGlobalHook(window);window.$RefreshReg$=()=>{};window.$RefreshSig$=()=>type=>type;window.__vite_plugin_react_preamble_installed__=true;
+await import('/tests/fixtures/vehicle-cells.tsx');
+</script></body></html>`
+
+async function openCells(page:Page){
+  await page.setViewportSize({width:2560,height:1440})
+  await page.route('**/vehicle-cells-fixture',route=>route.fulfill({contentType:'text/html',body:cellsPage}))
+  await page.goto('/vehicle-cells-fixture')
+  await expect(page.locator('.vc-scene').first()).toBeVisible()
+  await page.evaluate(()=>document.fonts.ready)
+}
+const fullColumn=(page:Page,state:string)=>page.locator(`.vcp-column[data-variant=full][data-state=${state}]`)
+
+test('vehicle cells show only case values and turn warm only when something needs attention',async({page})=>{
+  await openCells(page)
+  const unknown=fullColumn(page,'unknown'),normal=fullColumn(page,'normal'),attention=fullColumn(page,'attention')
+  for(const row of ['impact','airbag','hazard','trunk'])await expect(unknown.locator(`[data-vehicle-row="${row}"] dd`)).toHaveText('미확인')
+  await expect(unknown.locator('[data-vehicle-row="mobility"] dd')).toHaveText('가능 여부 미확인')
+  await expect(unknown.locator('.vc-detail')).not.toContainText('예시 자료')
+  await expect(unknown.locator('[data-scene-contact]')).toHaveCount(0)
+  for(const text of ['우측 전방','예시 자료'])await expect(normal.locator('[data-vehicle-row="impact"] dd')).toContainText(text)
+  await expect(normal.locator('[data-vehicle-note="road"]')).toContainText('고속도로')
+  await expect(normal.locator('[data-scene-contact]')).toHaveCount(1)
+  for(const column of [unknown,normal])await expect(column.locator('.vc-detail')).toHaveAttribute('data-attention','false')
+  await expect(attention.locator('.vc-detail')).toHaveAttribute('data-attention','true')
+  await expect(attention.locator('[data-cell=vehicle]')).toHaveAttribute('data-care-surface','call')
+  await expect(attention.locator('[data-vehicle-row="airbag"] dd')).toContainText('펼쳐짐')
+  await expect(attention.locator('[data-vehicle-note="risk"]')).toHaveText('새로운 위험 감지')
+  await expect(attention.locator('.vc-chips')).toContainText('새로운 위험 감지')
+  await expect(attention.locator('[data-request="rescue"] dd')).toContainText('접수 미확인')
+  for(const cell of await page.locator('.vcp-column[data-variant=full] .vc-cell').all())expect(await cell.evaluate(node=>node.scrollHeight<=node.clientHeight+1)).toBe(true)
+})
+
+test('scene timeline scrubs from five seconds before contact to now and marks contact only after it',async({page})=>{
+  await openCells(page)
+  const scene=fullColumn(page,'normal').locator('.vc-scene'),slider=scene.getByRole('slider',{name:'사고 장면 시점'})
+  await expect(slider).toHaveAttribute('aria-valuetext','지금')
+  await expect(scene.locator('.ss-source')).toHaveText('현재 · 시연')
+  await slider.focus();await page.keyboard.press('Home')
+  await expect(slider).toHaveAttribute('aria-valuetext','충돌 5.0초 전')
+  await expect(scene.locator('.ss-source')).toHaveText('사고 재생 · 시연')
+  await expect(scene.locator('[data-scene-contact]')).toHaveCount(0)
+  await slider.fill('0')
+  await expect(slider).toHaveAttribute('aria-valuetext','충돌')
+  await expect(scene.locator('[data-scene-contact]')).toHaveCount(1)
+})
+
+test('expand covers the board with the full surroundings and hands focus back',async({page})=>{
+  await page.emulateMedia({reducedMotion:'reduce'})
+  await openCells(page)
+  const scene=fullColumn(page,'normal').locator('.vc-scene'),board=page.locator('.fs-board'),dialog=page.getByRole('dialog',{name:'주변 상황'})
+  const expand=scene.getByRole('button',{name:'주변 상황 크게 보기',exact:true})
+  await expand.click()
+  await expect(dialog.locator('.ss-surface')).toHaveAttribute('data-scene-view','current')
+  const [cover,wrap]=[await dialog.boundingBox(),await page.locator('.fs-board-wrap').boundingBox()]
+  for(const key of ['x','y','width','height'] as const)expect(Math.abs(cover![key]-wrap![key])).toBeLessThanOrEqual(1)
+  expect(await board.evaluate(node=>node instanceof HTMLElement&&node.inert)).toBe(true)
+  await page.keyboard.press('Escape')
+  await expect(dialog).toHaveCount(0)
+  await expect(expand).toBeFocused()
+  expect(await board.evaluate(node=>node instanceof HTMLElement&&node.inert)).toBe(false)
+  await scene.getByRole('slider',{name:'사고 장면 시점'}).fill('0')
+  await expand.click()
+  await expect(dialog.locator('.ss-surface')).toHaveAttribute('data-scene-view','replay')
+  await expect(dialog.getByRole('slider',{name:'사고 시점 이동'})).toHaveValue('0')
+  await dialog.getByRole('button',{name:'닫기',exact:true}).click()
+  await expect(dialog).toHaveCount(0)
+  await scene.getByRole('button',{name:'내 차량 상태 보기',exact:true}).click()
+  await expect(dialog.locator('.ss-surface')).toHaveAttribute('data-scene-view','vehicle')
+  await page.getByRole('button',{name:'시연: 정상 상태에 위험 추가',exact:true}).click()
+  await expect(dialog).toHaveCount(0)
+  await expect(scene.locator('.vc-chips')).toContainText('새로운 위험 감지')
+})
+
+test('compact cells keep one line and lead with what needs attention',async({page})=>{
+  await openCells(page)
+  for(const cell of await page.locator('.vcp-pair .vc-cell').all())expect(await cell.evaluate(node=>node.scrollHeight<=node.clientHeight+1)).toBe(true)
+  const normal=page.locator('.vcp-pair[data-state=normal]'),attention=page.locator('.vcp-pair[data-state=attention]')
+  expect(await normal.locator('.vc-scene .vc-title>span').evaluate(node=>node.scrollWidth<=node.clientWidth)).toBe(true)
+  await expect(attention.locator('.vc-scene .vc-line')).toHaveText('새로운 위험 감지')
+  const reason=attention.locator('.vc-detail .vc-line>.vc-pair').first()
+  await expect(reason).toContainText('펼쳐짐')
+  expect(await reason.evaluate(node=>{const box=node.getBoundingClientRect(),line=node.parentElement!.getBoundingClientRect();return box.top>=line.top-1&&box.bottom<=line.bottom+1})).toBe(true)
 })
