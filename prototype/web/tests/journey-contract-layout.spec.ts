@@ -69,7 +69,7 @@ for (const [width, device] of [[2560, 'vehicle'], [1920, 'vehicle'], [1440, 'veh
     const primary = page.getByTestId('journey-primary')
     await primary.scrollIntoViewIfNeeded()
     await expect(primary).toBeInViewport({ratio:1})
-    await primary.click()
+    await page.getByRole('button', { name: '119에 연결', exact: true }).click()
     await page.getByRole('button', { name: /^(?:다음 · )?시연 event: 통화 연결 확인$/, exact: true }).click()
     await primary.click()
     await expect(flow).toHaveAttribute('data-step', '3')
@@ -77,7 +77,7 @@ for (const [width, device] of [[2560, 'vehicle'], [1920, 'vehicle'], [1440, 'veh
       await page.evaluate(size => { document.documentElement.style.fontSize = `${size}px` }, font)
       await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true)
       const profile=await environment(page,font,width,device)
-      const minimum = device === 'vehicle' ? 64 : 48
+      const minimum = 48
       for (const button of await flow.getByRole('button').all()) {
         const rect = await button.boundingBox()
         expect(rect!.height).toBeGreaterThanOrEqual(minimum)
@@ -110,7 +110,7 @@ for (const [width, device, font] of [[2560, 'vehicle', 16], [2560, 'vehicle', 32
     await page.goto('/?device=' + device)
     await page.getByRole('button', { name: '이 상황으로 시작', exact: true }).click()
     const primary = page.getByTestId('journey-primary')
-    await primary.click()
+    await page.getByRole('button', { name: '119에 연결', exact: true }).click()
     await page.getByRole('button', { name: /^(?:다음 · )?시연 event: 통화 연결 확인$/, exact: true }).click()
     for (let index = 0; index < 3; index++) await primary.click()
     await expect(page.getByTestId('journey-flow')).toHaveAttribute('data-step', '5')

@@ -136,7 +136,7 @@ for (const device of ['vehicle', 'mobile']) {
     if (device === 'vehicle') await button(page, '차량 보기').click()
     await button(page, '시연 event: 위험 정보').click()
     await expect(page.locator('[data-journey-stage="response"]')).toBeVisible()
-    await expect(page.locator('[data-case-id]').getByRole('alert')).toContainText('위험 정보 확인 필요')
+    await expect(page.locator('[data-case-id]').getByRole('alert')).toContainText('새로운 위험 감지')
     await button(page, '내용 확인으로 돌아가기').click(); await button(page, '경위서').click()
     await expect(page.locator('.journey-report')).toContainText('초기 문장')
   })

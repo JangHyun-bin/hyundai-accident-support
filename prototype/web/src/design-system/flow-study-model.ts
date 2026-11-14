@@ -2,8 +2,8 @@ export type FlowStep=1|2|3|4|5|6|7
 export type FlowLayout='detect'|'evacuate'|'safe'|'review'|'sending'|'calm'
 export type FlowState={step:FlowStep;call:'waiting'|'connected'|'ended';checks:boolean[];note:string;transfer:'idle'|'sending'|'failed'|'sent';driving:boolean}
 export type FlowEvent={type:'NEXT'|'CONFIRM_SAFE'|'SEND'|'END_CALL'|'BACK'|'RESET'}|{type:'CHECK';index:number}|{type:'EDIT';note:string}|{type:'RESULT';ok:boolean}|{type:'DRIVING';value:boolean}
-export const stageLabels=['감지','119 연결','대피 안내','안전 확보','기록','보험사 전달','완료']
-export const checklistLabels=['비상등 확인','트렁크 상태 확인','대피 경로 확인','스마트폰에서 이어가기']
+export const stageLabels=['상황 확인','119 연결','대피 안내','안전 확보','기록','보험사 전달','완료']
+export const checklistLabels=['비상등 켜기','트렁크 열기','대피할 곳 찾기','휴대폰 챙기기']
 export function initialFlow():FlowState{return {step:1,call:'waiting',checks:[false,false,false,false],note:'2차로 주행 중 우측 차량과 접촉했습니다. 기억나는 내용부터 확인하고 있어요.',transfer:'idle',driving:false}}
 export function flowReducer(s:FlowState,event:FlowEvent):FlowState{
  if(event.type==='RESET')return initialFlow()

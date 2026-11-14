@@ -80,7 +80,7 @@ test('driving during a morph keeps readable content and resumes without hidden c
 
 test('resize during the real Journey review morph commits a valid plan and retains editor DOM',async({page},info)=>{
  await page.goto('/');await page.getByRole('button',{name:'이 상황으로 시작',exact:true}).click();await page.evaluate(()=>document.fonts.ready)
- await click(page,'journey-primary');await page.getByRole('button',{name: /^(?:다음 · )?시연 event: 통화 연결 확인$/,exact:true}).evaluate((node:HTMLButtonElement)=>node.click())
+ await page.getByRole('button',{name:'119에 연결',exact:true}).evaluate((node:HTMLButtonElement)=>node.click());await page.getByRole('button',{name: /^(?:다음 · )?시연 event: 통화 연결 확인$/,exact:true}).evaluate((node:HTMLButtonElement)=>node.click())
  await click(page,'journey-primary');await settle(page,'evacuate');await click(page,'journey-primary');await settle(page,'safe');await click(page,'journey-primary')
  await page.getByRole('button',{name:'직접 입력',exact:true}).click()
  const input=page.getByRole('textbox',{name:'사고 기록',exact:true}),note='resize 중에도 남아 있어야 하는 실제 기록'

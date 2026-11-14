@@ -11,6 +11,8 @@ export const FlowFrameContext=createContext<FlowFrame|null>(null)
 export const useFlowFrame=()=>useContext(FlowFrameContext)
 
 export type FlowShape={polygon:Point[];bounds:SlotRect;path:string;areaFraction:number}
-export type FlowShapeFrame=Record<CellId,FlowShape|null>
+// Weighted Voronoi (power diagram): a board point belongs to the cell whose plane is highest there.
+export type FlowPlane={x:number;y:number;offset:number}
+export type FlowShapeFrame={width:number;height:number;planes:Record<CellId,FlowPlane>;shapes:Record<CellId,FlowShape|null>}
 export type FlowPlannedCell={id:CellId;shape:FlowShape|null;slot:SlotRect;variant:'full'|'summary';visible:boolean;scroll:boolean}
-export type FlowPlan={layout:FlowLayout;mode:FlowMode;width:number;height:number;cells:Record<CellId,FlowPlannedCell>}
+export type FlowPlan={layout:FlowLayout;mode:FlowMode;width:number;height:number;planes:Record<CellId,FlowPlane>;cells:Record<CellId,FlowPlannedCell>}

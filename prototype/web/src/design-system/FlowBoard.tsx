@@ -54,11 +54,11 @@ export function FlowBoard({layout:target,notificationKey,reduced,driving=false,r
   document.fonts.addEventListener('loadingdone',ready)
   return()=>{alive=false;observer.disconnect();clearTimeout(raf);document.fonts.removeEventListener('loadingdone',ready);document.fonts.removeEventListener('loading',loading);element.closest('.journey-flow')?.removeEventListener('compositionend',compositionEnd)}
  },[])
- function paint(shapes:FlowShapeFrame){
-  current.current=shapes
+ function paint(next:FlowShapeFrame){
+  current.current=next
   for(const id of ids){
    const surface=host.current?.querySelector<HTMLElement>(`[data-cell="${id}"]`)
-   const background=surface?.querySelector<HTMLElement>('.ac-material-frame'),shape=shapes[id]
+   const background=surface?.querySelector<HTMLElement>('.ac-material-frame'),shape=next.shapes[id]
    if(!background)continue
    background.style.display=frame.mode==='document'||shape?'':'none'
    if(frame.mode==='document')continue
@@ -91,7 +91,7 @@ export function FlowBoard({layout:target,notificationKey,reduced,driving=false,r
    if(!sameSlot(shown.current.cells[id],plan.cells[id]))continue
    const r=plan.cells[id].slot
    const corners=[[r.left-4,r.top-4],[r.left+r.width+4,r.top-4],[r.left+r.width+4,r.top+r.height+4],[r.left-4,r.top+r.height+4]]
-   if(Array.from({length:25},(_,i)=>sampleFlowShapes(source,destination,i/24)[id]).every(shape=>shape&&corners.every(([x,y])=>canvas.isPointInPath(new Path2D(shape.path),x-shape.bounds.left,y-shape.bounds.top))))keep.add(id)
+   if(Array.from({length:25},(_,i)=>sampleFlowShapes(source,destination,i/24).shapes[id]).every(shape=>shape&&corners.every(([x,y])=>canvas.isPointInPath(new Path2D(shape.path),x-shape.bounds.left,y-shape.bounds.top))))keep.add(id)
   }
   for(const id of keep)if(shown.current.cells[id].visible)body(id).style.opacity='1'
   const fade=ids.filter(id=>!keep.has(id))

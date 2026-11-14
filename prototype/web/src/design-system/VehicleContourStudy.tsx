@@ -12,7 +12,7 @@ import './vehicle-contour-study.css'
 
 type Scene='impact'|'unknown'|'conflict'
 const scenes:{id:Scene;label:string}[]=[{id:'impact',label:'충격 감지'},{id:'unknown',label:'전체 미확인'},{id:'conflict',label:'정보 충돌'}]
-const actionStates:{value:SafetyAction['status'];label:string}[]=[{value:'unknown',label:'미확인'},{value:'requested',label:'확인 중'},{value:'device-confirmed',label:'차량 확인'},{value:'user-confirmed',label:'사용자 확인'},{value:'unavailable',label:'지금 할 수 없음'}]
+const actionStates:{value:SafetyAction['status'];label:string}[]=[{value:'unknown',label:'미확인'},{value:'requested',label:'확인 중'},{value:'device-confirmed',label:'차량 확인'},{value:'user-confirmed',label:'직접 확인'},{value:'unavailable',label:'지금 할 수 없음'}]
 
 export function VehicleResponseContext({hazardConfirmed}:{hazardConfirmed:boolean}) {
   const ref=useRef<HTMLDivElement>(null)

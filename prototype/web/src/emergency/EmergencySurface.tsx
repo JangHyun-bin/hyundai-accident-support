@@ -1,7 +1,6 @@
 import {type ReactNode,type Ref} from 'react'
 import NumberFlow from '@number-flow/react'
-import {GuidanceButton} from '@/audio/GuidanceControl'
-import type {GuidanceState} from '@/audio/useGuidanceAudio'
+import {GuidanceControl} from '@/audio/GuidanceControl'
 import {useCareMotion} from '@/design-system/motion'
 import {CareAction,type CareTone} from '@/components/ui/after-care'
 import {ResponseLayout} from '@/components/ui/after-care-layout'
@@ -18,12 +17,12 @@ export function careTone(tone:string):CareTone {
 type Props={
   notice?:ReactNode;navigation?:ReactNode
   selection:Session;paused:boolean;present:'off'|'showing'|'covered'
-  voiceState:GuidanceState;storageAvailable:boolean
+  storageAvailable:boolean
   countdownKey:string;secondsLeft:number;heading:Ref<HTMLHeadingElement>
-  onAction:(edge:Edge)=>void;onCancel:()=>void;onVoice:()=>void
+  onAction:(edge:Edge)=>void;onCancel:()=>void
   onEditDraft:(change:{record?:string;scope?:string[]})=>void
 }
-export function EmergencySurface({selection,paused,present,voiceState,storageAvailable,countdownKey,secondsLeft,heading,onAction,onCancel,onVoice,onEditDraft,notice,navigation}:Props) {
+export function EmergencySurface({selection,paused,present,storageAvailable,countdownKey,secondsLeft,heading,onAction,onCancel,onEditDraft,notice,navigation}:Props) {
   const motionKey=selection.scenarioId+'/'+selection.sceneId
   const motionRef=useCareMotion<HTMLElement>(motionKey)
   const scenario=scenarioFor(selection.scenarioId),scene=sceneFor(selection)
@@ -36,7 +35,7 @@ export function EmergencySurface({selection,paused,present,voiceState,storageAva
   const callTone=callConnected||!!scene.auto_contact||(['SC01','SC03'].includes(scenario.id)&&scene.phase==='progress')
   return <section ref={motionRef} data-care-motion-key={motionKey} className="emergency-screen ac-emergency ac-system" data-surface-status="flat" data-scenario={scenario.id} data-scene={scene.id} data-request-count={selection.submissions} aria-label="시각 중심 사고 대응" inert={paused||present==='covered'}>
     <ResponseLayout notificationKey={motionKey} primaryTone={callTone?'call':'plain'}
-      summary={<div data-slot="detected"><CareSituation title={`${scenario.presentation.detected} · ${guidance.cueLabel}`} action={<GuidanceButton state={voiceState} onClick={onVoice}/>} facts={facts.filter(f=>scenario.presentation.visible_facts.includes(f.id)||(f.id==='risk'&&f.status==='attention')).map(f=>({...f,tone:careTone(f.status)}))}>{notice}</CareSituation></div>}
+      summary={<div data-slot="detected"><CareSituation title={`${scenario.presentation.detected} · ${guidance.cueLabel}`} facts={facts.filter(f=>scenario.presentation.visible_facts.includes(f.id)||(f.id==='risk'&&f.status==='attention')).map(f=>({...f,tone:careTone(f.status)}))}>{notice}</CareSituation><GuidanceControl text={guidance.text} contextKey={guidance.contextKey+'/'+countdownKey}/></div>}
       primary={<div className="ac-emergency-primary" data-slot="car" data-urgent={scene.auto_contact?true:undefined} aria-live="polite">
         {scene.auto_contact&&<div className="ac-countdown" key={countdownKey} data-countdown={secondsLeft} aria-hidden="true"><NumberFlow value={secondsLeft}/></div>}
         {callConnected?<CareConnectedCall title={guidance.title} headingRef={heading} active={!paused&&present!=='covered'}/>:<header className="ac-heading">{scene.step&&<span className="ac-eyebrow">{scene.step}</span>}<h1 ref={heading} tabIndex={-1}>{guidance.title}</h1>{scene.auto_contact?<p>응답이 없으면 자동 연결</p>:guidance.instruction&&scene.panel!=='scope'&&<p>{guidance.instruction}</p>}</header>}

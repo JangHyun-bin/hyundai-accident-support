@@ -15,7 +15,7 @@ function partState(action:SafetyAction|undefined,confirmedValue:string):VehicleP
   if(!action||action.status==='unknown')return {value:'미확인',tone:'unknown'}
   if(action.status==='requested')return {value:'확인 중',tone:'pending'}
   if(action.status==='unavailable')return {value:'지금 할 수 없음',tone:'skipped'}
-  return {value:confirmedValue,tone:'confirmed',source:action.status==='user-confirmed'?'사용자 확인':action.source==='fixture'?'예시 자료':'차량 확인'}
+  return {value:confirmedValue,tone:'confirmed',source:action.status==='user-confirmed'?'직접 확인':action.source==='fixture'?'예시 자료':'차량 확인'}
 }
 
 function mobilityState(observations:Observation[]):VehiclePartState {

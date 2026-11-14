@@ -10,7 +10,7 @@ import {detailFor,type VehiclePart,type VehicleContourState} from '@/components/
 import {VehicleResponseContext} from './VehicleContourStudy'
 import {FrontScene} from './FrontScene'
 import {useFlowFrame} from './flow-contract'
-import {currentFrame,replayFrame,relativeTime,trailSegments,replayStart,replayEnd,estimatedInterval,sceneContact,type Pose} from './surroundings-fixture'
+import {currentFrame,replayFrame,relativeTime,trailSegments,replayStart,replayEnd,sceneContact,type Pose} from './surroundings-fixture'
 import './surroundings-study.css'
 
 export type SurroundingsView='vehicle'|'front'|'current'|'replay'
@@ -21,9 +21,9 @@ function viewUrl(view:SurroundingsView){const url=new URL(location.href);url.sea
 const partNames:Record<VehiclePart,string>={impact:'충격 방향',hazard:'비상등',trunk:'트렁크'}
 const vehicleState:VehicleContourState={direction:'우측 전방',directionNote:'',hazard:{value:'켜짐',tone:'confirmed',source:'예시 자료'},trunk:{value:'미확인',tone:'unknown'},mobility:{value:'가능 여부 미확인',tone:'unknown'}}
 
-function SceneCar({pose,own=false,hazardOn=false,estimated=false,onFocus}:{pose:Pose;own?:boolean;hazardOn?:boolean;estimated?:boolean;onFocus?:()=>void}){
+function SceneCar({pose,own=false,hazardOn=false,onFocus}:{pose:Pose;own?:boolean;hazardOn?:boolean;onFocus?:()=>void}){
   const interactive=own&&!!onFocus
-  return <g className={`ss-car ${own?'ss-car-own':'ss-car-other'}${estimated?' ss-car-estimated':''}`} transform={`translate(${pose.x} ${pose.y}) rotate(${pose.heading})`} data-scene-car={own?'own':'other'} role={interactive?'button':undefined} tabIndex={interactive?0:undefined} aria-label={interactive?'내 차량 상태 보기':undefined} onClick={interactive?onFocus:undefined} onKeyDown={event=>{if(interactive&&(event.key==='Enter'||event.key===' ')){event.preventDefault();onFocus?.()}}}>
+  return <g className={`ss-car ${own?'ss-car-own':'ss-car-other'}`} transform={`translate(${pose.x} ${pose.y}) rotate(${pose.heading})`} data-scene-car={own?'own':'other'} role={interactive?'button':undefined} tabIndex={interactive?0:undefined} aria-label={interactive?'내 차량 상태 보기':undefined} onClick={interactive?onFocus:undefined} onKeyDown={event=>{if(interactive&&(event.key==='Enter'||event.key===' ')){event.preventDefault();onFocus?.()}}}>
     {own&&<rect className="ss-car-hit" x="-45" y="-90" width="90" height="180" rx="20"/>}
     <g transform="scale(.34) translate(-280 -265)"><ContourCar/>{hazardOn&&<path className="ac-contour-hazards" d="M209 88L224 80M336 80L351 88M211 461L227 469M333 469L349 461"/>}</g>
   </g>
@@ -140,8 +140,8 @@ export function SurroundingsScene({initialView='vehicle',vehicle=vehicleState,on
                     <path d="M220 -1000V1600M380 -1000V1600" className="ss-lanes"/>
                     <path d="M558 -1000V1600" className="ss-barrier"/>
                     <path d="M565 -1000V1600" className="ss-barrier-ticks"/>
-                    {mode==='replay'&&<g fill="none" className="ss-trails" mask={`url(#${id}-trail-mask)`}>{(['own','other'] as const).map(actor=><g key={actor} className={`ss-trail-${actor}`}>{trailSegments(actor,replayTime).map((segment,i)=><path key={i} d={segment.path} opacity={segment.opacity} strokeDashoffset={segment.estimated?-segment.offset*scale:undefined} className={segment.estimated?'ss-estimated-trail':undefined}/>)}</g>)}</g>}
-                    <SceneCar pose={shown.other} estimated={mode==='replay'&&past.estimated}/>
+                    {mode==='replay'&&<g fill="none" className="ss-trails" mask={`url(#${id}-trail-mask)`}>{(['own','other'] as const).map(actor=><g key={actor} className={`ss-trail-${actor}`}>{trailSegments(actor,replayTime).map((segment,i)=><path key={i} d={segment.path} opacity={segment.opacity}/>)}</g>)}</g>}
+                    <SceneCar pose={shown.other}/>
                     {mode==='current'&&<g className="ss-passing"><SceneCar pose={live.passing}/><path d={`M130 ${live.passing.y+82}v128`} className="ss-passing-trail" stroke={`url(#${id}-passing-fade)`}/></g>}
                   </motion.g>
                   <SceneCar pose={shown.own} own hazardOn={vehicle.hazard.tone==='confirmed'&&(focused||mode==='current'||replayTime>=1.5)} onFocus={focused?undefined:focusCar}/>
@@ -160,7 +160,7 @@ export function SurroundingsScene({initialView='vehicle',vehicle=vehicleState,on
           </motion.section>}
           {!focused&&<>
             <div className="ss-scene-caption"><span>{stageLabel}</span>{mode==='replay'?<strong>{relativeTime(replayTime)}</strong>:!front&&<span className="ss-scene-hint">내 차를 눌러 상태 확인<ChevronRight size={14}/></span>}</div>
-            <div className="ss-scene-key">{front?<><span className="ss-front-orientation"><i/>차량 진행 방향 · 전방</span><span><i/>주변 차량</span></>:<><span><i/>내 차량</span><span><i/>주변 차량</span></>}{contactVisible&&<span className="ss-contact-key"><i/>접촉 기록</span>}{mode==='replay'&&<span className="ss-estimated-key"><i/>점선 · 추정 구간</span>}</div>
+            <div className="ss-scene-key">{front&&<span className="ss-front-orientation"><i/>차량 진행 방향 · 전방</span>}{contactVisible&&<span className="ss-contact-key"><i/>접촉 기록</span>}</div>
           </>}
           {focused&&!part&&!fit&&<motion.div className="ss-focus-labels" initial={{opacity:0}} animate={{opacity:1}} transition={{duration:reduce?0:.24,delay:reduce?0:.4}}>{partButtons}</motion.div>}
           {focused&&part&&detail&&<motion.section className="ss-part-detail" role="region" aria-label="차량 부위 상세" initial={{opacity:0,x:12}} animate={{opacity:1,x:0}} transition={{duration:reduce?0:.3,delay:reduce?0:.18}}>
@@ -169,8 +169,8 @@ export function SurroundingsScene({initialView='vehicle',vehicle=vehicleState,on
           </motion.section>}
         </div>
         {focused?<div className="ss-focus-footer"><span>차량 이동</span><CareStatus tone={vehicle.mobility.tone}>{vehicle.mobility.value}</CareStatus></div>:mode==='replay'?<div className="ss-playback" aria-label="사고 playback">
-          <div className="ss-transport"><button type="button" className="ss-play" onClick={toggleReplay} aria-label={playing?'사고 재생 일시정지':'사고 재생 시작'}>{playing?<Pause/>:<Play/>}</button><button type="button" className="ss-icon-button" aria-label="처음으로" onClick={()=>seek(replayStart)}><RotateCcw size={18}/></button><span>{past.estimated?'위치 추정 구간':past.contact?'접촉 시점':replayTime<0?'충돌 전':'충돌 후'}</span><button type="button" onClick={()=>seek(0)} className="ss-contact-jump">충격 시점</button><select aria-label="사고 재생 속도" value={speed} onChange={event=>setSpeed(Number(event.target.value))}><option value={.5}>0.5×</option><option value={1}>1×</option><option value={2}>2×</option></select></div>
-          <div className="ss-timeline" style={{'--ss-playhead':`${(replayTime-replayStart)/(replayEnd-replayStart)*100}%`} as CSSProperties}><div className="ss-timeline-rail"/><div className="ss-timeline-fill"/><div className="ss-timeline-estimated" style={{left:`${(estimatedInterval[0]-replayStart)/14*100}%`,width:`${(estimatedInterval[1]-estimatedInterval[0])/14*100}%`}}/><i className="ss-event-tick"/><input type="range" min={replayStart} max={replayEnd} step={.05} value={replayTime} aria-label="사고 시점 이동" aria-valuetext={relativeTime(replayTime)} onChange={event=>seek(Number(event.target.value))}/></div>
+          <div className="ss-transport"><button type="button" className="ss-play" onClick={toggleReplay} aria-label={playing?'사고 재생 일시정지':'사고 재생 시작'}>{playing?<Pause/>:<Play/>}</button><button type="button" className="ss-icon-button" aria-label="처음으로" onClick={()=>seek(replayStart)}><RotateCcw size={18}/></button><span>{past.contact?'접촉 시점':replayTime<0?'충돌 전':'충돌 후'}</span><button type="button" onClick={()=>seek(0)} className="ss-contact-jump">충격 시점</button><select aria-label="사고 재생 속도" value={speed} onChange={event=>setSpeed(Number(event.target.value))}><option value={.5}>0.5×</option><option value={1}>1×</option><option value={2}>2×</option></select></div>
+          <div className="ss-timeline" style={{'--ss-playhead':`${(replayTime-replayStart)/(replayEnd-replayStart)*100}%`} as CSSProperties}><div className="ss-timeline-rail"/><div className="ss-timeline-fill"/><i className="ss-event-tick"/><input type="range" min={replayStart} max={replayEnd} step={.05} value={replayTime} aria-label="사고 시점 이동" aria-valuetext={relativeTime(replayTime)} onChange={event=>seek(Number(event.target.value))}/></div>
           <div className="ss-time-labels"><span>−08초</span><span>충격 00초</span><span>+06초</span></div><div className="ss-return"><span>오른쪽 안내는 현재 대응 상태</span><button type="button" onClick={()=>switchMode('current')}>현재로 돌아가기<ArrowUpRight size={15}/></button></div>
         </div>:<div className="ss-current-footer"><div><span>{!signal?'새 위치 정보 없음':livePlaying?'주변 움직임 시연 중':'시연 일시정지'}</span><p>{!signal?'마지막 위치를 유지하고 있어요.':front?'정차한 내 차량에서 전방을 바라봐요.':'정차한 내 차량을 기준으로 주변을 표시해요.'}</p></div><button type="button" className="ss-icon-button" disabled={!signal} aria-label={livePlaying?'주변 움직임 일시정지':'주변 움직임 재생'} onClick={()=>setLivePlaying(value=>!value)}>{livePlaying?<Pause size={18}/>:<Play size={18}/>}</button></div>}
       </CareSurface>

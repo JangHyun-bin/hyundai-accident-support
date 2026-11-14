@@ -50,7 +50,7 @@ export function FlowStudy(){
   if(state.step===6){failureAtSend.current=fail;dispatch({type:'SEND'});return}
   dispatch({type:'NEXT'})
  }
- const vehicle:VehicleContourState={direction:'우측 전방',directionNote:'예시 자료',hazard:{value:state.checks[0]?'켜짐':'미확인',tone:state.checks[0]?'confirmed':'unknown',source:state.checks[0]?'사용자 확인':undefined},trunk:{value:'미확인',tone:'unknown'},mobility:{value:'가능 여부 미확인',tone:'unknown'}}
+ const vehicle:VehicleContourState={direction:'우측 전방',directionNote:'예시 자료',hazard:{value:state.checks[0]?'켜짐':'미확인',tone:state.checks[0]?'confirmed':'unknown',source:state.checks[0]?'직접 확인':undefined},trunk:{value:'미확인',tone:'unknown'},mobility:{value:'가능 여부 미확인',tone:'unknown'}}
  const locked=state.driving&&state.step!==1
  return <MotionConfig reducedMotion={reduced||state.driving?'always':'user'}><main className="ac-system fs-study" data-testid="flow-study" data-step={state.step} data-transfer={state.transfer} data-quiet={reduced||state.driving}>
   <header className="fs-heading"><div><a href="/?study=design-system"><ArrowLeft size={15}/>AFTER / CARE</a><h1>흐름에 맞춰, 공간도 함께.</h1></div><p>Stage / Layout preview<span>실제 전화·전송 없는 시연</span></p></header>

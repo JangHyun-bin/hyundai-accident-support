@@ -134,7 +134,7 @@
           "label": "연결 대기",
           "phase": "decide",
           "title": "119에 연결합니다",
-          "voice": "응답이 없으면 10초 후 119에 연결합니다. 지금 연결하거나 취소할 수 있어요. 차량 이동은 운전자와 경로 확인이 필요해요.",
+          "voice": "응답이 없으면 10초 후 119에 연결해요. 지금 바로 연결하거나 취소할 수 있어요.",
           "cue": {
             "symbol": "person",
             "status": "attention",
@@ -178,7 +178,7 @@
           "phase": "settled",
           "title": "구호 연결 안 함",
           "instruction": "필요하면 다시 연결할 수 있어요.",
-          "voice": "구호 연결을 취소했어요. 필요하면 다시 연결을 선택하세요.",
+          "voice": "119 연결을 취소했어요. 필요하면 언제든 다시 연결할 수 있어요.",
           "cue": {
             "symbol": "person",
             "status": "attention",
@@ -211,7 +211,7 @@
           "phase": "progress",
           "title": "119 연결 중",
           "instruction": "응답이 없어 자동으로 연결했어요.",
-          "voice": "응답이 없어 119에 자동으로 연결했어요. 부상이나 의식 상태를 뜻하는 것은 아니에요. 응답할 수 있다면 알려주세요.",
+          "voice": "응답이 없어 119에 자동으로 연결했어요. 응답할 수 있으면 알려 주세요.",
           "cue": {
             "symbol": "person",
             "status": "attention",
@@ -252,7 +252,7 @@
           "label": "연결 중",
           "phase": "progress",
           "title": "119 연결 중",
-          "voice": "119에 연결하고 있어요. 연결과 접수는 각각 확인이 필요해요. 움직일 수 있으면 가드레일 밖으로 대피하세요.",
+          "voice": "119에 연결하고 있어요. 움직일 수 있으면 가드레일 밖으로 대피하세요.",
           "cue": {
             "symbol": "person",
             "status": "attention",
@@ -292,7 +292,7 @@
           "phase": "progress",
           "title": "119 통화 연결됨",
           "instruction": "접수는 아직 미확인이에요.",
-          "voice": "통화는 연결됐어요. 구호 접수는 아직 미확인이에요. 움직일 수 있으면 가드레일 밖으로 대피하세요.",
+          "voice": "119와 통화가 연결됐어요. 구호 접수는 아직 확인 전이에요. 움직일 수 있으면 가드레일 밖으로 대피하세요.",
           "cue": {
             "symbol": "person",
             "status": "attention",
@@ -337,7 +337,7 @@
           "label": "연결 실패",
           "phase": "settled",
           "title": "119 연결을 다시 시도하세요",
-          "voice": "119 연결을 다시 시도하세요. 아직 통화가 연결되지 않았어요.",
+          "voice": "119에 연결되지 않았어요. 다시 연결해 주세요.",
           "cue": {
             "symbol": "person",
             "status": "attention",
@@ -368,7 +368,7 @@
           "label": "구호 접수",
           "phase": "settled",
           "title": "구호 접수가 확인됐어요",
-          "voice": "구호 접수가 확인됐어요. 현장 도착과 인계는 따로 확인해요.",
+          "voice": "구호 접수가 확인됐어요. 구조대가 올 때까지 안전한 곳에 있어 주세요.",
           "cue": {
             "symbol": "person",
             "status": "confirmed",
@@ -406,7 +406,7 @@
           "label": "현장 도착",
           "phase": "settled",
           "title": "구호가 현장에 도착했어요",
-          "voice": "구호가 현장에 도착했어요. 구호 인계는 아직 확인 중이에요.",
+          "voice": "구조대가 현장에 도착했어요. 구조대의 안내를 따라 주세요.",
           "cue": {
             "symbol": "person",
             "status": "confirmed",
@@ -442,7 +442,7 @@
           "label": "구호 인계",
           "phase": "settled",
           "title": "구호 인계가 확인됐어요",
-          "voice": "구호 인계가 확인됐어요. 차량 지원과 보험은 별도 요청이 필요해요.",
+          "voice": "구조대 인계가 끝났어요. 차량 지원과 보험 접수는 따로 요청해 주세요.",
           "cue": {
             "symbol": "person",
             "status": "confirmed",
@@ -472,7 +472,7 @@
           "label": "사고 기록",
           "phase": "settled",
           "title": "기억나는 내용을 남겨주세요",
-          "voice": "기억나는 내용을 남겨주세요. 확실한 내용만 적어주세요. 외부로 전송하지 않아요.",
+          "voice": "기억나는 내용을 남겨 주세요. 확실한 것만 적어도 괜찮아요. 직접 보내기 전에는 어디에도 보내지 않아요.",
           "cue": {
             "symbol": "person",
             "status": "attention",
@@ -551,8 +551,8 @@
           "label": "무응답 통화",
           "phase": "settled",
           "title": "119 통화 연결됨",
-          "instruction": "사용자 응답은 아직 확인되지 않았어요.",
-          "voice": "119 통화 연결됨. 사용자 응답은 아직 확인되지 않았어요.",
+          "instruction": "아직 응답이 확인되지 않았어요.",
+          "voice": "119와 통화가 연결됐어요. 말할 수 있으면 상황을 알려 주세요.",
           "cue": {
             "symbol": "person",
             "status": "attention",
@@ -593,8 +593,8 @@
           "label": "무응답 연결 실패",
           "phase": "settled",
           "title": "119 연결을 다시 시도하세요",
-          "instruction": "사용자 응답은 아직 확인되지 않았어요.",
-          "voice": "119 연결을 다시 시도하세요. 사용자 응답은 아직 확인되지 않았어요.",
+          "instruction": "아직 응답이 확인되지 않았어요.",
+          "voice": "119에 연결되지 않았어요. 다시 연결해 주세요.",
           "cue": {
             "symbol": "person",
             "status": "attention",
@@ -630,8 +630,8 @@
           "label": "무응답 구호 접수",
           "phase": "settled",
           "title": "구호 접수가 확인됐어요",
-          "instruction": "사용자 응답은 아직 확인되지 않았어요.",
-          "voice": "구호 접수가 확인됐어요. 사용자 응답은 아직 확인되지 않았어요.",
+          "instruction": "아직 응답이 확인되지 않았어요.",
+          "voice": "구호 접수가 확인됐어요. 말할 수 있으면 응답해 주세요.",
           "cue": {
             "symbol": "person",
             "status": "attention",
@@ -667,8 +667,8 @@
           "label": "무응답 구호 인계",
           "phase": "settled",
           "title": "구호 인계가 확인됐어요",
-          "instruction": "사용자 응답은 아직 확인되지 않았어요.",
-          "voice": "구호 인계가 확인됐어요. 사용자 응답은 아직 확인되지 않았어요.",
+          "instruction": "아직 응답이 확인되지 않았어요.",
+          "voice": "구조대 인계가 끝났어요. 구조대의 안내를 따라 주세요.",
           "cue": {
             "symbol": "person",
             "status": "attention",
@@ -774,7 +774,7 @@
           "label": "지원 안내",
           "phase": "settled",
           "title": "차량 지원이 필요해요",
-          "voice": "차량 지원이 필요해요. 차량을 직접 이동하지 말고 도움을 요청하세요.",
+          "voice": "차를 직접 옮기지 말고 차량 지원을 요청하세요.",
           "cue": {
             "symbol": "vehicle",
             "status": "attention",
@@ -803,7 +803,7 @@
           "label": "요청 범위",
           "phase": "settled",
           "title": "요청할 내용을 확인하세요",
-          "voice": "요청할 내용을 확인하세요. ",
+          "voice": "요청할 내용을 확인해 주세요.",
           "cue": {
             "symbol": "vehicle",
             "status": "attention",
@@ -841,7 +841,7 @@
           "label": "전송 중",
           "phase": "progress",
           "title": "차량 지원 요청을 보내고 있어요",
-          "voice": "차량 지원 요청을 보내고 있어요. ",
+          "voice": "차량 지원을 요청하고 있어요.",
           "cue": {
             "symbol": "vehicle",
             "status": "unknown",
@@ -876,7 +876,7 @@
           "label": "전송 실패",
           "phase": "settled",
           "title": "요청을 보내지 못했어요",
-          "voice": "요청을 보내지 못했어요. 접수되지 않았어요. 내용을 확인한 뒤 다시 요청하세요.",
+          "voice": "요청을 보내지 못했어요. 내용을 확인하고 다시 요청해 주세요.",
           "cue": {
             "symbol": "vehicle",
             "status": "attention",
@@ -907,7 +907,7 @@
           "label": "접수 대기",
           "phase": "settled",
           "title": "차량 지원 접수를 기다려요",
-          "voice": "차량 지원 접수를 기다려요. 요청은 전송됐어요. 접수 여부를 확인 중이에요.",
+          "voice": "차량 지원 요청을 보냈어요. 접수 여부는 아직 확인 중이에요.",
           "cue": {
             "symbol": "vehicle",
             "status": "unknown",
@@ -990,7 +990,7 @@
           "label": "사고 기록",
           "phase": "settled",
           "title": "기억나는 내용을 남겨주세요",
-          "voice": "기억나는 내용을 남겨주세요. 위치와 경위 중 확실한 내용만 적어주세요.",
+          "voice": "기억나는 내용을 남겨 주세요. 사고 위치와 경위 중 확실한 것만 적어도 괜찮아요.",
           "cue": {
             "symbol": "vehicle",
             "status": "unknown",
@@ -1028,7 +1028,7 @@
           "label": "기록 저장",
           "phase": "settled",
           "title": "사고 기록을 저장했어요",
-          "voice": "사고 기록을 저장했어요. 기록은 이 기기에 보관돼요. 아직 전송하지 않았어요.",
+          "voice": "사고 기록을 이 기기에 저장했어요. 아직 아무 곳에도 보내지 않았어요.",
           "cue": {
             "symbol": "vehicle",
             "status": "confirmed",
@@ -1103,7 +1103,7 @@
           "label": "현장 도착",
           "phase": "settled",
           "title": "차량 지원이 도착했어요",
-          "voice": "차량 지원이 도착했어요. 보험 요청과 사고 기록은 별도로 유지돼요.",
+          "voice": "차량 지원이 도착했어요. 사고 기록과 보험 요청은 그대로 남아 있어요.",
           "cue": {
             "symbol": "vehicle",
             "status": "confirmed",
@@ -1215,7 +1215,7 @@
           "label": "응답 대기",
           "phase": "decide",
           "title": "119에 연결합니다",
-          "voice": "응답이 없으면 10초 후 119에 연결합니다. 응답할 수 있다면 지금 연결하거나 취소를 선택하세요.",
+          "voice": "응답이 없으면 10초 후 119에 연결해요. 응답할 수 있으면 지금 연결하거나 취소하세요.",
           "cue": {
             "symbol": "person",
             "status": "unknown",
@@ -1265,7 +1265,7 @@
           "phase": "progress",
           "title": "119 연결 중",
           "instruction": "응답이 없어 자동으로 연결했어요.",
-          "voice": "응답이 없어 119에 자동으로 연결했어요. 부상이나 의식 상태를 뜻하는 것은 아니에요. 응답할 수 있다면 알려주세요.",
+          "voice": "응답이 없어 119에 자동으로 연결했어요. 응답할 수 있으면 알려 주세요.",
           "cue": {
             "symbol": "person",
             "status": "unknown",
@@ -1317,7 +1317,7 @@
           "label": "연결 중",
           "phase": "progress",
           "title": "119 연결 중",
-          "voice": "응답이 확인됐어요. 119에 연결하고 있어요. 부상과 의식 상태는 아직 미확인이에요.",
+          "voice": "119에 연결하고 있어요. 다친 곳이 있으면 통화로 알려 주세요.",
           "cue": {
             "symbol": "person",
             "status": "confirmed",
@@ -1362,7 +1362,7 @@
           "phase": "settled",
           "title": "구호 연결 안 함",
           "instruction": "필요하면 다시 연결할 수 있어요.",
-          "voice": "응답이 확인됐고 구호 연결은 취소했어요. 필요하면 다시 연결을 선택하세요.",
+          "voice": "119 연결을 취소했어요. 필요하면 언제든 다시 연결할 수 있어요.",
           "cue": {
             "symbol": "person",
             "status": "confirmed",
@@ -1399,7 +1399,7 @@
           "label": "119 통화 연결됨",
           "phase": "settled",
           "title": "119 통화 연결됨",
-          "voice": "119 통화 연결됨. 부상·의식 상태는 별도 확인이 필요해요.",
+          "voice": "119와 통화가 연결됐어요. 다친 곳과 지금 상태를 알려 주세요.",
           "cue": {
             "symbol": "person",
             "status": "confirmed",
@@ -1440,7 +1440,7 @@
           "label": "119 연결을 다시 시도하세요",
           "phase": "settled",
           "title": "119 연결을 다시 시도하세요",
-          "voice": "119 연결을 다시 시도하세요. 부상·의식 상태는 별도 확인이 필요해요.",
+          "voice": "119에 연결되지 않았어요. 다시 연결해 주세요.",
           "cue": {
             "symbol": "person",
             "status": "unknown",
@@ -1476,7 +1476,7 @@
           "label": "구호 접수가 확인됐어요",
           "phase": "settled",
           "title": "구호 접수가 확인됐어요",
-          "voice": "구호 접수가 확인됐어요. 부상·의식 상태는 별도 확인이 필요해요.",
+          "voice": "구호 접수가 확인됐어요. 구조대가 올 때까지 안전한 곳에 있어 주세요.",
           "cue": {
             "symbol": "person",
             "status": "confirmed",
@@ -1512,7 +1512,7 @@
           "label": "구호 인계가 확인됐어요",
           "phase": "settled",
           "title": "구호 인계가 확인됐어요",
-          "voice": "구호 인계가 확인됐어요. 부상·의식 상태는 별도 확인이 필요해요.",
+          "voice": "구조대 인계가 끝났어요. 구조대의 안내를 따라 주세요.",
           "cue": {
             "symbol": "person",
             "status": "confirmed",
@@ -1546,7 +1546,7 @@
           "label": "119 통화 연결됨",
           "phase": "settled",
           "title": "119 통화 연결됨",
-          "voice": "119 통화 연결됨. 응답 여부와 부상·의식 상태는 따로 확인해요.",
+          "voice": "119와 통화가 연결됐어요. 말할 수 있으면 상황을 알려 주세요.",
           "cue": {
             "symbol": "person",
             "status": "unknown",
@@ -1591,7 +1591,7 @@
           "label": "구호 접수가 확인됐어요",
           "phase": "settled",
           "title": "구호 접수가 확인됐어요",
-          "voice": "구호 접수가 확인됐어요. 응답 여부와 부상·의식 상태는 따로 확인해요.",
+          "voice": "구호 접수가 확인됐어요. 말할 수 있으면 응답해 주세요.",
           "cue": {
             "symbol": "person",
             "status": "unknown",
@@ -1636,7 +1636,7 @@
           "label": "119 연결을 다시 시도하세요",
           "phase": "settled",
           "title": "119 연결을 다시 시도하세요",
-          "voice": "119 연결을 다시 시도하세요. 응답 여부와 부상·의식 상태는 따로 확인해요.",
+          "voice": "119에 연결되지 않았어요. 다시 연결해 주세요.",
           "cue": {
             "symbol": "person",
             "status": "unknown",
@@ -1675,7 +1675,7 @@
           "label": "무응답 인계",
           "phase": "settled",
           "title": "구호 인계가 확인됐어요",
-          "voice": "구호 담당자의 인계 확인을 받았어요. 사용자 응답과 부상·의식은 별도 확인이 필요해요.",
+          "voice": "구조대 인계가 끝났어요. 구조대의 안내를 따라 주세요.",
           "cue": {
             "symbol": "person",
             "status": "unknown",
@@ -1705,7 +1705,7 @@
           ],
           "events": [],
           "deferred": [],
-          "instruction": "구호 담당자가 인계를 확인했어요."
+          "instruction": "구조대 인계가 끝났어요."
         }
       ],
       "presentation": {
@@ -1781,7 +1781,7 @@
           "label": "기록 확인",
           "phase": "settled",
           "title": "전송할 기록을 확인하세요",
-          "voice": "전송할 기록을 확인하세요. 확인된 사실만 남기고 잘못된 내용은 고쳐주세요.",
+          "voice": "보낼 기록을 확인해 주세요. 잘못된 내용은 보내기 전에 고칠 수 있어요.",
           "cue": {
             "symbol": "record",
             "status": "confirmed",
@@ -1817,7 +1817,7 @@
           "label": "기록 정정",
           "phase": "settled",
           "title": "사고 기록을 고쳐주세요",
-          "voice": "사고 기록을 고쳐주세요. ",
+          "voice": "사고 기록을 고쳐 주세요.",
           "cue": {
             "symbol": "record",
             "status": "unknown",
@@ -1853,7 +1853,7 @@
           "label": "전송 범위",
           "phase": "settled",
           "title": "보험사에 보낼 내용을 확인하세요",
-          "voice": "보험사에 보낼 내용을 확인하세요. ",
+          "voice": "보험사에 보낼 내용을 확인해 주세요.",
           "cue": {
             "symbol": "record",
             "status": "unknown",
@@ -1897,7 +1897,7 @@
           "label": "전송 보류",
           "phase": "settled",
           "title": "전송을 보류했어요",
-          "voice": "전송을 보류했어요. 기록은 보관돼요. 구호·차량 지원은 계속 진행돼요.",
+          "voice": "전송을 보류했어요. 기록은 그대로 보관돼요. 구호와 차량 지원은 계속 진행돼요.",
           "cue": {
             "symbol": "record",
             "status": "unknown",
@@ -1935,7 +1935,7 @@
           "label": "전송 거절",
           "phase": "settled",
           "title": "보험사에 보내지 않았어요",
-          "voice": "보험사에 보내지 않았어요. 승인 없이는 전송하지 않아요. 다른 지원은 유지돼요.",
+          "voice": "보험사에 보내지 않았어요. 승인하지 않은 기록은 보내지 않아요. 다른 지원은 계속 진행돼요.",
           "cue": {
             "symbol": "record",
             "status": "unknown",
@@ -1973,7 +1973,7 @@
           "label": "전송 중",
           "phase": "progress",
           "title": "보험사에 기록을 보내고 있어요",
-          "voice": "보험사에 기록을 보내고 있어요. ",
+          "voice": "보험사에 기록을 보내고 있어요.",
           "cue": {
             "symbol": "record",
             "status": "unknown",
@@ -2008,7 +2008,7 @@
           "label": "전송 실패",
           "phase": "settled",
           "title": "기록을 보내지 못했어요",
-          "voice": "기록을 보내지 못했어요. 전송 범위를 확인한 뒤 다시 승인해 주세요.",
+          "voice": "기록을 보내지 못했어요. 보낼 내용을 확인하고 다시 승인해 주세요.",
           "cue": {
             "symbol": "record",
             "status": "attention",
@@ -2039,7 +2039,7 @@
           "label": "접수 미확인",
           "phase": "settled",
           "title": "기록을 보냈어요",
-          "voice": "기록을 보냈어요. 전송은 완료됐어요. 보험 접수는 아직 미확인이에요.",
+          "voice": "보험사에 기록을 보냈어요. 접수 여부는 아직 확인 전이에요.",
           "cue": {
             "symbol": "record",
             "status": "unknown",
@@ -2079,7 +2079,7 @@
           "label": "결과 조회",
           "phase": "progress",
           "title": "보험 접수를 확인하고 있어요",
-          "voice": "보험 접수를 확인하고 있어요. ",
+          "voice": "보험사 접수 여부를 확인하고 있어요.",
           "cue": {
             "symbol": "record",
             "status": "unknown",
@@ -2116,7 +2116,7 @@
           "label": "보험 접수",
           "phase": "settled",
           "title": "보험 접수가 확인됐어요",
-          "voice": "보험 접수가 확인됐어요. 현장 도착·인계와 보상 처리는 별도 확인이 필요해요.",
+          "voice": "보험사 접수가 확인됐어요. 보상 절차는 보험사 안내를 따라 주세요.",
           "cue": {
             "symbol": "record",
             "status": "confirmed",
@@ -2142,7 +2142,7 @@
           "label": "남은 지원",
           "phase": "settled",
           "title": "다른 지원은 계속 진행돼요",
-          "voice": "전송을 보류했어요. 기록은 보관돼요. 구호·차량 지원은 계속 진행돼요.",
+          "voice": "전송을 보류했어요. 기록은 그대로 보관돼요. 구호와 차량 지원은 계속 진행돼요.",
           "cue": {
             "symbol": "record",
             "status": "unknown",
@@ -2178,7 +2178,7 @@
           "label": "보관 후 중단",
           "phase": "settled",
           "title": "남은 일을 보관했어요",
-          "voice": "전송을 보류했어요. 기록은 보관돼요. 구호·차량 지원은 계속 진행돼요.",
+          "voice": "전송을 보류했어요. 기록은 그대로 보관돼요. 구호와 차량 지원은 계속 진행돼요.",
           "cue": {
             "symbol": "record",
             "status": "unknown",
@@ -2273,7 +2273,7 @@
           "label": "접수 미확인",
           "phase": "settled",
           "title": "차량 지원 접수 미확인",
-          "voice": "차량 지원의 접수가 미확인이에요. 구호는 접수됐고 보험은 요청 전이에요. 기존 요청 결과부터 확인하세요.",
+          "voice": "차량 지원 접수는 아직 확인 전이에요. 구호는 접수됐고, 보험사에는 아직 요청하지 않았어요.",
           "cue": {
             "symbol": "vehicle",
             "status": "unknown",
@@ -2328,7 +2328,7 @@
           "phase": "progress",
           "title": "차량 지원 접수 확인 중",
           "instruction": "확인 중에도 기존 요청 상태를 유지해요.",
-          "voice": "차량 지원 접수 결과를 확인하고 있어요. 새 요청을 보낸 것은 아니에요.",
+          "voice": "차량 지원 접수 결과를 확인하고 있어요. 새로 요청하지는 않았어요.",
           "cue": {
             "symbol": "vehicle",
             "status": "unknown",
@@ -2395,7 +2395,7 @@
           "phase": "settled",
           "title": "차량 지원 접수 확인",
           "instruction": "현장 도착·구호 인계 상태를 확인하세요.",
-          "voice": "차량 지원의 접수가 확인됐어요. 현장 도착과 구호 인계는 각각 확인해요. 보험은 요청 전이에요.",
+          "voice": "차량 지원이 접수됐어요. 보험사에는 아직 요청하지 않았어요.",
           "cue": {
             "symbol": "vehicle",
             "status": "confirmed",
@@ -2488,7 +2488,7 @@
           "label": "조회 실패",
           "phase": "settled",
           "title": "접수 결과를 확인하지 못했어요",
-          "voice": "접수 결과를 확인하지 못했어요. 기존 요청은 유지돼요. 새 요청을 보내지 않아요.",
+          "voice": "접수 결과를 불러오지 못했어요. 보낸 요청은 그대로 있어요.",
           "cue": {
             "symbol": "vehicle",
             "status": "unknown",
@@ -2533,7 +2533,7 @@
           "label": "미접수 확인",
           "phase": "settled",
           "title": "차량 지원이 접수되지 않았어요",
-          "voice": "차량 지원이 접수되지 않았어요. 미접수를 확인했어요. 내용을 확인한 뒤 다시 요청하세요.",
+          "voice": "차량 지원이 접수되지 않았어요. 내용을 확인하고 다시 요청해 주세요.",
           "cue": {
             "symbol": "vehicle",
             "status": "attention",
@@ -2571,14 +2571,14 @@
             "now": "안전한 곳에서 기다리세요"
           },
           "deferred": [],
-          "instruction": "미접수를 확인했어요. 내용을 확인한 뒤 다시 요청하세요."
+          "instruction": "내용을 확인하고 다시 요청해 주세요."
         },
         {
           "id": "review",
           "label": "재요청 승인",
           "phase": "settled",
           "title": "다시 요청할 내용을 확인하세요",
-          "voice": "다시 요청할 내용을 확인하세요. 변경한 전송 범위에 다시 동의해 주세요.",
+          "voice": "다시 요청할 내용을 확인해 주세요. 바뀐 내용은 다시 승인해야 보낼 수 있어요.",
           "cue": {
             "symbol": "vehicle",
             "status": "unknown",
@@ -2626,7 +2626,7 @@
           "label": "재전송 중",
           "phase": "progress",
           "title": "차량 지원을 다시 요청하고 있어요",
-          "voice": "차량 지원을 다시 요청하고 있어요. ",
+          "voice": "차량 지원을 다시 요청하고 있어요.",
           "cue": {
             "symbol": "vehicle",
             "status": "unknown",
@@ -2667,7 +2667,7 @@
           "label": "전송 실패",
           "phase": "settled",
           "title": "요청을 보내지 못했어요",
-          "voice": "요청을 보내지 못했어요. 전송 범위를 다시 확인해 주세요.",
+          "voice": "요청을 보내지 못했어요. 보낼 내용을 다시 확인해 주세요.",
           "cue": {
             "symbol": "vehicle",
             "status": "attention",
@@ -2705,7 +2705,7 @@
           "label": "현장 도착",
           "phase": "settled",
           "title": "차량 지원이 현장에 도착했어요",
-          "voice": "차량 지원이 현장에 도착했어요. 구호 인계 상태도 함께 확인하세요.",
+          "voice": "차량 지원이 현장에 도착했어요. 구조대 인계 상태도 함께 확인해 주세요.",
           "cue": {
             "symbol": "vehicle",
             "status": "confirmed",
@@ -2741,7 +2741,7 @@
           "label": "구호 인계",
           "phase": "settled",
           "title": "구호 인계가 확인됐어요",
-          "voice": "구호 인계가 확인됐어요. 보험은 요청 전이에요. 남은 지원을 따로 확인하세요.",
+          "voice": "구조대 인계가 끝났어요. 보험사에는 아직 요청하지 않았어요.",
           "cue": {
             "symbol": "vehicle",
             "status": "confirmed",

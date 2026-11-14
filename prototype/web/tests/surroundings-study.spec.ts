@@ -70,7 +70,7 @@ test('current scene keeps moving after reselecting its mode and freezes on lost 
   await expect.poll(position).not.toBe(frozen)
 })
 
-test('replay scrubs, marks estimates and contact, and stays independent from live signal',async({page})=>{
+test('replay scrubs, marks contact without estimate legends, and stays independent from live signal',async({page})=>{
   await openSurroundings(page)
   await page.getByRole('button',{name:'사고 재생',exact:true}).click()
   const slider=page.getByRole('slider',{name:'사고 시점 이동'})
@@ -82,7 +82,9 @@ test('replay scrubs, marks estimates and contact, and stays independent from liv
   await slider.focus()
   for(let i=0;i<60;i++)await page.keyboard.press('ArrowLeft')
   await expect(slider).toHaveValue('-3')
-  await expect(page.locator('.ss-car-estimated')).toBeVisible()
+  await expect(page.locator('.ss-visual')).not.toContainText(/내 차량|주변 차량|추정/)
+  await expect(page.locator('.ss-playback')).not.toContainText('추정')
+  expect(await page.locator('.ss-trails path,[data-scene-car] .ac-contour-body').evaluateAll(nodes=>nodes.map(node=>getComputedStyle(node).strokeDasharray).filter(value=>value!=='none'))).toEqual([])
   await page.getByRole('combobox',{name:'사고 재생 속도'}).selectOption('2')
   await page.getByRole('button',{name:'사고 재생 시작',exact:true}).click()
   await expect.poll(()=>slider.inputValue()).not.toBe('-3')

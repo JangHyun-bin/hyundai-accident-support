@@ -100,7 +100,7 @@ for(const [width,height] of [[1440,900],[1920,1080],[2560,1440]])test(`measured 
  expect((await shell.boundingBox())!.height).toBe(height)
  const content=await page.locator('.ac-vehicle-content').boundingBox(),scene=await page.locator('.ss-surface').boundingBox()
  expect(Math.abs(content!.height-scene!.height)).toBeLessThanOrEqual(1)
- expect(await page.locator('.ss-part').first().evaluate(node=>getComputedStyle(node).minHeight)).toBe('64px')
+ expect(await page.locator('.ss-part').first().evaluate(node=>getComputedStyle(node).minHeight)).toBe('48px')
  expect(await page.locator('.ss-focus-labels').evaluate(node=>{
   const bounds=node.getBoundingClientRect(),walker=document.createTreeWalker(node,NodeFilter.SHOW_TEXT)
   while(walker.nextNode())if(walker.currentNode.textContent?.trim()){

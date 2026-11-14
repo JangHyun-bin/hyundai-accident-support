@@ -4,10 +4,19 @@ import {CareSituation,CareRequests,CareUnknownMap} from '@/components/ui/respons
 import {CareVehicleContour} from '@/components/ui/vehicle-contour'
 import {careTone} from '@/emergency/EmergencySurface'
 import { manifest, scenarioFor } from '../emergency/session'
-import { JourneyHeading, JourneyStatus } from './JourneyLayout'
-import type { CaseCommand, JourneyCase } from './case'
+import { JourneyHeading, JourneyStatus, type JourneyTone } from './JourneyLayout'
+import type { CaseCommand, JourneyCase, SafetyAction, Source } from './case'
 import {activeRequest} from './journey-flow'
 import {agreedValue,currentObservations,vehicleContourState} from './vehicle-state'
+
+const sourceLabels: Record<Source, string> = { user: '직접 입력', device: '차량 센서', fixture: '시연 자료' }
+const safetyStatus: Record<SafetyAction['status'], { label: string; tone: JourneyTone }> = {
+  'device-confirmed': { label: '차량에서 확인', tone: 'confirmed' },
+  'user-confirmed': { label: '직접 확인', tone: 'confirmed' },
+  requested: { label: '확인 중', tone: 'unknown' },
+  unavailable: { label: '지금 할 수 없음', tone: 'unknown' },
+  unknown: { label: '미확인', tone: 'unknown' },
+}
 
 export function JourneySummary({ value }: { value: JourneyCase }) {
   const scenario = scenarioFor(value.emergency.scenarioId)
@@ -18,7 +27,8 @@ export function JourneyRiskNotice({ value, onCommand }: { value: JourneyCase; on
   const risks = currentObservations(value, 'risk').filter(item => item.confirmation === 'attention')
   if (!risks.length) return null
   const acknowledged=risks.every(risk=>value.safetyActions.some(action=>action.id===`ack:${risk.id}`&&action.status==='user-confirmed'))
-  return <div className="journey-risk" role="alert"><TriangleAlert aria-hidden="true" /><span>{[...new Set(risks.map(item => item.value))].join(' · ')}</span>{onCommand&&(acknowledged?<span>위험 안내 확인함 · 위험 정보 유지</span>:<CareAction secondary onClick={()=>risks.forEach(risk=>onCommand({type:'safety-action',action:{id:`ack:${risk.id}`,label:'위험 안내 확인',status:'user-confirmed',source:'user',confirmedAt:new Date().toISOString()}}))}>위험 안내 확인</CareAction>)}</div>
+  const summary = [...new Set(risks.map(item => item.value))].join(' · ')
+  return <div className="journey-risk" role="alert"><TriangleAlert aria-hidden="true" />{onCommand&&acknowledged?<><span>{summary}</span><span>주변 확인함 · 위험 기록은 남아 있어요</span></>:<span>{summary} · 주변을 다시 살펴보세요</span>}{onCommand&&!acknowledged&&<CareAction secondary onClick={()=>risks.forEach(risk=>onCommand({type:'safety-action',action:{id:`ack:${risk.id}`,label:'주변 확인',status:'user-confirmed',source:'user',confirmedAt:new Date().toISOString()}}))}>주변을 확인했어요</CareAction>}</div>
 }
 
 export function JourneyRequests({ value }: { value: JourneyCase }) {
@@ -51,8 +61,8 @@ export function VehiclePanel({ value, onCommand }: { value: JourneyCase; onComma
       const agreed = agreedValue(observations)
       const conflicting = new Set(observations.filter(o => o.confirmation === 'confirmed').map(o => o.value)).size > 1
       const shown = conflicting ? observations : observations.slice(-1)
-      return <div key={field.id} data-observation={field.id}><dt>{field.label}</dt><dd>{conflicting ? '정보 확인 필요' : agreed ?? '확인되지 않았어요'}
-        {shown.map(observation => <span key={observation.id}>{conflicting && observation.value + ' · '}{observation.source === 'user' ? '사용자 확인' : '차량 자료'}{observation.observedAt && ' · 수신 ' + new Date(observation.observedAt).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}</span>)}
+      return <div key={field.id} data-observation={field.id}><dt>{field.label}</dt><dd>{conflicting ? '정보가 서로 달라요' : agreed ?? '미확인'}
+        {shown.map(observation => <span key={observation.id}>{conflicting && observation.value + ' · '}{sourceLabels[observation.source]}{observation.observedAt && ' · ' + new Date(observation.observedAt).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' }) + ' 수신'}</span>)}
       </dd></div>
     })}</dl>
     </div>
@@ -62,9 +72,8 @@ export function VehiclePanel({ value, onCommand }: { value: JourneyCase; onComma
       { id: 'trunk', label: '트렁크', action: '트렁크를 열었어요' },
       { id: 'evacuation', label: '대피', action: '대피했어요' },
     ].map(item => {
-      const entry = value.safetyActions.find(a => a.id === item.id)
-      const label = entry?.status === 'device-confirmed' ? '차량 확인' : entry?.status === 'user-confirmed' ? '사용자 확인' : entry?.status === 'unavailable' ? '지금 할 수 없음' : '미확인'
-      return <div key={item.id} data-safety-action={item.id}><div><strong>{item.label}</strong><JourneyStatus tone={label.endsWith('확인') && label !== '미확인' ? 'confirmed' : 'unknown'}>{label}</JourneyStatus></div>
+      const status = safetyStatus[value.safetyActions.find(a => a.id === item.id)?.status ?? 'unknown']
+      return <div key={item.id} data-safety-action={item.id}><div><strong>{item.label}</strong><JourneyStatus tone={status.tone}>{status.label}</JourneyStatus></div>
         <div><button onClick={() => onCommand({ type: 'safety-action', action: { id: item.id, label: item.label, status: 'user-confirmed', source: 'user', confirmedAt: new Date().toISOString() } })}>{item.action}</button>
           <button aria-label={item.label + ' 지금 할 수 없어요'} onClick={() => onCommand({ type: 'safety-action', action: { id: item.id, label: item.label, status: 'unavailable', source: 'user', confirmedAt: null } })}>지금 할 수 없어요</button></div>
       </div>

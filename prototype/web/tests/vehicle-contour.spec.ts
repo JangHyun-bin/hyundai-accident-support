@@ -36,7 +36,7 @@ test('part states distinguish requested, user confirmed, fixture confirmed and u
   await expect(page.locator('[data-vehicle-hazards]')).toHaveCount(0)
   await page.getByLabel('예시 비상등 상태').selectOption('user-confirmed')
   await expect(hazard).toContainText('켜짐')
-  await expect(hazard).toContainText('사용자 확인')
+  await expect(hazard).toContainText('직접 확인')
   await expect(hazard).not.toContainText('차량 확인')
   await page.getByLabel('예시 트렁크 상태').selectOption('unavailable')
   await expect(page.locator('[data-vehicle-part="트렁크"]')).toContainText('지금 할 수 없음')

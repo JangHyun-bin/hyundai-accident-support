@@ -39,7 +39,7 @@ export function detailFor(part:VehiclePart,state:VehicleContourState):{status:Ve
   }
   const status=state[part],hazard=part==='hazard'
   const description=status.tone==='confirmed'
-    ?status.source==='사용자 확인'?(hazard?'비상등을 켰다고 남긴 상태예요.':'트렁크를 열었다고 남긴 상태예요.'):(hazard?'비상등 작동이 확인됐어요.':'트렁크가 열린 상태로 확인됐어요.')
+    ?status.source==='직접 확인'?(hazard?'비상등을 켰다고 남겼어요.':'트렁크를 열었다고 남겼어요.'):(hazard?'비상등 작동이 확인됐어요.':'트렁크가 열린 상태로 확인됐어요.')
     :status.tone==='pending'?(hazard?'비상등 작동 확인을 기다리고 있어요.':'트렁크 상태 확인을 기다리고 있어요.')
     :status.tone==='skipped'?(hazard?'비상등을 지금 켤 수 없다고 남긴 상태예요.':'트렁크를 지금 열 수 없다고 남긴 상태예요.')
     :(hazard?'비상등이 켜져 있는지 아직 확인되지 않았어요.':'트렁크의 열림 여부가 아직 확인되지 않았어요.')

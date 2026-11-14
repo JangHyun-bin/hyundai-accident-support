@@ -217,13 +217,15 @@ test('three_second_view_silences_speech_when_covered', async ({ page }) => {
   await page.clock.install()
   await page.goto('/?study=emergency&scenario=SC03&scene=initial')
   await page.getByRole('button', { name: '3초 보기' }).click()
-  await expect(page.locator('[data-slot=detected]').getByRole('button')).toHaveText('음성 안내 중지')
+  const state = page.locator('[data-slot=detected] [data-guidance-state]')
+  await expect(state).toHaveAttribute('data-guidance-state', 'speaking')
+  await expect(page.locator('[data-slot=detected]').getByRole('button')).toHaveCount(0)
   const cancels = () => page.evaluate(() => window.guidanceMock.cancels)
   const before = await cancels()
   await page.clock.runFor(3_000)
   await expect(page.locator('[data-cover]')).toBeVisible()
   await expect.poll(cancels).toBeGreaterThan(before)
-  await expect(page.locator('[data-slot=detected]').getByRole('button')).toHaveText('음성 안내 듣기')
+  await expect(state).toHaveAttribute('data-guidance-state', 'idle')
 })
 
 test('three_second_view_keeps_natural_width_and_allows_content_scroll',async({page})=>{

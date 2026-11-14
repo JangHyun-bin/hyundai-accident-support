@@ -1,4 +1,4 @@
-import {expect,test} from '@playwright/test'
+import {expect,test,type Page} from '@playwright/test'
 import emergencyGuidance from '../src/audio/emergency-guidance.json' with { type: 'json' }
 
 declare global {interface Window { audioCalls:{src:string;paused:boolean;ended:boolean;fail:boolean}[]; audioFails:boolean; finishAudio:()=>void }}
@@ -12,35 +12,48 @@ function fakeAudio(){
   }
   Object.defineProperty(window,'Audio',{value:Playback})
 }
+// Resuming the storyboard is a driver gesture that starts the scene's guidance again, like entering a new context.
+async function restartGuidance(page:Page){await page.getByRole('button',{name:'시연 일시 중단',exact:true}).click();await page.getByRole('button',{name:'시연 재개',exact:true}).click()}
+const guidanceState=(page:Page)=>page.locator('.emergency-screen [data-guidance-state]')
+test('guidance has no explicit voice button and starts with its context',async({page})=>{
+ await page.addInitScript(fakeAudio);await page.goto('/?study=emergency&scenario=SC01&scene=connected')
+ await expect(page.getByRole('button',{name:/음성 안내/})).toHaveCount(0)
+ await expect.poll(()=>page.evaluate(()=>window.audioCalls.length),'entering a scene speaks once').toBe(1)
+ await restartGuidance(page)
+ await expect.poll(()=>page.evaluate(()=>window.audioCalls.length)).toBe(2)
+ expect(await page.evaluate(()=>window.audioCalls.filter(a=>!a.paused&&!a.ended).length)).toBe(1)
+})
 for(const reason of ['scene','pagehide','hidden'] as const)test(`guidance stops on ${reason} and cannot overlap`,async({page})=>{
  await page.addInitScript(fakeAudio);await page.goto('/?study=emergency&scenario=SC01&scene=connected')
- await page.getByRole('button',{name:'음성 안내 듣기',exact:true}).click()
  await expect.poll(()=>page.evaluate(()=>window.audioCalls.length)).toBe(1)
  expect(await page.evaluate(()=>window.audioCalls[0].src)).toMatch(/guidance-audio\/[^/]+\.mp3$/)
- await expect(page.getByRole('button',{name:'음성 안내 중지',exact:true})).toBeVisible()
+ await expect(guidanceState(page)).toHaveAttribute('data-guidance-state','speaking')
  if(reason==='scene')await page.getByRole('button',{name:'사고 기록 남기기',exact:true}).click()
  if(reason==='pagehide')await page.evaluate(()=>window.dispatchEvent(new Event('pagehide')))
  if(reason==='hidden')await page.evaluate(()=>{Object.defineProperty(document,'visibilityState',{configurable:true,value:'hidden'});document.dispatchEvent(new Event('visibilitychange'))})
  expect(await page.evaluate(()=>window.audioCalls[0].paused)).toBe(true)
+ expect(await page.evaluate(()=>window.audioCalls.filter(a=>!a.paused&&!a.ended).length)).toBeLessThanOrEqual(1)
 })
-test('asset failure keeps script available and retry replaces playback',async({page})=>{
- await page.addInitScript(fakeAudio);await page.goto('/?study=emergency&scenario=SC01&scene=connected')
- await page.evaluate(()=>{window.audioFails=true});await page.getByRole('button',{name:'음성 안내 듣기',exact:true}).click()
- await expect(page.getByRole('status').filter({hasText:'음성 재생을 사용할 수 없어요'})).toContainText('구호 접수는 아직 미확인')
- await page.evaluate(()=>{window.audioFails=false});await page.getByRole('button',{name:'음성 안내 듣기',exact:true}).click()
- await expect(page.getByRole('button',{name:'음성 안내 중지',exact:true})).toBeVisible()
+test('asset failure keeps script available and the next context replaces playback',async({page})=>{
+ await page.addInitScript(fakeAudio);await page.addInitScript(()=>{window.audioFails=true})
+ await page.goto('/?study=emergency&scenario=SC01&scene=connected')
+ await page.getByRole('button',{name:'현재 장면 spec',exact:true}).click()
+ const script=await page.locator('#emergency-spec h3').filter({hasText:'음성 원고'}).locator('+ p').innerText()
+ await expect(page.locator('.emergency-screen').getByRole('status')).toHaveText(`음성을 재생하지 못했어요. ${script}`)
+ await page.evaluate(()=>{window.audioFails=false});await restartGuidance(page)
+ await expect(guidanceState(page)).toHaveAttribute('data-guidance-state','speaking')
  expect(await page.evaluate(()=>window.audioCalls.filter(a=>!a.paused&&!a.ended).length)).toBe(1)
- await page.evaluate(()=>window.finishAudio());await expect(page.getByRole('button',{name:'음성 안내 듣기',exact:true})).toBeVisible()
+ await page.evaluate(()=>window.finishAudio());await expect(guidanceState(page)).toHaveAttribute('data-guidance-state','idle')
 })
 test('journey tasks use JaeGyu and stop when their retained panel becomes hidden',async({page})=>{
  await page.addInitScript(fakeAudio);await page.goto('/?study=journey&fixture=partial-evidence')
+ const active=()=>page.evaluate(()=>window.audioCalls.filter(a=>!a.paused&&!a.ended).map(a=>a.src))
  await page.getByRole('button',{name:'이 상황으로 시작',exact:true}).click();await page.getByRole('button',{name:'사고 기록 남기기',exact:true}).click()
- await page.getByRole('button',{name:'음성 안내 듣기',exact:true}).filter({visible:true}).click()
- await expect.poll(()=>page.evaluate(()=>window.audioCalls.length)).toBe(1)
+ await expect(page.locator('.journey-voice [data-guidance-state]')).toHaveAttribute('data-guidance-state','speaking')
+ const [record]=await active()
  await page.getByRole('button',{name:'내용 확인으로',exact:true}).click()
- expect(await page.evaluate(()=>window.audioCalls[0].paused)).toBe(true)
- await page.getByRole('button',{name:'음성 안내 듣기',exact:true}).filter({visible:true}).click()
- expect(await page.evaluate(()=>window.audioCalls.filter(a=>!a.paused&&!a.ended).length)).toBe(1)
+ await expect.poll(async()=>(await active()).filter(src=>src!==record).length).toBe(1)
+ expect(await active()).not.toContain(record)
 })
 test('every scene, journey and runtime script has an exact static speech asset',async({page})=>{
  await page.goto('/?study=design-system')
@@ -62,11 +75,11 @@ test('call spectrum pauses while the document is hidden',async({page})=>{
  await expect(spectrum).toHaveAttribute('data-active','false')
 })
 
-test('browser decodes the actual JaeGyu asset and stops it on demand',async({page})=>{
+test('browser decodes the actual JaeGyu asset and pausing the storyboard stops it',async({page})=>{
  await page.addInitScript(()=>{const AudioClass=window.Audio;Object.defineProperty(window,'Audio',{value:class extends AudioClass{constructor(src?:string){super(src);Object.assign(window,{actualGuide:this})}}})})
- await page.goto('/?study=emergency&scenario=SC01&scene=connected');await page.getByRole('button',{name:'음성 안내 듣기',exact:true}).click()
+ await page.goto('/?study=emergency&scenario=SC01&scene=connected');await restartGuidance(page)
  await expect.poll(()=>page.evaluate(()=>(window as typeof window&{actualGuide:HTMLAudioElement}).actualGuide.currentTime)).toBeGreaterThan(.1)
- await page.getByRole('button',{name:'음성 안내 중지',exact:true}).click()
+ await page.getByRole('button',{name:'시연 일시 중단',exact:true}).click()
  expect(await page.evaluate(()=>(window as typeof window&{actualGuide:HTMLAudioElement}).actualGuide.paused)).toBe(true)
 })
 
@@ -100,8 +113,8 @@ for(const [id,text]of Object.entries(emergencyGuidance))test(`actual runtime ass
  expect(asset,`Required real JaeGyu asset missing for ${id}`).not.toBeNull()
  expect(asset!.actualScriptHash).toBe(asset!.scriptHash);expect(asset!.actualAudioHash).toBe(asset!.audioHash)
  expect(asset!.duration).toBeGreaterThan(0)
- await page.getByRole('button',{name:'음성 안내 듣기',exact:true}).click()
+ await restartGuidance(page)
  await expect.poll(()=>page.evaluate(()=>(window as typeof window&{actualGuide:HTMLAudioElement}).actualGuide.currentTime)).toBeGreaterThan(.1)
- await page.getByRole('button',{name:'음성 안내 중지',exact:true}).click()
+ await page.getByRole('button',{name:'시연 일시 중단',exact:true}).click()
  expect(await page.evaluate(()=>(window as typeof window&{actualGuide:HTMLAudioElement}).actualGuide.paused)).toBe(true)
 })

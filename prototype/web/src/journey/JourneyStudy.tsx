@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ArrowLeft, ArrowRight, CarFront, Mic, Smartphone } from 'lucide-react'
 import fixtures from '../../../../specs/emergency-experience/journey-fixtures.json'
 import { createSession, sceneFor, scenarioFor, type Edge } from '../emergency/session'
@@ -6,7 +6,9 @@ import {VehicleShell} from '@/components/ui/after-care-layout'
 import { EmergencySurface } from '../emergency/EmergencySurface'
 import { createCase, type Device, type JourneyCase, type RequestStatus, type Stage, type CaseCommand, type Evidence, type Diagram, type ReportParagraph, type Receipt } from './case'
 import { useJourneyCase } from './useJourneyCase'
-import { JourneyAction, JourneyLayout } from './JourneyLayout'
+import { JourneyAction, JourneyEditorLayout, JourneyLayout } from './JourneyLayout'
+import { useVehicleHandoff } from '@/product/vehicle-handoff'
+import { VehicleHandoffPanel } from '@/product/VehicleHandoffPanel'
 import { JourneyNavigation, JourneyRequests, JourneyRiskNotice, JourneySummary, VehiclePanel } from './VehiclePanel'
 import { VoiceRecordPanel, type VoiceRecordHandle } from './VoiceRecordPanel'
 import { EvidencePanel, type EvidencePanelHandle } from './EvidencePanel'
@@ -16,7 +18,6 @@ import { JourneyReviewPanel, type JourneyReviewHandle } from './JourneyReviewPan
 import {JourneyFlow} from './JourneyFlow'
 import {hasJourneyRecord} from './journey-flow'
 import { JourneyRecovery } from './JourneyRecovery'
-import {useGuidanceAudio,stopGuidanceAudio} from '@/audio/useGuidanceAudio'
 import {useCareMotion} from '@/design-system/motion'
 import {resolveGuidance} from '@/emergency/guidance'
 
@@ -30,6 +31,7 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
   const [initial] = useState(() => new URLSearchParams(location.search))
   const journey = useJourneyCase(initial.get('case'))
   const { value, dispatch } = journey
+  const handoff = useVehicleHandoff(value?.id ?? '')
   const representative = value?.fixtureId === 'complete-journey'
   const insurance = value?.submissions.find(item=>item.id===value.activeSubmissionIds.insurance)
   const insuranceResultReady = insurance?.transport === undefined || insurance.transport === 'sent'
@@ -39,7 +41,7 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
   const [details, setDetails] = useState(false)
   const [followUpDirty, setFollowUpDirty] = useState(false)
   const [directoryState, setDirectoryState] = useState<FollowUpDirectoryState>(() => (['ready', 'stale', 'empty', 'failed'] as const).find(item => item === initial.get('directory')) ?? 'ready')
-  const [recordTab, setRecordTab] = useState<'voice' | 'photos'>('voice')
+  const [recordTab, setRecordTab] = useState<'voice' | 'photos' | 'phone'>('voice')
   const [voiceMode, setVoiceMode] = useState<'device' | 'sample'>('device')
   const [loadingSamples, setLoadingSamples] = useState(false)
   const [sampleError, setSampleError] = useState('')
@@ -57,9 +59,6 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
   const guidance = value && scene ? resolveGuidance(value.emergency, scene, journey.saveState === 'saved') : null
   const contextKey=[value?.id,value?.stage,scene?.id,guidance?.contextKey,details,recordTab,device].join('/')
   const motionRef=useCareMotion<HTMLElement>([value?.id,value?.stage,details,recordTab,device].join('/'))
-  const audio=useGuidanceAudio({text:guidance?.text??'',key:contextKey})
-  const voiceState=audio.state
-  useLayoutEffect(()=>{stopGuidanceAudio()},[contextKey])
   const secondsLeft = countdown.key === countdownKey ? countdown.seconds : scene?.auto_contact?.seconds ?? 0
   useEffect(() => {
     if (value && value.revision > 0) replaceQuery({ case: value.id })
@@ -153,7 +152,7 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
     voicePanel.current?.preserveDraft()
     reviewPanel.current?.preserveDraft()
     const fact = scenarioFor(value.emergency.scenarioId).facts.find(f => f.id === 'risk')
-    dispatch({ type: 'observation', observation: { id: 'risk-' + crypto.randomUUID(), kind: 'risk', label: '차량 위험', value: '위험 정보 확인 필요',
+    dispatch({ type: 'observation', observation: { id: 'risk-' + crypto.randomUUID(), kind: 'risk', label: '차량 위험', value: '새로운 위험 감지',
       source: 'fixture', observedAt: new Date().toISOString(), confirmation: 'attention', legacyFactId: fact ? 'risk' : null, supersedes: null } })
     setDetails(false)
   }
@@ -232,7 +231,7 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
     if (kind === 'rental' && (status === 'eligible' || status === 'ineligible' || status === 'unknown')) dispatch({ type: 'follow-up-result', ...identity, kind, status })
   }
 
-  async function selectRecordTab(tab:'voice'|'photos') {
+  async function selectRecordTab(tab:'voice'|'photos'|'phone') {
     if (!await prepareToLeave()) return
     setRecordTab(tab)
     requestAnimationFrame(()=>{
@@ -246,11 +245,13 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
     const tabs=<nav className="journey-record-tabs" aria-label="기록 방법">
       <button aria-pressed={recordTab === 'voice'} onClick={() => void selectRecordTab('voice')}>말로 남기기</button>
       <button aria-pressed={recordTab === 'photos'} onClick={() => void selectRecordTab('photos')}>사진 남기기</button>
+      <button aria-pressed={recordTab === 'phone'} onClick={() => void selectRecordTab('phone')}>휴대폰으로 남기기</button>
     </nav>
     const footer=<JourneyRequests value={value}/>
     return <>
       <div hidden={recordTab !== 'voice'} inert={reloading} aria-busy={reloading} className="journey-editor-holder"><VoiceRecordPanel ref={voicePanel} value={value} mode={voiceMode} onSave={journey.save} durable={journey.saveState === 'saved'} reloadVersion={journey.reloadVersion} navigation={tabs} footer={footer}/></div>
       <div hidden={recordTab !== 'photos'} inert={reloading} aria-busy={reloading} className="journey-editor-holder"><EvidencePanel ref={photoPanel} value={value} onSave={journey.save} onCommand={photoCommand} navigation={tabs} footer={footer}/></div>
+      <div hidden={recordTab !== 'phone'} className="journey-editor-holder"><JourneyEditorLayout step="사고 기록" title="휴대폰으로 이어서 남겨요" description="사진과 진술은 휴대폰에서 남기고, 차량 화면에서 진행 상황을 볼 수 있어요." guidanceKey="journey-phone-handoff">{tabs}<VehicleHandoffPanel handoff={handoff}/>{footer}</JourneyEditorLayout></div>
     </>
   }
 
@@ -269,9 +270,9 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
     if (value.stage === 'response' && !representative) {
       const response=<EmergencySurface navigation={navigation} selection={value.emergency} paused={false} present="off"
         notice={<JourneyRiskNotice value={value} />}
-        voiceState={voiceState} storageAvailable={journey.saveState === 'saved'} countdownKey={countdownKey} secondsLeft={secondsLeft} heading={heading}
+        storageAvailable={journey.saveState === 'saved'} countdownKey={countdownKey} secondsLeft={secondsLeft} heading={heading}
         onAction={act} onCancel={() => scene.auto_contact && dispatch({ type: 'countdown', target: scene.auto_contact.cancel, now: new Date().toISOString() })}
-        onVoice={audio.toggle} onEditDraft={() => dispatch({ type: 'navigate', stage: 'record' })} />
+        onEditDraft={() => dispatch({ type: 'navigate', stage: 'record' })} />
       return device==='vehicle'?<VehicleShell>{response}</VehicleShell>:<div className="journey-mobile-viewport" data-journey-device="mobile">{response}</div>
     }
     return null
@@ -324,7 +325,7 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
     {journey.missing && !value && <section className="journey-empty"><h2>이 기기에서 기록을 찾지 못했어요</h2><p>다른 기기의 기록은 자동으로 이어지지 않아요.</p></section>}
     {value && <>
       <section ref={representative?undefined:motionRef} data-care-motion-key={contextKey} data-case-id={value.id} data-journey-stage={value.stage}>
-        {representative&&<div hidden={details||value.stage==='follow-up'}><JourneyFlow controls={flowActive?controls:null} previewHeight={previewHeight} key={value.id} value={value} device={device} active={!details&&value.stage!=='follow-up'} onCommand={dispatch} onNavigate={navigate} recordWorkspace={recordWorkspace()} reviewWorkspace={reviewWorkspace()} onReview={()=>reviewPanel.current?.openSubmission()}/></div>}
+        {representative&&<div hidden={details||value.stage==='follow-up'}><JourneyFlow controls={flowActive?controls:null} previewHeight={previewHeight} key={value.id} value={value} device={device} active={!details&&value.stage!=='follow-up'} onCommand={dispatch} onNavigate={navigate} recordWorkspace={recordWorkspace()} reviewWorkspace={reviewWorkspace()} onReview={()=>reviewPanel.current?.openSubmission()} handoff={handoff}/></div>}
         {content()}
         {!representative&&<div id="journey-record-editor" key={value.id} hidden={value.stage !== 'record' || details}>
           <JourneyLayout device={device} navigation={renderNavigation(value)} summary={<JourneySummary value={value} />}
@@ -354,7 +355,6 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
         {journey.saveState === 'conflict' && <button disabled={reloading} onClick={() => void reloadLatest()}>{reloading ? '최신 기록 불러오는 중' : '최신 기록 불러오기'}</button>}
       </div>
       <JourneyRecovery entries={journey.recoveries} current={value} onRestore={dispatch} />
-      {voiceState === 'error' && <p role="status">{guidance?.text ? `음성 재생을 사용할 수 없어요. ${guidance.text}` : '음성 재생을 사용할 수 없어요.'}</p>}
       {sampleError && <p role="status">{sampleError}</p>}
       {navigationNotice && <p role="status">{navigationNotice}</p>}
 
