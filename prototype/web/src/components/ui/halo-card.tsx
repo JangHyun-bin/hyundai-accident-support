@@ -1,22 +1,5 @@
 "use client"
 
-/**
- * Composable card matching `HaloSearchInput` / `HaloButtonPolished`:
- * animated gradient rim, frosted fill, layered shadow, fine-hover polish.
- *
- * @example
- * <HaloCard aria-label="Example">
- *   <HaloCardHeader>
- *     <HaloCardTitle>Title</HaloCardTitle>
- *     <HaloCardDescription>Body copy.</HaloCardDescription>
- *   </HaloCardHeader>
- *   <HaloCardContent>Optional main area.</HaloCardContent>
- *   <HaloCardFooter>
- *     <HaloCardButton variant="secondary">Cancel</HaloCardButton>
- *     <HaloCardButton variant="primary">Continue</HaloCardButton>
- *   </HaloCardFooter>
- * </HaloCard>
- */
 import {
   forwardRef,
   useEffect,
@@ -45,7 +28,7 @@ const paddingClass = {
 
 const BORDER_TRAIL_LOOP_MS = 5250
 
-/** Moving rim highlight along the card edge (mask = border band only). Phase persists when hover/focus stops. */
+/** The rim highlight keeps its phase when hover/focus stops. */
 function HaloCardBorderTrail({ active }: { active: boolean }) {
   const progress = useMotionValue(0)
   const offsetDistance = useTransform(progress, (v: number) => {
@@ -80,7 +63,7 @@ function HaloCardBorderTrail({ active }: { active: boolean }) {
     width: trailLengthPx,
   } as const
 
-  /** Feathered ends + same hue family as `borderGlowConfig` so it reads as one rim system. */
+  /** Feathered ends in the `borderGlowConfig` hue family so trail and rim read as one system. */
   const ambientGradient =
     "linear-gradient(90deg, transparent 0%, rgba(255,0,128,0) 6%, rgba(255,0,128,0.38) 24%, rgba(121,40,202,0.5) 50%, rgba(0,212,255,0.42) 76%, rgba(0,212,255,0) 94%, transparent 100%)"
 
@@ -94,7 +77,6 @@ function HaloCardBorderTrail({ active }: { active: boolean }) {
         active ? "visible opacity-100" : "invisible opacity-0"
       )}
     >
-      {/* Wide soft bloom — ties into frosted card edge */}
       <motion.div
         className="absolute opacity-95 dark:opacity-[0.98]"
         style={{
@@ -112,7 +94,6 @@ function HaloCardBorderTrail({ active }: { active: boolean }) {
           }}
         />
       </motion.div>
-      {/* Brighter core — higher-opacity read without a hard capsule edge */}
       <motion.div
         className="absolute dark:opacity-[0.94]"
         style={{
@@ -243,11 +224,10 @@ export interface HaloCardProps extends ComponentProps<"div"> {
   children: ReactNode
   /** Frosted inner surface so gradient blobs read through. */
   translucent?: boolean
-  /** Project: static chrome while guidance changes separately. */
+  /** False renders static chrome, as with reduced motion. */
   animated?: boolean
   /** Hover + rim emphasis on the animated edge. */
   interactive?: boolean
-  /** Padding inside the card surface. */
   padding?: keyof typeof paddingClass
 }
 
@@ -668,12 +648,6 @@ const HaloCardButton = forwardRef<HTMLButtonElement, HaloCardButtonProps>(
 
 HaloCardButton.displayName = "HaloCardButton"
 
-/** @deprecated Use `HaloCard` — alias kept for existing imports. */
-const HaloCardPolished = HaloCard
-
-/** @deprecated Use `HaloCardProps` */
-export type HaloCardPolishedProps = HaloCardProps
-
 export {
   HaloCard,
   HaloCardAction,
@@ -682,7 +656,5 @@ export {
   HaloCardDescription,
   HaloCardFooter,
   HaloCardHeader,
-  /** @deprecated Use `HaloCard` */
-  HaloCardPolished,
   HaloCardTitle,
 }

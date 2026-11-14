@@ -64,8 +64,7 @@ internal class VehicleRepository(private val store: SecureVehicleStore, private 
         snapshotNow()
     }
 
-    // The server deduplicates by mutationId, so stamping the latest revision on every attempt keeps a resend after a lost response
-    // harmless. A conflict retries against the newer revision; a fact the server rejects is dropped.
+    // The server deduplicates by mutationId, so stamping the latest revision on every attempt keeps a resend after a lost response harmless.
     suspend fun sendPending(): VehicleSnapshot = locked {
         load()
         if (saved?.access == null) return@locked snapshotNow()

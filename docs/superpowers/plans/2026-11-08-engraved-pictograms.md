@@ -33,7 +33,7 @@
 - 검토 UI의 icon은 바꾸지 않는다. Web의 `lucide-react` dependency는 남는다.
   - 차량 화면 header의 음성 button(`Volume2` · `VolumeX`)도 spec 비목표에 따라 그대로 둔다.
 - 작업 branch는 `design/sc05-refine`이다.
-- Commit message는 영어로 쓰고 `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>` trailer를 붙인다.
+- Commit message는 영어로 쓴다.
 - Push · merge는 하지 않는다.
 
 ## Review Focus

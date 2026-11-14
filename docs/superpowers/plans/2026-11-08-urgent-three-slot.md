@@ -19,7 +19,7 @@
 - 화면에 `의식 없음` 문구를 쓰지 않는다. 깜빡임·반복 motion을 쓰지 않는다. 초록 "완료" 화면을 두지 않는다.
 - ③의 `now`는 3 어절 이하다. `condition`은 지우지 않는다.
 - 시연 표시 `가상 scenario · 실제 전화·전송 없음` 옆에 `안전 안내 시안 · 승인 전`을 둔다.
-- 날짜가 박힌 과거 문서 section은 고치지 않는다. Commit message는 영어로 쓰고 `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`를 붙인다.
+- 날짜가 박힌 과거 문서 section은 고치지 않는다. Commit message는 영어로 쓴다.
 
 ## Review Focus
 

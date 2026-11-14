@@ -1,6 +1,5 @@
 import {gsap} from 'gsap'
 
-// Study용 값. 제품 preset으로 적용하기 전 실제 속도의 시각 검토 필요.
 export type StudyMotion = {enterMs:number;chromaDelayMs:number;settleMs:number;riseMs:number;fallMs:number;exitMs:number;peak:number;shadePx:number}
 export type StudyLayout = {share:number;gap:number;radius:number;tilt:number;bias:number}
 export type StudyLight = {light:number;chroma:number;shade:number}

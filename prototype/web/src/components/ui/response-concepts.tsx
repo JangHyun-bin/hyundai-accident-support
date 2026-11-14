@@ -4,7 +4,6 @@ import './response-concepts.css'
 import { ResponseNumeral, type NumeralStyle } from './response-numeral'
 import { SurfaceEffectsLayer, type SurfaceEffects } from './surface-effects'
 
-// Throwaway study: families compare interpretations of one fixed call-connected screen.
 export type ResponseConcept = 'A' | 'B' | 'C' | 'B1' | 'B2'
 export const responseConceptLabel: Record<ResponseConcept, string> = { A: 'A', B: 'B', C: 'C', B1: 'B′', B2: 'B″' }
 export const responseConcepts = {

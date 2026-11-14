@@ -98,7 +98,6 @@
 .rc-vehicle-detail h2 { font-size:26px; margin-bottom:20px; }
 .rc-vehicle-detail dl > div { display:flex; justify-content:space-between; border-bottom:1px solid var(--rc-stroke); padding:18px 0; font-size:17px; }
 .rc-vehicle-detail dt { color:var(--rc-secondary); }
-/* B borrows the supplied Bento's central dark core, tinted rim, and separate KPI tiles. */
 .rc-B { --rc-bg:#eae9e6; --rc-tint:#deddf2; --rc-tint-ink:#56558b; --rc-safety-bg:#fff; --rc-safety-text:#292a31; --rc-safety-muted:#707078; --rc-call-top:#555c98; --rc-call-bottom:#555b96; }
 .rc-B .rc-left,.rc-B .rc-right { gap:16px; }
 .rc-B .rc-condition { padding:22px 26px; }
@@ -120,7 +119,7 @@
 .rc-B .rc-safety h2 { font-size:34px; }
 .rc-B .rc-safety-footer { border-color:var(--rc-stroke); }
 .rc-B .rc-record { background:var(--rc-text); color:var(--rc-surface); border-radius:22px; min-height:74px; padding:20px 28px; }
-/* C uses dot typography and a status ledger; the unknown states never become progress gauges. */
+/* Unknown states never become progress gauges. */
 .rc-C { --rc-bg:#17191b; --rc-surface:#24272a; --rc-text:#f2f2ed; --rc-secondary:#aeb1b1; --rc-stroke:#3b3f41; --rc-tint:#d6dfb0; --rc-tint-ink:#293322; --rc-map-base:#222629; --rc-map-block:#202325; --rc-map-road:#33383b; --rc-safety-bg:#d6dfb0; --rc-safety-text:#293322; --rc-safety-muted:#505c43; border-color:var(--rc-stroke); }
 .rc-C .rc-condition-title h2 { font-size:21px; }
 .rc-C .rc-condition { padding:25px 28px; }
@@ -252,7 +251,6 @@
 }
 @media (prefers-reduced-motion:reduce) { .rc-spectrum i { animation:none; } }
 
-/* B refinements: the reference uses a blurred dark core over an edge-lit surface. */
 .rc-device .rs-material-defs { position:absolute; width:0; height:0; }
 .rc-safety .rs-material:after { content:''; position:absolute; inset:0; border-radius:inherit; box-shadow:inset 0 1px 0 var(--rs-rim); }
 .rc-B2 .rc-call:has(.rs-material[data-chromatic]):after,.rc-safety .rs-material[data-chromatic]:after { display:none; }

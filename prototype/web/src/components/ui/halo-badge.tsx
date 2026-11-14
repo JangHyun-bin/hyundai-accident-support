@@ -1,18 +1,11 @@
 "use client"
 
-/**
- * Badge with optional layout animation on content changes (`tabular-nums` for counts),
- * a “live” status dot (opacity-only pulse), and the same frosted fill + animated
- * gradient rim + layered shadow language as `HaloButton` / `HaloCard`.
- */
 import { useMemo, useState, type ComponentProps, type ReactNode } from "react"
 import type { VariantProps } from "class-variance-authority"
 import { motion, useReducedMotion } from "motion/react"
 
 import { cn } from "@/lib/utils"
 import { badgeVariants } from "@/components/ui/badge"
-
-/* ─── Rim + fill (self-contained; no halo-card import) ─── */
 
 type RimVariant = "default" | "success" | "destructive"
 
@@ -88,7 +81,6 @@ const layoutTransition = {
   duration: 0.32,
 }
 
-/** Variants that use gradient rim + frosted surface (ghost/link stay minimal). */
 const CHROMED_BADGE_VARIANTS = new Set<
   NonNullable<VariantProps<typeof badgeVariants>["variant"]>
 >(["default", "secondary", "destructive", "outline"])
@@ -102,10 +94,7 @@ function badgeRimVariant(
   return "default"
 }
 
-/**
- * Same ambient underglow as {@link HaloSwitch} — radial brand ramps clipped to the pill
- * so it reads as depth, not a second misaligned rim.
- */
+/** Radial ramps clipped to the pill so the glow reads as depth, not a second misaligned rim. */
 function BadgeAmbientUnderglow({ reduceMotion }: { reduceMotion: boolean }) {
   return (
     <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden rounded-[9999px]">
@@ -134,7 +123,6 @@ function BadgeAmbientUnderglow({ reduceMotion }: { reduceMotion: boolean }) {
   )
 }
 
-/** Scaled pill blobs for `h-5` badges — same motion keys as `GradientRimPillBlobs`. */
 function BadgeRimPillBlobs({
   borderGlow,
   reduceMotion,
@@ -211,7 +199,6 @@ const chromedLabelClasses: Record<
   outline: "text-foreground",
 }
 
-/** Border tints (same `color-mix` system as `HaloSwitch` shell). */
 const chromedBorderClasses: Record<
   "default" | "secondary" | "destructive" | "outline",
   string
@@ -226,7 +213,7 @@ const chromedBorderClasses: Record<
     "border-[color-mix(in_oklch,var(--border)_72%,oklch(0.88_0.06_300))]",
 }
 
-/** Plain string/number children only — used to pick a perfect circle for single-digit counts. */
+/** Lets single-digit counts render as a perfect circle. */
 function plainChildLength(children: ReactNode): number | null {
   if (typeof children === "string" || typeof children === "number") {
     return String(children).length
@@ -234,7 +221,6 @@ function plainChildLength(children: ReactNode): number | null {
   return null
 }
 
-/** Explicit transform in transition (never `transition: all`). Easing matches cross-fade polish in the design skill. */
 const chromedSurfaceBase =
   "relative z-[1] flex w-fit shrink-0 items-center justify-center gap-1 overflow-hidden whitespace-nowrap rounded-full px-2 font-medium text-[0.625rem] leading-none tracking-tight antialiased outline-none transition-[background-color,backdrop-filter,border-color,box-shadow,transform] duration-200 ease-[cubic-bezier(0.2,0,0,1)] focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&>svg]:pointer-events-none [&>svg]:size-2.5"
 
@@ -264,11 +250,11 @@ export interface HaloBadgeProps
   layout?: boolean
   /** Avoids digit shift when children are numeric strings. */
   tabularNums?: boolean
-  /** Frosted inner surface so gradient blobs read through (matches other animated components). */
+  /** Frosted inner surface so gradient blobs read through. */
   translucent?: boolean
-  /** Project: static chrome for request states. */
+  /** False renders static chrome, as with reduced motion. */
   animated?: boolean
-  /** Stronger rim + fill on hover (matches `HaloCard` / pill buttons). */
+  /** Stronger rim + fill on hover. */
   interactive?: boolean
   /**
    * Subtle `scale(0.96)` on press when `interactive` (interruptible CSS transition).
@@ -331,14 +317,7 @@ function HaloBadgeChrome({
       {translucent ? (
         <BadgeAmbientUnderglow reduceMotion={reduceMotion} />
       ) : null}
-      {/*
-        Inline baseline/line-height on the rim wrapper skews the inner pill inside `p-px`.
-        `inline-flex` + `leading-none` + `text-[0]` keeps the ring concentric; text size is set on the inner surface.
-      */}
-      {/*
-        Concentric radii: outer `rounded-full` + `p-px` (1px) with inner `rounded-full`
-        reads as a pill ring; both use full rounding so caps stay semicircular.
-      */}
+      {/* Baseline and line-height on the rim wrapper skew the inner pill inside `p-px`; `text-[0]` + `leading-none` keep the ring concentric. */}
       <span className="relative z-[1] inline-flex items-center justify-center rounded-full p-px text-[0] leading-none">
         <BadgeRimPillBlobs
           borderGlow={borderGlow}
@@ -354,7 +333,6 @@ function HaloBadgeChrome({
               pressScale &&
               !reduceMotion &&
               "active:scale-[0.96] motion-reduce:active:scale-100",
-            /* Shell border + shadows aligned with `HaloSwitch` outer shell */
             "border",
             chromedBorderClasses[chromedKey],
             "shadow-[0_1px_0_rgba(255,255,255,0.55)_inset,0_1px_2px_rgba(0,0,0,0.03),0_6px_18px_rgba(0,0,0,0.04)]",

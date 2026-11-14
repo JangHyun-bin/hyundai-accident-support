@@ -3,7 +3,6 @@ import './vehicle-contour.css'
 
 export const contourBodyPath='M231 49C250 39 310 39 329 49C349 58 358 80 361 112L365 204L364 373L359 439C357 463 348 477 327 484C302 491 258 491 233 484C212 477 203 463 201 439L196 373L195 204L199 112C202 80 211 58 231 49Z'
 
-// B / Contour의 공용 차체. 상세 view와 주변 scene에서 같은 geometry 사용.
 export function ContourCar(){
   const id=useId().replaceAll(':','')
   return <>

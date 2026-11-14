@@ -7,7 +7,7 @@ import { join, resolve } from 'node:path'
 import { execFileSync, spawn } from 'node:child_process'
 import { performance } from 'node:perf_hooks'
 
-// 실제 browser 전환을 녹화한다. Layout override·chapter card는 이 recording context에만 적용.
+// Layout override·chapter card는 이 recording context에만 적용.
 const output = resolve(process.argv[2] ?? join(homedir(), 'Downloads/emergency-flow-2026-11-09-complete.mp4'))
 const appOutput = output
 assert.ok(output.endsWith('.mp4'))

@@ -15,7 +15,6 @@ import java.time.Instant
 
 internal enum class FailureReason(val wire: String) { Unavailable("unavailable"), Expired("expired"), Access("access") }
 
-// Mirrors VehicleHandoffState in prototype/web/src/product/vehicle-handoff.ts; the web renders whatever this sends.
 internal sealed interface HandoffState {
     data object Idle : HandoffState
     data object Starting : HandoffState

@@ -1,13 +1,13 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { ArrowRight, Download, RotateCcw, Save } from 'lucide-react'
 import { ResponseSurfacePreview } from '@/components/ui/response-concepts'
-import { applyStudioFinish, completeSurfacePair, originalSurfaces, readSurfaceLibrary, surfaceColors, surfaceRanges, surfaceStorageKey, surfaceStyle, type Surface, type SurfaceLibrary, type SurfacePair } from './response-surfaces'
+import { applyStudioFinish, completeSurfacePair, originalSurfaces, readSurfaceLibrary, surfaceColors, surfaceRanges, surfaceStorageKey, surfaceStyle, type Surface, type SurfaceLibrary, type SurfacePair } from '@/design-system/surfaces'
 import {SurfaceThemeProvider,applySurfaceTheme} from '@/design-system/SurfaceTheme'
 import {ResponseLayoutPreview} from '@/design-system/ResponseLayoutPreview'
 import {CareAction} from '@/components/ui/after-care'
 import './response-surface-study.css'
 
-// Prototype: tune the existing B″ card surfaces; keep presets separate from incident records.
+// Presets stay separate from incident records.
 export function ResponseSurfaceStudy() {
   const [initial] = useState(readSurfaceLibrary)
   const [library, setLibrary] = useState(initial.value)

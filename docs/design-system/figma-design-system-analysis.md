@@ -40,7 +40,7 @@ Figma의 `Design System` 전체를 읽은 결과, **색·font 모음에서 compo
 
 **잘 갖춰진 부분:** Components text 46/46, Patterns의 실제 card text 45/45가 local text style에 연결되어 있음. 실제 font·크기·line height·letter spacing도 해당 style과 일치. 두 영역의 일반 node에서 visible SOLID fill은 모두 variable binding 보유. 문서 설명용 text나 축소 도표를 제품의 typography 위반으로 집계하지 않음.
 
-**정의와 구현을 나눠 볼 부분:** Button variant는 native component로 존재하지만 클릭에 따른 transition은 없음. Weighted Voronoi 예시는 FRAME·VECTOR로 그려진 정적 도표. Voice Wave도 static bars이며 microphone 반응을 포함한 component는 아님. 외부 Claude artifact 3개가 연결되어 있으나 그 실행 결과는 이번 검증 범위 밖임.
+**정의와 구현을 나눠 볼 부분:** Button variant는 native component로 존재하지만 클릭에 따른 transition은 없음. Weighted Voronoi 예시는 FRAME·VECTOR로 그려진 정적 도표. Voice Wave도 static bars이며 microphone 반응을 포함한 component는 아님. 외부 prototype 3개가 연결되어 있으나 그 실행 결과는 이번 검증 범위 밖임.
 
 ## 2. 핵심 design 원칙
 

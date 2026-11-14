@@ -199,7 +199,7 @@ test('maximum duration waits for native audio when the source is held beyond the
     await page.getByRole('button', { name: '말로 기록하기', exact: true }).click()
     await expect(page.locator('[data-voice-phase]')).toHaveAttribute('data-voice-phase', 'listening')
     const sourceTime = await page.evaluate(() => window.voiceRecorderProbe.contexts[0].currentTime)
-    // Reproduce only the former assumption's threshold while a real source is deliberately suspended.
+    // Let 350 ms pass while the real source is deliberately suspended.
     // This is not a readiness wait: only resuming the source and observing encoded data permits the stop below.
     await page.waitForTimeout(350)
     await page.clock.fastForward(350)

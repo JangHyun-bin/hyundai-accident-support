@@ -22,7 +22,7 @@ function ReviewMark({ status, size = 24 }: { status: string; size?: number }) {
   return <Icon size={size} strokeWidth={1.8} aria-hidden="true" />
 }
 
-// Countdown 시작 경고음. Browser 가 자동 재생을 막으면(context 가 running 이 아니면) 조용히 넘어간다. 차단 표시는 음성 오류 경로가 맡는다.
+// Browser가 자동 재생을 막으면 조용히 넘어간다. 차단 표시는 음성 오류 경로가 맡는다.
 function beep() {
   try {
     const context = new AudioContext()
@@ -77,7 +77,6 @@ export function EmergencyStudy() {
     return () => { window.removeEventListener('popstate', onBack) }
   }, [])
 
-  // 장면 commit 직후 URL과 focus를 함께 갱신.
   useLayoutEffect(() => {
     const url = new URL(location.href)
     url.searchParams.set('scenario', selection.scenarioId)
@@ -90,14 +89,12 @@ export function EmergencyStudy() {
     focusAfterChange.current = null
   }, [selection, paused, present === 'covered'])
 
-  // 장면에 들어올 때마다 countdown 을 처음부터 시작하고 경고음·음성을 한 번 낸다.
   useEffect(() => {
     if (!scene.auto_contact) return
     remainingMs.current = scene.auto_contact.seconds * 1000
     beep()
   }, [countdownKey])
 
-  // 남은 시간은 마감 시각으로 계산한다. 멈추면 남은 ms 를 저장하고, 장면이 바뀌면 timer 를 버린다.
   useEffect(() => {
     const auto = scene.auto_contact
     if (!auto || paused || present === 'covered') return

@@ -23,7 +23,7 @@
     "included": "All descendants of the ten Design System sections; local variables/styles; four referenced remote variables; component contracts and native reactions.",
     "excluded": [
       "Other page contents including IA",
-      "External Claude artifact prototype contents",
+      "External prototype contents",
       "Full vector path geometry and asset binaries",
       "Version history and author attribution",
       "Native prototype runtime and application behavior verification"
@@ -60091,7 +60091,7 @@
         {
           "id": "58:2451",
           "parentId": "58:2449",
-          "name": "부감 보로노이 · 위험/안전 구역 — https://claude.ai/artifact/Let5pc7AZzRHTY6zuGCz85",
+          "name": "부감 보로노이 · 위험/안전 구역",
           "type": "TEXT",
           "x": 40,
           "y": 102,
@@ -60134,7 +60134,7 @@
               }
             ]
           },
-          "characters": "부감 보로노이 · 위험/안전 구역 — https://claude.ai/artifact/Let5pc7AZzRHTY6zuGCz85",
+          "characters": "부감 보로노이 · 위험/안전 구역",
           "fontName": {
             "family": "Asta Sans",
             "style": "Regular",
@@ -60159,7 +60159,7 @@
         {
           "id": "58:2452",
           "parentId": "58:2449",
-          "name": "가중 보로노이 + 숨 고르기 — https://claude.ai/artifact/T7Wv9Kx7QBsod2CFnb3V32",
+          "name": "가중 보로노이 + 숨 고르기",
           "type": "TEXT",
           "x": 40,
           "y": 153,
@@ -60202,7 +60202,7 @@
               }
             ]
           },
-          "characters": "가중 보로노이 + 숨 고르기 — https://claude.ai/artifact/T7Wv9Kx7QBsod2CFnb3V32",
+          "characters": "가중 보로노이 + 숨 고르기",
           "fontName": {
             "family": "Asta Sans",
             "style": "Regular",
@@ -60227,7 +60227,7 @@
         {
           "id": "58:2453",
           "parentId": "58:2449",
-          "name": "IVI 오른쪽 패널에만 적용 — https://claude.ai/artifact/Aa6pnJcZmcfZMpzw8hNVrG",
+          "name": "IVI 오른쪽 패널에만 적용",
           "type": "TEXT",
           "x": 40,
           "y": 204,
@@ -60270,7 +60270,7 @@
               }
             ]
           },
-          "characters": "IVI 오른쪽 패널에만 적용 — https://claude.ai/artifact/Aa6pnJcZmcfZMpzw8hNVrG",
+          "characters": "IVI 오른쪽 패널에만 적용",
           "fontName": {
             "family": "Asta Sans",
             "style": "Regular",

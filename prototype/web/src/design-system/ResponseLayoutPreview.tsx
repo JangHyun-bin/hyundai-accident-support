@@ -7,7 +7,6 @@ import {resolveGuidance} from '@/emergency/guidance'
 import {TaskLayout} from '@/components/ui/after-care-layout'
 import {CareSituation,CareUnknownMap} from '@/components/ui/response-content'
 
-// Catalog와 editor는 manifest의 실제 문구를 공용 제품 component에 전달.
 export function ResponseLayoutPreview({layout='response',long=false,scenarioId='SC01',sceneId='connected'}:{layout?:'response'|'task';long?:boolean;scenarioId?:string;sceneId?:string}) {
   const [message,setMessage]=useState('')
   const heading=useRef<HTMLHeadingElement>(null)

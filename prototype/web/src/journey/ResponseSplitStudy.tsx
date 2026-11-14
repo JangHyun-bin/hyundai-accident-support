@@ -1,13 +1,13 @@
 import {useEffect, useLayoutEffect, useRef, useState} from 'react'
 import {ArrowLeft, ArrowRight, X} from 'lucide-react'
 import {ResponseConceptScreen} from '@/components/ui/response-concepts'
-import {applyStudioFinish, readSurfaceLibrary, surfaceStyle, type SurfacePair} from './response-surfaces'
+import {applyStudioFinish, readSurfaceLibrary, surfaceStyle, type SurfacePair} from '@/design-system/surfaces'
 import {drawSplit} from './response-split-geometry'
 import {SurfaceThemeProvider} from '@/design-system/SurfaceTheme'
 import {ResponseLayoutPreview} from '@/design-system/ResponseLayoutPreview'
 import './response-split-study.css'
 
-// Throwaway 시안: 같은 B″의 A 사선 분할과 B 세 영역 접점을 비교. Preset은 읽기만 수행.
+// 저장된 preset은 읽기만 하고 변경하지 않음.
 type View = 'A' | 'B' | 'both'
 const descriptions = {
   A: {name:'Shared cut', text:'오른쪽 두 card만 사선으로 연결. 기존 1:1 구조 유지.'},
