@@ -16,11 +16,13 @@
 | --- | --- | --- |
 | Vehicle SDK 에어백 전개 | 좌석별 지원 조회 `checkAirbagDeployedCapabilities`, 전개 조회 `hasSeatAirbagBeenDeployed`, 구독 `registerSeatAirbagDeployed`와 Boolean 변경 콜백을 AAR에서 확인 | `CAR_SAFETY` 권한·capability·지원 좌석·실제 Service 수신 검수 필요. 미전개를 사고 없음으로, 전개를 부상·심각도 확정으로 해석하지 않음 |
 | Fleet 충돌 상태 | `Emergency.Crash`와 발생 시각을 가진 `ValueObject`가 공개됨. 데이터는 차량에서 수신된 경우에만 포함되는 선택값 | 계약·승인, 대상 차량·단말 등록과 실제 제공 여부, 인증된 수신 경로, 지연·단절 검증 필요. 값 누락을 `UNCRASH`로 바꾸지 않음 |
+| AAOS 직접 충격 property | Android 공식 명세에 `VehiclePropertyIds.IMPACT_DETECTED`가 존재하며 충격을 감지한 차량 측면을 bit flag로 전달 | 읽기는 `Car.PERMISSION_READ_IMPACT_SENSORS`의 signature·privileged 권한 필요. 일반 앱의 Manifest 선언만으로 사용할 수 없음. 대상 Pleos 버전·차량의 구현과 접근 승인 미확인. [Android 명세][aaos-impact] |
 | Vehicle SDK 차량 상태 | Brake, Light, Safety 등 도메인과 capability 조회·현재값·변경 알림 구조 제공 | 차량·기능별 지원 및 읽기 권한을 확인. 브레이크·비상등·경고등을 충돌 확정 신호로 취급하지 않음 |
 | 차량 원시 IMU·카메라·블랙박스 | 이번에 확인한 공개 안내만으로 일반 앱의 입력 가용성을 확정할 수 없음 | 물리 센서 직접 접근 금지. SDK 미제공 특수 property는 사전 기술 검토 필요. 일반 Android API 존재를 Pleos 접근 허가로 간주하지 않음 |
 | Android 휴대폰 IMU | `SensorManager`, `TYPE_ACCELEROMETER`, `TYPE_LINEAR_ACCELERATION`, `TYPE_GYROSCOPE`로 기기가 제공하는 센서값 수집 가능 | 별도 폰 실행부, 사고 전 연결·수집, 센서 존재·범위·권한·거치 상태 확인. 사고 검출 성능은 별도 검증 |
 | 휴대폰 위치·속도 | Android 위치 입력을 보조 신호로 사용할 수 있음 | 위치 권한과 데이터 시각·정확도·누락을 처리. GPS 속도 변화만으로 충돌 확정 금지 |
 | Vehicle Data API 운행 이력 | 종방향 가속도·yaw 이력 공개. 문서상 현재 유럽 제공, 사업자 기초 데이터는 동의 후 24시간이 지난 뒤부터 조회 | 기간 조회형 운행 데이터를 즉시 로컬 충돌 트리거와 혼동하지 않음. 동의 후 이용 가능 시점을 각 샘플의 전송 지연으로 해석하지 않음 |
+| 블랙박스 G-sensor·이벤트 영상 | BlackVue는 주행·주차 충격을 G-sensor로 감지하고 이벤트 영상을 저장·업로드하는 기능을 안내하며, 제3자 Fleet SDK·Cloud API 연계 사례도 공개함 | 대응 기기·현행 SDK/API·승인·연결 방식 확보가 필요. 모든 이벤트 파일이 충돌은 아니며 급제동·수동 녹화 등과 구분. 과거 API 발표를 현재 즉시 이용 권한의 증거로 삼지 않음. [이벤트 안내][dashcam-events], [제3자 연계 발표][dashcam-integration] |
 | 비전 | AAOS Camera2는 플랫폼 기능으로 존재하지만 OEM의 camera service 활성화·하드웨어 제공이 전제 | Pleos 차량 영상의 실제 접근·권한·정책 또는 제휴 블랙박스 입력을 먼저 확보. 영상 재생 가능과 실시간 카메라 접근 가능은 별개 |
 
 차량 상태·가용성은 [Vehicle SDK 소개][vehicle-intro], [호환성][availability], [하드웨어 정책][hardware]를 따른다. 폰 센서는 [Android 동작 센서][motion], [센서 개요][sensors]를 따른다. 운행 이력은 [Vehicle Data API][data-intro], [운행 데이터][operation-data], 카메라는 [AAOS 카메라][camera], [Camera Service][acs]를 근거로 한다.
@@ -114,3 +116,6 @@ flowchart TD
 [vehicle-aar]: https://nexus-playground.pleos.ai/repository/maven-releases/ai/pleos/playground/Vehicle/2.3.2/Vehicle-2.3.2.aar
 [vehicle-permission]: https://document.pleos.ai/docs/pleos-only/connect-sdk-pleos/Vehicle/vehicle-permission
 [sample]: https://document.pleos.ai/docs/pleos-only/tutorial/vehicle-sdk-sample-app
+[aaos-impact]: https://developer.android.com/reference/android/car/VehiclePropertyIds#IMPACT_DETECTED
+[dashcam-events]: https://forum.blackvue.com/hc/en-us/articles/49137875436569-Uploading-and-triggering-event-files-to-the-Cloud
+[dashcam-integration]: https://media.blackvue.com/press-release-blackvue-introduces-cloud-api-facilitate-fleet-telematics-software-integration/
