@@ -1,4 +1,4 @@
-# AFTER / CARE 전역 design system
+# 차분 전역 design system
 
 2026-11-13 현행화. B″ surface·solid119·flat icon과 B/Three cells의 선택은 과거 결정 기록이다. 사용자 목표는 [goal](goal.md), 구현·과거 증거·미완료 범위는 [completion](completion.md)에서 추적한다. 이 문서가 개별 수치의 사용자 승인이나 실차 적합성을 새로 주장하지 않는다.
 

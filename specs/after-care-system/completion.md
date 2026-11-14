@@ -1,4 +1,4 @@
-# AFTER / CARE 목표와 PR #11 Contract Reliability Repair 기록
+# 차분 목표와 PR #11 Contract Reliability Repair 기록
 
 문서 정정일: 2026-11-13. **아래 repair 판정과 실행 수치는 PR #11 merge 직전 snapshot이다. 원래 repair 수용 기준 미충족·PR #11 한정 사용자 merge 예외를 기록하며 전체 목표 완료 선언이 아니다.** 이후 source·자산 변경의 검증 결과로 덮어쓰지 않는다.
 

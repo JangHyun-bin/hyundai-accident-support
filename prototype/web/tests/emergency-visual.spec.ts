@@ -29,7 +29,7 @@ for(const size of ['desktop','mobile'] as const)for(const scenario of manifest.s
 
 test('catalog exposes the real editable scope and record components',async({page})=>{
   await page.goto('/?study=emergency-catalog')
-  await expect(page.getByRole('heading',{name:'AFTER / CARE design system',exact:true})).toBeVisible()
+  await expect(page.getByRole('heading',{name:'차분 design system',exact:true})).toBeVisible()
   await page.getByLabel('Scenario',{exact:true}).selectOption('SC04')
   await page.getByLabel('State',{exact:true}).selectOption('review')
   await page.getByRole('checkbox',{name:'사고 위치',exact:true}).uncheck()

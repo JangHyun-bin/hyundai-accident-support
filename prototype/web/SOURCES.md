@@ -12,7 +12,7 @@
 
 Cult의 기본 gradient·surface 표현은 첫 비교본에 남아 있다. 이를 Pleos의 공식 표현이나 제품의 확정 design으로 표시하지 않는다. Project CSS의 graphite·mint·warning 색, 크기와 여백은 검토용 제안이다. SVG 차량 그림과 장식은 이 PoC에서 작성한 그림이며 차량 sensor 결과를 시각화한 것이 아니다.
 
-`Side Panel`은 아직 포함하지 않았다. 계획상 선택된 화면의 후속 상태 확장 단계에서 검토한다. `AFTER / CARE`는 review page의 작업 표기이며 확정한 app 이름이 아니다.
+`Side Panel`은 아직 포함하지 않았다. 계획상 선택된 화면의 후속 상태 확장 단계에서 검토한다. 앱 이름은 `차분`이다.
 
 ## 현재 공용 구현 · 2026-11-13 정정
 

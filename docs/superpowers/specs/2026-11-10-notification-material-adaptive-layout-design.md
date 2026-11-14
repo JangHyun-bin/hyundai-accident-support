@@ -1,4 +1,4 @@
-# AFTER / CARE · Notification material과 adaptive layout
+# 차분 · Notification material과 adaptive layout
 
 작성일: 2026-11-10. 기준 source: `866b810`. 상태: build 준비용 design draft, 제품 미적용.
 

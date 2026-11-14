@@ -74,7 +74,7 @@ export function ResponseSurfaceStudy() {
   }
 
   return <main className="rc-study rs-study ac-system">
-    <header className="rc-study-header"><span className="rc-wordmark">AFTER / CARE <span>SURFACE STUDY</span></span><a href="?study=response-alts&focus=numeral&numeral=solid">숫자 비교 <ArrowRight size={15} /></a></header>
+    <header className="rc-study-header"><span className="rc-wordmark">차분 <span>SURFACE STUDY</span></span><a href="?study=response-alts&focus=numeral&numeral=solid">숫자 비교 <ArrowRight size={15} /></a></header>
     <div className="rc-study-intro"><div><span className="rc-eyebrow">B″ / COLOR, LIGHT & SHADE</span><h1>빛과 깊이를, 내 취향으로.</h1></div><p>색을 고르고, 빛을 옮기고, shade를 다듬어요.<br />두 card의 조합을 하나의 preset으로 저장해요.</p></div>
 
     <div className="rs-workbench">
