@@ -1,11 +1,11 @@
 :root {
   --ac-scrim:rgb(0 0 0 / .65); --ac-background:#09090c; --ac-surface:#18181c; --ac-control:#303037;
-  --ac-text:#f4f4f8; --ac-muted:#b6b6bf; --ac-line:#37373f; --ac-ink:#141418;
+  --ac-text:#f4f4f8; --ac-muted:#b6b6bf; --ac-line:#37373f; --ac-ink:#141418; --ac-scene-ink:#141418;
   --ac-confirmed:#a7e3bf; --ac-pending:#f2a541; --ac-attention:#ffb39c;
   --ac-info:#6c8ef5; --ac-contact:#ff816a;
   --ac-ivi-surface:#131417; --ac-ivi-muted:#ffffffa3; --ac-mode-amber:#f2a541;
   --ac-material-line:#ffffff35; --ac-material-border:#ffffff18;
-  --ac-accent:#e8ff1f; --ac-focus:#6c8ef5; --ac-material-text:#fff;
+  --ac-accent:#e8ff1f; --ac-focus:#6c8ef5; --ac-material-text:#fff; --ac-material-muted:#f4f4f8; --ac-contact-core:#ffd5c9;
   --ac-space-1:4px; --ac-space-2:8px; --ac-space-3:12px; --ac-space-4:16px;
   --ac-space-6:24px; --ac-space-8:32px; --ac-space-10:40px; --ac-space-12:48px; --ac-space-14:56px; --ac-space-16:64px;
   --ac-radius-shell:32px; --ac-radius-card:28px; --ac-radius-control:16px; --ac-radius-small:12px;
@@ -19,7 +19,17 @@
   --ac-motion-fast:160ms; --ac-motion-state:240ms; --ac-motion-layout:360ms;
   --ac-ease:cubic-bezier(.22,1,.36,1);
 }
-.ac-system { color:var(--ac-text); background:var(--ac-background); font-family:var(--ac-font); color-scheme:dark; font-size:var(--ac-type-body); line-height:var(--ac-leading); }
+/* Brand paper and continuity carry the light set; status hues darken until they keep AA on paper, white and the tinted materials at rest. */
+[data-theme=light] {
+  --ac-scrim:rgb(32 32 38 / .4); --ac-background:#eeede8; --ac-surface:#f4f3ef; --ac-control:#fff;
+  --ac-text:#202026; --ac-muted:#5c5c66; --ac-line:#d6d5cf; --ac-ink:#f4f4f8; --ac-scene-ink:#8c8c96;
+  --ac-confirmed:#17603c; --ac-pending:#7a4800; --ac-attention:#9c3118;
+  --ac-info:#2c47b8; --ac-contact:#9a3209; --ac-contact-core:#fff;
+  --ac-ivi-surface:#fff; --ac-ivi-muted:#202026a3; --ac-mode-amber:#7a4800;
+  --ac-material-line:#20202629; --ac-material-border:#20202614; --ac-material-core:rgb(255 255 255 / .8);
+  --ac-focus:#2c47b8; --ac-material-text:#202026; --ac-material-muted:#36363e;
+}
+.ac-system { color:var(--ac-text); background:var(--ac-background); font-family:var(--ac-font); font-size:var(--ac-type-body); line-height:var(--ac-leading); }
 .ac-system :is(button,input,textarea,select) { font:inherit; }
 .ac-system :is(h1,h2,h3,p,dl,dt,dd) { margin:0; }
 .ac-system :is(p,h1,h2,h3,button,label,dd,dt) { word-break:keep-all; overflow-wrap:break-word; }

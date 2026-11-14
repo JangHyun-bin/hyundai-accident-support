@@ -12,6 +12,8 @@ export default defineConfig({
     channel: 'chrome',
     baseURL: 'http://127.0.0.1:5173',
     viewport: { width: 1600, height: 1050 },
+    // The app follows the OS theme; color assertions across the suite describe the dark set, and color-theme.spec.ts covers both.
+    colorScheme: 'dark',
     trace: 'retain-on-failure',
   },
   webServer: { command: 'npm run dev', url: 'http://127.0.0.1:5173', reuseExistingServer: !process.env.CI },

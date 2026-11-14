@@ -7,7 +7,6 @@
 @font-face { font-family: 'Asta'; src: url('/fonts/asta_bold.ttf'); font-weight: 700; font-display: swap; }
 
 :root {
-  color-scheme: dark;
   --background: #131417;
   --surface: #191b1e;
   --card: #24282b;
@@ -38,6 +37,28 @@
   --type-body: 26px;
   --type-action: 22px;
   --type-detail: 18px;
+}
+[data-theme=light] {
+  --background: var(--ac-surface);
+  --surface: var(--ac-control);
+  --card: var(--ac-control);
+  --guidance-surface: var(--ac-surface);
+  --muted: var(--ac-line);
+  --foreground: var(--ac-text);
+  --muted-foreground: var(--ac-muted);
+  --primary: var(--ac-confirmed);
+  --primary-foreground: var(--ac-ink);
+  --warning: var(--ac-attention);
+  --border: var(--ac-line);
+  --ring: var(--ac-focus);
+  --accent: var(--ac-surface);
+  --accent-foreground: var(--ac-text);
+  --secondary: var(--ac-line);
+  --secondary-foreground: var(--ac-text);
+  --destructive: var(--ac-attention);
+  --line: var(--ac-line);
+  --review-bg: var(--ac-background);
+  --shadow-color: var(--ac-text);
 }
 
 @theme inline {

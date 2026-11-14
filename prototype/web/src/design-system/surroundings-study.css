@@ -13,7 +13,7 @@
 .ss-header h2:focus { outline:none; }
 .ss-header-actions { display:grid; justify-items:end; gap:var(--ac-space-4); }
 .ss-surroundings-entry { display:flex; align-items:center; justify-content:center; gap:var(--ac-space-2); min-height:var(--ac-touch); padding:var(--ac-space-2) var(--ac-space-6); border:1px solid var(--ac-line); border-radius:var(--ac-radius-control); background:var(--ac-control); color:var(--ac-text); font-size:var(--ac-type-supporting); cursor:pointer; }
-.ss-surroundings-entry:hover { background:#393940; }
+.ss-surroundings-entry:hover { background:color-mix(in srgb,var(--ac-control) 88%,var(--ac-text)); }
 .ss-surroundings-nav { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:var(--ac-space-3); margin-top:var(--ac-space-4); }
 .ss-back-to-vehicle { display:flex; align-items:center; gap:var(--ac-space-2); min-height:var(--ac-touch); padding:var(--ac-space-2) 0; border:0; background:transparent; color:var(--ac-muted); font-size:var(--ac-type-supporting); cursor:pointer; }
 .ss-back-to-vehicle:hover { color:var(--ac-text); }
@@ -48,7 +48,7 @@
 .ss-trails { stroke:var(--ac-muted); }
 .ss-trails path { stroke-width:1.6; vector-effect:non-scaling-stroke; }
 .ss-trail-own { stroke:var(--ac-text); }
-.ss-trail-other { stroke:#a4a9b9; }
+.ss-trail-other { stroke:var(--ac-muted); }
 .ss-contact-leader { stroke:var(--ac-contact); fill:none; stroke-width:1; pointer-events:none; }
 .ss-contact-detail { position:absolute; width:168px; min-height:88px; display:flex; align-items:center; gap:var(--ac-space-2); padding:var(--ac-space-3) var(--ac-space-2) var(--ac-space-3) var(--ac-space-4); border-radius:var(--ac-radius-small); }
 .ss-contact-detail>div { flex:1; display:grid; gap:var(--ac-space-1); text-shadow:0 0 8px var(--ac-surface),0 1px 3px var(--ac-surface); }

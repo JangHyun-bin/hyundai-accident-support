@@ -68,7 +68,7 @@ class MainActivity : ComponentActivity() {
             windowPx = size
             send("chabun:host-resize", size.json())
         }.apply {
-            if (hostTheme == HostTheme.Dark) setBackgroundColor(0xFF131417.toInt())
+            setBackgroundColor(if (hostTheme == HostTheme.Dark) 0xFF131417.toInt() else 0xFFEEEDE8.toInt())
             settings.javaScriptEnabled = true
             settings.domStorageEnabled = true
             settings.allowFileAccess = false
