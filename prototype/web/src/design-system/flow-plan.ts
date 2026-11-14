@@ -189,6 +189,15 @@ function containsSlot(shape:FlowShape,slot:SlotRect):boolean{
  return rect(left,top,right,bottom).every(point=>insidePolygon(point,boundary))
 }
 
+// Text starts at a slot's top edge, where a slanted seam leaves one side far looser than the other. The tighter side is pulled in by
+// half the difference: margins read as even without costing the full slant in line length.
+function balanced(polygon:Point[],slot:SlotRect):SlotRect{
+ const y=slot.top,xs=polygon.flatMap((p,i)=>{const q=polygon[(i+1)%polygon.length];return p[1]!==q[1]&&(p[1]-y)*(q[1]-y)<=0?[along(p,q,y)]:[]})
+ if(xs.length<2)return slot
+ const gapLeft=slot.left-Math.min(...xs),gapRight=Math.max(...xs)-slot.left-slot.width,shift=Math.abs(gapLeft-gapRight)/2
+ return gapLeft>gapRight?{...slot,width:slot.width-shift}:{...slot,left:slot.left+shift,width:slot.width-shift}
+}
+
 export function createFlowPlan(layout:FlowLayout,width:number,height:number,frame:FlowFrame,emergencyActive=false):FlowPlan{
  const flat={x:0,y:0,offset:0}
  const cells=Object.fromEntries(cellIds.map(id=>[id,{id,shape:null,slot:{...emptySlot},variant:'summary',visible:false,scroll:false}])) as FlowPlan['cells']
@@ -202,8 +211,9 @@ export function createFlowPlan(layout:FlowLayout,width:number,height:number,fram
  const shapes=shapesOf(plan.planes,width,extent,frame.mode!=='mobile')
  for(const id of cellIds){
   const part=partition[id];if(!part)continue
-  const fits=part.slot.width>=size.full.width&&part.slot.height>=size.full.height,lead=id===priority&&id!=='emergency'
-  cells[id]={...cells[id],shape:shapes[id],slot:part.slot,visible:true,variant:lead||part.full&&fits?'full':'summary',scroll:lead}
+  const slot=frame.mode==='wide'&&id!=='emergency'?balanced(part.polygon,part.slot):part.slot
+  const fits=slot.width>=size.full.width&&part.slot.height>=size.full.height,lead=id===priority&&id!=='emergency'
+  cells[id]={...cells[id],shape:shapes[id],slot,visible:true,variant:lead||part.full&&fits?'full':'summary',scroll:lead}
  }
  const emergency=cells.emergency,core=emergency.slot,{decoration}=size
  if(emergency.visible)emergency.variant=frame.mode!=='document'&&containsSlot(emergency.shape!,{left:core.left+decoration.left,top:core.top+core.height+decoration.top,width:decoration.width,height:decoration.height})?'full':'summary'
