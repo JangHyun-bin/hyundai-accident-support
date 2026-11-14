@@ -34,7 +34,7 @@ Build 설정은 Gradle property(`-P`)나 같은 이름의 환경변수로 넘긴
 
 | 설정 | 기본값 | 뜻 |
 |---|---|---|
-| `CHABUN_API_BASE_URL` | 없음 | 백엔드 HTTPS origin이다. 경로·query·사용자 정보가 있으면 build가 멈춘다. 값이 없으면 여정은 그대로 동작하고 휴대폰 이어받기만 "서버에 연결할 수 없어요"로 끝난다. |
+| `CHABUN_API_BASE_URL` | 없음 | 백엔드 HTTPS origin이다. 경로·query·사용자 정보가 있으면 build가 멈춘다. 값이 없으면 `host().handoff`가 `false`이고, 여정은 그대로 동작하며 휴대폰 이어받기 화면은 나타나지 않는다. |
 | `CHABUN_VEHICLE_ENVIRONMENT` | `auto` | `emulator`이면 SDK 값을 `simulation` 출처로 보낸다. `auto`는 emulator 기기를 감지한다. |
 | `CHABUN_DEMO_CONTROLS` | `true` | `host().demo` 값이다. 웹이 접힌 시연 control을 보여 준다. 실제 119 연결 결과와 보험사 연동이 없는 대회용 APK는 이 control이 있어야 끝까지 진행된다. 운영 빌드에서는 `false`로 둔다. |
 
@@ -120,16 +120,23 @@ env 파일에는 다음 값을 설정한다.
 
 키와 env 파일을 별도로 안전하게 백업한다. 앱 업데이트에는 같은 signing identity가 필요하다. 배포용 키를 잃었다고 debug 키나 새 키로 조용히 대체하지 않는다.
 
-backend를 먼저 기기와 휴대전화에서 접근 가능한 HTTPS origin으로 제공한다. 인증서도 기기에서 신뢰할 수 있어야 한다. 경로·query·fragment·사용자 인증정보가 없는 origin을 전달한다. 예시 origin과 private env 경로를 실제 값으로 바꾼 뒤 저장소 root에서 실행한다.
+`release.sh`의 두 번째 인자는 서버 주소 또는 `standalone`이다. 예시 경로를 실제 값으로 바꾼 뒤 저장소 root에서 실행한다.
+
+1차 제출 APK는 서버 없이 동작하는 차량 단독 build다. `standalone`을 넘기면 `CHABUN_API_BASE_URL`을 비운 채 build한다. 이때 `host().handoff`가 `false`가 되고, 웹은 `휴대폰으로 남기기` 탭과 모든 휴대폰 연결 화면을 숨긴다. 차량 여정 전체는 서버 없이 진행되고 기록은 앱 안에 저장된다.
 
 ```sh
 SIGNING_ENV="/absolute/path/to/private/release.env"
-CHABUN_API_BASE_URL="https://backend.example.com"
 OUTPUT_APK="$PWD/prototype/android/app/build/outputs/distribution/chabun-release.apk"
-./prototype/android/release.sh "$SIGNING_ENV" "$CHABUN_API_BASE_URL" "$OUTPUT_APK"
+./prototype/android/release.sh "$SIGNING_ENV" standalone "$OUTPUT_APK"
 ```
 
-`release.sh`는 `:app:assembleRelease`에 `-PCHABUN_API_BASE_URL`을 전달한다. 외부 signing env 네 개가 모두 있어야 release build를 수행한다. script는 생성된 `app/build/outputs/apk/release/app-release.apk`를 `apksigner verify --verbose --print-certs`로 확인하고, 예상 release fingerprint와 일치하는 단일 signer만 허용한다. debug 서명으로 대체하지 않는다. `CHABUN_DEMO_CONTROLS`는 환경변수로 넘기면 Gradle이 읽는다.
+휴대폰 이어받기를 보여 주는 build(시연 영상, 2차 PT)는 서버 주소를 넘긴다. 서버는 기기와 휴대전화에서 접근할 수 있고 인증서를 신뢰할 수 있는 HTTPS origin이어야 한다. 경로·query·fragment·사용자 인증정보가 없는 origin을 전달한다. 서버는 `prototype/web/server`에 있으며 같은 origin을 `CHABUN_ORIGIN`으로 받는다(`CHABUN_ORIGIN=https://backend.example.com bun prototype/web/server/index.ts`, 터널·proxy 뒤에서는 `CHABUN_TRUST_PROXY=true` 추가). 휴대폰 화면은 서버가 `prototype/web/dist`에서 내려주므로 먼저 `prototype/web`에서 `npx vite build`를 실행한다. 서버 주소는 APK에 고정되므로 주소가 바뀌면 APK를 다시 build한다.
+
+```sh
+./prototype/android/release.sh "$SIGNING_ENV" "https://backend.example.com" "$OUTPUT_APK"
+```
+
+`release.sh`는 `:app:assembleRelease`에 `-PCHABUN_API_BASE_URL`을 전달한다(`standalone`이면 빈 값). 외부 signing env 네 개가 모두 있어야 release build를 수행한다. script는 생성된 `app/build/outputs/apk/release/app-release.apk`를 `apksigner verify --verbose --print-certs`로 확인하고, 예상 release fingerprint와 일치하는 단일 signer만 허용한다. debug 서명으로 대체하지 않는다. `CHABUN_DEMO_CONTROLS`는 환경변수로 넘기면 Gradle이 읽는다.
 
 성공하면 지정한 `OUTPUT_APK`와 `OUTPUT_APK.sha256`을 만든다. 기존 출력 파일은 덮어쓰지 않으므로 재실행할 때 새 경로를 선택한다. checksum은 출력 디렉터리에서 `shasum -a 256 -c chabun-release.apk.sha256`으로 확인한다. 서명 확인은 source 검토나 runtime 검증을 대신하지 않는다.
 
