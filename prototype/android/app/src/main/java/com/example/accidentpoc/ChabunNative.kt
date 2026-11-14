@@ -72,7 +72,7 @@ internal enum class HostTheme(val wire: String) {
 
 internal fun hostJson(environment: FactSource, window: WindowPx, theme: HostTheme): JSONObject = JSONObject().put("version", 1)
     .put("demo", BuildConfig.DEMO_CONTROLS).put("sdk", "2.3.2").put("environment", if (environment == FactSource.Simulation) "emulator" else "vehicle")
-    .put("windowPx", window.json()).put("theme", theme.wire)
+    .put("windowPx", window.json()).put("theme", theme.wire).put("handoff", BuildConfig.API_BASE_URL.isNotEmpty())
 
 // Exposed as window.ChabunNative. WebView calls these on its JavaBridge thread, so work that touches the activity runs on main.
 internal class ChabunNative(

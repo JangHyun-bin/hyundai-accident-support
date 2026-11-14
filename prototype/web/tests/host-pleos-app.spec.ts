@@ -5,7 +5,7 @@ import type { JourneyCase } from '../src/journey/case'
 
 type BridgeCall = { method: 'handoff'; command: string; argument: unknown } | { method: 'dial'; number: string }
 type Size = { width: number; height: number }
-type Bridge = { demo?: boolean; dial?: string; windowPx?: Size }
+type Bridge = { demo?: boolean; dial?: string; windowPx?: Size; handoff?: boolean }
 type Box = Size & { x: number; y: number }
 
 declare global {
@@ -15,8 +15,8 @@ declare global {
 test.use({ viewport: { width: 1682, height: 1210 }, launchOptions: { args: ['--autoplay-policy=no-user-gesture-required'] } })
 
 // Mirrors the Android bridge: string-only calls in, CustomEvents out on the next task.
-async function installBridge(page: Page, { demo = false, dial = 'opened', windowPx }: Bridge = {}) {
-  await page.addInitScript(({ demo, dial, windowPx }) => {
+async function installBridge(page: Page, { demo = false, dial = 'opened', windowPx, handoff = true }: Bridge = {}) {
+  await page.addInitScript(({ demo, dial, windowPx, handoff }) => {
     const later = () => new Date(Date.now() + 600_000).toISOString()
     const emit = (detail: unknown) => setTimeout(() => window.dispatchEvent(new CustomEvent('chabun:handoff', { detail })))
     const progress = (paired: boolean, photos: number) => ({ schemaVersion: 1, caseId: 'server-case', revision: photos + 1, updatedAt: new Date().toISOString(),
@@ -28,7 +28,7 @@ async function installBridge(page: Page, { demo = false, dial = 'opened', window
     window.nativeFake = { claim: () => emit({ kind: 'pairing', pair, progress: progress(false, 0),
       claims: [{ claimId: 'claim-1', verificationCode: '123456', deviceLabel: 'Galaxy S25', expiresAt: later() }] }) }
     window.ChabunNative = {
-      host: () => JSON.stringify({ version: 1, demo, sdk: '2.3.2', environment: 'emulator', ...windowPx && { windowPx } }),
+      host: () => JSON.stringify({ version: 1, demo, handoff, sdk: '2.3.2', environment: 'emulator', ...windowPx && { windowPx } }),
       handoff(command, argJson) {
         const argument: unknown = JSON.parse(argJson)
         window.bridgeCalls.push({ method: 'handoff', command, argument })
@@ -41,7 +41,7 @@ async function installBridge(page: Page, { demo = false, dial = 'opened', window
         return dial
       },
     }
-  }, { demo, dial, windowPx })
+  }, { demo, dial, windowPx, handoff })
 }
 
 const flow = (page: Page) => page.getByTestId('journey-flow')
@@ -193,6 +193,21 @@ test('phone handoff commands round-trip through the native bridge without web fe
   ])
   expect(api).toEqual([])
   expect(await page.evaluate(() => Object.keys(localStorage).filter(key => key.startsWith('chabun-vehicle-handoff')))).toEqual([])
+})
+
+test('a build without a backend runs standalone and never offers the phone link', async ({ page }) => {
+  await open(page, { handoff: false })
+  const record = flow(page).locator('[data-cell=record]')
+  await expect(record).toContainText('아직 남긴 기록이 없어요')
+  await expect(record.locator('.vh-panel')).toHaveCount(0)
+  await flow(page).getByRole('button', { name: '급한 위험은 없어요', exact: true }).click()
+  await flow(page).getByRole('button', { name: '안전한 곳에 있어요', exact: true }).click()
+  await flow(page).getByRole('button', { name: '기록 시작', exact: true }).click()
+  await expect(flow(page)).toHaveAttribute('data-step', '5')
+  await expect(record.getByRole('button', { name: '말로 남기기', exact: true })).toBeVisible()
+  await expect(page.getByRole('button', { name: '휴대폰으로 남기기', exact: true })).toHaveCount(0)
+  await expect(page.getByRole('button', { name: '휴대폰 연결하기', exact: true })).toHaveCount(0)
+  expect((await handoffs(page)).filter(call => call.command !== 'journey')).toEqual([])
 })
 
 test('the demo strip exists only for demo builds and stays closed until the presenter opens it', async ({ page }) => {

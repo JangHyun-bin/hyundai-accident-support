@@ -90,7 +90,6 @@ androidComponents {
 
 val requireReleaseInputs = tasks.register("requireReleaseInputs") {
     doLast {
-        check(backendOrigin.isNotEmpty()) { "Release requires CHABUN_API_BASE_URL" }
         check(hasReleaseKey) { "Release requires all four CHABUN_RELEASE_* external keystore inputs" }
         val keyFile = file(releaseValues.getValue("STORE_FILE"))
         check(File(releaseValues.getValue("STORE_FILE")).isAbsolute && keyFile.isFile) { "Release requires an existing absolute external keystore path" }

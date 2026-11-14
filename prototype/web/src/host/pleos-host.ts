@@ -34,6 +34,8 @@ const info = readHost()
 export const inPleosApp = bridge !== null || new URLSearchParams(location.search).get('host') === 'pleos-app'
 export const hostDemo = typeof info === 'object' && info !== null && 'demo' in info && info.demo === true
 export const hasNativeBridge = bridge !== null
+// Builds without a backend origin run standalone, so the phone link is offered only when native reports a server.
+export const phoneHandoff = bridge === null || (typeof info === 'object' && info !== null && 'handoff' in info && info.handoff === true)
 if (inPleosApp) document.documentElement.dataset.host = 'pleos-app'
 
 // The journey is laid out at the window's physical pixels, like the app window of the simulated 2560×1440 display, then fitted to the

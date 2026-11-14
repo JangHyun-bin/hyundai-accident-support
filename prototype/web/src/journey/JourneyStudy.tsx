@@ -9,7 +9,7 @@ import { useJourneyCase } from './useJourneyCase'
 import { JourneyAction, JourneyEditorLayout, JourneyLayout, JourneyStatus } from './JourneyLayout'
 import { useJourneyHandoff } from '@/host/native-handoff'
 import { useVehicleFacts } from '@/host/vehicle-facts'
-import { hostDemo, inPleosApp } from '@/host/pleos-host'
+import { hostDemo, inPleosApp, phoneHandoff } from '@/host/pleos-host'
 import { HostDemoStrip } from '@/host/HostDemoStrip'
 import { publicAsset } from '@/lib/utils'
 import { VehicleHandoffPanel } from '@/product/VehicleHandoffPanel'
@@ -36,7 +36,8 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
   const [initial] = useState(() => new URLSearchParams(location.search))
   const journey = useJourneyCase(initial.get('case'))
   const { value, dispatch } = journey
-  const handoff = useJourneyHandoff(value?.id ?? '')
+  const nativeHandoff = useJourneyHandoff(value?.id ?? '')
+  const handoff = phoneHandoff ? nativeHandoff : undefined
   useVehicleFacts(value, dispatch)
   const representative = value?.fixtureId === 'complete-journey'
   const insurance = value?.submissions.find(item=>item.id===value.activeSubmissionIds.insurance)
@@ -263,13 +264,13 @@ export function JourneyStudy({embedded=false,previewHeight}:{embedded?:boolean;p
     const tabs=<nav className="journey-record-tabs" aria-label="기록 방법">
       <button aria-pressed={recordTab === 'voice'} onClick={() => void selectRecordTab('voice')}>말로 남기기</button>
       <button aria-pressed={recordTab === 'photos'} onClick={() => void selectRecordTab('photos')}>사진 남기기</button>
-      <button aria-pressed={recordTab === 'phone'} onClick={() => void selectRecordTab('phone')}>휴대폰으로 남기기</button>
+      {handoff && <button aria-pressed={recordTab === 'phone'} onClick={() => void selectRecordTab('phone')}>휴대폰으로 남기기</button>}
     </nav>
     const footer=framed ? null : <JourneyRequests value={value}/>
     return <>
       <div hidden={recordTab !== 'voice'} inert={reloading} aria-busy={reloading} className="journey-editor-holder"><VoiceRecordPanel ref={voicePanel} value={value} mode={voiceMode} onSave={journey.save} durable={journey.saveState === 'saved'} reloadVersion={journey.reloadVersion} navigation={tabs} footer={footer}/></div>
       <div hidden={recordTab !== 'photos'} inert={reloading} aria-busy={reloading} className="journey-editor-holder"><EvidencePanel ref={photoPanel} value={value} onSave={journey.save} onCommand={photoCommand} navigation={tabs} footer={footer}/></div>
-      <div hidden={recordTab !== 'phone'} className="journey-editor-holder"><JourneyEditorLayout step="사고 기록" title="휴대폰으로 이어서 남겨요" description="사진과 진술은 휴대폰에서 남기고, 차량 화면에서 진행 상황을 볼 수 있어요." guidanceKey="journey-phone-handoff">{tabs}<VehicleHandoffPanel handoff={handoff}/>{footer}</JourneyEditorLayout></div>
+      {handoff && <div hidden={recordTab !== 'phone'} className="journey-editor-holder"><JourneyEditorLayout step="사고 기록" title="휴대폰으로 이어서 남겨요" description="사진과 진술은 휴대폰에서 남기고, 차량 화면에서 진행 상황을 볼 수 있어요." guidanceKey="journey-phone-handoff">{tabs}<VehicleHandoffPanel handoff={handoff}/>{footer}</JourneyEditorLayout></div>}
     </>
   }
 

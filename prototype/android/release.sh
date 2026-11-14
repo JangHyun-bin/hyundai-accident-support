@@ -4,7 +4,7 @@ set -euo pipefail
 umask 077
 
 if [[ $# -ne 3 ]]; then
-    printf 'Usage: %s PRIVATE_SIGNING_ENV HTTPS_API_ORIGIN OUTPUT_APK\n' "$0" >&2
+    printf 'Usage: %s PRIVATE_SIGNING_ENV HTTPS_API_ORIGIN|standalone OUTPUT_APK\n' "$0" >&2
     exit 2
 fi
 
@@ -12,8 +12,10 @@ signing_env=$1
 origin=${2%/}
 output=$3
 origin_pattern='^https://([[:alnum:]][[:alnum:].-]*|\[[[:xdigit:]:]+\])(:[0-9]{1,5})?$'
-if [[ ! $origin =~ $origin_pattern ]]; then
-    printf 'API origin must use HTTPS without credentials, a path, query, or fragment.\n' >&2
+if [[ $origin == standalone ]]; then
+    origin=
+elif [[ ! $origin =~ $origin_pattern ]]; then
+    printf 'API origin must be "standalone" or use HTTPS without credentials, a path, query, or fragment.\n' >&2
     exit 2
 fi
 if [[ ! -f $signing_env || ! -r $signing_env ]]; then
