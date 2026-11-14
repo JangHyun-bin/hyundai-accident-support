@@ -103,8 +103,8 @@ function PhoneConnection() {
           <CareAction secondary onClick={() => setShowPairing(true)}>기록을 이어갈게요</CareAction>
         </div>
         {(showPairing || connection.kind === 'failed') && <section className="product-pair-instructions">
-          <Smartphone aria-hidden="true" /><h2>차량의 QR을 휴대전화로 읽어주세요</h2>
-          <p>차량에서 연결을 승인하면 같은 사고 기록을 이어갈 수 있어요.</p>
+          <Smartphone aria-hidden="true" /><h2>QR은 차량 화면에 나와요</h2>
+          <p>차량 화면의 기록 칸에서 ‘휴대폰으로 남기기’ → ‘휴대폰 연결하기’를 누르고, 나온 QR을 휴대폰 카메라로 찍어 주세요.</p>
         </section>}
         {connection.kind === 'failed' && <p role="alert" className="product-notice">{connection.reason === 'unavailable' ? '서버에 연결하지 못했어요. 인터넷 연결을 확인한 뒤 다시 시도해주세요.' : connection.reason === 'invalid' ? '연결 주소를 확인할 수 없어요. 차량에서 새 QR을 열어주세요.' : '연결이 만료되었거나 취소됐어요. 차량에서 새 QR을 열어주세요.'}</p>}
         {connection.kind === 'checking' || connection.kind === 'claiming' ? <p role="status" className="product-muted">{connection.kind === 'claiming' ? '차량에 연결을 신청하고 있어요.' : '이전 연결을 확인하고 있어요.'}</p> : <CareAction secondary onClick={() => { setConnection({ kind: 'checking' }); setAttempt(previous => previous + 1) }}><Link2 aria-hidden="true" />연결 다시 확인</CareAction>}

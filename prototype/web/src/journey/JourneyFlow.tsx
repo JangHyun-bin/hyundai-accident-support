@@ -31,7 +31,7 @@ const guideTasks: Partial<Record<FlowScene, { title: string; note: string }>> = 
   move: { title: '안전한 곳으로 이동하세요', note: '차가 다니지 않는 곳으로 피하세요.' },
   ready: { title: '안전한 곳에 머물러 주세요', note: '이제 기억나는 내용을 남길 수 있어요.' },
   'risk-check': { title: '주변을 다시 살펴보세요', note: '차 주변이 안전한지 확인해 주세요. 남기던 기록은 그대로 있어요.' },
-  'record-empty': { title: '남길 수 있는 것부터 남겨 주세요', note: '지금 남기지 않아도 괜찮아요. 휴대폰에서 이어서 남길 수도 있어요.' },
+  'record-empty': { title: '어떻게 부딪혔나요?', note: '말로 하거나 사진을 찍어 두세요. 지금 어려우면 나중에 해도 돼요.' },
   record: { title: '남긴 내용을 확인할 수 있어요', note: '더 남길 내용이 없으면 보험사에 보낼 내용을 골라요.' },
   sending: { title: '기록을 보내고 있어요', note: '보내는 동안에도 기록과 통화는 그대로 유지돼요.' },
   sent: { title: '보험사에 기록을 보냈어요', note: '접수 결과는 보험사 연락으로 확인해요.' },
